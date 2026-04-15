@@ -14,6 +14,14 @@ Recommended settings:
 - Root directory: repository root
 - Production branch: `main`
 
+Current project:
+
+- Cloudflare account: `Boyang@work`
+- Pages project: `openagent-bot`
+- Production URL: `https://openagent-bot.pages.dev/`
+- Custom domains added in Cloudflare Pages: `openagent.bot`, `www.openagent.bot`
+- Current custom domain status: pending DNS verification
+
 ## Environment Variables
 
 Set:
@@ -42,13 +50,34 @@ npx wrangler pages deploy dist --project-name openagent-bot
 
 ## Custom Domain
 
-After the Pages project exists:
+The domain currently uses registrar DNS:
+
+```text
+dns1.registrar-servers.com
+dns2.registrar-servers.com
+```
+
+Add these records at the registrar DNS provider:
+
+```text
+Type: ALIAS
+Host: @
+Value: openagent-bot.pages.dev
+
+Type: CNAME
+Host: www
+Value: openagent-bot.pages.dev
+```
+
+If the DNS provider does not support `ALIAS` at the root domain, move the domain nameservers to Cloudflare and add the root domain there.
+
+After DNS is set:
 
 1. Open Cloudflare dashboard.
 2. Go to Workers & Pages.
 3. Select the `openagent-bot` Pages project.
-4. Add `openagent.bot` as a custom domain.
-5. Confirm DNS is proxied through Cloudflare.
+4. Check Custom domains.
+5. Wait until `openagent.bot` and `www.openagent.bot` are marked active.
 
 ## Future D1 Binding
 

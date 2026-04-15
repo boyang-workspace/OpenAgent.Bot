@@ -27,7 +27,7 @@ Current project:
 Set:
 
 ```text
-PUBLIC_SITE_URL=https://openagent.bot
+PUBLIC_SITE_URL=https://www.openagent.bot
 ```
 
 Future stages will add:
@@ -57,19 +57,34 @@ dns1.registrar-servers.com
 dns2.registrar-servers.com
 ```
 
-Add these records at the registrar DNS provider:
+Recommended quick setup at the registrar DNS provider:
 
 ```text
-Type: ALIAS
+Type: URL Redirect Record
 Host: @
-Value: openagent-bot.pages.dev
+Value: https://www.openagent.bot/
+Redirect type: Permanent 301
+```
 
+```text
 Type: CNAME
 Host: www
 Value: openagent-bot.pages.dev
 ```
 
-If the DNS provider does not support `ALIAS` at the root domain, move the domain nameservers to Cloudflare and add the root domain there.
+Alternative full Cloudflare DNS setup:
+
+```text
+Type: CNAME
+Name: @
+Target: openagent-bot.pages.dev
+
+Type: CNAME
+Name: www
+Target: openagent-bot.pages.dev
+```
+
+The quick setup uses `www.openagent.bot` as canonical and redirects the root domain to it. The full Cloudflare DNS setup can serve both root and `www` directly, but requires moving nameservers from Namecheap to Cloudflare.
 
 After DNS is set:
 

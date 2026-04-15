@@ -42,7 +42,7 @@ Recommended Pages settings:
 - Build command: `npm run build`
 - Build output directory: `dist`
 - Root directory: repository root
-- Environment variable: `PUBLIC_SITE_URL=https://openagent.bot`
+- Environment variable: `PUBLIC_SITE_URL=https://www.openagent.bot`
 
 Manual deploy after Cloudflare login:
 

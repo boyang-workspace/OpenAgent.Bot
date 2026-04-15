@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: "https://openagent.bot",
+  site: "https://www.openagent.bot",
   output: "static"
 });

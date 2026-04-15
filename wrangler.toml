@@ -3,7 +3,7 @@ compatibility_date = "2026-04-15"
 pages_build_output_dir = "dist"
 
 [vars]
-PUBLIC_SITE_URL = "https://openagent.bot"
+PUBLIC_SITE_URL = "https://www.openagent.bot"
 
 # Future PRs will add Cloudflare bindings here:
 # [[d1_databases]]

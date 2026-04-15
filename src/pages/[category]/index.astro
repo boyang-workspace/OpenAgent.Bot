@@ -1,0 +1,36 @@
+---
+import SectionHeading from "@/components/SectionHeading.astro";
+import ResourceCard from "@/components/ResourceCard.astro";
+import { categories } from "@/config/site";
+import { getResourcesByCategory } from "@/data/resources";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export function getStaticPaths() {
+  return categories.map((category) => ({
+    params: { category: category.slug },
+    props: { category }
+  }));
+}
+
+const { category } = Astro.props;
+const categoryResources = getResourcesByCategory(category.slug);
+---
+
+<BaseLayout title={category.label} description={category.description} path={`/${category.slug}`}>
+  <section class="shell page-head">
+    <SectionHeading eyebrow="Category" title={category.label} description={category.description} />
+  </section>
+
+  <section class="shell">
+    <div class="grid grid-3">
+      {categoryResources.map((resource) => <ResourceCard resource={resource} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-bottom: 28px;
+    padding-top: 54px;
+  }
+</style>

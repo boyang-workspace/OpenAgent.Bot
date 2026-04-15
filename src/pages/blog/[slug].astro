@@ -1,0 +1,63 @@
+---
+import { posts } from "@/data/posts";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export function getStaticPaths() {
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<BaseLayout
+  title={post.seoTitle ?? post.title}
+  description={post.seoDescription ?? post.summary}
+  path={`/blog/${post.slug}`}
+>
+  <article class="shell article">
+    <span class="eyebrow">{post.publishedAt} · {post.author}</span>
+    <h1 class="serif">{post.title}</h1>
+    <p class="dek">{post.summary}</p>
+    <div class="body">
+      <p>{post.body}</p>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article {
+    max-width: 820px;
+    padding-bottom: 64px;
+    padding-top: 58px;
+  }
+
+  h1 {
+    font-size: 4rem;
+    line-height: 1;
+    margin: 12px 0 0;
+  }
+
+  .dek {
+    font-size: 1.18rem;
+  }
+
+  .body {
+    border-top: 1px solid var(--line);
+    margin-top: 32px;
+    padding-top: 28px;
+  }
+
+  .body p {
+    color: var(--ink);
+    font-size: 1.08rem;
+  }
+
+  @media (max-width: 640px) {
+    h1 {
+      font-size: 2.55rem;
+    }
+  }
+</style>

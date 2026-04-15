@@ -1,0 +1,12 @@
+name = "openagent-bot"
+compatibility_date = "2026-04-15"
+pages_build_output_dir = "dist"
+
+[vars]
+PUBLIC_SITE_URL = "https://openagent.bot"
+
+# Future PRs will add Cloudflare bindings here:
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "openagent_bot"
+# database_id = "replace-after-d1-create"

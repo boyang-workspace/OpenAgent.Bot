@@ -1,0 +1,224 @@
+---
+import ResourceCard from "@/components/ResourceCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { categories } from "@/config/site";
+import { posts } from "@/data/posts";
+import { resources } from "@/data/resources";
+
+const today = resources.find((resource) => resource.featured) ?? resources[0];
+const trending = resources.filter((resource) => resource.trending);
+const recent = [...resources].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).slice(0, 3);
+---
+
+<BaseLayout>
+  <section class="hero shell">
+    <div class="hero-copy">
+      <span class="eyebrow">Today Feature</span>
+      <h1 class="serif">Open-source AI resources, curated for humans and structured for agents.</h1>
+      <p>
+        Find models, agents, skills, memory systems, plugins, and tools with stable routes,
+        editorial context, and a path toward machine-readable distribution.
+      </p>
+      <div class="hero-actions">
+        <a class="button" href={`/${today.category}/${today.slug}`}>Read today's pick</a>
+        <a class="button secondary" href="/submit">Submit a project</a>
+      </div>
+    </div>
+    <ResourceCard resource={today} large />
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <SectionHeading
+        eyebrow="Trending"
+        title="Projects getting attention across the open AI stack"
+        description="A short editorial shelf for tools with useful momentum, active communities, or strong agent-native relevance."
+      />
+      <div class="grid grid-3">
+        {trending.map((resource) => <ResourceCard resource={resource} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="shell">
+      <SectionHeading eyebrow="Recently Added" title="Fresh entries for builders and researchers" />
+      <div class="grid grid-3">
+        {recent.map((resource) => <ResourceCard resource={resource} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <SectionHeading eyebrow="Categories" title="Browse by resource type" />
+      <div class="category-grid">
+        {
+          categories.map((category) => (
+            <a class="category" href={`/${category.slug}`}>
+              <span>{category.label}</span>
+              <p>{category.description}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section band">
+    <div class="shell blog-strip">
+      <div>
+        <SectionHeading eyebrow="From the Blog" title="Editorial notes for open AI discovery" />
+      </div>
+      <div class="post-list">
+        {
+          posts.slice(0, 3).map((post) => (
+            <a href={`/blog/${post.slug}`}>
+              <span>{post.publishedAt}</span>
+              <strong>{post.title}</strong>
+              <p>{post.summary}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section shell mission">
+    <span class="eyebrow">Mission</span>
+    <h2 class="serif">Make open AI resources easier to find, compare, cite, and consume.</h2>
+    <p>
+      OpenAgent.bot starts with a public directory and grows toward structured Markdown,
+      JSON, manifests, and practical workflows for agents.
+    </p>
+    <a class="button" href="/manifesto">Read the manifesto</a>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    display: grid;
+    gap: 32px;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    padding-bottom: 44px;
+    padding-top: 48px;
+  }
+
+  .hero-copy {
+    align-content: center;
+    display: grid;
+  }
+
+  h1 {
+    font-size: 4.2rem;
+    line-height: 0.98;
+    margin: 12px 0 0;
+  }
+
+  .hero-copy p {
+    font-size: 1.1rem;
+    margin: 20px 0 0;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .secondary {
+    border-color: var(--line);
+    color: var(--muted);
+  }
+
+  .band {
+    background: var(--soft);
+  }
+
+  .category-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .category {
+    border-top: 2px solid var(--ink);
+    min-height: 150px;
+    padding: 18px 0;
+  }
+
+  .category span {
+    font-size: 1.35rem;
+    font-weight: 800;
+  }
+
+  .blog-strip {
+    display: grid;
+    gap: 32px;
+    grid-template-columns: 0.8fr 1.2fr;
+  }
+
+  .post-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .post-list a {
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 6px;
+    padding-top: 16px;
+  }
+
+  .post-list span {
+    color: var(--red);
+    font-size: 0.84rem;
+    font-weight: 750;
+  }
+
+  .post-list strong {
+    font-size: 1.15rem;
+  }
+
+  .post-list p {
+    margin: 0;
+  }
+
+  .mission {
+    max-width: 860px;
+  }
+
+  .mission h2 {
+    font-size: 3rem;
+    line-height: 1.02;
+    margin: 10px 0 0;
+  }
+
+  @media (max-width: 920px) {
+    .hero,
+    .blog-strip {
+      grid-template-columns: 1fr;
+    }
+
+    h1 {
+      font-size: 3rem;
+    }
+
+    .category-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 620px) {
+    h1,
+    .mission h2 {
+      font-size: 2.35rem;
+    }
+
+    .category-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,155 @@
+---
+import ResourceCard from "@/components/ResourceCard.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { categories } from "@/config/site";
+import { getRelatedResources, resources } from "@/data/resources";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+export function getStaticPaths() {
+  return resources.map((resource) => ({
+    params: { category: resource.category, slug: resource.slug },
+    props: { resource }
+  }));
+}
+
+const { resource } = Astro.props;
+const category = categories.find((item) => item.slug === resource.category);
+const related = getRelatedResources(resource);
+---
+
+<BaseLayout
+  title={resource.seoTitle ?? resource.title}
+  description={resource.seoDescription ?? resource.summary}
+  path={`/${resource.category}/${resource.slug}`}
+  image={resource.coverImage}
+>
+  <article class="shell detail">
+    <div class="detail-copy">
+      <span class="eyebrow">{category?.label}</span>
+      <h1 class="serif">{resource.title}</h1>
+      <p>{resource.summary}</p>
+      <div class="actions">
+        {resource.repoUrl && <a class="button" href={resource.repoUrl}>Repository</a>}
+        {resource.homepageUrl && <a class="button secondary" href={resource.homepageUrl}>Homepage</a>}
+      </div>
+    </div>
+    <img src={resource.coverImage} alt="" />
+  </article>
+
+  <section class="shell facts">
+    <dl>
+      <div>
+        <dt>Category</dt>
+        <dd>{category?.label}</dd>
+      </div>
+      <div>
+        <dt>License</dt>
+        <dd>{resource.license ?? "Not listed"}</dd>
+      </div>
+      <div>
+        <dt>Updated</dt>
+        <dd>{resource.updatedAt}</dd>
+      </div>
+      <div>
+        <dt>Tags</dt>
+        <dd>{resource.tags.join(", ")}</dd>
+      </div>
+    </dl>
+  </section>
+
+  {
+    related.length > 0 && (
+      <section class="section">
+        <div class="shell">
+          <SectionHeading eyebrow="Related" title={`More ${category?.label.toLowerCase()}`} />
+          <div class="grid grid-3">
+            {related.map((item) => <ResourceCard resource={item} />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .detail {
+    display: grid;
+    gap: 32px;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    padding-bottom: 44px;
+    padding-top: 54px;
+  }
+
+  h1 {
+    font-size: 4rem;
+    line-height: 0.98;
+    margin: 10px 0 0;
+  }
+
+  .detail-copy p {
+    font-size: 1.1rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 26px;
+  }
+
+  .secondary {
+    border-color: var(--line);
+  }
+
+  .detail img {
+    aspect-ratio: 16 / 10;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .facts dl {
+    border-bottom: 1px solid var(--line);
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0;
+  }
+
+  .facts div {
+    border-right: 1px solid var(--line);
+    padding: 18px;
+  }
+
+  .facts div:last-child {
+    border-right: 0;
+  }
+
+  dt {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 8px 0 0;
+  }
+
+  @media (max-width: 860px) {
+    .detail,
+    .facts dl {
+      grid-template-columns: 1fr;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+    }
+
+    .facts div {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+  }
+</style>

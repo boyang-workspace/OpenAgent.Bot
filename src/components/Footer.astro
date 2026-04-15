@@ -1,0 +1,56 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="shell footer-grid">
+    <div>
+      <strong>OpenAgent.bot</strong>
+      <p>Open-source AI resources, curated for humans and structured for agents.</p>
+    </div>
+    <div class="footer-links">
+      <a href="/manifesto">Manifesto</a>
+      <a href="/about">About</a>
+      <a href="/submit">Submit</a>
+      <a href="/sitemap.xml">Sitemap</a>
+    </div>
+  </div>
+  <div class="shell small">© {year} OpenAgent.bot. Built for the open AI stack.</div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: 40px;
+    padding: 38px 0 28px;
+  }
+
+  .footer-grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: 1fr auto;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .footer-links a {
+    color: var(--muted);
+    font-weight: 650;
+  }
+
+  .small {
+    color: var(--muted);
+    font-size: 0.86rem;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 720px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

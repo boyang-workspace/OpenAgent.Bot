@@ -1,0 +1,122 @@
+---
+import { categories } from "@/config/site";
+import type { Resource } from "@/data/resources";
+
+type Props = {
+  resource: Resource;
+  large?: boolean;
+};
+
+const { resource, large = false } = Astro.props;
+const category = categories.find((item) => item.slug === resource.category);
+const href = `/${resource.category}/${resource.slug}`;
+---
+
+<article class:list={["resource-card", { large }]}>
+  <a href={href} aria-label={resource.title}>
+    <img src={resource.coverImage} alt="" loading="lazy" />
+    <div class="resource-body">
+      <div class="meta">
+        <span>{category?.label}</span>
+        {resource.license && <span>{resource.license}</span>}
+      </div>
+      <h3 class="serif">{resource.title}</h3>
+      <p>{resource.summary}</p>
+      <div class="tags">
+        {resource.tags.slice(0, 3).map((tag) => <span>{tag}</span>)}
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  .resource-card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fffdf8;
+    min-height: 100%;
+    overflow: hidden;
+  }
+
+  a {
+    display: grid;
+    min-height: 100%;
+  }
+
+  img {
+    aspect-ratio: 16 / 9;
+    background: var(--soft);
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .resource-body {
+    display: grid;
+    gap: 12px;
+    padding: 18px;
+  }
+
+  .meta,
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .meta span {
+    color: var(--green);
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    font-size: 1.45rem;
+    line-height: 1.08;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .tags span {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    padding: 5px 9px;
+  }
+
+  .large a {
+    grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
+  }
+
+  .large img {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  .large .resource-body {
+    align-content: center;
+    padding: 34px;
+  }
+
+  .large h3 {
+    font-size: 2.6rem;
+  }
+
+  @media (max-width: 820px) {
+    .large a {
+      grid-template-columns: 1fr;
+    }
+
+    .large .resource-body {
+      padding: 20px;
+    }
+
+    .large h3 {
+      font-size: 1.8rem;
+    }
+  }
+</style>

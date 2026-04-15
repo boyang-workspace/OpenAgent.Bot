@@ -1,0 +1,84 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Submit" description="Submit an open-source AI project for future review." path="/submit">
+  <section class="shell submit">
+    <div>
+      <span class="eyebrow">Submit</span>
+      <h1 class="serif">Share an open AI project.</h1>
+      <p>
+        The first public build uses a static placeholder. The submission workflow will
+        move into the admin and review system after the content schema is stable.
+      </p>
+    </div>
+    <form>
+      <label>
+        Project name
+        <input name="name" placeholder="Project name" disabled />
+      </label>
+      <label>
+        Repository URL
+        <input name="repo" placeholder="https://github.com/..." disabled />
+      </label>
+      <label>
+        Summary
+        <textarea name="summary" placeholder="What should builders know?" disabled></textarea>
+      </label>
+      <button class="button" type="button" disabled>Submissions open soon</button>
+    </form>
+  </section>
+</BaseLayout>
+
+<style>
+  .submit {
+    display: grid;
+    gap: 34px;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+    padding-bottom: 72px;
+    padding-top: 58px;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    line-height: 1;
+    margin: 12px 0 0;
+  }
+
+  form {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 16px;
+    padding: 22px;
+  }
+
+  label {
+    color: var(--muted);
+    display: grid;
+    font-weight: 700;
+    gap: 8px;
+  }
+
+  input,
+  textarea {
+    background: var(--soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--muted);
+    font: inherit;
+    min-height: 44px;
+    padding: 10px 12px;
+  }
+
+  textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  @media (max-width: 780px) {
+    .submit {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

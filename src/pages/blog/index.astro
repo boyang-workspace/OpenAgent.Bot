@@ -1,0 +1,75 @@
+---
+import SectionHeading from "@/components/SectionHeading.astro";
+import { posts } from "@/data/posts";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Blog" description="Editorial notes about open-source AI resources, agent tooling, and machine-readable discovery." path="/blog">
+  <section class="shell page-head">
+    <SectionHeading
+      eyebrow="Blog"
+      title="Notes for the open AI resource graph"
+      description="Short essays, curation notes, and practical thinking for builders navigating open AI infrastructure."
+    />
+  </section>
+
+  <section class="shell post-index">
+    {
+      posts.map((post) => (
+        <a href={`/blog/${post.slug}`}>
+          <span>{post.publishedAt}</span>
+          <h2 class="serif">{post.title}</h2>
+          <p>{post.summary}</p>
+          <div>{post.tags.map((tag) => <small>{tag}</small>)}</div>
+        </a>
+      ))
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .page-head {
+    padding-bottom: 24px;
+    padding-top: 54px;
+  }
+
+  .post-index {
+    display: grid;
+    gap: 18px;
+  }
+
+  .post-index a {
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 8px;
+    padding: 22px 0;
+  }
+
+  span {
+    color: var(--red);
+    font-weight: 750;
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+    max-width: 780px;
+  }
+
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  small {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    padding: 5px 9px;
+  }
+</style>

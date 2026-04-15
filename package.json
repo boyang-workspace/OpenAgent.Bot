@@ -7,14 +7,19 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "test": "vitest run",
+    "discovery:daily": "tsx scripts/discovery/run-daily.ts"
   },
   "dependencies": {
     "astro": "^6.1.6"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
+    "@types/node": "^25.6.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
+    "vitest": "^4.0.17",
     "wrangler": "^4.83.0"
   }
 }

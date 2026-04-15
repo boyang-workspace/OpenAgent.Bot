@@ -1,8 +1,9 @@
 ---
 import SectionHeading from "@/components/SectionHeading.astro";
 import ResourceCard from "@/components/ResourceCard.astro";
+import EditorialShell from "@/components/EditorialShell.astro";
 import { categories } from "@/config/site";
-import { getResourcesByCategory } from "@/data/resources";
+import { getProjectsByCategory } from "@/lib/content/projects";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export function getStaticPaths() {
@@ -13,24 +14,73 @@ export function getStaticPaths() {
 }
 
 const { category } = Astro.props;
-const categoryResources = getResourcesByCategory(category.slug);
+const categoryResources = await getProjectsByCategory(category.slug);
 ---
 
 <BaseLayout title={category.label} description={category.description} path={`/${category.slug}`}>
-  <section class="shell page-head">
-    <SectionHeading eyebrow="Category" title={category.label} description={category.description} />
-  </section>
+  <EditorialShell active={category.slug} eyebrow="Category" title={category.label} description={category.description}>
+    <section class="category-summary">
+      <div>
+        <span>{categoryResources.length}</span>
+        <p>published resources</p>
+      </div>
+      <a class="button secondary" href="/submit">Submit a project</a>
+    </section>
 
-  <section class="shell">
-    <div class="grid grid-3">
-      {categoryResources.map((resource) => <ResourceCard resource={resource} />)}
-    </div>
-  </section>
+    <section>
+      <SectionHeading eyebrow="Directory" title={`Open ${category.label.toLowerCase()} worth reviewing`} />
+      <div class="resource-list">
+        {categoryResources.map((resource) => <ResourceCard resource={resource} />)}
+      </div>
+    </section>
+  </EditorialShell>
 </BaseLayout>
 
 <style>
-  .page-head {
-    padding-bottom: 28px;
-    padding-top: 54px;
+  .category-summary {
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 34px;
+    padding: 18px;
+  }
+
+  .category-summary span {
+    display: block;
+    font-size: 2.3rem;
+    font-weight: 850;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .category-summary p {
+    margin: 4px 0 0;
+  }
+
+  .resource-list {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 920px) {
+    .resource-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 620px) {
+    .category-summary {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .resource-list {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

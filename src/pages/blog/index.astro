@@ -1,48 +1,54 @@
 ---
-import SectionHeading from "@/components/SectionHeading.astro";
+import EditorialShell from "@/components/EditorialShell.astro";
 import { posts } from "@/data/posts";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Blog" description="Editorial notes about open-source AI resources, agent tooling, and machine-readable discovery." path="/blog">
-  <section class="shell page-head">
-    <SectionHeading
-      eyebrow="Blog"
-      title="Notes for the open AI resource graph"
-      description="Short essays, curation notes, and practical thinking for builders navigating open AI infrastructure."
-    />
-  </section>
-
-  <section class="shell post-index">
+  <EditorialShell
+    active="blog"
+    eyebrow="Blog"
+    title="Notes for the open AI resource graph"
+    description="Short essays, curation notes, and practical thinking for builders navigating open AI infrastructure."
+  >
+  <section class="post-index">
     {
       posts.map((post) => (
         <a href={`/blog/${post.slug}`}>
           <span>{post.publishedAt}</span>
-          <h2 class="serif">{post.title}</h2>
+          <h2>{post.title}</h2>
           <p>{post.summary}</p>
           <div>{post.tags.map((tag) => <small>{tag}</small>)}</div>
         </a>
       ))
     }
   </section>
+  </EditorialShell>
 </BaseLayout>
 
 <style>
-  .page-head {
-    padding-bottom: 24px;
-    padding-top: 54px;
-  }
-
   .post-index {
     display: grid;
     gap: 18px;
   }
 
   .post-index a {
-    border-top: 1px solid var(--line);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
     display: grid;
     gap: 8px;
-    padding: 22px 0;
+    padding: 22px;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease;
+  }
+
+  .post-index a:hover {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
   }
 
   span {
@@ -52,6 +58,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
   h2 {
     font-size: 2rem;
+    letter-spacing: -0.04em;
+    line-height: 1;
     margin: 0;
   }
 
@@ -68,7 +76,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
   small {
     border: 1px solid var(--line);
-    border-radius: 999px;
+    border-radius: 8px;
     color: var(--muted);
     padding: 5px 9px;
   }

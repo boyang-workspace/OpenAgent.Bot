@@ -1,5 +1,6 @@
 ---
 import { posts } from "@/data/posts";
+import EditorialShell from "@/components/EditorialShell.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export function getStaticPaths() {
@@ -17,26 +18,31 @@ const { post } = Astro.props;
   description={post.seoDescription ?? post.summary}
   path={`/blog/${post.slug}`}
 >
-  <article class="shell article">
+  <EditorialShell active="blog">
+  <article class="article">
     <span class="eyebrow">{post.publishedAt} · {post.author}</span>
-    <h1 class="serif">{post.title}</h1>
+    <h1>{post.title}</h1>
     <p class="dek">{post.summary}</p>
     <div class="body">
       <p>{post.body}</p>
     </div>
   </article>
+  </EditorialShell>
 </BaseLayout>
 
 <style>
   .article {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
     max-width: 820px;
-    padding-bottom: 64px;
-    padding-top: 58px;
+    padding: 32px;
   }
 
   h1 {
-    font-size: 4rem;
-    line-height: 1;
+    font-size: clamp(2.6rem, 6vw, 4.8rem);
+    letter-spacing: -0.06em;
+    line-height: 0.94;
     margin: 12px 0 0;
   }
 
@@ -58,6 +64,10 @@ const { post } = Astro.props;
   @media (max-width: 640px) {
     h1 {
       font-size: 2.55rem;
+    }
+
+    .article {
+      padding: 20px;
     }
   }
 </style>

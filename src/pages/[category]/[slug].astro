@@ -1,12 +1,15 @@
 ---
 import ResourceCard from "@/components/ResourceCard.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
+import EditorialShell from "@/components/EditorialShell.astro";
 import { categories } from "@/config/site";
-import { getRelatedResources, resources } from "@/data/resources";
+import { getPublishedProjects, getRelatedProjects, projectMarkdown } from "@/lib/content/projects";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
-export function getStaticPaths() {
-  return resources.map((resource) => ({
+export async function getStaticPaths() {
+  const projects = await getPublishedProjects();
+
+  return projects.map((resource) => ({
     params: { category: resource.category, slug: resource.slug },
     props: { resource }
   }));
@@ -14,80 +17,158 @@ export function getStaticPaths() {
 
 const { resource } = Astro.props;
 const category = categories.find((item) => item.slug === resource.category);
-const related = getRelatedResources(resource);
+const related = await getRelatedProjects(resource);
+const image = resource.coverImage ?? "/og-default.svg";
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  name: resource.title,
+  description: resource.summary,
+  codeRepository: resource.repoUrl,
+  url: resource.homepageUrl ?? resource.repoUrl,
+  license: resource.license,
+  programmingLanguage: resource.worksWith?.join(", "),
+  keywords: resource.tags.join(", ")
+};
 ---
 
 <BaseLayout
   title={resource.seoTitle ?? resource.title}
   description={resource.seoDescription ?? resource.summary}
   path={`/${resource.category}/${resource.slug}`}
-  image={resource.coverImage}
+  image={image}
 >
-  <article class="shell detail">
-    <div class="detail-copy">
-      <span class="eyebrow">{category?.label}</span>
-      <h1 class="serif">{resource.title}</h1>
-      <p>{resource.summary}</p>
-      <div class="actions">
-        {resource.repoUrl && <a class="button" href={resource.repoUrl}>Repository</a>}
-        {resource.homepageUrl && <a class="button secondary" href={resource.homepageUrl}>Homepage</a>}
-      </div>
-    </div>
-    <img src={resource.coverImage} alt="" />
-  </article>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-  <section class="shell facts">
-    <dl>
-      <div>
-        <dt>Category</dt>
-        <dd>{category?.label}</dd>
+  <EditorialShell active={resource.category}>
+    <article class="detail">
+      <div class="detail-copy">
+        <span class="eyebrow">{category?.label}</span>
+        <h1>{resource.title}</h1>
+        <p class="one-liner">{resource.oneLiner}</p>
+        <p>{resource.summary}</p>
+        <div class="actions">
+          {resource.repoUrl && <a class="button" href={resource.repoUrl}>Repository</a>}
+          {resource.homepageUrl && <a class="button secondary" href={resource.homepageUrl}>Homepage</a>}
+          <a class="button secondary" href={`/${resource.category}/${resource.slug}.json`}>JSON</a>
+          <a class="button secondary" href={`/${resource.category}/${resource.slug}.md`}>Markdown</a>
+        </div>
       </div>
-      <div>
-        <dt>License</dt>
-        <dd>{resource.license ?? "Not listed"}</dd>
-      </div>
-      <div>
-        <dt>Updated</dt>
-        <dd>{resource.updatedAt}</dd>
-      </div>
-      <div>
-        <dt>Tags</dt>
-        <dd>{resource.tags.join(", ")}</dd>
-      </div>
-    </dl>
-  </section>
+      <img src={image} alt="" />
+    </article>
 
-  {
-    related.length > 0 && (
-      <section class="section">
-        <div class="shell">
+    <section class="profile-grid">
+      <div class="profile-main">
+        <section>
+          <h2>Why it matters</h2>
+          <p>{resource.whyItMatters}</p>
+        </section>
+
+        <section>
+          <h2>Best for</h2>
+          <ul>
+            {resource.bestFor.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+
+        {
+          resource.notFor && resource.notFor.length > 0 && (
+            <section>
+              <h2>Not for</h2>
+              <ul>
+                {resource.notFor.map((item) => <li>{item}</li>)}
+              </ul>
+            </section>
+          )
+        }
+
+        {
+          resource.installCommand && (
+            <section>
+              <h2>How to try</h2>
+              <pre><code>{resource.installCommand}</code></pre>
+            </section>
+          )
+        }
+
+        <section>
+          <h2>Agent-readable preview</h2>
+          <pre><code>{projectMarkdown(resource).slice(0, 900)}</code></pre>
+        </section>
+      </div>
+
+      <aside class="source-panel">
+        <h2>Project facts</h2>
+        <dl>
+          <div>
+            <dt>Category</dt>
+            <dd>{category?.label}</dd>
+          </div>
+          <div>
+            <dt>License</dt>
+            <dd>{resource.license ?? "unknown"}</dd>
+          </div>
+          <div>
+            <dt>Updated</dt>
+            <dd>{resource.updatedAt}</dd>
+          </div>
+          <div>
+            <dt>Open-source status</dt>
+            <dd>{resource.openSourceStatus}</dd>
+          </div>
+          <div>
+            <dt>Tags</dt>
+            <dd>{resource.tags.join(", ")}</dd>
+          </div>
+        </dl>
+
+        <h2>Source links</h2>
+        <ul>
+          {resource.sourceLinks.map((link) => <li><a href={link}>{link}</a></li>)}
+        </ul>
+      </aside>
+    </section>
+
+    {
+      related.length > 0 && (
+        <section class="section">
           <SectionHeading eyebrow="Related" title={`More ${category?.label.toLowerCase()}`} />
           <div class="grid grid-3">
             {related.map((item) => <ResourceCard resource={item} />)}
           </div>
-        </div>
-      </section>
-    )
-  }
+        </section>
+      )
+    }
+  </EditorialShell>
 </BaseLayout>
 
 <style>
   .detail {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
     display: grid;
     gap: 32px;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    padding-bottom: 44px;
-    padding-top: 54px;
+    overflow: hidden;
+    padding: 30px;
   }
 
   h1 {
-    font-size: 4rem;
-    line-height: 0.98;
+    font-size: clamp(2.8rem, 6vw, 5.4rem);
+    letter-spacing: -0.06em;
+    line-height: 0.9;
     margin: 10px 0 0;
   }
 
   .detail-copy p {
     font-size: 1.1rem;
+  }
+
+  .one-liner {
+    color: var(--green);
+    font-weight: 800;
   }
 
   .actions {
@@ -103,27 +184,72 @@ const related = getRelatedResources(resource);
 
   .detail img {
     aspect-ratio: 16 / 10;
-    border: 1px solid var(--line);
     border-radius: 8px;
     object-fit: cover;
     width: 100%;
   }
 
-  .facts dl {
-    border-bottom: 1px solid var(--line);
-    border-top: 1px solid var(--line);
+  .profile-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 36px;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+    margin-top: 34px;
+  }
+
+  .profile-main {
+    display: grid;
+    gap: 34px;
+  }
+
+  .profile-main section,
+  .source-panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .profile-main h2,
+  .source-panel h2 {
+    font-size: 1.8rem;
+    letter-spacing: -0.04em;
+    margin: 0 0 10px;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  li + li {
+    margin-top: 8px;
+  }
+
+  pre {
+    background: #111;
+    border-radius: 8px;
+    color: #f7f4eb;
+    overflow: auto;
+    padding: 16px;
+    white-space: pre-wrap;
+  }
+
+  .source-panel {
+    align-self: start;
+    position: sticky;
+    top: 92px;
+  }
+
+  .source-panel dl {
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    gap: 0;
     margin: 0;
   }
 
-  .facts div {
-    border-right: 1px solid var(--line);
-    padding: 18px;
-  }
-
-  .facts div:last-child {
-    border-right: 0;
+  .source-panel div {
+    border-top: 1px solid var(--line);
+    padding: 14px 0;
   }
 
   dt {
@@ -139,17 +265,16 @@ const related = getRelatedResources(resource);
 
   @media (max-width: 860px) {
     .detail,
-    .facts dl {
+    .profile-grid {
       grid-template-columns: 1fr;
     }
 
-    h1 {
-      font-size: 2.6rem;
+    .detail {
+      padding: 18px;
     }
 
-    .facts div {
-      border-right: 0;
-      border-bottom: 1px solid var(--line);
+    .source-panel {
+      position: static;
     }
   }
 </style>

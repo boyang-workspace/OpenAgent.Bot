@@ -1,12 +1,14 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import EditorialShell from "@/components/EditorialShell.astro";
 ---
 
 <BaseLayout title="Submit" description="Submit an open-source AI project for future review." path="/submit">
-  <section class="shell submit">
+  <EditorialShell>
+  <section class="submit">
     <div>
       <span class="eyebrow">Submit</span>
-      <h1 class="serif">Share an open AI project.</h1>
+      <h1>Share an open AI project.</h1>
       <p>
         The first public build uses a static placeholder. The submission workflow will
         move into the admin and review system after the content schema is stable.
@@ -28,20 +30,24 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       <button class="button" type="button" disabled>Submissions open soon</button>
     </form>
   </section>
+  </EditorialShell>
 </BaseLayout>
 
 <style>
   .submit {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
     display: grid;
     gap: 34px;
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
-    padding-bottom: 72px;
-    padding-top: 58px;
+    padding: 32px;
   }
 
   h1 {
-    font-size: 3.5rem;
-    line-height: 1;
+    font-size: clamp(2.6rem, 6vw, 4.8rem);
+    letter-spacing: -0.06em;
+    line-height: 0.94;
     margin: 12px 0 0;
   }
 
@@ -62,7 +68,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
   input,
   textarea {
-    background: var(--soft);
+    background: var(--surface-soft);
     border: 1px solid var(--line);
     border-radius: 8px;
     color: var(--muted);

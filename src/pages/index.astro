@@ -1,57 +1,76 @@
 ---
 import ResourceCard from "@/components/ResourceCard.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
+import EditorialShell from "@/components/EditorialShell.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { categories } from "@/config/site";
 import { posts } from "@/data/posts";
-import { resources } from "@/data/resources";
+import { getPublishedProjects } from "@/lib/content/projects";
 
-const today = resources.find((resource) => resource.featured) ?? resources[0];
-const trending = resources.filter((resource) => resource.trending);
-const recent = [...resources].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).slice(0, 3);
+const projects = await getPublishedProjects();
+const today = projects.find((project) => project.isFeatured) ?? projects[0];
+const trending = projects
+  .filter((project) => project.isFeatured || project.sourceMetrics?.stars)
+  .sort((a, b) => (b.sourceMetrics?.stars ?? 0) - (a.sourceMetrics?.stars ?? 0))
+  .slice(0, 3);
+const recent = [...projects].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).slice(0, 3);
+const todayCategory = today ? categories.find((category) => category.slug === today.category) : undefined;
 ---
 
 <BaseLayout>
-  <section class="hero shell">
-    <div class="hero-copy">
-      <span class="eyebrow">Today Feature</span>
-      <h1 class="serif">Open-source AI resources, curated for humans and structured for agents.</h1>
-      <p>
-        Find models, agents, skills, memory systems, plugins, and tools with stable routes,
-        editorial context, and a path toward machine-readable distribution.
-      </p>
-      <div class="hero-actions">
-        <a class="button" href={`/${today.category}/${today.slug}`}>Read today's pick</a>
-        <a class="button secondary" href="/submit">Submit a project</a>
+  <EditorialShell active="today">
+    <section id="today" class="today-panel">
+      <div class="today-copy">
+        <span class="eyebrow">Today Feature</span>
+        <h1>Open AI resources, edited like an app store.</h1>
+        <p>
+          Find models, agents, skills, memory systems, plugins, and tools with stable routes,
+          source links, and machine-readable profiles.
+        </p>
+        <div class="hero-actions">
+          {today && <a class="button" href={`/${today.category}/${today.slug}`}>Read today's pick</a>}
+          <a class="button secondary" href="/submit">Submit a project</a>
+        </div>
       </div>
-    </div>
-    <ResourceCard resource={today} large />
-  </section>
+      {
+        today && (
+          <a class="featured-project" href={`/${today.category}/${today.slug}`}>
+            <img src={today.coverImage ?? "/og-default.svg"} alt="" loading="eager" />
+            <div class="featured-copy">
+              <div class="featured-meta">
+                <span>{todayCategory?.label}</span>
+                {today.license && <span>{today.license}</span>}
+              </div>
+              <h2>{today.title}</h2>
+              <p>{today.oneLiner}</p>
+              <div class="featured-tags">
+                {today.tags.slice(0, 3).map((tag) => <span>{tag}</span>)}
+              </div>
+            </div>
+          </a>
+        )
+      }
+    </section>
 
-  <section class="section">
-    <div class="shell">
+    <section id="trending" class="section">
       <SectionHeading
         eyebrow="Trending"
         title="Projects getting attention across the open AI stack"
         description="A short editorial shelf for tools with useful momentum, active communities, or strong agent-native relevance."
       />
-      <div class="grid grid-3">
+      <div class="shelf-grid">
         {trending.map((resource) => <ResourceCard resource={resource} />)}
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section band">
-    <div class="shell">
+    <section id="recent" class="section soft-section">
       <SectionHeading eyebrow="Recently Added" title="Fresh entries for builders and researchers" />
-      <div class="grid grid-3">
+      <div class="shelf-grid">
         {recent.map((resource) => <ResourceCard resource={resource} />)}
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="shell">
+    <section class="section">
       <SectionHeading eyebrow="Categories" title="Browse by resource type" />
       <div class="category-grid">
         {
@@ -63,60 +82,69 @@ const recent = [...resources].sort((a, b) => b.updatedAt.localeCompare(a.updated
           ))
         }
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section band">
-    <div class="shell blog-strip">
-      <div>
-        <SectionHeading eyebrow="From the Blog" title="Editorial notes for open AI discovery" />
+    <section class="section soft-section">
+      <div class="blog-strip">
+        <div>
+          <SectionHeading eyebrow="From the Blog" title="Editorial notes for open AI discovery" />
+        </div>
+        <div class="post-list">
+          {
+            posts.slice(0, 3).map((post) => (
+              <a href={`/blog/${post.slug}`}>
+                <span>{post.publishedAt}</span>
+                <strong>{post.title}</strong>
+                <p>{post.summary}</p>
+              </a>
+            ))
+          }
+        </div>
       </div>
-      <div class="post-list">
-        {
-          posts.slice(0, 3).map((post) => (
-            <a href={`/blog/${post.slug}`}>
-              <span>{post.publishedAt}</span>
-              <strong>{post.title}</strong>
-              <p>{post.summary}</p>
-            </a>
-          ))
-        }
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section shell mission">
-    <span class="eyebrow">Mission</span>
-    <h2 class="serif">Make open AI resources easier to find, compare, cite, and consume.</h2>
-    <p>
-      OpenAgent.bot starts with a public directory and grows toward structured Markdown,
-      JSON, manifests, and practical workflows for agents.
-    </p>
-    <a class="button" href="/manifesto">Read the manifesto</a>
-  </section>
+    <section class="section mission">
+      <span class="eyebrow">Mission</span>
+      <h2>Make open AI resources easier to find, compare, cite, and consume.</h2>
+      <p>
+        OpenAgent.bot starts with a public directory and grows toward structured Markdown,
+        JSON, manifests, and practical workflows for agents.
+      </p>
+      <a class="button" href="/manifesto">Read the manifesto</a>
+    </section>
+  </EditorialShell>
 </BaseLayout>
 
 <style>
-  .hero {
+  .today-panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
     display: grid;
-    gap: 32px;
-    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
-    padding-bottom: 44px;
-    padding-top: 48px;
+    gap: 18px;
+    grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+    min-height: 520px;
+    min-width: 0;
+    overflow: hidden;
   }
 
-  .hero-copy {
+  .today-copy {
     align-content: center;
     display: grid;
+    min-width: 0;
+    padding: 34px;
   }
 
   h1 {
-    font-size: 4.2rem;
-    line-height: 0.98;
+    font-size: clamp(2.7rem, 6vw, 5.8rem);
+    letter-spacing: -0.06em;
+    line-height: 0.9;
     margin: 12px 0 0;
+    max-width: 100%;
   }
 
-  .hero-copy p {
+  .today-copy p {
     font-size: 1.1rem;
     margin: 20px 0 0;
   }
@@ -128,13 +156,75 @@ const recent = [...resources].sort((a, b) => b.updatedAt.localeCompare(a.updated
     margin-top: 28px;
   }
 
-  .secondary {
-    border-color: var(--line);
-    color: var(--muted);
+  .featured-project {
+    display: grid;
+    grid-template-rows: minmax(220px, 1fr) auto;
+    min-width: 0;
+    overflow: hidden;
   }
 
-  .band {
-    background: var(--soft);
+  .featured-project img {
+    background: var(--surface-soft);
+    height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .featured-copy {
+    border-left: 1px solid var(--line);
+    display: grid;
+    gap: 10px;
+    min-width: 0;
+    padding: 22px;
+  }
+
+  .featured-meta,
+  .featured-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .featured-meta span {
+    color: var(--green);
+    font-size: 0.72rem;
+    font-weight: 850;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .featured-copy h2 {
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+    margin: 0;
+  }
+
+  .featured-copy p {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .featured-tags span {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    padding: 4px 8px;
+  }
+
+  .shelf-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .soft-section {
+    background: var(--surface-soft);
+    border-radius: 8px;
+    margin: 38px 0;
+    padding: 28px;
   }
 
   .category-grid {
@@ -144,9 +234,21 @@ const recent = [...resources].sort((a, b) => b.updatedAt.localeCompare(a.updated
   }
 
   .category {
-    border-top: 2px solid var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
     min-height: 150px;
-    padding: 18px 0;
+    padding: 18px;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease;
+  }
+
+  .category:hover {
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
   }
 
   .category span {
@@ -166,10 +268,12 @@ const recent = [...resources].sort((a, b) => b.updatedAt.localeCompare(a.updated
   }
 
   .post-list a {
-    border-top: 1px solid var(--line);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
     display: grid;
     gap: 6px;
-    padding-top: 16px;
+    padding: 16px;
   }
 
   .post-list span {
@@ -192,21 +296,28 @@ const recent = [...resources].sort((a, b) => b.updatedAt.localeCompare(a.updated
 
   .mission h2 {
     font-size: 3rem;
+    letter-spacing: -0.045em;
     line-height: 1.02;
     margin: 10px 0 0;
   }
 
   @media (max-width: 920px) {
-    .hero,
+    .today-panel,
     .blog-strip {
       grid-template-columns: 1fr;
+    }
+
+    .featured-copy {
+      border-left: 0;
+      border-top: 1px solid var(--line);
     }
 
     h1 {
       font-size: 3rem;
     }
 
-    .category-grid {
+    .category-grid,
+    .shelf-grid {
       grid-template-columns: 1fr 1fr;
     }
   }
@@ -214,11 +325,36 @@ const recent = [...resources].sort((a, b) => b.updatedAt.localeCompare(a.updated
   @media (max-width: 620px) {
     h1,
     .mission h2 {
-      font-size: 2.35rem;
+      font-size: 2rem;
+      letter-spacing: -0.045em;
+      line-height: 0.98;
     }
 
-    .category-grid {
+    .category-grid,
+    .shelf-grid {
       grid-template-columns: 1fr;
+    }
+
+    .today-copy,
+    .soft-section {
+      padding: 18px;
+    }
+
+    .today-panel {
+      min-height: 0;
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .hero-actions .button {
+      flex: 1 1 100%;
+      width: 100%;
+    }
+
+    .featured-project,
+    .featured-copy {
+      max-width: 100%;
+      width: 100%;
     }
   }
 </style>

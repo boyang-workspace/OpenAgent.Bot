@@ -1,11 +1,13 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import EditorialShell from "@/components/EditorialShell.astro";
 ---
 
 <BaseLayout title="Manifesto" description="The mission behind OpenAgent.bot." path="/manifesto">
-  <section class="shell text-page">
+  <EditorialShell active="manifesto">
+  <section class="text-page">
     <span class="eyebrow">Manifesto</span>
-    <h1 class="serif">The open AI web needs better shelves.</h1>
+    <h1>The open AI web needs better shelves.</h1>
     <p>
       Open-source AI work is scattered across repositories, model hubs, docs, posts,
       Discords, and release notes. OpenAgent.bot exists to turn that noise into clear,
@@ -16,18 +18,22 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
       and a structure that can expand without becoming heavy.
     </p>
   </section>
+  </EditorialShell>
 </BaseLayout>
 
 <style>
   .text-page {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
     max-width: 820px;
-    padding-bottom: 80px;
-    padding-top: 58px;
+    padding: 32px;
   }
 
   h1 {
-    font-size: 3.5rem;
-    line-height: 1;
+    font-size: clamp(2.6rem, 6vw, 4.8rem);
+    letter-spacing: -0.06em;
+    line-height: 0.94;
     margin: 12px 0 0;
   }
 </style>

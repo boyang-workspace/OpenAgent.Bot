@@ -1,0 +1,167 @@
+---
+import { categories } from "@/config/site";
+
+type Props = {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  active?: string;
+};
+
+const { eyebrow, title, description, active } = Astro.props;
+const isHome = Astro.url.pathname === "/";
+const sectionLinks = [
+  { label: "Today", href: isHome ? "#today" : "/#today", key: "today" },
+  { label: "Trending", href: isHome ? "#trending" : "/#trending", key: "trending" },
+  { label: "Recently Added", href: isHome ? "#recent" : "/#recent", key: "recent" },
+  ...categories.map((category) => ({ label: category.label, href: `/${category.slug}`, key: category.slug })),
+  { label: "Blog", href: "/blog", key: "blog" },
+  { label: "Manifesto", href: "/manifesto", key: "manifesto" }
+];
+---
+
+<div class="editorial-shell">
+  <aside class="editorial-sidebar" aria-label="OpenAgent.bot sections">
+    <div class="sidebar-card">
+      <p class="sidebar-kicker">Open directory</p>
+      <nav>
+        {
+          sectionLinks.map((item) => (
+            <a class:list={{ active: active === item.key }} href={item.href}>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </aside>
+
+  <div class="mobile-rail" aria-label="OpenAgent.bot sections">
+    {sectionLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href}>{item.label}</a>)}
+  </div>
+
+  <div class="editorial-main">
+    {
+      title && (
+        <header class="editorial-head">
+          {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+          <h1>{title}</h1>
+          {description && <p>{description}</p>}
+        </header>
+      )
+    }
+    <slot />
+  </div>
+</div>
+
+<style>
+  .editorial-shell {
+    display: grid;
+    gap: 28px;
+    grid-template-columns: var(--sidebar) minmax(0, 1fr);
+    margin: 0 auto;
+    max-width: var(--page-max);
+    padding: 26px 24px 64px;
+  }
+
+  .editorial-sidebar {
+    position: relative;
+  }
+
+  .sidebar-card {
+    position: sticky;
+    top: 92px;
+  }
+
+  .sidebar-kicker {
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+  }
+
+  nav {
+    display: grid;
+    gap: 4px;
+  }
+
+  nav a,
+  .mobile-rail a {
+    border-radius: 8px;
+    color: var(--muted);
+    font-weight: 750;
+  }
+
+  nav a {
+    padding: 10px 12px;
+  }
+
+  nav a:hover,
+  nav a.active,
+  .mobile-rail a:hover,
+  .mobile-rail a.active {
+    background: var(--surface);
+    color: var(--ink);
+  }
+
+  .mobile-rail {
+    display: none;
+  }
+
+  .editorial-main {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .editorial-head {
+    padding: 18px 0 28px;
+  }
+
+  .editorial-head h1 {
+    font-size: clamp(2.2rem, 5vw, 4.6rem);
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    margin: 8px 0 0;
+    max-width: 900px;
+  }
+
+  .editorial-head p {
+    font-size: 1.08rem;
+    margin: 18px 0 0;
+    max-width: 720px;
+  }
+
+  @media (max-width: 920px) {
+    .editorial-shell {
+      display: block;
+      padding: 18px 0 48px;
+    }
+
+    .editorial-sidebar {
+      display: none;
+    }
+
+    .mobile-rail {
+      display: flex;
+      gap: 8px;
+      margin: 0 0 18px;
+      overflow-x: auto;
+      padding: 0 18px 8px;
+      scrollbar-width: none;
+    }
+
+    .mobile-rail a {
+      background: var(--surface);
+      flex: 0 0 auto;
+      font-size: 0.92rem;
+      padding: 9px 12px;
+      white-space: nowrap;
+    }
+
+    .editorial-main {
+      padding: 0 16px;
+    }
+  }
+</style>

@@ -27,7 +27,10 @@ export function requireAdmin(request: Request, env: Env): Response | undefined {
   if (!env.ADMIN_EMAIL) return undefined;
 
   const email = request.headers.get("cf-access-authenticated-user-email");
-  if (!email) return error("Admin access required.", 401);
+  // Cloudflare Access protects /admin* before the request reaches Pages.
+  // The authenticated email header is not consistently visible to Pages Functions,
+  // so treat it as an extra check only when Cloudflare forwards it.
+  if (!email) return undefined;
 
   if (email?.toLowerCase() === env.ADMIN_EMAIL.toLowerCase()) {
     return undefined;

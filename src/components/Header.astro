@@ -14,12 +14,14 @@
 
 <style>
   .site-header {
-    border-bottom: 1px solid var(--line);
-    position: sticky;
-    top: 0;
-    z-index: 12;
     background: color-mix(in srgb, var(--paper) 88%, white);
     backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+    left: 248px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 12;
   }
 
   .header-inner {
@@ -100,6 +102,10 @@
   }
 
   @media (max-width: 760px) {
+    .site-header {
+      left: 0;
+    }
+
     .header-inner {
       align-items: center;
       flex-wrap: wrap;

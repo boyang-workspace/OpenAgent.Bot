@@ -178,12 +178,17 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
   .editorial-main {
     min-width: 0;
     overflow: hidden;
+    padding-top: 64px;
   }
 
   .editorial-content {
     margin: 0 auto;
     max-width: 1160px;
     padding: 28px 28px 64px;
+  }
+
+  .editorial-content :global([id]) {
+    scroll-margin-top: 92px;
   }
 
   .editorial-head {
@@ -222,7 +227,7 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
       overflow-x: auto;
       padding: 14px 18px 10px;
       position: sticky;
-      top: 60px;
+      top: 64px;
       z-index: 11;
       scrollbar-width: none;
     }
@@ -237,6 +242,7 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
 
     .editorial-main {
       padding: 0;
+      padding-top: 64px;
     }
 
     .editorial-head h1 {
@@ -249,6 +255,20 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
 
     .editorial-content {
       padding: 18px 16px 48px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .editorial-main {
+      padding-top: 114px;
+    }
+
+    .mobile-rail {
+      top: 114px;
+    }
+
+    .editorial-content :global([id]) {
+      scroll-margin-top: 164px;
     }
   }
 

@@ -1,0 +1,218 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import { categories } from "@/config/site";
+---
+
+<AdminLayout title="Project Drafts" active="projects">
+  <section class="admin-grid">
+    <div class="admin-panel">
+      <div class="admin-actions" style="justify-content: space-between; margin-bottom: 16px;">
+        <div>
+          <span class="eyebrow">Drafts</span>
+          <h2>Work queue</h2>
+        </div>
+        <button class="button secondary" id="refresh-projects" type="button">Refresh</button>
+      </div>
+      <div class="admin-list" id="projects-list">Loading drafts...</div>
+    </div>
+
+    <div class="admin-panel">
+      <div class="admin-actions" style="justify-content: space-between; margin-bottom: 16px;">
+        <div>
+          <span class="eyebrow">Editor</span>
+          <h2 id="editor-title">Select a draft</h2>
+        </div>
+        <a class="button secondary" id="preview-link" href="#" hidden>Preview URL</a>
+      </div>
+      <p class="admin-note">Drafts are not public. Mark ready, then create a GitHub PR from Publishing.</p>
+      <form id="project-editor" class="admin-form" hidden>
+        <input name="id" type="hidden" />
+        <div class="field-grid">
+          <label>Title<input name="title" required /></label>
+          <label>Slug<input name="slug" required /></label>
+          <label>
+            Category
+            <select name="category" required>
+              {categories.map((category) => <option value={category.slug}>{category.label}</option>)}
+            </select>
+          </label>
+          <label>Status<select name="status"><option value="draft">Draft</option><option value="ready">Ready</option></select></label>
+        </div>
+        <label>One-liner<input name="oneLiner" required maxlength="180" /></label>
+        <label>Summary<textarea name="summary" required></textarea></label>
+        <label>Why it matters<textarea name="whyItMatters" required></textarea></label>
+        <div class="field-grid">
+          <label>Best for<input name="bestFor" placeholder="Comma-separated" /></label>
+          <label>Not for<input name="notFor" placeholder="Comma-separated" /></label>
+          <label>Tags<input name="tags" placeholder="Comma-separated" /></label>
+          <label>Works with<input name="worksWith" placeholder="Comma-separated" /></label>
+        </div>
+        <div class="field-grid">
+          <label>Repository URL<input name="repoUrl" type="url" /></label>
+          <label>Homepage URL<input name="homepageUrl" type="url" /></label>
+          <label>Docs URL<input name="docsUrl" type="url" /></label>
+          <label>Demo URL<input name="demoUrl" type="url" /></label>
+        </div>
+        <div class="field-grid">
+          <label>License<input name="license" /></label>
+          <label>Maintainer<input name="maintainer" /></label>
+          <label>Install command<input name="installCommand" /></label>
+          <label>
+            Open-source status
+            <select name="openSourceStatus">
+              <option value="unknown">Unknown</option>
+              <option value="open-source">Open source</option>
+              <option value="open-core">Open core</option>
+              <option value="source-available">Source available</option>
+            </select>
+          </label>
+        </div>
+        <label>Source links<input name="sourceLinks" placeholder="Comma-separated URLs" /></label>
+        <label>SEO title<input name="seoTitle" required maxlength="80" /></label>
+        <label>SEO description<textarea name="seoDescription" required maxlength="180"></textarea></label>
+        <div class="field-grid">
+          <label>Share title<input name="shareTitle" required /></label>
+          <label>Share description<input name="shareDescription" required /></label>
+          <label>Cover image<input name="coverImage" type="url" /></label>
+          <label>Featured reason<input name="featuredReason" /></label>
+        </div>
+        <div class="checkbox-row">
+          <label><input name="isFeatured" type="checkbox" /> Featured</label>
+          <label><input name="isSponsored" type="checkbox" /> Sponsored</label>
+          <label><input name="noindex" type="checkbox" /> Noindex</label>
+        </div>
+        <button class="button" type="submit">Save draft</button>
+        <p id="editor-status" class="form-status" role="status"></p>
+      </form>
+    </div>
+  </section>
+</AdminLayout>
+
+<script is:inline>
+  const categories = new Set(["models", "agents", "memory-systems", "skills", "plugins", "tools"]);
+  const arrayToText = (value) => Array.isArray(value) ? value.join(", ") : "";
+  const textToArray = (value) => String(value ?? "").split(",").map((item) => item.trim()).filter(Boolean);
+  const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
+  let selectedProject = null;
+
+  async function api(path, options = {}) {
+    const response = await fetch(path, { ...options, headers: { "content-type": "application/json", ...(options.headers ?? {}) } });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.error ?? "Request failed.");
+    return result;
+  }
+
+  function statusHint(project) {
+    if (project.status === "pr_created") return "PR created, waiting for merge";
+    if (project.status === "ready") return "Ready to create publish PR";
+    if (project.status === "published") return "Published";
+    return "Draft, not public yet";
+  }
+
+  async function loadProjects() {
+    const list = document.querySelector("#projects-list");
+    if (!(list instanceof HTMLElement)) return;
+    list.textContent = "Loading drafts...";
+    try {
+      const result = await api("/admin/api/projects");
+      const projects = result.projects ?? [];
+      list.innerHTML = projects.length ? projects.map((item) => `
+        <article class="admin-item">
+          <div>
+            <strong>${escapeHtml(item.title)}</strong>
+            <p>${escapeHtml(item.content.oneLiner ?? "")}</p>
+            <small>${escapeHtml(item.category)} · ${escapeHtml(item.status)} · ${escapeHtml(statusHint(item))}</small>
+          </div>
+          <div class="admin-actions">
+            <button class="button secondary" data-edit="${item.id}" type="button">Edit</button>
+            ${item.status === "ready" ? `<a class="button" href="/admin/publishing/?id=${item.id}">Create PR</a>` : ""}
+            ${item.prUrl ? `<a class="button secondary" href="${item.prUrl}" target="_blank" rel="noreferrer">Open PR</a>` : ""}
+          </div>
+        </article>
+      `).join("") : "<p>No drafts yet.</p>";
+    } catch (error) {
+      list.innerHTML = `<p class="error-text">${error instanceof Error ? error.message : "Failed to load drafts."}</p>`;
+    }
+  }
+
+  async function editProject(id) {
+    const result = await api(`/admin/api/projects/${id}`);
+    selectedProject = result.project;
+    const editor = document.querySelector("#project-editor");
+    const title = document.querySelector("#editor-title");
+    const preview = document.querySelector("#preview-link");
+    if (!(editor instanceof HTMLFormElement) || !(title instanceof HTMLElement)) return;
+    editor.hidden = false;
+    title.textContent = `Editing ${selectedProject.title}`;
+    if (preview instanceof HTMLAnchorElement) {
+      preview.hidden = false;
+      preview.href = `/${selectedProject.category}/${selectedProject.slug}`;
+    }
+    const content = selectedProject.content;
+    const fields = {
+      id: selectedProject.id,
+      status: selectedProject.status === "ready" ? "ready" : "draft",
+      ...content,
+      bestFor: arrayToText(content.bestFor),
+      notFor: arrayToText(content.notFor),
+      tags: arrayToText(content.tags),
+      worksWith: arrayToText(content.worksWith),
+      sourceLinks: arrayToText(content.sourceLinks)
+    };
+    for (const [key, value] of Object.entries(fields)) {
+      const field = editor.elements.namedItem(key);
+      if (field instanceof HTMLInputElement && field.type === "checkbox") field.checked = Boolean(value);
+      else if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) field.value = value ?? "";
+    }
+  }
+
+  function editorPayload() {
+    const editor = document.querySelector("#project-editor");
+    if (!(editor instanceof HTMLFormElement)) throw new Error("Editor is not ready.");
+    const data = Object.fromEntries(new FormData(editor).entries());
+    const category = String(data.category ?? "");
+    if (!categories.has(category)) throw new Error("Invalid category.");
+    return {
+      ...data,
+      bestFor: textToArray(data.bestFor),
+      notFor: textToArray(data.notFor),
+      tags: textToArray(data.tags),
+      worksWith: textToArray(data.worksWith),
+      sourceLinks: textToArray(data.sourceLinks),
+      isFeatured: Boolean(editor.querySelector("[name='isFeatured']")?.checked),
+      isSponsored: Boolean(editor.querySelector("[name='isSponsored']")?.checked),
+      noindex: Boolean(editor.querySelector("[name='noindex']")?.checked)
+    };
+  }
+
+  async function saveProject(event) {
+    event.preventDefault();
+    const editor = document.querySelector("#project-editor");
+    const status = document.querySelector("#editor-status");
+    if (!(editor instanceof HTMLFormElement) || !(status instanceof HTMLElement)) return;
+    const idField = editor.elements.namedItem("id");
+    const id = idField instanceof HTMLInputElement ? idField.value : "";
+    status.textContent = "Saving...";
+    status.dataset.state = "";
+    try {
+      const result = await api(`/admin/api/projects/${id}`, { method: "PUT", body: JSON.stringify(editorPayload()) });
+      selectedProject = result.project;
+      status.textContent = "Saved. Draft is still not public until a publish PR is merged.";
+      status.dataset.state = "success";
+      await loadProjects();
+    } catch (error) {
+      status.textContent = error instanceof Error ? error.message : "Save failed.";
+      status.dataset.state = "error";
+    }
+  }
+
+  document.querySelector("#refresh-projects")?.addEventListener("click", loadProjects);
+  document.querySelector("#projects-list")?.addEventListener("click", (event) => {
+    const target = event.target;
+    if (target instanceof HTMLButtonElement && target.dataset.edit) editProject(target.dataset.edit);
+  });
+  document.querySelector("#project-editor")?.addEventListener("submit", saveProject);
+
+  const initialId = new URL(location.href).searchParams.get("id");
+  loadProjects().then(() => initialId && editProject(initialId));
+</script>

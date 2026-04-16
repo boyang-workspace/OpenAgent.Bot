@@ -1,6 +1,6 @@
 # Admin CMS Setup
 
-OpenAgent.bot admin V1 uses Cloudflare Access, Cloudflare D1, and GitHub pull requests.
+OpenAgent.bot admin uses Cloudflare Access, Cloudflare D1, and GitHub pull requests. The public website stays static-first; admin is the working queue and publishing control room.
 
 ## What Goes Where
 
@@ -8,6 +8,7 @@ OpenAgent.bot admin V1 uses Cloudflare Access, Cloudflare D1, and GitHub pull re
 - Admin working queue: Cloudflare D1
 - Login protection: Cloudflare Access
 - Publishing: admin creates a GitHub PR, then merging the PR publishes the static page
+- Agent workspace: JSON APIs under `/admin/api/agent/*`
 
 ## Create D1
 
@@ -44,7 +45,6 @@ Protect:
 
 ```text
 /admin*
-/api/admin*
 ```
 
 Allow:
@@ -59,7 +59,7 @@ Set a Pages environment variable:
 ADMIN_EMAIL=boyangxie.work@gmail.com
 ```
 
-The API still expects Cloudflare Access to be the front door. `ADMIN_EMAIL` is an extra guard that checks the Access-authenticated email header.
+The admin UI calls APIs under `/admin/api/*`, so protecting `/admin*` covers both pages and API routes. `ADMIN_EMAIL` is an extra guard that checks the Access-authenticated email header.
 
 ## GitHub Publish Token
 
@@ -94,12 +94,31 @@ GITHUB_BASE_BRANCH=main
 
 1. A user submits a project on `/submit`.
 2. The submission is saved to D1 with status `new`.
-3. Open `/admin`.
+3. Open `/admin/review`.
 4. Convert the submission into a project draft.
-5. Edit structured fields and SEO fields.
-6. Click `Create publish PR`.
-7. Review and merge the GitHub PR.
-8. Cloudflare Pages deploys the new static page.
+5. Open `/admin/projects` and edit structured fields and SEO fields.
+6. Mark the draft `ready`.
+7. Open `/admin/publishing`, run a PR preview, then create the GitHub PR.
+8. Review and merge the GitHub PR.
+9. Cloudflare Pages deploys the new static page.
+
+## Agent APIs
+
+These endpoints are protected by the same Cloudflare Access app:
+
+```text
+GET  /admin/api/agent/summary
+GET  /admin/api/agent/tasks
+POST /admin/api/agent/tasks/:id/run
+GET  /admin/api/agent/events
+```
+
+Agent-safe mutation rules:
+
+- `dryRun: true` previews the operation without mutating public content.
+- `idempotencyKey` prevents repeated Convert or Publish PR operations from duplicating work.
+- Publish PR creation first supports preview output, then writes a GitHub branch and PR.
+- `admin_events` records actions, actor, before/after JSON, result, and errors.
 
 ## Notes
 
@@ -108,3 +127,4 @@ GITHUB_BASE_BRANCH=main
 - Turnstile is not required for V1. The form includes a honeypot field and a basic per-email hourly limit.
 - The admin UI calls APIs under `/admin/api/*` so the page and API share the same Cloudflare Access session.
 - The admin page logs out through `/cdn-cgi/access/logout`, Cloudflare Access's application logout endpoint.
+- Converted submissions are not public. A project appears on the site only after a publish PR is merged and deployed.

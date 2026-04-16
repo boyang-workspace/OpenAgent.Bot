@@ -1,0 +1,150 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Publishing" active="publishing">
+  <section class="admin-grid">
+    <div class="admin-panel">
+      <div class="admin-actions" style="justify-content: space-between; margin-bottom: 16px;">
+        <div>
+          <span class="eyebrow">Publish queue</span>
+          <h2>GitHub PRs</h2>
+        </div>
+        <button class="button secondary" id="refresh-publishing" type="button">Refresh</button>
+      </div>
+      <p class="admin-note">Creating a PR does not publish the project. The page becomes public only after the GitHub PR is merged and Cloudflare deploys the site.</p>
+      <div class="admin-list" id="publishing-list">Loading publishing queue...</div>
+    </div>
+
+    <div class="admin-panel">
+      <span class="eyebrow">Preview</span>
+      <h2 id="preview-title">Select a ready draft</h2>
+      <p class="admin-note">Dry-run first. This shows the exact file path and JSON that will be proposed in GitHub.</p>
+      <pre class="admin-preview" id="publish-preview">No preview yet.</pre>
+      <div class="admin-actions" style="margin-top: 14px;">
+        <button class="button secondary" id="dry-run-pr" type="button" disabled>Preview PR</button>
+        <button class="button" id="create-pr" type="button" disabled>Create publish PR</button>
+      </div>
+      <p id="publishing-status" class="form-status" role="status"></p>
+    </div>
+  </section>
+</AdminLayout>
+
+<script is:inline>
+  const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
+  let selectedDraft = null;
+
+  async function api(path, options = {}) {
+    const response = await fetch(path, { ...options, headers: { "content-type": "application/json", ...(options.headers ?? {}) } });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.error ?? "Request failed.");
+    return result;
+  }
+
+  function queueHint(project) {
+    if (project.status === "ready") return "Ready for dry-run and publish PR.";
+    if (project.status === "pr_created") return "PR created. Waiting for GitHub merge.";
+    if (project.status === "published") return "Published.";
+    return "Still draft. Complete the profile before publishing.";
+  }
+
+  function selectDraft(project) {
+    selectedDraft = project;
+    const title = document.querySelector("#preview-title");
+    const preview = document.querySelector("#publish-preview");
+    const dryRun = document.querySelector("#dry-run-pr");
+    const create = document.querySelector("#create-pr");
+    const status = document.querySelector("#publishing-status");
+    if (title instanceof HTMLElement) title.textContent = project.status === "ready" ? `Ready: ${project.title}` : project.title;
+    if (preview instanceof HTMLElement) preview.textContent = project.lastPublishPreview ? JSON.stringify(project.lastPublishPreview, null, 2) : "No dry-run preview yet.";
+    if (dryRun instanceof HTMLButtonElement) dryRun.disabled = project.status !== "ready";
+    if (create instanceof HTMLButtonElement) create.disabled = project.status !== "ready";
+    if (status instanceof HTMLElement) {
+      status.textContent = project.prUrl ? `PR already exists: ${project.prUrl}` : "";
+      status.dataset.state = project.prUrl ? "success" : "";
+    }
+  }
+
+  async function loadPublishing() {
+    const list = document.querySelector("#publishing-list");
+    if (!(list instanceof HTMLElement)) return;
+    list.textContent = "Loading publishing queue...";
+    try {
+      const result = await api("/admin/api/projects");
+      const projects = (result.projects ?? []).filter((item) => ["ready", "pr_created", "published"].includes(item.status) || item.publishStatus === "failed");
+      list.innerHTML = projects.length ? projects.map((item) => `
+        <article class="admin-item">
+          <div>
+            <strong>${escapeHtml(item.title)}</strong>
+            <p>${escapeHtml(queueHint(item))}</p>
+            <small>${escapeHtml(item.category)} · ${escapeHtml(item.status)}${item.publishStatus ? ` · ${escapeHtml(item.publishStatus)}` : ""}</small>
+            ${item.lastError ? `<p class="error-text">${escapeHtml(item.lastError)}</p>` : ""}
+          </div>
+          <div class="admin-actions">
+            <button class="button secondary" data-select="${item.id}" type="button">Select</button>
+            ${item.status === "ready" ? `<button class="button" data-preview="${item.id}" type="button">Preview PR</button>` : ""}
+            ${item.prUrl ? `<a class="button secondary" href="${item.prUrl}" target="_blank" rel="noreferrer">Open PR</a>` : ""}
+            ${item.liveUrl ? `<a class="button secondary" href="${item.liveUrl}" target="_blank" rel="noreferrer">Live URL</a>` : ""}
+          </div>
+        </article>
+      `).join("") : "<p>No ready drafts or publish PRs yet.</p>";
+      const initialId = new URL(location.href).searchParams.get("id");
+      const initial = projects.find((item) => item.id === initialId) ?? projects[0];
+      if (initial) selectDraft(initial);
+    } catch (error) {
+      list.innerHTML = `<p class="error-text">${error instanceof Error ? error.message : "Failed to load publishing queue."}</p>`;
+    }
+  }
+
+  async function previewPr(id) {
+    const previewEl = document.querySelector("#publish-preview");
+    const status = document.querySelector("#publishing-status");
+    if (!(previewEl instanceof HTMLElement) || !(status instanceof HTMLElement)) return;
+    status.textContent = "Generating dry-run preview...";
+    status.dataset.state = "";
+    try {
+      const result = await api(`/admin/api/projects/${id}/publish-pr?dryRun=true`, { method: "POST", body: JSON.stringify({ dryRun: true }) });
+      previewEl.textContent = JSON.stringify(result.preview, null, 2);
+      status.textContent = "Preview ready. No GitHub branch or PR was created.";
+      status.dataset.state = "success";
+      await loadPublishing();
+    } catch (error) {
+      status.textContent = error instanceof Error ? error.message : "Preview failed.";
+      status.dataset.state = "error";
+    }
+  }
+
+  async function createPr() {
+    const status = document.querySelector("#publishing-status");
+    if (!selectedDraft || !(status instanceof HTMLElement)) return;
+    status.textContent = "Creating GitHub PR...";
+    status.dataset.state = "";
+    try {
+      const result = await api(`/admin/api/projects/${selectedDraft.id}/publish-pr`, {
+        method: "POST",
+        body: JSON.stringify({ idempotencyKey: `publish-pr:${selectedDraft.id}` })
+      });
+      status.innerHTML = `PR created: <a href="${escapeHtml(result.prUrl)}" target="_blank" rel="noreferrer">${escapeHtml(result.prUrl)}</a>`;
+      status.dataset.state = "success";
+      await loadPublishing();
+    } catch (error) {
+      status.textContent = error instanceof Error ? error.message : "Create PR failed.";
+      status.dataset.state = "error";
+    }
+  }
+
+  document.querySelector("#refresh-publishing")?.addEventListener("click", loadPublishing);
+  document.querySelector("#publishing-list")?.addEventListener("click", async (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLButtonElement)) return;
+    if (target.dataset.select) {
+      const result = await api("/admin/api/projects");
+      const project = (result.projects ?? []).find((item) => item.id === target.dataset.select);
+      if (project) selectDraft(project);
+    }
+    if (target.dataset.preview) await previewPr(target.dataset.preview);
+  });
+  document.querySelector("#dry-run-pr")?.addEventListener("click", () => selectedDraft && previewPr(selectedDraft.id));
+  document.querySelector("#create-pr")?.addEventListener("click", createPr);
+  loadPublishing();
+</script>

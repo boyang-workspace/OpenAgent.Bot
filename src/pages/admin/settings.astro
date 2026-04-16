@@ -1,0 +1,46 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Settings" active="settings">
+  <section class="admin-grid">
+    <div class="admin-panel">
+      <span class="eyebrow">Access</span>
+      <h2>Cloudflare Access</h2>
+      <p class="admin-note">Admin login is handled by Cloudflare Access. Protect <code>/admin*</code>, and the APIs under <code>/admin/api/*</code> are covered by that same rule.</p>
+      <div class="admin-list">
+        <article class="admin-item">
+          <div>
+            <strong>Allowed user</strong>
+            <p>Use your Google account policy in Cloudflare Access.</p>
+            <small>Authentication outside the app</small>
+          </div>
+          <span class="status-pill">Protected</span>
+        </article>
+      </div>
+    </div>
+    <div class="admin-panel">
+      <span class="eyebrow">Secrets</span>
+      <h2>Required bindings</h2>
+      <p class="admin-note">D1 binding <code>DB</code> powers submissions and drafts. <code>GITHUB_ADMIN_TOKEN</code> is required only when creating publish PRs.</p>
+      <div class="admin-list">
+        <article class="admin-item">
+          <div>
+            <strong>D1</strong>
+            <p>Database: openagent_bot</p>
+            <small>Binding: DB</small>
+          </div>
+          <span class="status-pill">Required</span>
+        </article>
+        <article class="admin-item">
+          <div>
+            <strong>GitHub token</strong>
+            <p>Fine-grained token for contents and pull requests.</p>
+            <small>Secret: GITHUB_ADMIN_TOKEN</small>
+          </div>
+          <span class="status-pill">Publish PRs</span>
+        </article>
+      </div>
+    </div>
+  </section>
+</AdminLayout>

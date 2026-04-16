@@ -1,5 +1,5 @@
 import { assertPublishable } from "./validation";
-import type { Env, ProjectDraft } from "./types";
+import type { Env, ProjectDraft, PublishPrResult } from "./types";
 
 type GitHubRef = {
   object: {
@@ -10,6 +10,12 @@ type GitHubRef = {
 type GitHubPr = {
   html_url: string;
   number: number;
+};
+
+type GitHubContentResponse = {
+  commit: {
+    sha: string;
+  };
 };
 
 function encodeBase64(value: string): string {
@@ -43,7 +49,7 @@ async function github<T>(env: Env, path: string, init: RequestInit = {}): Promis
   return response.json() as Promise<T>;
 }
 
-export async function createPublishPr(env: Env, draft: ProjectDraft): Promise<{ url: string; number: number }> {
+export async function createPublishPr(env: Env, draft: ProjectDraft): Promise<PublishPrResult> {
   assertPublishable(draft.content);
 
   const repo = env.GITHUB_REPO ?? "boyang-workspace/OpenAgent.Bot";
@@ -61,7 +67,7 @@ export async function createPublishPr(env: Env, draft: ProjectDraft): Promise<{ 
     })
   });
 
-  await github(env, `/repos/${repo}/contents/${filePath}`, {
+  const write = await github<GitHubContentResponse>(env, `/repos/${repo}/contents/${filePath}`, {
     method: "PUT",
     body: JSON.stringify({
       message: `Publish ${draft.title} profile`,
@@ -90,6 +96,18 @@ export async function createPublishPr(env: Env, draft: ProjectDraft): Promise<{ 
 
   return {
     url: pr.html_url,
-    number: pr.number
+    number: pr.number,
+    branch,
+    commitSha: write.commit.sha,
+    filePath
+  };
+}
+
+export function publishPreview(draft: ProjectDraft): { filePath: string; content: string; publicPath: string } {
+  assertPublishable(draft.content);
+  return {
+    filePath: `content/projects/published/${draft.slug}.json`,
+    content: `${JSON.stringify(draft.content, null, 2)}\n`,
+    publicPath: `/${draft.category}/${draft.slug}`
   };
 }

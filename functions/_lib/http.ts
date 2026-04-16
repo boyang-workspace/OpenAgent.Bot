@@ -27,7 +27,7 @@ export function requireAdmin(request: Request, env: Env): Response | undefined {
   if (!env.ADMIN_EMAIL) return undefined;
 
   const email = request.headers.get("cf-access-authenticated-user-email");
-  if (!email) return undefined;
+  if (!email) return error("Admin access required.", 401);
 
   if (email?.toLowerCase() === env.ADMIN_EMAIL.toLowerCase()) {
     return undefined;
@@ -42,6 +42,16 @@ export async function readJson(request: Request): Promise<Record<string, unknown
     throw new Error("Request body must be a JSON object.");
   }
   return body as Record<string, unknown>;
+}
+
+export function actorFromRequest(request: Request): "human" | "codex" | "automation" {
+  const actor = request.headers.get("x-openagent-actor")?.toLowerCase();
+  if (actor === "codex" || actor === "automation") return actor;
+  return "human";
+}
+
+export function boolParam(request: Request, key: string): boolean {
+  return new URL(request.url).searchParams.get(key) === "true";
 }
 
 export async function hashIp(request: Request): Promise<string | undefined> {

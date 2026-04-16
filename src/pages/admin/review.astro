@@ -1,0 +1,83 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Review Inbox" active="review">
+  <section class="admin-panel">
+    <div class="admin-actions" style="justify-content: space-between; margin-bottom: 16px;">
+      <div>
+        <span class="eyebrow">Review</span>
+        <h2>Incoming projects</h2>
+      </div>
+      <button class="button secondary" id="refresh" type="button">Refresh</button>
+    </div>
+    <p class="admin-note">Convert creates an internal draft. It does not publish the project. Public pages appear only after a GitHub PR is merged.</p>
+    <div class="admin-list" id="submissions-list">Loading submissions...</div>
+  </section>
+</AdminLayout>
+
+<script is:inline>
+  async function api(path, options = {}) {
+    const response = await fetch(path, { ...options, headers: { "content-type": "application/json", ...(options.headers ?? {}) } });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.error ?? "Request failed.");
+    return result;
+  }
+  const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
+
+  async function loadSubmissions() {
+    const list = document.querySelector("#submissions-list");
+    if (!(list instanceof HTMLElement)) return;
+    list.textContent = "Loading submissions...";
+    try {
+      const result = await api("/admin/api/submissions");
+      const submissions = result.submissions ?? [];
+      list.innerHTML = submissions.length ? submissions.map((item) => {
+        const converted = item.status === "converted";
+        const rejected = item.status === "rejected" || item.status === "duplicate";
+        return `
+          <article class="admin-item">
+            <div>
+              <strong>${escapeHtml(item.projectName)}</strong>
+              <p>${escapeHtml(item.summary)}</p>
+              <small>${escapeHtml(item.category)} · ${escapeHtml(item.status)} · ${new Date(item.createdAt).toLocaleDateString()}</small>
+              ${converted ? `<p class="status-pill">Draft created, not public yet</p>` : ""}
+            </div>
+            <div class="admin-actions">
+              ${converted ? `<a class="button secondary" href="/admin/projects/?id=${item.draftId ?? ""}">Open draft</a>` : ""}
+              ${!converted && !rejected ? `<button class="button" data-convert="${item.id}" type="button">Convert to draft</button>` : ""}
+              ${!converted && !rejected ? `<button class="button secondary" data-status="duplicate" data-id="${item.id}" type="button">Duplicate</button>` : ""}
+              ${!converted && !rejected ? `<button class="button secondary" data-status="rejected" data-id="${item.id}" type="button">Reject</button>` : ""}
+            </div>
+          </article>
+        `;
+      }).join("") : "<p>No submissions yet.</p>";
+    } catch (error) {
+      list.innerHTML = `<p class="error-text">${error instanceof Error ? error.message : "Failed to load submissions."}</p>`;
+    }
+  }
+
+  async function convertSubmission(id) {
+    await api(`/admin/api/submissions/${id}/convert`, {
+      method: "POST",
+      body: JSON.stringify({ idempotencyKey: `human-convert-${id}` })
+    });
+    await loadSubmissions();
+  }
+
+  async function updateStatus(id, status) {
+    await api(`/admin/api/submissions/${id}/status`, {
+      method: "POST",
+      body: JSON.stringify({ status })
+    });
+    await loadSubmissions();
+  }
+
+  document.querySelector("#refresh")?.addEventListener("click", loadSubmissions);
+  document.querySelector("#submissions-list")?.addEventListener("click", (event) => {
+    const target = event.target;
+    if (target instanceof HTMLButtonElement && target.dataset.convert) convertSubmission(target.dataset.convert);
+    if (target instanceof HTMLButtonElement && target.dataset.status && target.dataset.id) updateStatus(target.dataset.id, target.dataset.status);
+  });
+  loadSubmissions();
+</script>

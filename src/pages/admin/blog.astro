@@ -1,0 +1,28 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Blog" active="blog">
+  <section class="admin-grid">
+    <div class="admin-panel">
+      <span class="eyebrow">Editorial queue</span>
+      <h2>Blog drafts</h2>
+      <p class="admin-note">Blog automation should create drafts first. Nothing should publish automatically without review.</p>
+      <div class="admin-list">
+        <article class="admin-item">
+          <div>
+            <strong>Draft generation</strong>
+            <p>Planned workflow: discovery topic → outline → article draft → human review → GitHub PR.</p>
+            <small>Not enabled yet</small>
+          </div>
+          <span class="status-pill">Planned</span>
+        </article>
+      </div>
+    </div>
+    <div class="admin-panel">
+      <span class="eyebrow">Guardrail</span>
+      <h2>No content farm mode</h2>
+      <p class="admin-note">The site should use automated research to support editorial work, not to publish unchecked content. Draft-first keeps quality and brand trust intact.</p>
+    </div>
+  </section>
+</AdminLayout>

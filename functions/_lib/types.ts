@@ -9,8 +9,18 @@ export type Env = {
   PUBLIC_SITE_URL?: string;
 };
 
-export type SubmissionStatus = "new" | "reviewing" | "converted" | "rejected";
+export type PublishPrResult = {
+  url: string;
+  number: number;
+  branch: string;
+  commitSha: string;
+  filePath: string;
+};
+
+export type SubmissionStatus = "new" | "reviewing" | "converted" | "rejected" | "duplicate";
 export type DraftStatus = "draft" | "ready" | "pr_created" | "published" | "archived";
+export type PublishStatus = "pending" | "running" | "succeeded" | "failed";
+export type AdminActor = "human" | "codex" | "automation";
 
 export type Submission = {
   id: string;
@@ -22,6 +32,8 @@ export type Submission = {
   submitterName?: string;
   submitterEmail?: string;
   status: SubmissionStatus;
+  draftId?: string;
+  reviewNote?: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -71,8 +83,39 @@ export type ProjectDraft = {
   content: ProjectDraftContent;
   prUrl?: string;
   prNumber?: number;
+  prBranch?: string;
+  commitSha?: string;
+  publishStatus?: PublishStatus;
+  liveUrl?: string;
+  lastPublishPreview?: unknown;
+  lastError?: string;
   createdAt: string;
   updatedAt: string;
+};
+
+export type AdminEvent = {
+  id: string;
+  entityType: string;
+  entityId: string;
+  action: string;
+  actor: AdminActor;
+  metadata?: unknown;
+  before?: unknown;
+  after?: unknown;
+  result?: unknown;
+  error?: string;
+  createdAt: string;
+};
+
+export type AgentTask = {
+  id: string;
+  type: "review_submission" | "open_draft" | "complete_draft" | "create_publish_pr" | "check_publish_pr";
+  title: string;
+  entityType: "submission" | "project_draft";
+  entityId: string;
+  recommendedAction: string;
+  riskLevel: "low" | "medium" | "high";
+  nextEndpoint: string;
 };
 
 declare global {

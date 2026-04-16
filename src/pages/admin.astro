@@ -1,0 +1,450 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import EditorialShell from "@/components/EditorialShell.astro";
+import { categories } from "@/config/site";
+---
+
+<BaseLayout title="Admin" description="OpenAgent.bot editorial admin." path="/admin" noindex>
+  <EditorialShell active="tools">
+    <section class="admin-hero">
+      <div>
+        <span class="eyebrow">Admin</span>
+        <h1>Editorial queue.</h1>
+        <p>Review submissions, shape project drafts, and create publish PRs without turning the public site into a dynamic CMS.</p>
+      </div>
+      <div class="admin-note">
+        <strong>Protected by Cloudflare Access</strong>
+        <span>D1 is the working queue. GitHub remains the publishing source of truth.</span>
+      </div>
+    </section>
+
+    <section class="admin-grid">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <span class="eyebrow">Submissions</span>
+            <h2>Incoming projects</h2>
+          </div>
+          <button class="button secondary" id="refresh-submissions" type="button">Refresh</button>
+        </div>
+        <div id="submissions-list" class="list-state">Loading submissions...</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <span class="eyebrow">Drafts</span>
+            <h2>Project profiles</h2>
+          </div>
+          <button class="button secondary" id="refresh-projects" type="button">Refresh</button>
+        </div>
+        <div id="projects-list" class="list-state">Loading project drafts...</div>
+      </div>
+    </section>
+
+    <section class="panel editor-panel">
+      <div class="panel-head">
+        <div>
+          <span class="eyebrow">Editor</span>
+          <h2 id="editor-title">Select a draft</h2>
+        </div>
+        <button class="button" id="publish-pr" type="button" disabled>Create publish PR</button>
+      </div>
+
+      <form id="project-editor" class="editor-form" hidden>
+        <input name="id" type="hidden" />
+        <div class="field-grid">
+          <label>Title<input name="title" required /></label>
+          <label>Slug<input name="slug" required /></label>
+          <label>
+            Category
+            <select name="category" required>
+              {categories.map((category) => <option value={category.slug}>{category.label}</option>)}
+            </select>
+          </label>
+          <label>Status<select name="status"><option value="draft">Draft</option><option value="ready">Ready</option></select></label>
+        </div>
+        <label>One-liner<input name="oneLiner" required maxlength="180" /></label>
+        <label>Summary<textarea name="summary" required></textarea></label>
+        <label>Why it matters<textarea name="whyItMatters" required></textarea></label>
+        <div class="field-grid">
+          <label>Best for<input name="bestFor" placeholder="Comma-separated" /></label>
+          <label>Not for<input name="notFor" placeholder="Comma-separated" /></label>
+          <label>Tags<input name="tags" placeholder="Comma-separated" /></label>
+          <label>Works with<input name="worksWith" placeholder="Comma-separated" /></label>
+        </div>
+        <div class="field-grid">
+          <label>Repository URL<input name="repoUrl" type="url" /></label>
+          <label>Homepage URL<input name="homepageUrl" type="url" /></label>
+          <label>Docs URL<input name="docsUrl" type="url" /></label>
+          <label>Demo URL<input name="demoUrl" type="url" /></label>
+        </div>
+        <div class="field-grid">
+          <label>License<input name="license" /></label>
+          <label>Maintainer<input name="maintainer" /></label>
+          <label>Install command<input name="installCommand" /></label>
+          <label>
+            Open-source status
+            <select name="openSourceStatus">
+              <option value="unknown">Unknown</option>
+              <option value="open-source">Open source</option>
+              <option value="open-core">Open core</option>
+              <option value="source-available">Source available</option>
+            </select>
+          </label>
+        </div>
+        <label>Source links<input name="sourceLinks" placeholder="Comma-separated URLs" /></label>
+        <label>SEO title<input name="seoTitle" required maxlength="80" /></label>
+        <label>SEO description<textarea name="seoDescription" required maxlength="180"></textarea></label>
+        <div class="field-grid">
+          <label>Share title<input name="shareTitle" required /></label>
+          <label>Share description<input name="shareDescription" required /></label>
+          <label>Cover image<input name="coverImage" type="url" /></label>
+          <label>Featured reason<input name="featuredReason" /></label>
+        </div>
+        <div class="checkbox-row">
+          <label><input name="isFeatured" type="checkbox" /> Featured</label>
+          <label><input name="isSponsored" type="checkbox" /> Sponsored</label>
+          <label><input name="noindex" type="checkbox" /> Noindex</label>
+        </div>
+        <button class="button" type="submit">Save draft</button>
+        <p id="editor-status" class="form-status" role="status"></p>
+      </form>
+    </section>
+  </EditorialShell>
+</BaseLayout>
+
+<script is:inline>
+  const categories = new Set(["models", "agents", "memory-systems", "skills", "plugins", "tools"]);
+  const submissionsList = document.querySelector("#submissions-list");
+  const projectsList = document.querySelector("#projects-list");
+  const editor = document.querySelector("#project-editor");
+  const editorTitle = document.querySelector("#editor-title");
+  const editorStatus = document.querySelector("#editor-status");
+  const publishButton = document.querySelector("#publish-pr");
+  let selectedProject = null;
+
+  const arrayToText = (value) => Array.isArray(value) ? value.join(", ") : "";
+  const textToArray = (value) => String(value ?? "").split(",").map((item) => item.trim()).filter(Boolean);
+
+  async function api(path, options = {}) {
+    const response = await fetch(path, {
+      ...options,
+      headers: {
+        "content-type": "application/json",
+        ...(options.headers ?? {})
+      }
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.error ?? "Request failed.");
+    return result;
+  }
+
+  function renderError(target, message) {
+    if (target instanceof HTMLElement) {
+      target.innerHTML = `<p class="error-text">${message}</p>`;
+    }
+  }
+
+  async function loadSubmissions() {
+    if (!(submissionsList instanceof HTMLElement)) return;
+    submissionsList.textContent = "Loading submissions...";
+    try {
+      const result = await api("/api/admin/submissions");
+      const submissions = result.submissions ?? [];
+      submissionsList.innerHTML = submissions.length ? submissions.map((item) => `
+        <article class="admin-item">
+          <div>
+            <strong>${escapeHtml(item.projectName)}</strong>
+            <p>${escapeHtml(item.summary)}</p>
+            <span>${escapeHtml(item.category)} · ${escapeHtml(item.status)} · ${new Date(item.createdAt).toLocaleDateString()}</span>
+          </div>
+          <button class="button secondary" data-convert="${item.id}" type="button">Convert</button>
+        </article>
+      `).join("") : "<p>No submissions yet.</p>";
+    } catch (error) {
+      renderError(submissionsList, error instanceof Error ? error.message : "Failed to load submissions.");
+    }
+  }
+
+  async function loadProjects() {
+    if (!(projectsList instanceof HTMLElement)) return;
+    projectsList.textContent = "Loading project drafts...";
+    try {
+      const result = await api("/api/admin/projects");
+      const projects = result.projects ?? [];
+      projectsList.innerHTML = projects.length ? projects.map((item) => `
+        <article class="admin-item">
+          <div>
+            <strong>${escapeHtml(item.title)}</strong>
+            <p>${escapeHtml(item.content.oneLiner ?? "")}</p>
+            <span>${escapeHtml(item.category)} · ${escapeHtml(item.status)}${item.prUrl ? ` · <a href="${item.prUrl}" target="_blank" rel="noreferrer">PR #${item.prNumber}</a>` : ""}</span>
+          </div>
+          <button class="button secondary" data-edit="${item.id}" type="button">Edit</button>
+        </article>
+      `).join("") : "<p>No project drafts yet.</p>";
+    } catch (error) {
+      renderError(projectsList, error instanceof Error ? error.message : "Failed to load project drafts.");
+    }
+  }
+
+  async function convertSubmission(id) {
+    await api(`/api/admin/submissions/${id}/convert`, { method: "POST" });
+    await Promise.all([loadSubmissions(), loadProjects()]);
+  }
+
+  async function editProject(id) {
+    const result = await api(`/api/admin/projects/${id}`);
+    selectedProject = result.project;
+    const content = selectedProject.content;
+    if (!(editor instanceof HTMLFormElement) || !(editorTitle instanceof HTMLElement) || !(publishButton instanceof HTMLButtonElement)) return;
+    editor.hidden = false;
+    editorTitle.textContent = `Editing ${selectedProject.title}`;
+    publishButton.disabled = selectedProject.status === "pr_created";
+
+    const fields = {
+      id: selectedProject.id,
+      status: selectedProject.status === "ready" ? "ready" : "draft",
+      ...content,
+      bestFor: arrayToText(content.bestFor),
+      notFor: arrayToText(content.notFor),
+      tags: arrayToText(content.tags),
+      worksWith: arrayToText(content.worksWith),
+      sourceLinks: arrayToText(content.sourceLinks)
+    };
+
+    for (const [key, value] of Object.entries(fields)) {
+      const field = editor.elements.namedItem(key);
+      if (field instanceof HTMLInputElement && field.type === "checkbox") {
+        field.checked = Boolean(value);
+      } else if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) {
+        field.value = value ?? "";
+      }
+    }
+  }
+
+  function editorPayload() {
+    if (!(editor instanceof HTMLFormElement)) throw new Error("Editor is not ready.");
+    const data = Object.fromEntries(new FormData(editor).entries());
+    const category = String(data.category ?? "");
+    if (!categories.has(category)) throw new Error("Invalid category.");
+    return {
+      ...data,
+      bestFor: textToArray(data.bestFor),
+      notFor: textToArray(data.notFor),
+      tags: textToArray(data.tags),
+      worksWith: textToArray(data.worksWith),
+      sourceLinks: textToArray(data.sourceLinks),
+      isFeatured: Boolean(editor.querySelector("[name='isFeatured']")?.checked),
+      isSponsored: Boolean(editor.querySelector("[name='isSponsored']")?.checked),
+      noindex: Boolean(editor.querySelector("[name='noindex']")?.checked)
+    };
+  }
+
+  async function saveProject(event) {
+    event.preventDefault();
+    if (!(editor instanceof HTMLFormElement) || !(editorStatus instanceof HTMLElement)) return;
+    const id = editor.elements.namedItem("id")?.value;
+    if (!id) return;
+    editorStatus.textContent = "Saving...";
+    try {
+      const result = await api(`/api/admin/projects/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(editorPayload())
+      });
+      selectedProject = result.project;
+      editorStatus.textContent = "Saved.";
+      await loadProjects();
+    } catch (error) {
+      editorStatus.textContent = error instanceof Error ? error.message : "Save failed.";
+    }
+  }
+
+  async function publishPr() {
+    if (!selectedProject || !(editorStatus instanceof HTMLElement)) return;
+    editorStatus.textContent = "Creating publish PR...";
+    try {
+      const result = await api(`/api/admin/projects/${selectedProject.id}/publish-pr`, { method: "POST" });
+      editorStatus.innerHTML = `Publish PR created: <a href="${result.prUrl}" target="_blank" rel="noreferrer">open PR</a>`;
+      await loadProjects();
+    } catch (error) {
+      editorStatus.textContent = error instanceof Error ? error.message : "Failed to create publish PR.";
+    }
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    })[char]);
+  }
+
+  document.querySelector("#refresh-submissions")?.addEventListener("click", loadSubmissions);
+  document.querySelector("#refresh-projects")?.addEventListener("click", loadProjects);
+  submissionsList?.addEventListener("click", (event) => {
+    const target = event.target;
+    if (target instanceof HTMLButtonElement && target.dataset.convert) convertSubmission(target.dataset.convert);
+  });
+  projectsList?.addEventListener("click", (event) => {
+    const target = event.target;
+    if (target instanceof HTMLButtonElement && target.dataset.edit) editProject(target.dataset.edit);
+  });
+  editor?.addEventListener("submit", saveProject);
+  publishButton?.addEventListener("click", publishPr);
+
+  loadSubmissions();
+  loadProjects();
+</script>
+
+<style>
+  .admin-hero,
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .admin-hero {
+    align-items: end;
+    display: grid;
+    gap: 24px;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    padding: 30px;
+  }
+
+  h1,
+  h2 {
+    margin: 0;
+  }
+
+  h1 {
+    font-size: clamp(2.8rem, 7vw, 5.4rem);
+    line-height: 0.92;
+    margin-top: 12px;
+  }
+
+  .admin-note {
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 8px;
+    padding: 16px;
+  }
+
+  .admin-note span {
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .admin-grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 22px 0;
+  }
+
+  .panel {
+    padding: 22px;
+  }
+
+  .panel-head {
+    align-items: center;
+    display: flex;
+    gap: 18px;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .list-state {
+    display: grid;
+    gap: 12px;
+  }
+
+  .admin-item {
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 14px;
+  }
+
+  .admin-item p {
+    margin: 6px 0;
+  }
+
+  .admin-item span {
+    color: var(--subtle);
+    font-size: 0.86rem;
+  }
+
+  .editor-panel {
+    margin-top: 22px;
+  }
+
+  .editor-form {
+    display: grid;
+    gap: 14px;
+  }
+
+  .field-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  label {
+    color: var(--muted);
+    display: grid;
+    font-weight: 650;
+    gap: 8px;
+  }
+
+  input,
+  select,
+  textarea {
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    font: inherit;
+    min-height: 42px;
+    padding: 10px 12px;
+  }
+
+  textarea {
+    min-height: 104px;
+    resize: vertical;
+  }
+
+  .checkbox-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .checkbox-row label {
+    align-items: center;
+    display: flex;
+  }
+
+  .error-text,
+  .form-status {
+    color: var(--red);
+    font-weight: 650;
+  }
+
+  @media (max-width: 920px) {
+    .admin-hero,
+    .admin-grid,
+    .field-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

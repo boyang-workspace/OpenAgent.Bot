@@ -4,9 +4,12 @@ pages_build_output_dir = "dist"
 
 [vars]
 PUBLIC_SITE_URL = "https://www.openagent.bot"
+# Set this in Cloudflare Pages production variables after Access is enabled.
+# ADMIN_EMAIL = "boyangxie.work@gmail.com"
+# GITHUB_REPO = "boyang-workspace/OpenAgent.Bot"
+# GITHUB_BASE_BRANCH = "main"
 
-# Future PRs will add Cloudflare bindings here:
-# [[d1_databases]]
-# binding = "DB"
-# database_name = "openagent_bot"
-# database_id = "replace-after-d1-create"
+[[d1_databases]]
+binding = "DB"
+database_name = "openagent_bot"
+database_id = "1c75275d-bb5a-45ec-9c32-fc10854f35a2"

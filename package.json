@@ -9,6 +9,8 @@
     "preview": "astro preview",
     "check": "astro check",
     "test": "vitest run",
+    "d1:migrations:local": "wrangler d1 migrations apply openagent_bot --local",
+    "d1:migrations:remote": "wrangler d1 migrations apply openagent_bot --remote",
     "discovery:daily": "tsx scripts/discovery/run-daily.ts"
   },
   "dependencies": {

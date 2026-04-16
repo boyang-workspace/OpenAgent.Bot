@@ -21,6 +21,7 @@ This repository started as an empty folder and was not a git repository. There w
 - File-based JSON content under `content/`
 - GitHub Actions discovery pipeline
 - Cloudflare Pages via `wrangler.toml`
+- Cloudflare D1 for submissions and admin drafts
 
 ## Local Development
 
@@ -52,6 +53,17 @@ npm run discovery:daily -- --dry-run
 
 See [docs/DISCOVERY.md](docs/DISCOVERY.md) for the daily GitHub/Hacker News discovery workflow.
 
+## Admin CMS
+
+Admin V1 uses Cloudflare Access for login, D1 for the working queue, and GitHub PRs for publishing.
+
+```bash
+npx wrangler d1 create openagent_bot
+npm run d1:migrations:remote
+```
+
+See [docs/ADMIN.md](docs/ADMIN.md) for the full setup.
+
 ## Cloudflare Pages
 
 Recommended Pages settings:
@@ -68,7 +80,7 @@ npx wrangler whoami
 npx wrangler pages deploy dist --project-name openagent-bot
 ```
 
-Future PRs will add D1 bindings, Turnstile secrets, and admin routes after the public static site and content schema are stable.
+Admin routes require the D1 binding and Cloudflare Access setup described in [docs/ADMIN.md](docs/ADMIN.md).
 
 ## Target Structure
 
@@ -88,13 +100,15 @@ content/
   topics/          daily topic candidates
 scripts/
   discovery/       collectors, scoring, enrichment, draft generation
+functions/
+  api/             Cloudflare Pages Functions for submit and admin CMS
+migrations/        Cloudflare D1 schema migrations
 ```
 
 Planned later:
 
 ```text
-admin/             lightweight CMS UI and handlers
-migrations/        Cloudflare D1 schema migrations
+admin polish       search, filters, Turnstile, and richer review states
 ```
 
 ## Phased PR Plan

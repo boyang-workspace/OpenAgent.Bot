@@ -1,37 +1,104 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import EditorialShell from "@/components/EditorialShell.astro";
+import { categories } from "@/config/site";
 ---
 
 <BaseLayout title="Submit" description="Submit an open-source AI project for future review." path="/submit">
-  <EditorialShell>
-  <section class="submit">
-    <div>
-      <span class="eyebrow">Submit</span>
-      <h1>Share an open AI project.</h1>
-      <p>
-        The first public build uses a static placeholder. The submission workflow will
-        move into the admin and review system after the content schema is stable.
-      </p>
-    </div>
-    <form>
-      <label>
-        Project name
-        <input name="name" placeholder="Project name" disabled />
-      </label>
-      <label>
-        Repository URL
-        <input name="repo" placeholder="https://github.com/..." disabled />
-      </label>
-      <label>
-        Summary
-        <textarea name="summary" placeholder="What should builders know?" disabled></textarea>
-      </label>
-      <button class="button" type="button" disabled>Submissions open soon</button>
-    </form>
-  </section>
+  <EditorialShell active="tools">
+    <section class="submit">
+      <div>
+        <span class="eyebrow">Submit</span>
+        <h1>Share an open AI project.</h1>
+        <p>
+          Send us a model, agent, skill, memory system, plugin, or tool. Submissions
+          go into the editorial review queue before anything is published.
+        </p>
+        <p class="note">
+          We review source links first. Clear repo, license, docs, and use case details
+          make approval faster.
+        </p>
+      </div>
+
+      <form id="submission-form">
+        <label class="hidden-field">
+          Website
+          <input name="website" autocomplete="off" tabindex="-1" />
+        </label>
+        <label>
+          Project name
+          <input name="projectName" placeholder="browser-use" required maxlength="120" />
+        </label>
+        <label>
+          Repository URL
+          <input name="repoUrl" type="url" placeholder="https://github.com/org/project" required />
+        </label>
+        <label>
+          Homepage URL
+          <input name="homepageUrl" type="url" placeholder="https://project.dev" />
+        </label>
+        <label>
+          Category
+          <select name="category" required>
+            {categories.map((category) => <option value={category.slug}>{category.label}</option>)}
+          </select>
+        </label>
+        <label>
+          Summary
+          <textarea name="summary" placeholder="What does it do, and who should care?" required maxlength="1200"></textarea>
+        </label>
+        <div class="submitter-grid">
+          <label>
+            Your name
+            <input name="submitterName" placeholder="Optional" maxlength="120" />
+          </label>
+          <label>
+            Your email
+            <input name="submitterEmail" type="email" placeholder="Optional" maxlength="160" />
+          </label>
+        </div>
+        <button class="button" type="submit">Submit for review</button>
+        <p id="submission-status" class="form-status" role="status"></p>
+      </form>
+    </section>
   </EditorialShell>
 </BaseLayout>
+
+<script is:inline>
+  const form = document.querySelector("#submission-form");
+  const status = document.querySelector("#submission-status");
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!(form instanceof HTMLFormElement) || !(status instanceof HTMLElement)) return;
+
+    const button = form.querySelector("button");
+    if (button instanceof HTMLButtonElement) button.disabled = true;
+    status.textContent = "Submitting...";
+    status.dataset.state = "loading";
+
+    const payload = Object.fromEntries(new FormData(form).entries());
+
+    try {
+      const response = await fetch("/api/submissions", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result.error ?? "Submission failed.");
+
+      form.reset();
+      status.textContent = "Submitted. We will review it from the admin queue.";
+      status.dataset.state = "success";
+    } catch (error) {
+      status.textContent = error instanceof Error ? error.message : "Submission failed.";
+      status.dataset.state = "error";
+    } finally {
+      if (button instanceof HTMLButtonElement) button.disabled = false;
+    }
+  });
+</script>
 
 <style>
   .submit {
@@ -46,9 +113,13 @@ import EditorialShell from "@/components/EditorialShell.astro";
 
   h1 {
     font-size: clamp(2.6rem, 6vw, 4.8rem);
-    letter-spacing: -0.06em;
     line-height: 0.94;
     margin: 12px 0 0;
+  }
+
+  .note {
+    color: var(--subtle);
+    font-size: 0.95rem;
   }
 
   form {
@@ -62,16 +133,17 @@ import EditorialShell from "@/components/EditorialShell.astro";
   label {
     color: var(--muted);
     display: grid;
-    font-weight: 700;
+    font-weight: 650;
     gap: 8px;
   }
 
   input,
+  select,
   textarea {
     background: var(--surface-soft);
     border: 1px solid var(--line);
     border-radius: 8px;
-    color: var(--muted);
+    color: var(--ink);
     font: inherit;
     min-height: 44px;
     padding: 10px 12px;
@@ -82,8 +154,41 @@ import EditorialShell from "@/components/EditorialShell.astro";
     resize: vertical;
   }
 
+  .submitter-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hidden-field {
+    height: 0;
+    left: -9999px;
+    overflow: hidden;
+    position: absolute;
+    width: 0;
+  }
+
+  .form-status {
+    font-weight: 650;
+    margin: 0;
+  }
+
+  .form-status[data-state="success"] {
+    color: var(--green);
+  }
+
+  .form-status[data-state="error"] {
+    color: var(--red);
+  }
+
+  button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+  }
+
   @media (max-width: 780px) {
-    .submit {
+    .submit,
+    .submitter-grid {
       grid-template-columns: 1fr;
     }
   }

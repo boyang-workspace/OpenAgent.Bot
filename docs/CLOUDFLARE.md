@@ -94,13 +94,27 @@ After DNS is set:
 4. Check Custom domains.
 5. Wait until `openagent.bot` and `www.openagent.bot` are marked active.
 
-## Future D1 Binding
+## Admin D1 Binding
 
-PR #3 should create the database and then update `wrangler.toml`:
+Create the database:
+
+```bash
+npx wrangler d1 create openagent_bot
+```
+
+Then update `wrangler.toml`:
 
 ```toml
 [[d1_databases]]
 binding = "DB"
 database_name = "openagent_bot"
-database_id = "replace-after-d1-create"
+database_id = "..."
 ```
+
+Apply migrations:
+
+```bash
+npm run d1:migrations:remote
+```
+
+See [docs/ADMIN.md](ADMIN.md) for the Access and GitHub token setup.

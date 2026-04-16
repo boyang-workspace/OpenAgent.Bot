@@ -34,7 +34,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
 
     const result = await publishNow(env, draft);
     const now = new Date().toISOString();
-    const status = draft.operation === "archive" ? "archived" : "published";
+    const status = draft.operation === "archive" || draft.operation === "delete" ? "archived" : "published";
     const publishStatus = result.deployed ? "succeeded" : "deploying";
     await env.DB.prepare(
       `UPDATE project_drafts
@@ -55,7 +55,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env, params }
         result.mergedAt,
         result.mergeCommitSha,
         result.deployed ? now : null,
-        draft.operation === "archive" ? now : null,
+        draft.operation === "archive" || draft.operation === "delete" ? now : null,
         now,
         id
       )

@@ -42,7 +42,9 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
   }
 
   function queueHint(project) {
-    if (project.status === "ready") return project.operation === "archive" ? "Ready to archive from the public site." : "Ready for preview and one-click publish.";
+    if (project.status === "ready" && project.operation === "archive") return "Ready to unpublish from the public site.";
+    if (project.status === "ready" && project.operation === "delete") return "Ready to delete the GitHub project file.";
+    if (project.status === "ready") return "Ready for preview and one-click publish.";
     if (project.status === "pr_created") return "PR created. You can still open it manually.";
     if (project.publishStatus === "deploying") return "Merged. Waiting for Cloudflare to serve the latest page.";
     if (project.status === "published") return "Published.";

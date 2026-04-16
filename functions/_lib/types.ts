@@ -26,7 +26,7 @@ export type PublishNowResult = PublishPrResult & {
 
 export type SubmissionStatus = "new" | "reviewing" | "converted" | "rejected" | "duplicate";
 export type DraftStatus = "draft" | "ready" | "pr_created" | "published" | "archived";
-export type DraftOperation = "create" | "update" | "archive";
+export type DraftOperation = "create" | "update" | "archive" | "delete";
 export type PublishStatus = "pending" | "running" | "merged" | "deploying" | "succeeded" | "failed";
 export type AdminActor = "human" | "codex" | "automation";
 

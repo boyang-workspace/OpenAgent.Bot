@@ -170,9 +170,25 @@ async function writeProjectFile(env: Env, draft: ProjectDraft, branch: string): 
 }
 
 function operationLabel(operation: ProjectDraft["operation"]): string {
+  if (operation === "delete") return "Delete";
   if (operation === "archive") return "Archive";
   if (operation === "update") return "Update";
   return "Publish";
+}
+
+async function deleteProjectFile(env: Env, draft: ProjectDraft, branch: string): Promise<GitHubContentResponse> {
+  const repo = repoName(env);
+  const preview = publishPreview(draft);
+  const existingSha = await getFileSha(env, preview.filePath, branch);
+
+  return github<GitHubContentResponse>(env, `/repos/${repo}/contents/${preview.filePath}`, {
+    method: "DELETE",
+    body: JSON.stringify({
+      message: `Delete ${draft.title} profile`,
+      sha: existingSha,
+      branch
+    })
+  });
 }
 
 export async function listPublishedProjects(env: Env): Promise<PublishedProject[]> {
@@ -221,7 +237,7 @@ export async function publishNow(env: Env, draft: ProjectDraft): Promise<Publish
     })
   });
 
-  const write = await writeProjectFile(env, draft, branch);
+  const write = draft.operation === "delete" ? await deleteProjectFile(env, draft, branch) : await writeProjectFile(env, draft, branch);
   const pr = await github<GitHubPr>(env, `/repos/${repo}/pulls`, {
     method: "POST",
     body: JSON.stringify({
@@ -268,7 +284,7 @@ export async function isLive(env: Env, draft: ProjectDraft): Promise<boolean> {
   const url = `${env.PUBLIC_SITE_URL ?? "https://www.openagent.bot"}/${draft.category}/${draft.slug}?admin_check=${Date.now()}`;
   for (let attempt = 0; attempt < 3; attempt += 1) {
     const response = await fetch(url, { headers: { "cache-control": "no-cache" } }).catch(() => undefined);
-    if (draft.operation === "archive") {
+    if (draft.operation === "archive" || draft.operation === "delete") {
       if (response?.status === 404) return true;
     } else if (response?.ok) {
       const text = await response.text().catch(() => "");

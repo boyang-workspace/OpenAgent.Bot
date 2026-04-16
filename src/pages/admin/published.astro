@@ -12,13 +12,13 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
         </div>
         <button class="button secondary" id="refresh-published" type="button">Refresh</button>
       </div>
-      <p class="admin-note">Editing a live project creates an update draft. Archiving creates a ready archive draft. Neither changes the public site until you publish from Publishing.</p>
+      <p class="admin-note">Editing a live project creates an update draft. Unpublish removes it from public pages after Publishing. Delete removes the GitHub JSON file through the same reviewable workflow.</p>
       <div class="admin-list" id="published-list">Loading published projects...</div>
     </div>
 
     <div class="admin-panel">
       <span class="eyebrow">Workflow</span>
-      <h2>Edit or archive</h2>
+      <h2>Edit, unpublish, or delete</h2>
       <p class="admin-note">For V1, published project slug and category are locked during edits. If a URL needs to change, we should add redirects first.</p>
       <pre class="admin-preview" id="published-preview">Select a project to preview the current JSON.</pre>
       <p id="published-status" class="form-status" role="status"></p>
@@ -66,7 +66,8 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
           <div class="admin-actions">
             <button class="button secondary" data-preview="${escapeHtml(project.slug)}" type="button">Preview</button>
             <button class="button" data-edit="${escapeHtml(project.slug)}" type="button">Edit</button>
-            <button class="button secondary" data-archive="${escapeHtml(project.slug)}" type="button">Archive</button>
+            <button class="button secondary" data-unpublish="${escapeHtml(project.slug)}" type="button">Unpublish</button>
+            <button class="button secondary danger" data-delete="${escapeHtml(project.slug)}" type="button">Delete</button>
             <a class="button secondary" href="${escapeHtml(project.liveUrl)}" target="_blank" rel="noreferrer">View live</a>
             <a class="button secondary" href="/${escapeHtml(project.category)}/${escapeHtml(project.slug)}.json" target="_blank" rel="noreferrer">View JSON</a>
           </div>
@@ -90,15 +91,27 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
     }
   }
 
-  async function createArchiveDraft(slug) {
-    if (!confirm("Archive this project? It will be removed from the public site after you publish the archive draft, but GitHub keeps the history.")) return;
-    setStatus("Creating archive draft...");
+  async function createUnpublishDraft(slug) {
+    if (!confirm("Unpublish this project? It will move back into the Publishing queue and be removed from the public site after you publish the unpublish draft.")) return;
+    setStatus("Creating unpublish draft...");
     try {
       const result = await api(`/admin/api/published/projects/${slug}/archive`, { method: "POST", body: JSON.stringify({ idempotencyKey: `archive-published:${slug}` }) });
-      setStatus("Archive draft created. Opening Publishing...", "success");
+      setStatus("Unpublish draft created. Opening Publishing...", "success");
       location.href = `/admin/publishing/?id=${result.project.id}`;
     } catch (error) {
-      setStatus(error instanceof Error ? error.message : "Failed to create archive draft.", "error");
+      setStatus(error instanceof Error ? error.message : "Failed to create unpublish draft.", "error");
+    }
+  }
+
+  async function createDeleteDraft(slug) {
+    if (!confirm("Delete this project file? This removes the GitHub JSON file after Publishing. GitHub history can recover it, but this is more destructive than Unpublish.")) return;
+    setStatus("Creating delete draft...");
+    try {
+      const result = await api(`/admin/api/published/projects/${slug}/delete`, { method: "POST", body: JSON.stringify({ idempotencyKey: `delete-published:${slug}` }) });
+      setStatus("Delete draft created. Opening Publishing...", "success");
+      location.href = `/admin/publishing/?id=${result.project.id}`;
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Failed to create delete draft.", "error");
     }
   }
 
@@ -112,7 +125,8 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
       if (project) previewProject(project);
     }
     if (target.dataset.edit) createUpdateDraft(target.dataset.edit);
-    if (target.dataset.archive) createArchiveDraft(target.dataset.archive);
+    if (target.dataset.unpublish) createUnpublishDraft(target.dataset.unpublish);
+    if (target.dataset.delete) createDeleteDraft(target.dataset.delete);
   });
   loadPublished();
 </script>

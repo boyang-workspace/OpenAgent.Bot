@@ -150,7 +150,7 @@ import { categories } from "@/config/site";
     if (!(submissionsList instanceof HTMLElement)) return;
     submissionsList.textContent = "Loading submissions...";
     try {
-      const result = await api("/api/admin/submissions");
+      const result = await api("/admin/api/submissions");
       const submissions = result.submissions ?? [];
       submissionsList.innerHTML = submissions.length ? submissions.map((item) => `
         <article class="admin-item">
@@ -171,7 +171,7 @@ import { categories } from "@/config/site";
     if (!(projectsList instanceof HTMLElement)) return;
     projectsList.textContent = "Loading project drafts...";
     try {
-      const result = await api("/api/admin/projects");
+      const result = await api("/admin/api/projects");
       const projects = result.projects ?? [];
       projectsList.innerHTML = projects.length ? projects.map((item) => `
         <article class="admin-item">
@@ -189,12 +189,12 @@ import { categories } from "@/config/site";
   }
 
   async function convertSubmission(id) {
-    await api(`/api/admin/submissions/${id}/convert`, { method: "POST" });
+    await api(`/admin/api/submissions/${id}/convert`, { method: "POST" });
     await Promise.all([loadSubmissions(), loadProjects()]);
   }
 
   async function editProject(id) {
-    const result = await api(`/api/admin/projects/${id}`);
+    const result = await api(`/admin/api/projects/${id}`);
     selectedProject = result.project;
     const content = selectedProject.content;
     if (!(editor instanceof HTMLFormElement) || !(editorTitle instanceof HTMLElement) || !(publishButton instanceof HTMLButtonElement)) return;
@@ -248,7 +248,7 @@ import { categories } from "@/config/site";
     if (!id) return;
     editorStatus.textContent = "Saving...";
     try {
-      const result = await api(`/api/admin/projects/${id}`, {
+      const result = await api(`/admin/api/projects/${id}`, {
         method: "PUT",
         body: JSON.stringify(editorPayload())
       });
@@ -264,7 +264,7 @@ import { categories } from "@/config/site";
     if (!selectedProject || !(editorStatus instanceof HTMLElement)) return;
     editorStatus.textContent = "Creating publish PR...";
     try {
-      const result = await api(`/api/admin/projects/${selectedProject.id}/publish-pr`, { method: "POST" });
+      const result = await api(`/admin/api/projects/${selectedProject.id}/publish-pr`, { method: "POST" });
       editorStatus.innerHTML = `Publish PR created: <a href="${result.prUrl}" target="_blank" rel="noreferrer">open PR</a>`;
       await loadProjects();
     } catch (error) {

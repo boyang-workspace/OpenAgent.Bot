@@ -106,3 +106,4 @@ GITHUB_BASE_BRANCH=main
 - D1 is not the public content source of truth.
 - Drafts are intentionally structured fields, not freeform rich text.
 - Turnstile is not required for V1. The form includes a honeypot field and a basic per-email hourly limit.
+- The admin UI calls APIs under `/admin/api/*` so the page and API share the same Cloudflare Access session.

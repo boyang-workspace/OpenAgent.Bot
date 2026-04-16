@@ -3,7 +3,7 @@ const year = new Date().getFullYear();
 ---
 
 <footer>
-  <div class="shell footer-grid">
+  <div class="footer-grid">
     <div>
       <strong>OpenAgent.bot</strong>
       <p>Open-source AI resources, curated for humans and structured for agents.</p>
@@ -15,37 +15,51 @@ const year = new Date().getFullYear();
       <a href="/sitemap.xml">Sitemap</a>
     </div>
   </div>
-  <div class="shell small">© {year} OpenAgent.bot. Built for the open AI stack.</div>
+  <div class="small">© {year} OpenAgent.bot. Built for the open AI stack.</div>
 </footer>
 
 <style>
   footer {
     border-top: 1px solid var(--line);
-    margin-top: 40px;
-    padding: 38px 0 28px;
+    margin: 56px 0 0;
+    padding: 22px 0 0;
   }
 
   .footer-grid {
     display: grid;
-    gap: 24px;
+    gap: 18px;
     grid-template-columns: 1fr auto;
+  }
+
+  strong {
+    font-size: 0.86rem;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    margin: 6px 0 0;
+    max-width: 420px;
   }
 
   .footer-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
+    gap: 12px;
   }
 
   .footer-links a {
     color: var(--muted);
-    font-weight: 650;
+    font-size: 0.78rem;
+    font-weight: 500;
   }
 
   .small {
     color: var(--muted);
-    font-size: 0.86rem;
-    margin-top: 24px;
+    font-size: 0.74rem;
+    font-weight: 400;
+    margin-top: 16px;
   }
 
   @media (max-width: 720px) {

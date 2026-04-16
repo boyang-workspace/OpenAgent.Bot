@@ -1,5 +1,7 @@
 ---
 import { categories } from "@/config/site";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
 
 type Props = {
   eyebrow?: string;
@@ -31,6 +33,10 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
 <div class="editorial-shell">
   <aside class="editorial-sidebar" aria-label="OpenAgent.bot sections">
     <div class="sidebar-card">
+      <a class="sidebar-brand" href="/" aria-label="OpenAgent.bot home">
+        <span class="brand-mark">OA</span>
+        <strong>OpenAgent.bot</strong>
+      </a>
       <nav>
         <div class="nav-group">
           {discoveryLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href}>{item.label}</a>)}
@@ -45,46 +51,78 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
     </div>
   </aside>
 
-  <div class="mobile-rail" aria-label="OpenAgent.bot sections">
-    {sectionLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href}>{item.label}</a>)}
-  </div>
-
   <div class="editorial-main">
-    {
-      title && (
-        <header class="editorial-head">
-          {eyebrow && <span class="eyebrow">{eyebrow}</span>}
-          <h1>{title}</h1>
-          {description && <p>{description}</p>}
-        </header>
-      )
-    }
-    <slot />
+    <Header />
+    <div class="mobile-rail" aria-label="OpenAgent.bot sections">
+      {sectionLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href}>{item.label}</a>)}
+    </div>
+    <div class="editorial-content">
+      {
+        title && (
+          <header class="editorial-head">
+            {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+            <h1>{title}</h1>
+            {description && <p>{description}</p>}
+          </header>
+        )
+      }
+      <slot />
+      <Footer />
+    </div>
   </div>
 </div>
 
 <style>
   .editorial-shell {
     display: grid;
-    gap: 26px;
-    grid-template-columns: var(--sidebar) minmax(0, 1fr);
-    margin: 0 auto;
-    max-width: var(--page-max);
-    padding: 26px 24px 64px;
+    grid-template-columns: 248px minmax(0, 1fr);
+    min-height: 100vh;
   }
 
   .editorial-sidebar {
-    position: relative;
+    background: color-mix(in srgb, var(--paper) 92%, white);
+    border-right: 1px solid var(--line);
+    height: 100vh;
+    left: 0;
+    overflow-y: auto;
+    padding: 24px 20px;
+    position: sticky;
+    top: 0;
   }
 
   .sidebar-card {
-    position: sticky;
-    top: 92px;
+    display: grid;
+    gap: 28px;
+  }
+
+  .sidebar-brand {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    min-height: 36px;
+  }
+
+  .sidebar-brand strong {
+    font-size: 1rem;
+    font-weight: 650;
+  }
+
+  .brand-mark {
+    align-items: center;
+    background: var(--ink);
+    border-radius: 8px;
+    color: var(--paper);
+    display: inline-flex;
+    font-size: 0.78rem;
+    font-weight: 700;
+    height: 32px;
+    justify-content: center;
+    width: 32px;
   }
 
   nav {
     display: grid;
-    gap: 16px;
+    gap: 15px;
   }
 
   .nav-group {
@@ -108,7 +146,7 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
 
   nav a {
     font-size: 0.93rem;
-    padding: 8px 11px;
+    padding: 8px 10px;
   }
 
   .utility-group {
@@ -142,8 +180,14 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
     overflow: hidden;
   }
 
+  .editorial-content {
+    margin: 0 auto;
+    max-width: 1160px;
+    padding: 28px 28px 64px;
+  }
+
   .editorial-head {
-    padding: 18px 0 28px;
+    padding: 0 0 28px;
   }
 
   .editorial-head h1 {
@@ -163,7 +207,6 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
   @media (max-width: 920px) {
     .editorial-shell {
       display: block;
-      padding: 18px 0 48px;
     }
 
     .editorial-sidebar {
@@ -171,11 +214,16 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
     }
 
     .mobile-rail {
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
       display: flex;
       gap: 8px;
       margin: 0 0 18px;
       overflow-x: auto;
-      padding: 0 18px 8px;
+      padding: 14px 18px 10px;
+      position: sticky;
+      top: 60px;
+      z-index: 11;
       scrollbar-width: none;
     }
 
@@ -188,11 +236,19 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
     }
 
     .editorial-main {
-      padding: 0 16px;
+      padding: 0;
     }
 
     .editorial-head h1 {
       font-size: 3rem;
+    }
+
+    .editorial-head {
+      padding-bottom: 22px;
+    }
+
+    .editorial-content {
+      padding: 18px 16px 48px;
     }
   }
 

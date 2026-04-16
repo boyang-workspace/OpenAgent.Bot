@@ -1,0 +1,118 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Published" active="published">
+  <section class="admin-grid">
+    <div class="admin-panel">
+      <div class="admin-actions" style="justify-content: space-between; margin-bottom: 16px;">
+        <div>
+          <span class="eyebrow">Live content</span>
+          <h2>Published projects</h2>
+        </div>
+        <button class="button secondary" id="refresh-published" type="button">Refresh</button>
+      </div>
+      <p class="admin-note">Editing a live project creates an update draft. Archiving creates a ready archive draft. Neither changes the public site until you publish from Publishing.</p>
+      <div class="admin-list" id="published-list">Loading published projects...</div>
+    </div>
+
+    <div class="admin-panel">
+      <span class="eyebrow">Workflow</span>
+      <h2>Edit or archive</h2>
+      <p class="admin-note">For V1, published project slug and category are locked during edits. If a URL needs to change, we should add redirects first.</p>
+      <pre class="admin-preview" id="published-preview">Select a project to preview the current JSON.</pre>
+      <p id="published-status" class="form-status" role="status"></p>
+    </div>
+  </section>
+</AdminLayout>
+
+<script is:inline>
+  const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
+
+  async function api(path, options = {}) {
+    const response = await fetch(path, { ...options, headers: { "content-type": "application/json", ...(options.headers ?? {}) } });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.error ?? "Request failed.");
+    return result;
+  }
+
+  function setStatus(message, state = "") {
+    const status = document.querySelector("#published-status");
+    if (status instanceof HTMLElement) {
+      status.textContent = message;
+      status.dataset.state = state;
+    }
+  }
+
+  function previewProject(project) {
+    const preview = document.querySelector("#published-preview");
+    if (preview instanceof HTMLElement) preview.textContent = JSON.stringify(project, null, 2);
+  }
+
+  async function loadPublished() {
+    const list = document.querySelector("#published-list");
+    if (!(list instanceof HTMLElement)) return;
+    list.textContent = "Loading published projects...";
+    try {
+      const result = await api("/admin/api/published/projects");
+      const projects = result.projects ?? [];
+      list.innerHTML = projects.length ? projects.map((project) => `
+        <article class="admin-item">
+          <div>
+            <strong>${escapeHtml(project.title)}</strong>
+            <p>${escapeHtml(project.oneLiner)}</p>
+            <small>${escapeHtml(project.category)} · ${escapeHtml(project.slug)} · ${escapeHtml(project.updatedAt)}</small>
+          </div>
+          <div class="admin-actions">
+            <button class="button secondary" data-preview="${escapeHtml(project.slug)}" type="button">Preview</button>
+            <button class="button" data-edit="${escapeHtml(project.slug)}" type="button">Edit</button>
+            <button class="button secondary" data-archive="${escapeHtml(project.slug)}" type="button">Archive</button>
+            <a class="button secondary" href="${escapeHtml(project.liveUrl)}" target="_blank" rel="noreferrer">View live</a>
+            <a class="button secondary" href="/${escapeHtml(project.category)}/${escapeHtml(project.slug)}.json" target="_blank" rel="noreferrer">View JSON</a>
+          </div>
+        </article>
+      `).join("") : "<p>No published projects found.</p>";
+      window.__publishedProjects = projects;
+      if (projects[0]) previewProject(projects[0]);
+    } catch (error) {
+      list.innerHTML = `<p class="error-text">${error instanceof Error ? error.message : "Failed to load published projects."}</p>`;
+    }
+  }
+
+  async function createUpdateDraft(slug) {
+    setStatus("Creating update draft...");
+    try {
+      const result = await api(`/admin/api/published/projects/${slug}/edit`, { method: "POST", body: JSON.stringify({ idempotencyKey: `edit-published:${slug}` }) });
+      setStatus("Update draft created. Opening editor...", "success");
+      location.href = `/admin/projects/?id=${result.project.id}`;
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Failed to create update draft.", "error");
+    }
+  }
+
+  async function createArchiveDraft(slug) {
+    if (!confirm("Archive this project? It will be removed from the public site after you publish the archive draft, but GitHub keeps the history.")) return;
+    setStatus("Creating archive draft...");
+    try {
+      const result = await api(`/admin/api/published/projects/${slug}/archive`, { method: "POST", body: JSON.stringify({ idempotencyKey: `archive-published:${slug}` }) });
+      setStatus("Archive draft created. Opening Publishing...", "success");
+      location.href = `/admin/publishing/?id=${result.project.id}`;
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : "Failed to create archive draft.", "error");
+    }
+  }
+
+  document.querySelector("#refresh-published")?.addEventListener("click", loadPublished);
+  document.querySelector("#published-list")?.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLButtonElement)) return;
+    const projects = window.__publishedProjects ?? [];
+    if (target.dataset.preview) {
+      const project = projects.find((item) => item.slug === target.dataset.preview);
+      if (project) previewProject(project);
+    }
+    if (target.dataset.edit) createUpdateDraft(target.dataset.edit);
+    if (target.dataset.archive) createArchiveDraft(target.dataset.archive);
+  });
+  loadPublished();
+</script>

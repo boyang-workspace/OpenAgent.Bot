@@ -12,18 +12,18 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
         </div>
         <button class="button secondary" id="refresh-publishing" type="button">Refresh</button>
       </div>
-      <p class="admin-note">Creating a PR does not publish the project. The page becomes public only after the GitHub PR is merged and Cloudflare deploys the site.</p>
+      <p class="admin-note">Publish now creates a GitHub PR, merges it, and then checks the live URL. GitHub remains the source of truth, but you do not need to leave admin for routine publishing.</p>
       <div class="admin-list" id="publishing-list">Loading publishing queue...</div>
     </div>
 
     <div class="admin-panel">
       <span class="eyebrow">Preview</span>
       <h2 id="preview-title">Select a ready draft</h2>
-      <p class="admin-note">Dry-run first. This shows the exact file path and JSON that will be proposed in GitHub.</p>
+      <p class="admin-note">Preview first. This shows the exact file path and JSON before Publish now creates and merges a GitHub PR.</p>
       <pre class="admin-preview" id="publish-preview">No preview yet.</pre>
       <div class="admin-actions" style="margin-top: 14px;">
-        <button class="button secondary" id="dry-run-pr" type="button" disabled>Preview PR</button>
-        <button class="button" id="create-pr" type="button" disabled>Create publish PR</button>
+        <button class="button secondary" id="dry-run-pr" type="button" disabled>Preview</button>
+        <button class="button" id="publish-now" type="button" disabled>Publish now</button>
       </div>
       <p id="publishing-status" class="form-status" role="status"></p>
     </div>
@@ -42,9 +42,11 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
   }
 
   function queueHint(project) {
-    if (project.status === "ready") return "Ready for dry-run and publish PR.";
-    if (project.status === "pr_created") return "PR created. Waiting for GitHub merge.";
+    if (project.status === "ready") return project.operation === "archive" ? "Ready to archive from the public site." : "Ready for preview and one-click publish.";
+    if (project.status === "pr_created") return "PR created. You can still open it manually.";
+    if (project.publishStatus === "deploying") return "Merged. Waiting for Cloudflare to serve the latest page.";
     if (project.status === "published") return "Published.";
+    if (project.status === "archived") return "Archived.";
     return "Still draft. Complete the profile before publishing.";
   }
 
@@ -71,18 +73,19 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
     list.textContent = "Loading publishing queue...";
     try {
       const result = await api("/admin/api/projects");
-      const projects = (result.projects ?? []).filter((item) => ["ready", "pr_created", "published"].includes(item.status) || item.publishStatus === "failed");
+      const projects = (result.projects ?? []).filter((item) => ["ready", "pr_created", "published", "archived"].includes(item.status) || ["failed", "deploying", "succeeded"].includes(item.publishStatus));
       list.innerHTML = projects.length ? projects.map((item) => `
         <article class="admin-item">
           <div>
             <strong>${escapeHtml(item.title)}</strong>
             <p>${escapeHtml(queueHint(item))}</p>
-            <small>${escapeHtml(item.category)} · ${escapeHtml(item.status)}${item.publishStatus ? ` · ${escapeHtml(item.publishStatus)}` : ""}</small>
+            <small>${escapeHtml(item.category)} · ${escapeHtml(item.operation ?? "create")} · ${escapeHtml(item.status)}${item.publishStatus ? ` · ${escapeHtml(item.publishStatus)}` : ""}</small>
             ${item.lastError ? `<p class="error-text">${escapeHtml(item.lastError)}</p>` : ""}
           </div>
           <div class="admin-actions">
             <button class="button secondary" data-select="${item.id}" type="button">Select</button>
-            ${item.status === "ready" ? `<button class="button" data-preview="${item.id}" type="button">Preview PR</button>` : ""}
+            ${item.status === "ready" ? `<button class="button secondary" data-preview="${item.id}" type="button">Preview</button><button class="button" data-publish="${item.id}" type="button">Publish now</button>` : ""}
+            ${item.publishStatus === "deploying" ? `<button class="button secondary" data-sync="${item.id}" type="button">Check live</button>` : ""}
             ${item.prUrl ? `<a class="button secondary" href="${item.prUrl}" target="_blank" rel="noreferrer">Open PR</a>` : ""}
             ${item.liveUrl ? `<a class="button secondary" href="${item.liveUrl}" target="_blank" rel="noreferrer">Live URL</a>` : ""}
           </div>
@@ -103,7 +106,7 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
     status.textContent = "Generating dry-run preview...";
     status.dataset.state = "";
     try {
-      const result = await api(`/admin/api/projects/${id}/publish-pr?dryRun=true`, { method: "POST", body: JSON.stringify({ dryRun: true }) });
+      const result = await api(`/admin/api/projects/${id}/publish-now?dryRun=true`, { method: "POST", body: JSON.stringify({ dryRun: true }) });
       previewEl.textContent = JSON.stringify(result.preview, null, 2);
       status.textContent = "Preview ready. No GitHub branch or PR was created.";
       status.dataset.state = "success";
@@ -114,21 +117,39 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
     }
   }
 
-  async function createPr() {
+  async function publishNow() {
     const status = document.querySelector("#publishing-status");
     if (!selectedDraft || !(status instanceof HTMLElement)) return;
-    status.textContent = "Creating GitHub PR...";
+    status.textContent = "Creating and merging GitHub PR...";
     status.dataset.state = "";
     try {
-      const result = await api(`/admin/api/projects/${selectedDraft.id}/publish-pr`, {
+      const result = await api(`/admin/api/projects/${selectedDraft.id}/publish-now`, {
         method: "POST",
-        body: JSON.stringify({ idempotencyKey: `publish-pr:${selectedDraft.id}` })
+        body: JSON.stringify({ idempotencyKey: `publish-now:${selectedDraft.id}` })
       });
-      status.innerHTML = `PR created: <a href="${escapeHtml(result.prUrl)}" target="_blank" rel="noreferrer">${escapeHtml(result.prUrl)}</a>`;
+      status.innerHTML = result.deployed
+        ? `Published and live: <a href="${escapeHtml(result.liveUrl)}" target="_blank" rel="noreferrer">${escapeHtml(result.liveUrl)}</a>`
+        : `PR merged. Cloudflare is still deploying: <a href="${escapeHtml(result.url)}" target="_blank" rel="noreferrer">Open PR</a>`;
       status.dataset.state = "success";
       await loadPublishing();
     } catch (error) {
       status.textContent = error instanceof Error ? error.message : "Create PR failed.";
+      status.dataset.state = "error";
+    }
+  }
+
+  async function syncPublish(id) {
+    const status = document.querySelector("#publishing-status");
+    if (!(status instanceof HTMLElement)) return;
+    status.textContent = "Checking live URL...";
+    status.dataset.state = "";
+    try {
+      const result = await api(`/admin/api/projects/${id}/sync-publish-status`, { method: "POST", body: "{}" });
+      status.textContent = result.deployed ? "Live URL is updated." : "Still deploying. Try again in a minute.";
+      status.dataset.state = result.deployed ? "success" : "";
+      await loadPublishing();
+    } catch (error) {
+      status.textContent = error instanceof Error ? error.message : "Sync failed.";
       status.dataset.state = "error";
     }
   }
@@ -143,8 +164,15 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
       if (project) selectDraft(project);
     }
     if (target.dataset.preview) await previewPr(target.dataset.preview);
+    if (target.dataset.publish) {
+      const result = await api("/admin/api/projects");
+      const project = (result.projects ?? []).find((item) => item.id === target.dataset.publish);
+      if (project) selectDraft(project);
+      await publishNow();
+    }
+    if (target.dataset.sync) await syncPublish(target.dataset.sync);
   });
   document.querySelector("#dry-run-pr")?.addEventListener("click", () => selectedDraft && previewPr(selectedDraft.id));
-  document.querySelector("#create-pr")?.addEventListener("click", createPr);
+  document.querySelector("#publish-now")?.addEventListener("click", publishNow);
   loadPublishing();
 </script>

@@ -4,13 +4,14 @@ import "@/styles/global.css";
 type Props = {
   title: string;
   description?: string;
-  active: "overview" | "review" | "projects" | "publishing" | "pages" | "blog" | "settings";
+  active: "overview" | "review" | "projects" | "published" | "publishing" | "pages" | "blog" | "settings";
 };
 
 const nav = [
   { id: "overview", label: "Overview", href: "/admin/" },
   { id: "review", label: "Review Inbox", href: "/admin/review/" },
   { id: "projects", label: "Project Drafts", href: "/admin/projects/" },
+  { id: "published", label: "Published", href: "/admin/published/" },
   { id: "publishing", label: "Publishing", href: "/admin/publishing/" },
   { id: "pages", label: "Pages", href: "/admin/pages/" },
   { id: "blog", label: "Blog", href: "/admin/blog/" },

@@ -24,7 +24,7 @@ import { categories } from "@/config/site";
         </div>
         <a class="button secondary" id="preview-link" href="#" hidden>Preview URL</a>
       </div>
-      <p class="admin-note">Drafts are not public. Mark ready, then create a GitHub PR from Publishing.</p>
+      <p class="admin-note">Drafts are not public. Create drafts publish new projects, update drafts edit live projects, and archive drafts remove live projects after one-click publish.</p>
       <form id="project-editor" class="admin-form" hidden>
         <input name="id" type="hidden" />
         <div class="field-grid">
@@ -121,11 +121,11 @@ import { categories } from "@/config/site";
           <div>
             <strong>${escapeHtml(item.title)}</strong>
             <p>${escapeHtml(item.content.oneLiner ?? "")}</p>
-            <small>${escapeHtml(item.category)} · ${escapeHtml(item.status)} · ${escapeHtml(statusHint(item))}</small>
+            <small>${escapeHtml(item.category)} · ${escapeHtml(item.operation ?? "create")} · ${escapeHtml(item.status)} · ${escapeHtml(statusHint(item))}</small>
           </div>
           <div class="admin-actions">
             <button class="button secondary" data-edit="${item.id}" type="button">Edit</button>
-            ${item.status === "ready" ? `<a class="button" href="/admin/publishing/?id=${item.id}">Create PR</a>` : ""}
+            ${item.status === "ready" ? `<a class="button" href="/admin/publishing/?id=${item.id}">Publish</a>` : ""}
             ${item.prUrl ? `<a class="button secondary" href="${item.prUrl}" target="_blank" rel="noreferrer">Open PR</a>` : ""}
           </div>
         </article>
@@ -164,6 +164,10 @@ import { categories } from "@/config/site";
       if (field instanceof HTMLInputElement && field.type === "checkbox") field.checked = Boolean(value);
       else if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) field.value = value ?? "";
     }
+    const slugField = editor.elements.namedItem("slug");
+    if (slugField instanceof HTMLInputElement) slugField.readOnly = selectedProject.operation === "update";
+    const statusField = editor.elements.namedItem("status");
+    if (statusField instanceof HTMLSelectElement) statusField.disabled = selectedProject.operation === "archive";
   }
 
   function editorPayload() {

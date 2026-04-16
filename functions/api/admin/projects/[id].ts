@@ -29,6 +29,14 @@ export const onRequestPut: PagesFunction<Env> = async ({ request, env, params })
     const status = input.status === "ready" ? "ready" : "draft";
     const now = new Date().toISOString();
 
+    if (existing.operation === "archive") {
+      return error("Archive drafts cannot be edited. Publish the archive operation or recreate it from Published.", 400);
+    }
+
+    if (existing.operation === "update" && (content.slug !== existing.sourceSlug || content.category !== existing.category)) {
+      return error("Published project updates cannot change slug or category in V1.", 400);
+    }
+
     if (dryRun) {
       return json({ ok: true, dryRun: true, project: { ...existing, slug: content.slug, title: content.title, category: content.category, status, content } });
     }

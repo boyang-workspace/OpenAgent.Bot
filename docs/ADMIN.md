@@ -7,7 +7,7 @@ OpenAgent.bot admin uses Cloudflare Access, Cloudflare D1, and GitHub pull reque
 - Public site source of truth: `content/projects/published/*.json`
 - Admin working queue: Cloudflare D1
 - Login protection: Cloudflare Access
-- Publishing: admin creates a GitHub PR, then merging the PR publishes the static page
+- Publishing: admin can create a review PR or one-click create and merge a GitHub PR
 - Agent workspace: JSON APIs under `/admin/api/agent/*`
 
 ## Create D1
@@ -98,9 +98,18 @@ GITHUB_BASE_BRANCH=main
 4. Convert the submission into a project draft.
 5. Open `/admin/projects` and edit structured fields and SEO fields.
 6. Mark the draft `ready`.
-7. Open `/admin/publishing`, run a PR preview, then create the GitHub PR.
-8. Review and merge the GitHub PR.
+7. Open `/admin/publishing`, run a preview, then click `Publish now`.
+8. Admin creates and merges the GitHub PR.
 9. Cloudflare Pages deploys the new static page.
+
+## Published Content
+
+Published projects are managed from `/admin/published`.
+
+- `Edit` copies the current GitHub JSON into a D1 update draft.
+- `Archive` creates a ready archive draft that changes the JSON status to `archived`.
+- Editing live projects does not change slug or category in V1.
+- Archiving removes the project from public routes after the GitHub PR is merged and deployed, while preserving GitHub history.
 
 ## Agent APIs
 
@@ -117,7 +126,7 @@ Agent-safe mutation rules:
 
 - `dryRun: true` previews the operation without mutating public content.
 - `idempotencyKey` prevents repeated Convert or Publish PR operations from duplicating work.
-- Publish PR creation first supports preview output, then writes a GitHub branch and PR.
+- Publish now first supports preview output, then writes a GitHub branch, opens a PR, merges it, and records live status.
 - `admin_events` records actions, actor, before/after JSON, result, and errors.
 
 ## Notes

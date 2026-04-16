@@ -1,4 +1,15 @@
-import type { AdminActor, AdminEvent, DraftStatus, Env, ProjectDraft, ProjectDraftContent, PublishStatus, Submission, SubmissionStatus } from "./types";
+import type {
+  AdminActor,
+  AdminEvent,
+  DraftOperation,
+  DraftStatus,
+  Env,
+  ProjectDraft,
+  ProjectDraftContent,
+  PublishStatus,
+  Submission,
+  SubmissionStatus
+} from "./types";
 
 type SubmissionRow = {
   id: string;
@@ -23,7 +34,10 @@ type DraftRow = {
   title: string;
   category: ProjectDraft["category"];
   status: DraftStatus;
+  operation?: DraftOperation | null;
   content_json: string;
+  source_file_path?: string | null;
+  source_slug?: string | null;
   pr_url: string | null;
   pr_number: number | null;
   pr_branch?: string | null;
@@ -32,6 +46,10 @@ type DraftRow = {
   live_url?: string | null;
   last_publish_preview_json?: string | null;
   last_error?: string | null;
+  merged_at?: string | null;
+  merge_commit_sha?: string | null;
+  deployed_at?: string | null;
+  archived_at?: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -76,7 +94,10 @@ export function mapDraft(row: DraftRow): ProjectDraft {
     title: row.title,
     category: row.category,
     status: row.status,
+    operation: row.operation ?? "create",
     content: JSON.parse(row.content_json) as ProjectDraftContent,
+    sourceFilePath: row.source_file_path ?? undefined,
+    sourceSlug: row.source_slug ?? undefined,
     prUrl: row.pr_url ?? undefined,
     prNumber: row.pr_number ?? undefined,
     prBranch: row.pr_branch ?? undefined,
@@ -85,6 +106,10 @@ export function mapDraft(row: DraftRow): ProjectDraft {
     liveUrl: row.live_url ?? undefined,
     lastPublishPreview: row.last_publish_preview_json ? JSON.parse(row.last_publish_preview_json) : undefined,
     lastError: row.last_error ?? undefined,
+    mergedAt: row.merged_at ?? undefined,
+    mergeCommitSha: row.merge_commit_sha ?? undefined,
+    deployedAt: row.deployed_at ?? undefined,
+    archivedAt: row.archived_at ?? undefined,
     createdAt: row.created_at,
     updatedAt: row.updated_at
   };

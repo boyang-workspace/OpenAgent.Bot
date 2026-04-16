@@ -17,9 +17,17 @@ export type PublishPrResult = {
   filePath: string;
 };
 
+export type PublishNowResult = PublishPrResult & {
+  mergedAt: string;
+  mergeCommitSha: string;
+  liveUrl: string;
+  deployed: boolean;
+};
+
 export type SubmissionStatus = "new" | "reviewing" | "converted" | "rejected" | "duplicate";
 export type DraftStatus = "draft" | "ready" | "pr_created" | "published" | "archived";
-export type PublishStatus = "pending" | "running" | "succeeded" | "failed";
+export type DraftOperation = "create" | "update" | "archive";
+export type PublishStatus = "pending" | "running" | "merged" | "deploying" | "succeeded" | "failed";
 export type AdminActor = "human" | "codex" | "automation";
 
 export type Submission = {
@@ -61,7 +69,7 @@ export type ProjectDraftContent = {
   seoDescription: string;
   shareTitle: string;
   shareDescription: string;
-  status: "published";
+  status: "published" | "archived";
   generatedAt: string;
   reviewedAt: string;
   updatedAt: string;
@@ -80,7 +88,10 @@ export type ProjectDraft = {
   title: string;
   category: CategorySlug;
   status: DraftStatus;
+  operation: DraftOperation;
   content: ProjectDraftContent;
+  sourceFilePath?: string;
+  sourceSlug?: string;
   prUrl?: string;
   prNumber?: number;
   prBranch?: string;
@@ -89,8 +100,18 @@ export type ProjectDraft = {
   liveUrl?: string;
   lastPublishPreview?: unknown;
   lastError?: string;
+  mergedAt?: string;
+  mergeCommitSha?: string;
+  deployedAt?: string;
+  archivedAt?: string;
   createdAt: string;
   updatedAt: string;
+};
+
+export type PublishedProject = ProjectDraftContent & {
+  filePath: string;
+  sha: string;
+  liveUrl: string;
 };
 
 export type AdminEvent = {

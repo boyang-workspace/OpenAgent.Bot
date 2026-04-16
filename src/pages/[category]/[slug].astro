@@ -147,28 +147,28 @@ const jsonLd = {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 8px;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-feature);
     display: grid;
-    gap: 32px;
+    gap: 28px;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     overflow: hidden;
-    padding: 30px;
+    padding: 26px;
   }
 
   h1 {
-    font-size: clamp(2.8rem, 6vw, 5.4rem);
-    letter-spacing: -0.06em;
-    line-height: 0.9;
+    font-size: 4.3rem;
+    letter-spacing: 0;
+    line-height: 1;
     margin: 10px 0 0;
   }
 
   .detail-copy p {
-    font-size: 1.1rem;
+    font-size: 1.04rem;
   }
 
   .one-liner {
-    color: var(--green);
-    font-weight: 800;
+    color: var(--ink);
+    font-weight: 650;
   }
 
   .actions {
@@ -191,14 +191,14 @@ const jsonLd = {
 
   .profile-grid {
     display: grid;
-    gap: 36px;
+    gap: 28px;
     grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
     margin-top: 34px;
   }
 
   .profile-main {
     display: grid;
-    gap: 34px;
+    gap: 22px;
   }
 
   .profile-main section,
@@ -206,13 +206,13 @@ const jsonLd = {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 8px;
-    padding: 20px;
+    padding: 18px;
   }
 
   .profile-main h2,
   .source-panel h2 {
-    font-size: 1.8rem;
-    letter-spacing: -0.04em;
+    font-size: 1.5rem;
+    letter-spacing: 0;
     margin: 0 0 10px;
   }
 
@@ -226,9 +226,10 @@ const jsonLd = {
   }
 
   pre {
-    background: #111;
+    background: #171914;
     border-radius: 8px;
-    color: #f7f4eb;
+    color: #f6f8f2;
+    font-size: 0.88rem;
     overflow: auto;
     padding: 16px;
     white-space: pre-wrap;
@@ -255,7 +256,7 @@ const jsonLd = {
   dt {
     color: var(--muted);
     font-size: 0.78rem;
-    font-weight: 800;
+    font-weight: 700;
     text-transform: uppercase;
   }
 
@@ -273,8 +274,18 @@ const jsonLd = {
       padding: 18px;
     }
 
+    h1 {
+      font-size: 3rem;
+    }
+
     .source-panel {
       position: static;
+    }
+  }
+
+  @media (max-width: 620px) {
+    h1 {
+      font-size: 2.25rem;
     }
   }
 </style>

@@ -27,9 +27,15 @@ import EditorialShell from "@/components/EditorialShell.astro";
   }
 
   h1 {
-    font-size: clamp(2.6rem, 6vw, 4.8rem);
-    letter-spacing: -0.06em;
-    line-height: 0.94;
+    font-size: 4rem;
+    letter-spacing: 0;
+    line-height: 1;
     margin: 12px 0 0;
+  }
+
+  @media (max-width: 720px) {
+    h1 {
+      font-size: 2.4rem;
+    }
   }
 </style>

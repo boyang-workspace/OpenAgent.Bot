@@ -120,11 +120,11 @@ const todayCategory = today ? categories.find((category) => category.slug === to
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 8px;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-feature);
     display: grid;
-    gap: 18px;
+    gap: 16px;
     grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
-    min-height: 520px;
+    min-height: 460px;
     min-width: 0;
     overflow: hidden;
   }
@@ -133,19 +133,19 @@ const todayCategory = today ? categories.find((category) => category.slug === to
     align-content: center;
     display: grid;
     min-width: 0;
-    padding: 34px;
+    padding: 30px;
   }
 
   h1 {
-    font-size: clamp(2.7rem, 6vw, 5.8rem);
-    letter-spacing: -0.06em;
-    line-height: 0.9;
+    font-size: 4.4rem;
+    letter-spacing: 0;
+    line-height: 1;
     margin: 12px 0 0;
     max-width: 100%;
   }
 
   .today-copy p {
-    font-size: 1.1rem;
+    font-size: 1.03rem;
     margin: 20px 0 0;
   }
 
@@ -164,7 +164,7 @@ const todayCategory = today ? categories.find((category) => category.slug === to
   }
 
   .featured-project img {
-    background: var(--surface-soft);
+    background: var(--surface-tint);
     height: 100%;
     max-width: 100%;
     object-fit: cover;
@@ -174,9 +174,9 @@ const todayCategory = today ? categories.find((category) => category.slug === to
   .featured-copy {
     border-left: 1px solid var(--line);
     display: grid;
-    gap: 10px;
+    gap: 9px;
     min-width: 0;
-    padding: 22px;
+    padding: 20px;
   }
 
   .featured-meta,
@@ -187,17 +187,17 @@ const todayCategory = today ? categories.find((category) => category.slug === to
   }
 
   .featured-meta span {
-    color: var(--green);
+    color: var(--muted);
     font-size: 0.72rem;
-    font-weight: 850;
-    letter-spacing: 0.06em;
+    font-weight: 700;
+    letter-spacing: 0;
     text-transform: uppercase;
   }
 
   .featured-copy h2 {
-    font-size: clamp(2rem, 4vw, 3.4rem);
-    letter-spacing: -0.055em;
-    line-height: 0.95;
+    font-size: 2.6rem;
+    letter-spacing: 0;
+    line-height: 1;
     margin: 0;
   }
 
@@ -207,7 +207,8 @@ const todayCategory = today ? categories.find((category) => category.slug === to
   }
 
   .featured-tags span {
-    border: 1px solid var(--line);
+    background: var(--surface-soft);
+    border: 1px solid transparent;
     border-radius: 8px;
     color: var(--muted);
     font-size: 0.78rem;
@@ -221,7 +222,7 @@ const todayCategory = today ? categories.find((category) => category.slug === to
   }
 
   .soft-section {
-    background: var(--surface-soft);
+    background: var(--surface-tint);
     border-radius: 8px;
     margin: 38px 0;
     padding: 28px;
@@ -241,19 +242,19 @@ const todayCategory = today ? categories.find((category) => category.slug === to
     padding: 18px;
     transition:
       border-color 160ms ease,
-      box-shadow 160ms ease,
+      background 160ms ease,
       transform 160ms ease;
   }
 
   .category:hover {
+    background: var(--surface-soft);
     border-color: var(--line-strong);
-    box-shadow: var(--shadow-soft);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
   }
 
   .category span {
-    font-size: 1.35rem;
-    font-weight: 800;
+    font-size: 1.22rem;
+    font-weight: 700;
   }
 
   .blog-strip {
@@ -279,7 +280,7 @@ const todayCategory = today ? categories.find((category) => category.slug === to
   .post-list span {
     color: var(--red);
     font-size: 0.84rem;
-    font-weight: 750;
+    font-weight: 600;
   }
 
   .post-list strong {
@@ -295,9 +296,9 @@ const todayCategory = today ? categories.find((category) => category.slug === to
   }
 
   .mission h2 {
-    font-size: 3rem;
-    letter-spacing: -0.045em;
-    line-height: 1.02;
+    font-size: 2.6rem;
+    letter-spacing: 0;
+    line-height: 1.08;
     margin: 10px 0 0;
   }
 
@@ -326,8 +327,8 @@ const todayCategory = today ? categories.find((category) => category.slug === to
     h1,
     .mission h2 {
       font-size: 2rem;
-      letter-spacing: -0.045em;
-      line-height: 0.98;
+      letter-spacing: 0;
+      line-height: 1.05;
     }
 
     .category-grid,

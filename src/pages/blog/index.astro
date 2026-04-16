@@ -47,19 +47,19 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
   .post-index a:hover {
     border-color: var(--line-strong);
-    box-shadow: var(--shadow-soft);
-    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(23, 25, 20, 0.04);
+    transform: translateY(-1px);
   }
 
   span {
     color: var(--red);
-    font-weight: 750;
+    font-weight: 600;
   }
 
   h2 {
-    font-size: 2rem;
-    letter-spacing: -0.04em;
-    line-height: 1;
+    font-size: 1.8rem;
+    letter-spacing: 0;
+    line-height: 1.08;
     margin: 0;
   }
 
@@ -75,7 +75,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
   }
 
   small {
-    border: 1px solid var(--line);
+    background: var(--surface-soft);
+    border: 1px solid transparent;
     border-radius: 8px;
     color: var(--muted);
     padding: 5px 9px;

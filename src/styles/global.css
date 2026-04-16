@@ -1,19 +1,25 @@
 :root {
   color-scheme: light;
-  --paper: #fbfbf8;
+  --paper: #f8faf6;
   --surface: #ffffff;
-  --surface-soft: #f1f4ef;
-  --ink: #161714;
-  --muted: #646963;
+  --surface-soft: #f1f5ef;
+  --surface-tint: #eef4ef;
+  --ink: #171914;
+  --muted: #5f665f;
   --subtle: #8b9188;
-  --line: #e1e5dc;
-  --line-strong: #c9d1c4;
-  --green: #13795b;
-  --red: #c94a3b;
-  --blue: #2870b7;
-  --yellow: #e7bb36;
-  --shadow: 0 14px 38px rgba(26, 31, 25, 0.08);
-  --shadow-soft: 0 8px 22px rgba(26, 31, 25, 0.06);
+  --line: #e2e5dd;
+  --line-strong: #cbd2c7;
+  --accent-open: #16745a;
+  --accent-info: #336f9f;
+  --accent-editorial: #b84a3a;
+  --accent-warn: #b8871e;
+  --green: var(--accent-open);
+  --red: var(--accent-editorial);
+  --blue: var(--accent-info);
+  --yellow: var(--accent-warn);
+  --shadow: 0 18px 50px rgba(23, 25, 20, 0.08);
+  --shadow-soft: 0 8px 24px rgba(23, 25, 20, 0.05);
+  --shadow-feature: 0 22px 70px rgba(23, 25, 20, 0.1);
   --max: 1180px;
   --page-max: 1440px;
   --sidebar: 216px;
@@ -33,7 +39,7 @@ html {
 
 body {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(251, 251, 248, 0) 360px),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(248, 250, 246, 0) 320px),
     var(--paper);
   margin: 0;
   min-width: 320px;
@@ -63,15 +69,15 @@ p {
 
 .eyebrow {
   color: var(--green);
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
 .serif {
   font-family: inherit;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 }
 
 .button {
@@ -79,11 +85,12 @@ p {
   border: 1px solid var(--ink);
   border-radius: 8px;
   display: inline-flex;
-  font-weight: 700;
+  font-size: 0.92rem;
+  font-weight: 600;
   gap: 8px;
   justify-content: center;
-  min-height: 44px;
-  padding: 0 18px;
+  min-height: 40px;
+  padding: 0 15px;
   transition:
     background 160ms ease,
     color 160ms ease,

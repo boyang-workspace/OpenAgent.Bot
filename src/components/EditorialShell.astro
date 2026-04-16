@@ -66,7 +66,7 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
 <style>
   .editorial-shell {
     display: grid;
-    gap: 28px;
+    gap: 26px;
     grid-template-columns: var(--sidebar) minmax(0, 1fr);
     margin: 0 auto;
     max-width: var(--page-max);
@@ -84,7 +84,7 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
 
   nav {
     display: grid;
-    gap: 18px;
+    gap: 16px;
   }
 
   .nav-group {
@@ -107,8 +107,8 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
   }
 
   nav a {
-    font-size: 0.94rem;
-    padding: 9px 12px;
+    font-size: 0.93rem;
+    padding: 8px 11px;
   }
 
   .utility-group {
@@ -129,7 +129,8 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
   }
 
   nav a.active {
-    font-weight: 650;
+    background: var(--surface-tint);
+    font-weight: 600;
   }
 
   .mobile-rail {
@@ -146,9 +147,9 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
   }
 
   .editorial-head h1 {
-    font-size: clamp(2.2rem, 5vw, 4.6rem);
-    letter-spacing: -0.04em;
-    line-height: 0.95;
+    font-size: 4rem;
+    letter-spacing: 0;
+    line-height: 1;
     margin: 8px 0 0;
     max-width: 900px;
   }
@@ -188,6 +189,16 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
 
     .editorial-main {
       padding: 0 16px;
+    }
+
+    .editorial-head h1 {
+      font-size: 3rem;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .editorial-head h1 {
+      font-size: 2.25rem;
     }
   }
 </style>

@@ -27,6 +27,8 @@ export function requireAdmin(request: Request, env: Env): Response | undefined {
   if (!env.ADMIN_EMAIL) return undefined;
 
   const email = request.headers.get("cf-access-authenticated-user-email");
+  if (!email) return undefined;
+
   if (email?.toLowerCase() === env.ADMIN_EMAIL.toLowerCase()) {
     return undefined;
   }

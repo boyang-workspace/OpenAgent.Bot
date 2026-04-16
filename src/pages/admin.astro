@@ -11,6 +11,7 @@ import { categories } from "@/config/site";
         <span class="eyebrow">Admin</span>
         <h1>Editorial queue.</h1>
         <p>Review submissions, shape project drafts, and create publish PRs without turning the public site into a dynamic CMS.</p>
+        <a class="logout-link" href="/cdn-cgi/access/logout">Log out of admin</a>
       </div>
       <div class="admin-note">
         <strong>Protected by Cloudflare Access</strong>
@@ -339,6 +340,19 @@ import { categories } from "@/config/site";
   .admin-note span {
     color: var(--muted);
     line-height: 1.5;
+  }
+
+  .logout-link {
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--muted);
+    display: inline-flex;
+    font-weight: 650;
+    margin-top: 10px;
+    padding-bottom: 2px;
+  }
+
+  .logout-link:hover {
+    color: var(--ink);
   }
 
   .admin-grid {

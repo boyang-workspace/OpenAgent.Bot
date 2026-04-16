@@ -107,3 +107,4 @@ GITHUB_BASE_BRANCH=main
 - Drafts are intentionally structured fields, not freeform rich text.
 - Turnstile is not required for V1. The form includes a honeypot field and a basic per-email hourly limit.
 - The admin UI calls APIs under `/admin/api/*` so the page and API share the same Cloudflare Access session.
+- The admin page logs out through `/cdn-cgi/access/logout`, Cloudflare Access's application logout endpoint.

@@ -10,28 +10,37 @@ type Props = {
 
 const { eyebrow, title, description, active } = Astro.props;
 const isHome = Astro.url.pathname === "/";
-const sectionLinks = [
+const discoveryLinks = [
   { label: "Today", href: isHome ? "#today" : "/#today", key: "today" },
   { label: "Trending", href: isHome ? "#trending" : "/#trending", key: "trending" },
-  { label: "Recently Added", href: isHome ? "#recent" : "/#recent", key: "recent" },
-  ...categories.map((category) => ({ label: category.label, href: `/${category.slug}`, key: category.slug })),
+  { label: "Recently Added", href: isHome ? "#recent" : "/#recent", key: "recent" }
+];
+const resourceCategoryOrder = ["models", "agents", "skills", "memory-systems", "plugins"];
+const resourceLinks = resourceCategoryOrder
+  .map((slug) => categories.find((category) => category.slug === slug))
+  .filter((category): category is (typeof categories)[number] => Boolean(category))
+  .map((category) => ({ label: category.label, href: `/${category.slug}`, key: category.slug }));
+const utilityLinks = [
+  { label: "Tools", href: "/tools", key: "tools" },
   { label: "Blog", href: "/blog", key: "blog" },
   { label: "Manifesto", href: "/manifesto", key: "manifesto" }
 ];
+const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
 ---
 
 <div class="editorial-shell">
   <aside class="editorial-sidebar" aria-label="OpenAgent.bot sections">
     <div class="sidebar-card">
-      <p class="sidebar-kicker">Open directory</p>
       <nav>
-        {
-          sectionLinks.map((item) => (
-            <a class:list={{ active: active === item.key }} href={item.href}>
-              {item.label}
-            </a>
-          ))
-        }
+        <div class="nav-group">
+          {discoveryLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href}>{item.label}</a>)}
+        </div>
+        <div class="nav-group">
+          {resourceLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href}>{item.label}</a>)}
+        </div>
+        <div class="nav-group utility-group">
+          {utilityLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href}>{item.label}</a>)}
+        </div>
       </nav>
     </div>
   </aside>
@@ -73,29 +82,42 @@ const sectionLinks = [
     top: 92px;
   }
 
-  .sidebar-kicker {
-    color: var(--muted);
-    font-size: 0.76rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    margin: 0 0 12px;
-    text-transform: uppercase;
-  }
-
   nav {
     display: grid;
-    gap: 4px;
+    gap: 18px;
+  }
+
+  .nav-group {
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    gap: 3px;
+    padding-bottom: 14px;
+  }
+
+  .nav-group:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
   }
 
   nav a,
   .mobile-rail a {
     border-radius: 8px;
     color: var(--muted);
-    font-weight: 750;
+    font-weight: 500;
   }
 
   nav a {
-    padding: 10px 12px;
+    font-size: 0.94rem;
+    padding: 9px 12px;
+  }
+
+  .utility-group {
+    margin-top: 4px;
+  }
+
+  .utility-group a {
+    color: var(--subtle);
+    font-size: 0.86rem;
   }
 
   nav a:hover,
@@ -104,6 +126,10 @@ const sectionLinks = [
   .mobile-rail a.active {
     background: var(--surface);
     color: var(--ink);
+  }
+
+  nav a.active {
+    font-weight: 650;
   }
 
   .mobile-rail {

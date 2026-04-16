@@ -4,9 +4,13 @@
       <span class="brand-mark">OA</span>
       <span>OpenAgent.bot</span>
     </a>
+    <form class="site-search" action="/" method="get" role="search">
+      <label>
+        <span>Search</span>
+        <input type="search" name="q" placeholder="Search open AI resources" />
+      </label>
+    </form>
     <nav aria-label="Primary navigation">
-      <a href="/blog">Blog</a>
-      <a href="/manifesto">Manifesto</a>
       <a class="submit-link" href="/submit">Submit</a>
     </nav>
   </div>
@@ -25,7 +29,7 @@
   .header-inner {
     align-items: center;
     display: flex;
-    gap: 24px;
+    gap: 18px;
     min-height: 66px;
     justify-content: space-between;
     max-width: var(--page-max);
@@ -37,6 +41,48 @@
     font-weight: 800;
     gap: 10px;
     white-space: nowrap;
+  }
+
+  .site-search {
+    flex: 1 1 520px;
+    max-width: 640px;
+  }
+
+  .site-search label {
+    display: block;
+    position: relative;
+  }
+
+  .site-search span {
+    height: 1px;
+    left: -999px;
+    overflow: hidden;
+    position: absolute;
+    top: auto;
+    width: 1px;
+  }
+
+  .site-search input {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 500;
+    min-height: 40px;
+    outline: none;
+    padding: 0 14px;
+    width: 100%;
+  }
+
+  .site-search input:focus {
+    border-color: var(--line-strong);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 14%, transparent);
+  }
+
+  .site-search input::placeholder {
+    color: var(--subtle);
   }
 
   .brand-mark {
@@ -77,15 +123,21 @@
 
   @media (max-width: 760px) {
     .header-inner {
+      align-items: center;
+      flex-wrap: wrap;
       min-height: 60px;
+      padding-bottom: 10px;
+      padding-top: 10px;
     }
 
     nav {
       gap: 10px;
     }
 
-    nav a:not(.submit-link) {
-      display: none;
+    .site-search {
+      flex: 1 0 100%;
+      max-width: none;
+      order: 3;
     }
   }
 </style>

@@ -1,31 +1,33 @@
 ---
 import { categories } from "@/config/site";
-import type { OpenProject } from "@/lib/content/schema";
+import type { ResourceV1 } from "@/lib/content/resource-schema";
+import { resourcePath } from "@/lib/content/resources";
 
 type Props = {
-  resource: OpenProject;
+  resource: ResourceV1;
   large?: boolean;
 };
 
 const { resource, large = false } = Astro.props;
-const category = categories.find((item) => item.slug === resource.category);
-const href = `/${resource.category}/${resource.slug}`;
-const image = resource.coverImage ?? "/og-default.svg";
-const summary = resource.oneLiner || resource.summary;
+const category = categories.find((item) => item.slug === resource.classification.primary_category);
+const href = resourcePath(resource);
+const image = resource.media.thumbnail_url ?? "/og-default.svg";
+const summary = resource.identity.one_liner || resource.identity.short_description;
+const tags = [...resource.tags.capability, ...resource.tags.constraint].slice(0, 3);
 ---
 
 <article class:list={["resource-card", { large }]}>
-  <a href={href} aria-label={resource.title}>
+  <a href={href} aria-label={resource.identity.name}>
     <img src={image} alt="" loading="lazy" />
     <div class="resource-body">
       <div class="meta">
         <span>{category?.label}</span>
-        {resource.license && <span>{resource.license}</span>}
+        {resource.facts.license && <span>{resource.facts.license}</span>}
       </div>
-      <h3>{resource.title}</h3>
+      <h3>{resource.identity.name}</h3>
       <p>{summary}</p>
       <div class="tags">
-        {resource.tags.slice(0, 3).map((tag) => <span>{tag}</span>)}
+        {tags.map((tag) => <span>{tag}</span>)}
       </div>
     </div>
   </a>

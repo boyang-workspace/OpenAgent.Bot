@@ -3,33 +3,38 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import EditorialShell from "@/components/EditorialShell.astro";
 import { categories } from "@/config/site";
 import { posts } from "@/data/posts";
-import { getPublishedProjects, projectPath } from "@/lib/content/projects";
+import { getPublishedResources, resourcePath } from "@/lib/content/resources";
 
-const projects = await getPublishedProjects();
-const categoryLabel = new Map(categories.map((category) => [category.slug, category.label]));
+const resources = await getPublishedResources();
+const categoryLabel = new Map<string, string>(categories.map((category) => [category.slug, category.label]));
 const searchIndex = [
-  ...projects.map((project) => ({
-    type: "project",
-    title: project.title,
-    summary: project.oneLiner || project.summary,
-    href: projectPath(project),
-    category: categoryLabel.get(project.category) ?? project.category,
-    tags: project.tags,
-    updatedAt: project.updatedAt,
-    searchable: [
-      project.title,
-      project.oneLiner,
-      project.summary,
-      project.whyItMatters,
-      project.category,
-      project.license,
-      project.tags.join(" "),
-      project.bestFor.join(" ")
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase()
-  })),
+  ...resources.map((resource) => {
+    const tags = Array.from(new Set([...resource.tags.category, ...resource.tags.capability, ...resource.tags.constraint, ...resource.tags.scenario]));
+    return {
+      type: "project",
+      title: resource.identity.name,
+      summary: resource.identity.one_liner || resource.identity.short_description,
+      href: resourcePath(resource),
+      category: categoryLabel.get(resource.classification.primary_category) ?? resource.classification.primary_category,
+      tags,
+      updatedAt: resource.timestamps.updated_at,
+      searchable: [
+        resource.identity.name,
+        resource.identity.one_liner,
+        resource.identity.short_description,
+        resource.positioning.why_it_matters,
+        resource.classification.primary_category,
+        resource.classification.resource_type,
+        resource.facts.license,
+        tags.join(" "),
+        resource.positioning.best_for?.join(" "),
+        resource.capabilities.core_capabilities?.join(" ")
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase()
+    };
+  }),
   ...posts.map((post) => ({
     type: "blog",
     title: post.title,

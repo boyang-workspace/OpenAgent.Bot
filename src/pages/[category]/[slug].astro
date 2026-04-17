@@ -3,55 +3,58 @@ import ResourceCard from "@/components/ResourceCard.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import EditorialShell from "@/components/EditorialShell.astro";
 import { categories } from "@/config/site";
-import { getPublishedProjects, getRelatedProjects, projectMarkdown } from "@/lib/content/projects";
+import { getPublishedResources, getRelatedResources, resourceMarkdown, resourcePath } from "@/lib/content/resources";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const projects = await getPublishedProjects();
+  const resources = await getPublishedResources();
 
-  return projects.map((resource) => ({
-    params: { category: resource.category, slug: resource.slug },
+  return resources.map((resource) => ({
+    params: { category: resource.classification.primary_category, slug: resource.slug },
     props: { resource }
   }));
 }
 
 const { resource } = Astro.props;
-const category = categories.find((item) => item.slug === resource.category);
-const related = await getRelatedProjects(resource);
-const image = resource.coverImage ?? "/og-default.svg";
+const category = categories.find((item) => item.slug === resource.classification.primary_category);
+const related = await getRelatedResources(resource);
+const image = resource.media.og_image_url ?? resource.media.thumbnail_url ?? "/og-default.svg";
+const repoLink = resource.links.items.find((link) => link.type === "github");
+const homepageLink = resource.links.items.find((link) => link.type === "homepage");
+const tagList = Array.from(new Set([...resource.tags.category, ...resource.tags.capability, ...resource.tags.constraint, ...resource.tags.scenario]));
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
-  name: resource.title,
-  description: resource.summary,
-  codeRepository: resource.repoUrl,
-  url: resource.homepageUrl ?? resource.repoUrl,
-  license: resource.license,
-  programmingLanguage: resource.worksWith?.join(", "),
-  keywords: resource.tags.join(", ")
+  name: resource.identity.name,
+  description: resource.identity.short_description ?? resource.identity.one_liner,
+  codeRepository: repoLink?.url,
+  url: homepageLink?.url ?? repoLink?.url ?? resource.links.primary_url,
+  license: resource.facts.license,
+  programmingLanguage: resource.facts.primary_language ?? resource.capabilities.integrations?.join(", "),
+  keywords: tagList.join(", ")
 };
 ---
 
 <BaseLayout
-  title={resource.seoTitle ?? resource.title}
-  description={resource.seoDescription ?? resource.summary}
-  path={`/${resource.category}/${resource.slug}`}
+  title={resource.seo?.title ?? resource.identity.name}
+  description={resource.seo?.description ?? resource.identity.short_description ?? resource.identity.one_liner}
+  path={resourcePath(resource)}
   image={image}
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-  <EditorialShell active={resource.category}>
+  <EditorialShell active={resource.classification.primary_category}>
     <article class="detail">
       <div class="detail-copy">
         <span class="eyebrow">{category?.label}</span>
-        <h1>{resource.title}</h1>
-        <p class="one-liner">{resource.oneLiner}</p>
-        <p>{resource.summary}</p>
+        <h1>{resource.identity.name}</h1>
+        <p class="one-liner">{resource.identity.one_liner}</p>
+        <p>{resource.identity.short_description}</p>
         <div class="actions">
-          {resource.repoUrl && <a class="button" href={resource.repoUrl}>Repository</a>}
-          {resource.homepageUrl && <a class="button secondary" href={resource.homepageUrl}>Homepage</a>}
-          <a class="button secondary" href={`/${resource.category}/${resource.slug}.json`}>JSON</a>
-          <a class="button secondary" href={`/${resource.category}/${resource.slug}.md`}>Markdown</a>
+          {repoLink && <a class="button" href={repoLink.url}>Repository</a>}
+          {homepageLink && <a class="button secondary" href={homepageLink.url}>Homepage</a>}
+          <a class="button secondary" href={resource.machine_readable.json_url.replace("https://www.openagent.bot", "")}>JSON</a>
+          <a class="button secondary" href={resource.machine_readable.markdown_url.replace("https://www.openagent.bot", "")}>Markdown</a>
         </div>
       </div>
       <img src={image} alt="" />
@@ -61,39 +64,41 @@ const jsonLd = {
       <div class="profile-main">
         <section>
           <h2>Why it matters</h2>
-          <p>{resource.whyItMatters}</p>
+          <p>{resource.positioning.why_it_matters}</p>
         </section>
 
         <section>
           <h2>Best for</h2>
           <ul>
-            {resource.bestFor.map((item) => <li>{item}</li>)}
+            {(resource.positioning.best_for ?? []).map((item) => <li>{item}</li>)}
           </ul>
         </section>
 
         {
-          resource.notFor && resource.notFor.length > 0 && (
+          resource.positioning.not_for && resource.positioning.not_for.length > 0 && (
             <section>
               <h2>Not for</h2>
               <ul>
-                {resource.notFor.map((item) => <li>{item}</li>)}
+                {resource.positioning.not_for.map((item) => <li>{item}</li>)}
               </ul>
             </section>
           )
         }
 
         {
-          resource.installCommand && (
+          resource.links.items.some((link) => link.type === "install") && (
             <section>
               <h2>How to try</h2>
-              <pre><code>{resource.installCommand}</code></pre>
+              <ul>
+                {resource.links.items.filter((link) => link.type === "install").map((link) => <li><a href={link.url}>{link.label}</a></li>)}
+              </ul>
             </section>
           )
         }
 
         <section>
           <h2>Agent-readable preview</h2>
-          <pre><code>{projectMarkdown(resource).slice(0, 900)}</code></pre>
+          <pre><code>{resourceMarkdown(resource).slice(0, 900)}</code></pre>
         </section>
       </div>
 
@@ -106,25 +111,25 @@ const jsonLd = {
           </div>
           <div>
             <dt>License</dt>
-            <dd>{resource.license ?? "unknown"}</dd>
+            <dd>{resource.facts.license ?? "unknown"}</dd>
           </div>
           <div>
             <dt>Updated</dt>
-            <dd>{resource.updatedAt}</dd>
+            <dd>{resource.timestamps.updated_at.slice(0, 10)}</dd>
           </div>
           <div>
-            <dt>Open-source status</dt>
-            <dd>{resource.openSourceStatus}</dd>
+            <dt>Open source</dt>
+            <dd>{resource.decision_signals.open_source ? "yes" : "unknown"}</dd>
           </div>
           <div>
             <dt>Tags</dt>
-            <dd>{resource.tags.join(", ")}</dd>
+            <dd>{tagList.slice(0, 12).join(", ")}</dd>
           </div>
         </dl>
 
         <h2>Source links</h2>
         <ul>
-          {resource.sourceLinks.map((link) => <li><a href={link}>{link}</a></li>)}
+          {resource.links.items.map((link) => <li><a href={link.url}>{link.label}</a></li>)}
         </ul>
       </aside>
     </section>

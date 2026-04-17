@@ -3,7 +3,7 @@ import SectionHeading from "@/components/SectionHeading.astro";
 import ResourceCard from "@/components/ResourceCard.astro";
 import EditorialShell from "@/components/EditorialShell.astro";
 import { categories } from "@/config/site";
-import { getProjectsByCategory } from "@/lib/content/projects";
+import { getResourcesByCategory } from "@/lib/content/resources";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export function getStaticPaths() {
@@ -14,7 +14,7 @@ export function getStaticPaths() {
 }
 
 const { category } = Astro.props;
-const categoryResources = await getProjectsByCategory(category.slug);
+const categoryResources = await getResourcesByCategory(category.slug);
 ---
 
 <BaseLayout title={category.label} description={category.description} path={`/${category.slug}`}>

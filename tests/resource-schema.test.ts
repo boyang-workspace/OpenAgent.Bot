@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { openProjectToResourceV1 } from "../src/lib/content/resource-adapter";
+import { getPublishedResources, resourceMarkdown } from "../src/lib/content/resources";
 import { parseResourceV1, type ResourceV1 } from "../src/lib/content/resource-schema";
 import { parseOpenProject } from "../src/lib/content/schema";
 
@@ -125,5 +126,14 @@ describe("resource schema v1", () => {
       expect(resource.status).toBe("published");
       expect(resource.machine_readable.canonical_url).toContain(resource.slug);
     }
+  });
+
+  it("reads public resources through the ResourceV1 layer", async () => {
+    const resources = await getPublishedResources();
+    const langgraph = resources.find((resource) => resource.slug === "langgraph");
+
+    expect(langgraph?.schema_version).toBe("openagent.resource.v1");
+    expect(resources.every((resource) => resource.status === "published")).toBe(true);
+    expect(resourceMarkdown(langgraph!).startsWith("# LangGraph")).toBe(true);
   });
 });

@@ -5,16 +5,18 @@ import EditorialShell from "@/components/EditorialShell.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { categories } from "@/config/site";
 import { posts } from "@/data/posts";
-import { getPublishedProjects } from "@/lib/content/projects";
+import { getPublishedResources, resourcePath } from "@/lib/content/resources";
 
-const projects = await getPublishedProjects();
-const today = projects.find((project) => project.isFeatured) ?? projects[0];
-const trending = projects
-  .filter((project) => project.isFeatured || project.sourceMetrics?.stars)
-  .sort((a, b) => (b.sourceMetrics?.stars ?? 0) - (a.sourceMetrics?.stars ?? 0))
+const resources = await getPublishedResources();
+const today = resources.find((resource) => resource.editorial?.featured_reason) ?? resources[0];
+const trending = resources
+  .filter((resource) => resource.editorial?.featured_reason || resource.facts.github_stars)
+  .sort((a, b) => (b.facts.github_stars ?? 0) - (a.facts.github_stars ?? 0))
   .slice(0, 3);
-const recent = [...projects].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).slice(0, 3);
-const todayCategory = today ? categories.find((category) => category.slug === today.category) : undefined;
+const recent = [...resources].sort((a, b) => b.timestamps.updated_at.localeCompare(a.timestamps.updated_at)).slice(0, 3);
+const todayCategory = today ? categories.find((category) => category.slug === today.classification.primary_category) : undefined;
+const todayPath = today ? resourcePath(today) : undefined;
+const todayTags = today ? [...today.tags.capability, ...today.tags.constraint].slice(0, 3) : [];
 ---
 
 <BaseLayout>
@@ -28,23 +30,23 @@ const todayCategory = today ? categories.find((category) => category.slug === to
           source links, and machine-readable profiles.
         </p>
         <div class="hero-actions">
-          {today && <a class="button" href={`/${today.category}/${today.slug}`}>Read today's pick</a>}
+          {todayPath && <a class="button" href={todayPath}>Read today's pick</a>}
           <a class="button secondary" href="/submit">Submit a project</a>
         </div>
       </div>
       {
         today && (
-          <a class="featured-project" href={`/${today.category}/${today.slug}`}>
-            <img src={today.coverImage ?? "/og-default.svg"} alt="" loading="eager" />
+          <a class="featured-project" href={todayPath}>
+            <img src={today.media.thumbnail_url ?? "/og-default.svg"} alt="" loading="eager" />
             <div class="featured-copy">
               <div class="featured-meta">
                 <span>{todayCategory?.label}</span>
-                {today.license && <span>{today.license}</span>}
+                {today.facts.license && <span>{today.facts.license}</span>}
               </div>
-              <h2>{today.title}</h2>
-              <p>{today.oneLiner}</p>
+              <h2>{today.identity.name}</h2>
+              <p>{today.identity.one_liner}</p>
               <div class="featured-tags">
-                {today.tags.slice(0, 3).map((tag) => <span>{tag}</span>)}
+                {todayTags.map((tag) => <span>{tag}</span>)}
               </div>
             </div>
           </a>

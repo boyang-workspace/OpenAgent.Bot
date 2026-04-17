@@ -1,16 +1,16 @@
 import type { APIRoute } from "astro";
 import { categories, site } from "@/config/site";
 import { posts } from "@/data/posts";
-import { getPublishedProjects, projectPath } from "@/lib/content/projects";
+import { getPublishedResources, resourcePath } from "@/lib/content/resources";
 
 const staticPaths = ["/", "/blog", "/about", "/manifesto", "/submit"];
 
 export const GET: APIRoute = async () => {
-  const projects = await getPublishedProjects();
+  const resources = await getPublishedResources();
   const paths = [
     ...staticPaths,
     ...categories.map((category) => `/${category.slug}`),
-    ...projects.map((project) => projectPath(project)),
+    ...resources.map((resource) => resourcePath(resource)),
     ...posts.map((post) => `/blog/${post.slug}`)
   ];
 

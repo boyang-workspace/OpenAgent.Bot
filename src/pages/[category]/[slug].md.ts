@@ -1,17 +1,17 @@
 import type { APIRoute } from "astro";
-import { getPublishedProjects, projectMarkdown } from "@/lib/content/projects";
+import { getPublishedResources, resourceMarkdown } from "@/lib/content/resources";
 
 export async function getStaticPaths() {
-  const projects = await getPublishedProjects();
+  const resources = await getPublishedResources();
 
-  return projects.map((project) => ({
-    params: { category: project.category, slug: project.slug },
-    props: { project }
+  return resources.map((resource) => ({
+    params: { category: resource.classification.primary_category, slug: resource.slug },
+    props: { resource }
   }));
 }
 
 export const GET: APIRoute = ({ props }) => {
-  return new Response(projectMarkdown(props.project), {
+  return new Response(resourceMarkdown(props.resource), {
     headers: {
       "Content-Type": "text/markdown; charset=utf-8"
     }

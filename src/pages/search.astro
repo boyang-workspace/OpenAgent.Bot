@@ -1,0 +1,292 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import EditorialShell from "@/components/EditorialShell.astro";
+import { categories } from "@/config/site";
+import { posts } from "@/data/posts";
+import { getPublishedProjects, projectPath } from "@/lib/content/projects";
+
+const projects = await getPublishedProjects();
+const categoryLabel = new Map(categories.map((category) => [category.slug, category.label]));
+const searchIndex = [
+  ...projects.map((project) => ({
+    type: "project",
+    title: project.title,
+    summary: project.oneLiner || project.summary,
+    href: projectPath(project),
+    category: categoryLabel.get(project.category) ?? project.category,
+    tags: project.tags,
+    updatedAt: project.updatedAt,
+    searchable: [
+      project.title,
+      project.oneLiner,
+      project.summary,
+      project.whyItMatters,
+      project.category,
+      project.license,
+      project.tags.join(" "),
+      project.bestFor.join(" ")
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase()
+  })),
+  ...posts.map((post) => ({
+    type: "blog",
+    title: post.title,
+    summary: post.summary,
+    href: `/blog/${post.slug}`,
+    category: "Blog",
+    tags: post.tags,
+    updatedAt: post.publishedAt,
+    searchable: [post.title, post.summary, post.body, post.tags.join(" ")].join(" ").toLowerCase()
+  }))
+];
+---
+
+<BaseLayout title="Search" description="Search open AI resources, projects, and editorial notes." path="/search">
+  <EditorialShell>
+    <section class="search-page">
+      <div class="search-head">
+        <span class="eyebrow">Search</span>
+        <h1>Search open AI resources.</h1>
+        <p>Find models, agents, skills, memory systems, plugins, tools, and editorial notes.</p>
+      </div>
+
+      <form class="search-form" action="/search" method="get" role="search">
+        <label>
+          <span>Search query</span>
+          <input id="search-input" type="search" name="q" placeholder="Search open AI resources" />
+        </label>
+        <button class="button" type="submit">Search</button>
+      </form>
+
+      <div class="search-meta" id="search-meta">Enter a keyword to search the directory.</div>
+      <div class="search-results" id="search-results"></div>
+    </section>
+
+    <script id="search-index" is:inline type="application/json" set:html={JSON.stringify(searchIndex)} />
+    <script is:inline>
+      const params = new URLSearchParams(window.location.search);
+      const query = (params.get("q") || "").trim();
+      const input = document.querySelector("#search-input");
+      const meta = document.querySelector("#search-meta");
+      const results = document.querySelector("#search-results");
+      const indexEl = document.querySelector("#search-index");
+      const items = indexEl?.textContent ? JSON.parse(indexEl.textContent) : [];
+
+      if (input instanceof HTMLInputElement) {
+        input.value = query;
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
+
+      function scoreItem(item, terms) {
+        const title = item.title.toLowerCase();
+        let score = 0;
+        for (const term of terms) {
+          if (title.includes(term)) score += 4;
+          if (item.searchable.includes(term)) score += 1;
+        }
+        return score;
+      }
+
+      function render() {
+        if (!(meta instanceof HTMLElement) || !(results instanceof HTMLElement)) return;
+        const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+
+        if (terms.length === 0) {
+          results.innerHTML = "";
+          meta.textContent = "Enter a keyword to search the directory.";
+          return;
+        }
+
+        const matches = items
+          .map((item) => ({ item, score: scoreItem(item, terms) }))
+          .filter((entry) => entry.score > 0)
+          .sort((a, b) => b.score - a.score || a.item.title.localeCompare(b.item.title))
+          .map((entry) => entry.item);
+
+        meta.textContent =
+          matches.length === 1 ? `1 result for "${query}".` : `${matches.length} results for "${query}".`;
+
+        if (matches.length === 0) {
+          results.innerHTML = `
+            <div class="empty-state">
+              <strong>No results yet.</strong>
+              <p>Try a category like agents, memory, model, plugin, browser, or local AI.</p>
+            </div>
+          `;
+          return;
+        }
+
+        results.innerHTML = matches
+          .map(
+            (item) => `
+              <a class="result-card" href="${escapeHtml(item.href)}">
+                <div>
+                  <span>${escapeHtml(item.category)} · ${escapeHtml(item.type)}</span>
+                  <h2>${escapeHtml(item.title)}</h2>
+                  <p>${escapeHtml(item.summary)}</p>
+                </div>
+                <div class="result-tags">
+                  ${item.tags.slice(0, 4).map((tag) => `<small>${escapeHtml(tag)}</small>`).join("")}
+                </div>
+              </a>
+            `
+          )
+          .join("");
+      }
+
+      render();
+    </script>
+  </EditorialShell>
+</BaseLayout>
+
+<style>
+  .search-page {
+    display: grid;
+    gap: 22px;
+  }
+
+  .search-head {
+    max-width: 780px;
+  }
+
+  h1 {
+    font-size: 4rem;
+    letter-spacing: 0;
+    line-height: 1;
+    margin: 10px 0 0;
+  }
+
+  .search-form {
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  label {
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  label span {
+    height: 1px;
+    left: -999px;
+    overflow: hidden;
+    position: absolute;
+    top: auto;
+    width: 1px;
+  }
+
+  input {
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    font: inherit;
+    font-weight: 500;
+    min-height: 42px;
+    outline: none;
+    padding: 0 14px;
+    width: 100%;
+  }
+
+  input::placeholder {
+    color: var(--subtle);
+    font-weight: 400;
+  }
+
+  input:focus {
+    border-color: var(--line-strong);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 10%, transparent);
+  }
+
+  .search-meta {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+
+  .search-results {
+    display: grid;
+    gap: 12px;
+  }
+
+  .result-card,
+  .empty-state {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .result-card {
+    transition:
+      background 160ms ease,
+      border-color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .result-card:hover {
+    background: var(--surface-soft);
+    border-color: var(--line-strong);
+    transform: translateY(-1px);
+  }
+
+  .result-card span {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .result-card h2 {
+    font-size: 1.35rem;
+    letter-spacing: 0;
+    line-height: 1.1;
+    margin: 6px 0 0;
+  }
+
+  .result-card p,
+  .empty-state p {
+    margin: 8px 0 0;
+  }
+
+  .result-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .result-tags small {
+    background: var(--surface-tint);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    padding: 5px 8px;
+  }
+
+  @media (max-width: 620px) {
+    h1 {
+      font-size: 2.25rem;
+    }
+
+    .search-form {
+      align-items: stretch;
+      flex-direction: column;
+    }
+  }
+</style>

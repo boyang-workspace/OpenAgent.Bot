@@ -134,10 +134,10 @@ const jsonLd = {
           {badges.map((badge) => <span>{badge}</span>)}
         </div>
         <div class="actions">
-          {primaryCta && <a class="button" href={primaryCta.url}>{primaryCta.type === "github" ? "View repository" : primaryCta.label}</a>}
-          {homepageLink && homepageLink.url !== primaryCta?.url && <a class="button secondary" href={homepageLink.url}>Homepage</a>}
-          <a class="button secondary" href={resource.machine_readable.json_url.replace("https://www.openagent.bot", "")}>JSON</a>
-          <a class="button secondary" href={resource.machine_readable.markdown_url.replace("https://www.openagent.bot", "")}>Markdown</a>
+          {primaryCta && <a class="button" href={primaryCta.url}>{primaryCta.type === "github" ? "View repository" : primaryCta.label}<span class="new-window-icon" aria-hidden="true"></span></a>}
+          {homepageLink && homepageLink.url !== primaryCta?.url && <a class="button secondary" href={homepageLink.url}>Homepage<span class="new-window-icon" aria-hidden="true"></span></a>}
+          <a class="button secondary" href={resource.machine_readable.json_url.replace("https://www.openagent.bot", "")}>JSON<span class="new-window-icon" aria-hidden="true"></span></a>
+          <a class="button secondary" href={resource.machine_readable.markdown_url.replace("https://www.openagent.bot", "")}>Markdown<span class="new-window-icon" aria-hidden="true"></span></a>
         </div>
       </div>
     </article>
@@ -344,19 +344,17 @@ const jsonLd = {
     box-shadow: var(--shadow-feature);
     display: grid;
     gap: 0;
-    grid-template-columns: minmax(220px, 0.48fr) minmax(0, 1.52fr);
     overflow: hidden;
   }
 
   .hero-media {
     background: var(--surface-tint);
-    border-right: 1px solid var(--line);
-    min-height: 100%;
+    border-bottom: 1px solid var(--line);
   }
 
   .hero-media img {
-    aspect-ratio: 4 / 5;
-    height: 100%;
+    aspect-ratio: 1200 / 630;
+    height: auto;
     object-fit: cover;
     width: 100%;
   }
@@ -365,27 +363,27 @@ const jsonLd = {
     align-content: center;
     display: grid;
     min-width: 0;
-    padding: 34px;
+    padding: 28px 32px 30px;
   }
 
   h1 {
-    font-size: clamp(2.5rem, 5vw, 4.15rem);
+    font-size: clamp(2.15rem, 4.2vw, 3.35rem);
     letter-spacing: 0;
-    line-height: 1;
+    line-height: 1.02;
     margin: 10px 0 0;
   }
 
   .one-liner {
     color: var(--ink);
-    font-size: 1.16rem;
-    font-weight: 650;
+    font-size: 1.02rem;
+    font-weight: 600;
     line-height: 1.42;
-    margin: 18px 0 0;
+    margin: 14px 0 0;
   }
 
   .summary {
-    font-size: 1rem;
-    margin: 12px 0 0;
+    font-size: 0.92rem;
+    margin: 10px 0 0;
     max-width: 760px;
   }
 
@@ -406,17 +404,56 @@ const jsonLd = {
     border: 1px solid var(--line);
     border-radius: 8px;
     color: var(--muted);
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 500;
     line-height: 1.2;
-    padding: 6px 9px;
+    padding: 5px 8px;
   }
 
   .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 26px;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .actions .button {
+    font-size: 0.84rem;
+    min-height: 36px;
+    padding: 0 13px;
+  }
+
+  .new-window-icon {
+    border: 1.5px solid #a8afa5;
+    border-radius: 2px;
+    display: inline-block;
+    height: 0.72em;
+    margin-left: 2px;
+    position: relative;
+    width: 0.72em;
+  }
+
+  .new-window-icon::after {
+    border-right: 1.5px solid #a8afa5;
+    border-top: 1.5px solid #a8afa5;
+    content: "";
+    height: 0.42em;
+    position: absolute;
+    right: -0.18em;
+    top: -0.18em;
+    width: 0.42em;
+  }
+
+  .new-window-icon::before {
+    background: #a8afa5;
+    content: "";
+    height: 1.5px;
+    position: absolute;
+    right: -0.18em;
+    top: 0.04em;
+    transform: rotate(-45deg);
+    transform-origin: right center;
+    width: 0.56em;
   }
 
   .secondary {
@@ -425,44 +462,57 @@ const jsonLd = {
 
   .profile-grid {
     display: grid;
-    gap: 28px;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
-    margin-top: 34px;
+    gap: 30px;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+    margin-top: 30px;
   }
 
   .profile-main {
     display: grid;
-    gap: 22px;
+    gap: 0;
   }
 
-  .panel,
+  .panel {
+    border-top: 1px solid var(--line);
+    padding: 24px 0;
+  }
+
+  .profile-main .panel:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
   .source-panel {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 8px;
-    padding: 22px;
+    padding: 16px;
   }
 
   .panel h2,
   .source-panel h2 {
-    font-size: 1.58rem;
+    font-size: 1.34rem;
     letter-spacing: 0;
-    line-height: 1.12;
+    line-height: 1.18;
     margin: 8px 0 0;
+  }
+
+  .source-panel h2 {
+    font-size: 1.05rem;
   }
 
   .panel h3,
   .source-panel h3 {
-    font-size: 0.96rem;
+    font-size: 0.88rem;
     letter-spacing: 0;
     margin: 0 0 10px;
   }
 
   .narrative-panel p {
     color: var(--ink);
-    font-size: 1.08rem;
-    line-height: 1.72;
-    margin: 18px 0 0;
+    font-size: 0.96rem;
+    line-height: 1.68;
+    margin: 14px 0 0;
     max-width: 780px;
   }
 
@@ -470,28 +520,40 @@ const jsonLd = {
     display: grid;
     gap: 18px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-top: 18px;
+    margin-top: 16px;
   }
 
   .decision-grid > div,
   .story-card,
   .use-case-list article,
   .compare-list article {
-    background: var(--surface-soft);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 16px;
+    border-top: 1px solid var(--line);
+    padding: 14px 0 0;
+  }
+
+  .decision-grid > div {
+    border-top: 0;
+    padding-top: 0;
   }
 
   .story-grid {
     display: grid;
-    gap: 14px;
-    margin-top: 18px;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .story-card:first-child,
+  .use-case-list article:first-child,
+  .compare-list article:first-child {
+    border-top: 0;
+    padding-top: 0;
   }
 
   .story-card p,
   .use-case-list p,
   .compare-list p {
+    font-size: 0.9rem;
+    line-height: 1.58;
     margin: 0;
   }
 
@@ -505,16 +567,16 @@ const jsonLd = {
   .compare-list small {
     color: var(--muted);
     display: block;
-    font-size: 0.88rem;
+    font-size: 0.78rem;
     line-height: 1.5;
-    margin-top: 10px;
+    margin-top: 8px;
   }
 
   .use-case-list,
   .compare-list {
     display: grid;
-    gap: 12px;
-    margin-top: 18px;
+    gap: 14px;
+    margin-top: 16px;
   }
 
   .start-list {
@@ -525,17 +587,16 @@ const jsonLd = {
   }
 
   .start-list a {
-    background: var(--surface-soft);
     border: 1px solid var(--line);
     border-radius: 8px;
     display: grid;
     gap: 4px;
-    padding: 14px;
+    padding: 12px;
   }
 
   .start-list span {
     color: var(--accent-open);
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 700;
     text-transform: uppercase;
   }
@@ -606,25 +667,22 @@ const jsonLd = {
   }
 
   .mini-panel {
-    background: var(--surface-soft);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 16px;
+    border-top: 1px solid var(--line);
+    padding: 12px 0 0;
   }
 
   .link-list {
     display: grid;
-    gap: 10px;
-    margin-top: 18px;
+    gap: 0;
+    margin-top: 16px;
   }
 
   .link-list a {
-    border: 1px solid var(--line);
-    border-radius: 8px;
+    border-top: 1px solid var(--line);
     display: grid;
     gap: 4px;
     min-width: 0;
-    padding: 14px;
+    padding: 12px 0;
     transition:
       background 160ms ease,
       border-color 160ms ease,
@@ -633,19 +691,19 @@ const jsonLd = {
 
   .link-list a:hover {
     background: var(--surface-soft);
-    border-color: var(--line-strong);
+    border-color: var(--line);
     transform: translateY(-1px);
   }
 
   .link-list span {
     color: var(--accent-open);
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 700;
     text-transform: uppercase;
   }
 
   .link-list strong {
-    font-size: 1.02rem;
+    font-size: 0.9rem;
     line-height: 1.2;
   }
 
@@ -670,7 +728,7 @@ const jsonLd = {
   .agent-actions a {
     border: 1px solid var(--line);
     border-radius: 8px;
-    font-size: 0.82rem;
+    font-size: 0.76rem;
     font-weight: 600;
     padding: 8px 10px;
   }
@@ -690,7 +748,7 @@ const jsonLd = {
     background: #171914;
     border-radius: 8px;
     color: #f6f8f2;
-    font-size: 0.82rem;
+    font-size: 0.76rem;
     line-height: 1.55;
     margin: 18px 0 0;
     overflow: auto;
@@ -705,48 +763,57 @@ const jsonLd = {
   }
 
   .source-panel dl {
-    border-bottom: 1px solid var(--line);
     display: grid;
     gap: 0;
-    margin: 18px 0 0;
+    margin: 14px 0 0;
   }
 
   .source-panel dl div {
     border-top: 1px solid var(--line);
     display: grid;
-    gap: 8px;
-    grid-template-columns: 108px minmax(0, 1fr);
-    padding: 12px 0;
+    gap: 6px;
+    grid-template-columns: 76px minmax(0, 1fr);
+    padding: 8px 0;
   }
 
   dt {
     color: var(--muted);
-    font-size: 0.72rem;
+    font-size: 0.58rem;
     font-weight: 600;
     text-transform: uppercase;
   }
 
   dd {
-    line-height: 1.35;
+    font-size: 0.72rem;
+    line-height: 1.34;
     margin: 0;
     overflow-wrap: anywhere;
   }
 
   .signals {
     border-top: 1px solid var(--line);
-    margin-top: 18px;
-    padding-top: 18px;
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  .signals h3 {
+    font-size: 0.82rem;
+    margin-bottom: 8px;
+  }
+
+  .source-panel .chip-row {
+    gap: 6px;
+  }
+
+  .source-panel .chip-row span {
+    font-size: 0.66rem;
+    padding: 5px 7px;
   }
 
   @media (max-width: 860px) {
     .resource-hero,
     .profile-grid {
       grid-template-columns: 1fr;
-    }
-
-    .hero-media {
-      border-right: 0;
-      border-bottom: 1px solid var(--line);
     }
 
     .hero-copy {

@@ -92,7 +92,16 @@ const validResource: ResourceV1 = {
         url: "https://docs.langchain.com/langgraph",
         type: "docs"
       }
-    ]
+    ],
+    seo_article: {
+      intro: "LangGraph is an open-source framework for builders who need more structure than a prompt chain.",
+      what_it_is: "It is a graph-based framework for stateful agent workflows.",
+      why_it_matters: "It helps readers evaluate durable execution, state, and human review before choosing an agent stack.",
+      use_cases: [{ title: "Production agents", description: "Coordinate multi-step workflows that need checkpointing." }],
+      alternatives: [{ title: "When to choose LangGraph", summary: "Choose it when state and control matter.", against: "simple chains" }],
+      getting_started: [{ label: "Read the docs", url: "https://docs.langchain.com/langgraph", type: "docs" }],
+      faq: [{ question: "Is it open source?", answer: "The listed resource is treated as open-source based on its repository and license metadata." }]
+    }
   },
   timestamps: {
     created_at: "2026-04-17T00:00:00.000Z",
@@ -146,6 +155,16 @@ describe("resource schema v1", () => {
     invalid.tags.capability = ["made-up-tag"];
 
     expect(() => parseResourceV1(invalid)).toThrow(/unknown tag/);
+  });
+
+  it("rejects wild fields inside seo article", () => {
+    const invalid = structuredClone(validResource);
+    invalid.editorial!.seo_article = {
+      intro: "Intro",
+      made_up: "Nope"
+    } as unknown as NonNullable<ResourceV1["editorial"]>["seo_article"];
+
+    expect(() => parseResourceV1(invalid)).toThrow(/unknown field/);
   });
 
   it("converts all legacy published projects to ResourceV1", () => {

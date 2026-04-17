@@ -1,7 +1,9 @@
 ---
 import EditorialShell from "@/components/EditorialShell.astro";
-import { posts } from "@/data/posts";
+import { getPublishedBlogPosts } from "@/lib/content/blog";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const posts = await getPublishedBlogPosts();
 ---
 
 <BaseLayout title="Blog" description="Editorial notes about open-source AI resources, agent tooling, and machine-readable discovery." path="/blog">

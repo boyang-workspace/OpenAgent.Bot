@@ -12,6 +12,9 @@
     "d1:migrations:local": "wrangler d1 migrations apply openagent_bot --local",
     "d1:migrations:remote": "wrangler d1 migrations apply openagent_bot --remote",
     "discovery:daily": "tsx scripts/discovery/run-daily.ts",
+    "editorial:run": "tsx scripts/editorial/run.ts",
+    "blog:prepare": "tsx scripts/content/prepare-blog.ts",
+    "resource:prepare": "tsx scripts/content/prepare-resource.ts",
     "resources:migrate": "tsx scripts/resources/migrate-projects-to-resources.ts"
   },
   "dependencies": {

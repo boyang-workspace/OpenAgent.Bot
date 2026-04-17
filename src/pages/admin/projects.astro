@@ -97,6 +97,49 @@ const taxonomyGroups = Object.entries(taxonomy).map(([group, values]) => ({
 
         <section class="admin-form-section">
           <header>
+            <span class="eyebrow">SEO Article</span>
+            <h3>Human-readable resource guide</h3>
+            <p>This is the main article layer for readers. Keep facts, links, and tags in their structured sections below.</p>
+          </header>
+          <label>
+            SEO article JSON
+            <textarea name="seoArticle" rows="14" placeholder='{
+  "intro": "A short opening paragraph for search visitors.",
+  "whatItIs": "Explain what the resource is in plain language.",
+  "whyItMatters": "Explain the decision value beyond the README.",
+  "howItWorks": "Describe the practical mechanism without unsupported claims.",
+  "useCases": [
+    {
+      "title": "Concrete use case",
+      "description": "Who uses it, for what task, and why it fits."
+    }
+  ],
+  "alternatives": [
+    {
+      "title": "When to choose this",
+      "against": "Alternative or category",
+      "summary": "The practical tradeoff."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Read the docs",
+      "url": "https://example.com/docs",
+      "type": "docs"
+    }
+  ],
+  "faq": [
+    {
+      "question": "Is it open source?",
+      "answer": "Use verified facts only."
+    }
+  ]
+}'></textarea>
+          </label>
+        </section>
+
+        <section class="admin-form-section">
+          <header>
             <span class="eyebrow">Capabilities narrative</span>
             <h3>What it actually does</h3>
             <p>Structured editorial notes for the detail page. Keep these plain-language and decision-oriented.</p>
@@ -381,6 +424,7 @@ const taxonomyGroups = Object.entries(taxonomy).map(([group, values]) => ({
       useCaseNotes: jsonToText(content.useCaseNotes),
       compareNotes: jsonToText(content.compareNotes),
       gettingStarted: jsonToText(content.gettingStarted),
+      seoArticle: jsonToText(content.seoArticle),
       thumbnailBrief: jsonToText(content.thumbnailBrief)
     };
     for (const [key, value] of Object.entries(fields)) {
@@ -413,6 +457,7 @@ const taxonomyGroups = Object.entries(taxonomy).map(([group, values]) => ({
       useCaseNotes: data.useCaseNotes,
       compareNotes: data.compareNotes,
       gettingStarted: data.gettingStarted,
+      seoArticle: data.seoArticle,
       thumbnailBrief: data.thumbnailBrief,
       isFeatured: Boolean(editor.querySelector("[name='isFeatured']")?.checked),
       isSponsored: Boolean(editor.querySelector("[name='isSponsored']")?.checked),

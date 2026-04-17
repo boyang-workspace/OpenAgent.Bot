@@ -99,6 +99,25 @@ function titledListBlock(title: string, values: Array<{ title: string; descripti
   ];
 }
 
+function seoArticleBlock(resource: ResourceV1): string[] {
+  const article = resource.editorial?.seo_article;
+  if (!article) return [];
+  return [
+    "",
+    "## Guide",
+    ...(article.intro ? [article.intro, ""] : []),
+    ...(article.what_it_is ? ["### What it is", article.what_it_is, ""] : []),
+    ...(article.why_it_matters ? ["### Why it matters", article.why_it_matters, ""] : []),
+    ...(article.how_it_works ? ["### How it works", article.how_it_works, ""] : []),
+    ...titledListBlock("Use Cases", article.use_cases),
+    ...titledListBlock("Alternatives", article.alternatives),
+    ...(article.getting_started?.length
+      ? ["", "### Getting Started", ...article.getting_started.map((link) => `- ${link.label}: ${link.url}`)]
+      : []),
+    ...(article.faq?.length ? ["", "### FAQ", ...article.faq.flatMap((item) => [`- ${item.question}`, `  - ${item.answer}`])] : [])
+  ];
+}
+
 export function resourceMarkdown(resource: ResourceV1): string {
   const facts = [
     `- Category: ${resource.classification.primary_category}`,
@@ -117,6 +136,7 @@ export function resourceMarkdown(resource: ResourceV1): string {
     resource.identity.one_liner,
     "",
     ...(resource.identity.short_description ? ["## Summary", resource.identity.short_description, ""] : []),
+    ...seoArticleBlock(resource),
     ...(resource.positioning.why_it_matters ? ["## Why It Matters", resource.positioning.why_it_matters, ""] : []),
     ...listBlock("Best For", resource.positioning.best_for),
     ...listBlock("Not For", resource.positioning.not_for),

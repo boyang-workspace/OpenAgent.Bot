@@ -1,9 +1,10 @@
 ---
-import { posts } from "@/data/posts";
+import { getPublishedBlogPosts } from "@/lib/content/blog";
 import EditorialShell from "@/components/EditorialShell.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const posts = await getPublishedBlogPosts();
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post }

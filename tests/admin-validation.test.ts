@@ -46,6 +46,15 @@ describe("admin CMS validation", () => {
       useCaseNotes: JSON.stringify([{ title: "QA automation", description: "Run browser tasks that need agent judgment." }]),
       compareNotes: JSON.stringify([{ title: "When to use it", summary: "Use it when browser operation is the workflow bottleneck." }]),
       gettingStarted: JSON.stringify([{ label: "GitHub", url: "https://github.com/browser-use/browser-use", type: "github" }]),
+      seoArticle: JSON.stringify({
+        intro: "Browser Use is a browser automation resource for agent builders.",
+        whatItIs: "It helps turn browser workflows into repeatable agent actions.",
+        whyItMatters: "Many useful workflows still happen in browser interfaces instead of clean APIs.",
+        useCases: [{ title: "QA automation", description: "Run browser tasks that need agent judgment." }],
+        alternatives: [{ title: "When to use it", summary: "Use it when browser operation is the workflow bottleneck." }],
+        gettingStarted: [{ label: "GitHub", url: "https://github.com/browser-use/browser-use", type: "github" }],
+        faq: [{ question: "Does this publish automatically?", answer: "No. It stays in Admin review until published." }]
+      }),
       thumbnailBrief: JSON.stringify({ visualMotif: "browser command blocks", avoid: ["noisy poster"] })
     });
 
@@ -53,6 +62,7 @@ describe("admin CMS validation", () => {
     expect(content.bestFor).toEqual(["Browser agents", "QA automation"]);
     expect(content.coreStrengths?.[0]?.title).toBe("Browser control");
     expect(content.gettingStarted?.[0]?.type).toBe("github");
+    expect(content.seoArticle?.whatItIs).toContain("browser workflows");
     expect(content.repoUrl).toBe("https://github.com/browser-use/browser-use");
     expect(() => assertPublishable(content)).not.toThrow();
   });

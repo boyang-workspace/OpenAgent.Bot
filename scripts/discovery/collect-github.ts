@@ -20,11 +20,11 @@ type GitHubSearchResponse = {
   items: GitHubSearchItem[];
 };
 
-export async function collectGitHub(now = new Date()): Promise<DiscoveryCandidate[]> {
+export async function collectGitHub(now = new Date(), keywords = discoveryKeywords): Promise<DiscoveryCandidate[]> {
   const discoveredAt = now.toISOString();
   const candidates: DiscoveryCandidate[] = [];
 
-  for (const keyword of discoveryKeywords) {
+  for (const keyword of keywords) {
     const query = `${keyword} in:name,description pushed:>2025-01-01`;
     const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(query)}&sort=stars&order=desc&per_page=5`;
 

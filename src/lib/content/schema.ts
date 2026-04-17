@@ -31,6 +31,22 @@ export type ProjectGettingStarted = {
   type: string;
 };
 
+export type ProjectFaqItem = {
+  question: string;
+  answer: string;
+};
+
+export type ProjectSeoArticle = {
+  intro?: string;
+  whatItIs?: string;
+  whyItMatters?: string;
+  howItWorks?: string;
+  useCases?: ProjectUseCaseNote[];
+  alternatives?: ProjectCompareNote[];
+  gettingStarted?: ProjectGettingStarted[];
+  faq?: ProjectFaqItem[];
+};
+
 export type ProjectThumbnailBrief = {
   resourceType?: string;
   visualMotif?: string;
@@ -114,6 +130,7 @@ export type OpenProject = {
   useCaseNotes?: ProjectUseCaseNote[];
   compareNotes?: ProjectCompareNote[];
   gettingStarted?: ProjectGettingStarted[];
+  seoArticle?: ProjectSeoArticle;
   thumbnailBrief?: ProjectThumbnailBrief;
   sourceMetrics?: SourceMetrics;
   noindex?: boolean;
@@ -210,6 +227,36 @@ function optionalGettingStarted(record: Record<string, unknown>): ProjectGetting
   }));
 }
 
+function optionalSeoArticle(record: Record<string, unknown>): ProjectSeoArticle | undefined {
+  const value = record.seoArticle;
+  if (value === undefined) return undefined;
+  if (!isRecord(value)) throw new Error('Project field "seoArticle" must be an object when present.');
+  return {
+    intro: optionalString(value, "intro"),
+    whatItIs: optionalString(value, "whatItIs"),
+    whyItMatters: optionalString(value, "whyItMatters"),
+    howItWorks: optionalString(value, "howItWorks"),
+    useCases: optionalRecordArray(value, "useCases")?.map((item) => ({
+      title: requireString(item, "title"),
+      description: requireString(item, "description")
+    })),
+    alternatives: optionalRecordArray(value, "alternatives")?.map((item) => ({
+      title: requireString(item, "title"),
+      summary: requireString(item, "summary"),
+      against: optionalString(item, "against")
+    })),
+    gettingStarted: optionalRecordArray(value, "gettingStarted")?.map((item) => ({
+      label: requireString(item, "label"),
+      url: requireString(item, "url"),
+      type: requireString(item, "type")
+    })),
+    faq: optionalRecordArray(value, "faq")?.map((item) => ({
+      question: requireString(item, "question"),
+      answer: requireString(item, "answer")
+    }))
+  };
+}
+
 function optionalThumbnailBrief(record: Record<string, unknown>): ProjectThumbnailBrief | undefined {
   const value = record.thumbnailBrief;
   if (value === undefined) return undefined;
@@ -294,6 +341,7 @@ export function parseOpenProject(input: unknown): OpenProject {
     useCaseNotes: optionalUseCaseNotes(input),
     compareNotes: optionalCompareNotes(input),
     gettingStarted: optionalGettingStarted(input),
+    seoArticle: optionalSeoArticle(input),
     thumbnailBrief: optionalThumbnailBrief(input),
     sourceMetrics: optionalSourceMetrics(input),
     noindex: optionalBoolean(input, "noindex")

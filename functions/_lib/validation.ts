@@ -108,6 +108,45 @@ function gettingStartedField(input: Record<string, unknown>): ProjectDraftConten
   });
 }
 
+function seoArticleField(input: Record<string, unknown>): ProjectDraftContent["seoArticle"] {
+  const value = jsonValueField(input, "seoArticle");
+  if (value === undefined) return undefined;
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new Error("seoArticle must be a JSON object.");
+  }
+  const record = value as Record<string, unknown>;
+  return {
+    intro: stringField(record, "intro", { max: 1200 }),
+    whatItIs: stringField(record, "whatItIs", { max: 1600 }),
+    whyItMatters: stringField(record, "whyItMatters", { max: 1600 }),
+    howItWorks: stringField(record, "howItWorks", { max: 1600 }),
+    useCases: recordArrayField(record, "useCases")?.map((item, index) => ({
+      title: stringField(item, "title", { required: true, max: 100 }) ?? `Use case ${index + 1}`,
+      description: stringField(item, "description", { required: true, max: 600 }) ?? ""
+    })),
+    alternatives: recordArrayField(record, "alternatives")?.map((item, index) => ({
+      title: stringField(item, "title", { required: true, max: 120 }) ?? `Alternative ${index + 1}`,
+      summary: stringField(item, "summary", { required: true, max: 700 }) ?? "",
+      against: stringField(item, "against", { max: 100 })
+    })),
+    gettingStarted: recordArrayField(record, "gettingStarted")?.map((item) => {
+      const type = stringField(item, "type", { required: true, max: 40 }) ?? "homepage";
+      if (!(linkTypes as readonly string[]).includes(type)) {
+        throw new Error(`seoArticle.gettingStarted contains unsupported link type: ${type}.`);
+      }
+      return {
+        label: stringField(item, "label", { required: true, max: 80 }) ?? "Open",
+        url: validUrl(stringField(item, "url", { required: true, max: 500 }), "seoArticle.gettingStarted.url", true)!,
+        type
+      };
+    }),
+    faq: recordArrayField(record, "faq")?.map((item, index) => ({
+      question: stringField(item, "question", { required: true, max: 180 }) ?? `Question ${index + 1}`,
+      answer: stringField(item, "answer", { required: true, max: 900 }) ?? ""
+    }))
+  };
+}
+
 function thumbnailBriefField(input: Record<string, unknown>): ProjectDraftContent["thumbnailBrief"] {
   const value = jsonValueField(input, "thumbnailBrief");
   if (value === undefined) return undefined;
@@ -238,6 +277,7 @@ export function parseDraftContent(input: Record<string, unknown>): ProjectDraftC
     useCaseNotes: useCaseNotesField(input),
     compareNotes: compareNotesField(input),
     gettingStarted: gettingStartedField(input),
+    seoArticle: seoArticleField(input),
     thumbnailBrief: thumbnailBriefField(input),
     noindex: booleanField(input, "noindex")
   };

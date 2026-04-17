@@ -102,6 +102,22 @@ GITHUB_BASE_BRANCH=main
 8. Admin creates and merges the GitHub PR.
 9. Cloudflare Pages deploys the new static page.
 
+## Content Requests to Codex
+
+For a specific resource request, such as "add an OmniSaver article under Memory", Codex can prepare a resource draft:
+
+```bash
+npm run resource:prepare -- --category memory-systems --title OmniSaver --summary "Open-source memory and saving infrastructure for AI-assisted workflows." --source https://omnisaver.io
+```
+
+For a blog request, such as "write a blog about OpenClaw", Codex can prepare a blog draft:
+
+```bash
+npm run blog:prepare -- --title "OpenClaw: open-source browser agent infrastructure" --topic "How OpenClaw fits into open AI agent workflows" --tags openclaw,agents,open-source
+```
+
+Resource drafts live in `content/projects/drafts`. Blog drafts live in `content/blog/drafts`. The current lightweight blog flow is GitHub-backed: review the draft, move it to `content/blog/published`, then publish through the normal GitHub/Cloudflare flow.
+
 ## Published Content
 
 Published projects are managed from `/admin/published`.
@@ -121,6 +137,36 @@ GET  /admin/api/agent/tasks
 POST /admin/api/agent/tasks/:id/run
 GET  /admin/api/agent/events
 ```
+
+## Codex Editorial Import
+
+Codex can import generated SEO article drafts into Admin through:
+
+```text
+POST /admin/api/editorial/import-draft
+```
+
+The endpoint is protected by the same Cloudflare Access app. For non-browser runs, create a Cloudflare Access service token and pass:
+
+```text
+CF_ACCESS_CLIENT_ID
+CF_ACCESS_CLIENT_SECRET
+OPENAGENT_ADMIN_IMPORT_URL=https://www.openagent.bot/admin/api/editorial/import-draft
+```
+
+Run a safe preview first:
+
+```bash
+npm run editorial:run -- --dry-run --repo https://github.com/owner/repo --limit 1
+```
+
+Then import:
+
+```bash
+npm run editorial:run -- --repo https://github.com/owner/repo --limit 1
+```
+
+Imported drafts stay in D1 with status `draft`. They are not public until a human or agent marks them ready and uses Publishing.
 
 Agent-safe mutation rules:
 

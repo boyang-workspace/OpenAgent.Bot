@@ -1,6 +1,6 @@
 import type { CategorySlug, OpenProject, OpenSourceStatus } from "./schema";
 import { taxonomy } from "./taxonomy";
-import { linkTypes, type DeploymentMode, type EditorialCompareNote, type EditorialGettingStarted, type EditorialStrength, type EditorialUseCase, type LinkType, type ResourceLink, type ResourceType, type ResourceV1, type ThumbnailBrief } from "./resource-schema";
+import { linkTypes, type DeploymentMode, type EditorialCompareNote, type EditorialGettingStarted, type EditorialSeoArticle, type EditorialStrength, type EditorialUseCase, type LinkType, type ResourceLink, type ResourceType, type ResourceV1, type ThumbnailBrief } from "./resource-schema";
 
 const canonicalBaseUrl = "https://www.openagent.bot";
 
@@ -198,6 +198,33 @@ function fallbackThumbnailBrief(project: OpenProject): ThumbnailBrief {
   };
 }
 
+function makeSeoArticle(project: OpenProject, links: ResourceV1["links"]): EditorialSeoArticle {
+  if (project.seoArticle) {
+    return {
+      intro: project.seoArticle.intro,
+      what_it_is: project.seoArticle.whatItIs,
+      why_it_matters: project.seoArticle.whyItMatters,
+      how_it_works: project.seoArticle.howItWorks,
+      use_cases: project.seoArticle.useCases,
+      alternatives: project.seoArticle.alternatives,
+      getting_started: project.seoArticle.gettingStarted
+        ?.filter((item) => isLinkType(item.type))
+        .map((item) => ({ label: item.label, url: item.url, type: item.type as LinkType })),
+      faq: project.seoArticle.faq
+    };
+  }
+
+  return {
+    intro: project.summary,
+    what_it_is: `${project.title} is listed on OpenAgent.bot as a ${project.category.replaceAll("-", " ")} resource for open AI builders.`,
+    why_it_matters: project.whyItMatters,
+    how_it_works: "Start from the official source links, then validate the project against your deployment needs, license requirements, and maintenance expectations.",
+    use_cases: project.useCaseNotes,
+    alternatives: project.compareNotes,
+    getting_started: makeGettingStarted(project, links)
+  };
+}
+
 function mapCapabilities(project: OpenProject): string[] {
   const normalized = project.tags.map((tag) => tagAliases[tag] ?? tag).filter((tag) => (taxonomy.capability as readonly string[]).includes(tag));
   if (project.category === "agents") normalized.push("workflow-orchestration");
@@ -334,7 +361,8 @@ export function openProjectToResourceV1(project: OpenProject, raw: ProjectRawFie
       core_strengths: fallbackCoreStrengths(project, capabilities),
       use_case_notes: fallbackUseCases(project, scenarioTags),
       compare_notes: fallbackCompareNotes(project),
-      getting_started: makeGettingStarted(project, links)
+      getting_started: makeGettingStarted(project, links),
+      seo_article: makeSeoArticle(project, links)
     },
     timestamps: {
       created_at: createdAt,

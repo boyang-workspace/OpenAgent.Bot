@@ -86,6 +86,22 @@ export type EditorialGettingStarted = {
   type: LinkType;
 };
 
+export type EditorialFaqItem = {
+  question: string;
+  answer: string;
+};
+
+export type EditorialSeoArticle = {
+  intro?: string;
+  what_it_is?: string;
+  why_it_matters?: string;
+  how_it_works?: string;
+  use_cases?: EditorialUseCase[];
+  alternatives?: EditorialCompareNote[];
+  getting_started?: EditorialGettingStarted[];
+  faq?: EditorialFaqItem[];
+};
+
 export type ThumbnailBrief = {
   resource_type?: string;
   visual_motif?: string;
@@ -190,6 +206,7 @@ export type ResourceV1 = {
     use_case_notes?: EditorialUseCase[];
     compare_notes?: EditorialCompareNote[];
     getting_started?: EditorialGettingStarted[];
+    seo_article?: EditorialSeoArticle;
   };
   timestamps: {
     created_at: string;
@@ -550,7 +567,7 @@ function parseSeo(input: unknown): ResourceV1["seo"] {
 function parseEditorial(input: unknown): ResourceV1["editorial"] {
   if (input === undefined) return undefined;
   if (!isRecord(input)) throw new Error("resource.editorial must be an object when present.");
-  assertNoUnknownKeys(input, ["featured_reason", "trust_note", "core_strengths", "use_case_notes", "compare_notes", "getting_started"], "resource.editorial");
+  assertNoUnknownKeys(input, ["featured_reason", "trust_note", "core_strengths", "use_case_notes", "compare_notes", "getting_started", "seo_article"], "resource.editorial");
   const coreStrengths = optionalRecordArray(input, "core_strengths", "resource.editorial")?.map((item, index) => {
     const context = `resource.editorial.core_strengths[${index}]`;
     assertNoUnknownKeys(item, ["title", "description", "why_it_matters"], context);
@@ -588,13 +605,69 @@ function parseEditorial(input: unknown): ResourceV1["editorial"] {
       type: requireEnum(item, "type", linkTypes, context)
     };
   });
+  let seoArticle: EditorialSeoArticle | undefined;
+  if (input.seo_article !== undefined) {
+    if (!isRecord(input.seo_article)) throw new Error("resource.editorial.seo_article must be an object when present.");
+    assertNoUnknownKeys(
+      input.seo_article,
+      ["intro", "what_it_is", "why_it_matters", "how_it_works", "use_cases", "alternatives", "getting_started", "faq"],
+      "resource.editorial.seo_article"
+    );
+    const seoUseCases = optionalRecordArray(input.seo_article, "use_cases", "resource.editorial.seo_article")?.map((item, index) => {
+      const context = `resource.editorial.seo_article.use_cases[${index}]`;
+      assertNoUnknownKeys(item, ["title", "description"], context);
+      return {
+        title: requireString(item, "title", context),
+        description: requireString(item, "description", context)
+      };
+    });
+    const seoAlternatives = optionalRecordArray(input.seo_article, "alternatives", "resource.editorial.seo_article")?.map((item, index) => {
+      const context = `resource.editorial.seo_article.alternatives[${index}]`;
+      assertNoUnknownKeys(item, ["title", "summary", "against"], context);
+      return {
+        title: requireString(item, "title", context),
+        summary: requireString(item, "summary", context),
+        against: optionalString(item, "against", context)
+      };
+    });
+    const seoGettingStarted = optionalRecordArray(input.seo_article, "getting_started", "resource.editorial.seo_article")?.map((item, index) => {
+      const context = `resource.editorial.seo_article.getting_started[${index}]`;
+      assertNoUnknownKeys(item, ["label", "url", "type"], context);
+      const url = requireString(item, "url", context);
+      assertUrl(url, `${context}.url`);
+      return {
+        label: requireString(item, "label", context),
+        url,
+        type: requireEnum(item, "type", linkTypes, context)
+      };
+    });
+    const faq = optionalRecordArray(input.seo_article, "faq", "resource.editorial.seo_article")?.map((item, index) => {
+      const context = `resource.editorial.seo_article.faq[${index}]`;
+      assertNoUnknownKeys(item, ["question", "answer"], context);
+      return {
+        question: requireString(item, "question", context),
+        answer: requireString(item, "answer", context)
+      };
+    });
+    seoArticle = {
+      intro: optionalString(input.seo_article, "intro", "resource.editorial.seo_article"),
+      what_it_is: optionalString(input.seo_article, "what_it_is", "resource.editorial.seo_article"),
+      why_it_matters: optionalString(input.seo_article, "why_it_matters", "resource.editorial.seo_article"),
+      how_it_works: optionalString(input.seo_article, "how_it_works", "resource.editorial.seo_article"),
+      use_cases: seoUseCases,
+      alternatives: seoAlternatives,
+      getting_started: seoGettingStarted,
+      faq
+    };
+  }
   return {
     featured_reason: optionalString(input, "featured_reason", "resource.editorial"),
     trust_note: optionalString(input, "trust_note", "resource.editorial"),
     core_strengths: coreStrengths,
     use_case_notes: useCaseNotes,
     compare_notes: compareNotes,
-    getting_started: gettingStarted
+    getting_started: gettingStarted,
+    seo_article: seoArticle
   };
 }
 

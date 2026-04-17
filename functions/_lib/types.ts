@@ -97,6 +97,30 @@ export type ProjectDraftContent = {
     url: string;
     type: string;
   }>;
+  seoArticle?: {
+    intro?: string;
+    whatItIs?: string;
+    whyItMatters?: string;
+    howItWorks?: string;
+    useCases?: Array<{
+      title: string;
+      description: string;
+    }>;
+    alternatives?: Array<{
+      title: string;
+      summary: string;
+      against?: string;
+    }>;
+    gettingStarted?: Array<{
+      label: string;
+      url: string;
+      type: string;
+    }>;
+    faq?: Array<{
+      question: string;
+      answer: string;
+    }>;
+  };
   thumbnailBrief?: {
     resourceType?: string;
     visualMotif?: string;

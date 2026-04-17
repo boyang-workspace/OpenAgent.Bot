@@ -4,6 +4,7 @@ import ResourceCard from "@/components/ResourceCard.astro";
 import EditorialShell from "@/components/EditorialShell.astro";
 import { categories } from "@/config/site";
 import { getResourcesByCategory } from "@/lib/content/resources";
+import { resourceSignals } from "@/lib/content/resource-display";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export function getStaticPaths() {
@@ -15,6 +16,7 @@ export function getStaticPaths() {
 
 const { category } = Astro.props;
 const categoryResources = await getResourcesByCategory(category.slug);
+const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) => resourceSignals(resource, 4)))).slice(0, 5);
 ---
 
 <BaseLayout title={category.label} description={category.description} path={`/${category.slug}`}>
@@ -24,6 +26,13 @@ const categoryResources = await getResourcesByCategory(category.slug);
         <span>{categoryResources.length}</span>
         <p>published resources</p>
       </div>
+      {
+        categorySignals.length > 0 && (
+          <div class="summary-signals">
+            {categorySignals.map((signal) => <small>{signal}</small>)}
+          </div>
+        )
+      }
       <a class="button secondary" href="/submit">Submit a project</a>
     </section>
 
@@ -43,6 +52,7 @@ const categoryResources = await getResourcesByCategory(category.slug);
     border: 1px solid var(--line);
     border-radius: 8px;
     display: flex;
+    gap: 18px;
     justify-content: space-between;
     margin-bottom: 34px;
     padding: 18px;
@@ -58,6 +68,23 @@ const categoryResources = await getResourcesByCategory(category.slug);
 
   .category-summary p {
     margin: 4px 0 0;
+  }
+
+  .summary-signals {
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .summary-signals small {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 6px 9px;
   }
 
   .resource-list {

@@ -1,38 +1,24 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import EditorialShell from "@/components/EditorialShell.astro";
-import { categories } from "@/config/site";
 import { posts } from "@/data/posts";
 import { getPublishedResources, resourcePath } from "@/lib/content/resources";
+import { resourceCategoryLabel, resourceMeta, resourceSearchText, resourceSignals, resourceSummary, resourceTags } from "@/lib/content/resource-display";
 
 const resources = await getPublishedResources();
-const categoryLabel = new Map<string, string>(categories.map((category) => [category.slug, category.label]));
 const searchIndex = [
   ...resources.map((resource) => {
-    const tags = Array.from(new Set([...resource.tags.category, ...resource.tags.capability, ...resource.tags.constraint, ...resource.tags.scenario]));
     return {
       type: "project",
       title: resource.identity.name,
-      summary: resource.identity.one_liner || resource.identity.short_description,
+      summary: resourceSummary(resource),
       href: resourcePath(resource),
-      category: categoryLabel.get(resource.classification.primary_category) ?? resource.classification.primary_category,
-      tags,
+      category: resourceCategoryLabel(resource),
+      meta: resourceMeta(resource),
+      signals: resourceSignals(resource, 4),
+      tags: resourceTags(resource, 4),
       updatedAt: resource.timestamps.updated_at,
-      searchable: [
-        resource.identity.name,
-        resource.identity.one_liner,
-        resource.identity.short_description,
-        resource.positioning.why_it_matters,
-        resource.classification.primary_category,
-        resource.classification.resource_type,
-        resource.facts.license,
-        tags.join(" "),
-        resource.positioning.best_for?.join(" "),
-        resource.capabilities.core_capabilities?.join(" ")
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase()
+      searchable: resourceSearchText(resource)
     };
   }),
   ...posts.map((post) => ({
@@ -41,6 +27,8 @@ const searchIndex = [
     summary: post.summary,
     href: `/blog/${post.slug}`,
     category: "Blog",
+    meta: ["Blog", post.publishedAt],
+    signals: [],
     tags: post.tags,
     updatedAt: post.publishedAt,
     searchable: [post.title, post.summary, post.body, post.tags.join(" ")].join(" ").toLowerCase()
@@ -138,9 +126,17 @@ const searchIndex = [
                   <span>${escapeHtml(item.category)} · ${escapeHtml(item.type)}</span>
                   <h2>${escapeHtml(item.title)}</h2>
                   <p>${escapeHtml(item.summary)}</p>
+                  <div class="result-meta">
+                    ${(item.meta || []).slice(0, 4).map((meta) => `<small>${escapeHtml(meta)}</small>`).join("")}
+                  </div>
                 </div>
-                <div class="result-tags">
-                  ${item.tags.slice(0, 4).map((tag) => `<small>${escapeHtml(tag)}</small>`).join("")}
+                <div class="result-side">
+                  <div class="result-signals">
+                    ${(item.signals || []).slice(0, 4).map((signal) => `<small>${escapeHtml(signal)}</small>`).join("")}
+                  </div>
+                  <div class="result-tags">
+                    ${item.tags.slice(0, 4).map((tag) => `<small>${escapeHtml(tag)}</small>`).join("")}
+                  </div>
                 </div>
               </a>
             `
@@ -239,6 +235,7 @@ const searchIndex = [
   }
 
   .result-card {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.42fr);
     transition:
       background 160ms ease,
       border-color 160ms ease,
@@ -270,18 +267,45 @@ const searchIndex = [
     margin: 8px 0 0;
   }
 
+  .result-meta,
+  .result-signals,
   .result-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
   }
 
+  .result-meta {
+    margin-top: 12px;
+  }
+
+  .result-side {
+    align-content: start;
+    display: grid;
+    gap: 10px;
+    justify-items: end;
+  }
+
+  .result-signals,
+  .result-tags {
+    justify-content: flex-end;
+  }
+
+  .result-meta small,
+  .result-signals small,
   .result-tags small {
     background: var(--surface-tint);
     border-radius: 8px;
     color: var(--muted);
     font-size: 0.78rem;
     padding: 5px 8px;
+  }
+
+  .result-signals small {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    font-weight: 500;
   }
 
   @media (max-width: 620px) {
@@ -292,6 +316,17 @@ const searchIndex = [
     .search-form {
       align-items: stretch;
       flex-direction: column;
+    }
+
+    .result-card {
+      grid-template-columns: 1fr;
+    }
+
+    .result-side,
+    .result-signals,
+    .result-tags {
+      justify-items: start;
+      justify-content: flex-start;
     }
   }
 </style>

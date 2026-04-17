@@ -8,6 +8,39 @@ export type DiscoverySource = (typeof sources)[number];
 export type ProjectStatus = (typeof projectStatuses)[number];
 export type OpenSourceStatus = (typeof openSourceStatuses)[number];
 
+export type ProjectCoreStrength = {
+  title: string;
+  description: string;
+  whyItMatters?: string;
+};
+
+export type ProjectUseCaseNote = {
+  title: string;
+  description: string;
+};
+
+export type ProjectCompareNote = {
+  title: string;
+  summary: string;
+  against?: string;
+};
+
+export type ProjectGettingStarted = {
+  label: string;
+  url: string;
+  type: string;
+};
+
+export type ProjectThumbnailBrief = {
+  resourceType?: string;
+  visualMotif?: string;
+  backgroundStyle?: string;
+  titleOverlay?: string;
+  subtitle?: string;
+  priorityAssets?: string[];
+  avoid?: string[];
+};
+
 export type SourceMetrics = {
   stars?: number;
   forks?: number;
@@ -77,6 +110,11 @@ export type OpenProject = {
   isSponsored: boolean;
   featuredReason?: string;
   coverImage?: string;
+  coreStrengths?: ProjectCoreStrength[];
+  useCaseNotes?: ProjectUseCaseNote[];
+  compareNotes?: ProjectCompareNote[];
+  gettingStarted?: ProjectGettingStarted[];
+  thumbnailBrief?: ProjectThumbnailBrief;
   sourceMetrics?: SourceMetrics;
   noindex?: boolean;
 };
@@ -130,6 +168,61 @@ function optionalStringArray(record: Record<string, unknown>, key: string): stri
     throw new Error(`Project field "${key}" must be a string array when present.`);
   }
   return value;
+}
+
+function optionalRecordArray(record: Record<string, unknown>, key: string): Record<string, unknown>[] | undefined {
+  const value = record[key];
+  if (value === undefined) return undefined;
+  if (!Array.isArray(value) || value.some((item) => !isRecord(item))) {
+    throw new Error(`Project field "${key}" must be an object array when present.`);
+  }
+  return value;
+}
+
+function optionalCoreStrengths(record: Record<string, unknown>): ProjectCoreStrength[] | undefined {
+  return optionalRecordArray(record, "coreStrengths")?.map((item) => ({
+    title: requireString(item, "title"),
+    description: requireString(item, "description"),
+    whyItMatters: optionalString(item, "whyItMatters")
+  }));
+}
+
+function optionalUseCaseNotes(record: Record<string, unknown>): ProjectUseCaseNote[] | undefined {
+  return optionalRecordArray(record, "useCaseNotes")?.map((item) => ({
+    title: requireString(item, "title"),
+    description: requireString(item, "description")
+  }));
+}
+
+function optionalCompareNotes(record: Record<string, unknown>): ProjectCompareNote[] | undefined {
+  return optionalRecordArray(record, "compareNotes")?.map((item) => ({
+    title: requireString(item, "title"),
+    summary: requireString(item, "summary"),
+    against: optionalString(item, "against")
+  }));
+}
+
+function optionalGettingStarted(record: Record<string, unknown>): ProjectGettingStarted[] | undefined {
+  return optionalRecordArray(record, "gettingStarted")?.map((item) => ({
+    label: requireString(item, "label"),
+    url: requireString(item, "url"),
+    type: requireString(item, "type")
+  }));
+}
+
+function optionalThumbnailBrief(record: Record<string, unknown>): ProjectThumbnailBrief | undefined {
+  const value = record.thumbnailBrief;
+  if (value === undefined) return undefined;
+  if (!isRecord(value)) throw new Error('Project field "thumbnailBrief" must be an object when present.');
+  return {
+    resourceType: optionalString(value, "resourceType"),
+    visualMotif: optionalString(value, "visualMotif"),
+    backgroundStyle: optionalString(value, "backgroundStyle"),
+    titleOverlay: optionalString(value, "titleOverlay"),
+    subtitle: optionalString(value, "subtitle"),
+    priorityAssets: optionalStringArray(value, "priorityAssets"),
+    avoid: optionalStringArray(value, "avoid")
+  };
 }
 
 function optionalSourceMetrics(record: Record<string, unknown>): SourceMetrics | undefined {
@@ -197,6 +290,11 @@ export function parseOpenProject(input: unknown): OpenProject {
     isSponsored: optionalBoolean(input, "isSponsored") ?? false,
     featuredReason: optionalString(input, "featuredReason"),
     coverImage: optionalString(input, "coverImage"),
+    coreStrengths: optionalCoreStrengths(input),
+    useCaseNotes: optionalUseCaseNotes(input),
+    compareNotes: optionalCompareNotes(input),
+    gettingStarted: optionalGettingStarted(input),
+    thumbnailBrief: optionalThumbnailBrief(input),
     sourceMetrics: optionalSourceMetrics(input),
     noindex: optionalBoolean(input, "noindex")
   };

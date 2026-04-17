@@ -28,5 +28,66 @@
   "isFeatured": true,
   "isSponsored": false,
   "featuredReason": "A core protocol layer for agent-ready tool ecosystems.",
-  "coverImage": "https://opengraph.githubassets.com/openagentbot/modelcontextprotocol/typescript-sdk"
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/modelcontextprotocol/typescript-sdk",
+  "coreStrengths": [
+    {
+      "title": "Shared tool connection protocol",
+      "description": "MCP gives AI apps, clients, and servers a common protocol for exposing tools and context.",
+      "whyItMatters": "A shared protocol lowers the cost of connecting agents to useful systems without one-off integration patterns every time."
+    },
+    {
+      "title": "Context provider architecture",
+      "description": "The protocol is designed around external systems providing structured context, tools, and data to AI applications.",
+      "whyItMatters": "This helps turn agents from isolated chat windows into systems that can work with real resources."
+    },
+    {
+      "title": "Ecosystem interoperability",
+      "description": "MCP is useful because clients and servers can meet around a predictable interface instead of bespoke plugin APIs.",
+      "whyItMatters": "Interoperability is one of the foundations for a healthier open agent ecosystem."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Tool servers for agents",
+      "description": "Use MCP when exposing a tool, data source, or workflow endpoint to compatible AI clients."
+    },
+    {
+      "title": "Agent-ready integrations",
+      "description": "A fit for teams that want integrations to work across multiple clients rather than a single custom app."
+    },
+    {
+      "title": "Structured context access",
+      "description": "Useful when an AI app needs controlled access to files, services, or domain-specific systems."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose it when interoperability matters",
+      "against": "custom plugin APIs",
+      "summary": "A custom API can be faster for one product, but MCP is more relevant when the same integration should serve multiple agent clients."
+    },
+    {
+      "title": "Protocol adoption is the key risk",
+      "summary": "The value of MCP grows with compatible clients and servers, so evaluate ecosystem fit as much as the specification itself."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Visit the specification site",
+      "url": "https://modelcontextprotocol.io",
+      "type": "docs"
+    },
+    {
+      "label": "Browse the GitHub organization",
+      "url": "https://github.com/modelcontextprotocol",
+      "type": "github"
+    }
+  ],
+  "thumbnailBrief": {
+    "resourceType": "plugin",
+    "visualMotif": "connectors, ports, and structured protocol modules",
+    "backgroundStyle": "clean technical editorial surface",
+    "titleOverlay": "MCP",
+    "avoid": ["plug icon overload", "abstract purple network"]
+  }
 }

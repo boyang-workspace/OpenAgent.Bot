@@ -35,13 +35,68 @@ describe("admin CMS validation", () => {
       seoDescription: "A concise editorial profile of Browser Use for open-source AI builders.",
       shareTitle: "Browser Use on OpenAgent.bot",
       shareDescription: "Open-source browser automation for AI agents.",
-      sourceLinks: ""
+      sourceLinks: "",
+      coreStrengths: JSON.stringify([
+        {
+          title: "Browser control",
+          description: "Turns browser actions into repeatable agent steps.",
+          whyItMatters: "Helpful when an agent needs to use websites rather than APIs."
+        }
+      ]),
+      useCaseNotes: JSON.stringify([{ title: "QA automation", description: "Run browser tasks that need agent judgment." }]),
+      compareNotes: JSON.stringify([{ title: "When to use it", summary: "Use it when browser operation is the workflow bottleneck." }]),
+      gettingStarted: JSON.stringify([{ label: "GitHub", url: "https://github.com/browser-use/browser-use", type: "github" }]),
+      thumbnailBrief: JSON.stringify({ visualMotif: "browser command blocks", avoid: ["noisy poster"] })
     });
 
     expect(content.slug).toBe("browser-use");
     expect(content.bestFor).toEqual(["Browser agents", "QA automation"]);
+    expect(content.coreStrengths?.[0]?.title).toBe("Browser control");
+    expect(content.gettingStarted?.[0]?.type).toBe("github");
     expect(content.repoUrl).toBe("https://github.com/browser-use/browser-use");
     expect(() => assertPublishable(content)).not.toThrow();
+  });
+
+  it("rejects malformed editorial JSON fields", () => {
+    expect(() =>
+      parseDraftContent({
+        slug: "bad-editorial",
+        title: "Bad Editorial",
+        category: "tools",
+        oneLiner: "A draft with malformed editorial JSON.",
+        summary: "A draft with malformed editorial JSON.",
+        whyItMatters: "It should fail before publishing.",
+        bestFor: "Testing",
+        tags: "tool, automation, open-source, developer-workflow",
+        repoUrl: "https://github.com/example/example",
+        seoTitle: "Bad Editorial",
+        seoDescription: "A malformed editorial JSON payload should fail validation.",
+        shareTitle: "Bad Editorial",
+        shareDescription: "A malformed editorial JSON payload.",
+        coreStrengths: "{not json"
+      })
+    ).toThrow(/valid JSON/);
+  });
+
+  it("rejects unsupported getting started link types", () => {
+    expect(() =>
+      parseDraftContent({
+        slug: "bad-link-type",
+        title: "Bad Link Type",
+        category: "tools",
+        oneLiner: "A draft with a bad getting started link type.",
+        summary: "A draft with a bad getting started link type.",
+        whyItMatters: "It should keep outbound links typed.",
+        bestFor: "Testing",
+        tags: "tool, automation, open-source, developer-workflow",
+        repoUrl: "https://github.com/example/example",
+        seoTitle: "Bad Link Type",
+        seoDescription: "Unsupported getting started link types should fail validation.",
+        shareTitle: "Bad Link Type",
+        shareDescription: "Unsupported getting started link types.",
+        gettingStarted: JSON.stringify([{ label: "Open", url: "https://example.com", type: "blog" }])
+      })
+    ).toThrow(/unsupported link type/);
   });
 
   it("rejects unsupported free-form tags", () => {

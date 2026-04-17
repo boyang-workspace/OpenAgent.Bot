@@ -26,5 +26,66 @@
   "openSourceStatus": "open-source",
   "isFeatured": false,
   "isSponsored": false,
-  "coverImage": "https://opengraph.githubassets.com/openagentbot/browser-use/browser-use"
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/browser-use/browser-use",
+  "coreStrengths": [
+    {
+      "title": "Browser actions for agents",
+      "description": "browser-use gives agents a way to inspect pages, understand page state, and perform browser actions as part of a task.",
+      "whyItMatters": "Many useful workflows still live behind web interfaces, so browser capability lets agents operate where APIs do not exist."
+    },
+    {
+      "title": "Task-oriented web automation",
+      "description": "The project is designed around agents completing web tasks, not just replaying fixed browser macros.",
+      "whyItMatters": "That makes it more relevant for dynamic sites where the next action may depend on what the model sees."
+    },
+    {
+      "title": "Open-source skill building block",
+      "description": "It can be treated as a reusable browser skill inside broader agent workflows.",
+      "whyItMatters": "Builders can test browser automation without starting from a blank automation stack."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Web task agents",
+      "description": "Use it when an agent needs to navigate sites, fill forms, or gather information from pages."
+    },
+    {
+      "title": "QA-style workflows",
+      "description": "A fit for browser checks where the task requires both page interaction and model judgment."
+    },
+    {
+      "title": "Prototype agent skills",
+      "description": "Useful for testing whether a web workflow can become an agent-operable skill before hardening it."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose it when browser state matters",
+      "against": "API-only integrations",
+      "summary": "If the workflow has a reliable API, direct integration may be cleaner. browser-use is more relevant when the browser is the real interface."
+    },
+    {
+      "title": "Expect browser fragility",
+      "summary": "Like most browser automation, it should be evaluated against site changes, authentication, rate limits, and reliability expectations."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the repository",
+      "url": "https://github.com/browser-use/browser-use",
+      "type": "github"
+    },
+    {
+      "label": "Visit the homepage",
+      "url": "https://browser-use.com",
+      "type": "homepage"
+    }
+  ],
+  "thumbnailBrief": {
+    "resourceType": "skill",
+    "visualMotif": "browser window with modular command blocks",
+    "backgroundStyle": "minimal app-store editorial card",
+    "titleOverlay": "browser-use",
+    "avoid": ["literal screenshot collage", "robot mascot"]
+  }
 }

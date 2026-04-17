@@ -26,5 +26,66 @@
   "openSourceStatus": "open-source",
   "isFeatured": false,
   "isSponsored": false,
-  "coverImage": "https://opengraph.githubassets.com/openagentbot/mem0ai/mem0"
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/mem0ai/mem0",
+  "coreStrengths": [
+    {
+      "title": "Persistent memory for AI apps",
+      "description": "mem0 is positioned as a memory layer that helps applications store and retrieve context across sessions.",
+      "whyItMatters": "Agents become more useful when they can remember user preferences, prior tasks, and long-running context instead of starting over."
+    },
+    {
+      "title": "Context retrieval layer",
+      "description": "The project focuses on making relevant memories available to applications and agents when they need them.",
+      "whyItMatters": "Good retrieval is the difference between memory that helps and memory that only adds noise."
+    },
+    {
+      "title": "Application-level personalization",
+      "description": "mem0 can support products that need user-specific or workflow-specific context over time.",
+      "whyItMatters": "This is important for assistants, copilots, and internal tools that should adapt to recurring users."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Personalized AI assistants",
+      "description": "Use it when an assistant needs to remember preferences, recurring entities, or prior conversations."
+    },
+    {
+      "title": "Agent task memory",
+      "description": "A fit for workflows where an agent should reuse context from previous tasks instead of rebuilding it."
+    },
+    {
+      "title": "Context-aware product features",
+      "description": "Useful for applications that need a memory layer without building every storage and retrieval pattern from scratch."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose it when memory is a product requirement",
+      "against": "stateless chat",
+      "summary": "Stateless chat is simpler, but mem0 becomes relevant when continuity and personalization are central to the experience."
+    },
+    {
+      "title": "Treat memory as sensitive infrastructure",
+      "summary": "Before adopting a memory layer, teams should evaluate data retention, user control, and privacy requirements."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the repository",
+      "url": "https://github.com/mem0ai/mem0",
+      "type": "github"
+    },
+    {
+      "label": "Visit the homepage",
+      "url": "https://mem0.ai",
+      "type": "homepage"
+    }
+  ],
+  "thumbnailBrief": {
+    "resourceType": "memory_system",
+    "visualMotif": "layered memory cards and archive grid",
+    "backgroundStyle": "quiet editorial surface with stacked tiles",
+    "titleOverlay": "mem0",
+    "avoid": ["brain illustration", "database cylinder cliche"]
+  }
 }

@@ -97,6 +97,77 @@ const taxonomyGroups = Object.entries(taxonomy).map(([group, values]) => ({
 
         <section class="admin-form-section">
           <header>
+            <span class="eyebrow">Capabilities narrative</span>
+            <h3>What it actually does</h3>
+            <p>Structured editorial notes for the detail page. Keep these plain-language and decision-oriented.</p>
+          </header>
+          <label>
+            Core strengths JSON
+            <textarea name="coreStrengths" rows="8" placeholder='[
+  {
+    "title": "Durable workflows",
+    "description": "Explains the concrete capability in plain language.",
+    "whyItMatters": "Explains why this matters to a real user."
+  }
+]'></textarea>
+          </label>
+        </section>
+
+        <section class="admin-form-section">
+          <header>
+            <span class="eyebrow">Use cases</span>
+            <h3>Where it fits</h3>
+            <p>Use cases are scenario explanations, not tags. These become the human-readable middle of the page.</p>
+          </header>
+          <label>
+            Use case notes JSON
+            <textarea name="useCaseNotes" rows="7" placeholder='[
+  {
+    "title": "Research workflow",
+    "description": "Explains who uses it, for what task, and why this resource is relevant."
+  }
+]'></textarea>
+          </label>
+        </section>
+
+        <section class="admin-form-section">
+          <header>
+            <span class="eyebrow">Compare notes</span>
+            <h3>Selection guidance</h3>
+            <p>Comparison notes help the page add value beyond the README. Use them for alternatives, caveats, or when-to-choose guidance.</p>
+          </header>
+          <label>
+            Compare notes JSON
+            <textarea name="compareNotes" rows="7" placeholder='[
+  {
+    "title": "When to choose this",
+    "against": "Alternative name",
+    "summary": "Explains the practical difference without making unsupported claims."
+  }
+]'></textarea>
+          </label>
+        </section>
+
+        <section class="admin-form-section">
+          <header>
+            <span class="eyebrow">Getting started</span>
+            <h3>Next official steps</h3>
+            <p>These links are shown as the clean next-step block. Use official links only.</p>
+          </header>
+          <label>
+            Getting started JSON
+            <textarea name="gettingStarted" rows="7" placeholder='[
+  {
+    "label": "Read the docs",
+    "url": "https://example.com/docs",
+    "type": "docs"
+  }
+]'></textarea>
+          </label>
+        </section>
+
+        <section class="admin-form-section">
+          <header>
             <span class="eyebrow">Facts & signals</span>
             <h3>Verifiable project facts</h3>
             <p>Keep facts separate from editorial judgment. Automation can update these later through reviewable PRs.</p>
@@ -135,7 +206,16 @@ const taxonomyGroups = Object.entries(taxonomy).map(([group, values]) => ({
             <label>Demo URL<input name="demoUrl" type="url" /></label>
           </div>
           <label>Source links<input name="sourceLinks" placeholder="Comma-separated URLs" /></label>
-          <label>Cover image<input name="coverImage" type="url" /></label>
+          <label>Thumbnail / OG image<input name="coverImage" type="url" /></label>
+          <label>
+            Thumbnail brief JSON
+            <textarea name="thumbnailBrief" rows="6" placeholder='{
+  "visualMotif": "flow graph or node network",
+  "backgroundStyle": "minimal editorial surface",
+  "titleOverlay": "Project name",
+  "avoid": ["noisy poster layout", "random gradient blobs"]
+}'></textarea>
+          </label>
         </section>
 
         <section class="admin-form-section">
@@ -175,6 +255,7 @@ const taxonomyGroups = Object.entries(taxonomy).map(([group, values]) => ({
 <script is:inline>
   const categories = new Set(["models", "agents", "memory-systems", "skills", "plugins", "tools"]);
   const arrayToText = (value) => Array.isArray(value) ? value.join(", ") : "";
+  const jsonToText = (value) => value === undefined || value === null ? "" : JSON.stringify(value, null, 2);
   const textToArray = (value) => String(value ?? "").split(",").map((item) => item.trim()).filter(Boolean);
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
   let selectedProject = null;
@@ -295,7 +376,12 @@ const taxonomyGroups = Object.entries(taxonomy).map(([group, values]) => ({
       notFor: arrayToText(content.notFor),
       tags: arrayToText(content.tags),
       worksWith: arrayToText(content.worksWith),
-      sourceLinks: arrayToText(content.sourceLinks)
+      sourceLinks: arrayToText(content.sourceLinks),
+      coreStrengths: jsonToText(content.coreStrengths),
+      useCaseNotes: jsonToText(content.useCaseNotes),
+      compareNotes: jsonToText(content.compareNotes),
+      gettingStarted: jsonToText(content.gettingStarted),
+      thumbnailBrief: jsonToText(content.thumbnailBrief)
     };
     for (const [key, value] of Object.entries(fields)) {
       const field = editor.elements.namedItem(key);
@@ -323,6 +409,11 @@ const taxonomyGroups = Object.entries(taxonomy).map(([group, values]) => ({
       tags: selectedTaxonomyTags(),
       worksWith: textToArray(data.worksWith),
       sourceLinks: textToArray(data.sourceLinks),
+      coreStrengths: data.coreStrengths,
+      useCaseNotes: data.useCaseNotes,
+      compareNotes: data.compareNotes,
+      gettingStarted: data.gettingStarted,
+      thumbnailBrief: data.thumbnailBrief,
       isFeatured: Boolean(editor.querySelector("[name='isFeatured']")?.checked),
       isSponsored: Boolean(editor.querySelector("[name='isSponsored']")?.checked),
       noindex: Boolean(editor.querySelector("[name='noindex']")?.checked)

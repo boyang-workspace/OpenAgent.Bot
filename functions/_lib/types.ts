@@ -78,6 +78,34 @@ export type ProjectDraftContent = {
   isSponsored: boolean;
   featuredReason?: string;
   coverImage?: string;
+  coreStrengths?: Array<{
+    title: string;
+    description: string;
+    whyItMatters?: string;
+  }>;
+  useCaseNotes?: Array<{
+    title: string;
+    description: string;
+  }>;
+  compareNotes?: Array<{
+    title: string;
+    summary: string;
+    against?: string;
+  }>;
+  gettingStarted?: Array<{
+    label: string;
+    url: string;
+    type: string;
+  }>;
+  thumbnailBrief?: {
+    resourceType?: string;
+    visualMotif?: string;
+    backgroundStyle?: string;
+    titleOverlay?: string;
+    subtitle?: string;
+    priorityAssets?: string[];
+    avoid?: string[];
+  };
   noindex?: boolean;
 };
 

@@ -27,5 +27,66 @@
   "openSourceStatus": "open-source",
   "isFeatured": false,
   "isSponsored": false,
-  "coverImage": "https://opengraph.githubassets.com/openagentbot/langchain-ai/langgraph"
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/langchain-ai/langgraph",
+  "coreStrengths": [
+    {
+      "title": "Explicit graph-based control",
+      "description": "LangGraph models an agent workflow as a graph of steps, branches, and transitions instead of hiding orchestration inside one long prompt chain.",
+      "whyItMatters": "This makes it easier to reason about complex flows, add checkpoints, and decide where human review or tool execution should happen."
+    },
+    {
+      "title": "Stateful long-running agents",
+      "description": "The framework is built for workflows that need state, persistence, retries, and durable execution across more than one model call.",
+      "whyItMatters": "That matters when an agent is doing meaningful work over time, not just answering a single question."
+    },
+    {
+      "title": "Human-in-the-loop workflow paths",
+      "description": "LangGraph supports patterns where a workflow can pause, ask for review, and continue with structured state.",
+      "whyItMatters": "Teams can keep control over sensitive or high-impact steps without abandoning agent automation."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Production agent workflows",
+      "description": "Use it when an agent needs multiple steps, memory of prior state, and predictable control over tool use."
+    },
+    {
+      "title": "Research and review loops",
+      "description": "Useful for workflows that gather information, branch into follow-up checks, and let a human approve or redirect progress."
+    },
+    {
+      "title": "Internal copilots with state",
+      "description": "A fit for teams building internal assistants that need workflow checkpoints rather than one-off chat responses."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose it over simple prompt chains when control matters",
+      "against": "prompt chains",
+      "summary": "LangGraph is heavier than a simple chain, but the tradeoff makes sense when you need explicit state, branching, and recovery."
+    },
+    {
+      "title": "Evaluate framework fit before committing",
+      "summary": "It is best for builders already comfortable owning agent architecture; small one-shot automations may not need this level of structure."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the repository",
+      "url": "https://github.com/langchain-ai/langgraph",
+      "type": "github"
+    },
+    {
+      "label": "Read the docs",
+      "url": "https://langchain-ai.github.io/langgraph/",
+      "type": "docs"
+    }
+  ],
+  "thumbnailBrief": {
+    "resourceType": "agent",
+    "visualMotif": "branching graph with state checkpoints",
+    "backgroundStyle": "clean editorial surface with restrained green accents",
+    "titleOverlay": "LangGraph",
+    "avoid": ["noisy network poster", "generic AI brain imagery"]
+  }
 }

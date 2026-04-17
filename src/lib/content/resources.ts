@@ -87,6 +87,18 @@ function listBlock(title: string, values: string[] | undefined): string[] {
   return ["", `## ${title}`, ...values.map((value) => `- ${value}`)];
 }
 
+function titledListBlock(title: string, values: Array<{ title: string; description?: string; summary?: string; why_it_matters?: string; against?: string }> | undefined): string[] {
+  if (!values?.length) return [];
+  return [
+    "",
+    `## ${title}`,
+    ...values.flatMap((value) => [
+      `- ${value.title}${value.against ? ` vs ${value.against}` : ""}: ${value.description ?? value.summary ?? ""}`,
+      ...(value.why_it_matters ? [`  - Why it matters: ${value.why_it_matters}`] : [])
+    ])
+  ];
+}
+
 export function resourceMarkdown(resource: ResourceV1): string {
   const facts = [
     `- Category: ${resource.classification.primary_category}`,
@@ -108,11 +120,17 @@ export function resourceMarkdown(resource: ResourceV1): string {
     ...(resource.positioning.why_it_matters ? ["## Why It Matters", resource.positioning.why_it_matters, ""] : []),
     ...listBlock("Best For", resource.positioning.best_for),
     ...listBlock("Not For", resource.positioning.not_for),
+    ...titledListBlock("What It Actually Does", resource.editorial?.core_strengths),
+    ...titledListBlock("Typical Use Cases", resource.editorial?.use_case_notes),
+    ...titledListBlock("How It Compares", resource.editorial?.compare_notes),
     "",
     "## Facts",
     ...facts,
     ...listBlock("Capabilities", resource.capabilities.core_capabilities),
-    ...listBlock("Use Cases", resource.positioning.use_cases),
+    ...listBlock("Structured Use Case Tags", resource.positioning.use_cases),
+    ...(resource.editorial?.getting_started?.length
+      ? ["", "## Getting Started", ...resource.editorial.getting_started.map((link) => `- ${link.label}: ${link.url}`)]
+      : []),
     "",
     "## Links",
     ...resource.links.items.map((link) => `- ${link.label}: ${link.url}`),

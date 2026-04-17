@@ -44,7 +44,15 @@ const validResource: ResourceV1 = {
     primary_url: "https://github.com/langchain-ai/langgraph",
     items: [{ type: "github", label: "GitHub", url: "https://github.com/langchain-ai/langgraph" }]
   },
-  media: {},
+  media: {
+    thumbnail_brief: {
+      resource_type: "agent",
+      visual_motif: "flow graph with state checkpoints",
+      background_style: "minimal editorial surface",
+      title_overlay: "LangGraph",
+      avoid: ["noisy poster layout"]
+    }
+  },
   tags: {
     category: ["agent", "open-source"],
     capability: ["workflow-orchestration"],
@@ -56,6 +64,35 @@ const validResource: ResourceV1 = {
     canonical_url: "https://www.openagent.bot/agents/langgraph",
     json_url: "https://www.openagent.bot/agents/langgraph.json",
     markdown_url: "https://www.openagent.bot/agents/langgraph.md"
+  },
+  editorial: {
+    core_strengths: [
+      {
+        title: "Durable execution",
+        description: "Long-running workflows can resume from checkpoints instead of restarting from scratch.",
+        why_it_matters: "Useful for production agents that need control and recovery."
+      }
+    ],
+    use_case_notes: [
+      {
+        title: "Research workflows",
+        description: "Coordinate multi-step research flows where intermediate state needs to be retained."
+      }
+    ],
+    compare_notes: [
+      {
+        title: "When to choose LangGraph",
+        against: "simple chains",
+        summary: "Choose it when state, branches, and resumability matter more than a single prompt chain."
+      }
+    ],
+    getting_started: [
+      {
+        label: "Read the docs",
+        url: "https://docs.langchain.com/langgraph",
+        type: "docs"
+      }
+    ]
   },
   timestamps: {
     created_at: "2026-04-17T00:00:00.000Z",
@@ -135,5 +172,6 @@ describe("resource schema v1", () => {
     expect(langgraph?.schema_version).toBe("openagent.resource.v1");
     expect(resources.every((resource) => resource.status === "published")).toBe(true);
     expect(resourceMarkdown(langgraph!).startsWith("# LangGraph")).toBe(true);
+    expect(resourceMarkdown(langgraph!)).toContain("## What It Actually Does");
   });
 });

@@ -1,6 +1,6 @@
 import type { CategorySlug, OpenProject, OpenSourceStatus } from "./schema";
 import { taxonomy } from "./taxonomy";
-import type { DeploymentMode, ResourceLink, ResourceType, ResourceV1 } from "./resource-schema";
+import { linkTypes, type DeploymentMode, type EditorialCompareNote, type EditorialGettingStarted, type EditorialStrength, type EditorialUseCase, type LinkType, type ResourceLink, type ResourceType, type ResourceV1, type ThumbnailBrief } from "./resource-schema";
 
 const canonicalBaseUrl = "https://www.openagent.bot";
 
@@ -51,6 +51,11 @@ function uniq(values: Array<string | undefined>): string[] {
 
 function limit(values: string[], max = 5): string[] {
   return values.slice(0, max);
+}
+
+function sentenceCase(value: string): string {
+  const spaced = value.replaceAll("_", " ").replaceAll("-", " ");
+  return spaced.charAt(0).toUpperCase() + spaced.slice(1);
 }
 
 function toIsoDateTime(value: string | undefined): string {
@@ -105,6 +110,92 @@ function makeLinks(project: OpenProject): ResourceV1["links"] {
 
   const primaryUrl = project.repoUrl ?? project.homepageUrl ?? project.sourceLinks[0] ?? `${canonicalBaseUrl}/${project.category}/${project.slug}`;
   return { primary_url: primaryUrl, items: links.length ? links : [{ type: "homepage", label: "Source", url: primaryUrl }] };
+}
+
+function isLinkType(value: string): value is LinkType {
+  return (linkTypes as readonly string[]).includes(value);
+}
+
+function makeGettingStarted(project: OpenProject, links: ResourceV1["links"]): EditorialGettingStarted[] {
+  if (project.gettingStarted?.length) {
+    return project.gettingStarted
+      .filter((item) => isLinkType(item.type))
+      .map((item) => ({ label: item.label, url: item.url, type: item.type as LinkType }));
+  }
+
+  const preferred = links.items.filter((link) => ["github", "docs", "demo", "install", "api_reference", "homepage"].includes(link.type));
+  return preferred.slice(0, 5).map((link) => ({
+    label: link.type === "github" ? "Review the repository" : link.type === "docs" ? "Read the docs" : link.label,
+    url: link.url,
+    type: link.type
+  }));
+}
+
+function fallbackCoreStrengths(project: OpenProject, capabilities: string[]): EditorialStrength[] {
+  if (project.coreStrengths?.length) {
+    return project.coreStrengths.map((item) => ({
+      title: item.title,
+      description: item.description,
+      why_it_matters: item.whyItMatters
+    }));
+  }
+
+  const source = capabilities.length ? capabilities : project.tags.slice(0, 3);
+  return source.slice(0, 3).map((capability) => ({
+    title: sentenceCase(capability),
+    description: `${project.title} surfaces ${sentenceCase(capability).toLowerCase()} as a core capability in its published project metadata and source links.`,
+    why_it_matters: "This gives readers a starting point for evaluating whether the project fits their workflow before visiting the source repository or docs."
+  }));
+}
+
+function fallbackUseCases(project: OpenProject, scenarios: string[]): EditorialUseCase[] {
+  if (project.useCaseNotes?.length) return project.useCaseNotes;
+  return scenarios.slice(0, 4).map((scenario) => ({
+    title: sentenceCase(scenario),
+    description: `Use it as a candidate for ${sentenceCase(scenario).toLowerCase()} when the project facts, license, and official links match your deployment requirements.`
+  }));
+}
+
+function fallbackCompareNotes(project: OpenProject): EditorialCompareNote[] {
+  if (project.compareNotes?.length) return project.compareNotes;
+  return [
+    {
+      title: `When to choose ${project.title}`,
+      summary: `Compare it with nearby ${project.category.replaceAll("-", " ")} by looking at hosting model, integration surface, license, and whether the official docs show the workflow you need.`
+    }
+  ];
+}
+
+function fallbackThumbnailBrief(project: OpenProject): ThumbnailBrief {
+  if (project.thumbnailBrief) {
+    return {
+      resource_type: project.thumbnailBrief.resourceType,
+      visual_motif: project.thumbnailBrief.visualMotif,
+      background_style: project.thumbnailBrief.backgroundStyle,
+      title_overlay: project.thumbnailBrief.titleOverlay,
+      subtitle: project.thumbnailBrief.subtitle,
+      priority_assets: project.thumbnailBrief.priorityAssets,
+      avoid: project.thumbnailBrief.avoid
+    };
+  }
+
+  const motifByCategory: Record<CategorySlug, string> = {
+    models: "token grid, waveform, or chip abstraction",
+    agents: "flow graph, branching path, or node network",
+    "memory-systems": "layered cards, archive grid, or stacked memory tiles",
+    skills: "modular command blocks and action steps",
+    plugins: "connectors, ports, and structured modules",
+    tools: "clean utility panel and geometric control surface"
+  };
+
+  return {
+    resource_type: categoryToResourceType[project.category],
+    visual_motif: motifByCategory[project.category],
+    background_style: "minimal editorial surface with restrained open-source accent color",
+    title_overlay: project.title,
+    subtitle: project.oneLiner,
+    avoid: ["noisy poster layout", "large marketing slogans", "random gradient blobs"]
+  };
 }
 
 function mapCapabilities(project: OpenProject): string[] {
@@ -164,6 +255,7 @@ export function openProjectToResourceV1(project: OpenProject, raw: ProjectRawFie
   const constraintTags = mapConstraints(project);
   const scenarioTags = mapScenarios(project);
   const categoryTag = categoryTags[project.category];
+  const links = makeLinks(project);
   const createdAt = toIsoDateTime(project.generatedAt);
   const updatedAt = toIsoDateTime(project.updatedAt);
   const publishedAt = project.status === "published" ? toIsoDateTime(project.reviewedAt ?? project.generatedAt) : undefined;
@@ -214,10 +306,11 @@ export function openProjectToResourceV1(project: OpenProject, raw: ProjectRawFie
       integrations: project.worksWith,
       interfaces: uniq([project.repoUrl ? "repo" : undefined, project.docsUrl ? "docs" : undefined, project.demoUrl ? "demo" : undefined, project.tags.includes("chat-ui") ? "ui" : undefined])
     },
-    links: makeLinks(project),
+    links,
     media: {
       thumbnail_url: project.coverImage,
-      og_image_url: project.coverImage
+      og_image_url: project.coverImage,
+      thumbnail_brief: fallbackThumbnailBrief(project)
     },
     tags: {
       category: limit(uniq([categoryTag, project.openSourceStatus === "open-source" ? "open-source" : undefined])),
@@ -237,7 +330,11 @@ export function openProjectToResourceV1(project: OpenProject, raw: ProjectRawFie
     },
     editorial: {
       featured_reason: project.featuredReason,
-      trust_note: raw.lastVerifiedAt || project.reviewedAt ? "Verified from source links and project metadata." : undefined
+      trust_note: raw.lastVerifiedAt || project.reviewedAt ? "Verified from source links and project metadata." : undefined,
+      core_strengths: fallbackCoreStrengths(project, capabilities),
+      use_case_notes: fallbackUseCases(project, scenarioTags),
+      compare_notes: fallbackCompareNotes(project),
+      getting_started: makeGettingStarted(project, links)
     },
     timestamps: {
       created_at: createdAt,

@@ -1,7 +1,7 @@
 import type { CategorySlug, ProjectDraftContent } from "./types";
 import { isControlledTag } from "../../src/lib/content/taxonomy";
 import { openProjectToResourceV1 } from "../../src/lib/content/resource-adapter";
-import { parseResourceV1 } from "../../src/lib/content/resource-schema";
+import { linkTypes, parseResourceV1 } from "../../src/lib/content/resource-schema";
 
 export const categories = ["models", "agents", "memory-systems", "skills", "plugins", "tools"] as const;
 
@@ -49,6 +49,81 @@ function controlledTagsField(input: Record<string, unknown>, key: string): strin
     throw new Error(`${key} contains unsupported tags: ${unknown.join(", ")}.`);
   }
   return values;
+}
+
+function jsonValueField(input: Record<string, unknown>, key: string): unknown {
+  const value = input[key];
+  if (value === undefined || value === null || value === "") return undefined;
+  if (typeof value !== "string") return value;
+  try {
+    return JSON.parse(value);
+  } catch {
+    throw new Error(`${key} must be valid JSON.`);
+  }
+}
+
+function recordArrayField(input: Record<string, unknown>, key: string): Record<string, unknown>[] | undefined {
+  const value = jsonValueField(input, key);
+  if (value === undefined) return undefined;
+  if (!Array.isArray(value) || value.some((item) => typeof item !== "object" || item === null || Array.isArray(item))) {
+    throw new Error(`${key} must be a JSON array of objects.`);
+  }
+  return value as Record<string, unknown>[];
+}
+
+function coreStrengthsField(input: Record<string, unknown>): ProjectDraftContent["coreStrengths"] {
+  return recordArrayField(input, "coreStrengths")?.map((item, index) => ({
+    title: stringField(item, "title", { required: true, max: 80 }) ?? `Strength ${index + 1}`,
+    description: stringField(item, "description", { required: true, max: 420 }) ?? "",
+    whyItMatters: stringField(item, "whyItMatters", { max: 420 })
+  }));
+}
+
+function useCaseNotesField(input: Record<string, unknown>): ProjectDraftContent["useCaseNotes"] {
+  return recordArrayField(input, "useCaseNotes")?.map((item, index) => ({
+    title: stringField(item, "title", { required: true, max: 80 }) ?? `Use case ${index + 1}`,
+    description: stringField(item, "description", { required: true, max: 420 }) ?? ""
+  }));
+}
+
+function compareNotesField(input: Record<string, unknown>): ProjectDraftContent["compareNotes"] {
+  return recordArrayField(input, "compareNotes")?.map((item, index) => ({
+    title: stringField(item, "title", { required: true, max: 100 }) ?? `Comparison ${index + 1}`,
+    summary: stringField(item, "summary", { required: true, max: 520 }) ?? "",
+    against: stringField(item, "against", { max: 80 })
+  }));
+}
+
+function gettingStartedField(input: Record<string, unknown>): ProjectDraftContent["gettingStarted"] {
+  return recordArrayField(input, "gettingStarted")?.map((item) => {
+    const type = stringField(item, "type", { required: true, max: 40 }) ?? "homepage";
+    if (!(linkTypes as readonly string[]).includes(type)) {
+      throw new Error(`gettingStarted contains unsupported link type: ${type}.`);
+    }
+    return {
+      label: stringField(item, "label", { required: true, max: 80 }) ?? "Open",
+      url: validUrl(stringField(item, "url", { required: true, max: 500 }), "gettingStarted.url", true)!,
+      type
+    };
+  });
+}
+
+function thumbnailBriefField(input: Record<string, unknown>): ProjectDraftContent["thumbnailBrief"] {
+  const value = jsonValueField(input, "thumbnailBrief");
+  if (value === undefined) return undefined;
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new Error("thumbnailBrief must be a JSON object.");
+  }
+  const record = value as Record<string, unknown>;
+  return {
+    resourceType: stringField(record, "resourceType", { max: 80 }),
+    visualMotif: stringField(record, "visualMotif", { max: 240 }),
+    backgroundStyle: stringField(record, "backgroundStyle", { max: 240 }),
+    titleOverlay: stringField(record, "titleOverlay", { max: 120 }),
+    subtitle: stringField(record, "subtitle", { max: 180 }),
+    priorityAssets: stringArrayField(record, "priorityAssets"),
+    avoid: stringArrayField(record, "avoid")
+  };
 }
 
 export function validUrl(value: string | undefined, key: string, required = false): string | undefined {
@@ -159,6 +234,11 @@ export function parseDraftContent(input: Record<string, unknown>): ProjectDraftC
     isSponsored: booleanField(input, "isSponsored"),
     featuredReason: stringField(input, "featuredReason", { max: 240 }),
     coverImage: validUrl(stringField(input, "coverImage", { max: 500 }), "coverImage"),
+    coreStrengths: coreStrengthsField(input),
+    useCaseNotes: useCaseNotesField(input),
+    compareNotes: compareNotesField(input),
+    gettingStarted: gettingStartedField(input),
+    thumbnailBrief: thumbnailBriefField(input),
     noindex: booleanField(input, "noindex")
   };
 }

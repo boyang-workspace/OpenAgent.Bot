@@ -27,5 +27,61 @@
   "isFeatured": true,
   "isSponsored": false,
   "featuredReason": "A foundational local inference project for the open AI stack.",
-  "coverImage": "https://opengraph.githubassets.com/openagentbot/ggerganov/llama.cpp"
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/ggerganov/llama.cpp",
+  "coreStrengths": [
+    {
+      "title": "Portable local inference",
+      "description": "llama.cpp focuses on running open-weight language models across local machines, servers, and edge-style environments.",
+      "whyItMatters": "It reduces dependency on hosted model APIs when builders need local control, privacy, or offline-friendly experimentation."
+    },
+    {
+      "title": "Open-weight model ecosystem support",
+      "description": "The project is closely associated with local workflows around GGUF and the broader open model ecosystem.",
+      "whyItMatters": "That makes it a common infrastructure layer for tools that need to run models outside a managed cloud platform."
+    },
+    {
+      "title": "Low-level inference building block",
+      "description": "Rather than being a polished app, llama.cpp is a foundation that other tools and workflows can build around.",
+      "whyItMatters": "This is valuable for developers who want control over model execution, deployment targets, and performance tradeoffs."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Local model experiments",
+      "description": "Use it to test open-weight models on your own machine before committing to a hosted setup."
+    },
+    {
+      "title": "Edge or private inference",
+      "description": "A fit when model execution needs to happen near the user, near the data, or outside a third-party API."
+    },
+    {
+      "title": "Infrastructure for local AI apps",
+      "description": "Useful as a lower-level engine behind chat UIs, developer tools, and self-hosted AI workflows."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose it when local control matters",
+      "against": "hosted model APIs",
+      "summary": "Hosted APIs are simpler operationally, but llama.cpp is stronger when control, portability, or local execution are the main requirements."
+    },
+    {
+      "title": "Expect infrastructure work",
+      "summary": "It is a powerful building block, not a turnkey hosted product. Teams should be ready to own model setup and deployment details."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the repository",
+      "url": "https://github.com/ggerganov/llama.cpp",
+      "type": "github"
+    }
+  ],
+  "thumbnailBrief": {
+    "resourceType": "model",
+    "visualMotif": "chip abstraction with token grid",
+    "backgroundStyle": "clean technical surface with high contrast model blocks",
+    "titleOverlay": "llama.cpp",
+    "avoid": ["server rack photo", "busy code screenshot"]
+  }
 }

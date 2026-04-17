@@ -63,6 +63,39 @@ export type ResourceLink = {
   url: string;
 };
 
+export type EditorialStrength = {
+  title: string;
+  description: string;
+  why_it_matters?: string;
+};
+
+export type EditorialUseCase = {
+  title: string;
+  description: string;
+};
+
+export type EditorialCompareNote = {
+  title: string;
+  summary: string;
+  against?: string;
+};
+
+export type EditorialGettingStarted = {
+  label: string;
+  url: string;
+  type: LinkType;
+};
+
+export type ThumbnailBrief = {
+  resource_type?: string;
+  visual_motif?: string;
+  background_style?: string;
+  title_overlay?: string;
+  subtitle?: string;
+  priority_assets?: string[];
+  avoid?: string[];
+};
+
 export type ResourceV1 = {
   schema_version: "openagent.resource.v1";
   id: string;
@@ -127,6 +160,7 @@ export type ResourceV1 = {
     og_image_url?: string;
     logo_url?: string;
     gallery_urls?: string[];
+    thumbnail_brief?: ThumbnailBrief;
   };
   tags: {
     category: string[];
@@ -152,6 +186,10 @@ export type ResourceV1 = {
   editorial?: {
     featured_reason?: string;
     trust_note?: string;
+    core_strengths?: EditorialStrength[];
+    use_case_notes?: EditorialUseCase[];
+    compare_notes?: EditorialCompareNote[];
+    getting_started?: EditorialGettingStarted[];
   };
   timestamps: {
     created_at: string;
@@ -228,6 +266,15 @@ function optionalStringArray(record: Record<string, unknown>, key: string, conte
   if (value === undefined) return undefined;
   if (!Array.isArray(value) || value.some((item) => typeof item !== "string" || item.trim() === "")) {
     throw new Error(`${context}.${key} must be a string array when present.`);
+  }
+  return value;
+}
+
+function optionalRecordArray(record: Record<string, unknown>, key: string, context: string): Record<string, unknown>[] | undefined {
+  const value = record[key];
+  if (value === undefined) return undefined;
+  if (!Array.isArray(value) || value.some((item) => !isRecord(item))) {
+    throw new Error(`${context}.${key} must be an object array when present.`);
   }
   return value;
 }
@@ -406,12 +453,27 @@ function parseLinks(input: unknown, status: ResourceStatus): ResourceV1["links"]
 function parseMedia(input: unknown): ResourceV1["media"] {
   if (input === undefined) return {};
   if (!isRecord(input)) throw new Error("resource.media must be an object when present.");
-  assertNoUnknownKeys(input, ["thumbnail_url", "og_image_url", "logo_url", "gallery_urls"], "resource.media");
+  assertNoUnknownKeys(input, ["thumbnail_url", "og_image_url", "logo_url", "gallery_urls", "thumbnail_brief"], "resource.media");
+  let thumbnailBrief: ThumbnailBrief | undefined;
+  if (input.thumbnail_brief !== undefined) {
+    if (!isRecord(input.thumbnail_brief)) throw new Error("resource.media.thumbnail_brief must be an object when present.");
+    assertNoUnknownKeys(input.thumbnail_brief, ["resource_type", "visual_motif", "background_style", "title_overlay", "subtitle", "priority_assets", "avoid"], "resource.media.thumbnail_brief");
+    thumbnailBrief = {
+      resource_type: optionalString(input.thumbnail_brief, "resource_type", "resource.media.thumbnail_brief"),
+      visual_motif: optionalString(input.thumbnail_brief, "visual_motif", "resource.media.thumbnail_brief"),
+      background_style: optionalString(input.thumbnail_brief, "background_style", "resource.media.thumbnail_brief"),
+      title_overlay: optionalString(input.thumbnail_brief, "title_overlay", "resource.media.thumbnail_brief"),
+      subtitle: optionalString(input.thumbnail_brief, "subtitle", "resource.media.thumbnail_brief"),
+      priority_assets: optionalStringArray(input.thumbnail_brief, "priority_assets", "resource.media.thumbnail_brief"),
+      avoid: optionalStringArray(input.thumbnail_brief, "avoid", "resource.media.thumbnail_brief")
+    };
+  }
   const media = {
     thumbnail_url: optionalUrl(input, "thumbnail_url", "resource.media"),
     og_image_url: optionalUrl(input, "og_image_url", "resource.media"),
     logo_url: optionalUrl(input, "logo_url", "resource.media"),
-    gallery_urls: optionalStringArray(input, "gallery_urls", "resource.media")
+    gallery_urls: optionalStringArray(input, "gallery_urls", "resource.media"),
+    thumbnail_brief: thumbnailBrief
   };
   media.gallery_urls?.forEach((url, index) => assertUrl(url, `resource.media.gallery_urls[${index}]`));
   return media;
@@ -488,10 +550,51 @@ function parseSeo(input: unknown): ResourceV1["seo"] {
 function parseEditorial(input: unknown): ResourceV1["editorial"] {
   if (input === undefined) return undefined;
   if (!isRecord(input)) throw new Error("resource.editorial must be an object when present.");
-  assertNoUnknownKeys(input, ["featured_reason", "trust_note"], "resource.editorial");
+  assertNoUnknownKeys(input, ["featured_reason", "trust_note", "core_strengths", "use_case_notes", "compare_notes", "getting_started"], "resource.editorial");
+  const coreStrengths = optionalRecordArray(input, "core_strengths", "resource.editorial")?.map((item, index) => {
+    const context = `resource.editorial.core_strengths[${index}]`;
+    assertNoUnknownKeys(item, ["title", "description", "why_it_matters"], context);
+    return {
+      title: requireString(item, "title", context),
+      description: requireString(item, "description", context),
+      why_it_matters: optionalString(item, "why_it_matters", context)
+    };
+  });
+  const useCaseNotes = optionalRecordArray(input, "use_case_notes", "resource.editorial")?.map((item, index) => {
+    const context = `resource.editorial.use_case_notes[${index}]`;
+    assertNoUnknownKeys(item, ["title", "description"], context);
+    return {
+      title: requireString(item, "title", context),
+      description: requireString(item, "description", context)
+    };
+  });
+  const compareNotes = optionalRecordArray(input, "compare_notes", "resource.editorial")?.map((item, index) => {
+    const context = `resource.editorial.compare_notes[${index}]`;
+    assertNoUnknownKeys(item, ["title", "summary", "against"], context);
+    return {
+      title: requireString(item, "title", context),
+      summary: requireString(item, "summary", context),
+      against: optionalString(item, "against", context)
+    };
+  });
+  const gettingStarted = optionalRecordArray(input, "getting_started", "resource.editorial")?.map((item, index) => {
+    const context = `resource.editorial.getting_started[${index}]`;
+    assertNoUnknownKeys(item, ["label", "url", "type"], context);
+    const url = requireString(item, "url", context);
+    assertUrl(url, `${context}.url`);
+    return {
+      label: requireString(item, "label", context),
+      url,
+      type: requireEnum(item, "type", linkTypes, context)
+    };
+  });
   return {
     featured_reason: optionalString(input, "featured_reason", "resource.editorial"),
-    trust_note: optionalString(input, "trust_note", "resource.editorial")
+    trust_note: optionalString(input, "trust_note", "resource.editorial"),
+    core_strengths: coreStrengths,
+    use_case_notes: useCaseNotes,
+    compare_notes: compareNotes,
+    getting_started: gettingStarted
   };
 }
 

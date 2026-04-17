@@ -1,15 +1,15 @@
 ---
 import AdminLayout from "@/layouts/AdminLayout.astro";
-import { categories } from "@/config/site";
+import { categories, site } from "@/config/site";
 ---
 
-<AdminLayout title="Project Drafts" active="projects">
+<AdminLayout title="Resources" active="projects">
   <section class="admin-grid">
     <div class="admin-panel">
       <div class="admin-actions" style="justify-content: space-between; margin-bottom: 16px;">
         <div>
-          <span class="eyebrow">Drafts</span>
-          <h2>Work queue</h2>
+          <span class="eyebrow">Resource drafts</span>
+          <h2>Structured content queue</h2>
         </div>
         <button class="button secondary" id="refresh-projects" type="button">Refresh</button>
       </div>
@@ -19,68 +19,130 @@ import { categories } from "@/config/site";
     <div class="admin-panel">
       <div class="admin-actions" style="justify-content: space-between; margin-bottom: 16px;">
         <div>
-          <span class="eyebrow">Editor</span>
-          <h2 id="editor-title">Select a draft</h2>
+          <span class="eyebrow">Resource editor</span>
+          <h2 id="editor-title">Select a resource draft</h2>
         </div>
         <a class="button secondary" id="preview-link" href="#" hidden>Preview URL</a>
       </div>
-      <p class="admin-note">Drafts are not public. Create drafts publish new projects, update drafts edit live projects, and archive drafts remove live projects after one-click publish.</p>
+      <p class="admin-note">Resources are structured profiles for directory pages, search, SEO, and agent-readable output. Blog posts are managed separately in Blog. Drafts are not public until Publishing creates and merges a GitHub PR.</p>
       <form id="project-editor" class="admin-form" hidden>
         <input name="id" type="hidden" />
-        <div class="field-grid">
-          <label>Title<input name="title" required /></label>
-          <label>Slug<input name="slug" required /></label>
-          <label>
-            Category
-            <select name="category" required>
-              {categories.map((category) => <option value={category.slug}>{category.label}</option>)}
-            </select>
-          </label>
-          <label>Status<select name="status"><option value="draft">Draft</option><option value="ready">Ready</option></select></label>
-        </div>
-        <label>One-liner<input name="oneLiner" required maxlength="180" /></label>
-        <label>Summary<textarea name="summary" required></textarea></label>
-        <label>Why it matters<textarea name="whyItMatters" required></textarea></label>
-        <div class="field-grid">
-          <label>Best for<input name="bestFor" placeholder="Comma-separated" /></label>
-          <label>Not for<input name="notFor" placeholder="Comma-separated" /></label>
-          <label>Tags<input name="tags" placeholder="Comma-separated" /></label>
-          <label>Works with<input name="worksWith" placeholder="Comma-separated" /></label>
-        </div>
-        <div class="field-grid">
-          <label>Repository URL<input name="repoUrl" type="url" /></label>
-          <label>Homepage URL<input name="homepageUrl" type="url" /></label>
-          <label>Docs URL<input name="docsUrl" type="url" /></label>
-          <label>Demo URL<input name="demoUrl" type="url" /></label>
-        </div>
-        <div class="field-grid">
-          <label>License<input name="license" /></label>
-          <label>Maintainer<input name="maintainer" /></label>
-          <label>Install command<input name="installCommand" /></label>
-          <label>
-            Open-source status
-            <select name="openSourceStatus">
-              <option value="unknown">Unknown</option>
-              <option value="open-source">Open source</option>
-              <option value="open-core">Open core</option>
-              <option value="source-available">Source available</option>
-            </select>
-          </label>
-        </div>
-        <label>Source links<input name="sourceLinks" placeholder="Comma-separated URLs" /></label>
-        <label>SEO title<input name="seoTitle" required maxlength="80" /></label>
-        <label>SEO description<textarea name="seoDescription" required maxlength="180"></textarea></label>
-        <div class="field-grid">
-          <label>Share title<input name="shareTitle" required /></label>
-          <label>Share description<input name="shareDescription" required /></label>
+        <section class="admin-form-section">
+          <header>
+            <span class="eyebrow">Identity</span>
+            <h3>What this resource is</h3>
+            <p>Name, stable slug, and the compact description used by cards, search, and the profile hero.</p>
+          </header>
+          <div class="field-grid">
+            <label>Title<input name="title" required /></label>
+            <label>Slug<input name="slug" required /></label>
+          </div>
+          <label>One-liner<input name="oneLiner" required maxlength="180" /></label>
+          <label>Summary<textarea name="summary" required></textarea></label>
+        </section>
+
+        <section class="admin-form-section">
+          <header>
+            <span class="eyebrow">Classification</span>
+            <h3>Where it belongs</h3>
+            <p>Category controls the public route. Tags are a temporary bridge until Taxonomy V1 replaces free text.</p>
+          </header>
+          <div class="field-grid">
+            <label>
+              Category
+              <select name="category" required>
+                {categories.map((category) => <option value={category.slug}>{category.label}</option>)}
+              </select>
+            </label>
+            <label>Status<select name="status"><option value="draft">Draft</option><option value="ready">Ready</option></select></label>
+            <label>Tags<input name="tags" placeholder="Comma-separated" /></label>
+            <label>Works with<input name="worksWith" placeholder="Comma-separated" /></label>
+          </div>
+        </section>
+
+        <section class="admin-form-section">
+          <header>
+            <span class="eyebrow">Positioning</span>
+            <h3>Human decision content</h3>
+            <p>These fields should help a reader decide whether the project is worth trying.</p>
+          </header>
+          <label>Why it matters<textarea name="whyItMatters" required></textarea></label>
+          <div class="field-grid">
+            <label>Best for<input name="bestFor" placeholder="Comma-separated" /></label>
+            <label>Not for<input name="notFor" placeholder="Comma-separated" /></label>
+          </div>
+        </section>
+
+        <section class="admin-form-section">
+          <header>
+            <span class="eyebrow">Facts & signals</span>
+            <h3>Verifiable project facts</h3>
+            <p>Keep facts separate from editorial judgment. Automation can update these later through reviewable PRs.</p>
+          </header>
+          <div class="field-grid">
+            <label>License<input name="license" /></label>
+            <label>Maintainer<input name="maintainer" /></label>
+            <label>Install command<input name="installCommand" /></label>
+            <label>
+              Open-source status
+              <select name="openSourceStatus">
+                <option value="unknown">Unknown</option>
+                <option value="open-source">Open source</option>
+                <option value="open-core">Open core</option>
+                <option value="source-available">Source available</option>
+              </select>
+            </label>
+          </div>
+          <div class="checkbox-row">
+            <label><input name="isFeatured" type="checkbox" /> Featured</label>
+            <label><input name="isSponsored" type="checkbox" /> Sponsored</label>
+            <label><input name="noindex" type="checkbox" /> Noindex</label>
+          </div>
+        </section>
+
+        <section class="admin-form-section">
+          <header>
+            <span class="eyebrow">Links & media</span>
+            <h3>Where readers and agents go next</h3>
+            <p>Primary source links power the detail page, JSON, Markdown, and future freshness checks.</p>
+          </header>
+          <div class="field-grid">
+            <label>Repository URL<input name="repoUrl" type="url" /></label>
+            <label>Homepage URL<input name="homepageUrl" type="url" /></label>
+            <label>Docs URL<input name="docsUrl" type="url" /></label>
+            <label>Demo URL<input name="demoUrl" type="url" /></label>
+          </div>
+          <label>Source links<input name="sourceLinks" placeholder="Comma-separated URLs" /></label>
           <label>Cover image<input name="coverImage" type="url" /></label>
-          <label>Featured reason<input name="featuredReason" /></label>
-        </div>
-        <div class="checkbox-row">
-          <label><input name="isFeatured" type="checkbox" /> Featured</label>
-          <label><input name="isSponsored" type="checkbox" /> Sponsored</label>
-          <label><input name="noindex" type="checkbox" /> Noindex</label>
-        </div>
+        </section>
+
+        <section class="admin-form-section">
+          <header>
+            <span class="eyebrow">SEO & share</span>
+            <h3>Search and distribution</h3>
+            <p>SEO fields shape search snippets. Share fields are used by social previews and editorial cards.</p>
+          </header>
+          <label>SEO title<input name="seoTitle" required maxlength="80" /></label>
+          <label>SEO description<textarea name="seoDescription" required maxlength="180"></textarea></label>
+          <div class="field-grid">
+            <label>Share title<input name="shareTitle" required /></label>
+            <label>Share description<input name="shareDescription" required /></label>
+            <label>Featured reason<input name="featuredReason" /></label>
+          </div>
+        </section>
+
+        <section class="admin-form-section">
+          <header>
+            <span class="eyebrow">Machine-readable preview</span>
+            <h3>Stable agent endpoints</h3>
+            <p>These URLs are generated from category and slug. They should not be edited by hand.</p>
+          </header>
+          <div class="admin-machine-preview" id="machine-preview" data-site={site.url}>
+            <code>HTML: Select a draft</code>
+            <code>JSON: Select a draft</code>
+            <code>Markdown: Select a draft</code>
+          </div>
+        </section>
         <button class="button" type="submit">Save draft</button>
         <p id="editor-status" class="form-status" role="status"></p>
       </form>
@@ -107,6 +169,44 @@ import { categories } from "@/config/site";
     if (project.status === "ready") return "Ready to create publish PR";
     if (project.status === "published") return "Published";
     return "Draft, not public yet";
+  }
+
+  function resourceType(category) {
+    const map = {
+      "models": "model",
+      "agents": "agent",
+      "memory-systems": "memory_system",
+      "skills": "skill",
+      "plugins": "plugin",
+      "tools": "tool"
+    };
+    return map[category] ?? "tool";
+  }
+
+  function updateMachinePreview() {
+    const editor = document.querySelector("#project-editor");
+    const preview = document.querySelector("#machine-preview");
+    if (!(editor instanceof HTMLFormElement) || !(preview instanceof HTMLElement)) return;
+    if (editor.hidden) {
+      preview.innerHTML = "<code>HTML: Select a draft</code><code>JSON: Select a draft</code><code>Markdown: Select a draft</code>";
+      return;
+    }
+    const siteUrl = preview.dataset.site || "https://www.openagent.bot";
+    const categoryField = editor.elements.namedItem("category");
+    const slugField = editor.elements.namedItem("slug");
+    const category = categoryField instanceof HTMLSelectElement ? categoryField.value : "";
+    const slug = slugField instanceof HTMLInputElement ? slugField.value : "";
+    if (!category || !slug) {
+      preview.innerHTML = "<code>HTML: Select a draft</code><code>JSON: Select a draft</code><code>Markdown: Select a draft</code>";
+      return;
+    }
+    const path = `/${category}/${slug}`;
+    preview.innerHTML = `
+      <code>Type: ${escapeHtml(resourceType(category))}</code>
+      <code>HTML: ${escapeHtml(siteUrl + path)}</code>
+      <code>JSON: ${escapeHtml(siteUrl + path + ".json")}</code>
+      <code>Markdown: ${escapeHtml(siteUrl + path + ".md")}</code>
+    `;
   }
 
   async function loadProjects() {
@@ -144,7 +244,8 @@ import { categories } from "@/config/site";
     const preview = document.querySelector("#preview-link");
     if (!(editor instanceof HTMLFormElement) || !(title instanceof HTMLElement)) return;
     editor.hidden = false;
-    title.textContent = `Editing ${selectedProject.title}`;
+    const operationLabel = selectedProject.operation === "update" ? "Update draft" : selectedProject.operation === "archive" ? "Unpublish draft" : "Create draft";
+    title.textContent = `${operationLabel}: ${selectedProject.title}`;
     if (preview instanceof HTMLAnchorElement) {
       preview.hidden = false;
       preview.href = `/${selectedProject.category}/${selectedProject.slug}`;
@@ -169,6 +270,7 @@ import { categories } from "@/config/site";
     if (slugField instanceof HTMLInputElement) slugField.readOnly = selectedProject.operation === "update";
     const statusField = editor.elements.namedItem("status");
     if (statusField instanceof HTMLSelectElement) statusField.disabled = selectedProject.operation === "archive";
+    updateMachinePreview();
   }
 
   function editorPayload() {
@@ -204,6 +306,7 @@ import { categories } from "@/config/site";
       selectedProject = result.project;
       status.textContent = "Saved. Draft is still not public until a publish PR is merged.";
       status.dataset.state = "success";
+      updateMachinePreview();
       await loadProjects();
     } catch (error) {
       status.textContent = error instanceof Error ? error.message : "Save failed.";
@@ -226,8 +329,9 @@ import { categories } from "@/config/site";
         const title = document.querySelector("#editor-title");
         const preview = document.querySelector("#preview-link");
         if (editor instanceof HTMLFormElement) editor.hidden = true;
-        if (title instanceof HTMLElement) title.textContent = "Select a draft";
+        if (title instanceof HTMLElement) title.textContent = "Select a resource draft";
         if (preview instanceof HTMLAnchorElement) preview.hidden = true;
+        updateMachinePreview();
       }
       if (status instanceof HTMLElement) {
         status.textContent = "Draft deleted.";
@@ -249,6 +353,8 @@ import { categories } from "@/config/site";
     if (target instanceof HTMLButtonElement && target.dataset.delete) deleteProject(target.dataset.delete);
   });
   document.querySelector("#project-editor")?.addEventListener("submit", saveProject);
+  document.querySelector("#project-editor")?.addEventListener("input", updateMachinePreview);
+  document.querySelector("#project-editor")?.addEventListener("change", updateMachinePreview);
 
   const initialId = new URL(location.href).searchParams.get("id");
   loadProjects().then(() => initialId && editProject(initialId));

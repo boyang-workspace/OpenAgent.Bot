@@ -10,8 +10,8 @@ type Props = {
 const nav = [
   { id: "overview", label: "Overview", href: "/admin/" },
   { id: "review", label: "Review Inbox", href: "/admin/review/" },
-  { id: "projects", label: "Project Drafts", href: "/admin/projects/" },
-  { id: "published", label: "Published", href: "/admin/published/" },
+  { id: "projects", label: "Resources", href: "/admin/projects/" },
+  { id: "published", label: "Published Resources", href: "/admin/published/" },
   { id: "publishing", label: "Publishing", href: "/admin/publishing/" },
   { id: "pages", label: "Pages", href: "/admin/pages/" },
   { id: "blog", label: "Blog", href: "/admin/blog/" },
@@ -250,6 +250,47 @@ const { title, description = "OpenAgent.bot admin", active } = Astro.props;
   .admin-form {
     display: grid;
     gap: 14px;
+  }
+
+  .admin-form-section {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .admin-form-section > header {
+    display: grid;
+    gap: 4px;
+  }
+
+  .admin-form-section h3 {
+    font-size: 1.02rem;
+    margin: 0;
+  }
+
+  .admin-form-section p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .admin-machine-preview {
+    background: #171914;
+    border-radius: 8px;
+    color: #f5f5ef;
+    display: grid;
+    font-size: 0.84rem;
+    gap: 8px;
+    padding: 14px;
+  }
+
+  .admin-machine-preview code {
+    color: #f5f5ef;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    overflow-wrap: anywhere;
   }
 
   .admin-form label {

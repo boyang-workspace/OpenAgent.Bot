@@ -1,4 +1,4 @@
-import { actorFromRequest, boolParam, error, json, readJson, requireAdmin } from "../../../_lib/http";
+import { actorFromRequest, boolParam, error, json, ok, readJson, requireAdmin } from "../../../_lib/http";
 import { getDraft, logEvent, mapDraft, saveRevision } from "../../../_lib/db";
 import type { Env } from "../../../_lib/types";
 import { parseDraftContent } from "../../../_lib/validation";
@@ -54,5 +54,31 @@ export const onRequestPut: PagesFunction<Env> = async ({ request, env, params })
     return json({ ok: true, project: mapDraft(row as Parameters<typeof mapDraft>[0]) });
   } catch (caught) {
     return error(caught instanceof Error ? caught.message : "Failed to update project draft.");
+  }
+};
+
+export const onRequestDelete: PagesFunction<Env> = async ({ request, env, params }) => {
+  const blocked = requireAdmin(request, env);
+  if (blocked) return blocked;
+
+  try {
+    const id = String(params.id ?? "");
+    const existing = await getDraft(env, id);
+    if (!existing) return error("Project draft not found.", 404);
+
+    const actor = actorFromRequest(request);
+    await env.DB.prepare("DELETE FROM draft_revisions WHERE draft_id = ?").bind(id).run();
+    await env.DB.prepare("DELETE FROM idempotency_keys WHERE entity_id = ?").bind(id).run();
+    await env.DB.prepare("DELETE FROM project_drafts WHERE id = ?").bind(id).run();
+    if (existing.submissionId) {
+      await env.DB.prepare("UPDATE submissions SET status = 'reviewing', draft_id = NULL, updated_at = ? WHERE id = ?")
+        .bind(new Date().toISOString(), existing.submissionId)
+        .run();
+    }
+    await logEvent(env, "project_draft", id, "deleted", { actor, before: existing });
+
+    return ok({ deleted: true, id });
+  } catch (caught) {
+    return error(caught instanceof Error ? caught.message : "Failed to delete project draft.", 500);
   }
 };

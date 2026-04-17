@@ -48,6 +48,7 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
               ${!converted && !rejected ? `<button class="button" data-convert="${item.id}" type="button">Convert to draft</button>` : ""}
               ${!converted && !rejected ? `<button class="button secondary" data-status="duplicate" data-id="${item.id}" type="button">Duplicate</button>` : ""}
               ${!converted && !rejected ? `<button class="button secondary" data-status="rejected" data-id="${item.id}" type="button">Reject</button>` : ""}
+              <button class="button secondary danger" data-delete="${item.id}" type="button">Delete</button>
             </div>
           </article>
         `;
@@ -73,11 +74,18 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
     await loadSubmissions();
   }
 
+  async function deleteSubmission(id) {
+    if (!confirm("Delete this submission and any draft created from it? This cannot be undone.")) return;
+    await api(`/admin/api/submissions/${id}`, { method: "DELETE" });
+    await loadSubmissions();
+  }
+
   document.querySelector("#refresh")?.addEventListener("click", loadSubmissions);
   document.querySelector("#submissions-list")?.addEventListener("click", (event) => {
     const target = event.target;
     if (target instanceof HTMLButtonElement && target.dataset.convert) convertSubmission(target.dataset.convert);
     if (target instanceof HTMLButtonElement && target.dataset.status && target.dataset.id) updateStatus(target.dataset.id, target.dataset.status);
+    if (target instanceof HTMLButtonElement && target.dataset.delete) deleteSubmission(target.dataset.delete);
   });
   loadSubmissions();
 </script>

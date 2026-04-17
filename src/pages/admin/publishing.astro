@@ -57,7 +57,7 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
     const title = document.querySelector("#preview-title");
     const preview = document.querySelector("#publish-preview");
     const dryRun = document.querySelector("#dry-run-pr");
-    const create = document.querySelector("#create-pr");
+    const create = document.querySelector("#publish-now");
     const status = document.querySelector("#publishing-status");
     if (title instanceof HTMLElement) title.textContent = project.status === "ready" ? `Ready: ${project.title}` : project.title;
     if (preview instanceof HTMLElement) preview.textContent = project.lastPublishPreview ? JSON.stringify(project.lastPublishPreview, null, 2) : "No dry-run preview yet.";
@@ -90,6 +90,7 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
             ${item.publishStatus === "deploying" ? `<button class="button secondary" data-sync="${item.id}" type="button">Check live</button>` : ""}
             ${item.prUrl ? `<a class="button secondary" href="${item.prUrl}" target="_blank" rel="noreferrer">Open PR</a>` : ""}
             ${item.liveUrl ? `<a class="button secondary" href="${item.liveUrl}" target="_blank" rel="noreferrer">Live URL</a>` : ""}
+            <button class="button secondary danger" data-delete="${item.id}" type="button">Delete</button>
           </div>
         </article>
       `).join("") : "<p>No ready drafts or publish PRs yet.</p>";
@@ -156,6 +157,39 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
     }
   }
 
+  async function deleteDraft(id) {
+    if (!confirm("Delete this item from the publishing queue? This removes the admin draft/job, not any already-live GitHub file.")) return;
+    const status = document.querySelector("#publishing-status");
+    if (status instanceof HTMLElement) {
+      status.textContent = "Deleting queue item...";
+      status.dataset.state = "";
+    }
+    try {
+      await api(`/admin/api/projects/${id}`, { method: "DELETE" });
+      if (selectedDraft?.id === id) {
+        selectedDraft = null;
+        const title = document.querySelector("#preview-title");
+        const preview = document.querySelector("#publish-preview");
+        const dryRun = document.querySelector("#dry-run-pr");
+        const publish = document.querySelector("#publish-now");
+        if (title instanceof HTMLElement) title.textContent = "Select a ready draft";
+        if (preview instanceof HTMLElement) preview.textContent = "No preview yet.";
+        if (dryRun instanceof HTMLButtonElement) dryRun.disabled = true;
+        if (publish instanceof HTMLButtonElement) publish.disabled = true;
+      }
+      if (status instanceof HTMLElement) {
+        status.textContent = "Queue item deleted.";
+        status.dataset.state = "success";
+      }
+      await loadPublishing();
+    } catch (error) {
+      if (status instanceof HTMLElement) {
+        status.textContent = error instanceof Error ? error.message : "Delete failed.";
+        status.dataset.state = "error";
+      }
+    }
+  }
+
   document.querySelector("#refresh-publishing")?.addEventListener("click", loadPublishing);
   document.querySelector("#publishing-list")?.addEventListener("click", async (event) => {
     const target = event.target;
@@ -173,6 +207,7 @@ import AdminLayout from "@/layouts/AdminLayout.astro";
       await publishNow();
     }
     if (target.dataset.sync) await syncPublish(target.dataset.sync);
+    if (target.dataset.delete) await deleteDraft(target.dataset.delete);
   });
   document.querySelector("#dry-run-pr")?.addEventListener("click", () => selectedDraft && previewPr(selectedDraft.id));
   document.querySelector("#publish-now")?.addEventListener("click", publishNow);

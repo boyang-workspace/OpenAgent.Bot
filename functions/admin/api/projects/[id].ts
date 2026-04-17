@@ -1,1 +1,1 @@
-export { onRequestGet, onRequestPut } from "../../../api/admin/projects/[id]";
+export { onRequestDelete, onRequestGet, onRequestPut } from "../../../api/admin/projects/[id]";

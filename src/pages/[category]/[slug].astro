@@ -424,36 +424,12 @@ const jsonLd = {
   }
 
   .new-window-icon {
-    border: 1.5px solid #a8afa5;
-    border-radius: 2px;
-    display: inline-block;
-    height: 0.72em;
-    margin-left: 2px;
-    position: relative;
-    width: 0.72em;
-  }
-
-  .new-window-icon::after {
-    border-right: 1.5px solid #a8afa5;
-    border-top: 1.5px solid #a8afa5;
-    content: "";
-    height: 0.42em;
-    position: absolute;
-    right: -0.18em;
-    top: -0.18em;
-    width: 0.42em;
-  }
-
-  .new-window-icon::before {
     background: #a8afa5;
-    content: "";
-    height: 1.5px;
-    position: absolute;
-    right: -0.18em;
-    top: 0.04em;
-    transform: rotate(-45deg);
-    transform-origin: right center;
-    width: 0.56em;
+    display: inline-block;
+    height: 0.86em;
+    margin-left: 2px;
+    mask: url("/external-link.svg") center / contain no-repeat;
+    width: 0.86em;
   }
 
   .secondary {

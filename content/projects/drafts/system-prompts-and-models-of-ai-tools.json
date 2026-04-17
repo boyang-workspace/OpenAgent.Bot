@@ -1,0 +1,50 @@
+{
+  "slug": "system-prompts-and-models-of-ai-tools",
+  "title": "system-prompts-and-models-of-ai-tools",
+  "oneLiner": "FULL Augment Code, Claude Code, Cluely, CodeBuddy, Comet, Cursor, Devin AI, Junie, Kiro, Leap.new, Lovable, Manus, NotionAI, Orchids.app, Perplexity, Poke, Qoder, Replit, Same.dev, Trae, Traycer AI, VSCode Agent, Warp.dev, Windsurf, Xcode, Z.ai Code, Dia & v0.",
+  "summary": "FULL Augment Code, Claude Code, Cluely, CodeBuddy, Comet, Cursor, Devin AI, Junie, Kiro, Leap.new, Lovable, Manus, NotionAI, Orchids.app, Perplexity, Poke, Qoder, Replit, Same.dev, Trae, Traycer AI, VSCode Agent, Warp.dev, Windsurf, Xcode, Z.ai Code, Dia & v0. (And other Open Sourced) System Prompts, Internal Tools & AI Models",
+  "whyItMatters": "system-prompts-and-models-of-ai-tools showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "bestFor": [
+    "Builders evaluating models",
+    "Open-source AI discovery",
+    "Editorial review"
+  ],
+  "notFor": [
+    "Production adoption without manual verification"
+  ],
+  "category": "models",
+  "tags": [
+    "models",
+    "open-source",
+    "ai",
+    "repo-and-license-signals",
+    "strong-ai-relevance"
+  ],
+  "repoUrl": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+  "homepageUrl": "",
+  "license": "GPL-3.0",
+  "maintainer": "x1xhlol",
+  "worksWith": [
+    "models"
+  ],
+  "sourceLinks": [
+    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+    "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools/blob/main/README.md"
+  ],
+  "seoTitle": "system-prompts-and-models-of-ai-tools: Open-source models for AI bui",
+  "seoDescription": "A concise editorial profile of system-prompts-and-models-of-ai-tools, including what it does, who it is best for, license, repo, and related open-source AI reso",
+  "shareTitle": "system-prompts-and-models-of-ai-tools on OpenAgent.bot",
+  "shareDescription": "FULL Augment Code, Claude Code, Cluely, CodeBuddy, Comet, Cursor, Devin AI, Junie, Kiro, Leap.new, Lovable, Manus, NotionAI, Orchids.app, Perplexity, Poke, Qode",
+  "status": "draft",
+  "generatedAt": "2026-04-17T00:00:00.000Z",
+  "updatedAt": "2026-04-17",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/x1xhlol/system-prompts-and-models-of-ai-tools",
+  "sourceMetrics": {
+    "stars": 135346,
+    "forks": 33997
+  },
+  "noindex": true
+}

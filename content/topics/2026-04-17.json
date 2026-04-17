@@ -1,0 +1,1175 @@
+{
+  "date": "2026-04-17",
+  "topics": [
+    {
+      "id": "2026-04-17:system-prompts-and-models-of-ai-tools",
+      "candidateIds": [
+        "github:x1xhlol/system-prompts-and-models-of-ai-tools"
+      ],
+      "topicType": "single-project",
+      "title": "Profile system-prompts-and-models-of-ai-tools",
+      "angle": "Explain what system-prompts-and-models-of-ai-tools does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "system-prompts-and-models-of-ai-tools open source models",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:gemini-cli",
+      "candidateIds": [
+        "github:google-gemini/gemini-cli"
+      ],
+      "topicType": "single-project",
+      "title": "Profile gemini-cli",
+      "angle": "Explain what gemini-cli does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "gemini-cli open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:goose",
+      "candidateIds": [
+        "github:aaif-goose/goose"
+      ],
+      "topicType": "single-project",
+      "title": "Profile goose",
+      "angle": "Explain what goose does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "goose open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:tooljet",
+      "candidateIds": [
+        "github:ToolJet/ToolJet"
+      ],
+      "topicType": "single-project",
+      "title": "Profile ToolJet",
+      "angle": "Explain what ToolJet does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "ToolJet open source plugins",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:librechat",
+      "candidateIds": [
+        "github:danny-avila/LibreChat"
+      ],
+      "topicType": "single-project",
+      "title": "Profile LibreChat",
+      "angle": "Explain what LibreChat does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "LibreChat open source tools",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:ragflow",
+      "candidateIds": [
+        "github:infiniflow/ragflow"
+      ],
+      "topicType": "single-project",
+      "title": "Profile ragflow",
+      "angle": "Explain what ragflow does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "ragflow open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:gpt4all",
+      "candidateIds": [
+        "github:nomic-ai/gpt4all"
+      ],
+      "topicType": "single-project",
+      "title": "Profile gpt4all",
+      "angle": "Explain what gpt4all does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "gpt4all open source models",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:crawl4ai",
+      "candidateIds": [
+        "github:unclecode/crawl4ai"
+      ],
+      "topicType": "single-project",
+      "title": "Profile crawl4ai",
+      "angle": "Explain what crawl4ai does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "crawl4ai open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:haystack",
+      "candidateIds": [
+        "github:deepset-ai/haystack"
+      ],
+      "topicType": "single-project",
+      "title": "Profile haystack",
+      "angle": "Explain what haystack does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "haystack open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:memos",
+      "candidateIds": [
+        "github:MemTensor/MemOS"
+      ],
+      "topicType": "single-project",
+      "title": "Profile MemOS",
+      "angle": "Explain what MemOS does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "MemOS open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:everything-claude-code",
+      "candidateIds": [
+        "github:affaan-m/everything-claude-code"
+      ],
+      "topicType": "single-project",
+      "title": "Profile everything-claude-code",
+      "angle": "Explain what everything-claude-code does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "everything-claude-code open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:activepieces",
+      "candidateIds": [
+        "github:activepieces/activepieces"
+      ],
+      "topicType": "single-project",
+      "title": "Profile activepieces",
+      "angle": "Explain what activepieces does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "activepieces open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:browser-use",
+      "candidateIds": [
+        "github:browser-use/browser-use"
+      ],
+      "topicType": "single-project",
+      "title": "Profile browser-use",
+      "angle": "Explain what browser-use does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "browser-use open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:agentgpt",
+      "candidateIds": [
+        "github:reworkd/AgentGPT"
+      ],
+      "topicType": "single-project",
+      "title": "Profile AgentGPT",
+      "angle": "Explain what AgentGPT does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "AgentGPT open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:career-ops",
+      "candidateIds": [
+        "github:santifer/career-ops"
+      ],
+      "topicType": "single-project",
+      "title": "Profile career-ops",
+      "angle": "Explain what career-ops does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "career-ops open source tools",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:langflow",
+      "candidateIds": [
+        "github:langflow-ai/langflow"
+      ],
+      "topicType": "single-project",
+      "title": "Profile langflow",
+      "angle": "Explain what langflow does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "langflow open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:dify",
+      "candidateIds": [
+        "github:langgenius/dify"
+      ],
+      "topicType": "single-project",
+      "title": "Profile dify",
+      "angle": "Explain what dify does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "dify open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:mineru",
+      "candidateIds": [
+        "github:opendatalab/MinerU"
+      ],
+      "topicType": "single-project",
+      "title": "Profile MinerU",
+      "angle": "Explain what MinerU does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "MinerU open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:unity-mcp",
+      "candidateIds": [
+        "github:CoplayDev/unity-mcp"
+      ],
+      "topicType": "single-project",
+      "title": "Profile unity-mcp",
+      "angle": "Explain what unity-mcp does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "unity-mcp open source models",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:5ire",
+      "candidateIds": [
+        "github:nanbingxyz/5ire"
+      ],
+      "topicType": "single-project",
+      "title": "Profile 5ire",
+      "angle": "Explain what 5ire does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "5ire open source models",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:self-hosted-ai-starter-kit",
+      "candidateIds": [
+        "github:n8n-io/self-hosted-ai-starter-kit"
+      ],
+      "topicType": "single-project",
+      "title": "Profile self-hosted-ai-starter-kit",
+      "angle": "Explain what self-hosted-ai-starter-kit does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "self-hosted-ai-starter-kit open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:ui",
+      "candidateIds": [
+        "github:creativetimofficial/ui"
+      ],
+      "topicType": "single-project",
+      "title": "Profile ui",
+      "angle": "Explain what ui does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "ui open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 89,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:localai",
+      "candidateIds": [
+        "github:mudler/LocalAI"
+      ],
+      "topicType": "single-project",
+      "title": "Profile LocalAI",
+      "angle": "Explain what LocalAI does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "LocalAI open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 86,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:mempalace",
+      "candidateIds": [
+        "github:MemPalace/mempalace"
+      ],
+      "topicType": "single-project",
+      "title": "Profile mempalace",
+      "angle": "Explain what mempalace does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "mempalace open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 86,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:openviking",
+      "candidateIds": [
+        "github:volcengine/OpenViking"
+      ],
+      "topicType": "single-project",
+      "title": "Profile OpenViking",
+      "angle": "Explain what OpenViking does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "OpenViking open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 86,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:memmachine",
+      "candidateIds": [
+        "github:MemMachine/MemMachine"
+      ],
+      "topicType": "single-project",
+      "title": "Profile MemMachine",
+      "angle": "Explain what MemMachine does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "MemMachine open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 86,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:nanoclaw",
+      "candidateIds": [
+        "github:qwibitai/nanoclaw"
+      ],
+      "topicType": "single-project",
+      "title": "Profile nanoclaw",
+      "angle": "Explain what nanoclaw does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "nanoclaw open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 86,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:cowagent",
+      "candidateIds": [
+        "github:zhayujie/CowAgent"
+      ],
+      "topicType": "single-project",
+      "title": "Profile CowAgent",
+      "angle": "Explain what CowAgent does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "CowAgent open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 86,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:graphify",
+      "candidateIds": [
+        "github:safishamsi/graphify"
+      ],
+      "topicType": "single-project",
+      "title": "Profile graphify",
+      "angle": "Explain what graphify does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "graphify open source skills",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 86,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:transformerlab-app",
+      "candidateIds": [
+        "github:transformerlab/transformerlab-app"
+      ],
+      "topicType": "single-project",
+      "title": "Profile transformerlab-app",
+      "angle": "Explain what transformerlab-app does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "transformerlab-app open source models",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 86,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:show-hn-revdiff-tui-diff-reviewer-with-inline-annotations-for-ai-agents",
+      "candidateIds": [
+        "hackernews:47742437"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Revdiff – TUI diff reviewer with inline annotations for AI agents",
+      "angle": "Explain what Show HN: Revdiff – TUI diff reviewer with inline annotations for AI agents does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Revdiff – TUI diff reviewer with inline annotations for AI agents open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 86,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:fastmcp",
+      "candidateIds": [
+        "github:PrefectHQ/fastmcp"
+      ],
+      "topicType": "single-project",
+      "title": "Profile fastmcp",
+      "angle": "Explain what fastmcp does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "fastmcp open source tools",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 85,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:powerinfer",
+      "candidateIds": [
+        "github:Tiiny-AI/PowerInfer"
+      ],
+      "topicType": "single-project",
+      "title": "Profile PowerInfer",
+      "angle": "Explain what PowerInfer does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "PowerInfer open source models",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 85,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:show-hn-libretto-making-ai-browser-automations-deterministic",
+      "candidateIds": [
+        "hackernews:47780971"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Libretto – Making AI browser automations deterministic",
+      "angle": "Explain what Show HN: Libretto – Making AI browser automations deterministic does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Libretto – Making AI browser automations deterministic open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 84,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:mem0",
+      "candidateIds": [
+        "github:mem0ai/mem0"
+      ],
+      "topicType": "single-project",
+      "title": "Profile mem0",
+      "angle": "Explain what mem0 does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "mem0 open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 82,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:gitnexus",
+      "candidateIds": [
+        "github:abhigyanpatwari/GitNexus"
+      ],
+      "topicType": "single-project",
+      "title": "Profile GitNexus",
+      "angle": "Explain what GitNexus does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "GitNexus open source tools",
+      "reason": "repo and license signals",
+      "score": 81,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:ui-ux-pro-max-skill",
+      "candidateIds": [
+        "github:nextlevelbuilder/ui-ux-pro-max-skill"
+      ],
+      "topicType": "single-project",
+      "title": "Profile ui-ux-pro-max-skill",
+      "angle": "Explain what ui-ux-pro-max-skill does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "ui-ux-pro-max-skill open source skills",
+      "reason": "repo and license signals",
+      "score": 81,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:awesome-claude-skills",
+      "candidateIds": [
+        "github:ComposioHQ/awesome-claude-skills"
+      ],
+      "topicType": "single-project",
+      "title": "Profile awesome-claude-skills",
+      "angle": "Explain what awesome-claude-skills does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "awesome-claude-skills open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 80,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:claude-code",
+      "candidateIds": [
+        "github:anthropics/claude-code"
+      ],
+      "topicType": "single-project",
+      "title": "Profile claude-code",
+      "angle": "Explain what claude-code does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "claude-code open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 80,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:show-hn-talk-to-all-your-agents-in-one-place",
+      "candidateIds": [
+        "hackernews:47799990"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Talk to all your agents in one place",
+      "angle": "Explain what Show HN: Talk to all your agents in one place does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Talk to all your agents in one place open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 80,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:show-hn-open-source-perplexity-clone-one-file-back-end-streaming-answers",
+      "candidateIds": [
+        "hackernews:47797393"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Open-source Perplexity clone one file back end, streaming answers",
+      "angle": "Explain what Show HN: Open-source Perplexity clone one file back end, streaming answers does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Open-source Perplexity clone one file back end, streaming answers open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 80,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:show-hn-eddi-multi-agent-ai-engine-where-agent-logic-lives-in-json-not-code",
+      "candidateIds": [
+        "hackernews:47793245"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: EDDI – Multi-agent AI engine where agent logic lives in JSON, not code",
+      "angle": "Explain what Show HN: EDDI – Multi-agent AI engine where agent logic lives in JSON, not code does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: EDDI – Multi-agent AI engine where agent logic lives in JSON, not code open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 80,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:show-hn-nanowakeword-open-source-wake-word-training-for-any-device",
+      "candidateIds": [
+        "hackernews:47794771"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: NanoWakeWord – Open-source wake word training for any device",
+      "angle": "Explain what Show HN: NanoWakeWord – Open-source wake word training for any device does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: NanoWakeWord – Open-source wake word training for any device open source models",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 80,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:show-hn-alien-ship-to-your-customer-s-cloud",
+      "candidateIds": [
+        "hackernews:47791745"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Alien – Ship to your customer's cloud",
+      "angle": "Explain what Show HN: Alien – Ship to your customer's cloud does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Alien – Ship to your customer's cloud open source models",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 80,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:awesome-mcp-servers",
+      "candidateIds": [
+        "github:punkpeye/awesome-mcp-servers"
+      ],
+      "topicType": "single-project",
+      "title": "Profile awesome-mcp-servers",
+      "angle": "Explain what awesome-mcp-servers does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "awesome-mcp-servers open source plugins",
+      "reason": "repo and license signals",
+      "score": 77,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:agent-browser",
+      "candidateIds": [
+        "github:vercel-labs/agent-browser"
+      ],
+      "topicType": "single-project",
+      "title": "Profile agent-browser",
+      "angle": "Explain what agent-browser does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "agent-browser open source agents",
+      "reason": "repo and license signals",
+      "score": 77,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:show-hn-macmind-a-transformer-neural-network-in-hypercard-on-a-1989-macintosh",
+      "candidateIds": [
+        "hackernews:47792525"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: MacMind – A transformer neural network in HyperCard on a 1989 Macintosh",
+      "angle": "Explain what Show HN: MacMind – A transformer neural network in HyperCard on a 1989 Macintosh does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: MacMind – A transformer neural network in HyperCard on a 1989 Macintosh open source tools",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 75,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:show-hn-langalpha-what-if-claude-code-was-built-for-wall-street",
+      "candidateIds": [
+        "hackernews:47766370"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: LangAlpha – what if Claude Code was built for Wall Street?",
+      "angle": "Explain what Show HN: LangAlpha – what if Claude Code was built for Wall Street? does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: LangAlpha – what if Claude Code was built for Wall Street? open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 75,
+      "status": "drafted"
+    },
+    {
+      "id": "2026-04-17:onlook",
+      "candidateIds": [
+        "github:onlook-dev/onlook"
+      ],
+      "topicType": "single-project",
+      "title": "Profile onlook",
+      "angle": "Explain what onlook does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "onlook open source tools",
+      "reason": "repo and license signals",
+      "score": 73,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-collabmem-a-memory-system-for-long-term-collaboration-with-ai",
+      "candidateIds": [
+        "hackernews:47726056"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Collabmem – a memory system for long-term collaboration with AI",
+      "angle": "Explain what Show HN: Collabmem – a memory system for long-term collaboration with AI does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Collabmem – a memory system for long-term collaboration with AI open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 71,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:mnemo-shareable-typed-agentic-memory-system-with-bayesian-belief-updating",
+      "candidateIds": [
+        "hackernews:47691109"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Mnemo: Shareable typed agentic memory system with Bayesian belief updating",
+      "angle": "Explain what Mnemo: Shareable typed agentic memory system with Bayesian belief updating does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Mnemo: Shareable typed agentic memory system with Bayesian belief updating open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 71,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-witchcraft-and-pickbrain-fast-multi-vector-semantic-search-in-rust",
+      "candidateIds": [
+        "hackernews:47792166"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Witchcraft and Pickbrain – fast multi-vector semantic search in Rust",
+      "angle": "Explain what Show HN: Witchcraft and Pickbrain – fast multi-vector semantic search in Rust does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Witchcraft and Pickbrain – fast multi-vector semantic search in Rust open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 71,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-agentfab-a-distributed-agentic-platform",
+      "candidateIds": [
+        "hackernews:47782234"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Agentfab – A Distributed Agentic Platform",
+      "angle": "Explain what Show HN: Agentfab – A Distributed Agentic Platform does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Agentfab – A Distributed Agentic Platform open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 71,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-rebuilt-seti-home-but-for-ai",
+      "candidateIds": [
+        "hackernews:47800418"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Rebuilt SETI Home but for AI",
+      "angle": "Explain what Show HN: Rebuilt SETI Home but for AI does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Rebuilt SETI Home but for AI open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 71,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-haindy-a-cli-that-gives-coding-agents-computer-use",
+      "candidateIds": [
+        "hackernews:47791360"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Haindy, a CLI that gives coding agents computer use",
+      "angle": "Explain what Show HN: Haindy, a CLI that gives coding agents computer use does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Haindy, a CLI that gives coding agents computer use open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 71,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:playwright-mcp",
+      "candidateIds": [
+        "github:microsoft/playwright-mcp"
+      ],
+      "topicType": "single-project",
+      "title": "Profile playwright-mcp",
+      "angle": "Explain what playwright-mcp does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "playwright-mcp open source plugins",
+      "reason": "repo and license signals",
+      "score": 69,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:github-mcp-server",
+      "candidateIds": [
+        "github:github/github-mcp-server"
+      ],
+      "topicType": "single-project",
+      "title": "Profile github-mcp-server",
+      "angle": "Explain what github-mcp-server does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "github-mcp-server open source plugins",
+      "reason": "repo and license signals",
+      "score": 69,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:cline",
+      "candidateIds": [
+        "github:cline/cline"
+      ],
+      "topicType": "single-project",
+      "title": "Profile cline",
+      "angle": "Explain what cline does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "cline open source agents",
+      "reason": "repo and license signals",
+      "score": 69,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:opencognit-open-source-os-for-autonomous-ai-agents",
+      "candidateIds": [
+        "hackernews:47775984"
+      ],
+      "topicType": "single-project",
+      "title": "Profile OpenCognit – Open-source OS for autonomous AI agents",
+      "angle": "Explain what OpenCognit – Open-source OS for autonomous AI agents does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "OpenCognit – Open-source OS for autonomous AI agents open source agents",
+      "reason": "repo and license signals",
+      "score": 68,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:nyquest-open-source-llm-token-compression-proxy-in-rust-15-75-savings",
+      "candidateIds": [
+        "hackernews:47796508"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Nyquest – Open-source LLM token compression proxy in Rust (15–75% savings)",
+      "angle": "Explain what Nyquest – Open-source LLM token compression proxy in Rust (15–75% savings) does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Nyquest – Open-source LLM token compression proxy in Rust (15–75% savings) open source models",
+      "reason": "repo and license signals",
+      "score": 68,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:catalog-of-ai-knowledge-retrieval-memory-and-rag-systems",
+      "candidateIds": [
+        "hackernews:47736291"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Catalog of AI Knowledge Retrieval, Memory and RAG Systems",
+      "angle": "Explain what Catalog of AI Knowledge Retrieval, Memory and RAG Systems does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Catalog of AI Knowledge Retrieval, Memory and RAG Systems open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 68,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-swarm-get-consistent-results-from-claude-code",
+      "candidateIds": [
+        "hackernews:47801184"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Swarm – Get consistent results from Claude Code",
+      "angle": "Explain what Show HN: Swarm – Get consistent results from Claude Code does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Swarm – Get consistent results from Claude Code open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 68,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:how-are-you-handling-persistent-memory-across-llm-agent-sessions",
+      "candidateIds": [
+        "hackernews:47796947"
+      ],
+      "topicType": "single-project",
+      "title": "Profile How are you handling persistent memory across LLM agent sessions?",
+      "angle": "Explain what How are you handling persistent memory across LLM agent sessions? does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "How are you handling persistent memory across LLM agent sessions? open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 68,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-mempalace-agent-that-sits-in-front-of-any-llm-endpoint-and-gives-memory",
+      "candidateIds": [
+        "hackernews:47796912"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: MemPalace Agent that sits in front of any LLM endpoint and gives memory",
+      "angle": "Explain what Show HN: MemPalace Agent that sits in front of any LLM endpoint and gives memory does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: MemPalace Agent that sits in front of any LLM endpoint and gives memory open source memory systems",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 68,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:mnemo-a-local-first-notepad-that-acts-as-memory-for-ai-agents",
+      "candidateIds": [
+        "hackernews:47795586"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Mnemo – a local-first notepad that acts as memory for AI agents",
+      "angle": "Explain what Mnemo – a local-first notepad that acts as memory for AI agents does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Mnemo – a local-first notepad that acts as memory for AI agents open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 68,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-memwright-self-hosted-memory-for-multi-agent-teams-no-llm-in-path",
+      "candidateIds": [
+        "hackernews:47773981"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Memwright – Self-hosted memory for multi-agent teams, no LLM in path",
+      "angle": "Explain what Show HN: Memwright – Self-hosted memory for multi-agent teams, no LLM in path does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Memwright – Self-hosted memory for multi-agent teams, no LLM in path open source agents",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 68,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:launch-hn-kampala-yc-w26-reverse-engineer-apps-into-apis",
+      "candidateIds": [
+        "hackernews:47794514"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Launch HN: Kampala (YC W26) – Reverse-Engineer Apps into APIs",
+      "angle": "Explain what Launch HN: Kampala (YC W26) – Reverse-Engineer Apps into APIs does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Launch HN: Kampala (YC W26) – Reverse-Engineer Apps into APIs open source agents",
+      "reason": "strong AI relevance",
+      "score": 59,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-avec-ios-email-app-that-lets-you-handle-your-gmail-inbox-in-seconds",
+      "candidateIds": [
+        "hackernews:47780199"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Avec – iOS email app that lets you handle your Gmail inbox in seconds",
+      "angle": "Explain what Show HN: Avec – iOS email app that lets you handle your Gmail inbox in seconds does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Avec – iOS email app that lets you handle your Gmail inbox in seconds open source models",
+      "reason": "strong AI relevance",
+      "score": 56,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-deepgram-releases-deepgram-cli-dg-an-agent-aware-cli",
+      "candidateIds": [
+        "hackernews:47791087"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Deepgram releases Deepgram CLI (`dg`) an agent-aware CLI",
+      "angle": "Explain what Show HN: Deepgram releases Deepgram CLI (`dg`) an agent-aware CLI does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Deepgram releases Deepgram CLI (`dg`) an agent-aware CLI open source agents",
+      "reason": "strong AI relevance",
+      "score": 55,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:konductor-workflow-the-ai-orchestration-agent-framework-for-every-dev",
+      "candidateIds": [
+        "hackernews:47792476"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Konductor Workflow – The AI Orchestration Agent Framework for Every Dev",
+      "angle": "Explain what Konductor Workflow – The AI Orchestration Agent Framework for Every Dev does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Konductor Workflow – The AI Orchestration Agent Framework for Every Dev open source agents",
+      "reason": "strong AI relevance",
+      "score": 55,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-smalldocs-markdown-without-the-frustrations",
+      "candidateIds": [
+        "hackernews:47777633"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: SmallDocs - Markdown without the frustrations",
+      "angle": "Explain what Show HN: SmallDocs - Markdown without the frustrations does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: SmallDocs - Markdown without the frustrations open source agents",
+      "reason": "strong AI relevance",
+      "score": 52,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-self-hosted-fan-out-restreaming",
+      "candidateIds": [
+        "hackernews:47793158"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Self hosted fan out restreaming",
+      "angle": "Explain what Show HN: Self hosted fan out restreaming does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Self hosted fan out restreaming open source models",
+      "reason": "repo and license signals",
+      "score": 51,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-voiden-api-workflows-as-markdown-files-obsidian-curl",
+      "candidateIds": [
+        "hackernews:47779554"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Voiden – API Workflows as Markdown Files (Obsidian × Curl)",
+      "angle": "Explain what Show HN: Voiden – API Workflows as Markdown Files (Obsidian × Curl) does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Voiden – API Workflows as Markdown Files (Obsidian × Curl) open source agents",
+      "reason": "strong AI relevance",
+      "score": 51,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:nvidia-s-moat-is-not-what-it-used-to-be",
+      "candidateIds": [
+        "hackernews:47740552"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Nvidia's moat is not what it used to be",
+      "angle": "Explain what Nvidia's moat is not what it used to be does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Nvidia's moat is not what it used to be open source models",
+      "reason": "strong AI relevance",
+      "score": 51,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-stage-putting-humans-back-in-control-of-code-review",
+      "candidateIds": [
+        "hackernews:47796818"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Stage – Putting humans back in control of code review",
+      "angle": "Explain what Show HN: Stage – Putting humans back in control of code review does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Stage – Putting humans back in control of code review open source agents",
+      "reason": "strong AI relevance",
+      "score": 51,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-runtime-security-for-ai-agents-injection-tool-abuse-data-exfiltration",
+      "candidateIds": [
+        "hackernews:47799856"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Runtime security for AI agents(injection,tool abuse, data exfiltration)",
+      "angle": "Explain what Show HN: Runtime security for AI agents(injection,tool abuse, data exfiltration) does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Runtime security for AI agents(injection,tool abuse, data exfiltration) open source models",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:ask-hn-is-a-purely-markdown-based-crm-a-terrible-idea-optimized-for-llm-agents",
+      "candidateIds": [
+        "hackernews:47721153"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Ask HN: Is a purely Markdown-based CRM a terrible idea? Optimized for LLM agents",
+      "angle": "Explain what Ask HN: Is a purely Markdown-based CRM a terrible idea? Optimized for LLM agents does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Ask HN: Is a purely Markdown-based CRM a terrible idea? Optimized for LLM agents open source agents",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-i-made-my-vacation-rental-bookable-by-ai-agents-no-airbnb-0-commission",
+      "candidateIds": [
+        "hackernews:47798900"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN I made my vacation rental bookable by AI agents–no Airbnb, 0% commission",
+      "angle": "Explain what Show HN I made my vacation rental bookable by AI agents–no Airbnb, 0% commission does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN I made my vacation rental bookable by AI agents–no Airbnb, 0% commission open source agents",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-covalence-cross-client-memory-for-claude-cursor-and-mcp-macos",
+      "candidateIds": [
+        "hackernews:47794883"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Covalence – Cross-Client Memory for Claude, Cursor, and MCP (macOS)",
+      "angle": "Explain what Show HN: Covalence – Cross-Client Memory for Claude, Cursor, and MCP (macOS) does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Covalence – Cross-Client Memory for Claude, Cursor, and MCP (macOS) open source memory systems",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-fleeks-build-anything-deploy-anywhere",
+      "candidateIds": [
+        "hackernews:47791210"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Fleeks – Build anything, Deploy Anywhere.",
+      "angle": "Explain what Show HN: Fleeks – Build anything, Deploy Anywhere. does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Fleeks – Build anything, Deploy Anywhere. open source agents",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-compile-english-specs-into-22-mb-neural-functions-that-run-locally",
+      "candidateIds": [
+        "hackernews:47780141"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Compile English specs into 22 MB neural functions that run locally",
+      "angle": "Explain what Show HN: Compile English specs into 22 MB neural functions that run locally does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Compile English specs into 22 MB neural functions that run locally open source agents",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-valuepulse-search-docs-query-data-and-build-dashboards-in-one-place",
+      "candidateIds": [
+        "hackernews:47802054"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Valuepulse – search docs, query data, and build dashboards in one place",
+      "angle": "Explain what Show HN: Valuepulse – search docs, query data, and build dashboards in one place does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Valuepulse – search docs, query data, and build dashboards in one place open source tools",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:idea-discussion-can-we-replace-needs-of-static-websites-with-ai-profiles",
+      "candidateIds": [
+        "hackernews:47791664"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Idea Discussion: Can We Replace Needs of Static Websites with AI Profiles?",
+      "angle": "Explain what Idea Discussion: Can We Replace Needs of Static Websites with AI Profiles? does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Idea Discussion: Can We Replace Needs of Static Websites with AI Profiles? open source tools",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:how-are-you-handling-silent-failures-in-multi-step-agent-workflows",
+      "candidateIds": [
+        "hackernews:47802170"
+      ],
+      "topicType": "single-project",
+      "title": "Profile How are you handling silent failures in multi-step agent workflows?",
+      "angle": "Explain what How are you handling silent failures in multi-step agent workflows? does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "How are you handling silent failures in multi-step agent workflows? open source agents",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-honeymux-a-tui-wrapper-for-tmux-that-simplifies-agent-driven-workflows",
+      "candidateIds": [
+        "hackernews:47799791"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Honeymux, a TUI wrapper for tmux that simplifies agent-driven workflows",
+      "angle": "Explain what Show HN: Honeymux, a TUI wrapper for tmux that simplifies agent-driven workflows does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Honeymux, a TUI wrapper for tmux that simplifies agent-driven workflows open source agents",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:i-cataloged-500-vibe-coding-tools-so-you-don-t-have-to",
+      "candidateIds": [
+        "hackernews:47794466"
+      ],
+      "topicType": "single-project",
+      "title": "Profile I cataloged 500 vibe coding tools so you don't have to",
+      "angle": "Explain what I cataloged 500 vibe coding tools so you don't have to does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "I cataloged 500 vibe coding tools so you don't have to open source tools",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-glance-an-ai-fact-checking-overlay-for-x-that-is-actually-sustainable",
+      "candidateIds": [
+        "hackernews:47779599"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Glance - An AI fact-checking overlay for X that is actually sustainable",
+      "angle": "Explain what Show HN: Glance - An AI fact-checking overlay for X that is actually sustainable does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Glance - An AI fact-checking overlay for X that is actually sustainable open source memory systems",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:zuver-build-your-enterprise-agents-with-just-10mb-ram",
+      "candidateIds": [
+        "hackernews:47768506"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Zuver – Build your enterprise Agents with just 10MB RAM",
+      "angle": "Explain what Zuver – Build your enterprise Agents with just 10MB RAM does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Zuver – Build your enterprise Agents with just 10MB RAM open source agents",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-dollhousemcp-2-0-open-source-mcp-composable-ai-building-blocks",
+      "candidateIds": [
+        "hackernews:47765161"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: DollhouseMCP 2.0, open-source MCP composable AI building blocks",
+      "angle": "Explain what Show HN: DollhouseMCP 2.0, open-source MCP composable AI building blocks does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: DollhouseMCP 2.0, open-source MCP composable AI building blocks open source memory systems",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-04-17:show-hn-bloomberg-terminal-for-llm-ops-free-and-open-source",
+      "candidateIds": [
+        "hackernews:47754636"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Bloomberg Terminal for LLM ops – free and open source",
+      "angle": "Explain what Show HN: Bloomberg Terminal for LLM ops – free and open source does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Bloomberg Terminal for LLM ops – free and open source open source tools",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    }
+  ]
+}

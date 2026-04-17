@@ -1,0 +1,50 @@
+{
+  "slug": "ragflow",
+  "title": "ragflow",
+  "oneLiner": "RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context layer for LLMs",
+  "summary": "RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context layer for LLMs",
+  "whyItMatters": "ragflow showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "bestFor": [
+    "Builders evaluating memory systems",
+    "Open-source AI discovery",
+    "Editorial review"
+  ],
+  "notFor": [
+    "Production adoption without manual verification"
+  ],
+  "category": "memory-systems",
+  "tags": [
+    "memory-systems",
+    "open-source",
+    "ai",
+    "repo-and-license-signals",
+    "strong-ai-relevance"
+  ],
+  "repoUrl": "https://github.com/infiniflow/ragflow",
+  "homepageUrl": "https://ragflow.io",
+  "license": "Apache-2.0",
+  "maintainer": "infiniflow",
+  "worksWith": [
+    "memory systems"
+  ],
+  "sourceLinks": [
+    "https://github.com/infiniflow/ragflow",
+    "https://github.com/infiniflow/ragflow/blob/main/README.md"
+  ],
+  "seoTitle": "ragflow: Open-source memory systems for AI builders",
+  "seoDescription": "A concise editorial profile of ragflow, including what it does, who it is best for, license, repo, and related open-source AI resources.",
+  "shareTitle": "ragflow on OpenAgent.bot",
+  "shareDescription": "RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context la",
+  "status": "draft",
+  "generatedAt": "2026-04-17T00:00:00.000Z",
+  "updatedAt": "2026-04-17",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/infiniflow/ragflow",
+  "sourceMetrics": {
+    "stars": 78293,
+    "forks": 8832
+  },
+  "noindex": true
+}

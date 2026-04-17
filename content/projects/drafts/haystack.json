@@ -1,0 +1,49 @@
+{
+  "slug": "haystack",
+  "title": "haystack",
+  "oneLiner": "Open-source AI orchestration framework for building context-engineered, production-ready LLM applications.",
+  "summary": "Open-source AI orchestration framework for building context-engineered, production-ready LLM applications. Design modular pipelines and agent workflows with explicit control over retrieval, routing, memory, and generation. Built for scalable agents, RAG, multimodal applications, semantic search, and conversational systems.",
+  "whyItMatters": "haystack showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "bestFor": [
+    "Builders evaluating memory systems",
+    "Open-source AI discovery",
+    "Editorial review"
+  ],
+  "notFor": [
+    "Production adoption without manual verification"
+  ],
+  "category": "memory-systems",
+  "tags": [
+    "memory-systems",
+    "open-source",
+    "ai",
+    "repo-and-license-signals",
+    "strong-ai-relevance"
+  ],
+  "repoUrl": "https://github.com/deepset-ai/haystack",
+  "homepageUrl": "https://haystack.deepset.ai",
+  "license": "Apache-2.0",
+  "maintainer": "deepset-ai",
+  "worksWith": [
+    "memory systems"
+  ],
+  "sourceLinks": [
+    "https://github.com/deepset-ai/haystack"
+  ],
+  "seoTitle": "haystack: Open-source memory systems for AI builders",
+  "seoDescription": "A concise editorial profile of haystack, including what it does, who it is best for, license, repo, and related open-source AI resources.",
+  "shareTitle": "haystack on OpenAgent.bot",
+  "shareDescription": "Open-source AI orchestration framework for building context-engineered, production-ready LLM applications.",
+  "status": "draft",
+  "generatedAt": "2026-04-17T00:00:00.000Z",
+  "updatedAt": "2026-04-17",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/deepset-ai/haystack",
+  "sourceMetrics": {
+    "stars": 24864,
+    "forks": 2719
+  },
+  "noindex": true
+}

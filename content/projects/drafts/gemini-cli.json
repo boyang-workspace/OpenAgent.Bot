@@ -1,0 +1,50 @@
+{
+  "slug": "gemini-cli",
+  "title": "gemini-cli",
+  "oneLiner": "An open-source AI agent that brings the power of Gemini directly into your terminal.",
+  "summary": "An open-source AI agent that brings the power of Gemini directly into your terminal.",
+  "whyItMatters": "gemini-cli showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "bestFor": [
+    "Builders evaluating agents",
+    "Open-source AI discovery",
+    "Editorial review"
+  ],
+  "notFor": [
+    "Production adoption without manual verification"
+  ],
+  "category": "agents",
+  "tags": [
+    "agents",
+    "open-source",
+    "ai",
+    "repo-and-license-signals",
+    "strong-ai-relevance"
+  ],
+  "repoUrl": "https://github.com/google-gemini/gemini-cli",
+  "homepageUrl": "https://geminicli.com",
+  "license": "Apache-2.0",
+  "maintainer": "google-gemini",
+  "worksWith": [
+    "agents"
+  ],
+  "sourceLinks": [
+    "https://github.com/google-gemini/gemini-cli",
+    "https://github.com/google-gemini/gemini-cli/blob/main/README.md"
+  ],
+  "seoTitle": "gemini-cli: Open-source agents for AI builders",
+  "seoDescription": "A concise editorial profile of gemini-cli, including what it does, who it is best for, license, repo, and related open-source AI resources.",
+  "shareTitle": "gemini-cli on OpenAgent.bot",
+  "shareDescription": "An open-source AI agent that brings the power of Gemini directly into your terminal.",
+  "status": "draft",
+  "generatedAt": "2026-04-17T00:00:00.000Z",
+  "updatedAt": "2026-04-17",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/google-gemini/gemini-cli",
+  "sourceMetrics": {
+    "stars": 101516,
+    "forks": 13175
+  },
+  "noindex": true
+}

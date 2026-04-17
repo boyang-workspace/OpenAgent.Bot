@@ -1,0 +1,50 @@
+{
+  "slug": "tooljet",
+  "title": "ToolJet",
+  "oneLiner": "ToolJet is the open-source foundation of ToolJet AI - the enterprise app generation platform for building internal tools, dashboard, business applications, workflows and AI agents 🚀",
+  "summary": "ToolJet is the open-source foundation of ToolJet AI - the enterprise app generation platform for building internal tools, dashboard, business applications, workflows and AI agents 🚀",
+  "whyItMatters": "ToolJet showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "bestFor": [
+    "Builders evaluating plugins",
+    "Open-source AI discovery",
+    "Editorial review"
+  ],
+  "notFor": [
+    "Production adoption without manual verification"
+  ],
+  "category": "plugins",
+  "tags": [
+    "plugins",
+    "open-source",
+    "ai",
+    "repo-and-license-signals",
+    "strong-ai-relevance"
+  ],
+  "repoUrl": "https://github.com/ToolJet/ToolJet",
+  "homepageUrl": "https://tooljet.com",
+  "license": "AGPL-3.0",
+  "maintainer": "ToolJet",
+  "worksWith": [
+    "plugins"
+  ],
+  "sourceLinks": [
+    "https://github.com/ToolJet/ToolJet",
+    "https://github.com/ToolJet/ToolJet/blob/develop/README.md"
+  ],
+  "seoTitle": "ToolJet: Open-source plugins for AI builders",
+  "seoDescription": "A concise editorial profile of ToolJet, including what it does, who it is best for, license, repo, and related open-source AI resources.",
+  "shareTitle": "ToolJet on OpenAgent.bot",
+  "shareDescription": "ToolJet is the open-source foundation of ToolJet AI - the enterprise app generation platform for building internal tools, dashboard, business applications, work",
+  "status": "draft",
+  "generatedAt": "2026-04-17T00:00:00.000Z",
+  "updatedAt": "2026-04-17",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/ToolJet/ToolJet",
+  "sourceMetrics": {
+    "stars": 37745,
+    "forks": 5008
+  },
+  "noindex": true
+}

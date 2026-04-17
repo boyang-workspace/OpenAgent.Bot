@@ -1,0 +1,50 @@
+{
+  "slug": "librechat",
+  "title": "LibreChat",
+  "oneLiner": "Enhanced ChatGPT Clone: Features Agents, MCP, DeepSeek, Anthropic, AWS, OpenAI, Responses API, Azure, Groq, o1, GPT-5, Mistral, OpenRouter, Vertex AI, Gemini, Artifacts, AI model switching, message search, Code Interpreter, langchain, DALL-E-3, OpenAPI Actions, Functions, Secure Multi-User Auth, Presets, open-source for self-hosting.",
+  "summary": "Enhanced ChatGPT Clone: Features Agents, MCP, DeepSeek, Anthropic, AWS, OpenAI, Responses API, Azure, Groq, o1, GPT-5, Mistral, OpenRouter, Vertex AI, Gemini, Artifacts, AI model switching, message search, Code Interpreter, langchain, DALL-E-3, OpenAPI Actions, Functions, Secure Multi-User Auth, Presets, open-source for self-hosting. Active.",
+  "whyItMatters": "LibreChat showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "bestFor": [
+    "Builders evaluating tools",
+    "Open-source AI discovery",
+    "Editorial review"
+  ],
+  "notFor": [
+    "Production adoption without manual verification"
+  ],
+  "category": "tools",
+  "tags": [
+    "tools",
+    "open-source",
+    "ai",
+    "repo-and-license-signals",
+    "strong-ai-relevance"
+  ],
+  "repoUrl": "https://github.com/danny-avila/LibreChat",
+  "homepageUrl": "https://librechat.ai/",
+  "license": "MIT",
+  "maintainer": "danny-avila",
+  "worksWith": [
+    "tools"
+  ],
+  "sourceLinks": [
+    "https://github.com/danny-avila/LibreChat",
+    "https://github.com/danny-avila/LibreChat/blob/main/README.md"
+  ],
+  "seoTitle": "LibreChat: Open-source tools for AI builders",
+  "seoDescription": "A concise editorial profile of LibreChat, including what it does, who it is best for, license, repo, and related open-source AI resources.",
+  "shareTitle": "LibreChat on OpenAgent.bot",
+  "shareDescription": "Enhanced ChatGPT Clone: Features Agents, MCP, DeepSeek, Anthropic, AWS, OpenAI, Responses API, Azure, Groq, o1, GPT-5, Mistral, OpenRouter, Vertex AI, Gemini, A",
+  "status": "draft",
+  "generatedAt": "2026-04-17T00:00:00.000Z",
+  "updatedAt": "2026-04-17",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/danny-avila/LibreChat",
+  "sourceMetrics": {
+    "stars": 35706,
+    "forks": 7305
+  },
+  "noindex": true
+}

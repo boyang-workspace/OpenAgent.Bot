@@ -1,0 +1,50 @@
+{
+  "slug": "gpt4all",
+  "title": "gpt4all",
+  "oneLiner": "GPT4All: Run Local LLMs on Any Device.",
+  "summary": "GPT4All: Run Local LLMs on Any Device. Open-source and available for commercial use.",
+  "whyItMatters": "gpt4all showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "bestFor": [
+    "Builders evaluating models",
+    "Open-source AI discovery",
+    "Editorial review"
+  ],
+  "notFor": [
+    "Production adoption without manual verification"
+  ],
+  "category": "models",
+  "tags": [
+    "models",
+    "open-source",
+    "ai",
+    "repo-and-license-signals",
+    "strong-ai-relevance"
+  ],
+  "repoUrl": "https://github.com/nomic-ai/gpt4all",
+  "homepageUrl": "https://nomic.ai/gpt4all",
+  "license": "MIT",
+  "maintainer": "nomic-ai",
+  "worksWith": [
+    "models"
+  ],
+  "sourceLinks": [
+    "https://github.com/nomic-ai/gpt4all",
+    "https://github.com/nomic-ai/gpt4all/blob/main/README.md"
+  ],
+  "seoTitle": "gpt4all: Open-source models for AI builders",
+  "seoDescription": "A concise editorial profile of gpt4all, including what it does, who it is best for, license, repo, and related open-source AI resources.",
+  "shareTitle": "gpt4all on OpenAgent.bot",
+  "shareDescription": "GPT4All: Run Local LLMs on Any Device.",
+  "status": "draft",
+  "generatedAt": "2026-04-17T00:00:00.000Z",
+  "updatedAt": "2026-04-17",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/nomic-ai/gpt4all",
+  "sourceMetrics": {
+    "stars": 77342,
+    "forks": 8337
+  },
+  "noindex": true
+}

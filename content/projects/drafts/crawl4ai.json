@@ -1,0 +1,50 @@
+{
+  "slug": "crawl4ai",
+  "title": "crawl4ai",
+  "oneLiner": "🚀🤖 Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper.",
+  "summary": "🚀🤖 Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper. Don't be shy, join here: https://discord.gg/jP8KfhDhyN",
+  "whyItMatters": "crawl4ai showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "bestFor": [
+    "Builders evaluating agents",
+    "Open-source AI discovery",
+    "Editorial review"
+  ],
+  "notFor": [
+    "Production adoption without manual verification"
+  ],
+  "category": "agents",
+  "tags": [
+    "agents",
+    "open-source",
+    "ai",
+    "repo-and-license-signals",
+    "strong-ai-relevance"
+  ],
+  "repoUrl": "https://github.com/unclecode/crawl4ai",
+  "homepageUrl": "https://crawl4ai.com",
+  "license": "Apache-2.0",
+  "maintainer": "unclecode",
+  "worksWith": [
+    "agents"
+  ],
+  "sourceLinks": [
+    "https://github.com/unclecode/crawl4ai",
+    "https://github.com/unclecode/crawl4ai/blob/main/README.md"
+  ],
+  "seoTitle": "crawl4ai: Open-source agents for AI builders",
+  "seoDescription": "A concise editorial profile of crawl4ai, including what it does, who it is best for, license, repo, and related open-source AI resources.",
+  "shareTitle": "crawl4ai on OpenAgent.bot",
+  "shareDescription": "🚀🤖 Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper.",
+  "status": "draft",
+  "generatedAt": "2026-04-17T00:00:00.000Z",
+  "updatedAt": "2026-04-17",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/unclecode/crawl4ai",
+  "sourceMetrics": {
+    "stars": 64141,
+    "forks": 6574
+  },
+  "noindex": true
+}

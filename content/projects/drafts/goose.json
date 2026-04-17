@@ -1,0 +1,50 @@
+{
+  "slug": "goose",
+  "title": "goose",
+  "oneLiner": "an open source, extensible AI agent that goes beyond code suggestions - install, execute, edit, and test with any LLM",
+  "summary": "an open source, extensible AI agent that goes beyond code suggestions - install, execute, edit, and test with any LLM",
+  "whyItMatters": "goose showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "bestFor": [
+    "Builders evaluating agents",
+    "Open-source AI discovery",
+    "Editorial review"
+  ],
+  "notFor": [
+    "Production adoption without manual verification"
+  ],
+  "category": "agents",
+  "tags": [
+    "agents",
+    "open-source",
+    "ai",
+    "repo-and-license-signals",
+    "strong-ai-relevance"
+  ],
+  "repoUrl": "https://github.com/aaif-goose/goose",
+  "homepageUrl": "https://goose-docs.ai/",
+  "license": "Apache-2.0",
+  "maintainer": "aaif-goose",
+  "worksWith": [
+    "agents"
+  ],
+  "sourceLinks": [
+    "https://github.com/aaif-goose/goose",
+    "https://github.com/aaif-goose/goose/blob/main/README.md"
+  ],
+  "seoTitle": "goose: Open-source agents for AI builders",
+  "seoDescription": "A concise editorial profile of goose, including what it does, who it is best for, license, repo, and related open-source AI resources.",
+  "shareTitle": "goose on OpenAgent.bot",
+  "shareDescription": "an open source, extensible AI agent that goes beyond code suggestions - install, execute, edit, and test with any LLM",
+  "status": "draft",
+  "generatedAt": "2026-04-17T00:00:00.000Z",
+  "updatedAt": "2026-04-17",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/aaif-goose/goose",
+  "sourceMetrics": {
+    "stars": 42395,
+    "forks": 4274
+  },
+  "noindex": true
+}

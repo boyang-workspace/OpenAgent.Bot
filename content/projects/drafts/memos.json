@@ -1,0 +1,49 @@
+{
+  "slug": "memos",
+  "title": "MemOS",
+  "oneLiner": "AI memory OS for LLM and Agent systems(moltbot,clawdbot,openclaw), enabling persistent Skill memory for cross-task skill reuse and evolution.",
+  "summary": "AI memory OS for LLM and Agent systems(moltbot,clawdbot,openclaw), enabling persistent Skill memory for cross-task skill reuse and evolution.",
+  "whyItMatters": "MemOS showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "bestFor": [
+    "Builders evaluating memory systems",
+    "Open-source AI discovery",
+    "Editorial review"
+  ],
+  "notFor": [
+    "Production adoption without manual verification"
+  ],
+  "category": "memory-systems",
+  "tags": [
+    "memory-systems",
+    "open-source",
+    "ai",
+    "repo-and-license-signals",
+    "strong-ai-relevance"
+  ],
+  "repoUrl": "https://github.com/MemTensor/MemOS",
+  "homepageUrl": "https://memos.openmem.net",
+  "license": "Apache-2.0",
+  "maintainer": "MemTensor",
+  "worksWith": [
+    "memory systems"
+  ],
+  "sourceLinks": [
+    "https://github.com/MemTensor/MemOS"
+  ],
+  "seoTitle": "MemOS: Open-source memory systems for AI builders",
+  "seoDescription": "A concise editorial profile of MemOS, including what it does, who it is best for, license, repo, and related open-source AI resources.",
+  "shareTitle": "MemOS on OpenAgent.bot",
+  "shareDescription": "AI memory OS for LLM and Agent systems(moltbot,clawdbot,openclaw), enabling persistent Skill memory for cross-task skill reuse and evolution.",
+  "status": "draft",
+  "generatedAt": "2026-04-17T00:00:00.000Z",
+  "updatedAt": "2026-04-17",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/MemTensor/MemOS",
+  "sourceMetrics": {
+    "stars": 8410,
+    "forks": 740
+  },
+  "noindex": true
+}

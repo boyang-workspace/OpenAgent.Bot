@@ -22,6 +22,54 @@ const image = resource.media.og_image_url ?? resource.media.thumbnail_url ?? "/o
 const repoLink = resource.links.items.find((link) => link.type === "github");
 const homepageLink = resource.links.items.find((link) => link.type === "homepage");
 const tagList = Array.from(new Set([...resource.tags.category, ...resource.tags.capability, ...resource.tags.constraint, ...resource.tags.scenario]));
+const primaryCta = repoLink ?? homepageLink ?? resource.links.items[0];
+const badges = [
+  resource.decision_signals.open_source ? "Open source" : undefined,
+  resource.facts.license,
+  resource.decision_signals.supports_mcp ? "MCP" : undefined,
+  resource.decision_signals.local_first ? "Local first" : undefined,
+  resource.decision_signals.self_hostable ? "Self-hostable" : undefined
+].filter(Boolean).slice(0, 3);
+const facts = [
+  { label: "Category", value: category?.label },
+  { label: "Type", value: resource.classification.resource_type },
+  { label: "License", value: resource.facts.license ?? "unknown" },
+  { label: "Pricing", value: resource.facts.pricing_model ?? "unknown" },
+  { label: "Language", value: resource.facts.primary_language },
+  { label: "Stars", value: resource.facts.github_stars?.toLocaleString("en-US") },
+  { label: "Forks", value: resource.facts.github_forks?.toLocaleString("en-US") },
+  { label: "Repo", value: resource.facts.github_repo_full_name },
+  { label: "Verified", value: resource.facts.last_verified_at?.slice(0, 10) ?? resource.timestamps.updated_at.slice(0, 10) }
+].filter((item) => item.value);
+const signalItems = [
+  { label: "Open source", active: resource.decision_signals.open_source },
+  { label: "Local first", active: resource.decision_signals.local_first },
+  { label: "Self-hostable", active: resource.decision_signals.self_hostable },
+  { label: "API", active: resource.decision_signals.has_api },
+  { label: "CLI", active: resource.decision_signals.has_cli },
+  { label: "GUI", active: resource.decision_signals.has_gui },
+  { label: "MCP", active: resource.decision_signals.supports_mcp },
+  { label: "Docker", active: resource.decision_signals.supports_docker }
+].filter((item) => item.active);
+const capabilityGroups = [
+  { title: "Core capabilities", items: resource.capabilities.core_capabilities },
+  { title: "Use cases", items: resource.positioning.use_cases },
+  { title: "Interfaces", items: resource.capabilities.interfaces },
+  { title: "Integrations", items: resource.capabilities.integrations }
+].filter((group) => group.items?.length);
+const tagGroups = [
+  { title: "Category", items: resource.tags.category },
+  { title: "Capability", items: resource.tags.capability },
+  { title: "Constraint", items: resource.tags.constraint },
+  { title: "Scenario", items: resource.tags.scenario }
+];
+const relatedGroups = [
+  { title: "Similar", items: resource.relationships.similar_resources },
+  { title: "Alternatives", items: resource.relationships.alternatives },
+  { title: "Compare with", items: resource.relationships.compare_with }
+].filter((group) => group.items?.length);
+const formatLabel = (value: string) => value.replaceAll("_", " ").replaceAll("-", " ");
+const formatFactValue = (label: string, value: unknown) => (["Status", "Type", "Pricing"].includes(label) ? formatLabel(String(value)) : String(value));
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
@@ -44,50 +92,85 @@ const jsonLd = {
   <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
   <EditorialShell active={resource.classification.primary_category}>
-    <article class="detail">
-      <div class="detail-copy">
+    <article class="resource-hero">
+      <div class="hero-media">
+        <img src={image} alt="" />
+      </div>
+      <div class="hero-copy">
         <span class="eyebrow">{category?.label}</span>
         <h1>{resource.identity.name}</h1>
         <p class="one-liner">{resource.identity.one_liner}</p>
-        <p>{resource.identity.short_description}</p>
+        {resource.identity.short_description && <p class="summary">{resource.identity.short_description}</p>}
+        <div class="badges">
+          {badges.map((badge) => <span>{badge}</span>)}
+        </div>
         <div class="actions">
-          {repoLink && <a class="button" href={repoLink.url}>Repository</a>}
-          {homepageLink && <a class="button secondary" href={homepageLink.url}>Homepage</a>}
+          {primaryCta && <a class="button" href={primaryCta.url}>{primaryCta.type === "github" ? "View repository" : primaryCta.label}</a>}
+          {homepageLink && homepageLink.url !== primaryCta?.url && <a class="button secondary" href={homepageLink.url}>Homepage</a>}
           <a class="button secondary" href={resource.machine_readable.json_url.replace("https://www.openagent.bot", "")}>JSON</a>
           <a class="button secondary" href={resource.machine_readable.markdown_url.replace("https://www.openagent.bot", "")}>Markdown</a>
         </div>
       </div>
-      <img src={image} alt="" />
     </article>
 
     <section class="profile-grid">
       <div class="profile-main">
-        <section>
-          <h2>Why it matters</h2>
-          <p>{resource.positioning.why_it_matters}</p>
+        <section class="panel judgment-panel">
+          <span class="eyebrow">Quick judgment</span>
+          <div class="judgment-grid">
+            {
+              resource.positioning.why_it_matters && (
+                <div class="judgment-primary">
+                  <h2>Why it matters</h2>
+                  <p>{resource.positioning.why_it_matters}</p>
+                </div>
+              )
+            }
+            <div class="judgment-lists">
+              {
+                resource.positioning.best_for?.length && (
+                  <div>
+                    <h3>Best for</h3>
+                    <ul class="check-list">
+                      {resource.positioning.best_for.map((item) => <li>{item}</li>)}
+                    </ul>
+                  </div>
+                )
+              }
+              {
+                resource.positioning.not_for?.length && (
+                  <div>
+                    <h3>Not for</h3>
+                    <ul class="check-list muted-list">
+                      {resource.positioning.not_for.map((item) => <li>{item}</li>)}
+                    </ul>
+                  </div>
+                )
+              }
+            </div>
+          </div>
         </section>
 
-        <section>
-          <h2>Best for</h2>
-          <ul>
-            {(resource.positioning.best_for ?? []).map((item) => <li>{item}</li>)}
-          </ul>
+        <section class="panel">
+          <span class="eyebrow">Capabilities</span>
+          <h2>What it can do</h2>
+          <div class="capability-grid">
+            {
+              capabilityGroups.map((group) => (
+                <div class="mini-panel">
+                  <h3>{group.title}</h3>
+                  <div class="chip-row">
+                    {group.items?.map((item) => <span>{formatLabel(item)}</span>)}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
         </section>
-
-        {
-          resource.positioning.not_for && resource.positioning.not_for.length > 0 && (
-            <section>
-              <h2>Not for</h2>
-              <ul>
-                {resource.positioning.not_for.map((item) => <li>{item}</li>)}
-              </ul>
-            </section>
-          )
-        }
 
         {
           resource.links.items.some((link) => link.type === "install") && (
-            <section>
+            <section class="panel">
               <h2>How to try</h2>
               <ul>
                 {resource.links.items.filter((link) => link.type === "install").map((link) => <li><a href={link.url}>{link.label}</a></li>)}
@@ -96,41 +179,101 @@ const jsonLd = {
           )
         }
 
-        <section>
-          <h2>Agent-readable preview</h2>
-          <pre><code>{resourceMarkdown(resource).slice(0, 900)}</code></pre>
+        <section class="panel">
+          <span class="eyebrow">Links</span>
+          <h2>Source and docs</h2>
+          <div class="link-list">
+            {
+              resource.links.items.map((link) => (
+                <a href={link.url}>
+                  <span>{formatLabel(link.type)}</span>
+                  <strong>{link.label}</strong>
+                  <small>{link.url}</small>
+                </a>
+              ))
+            }
+          </div>
+        </section>
+
+        {
+          relatedGroups.length > 0 && (
+            <section class="panel">
+              <span class="eyebrow">Relationships</span>
+              <h2>Nearby resources</h2>
+              <div class="capability-grid">
+                {relatedGroups.map((group) => (
+                  <div class="mini-panel">
+                    <h3>{group.title}</h3>
+                    <div class="chip-row">
+                      {group.items?.map((item) => <span>{item}</span>)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
+
+        <section class="panel agent-panel">
+          <div class="panel-head">
+            <div>
+              <span class="eyebrow">Agent-readable</span>
+              <h2>Stable machine outputs</h2>
+            </div>
+            <div class="agent-actions">
+              <a href={resource.machine_readable.json_url.replace("https://www.openagent.bot", "")}>JSON</a>
+              <a href={resource.machine_readable.markdown_url.replace("https://www.openagent.bot", "")}>Markdown</a>
+            </div>
+          </div>
+          <div class="tag-groups">
+            {
+              tagGroups.map((group) => (
+                <div>
+                  <h3>{group.title}</h3>
+                  <div class="chip-row">
+                    {group.items.slice(0, 5).map((tag) => <span>{tag}</span>)}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+          <pre><code>{resourceMarkdown(resource).slice(0, 760)}</code></pre>
         </section>
       </div>
 
       <aside class="source-panel">
+        <span class="eyebrow">Facts</span>
         <h2>Project facts</h2>
         <dl>
           <div>
-            <dt>Category</dt>
-            <dd>{category?.label}</dd>
+            <dt>Status</dt>
+            <dd>{resource.status}</dd>
           </div>
-          <div>
-            <dt>License</dt>
-            <dd>{resource.facts.license ?? "unknown"}</dd>
-          </div>
-          <div>
-            <dt>Updated</dt>
-            <dd>{resource.timestamps.updated_at.slice(0, 10)}</dd>
-          </div>
-          <div>
-            <dt>Open source</dt>
-            <dd>{resource.decision_signals.open_source ? "yes" : "unknown"}</dd>
-          </div>
-          <div>
-            <dt>Tags</dt>
-            <dd>{tagList.slice(0, 12).join(", ")}</dd>
-          </div>
+          {facts.map((fact) => (
+            <div>
+              <dt>{fact.label}</dt>
+              <dd>{formatFactValue(fact.label, fact.value)}</dd>
+            </div>
+          ))}
         </dl>
 
-        <h2>Source links</h2>
-        <ul>
-          {resource.links.items.map((link) => <li><a href={link.url}>{link.label}</a></li>)}
-        </ul>
+        {
+          signalItems.length > 0 && (
+            <div class="signals">
+              <h3>Signals</h3>
+              <div class="chip-row">
+                {signalItems.map((item) => <span>{item.label}</span>)}
+              </div>
+            </div>
+          )
+        }
+
+        <div class="signals">
+          <h3>Tags</h3>
+          <div class="chip-row">
+            {tagList.slice(0, 12).map((tag) => <span>{tag}</span>)}
+          </div>
+        </div>
       </aside>
     </section>
 
@@ -148,32 +291,79 @@ const jsonLd = {
 </BaseLayout>
 
 <style>
-  .detail {
+  .resource-hero {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 8px;
     box-shadow: var(--shadow-feature);
     display: grid;
-    gap: 28px;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 0;
+    grid-template-columns: minmax(240px, 0.78fr) minmax(0, 1.22fr);
     overflow: hidden;
-    padding: 26px;
+  }
+
+  .hero-media {
+    background: var(--surface-tint);
+    border-right: 1px solid var(--line);
+    min-height: 100%;
+  }
+
+  .hero-media img {
+    aspect-ratio: 16 / 12;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .hero-copy {
+    align-content: center;
+    display: grid;
+    min-width: 0;
+    padding: 34px;
   }
 
   h1 {
-    font-size: 4.3rem;
+    font-size: clamp(2.5rem, 5vw, 4.15rem);
     letter-spacing: 0;
     line-height: 1;
     margin: 10px 0 0;
   }
 
-  .detail-copy p {
-    font-size: 1.04rem;
-  }
-
   .one-liner {
     color: var(--ink);
+    font-size: 1.16rem;
     font-weight: 650;
+    line-height: 1.42;
+    margin: 18px 0 0;
+  }
+
+  .summary {
+    font-size: 1rem;
+    margin: 12px 0 0;
+    max-width: 760px;
+  }
+
+  .badges,
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .badges {
+    margin-top: 20px;
+  }
+
+  .badges span,
+  .chip-row span {
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 500;
+    line-height: 1.2;
+    padding: 6px 9px;
   }
 
   .actions {
@@ -187,17 +377,10 @@ const jsonLd = {
     border-color: var(--line);
   }
 
-  .detail img {
-    aspect-ratio: 16 / 10;
-    border-radius: 8px;
-    object-fit: cover;
-    width: 100%;
-  }
-
   .profile-grid {
     display: grid;
     gap: 28px;
-    grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
     margin-top: 34px;
   }
 
@@ -206,35 +389,182 @@ const jsonLd = {
     gap: 22px;
   }
 
-  .profile-main section,
+  .panel,
   .source-panel {
     background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 22px;
+  }
+
+  .panel h2,
+  .source-panel h2 {
+    font-size: 1.58rem;
+    letter-spacing: 0;
+    line-height: 1.12;
+    margin: 8px 0 0;
+  }
+
+  .panel h3,
+  .source-panel h3 {
+    font-size: 0.96rem;
+    letter-spacing: 0;
+    margin: 0 0 10px;
+  }
+
+  .judgment-grid {
+    display: grid;
+    gap: 22px;
+    grid-template-columns: minmax(0, 0.95fr) minmax(260px, 1.05fr);
+    margin-top: 18px;
+  }
+
+  .judgment-primary {
+    background: var(--surface-tint);
     border: 1px solid var(--line);
     border-radius: 8px;
     padding: 18px;
   }
 
-  .profile-main h2,
-  .source-panel h2 {
-    font-size: 1.5rem;
-    letter-spacing: 0;
-    margin: 0 0 10px;
+  .judgment-primary h2 {
+    margin-top: 0;
   }
 
-  ul {
+  .judgment-primary p {
+    color: var(--ink);
+    margin-bottom: 0;
+  }
+
+  .judgment-lists {
+    display: grid;
+    gap: 18px;
+  }
+
+  .check-list {
+    display: grid;
+    gap: 9px;
+    list-style: none;
     margin: 0;
-    padding-left: 20px;
+    padding: 0;
   }
 
-  li + li {
-    margin-top: 8px;
+  .check-list li {
+    color: var(--muted);
+    line-height: 1.45;
+    padding-left: 18px;
+    position: relative;
+  }
+
+  .check-list li::before {
+    background: var(--accent-open);
+    border-radius: 999px;
+    content: "";
+    height: 6px;
+    left: 0;
+    position: absolute;
+    top: 0.65em;
+    width: 6px;
+  }
+
+  .muted-list li::before {
+    background: var(--subtle);
+  }
+
+  .capability-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 18px;
+  }
+
+  .mini-panel {
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .link-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .link-list a {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+    padding: 14px;
+    transition:
+      background 160ms ease,
+      border-color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .link-list a:hover {
+    background: var(--surface-soft);
+    border-color: var(--line-strong);
+    transform: translateY(-1px);
+  }
+
+  .link-list span {
+    color: var(--accent-open);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .link-list strong {
+    font-size: 1.02rem;
+    line-height: 1.2;
+  }
+
+  .link-list small {
+    color: var(--muted);
+    overflow-wrap: anywhere;
+  }
+
+  .panel-head {
+    align-items: start;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+  }
+
+  .agent-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .agent-actions a {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 8px 10px;
+  }
+
+  .tag-groups {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 18px;
+  }
+
+  .tag-groups > div {
+    min-width: 0;
   }
 
   pre {
     background: #171914;
     border-radius: 8px;
     color: #f6f8f2;
-    font-size: 0.88rem;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    margin: 18px 0 0;
     overflow: auto;
     padding: 16px;
     white-space: pre-wrap;
@@ -243,44 +573,62 @@ const jsonLd = {
   .source-panel {
     align-self: start;
     position: sticky;
-    top: 92px;
+    top: 96px;
   }
 
   .source-panel dl {
     border-bottom: 1px solid var(--line);
     display: grid;
     gap: 0;
-    margin: 0;
+    margin: 18px 0 0;
   }
 
-  .source-panel div {
+  .source-panel dl div {
     border-top: 1px solid var(--line);
-    padding: 14px 0;
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 108px minmax(0, 1fr);
+    padding: 12px 0;
   }
 
   dt {
     color: var(--muted);
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: 0.72rem;
+    font-weight: 600;
     text-transform: uppercase;
   }
 
   dd {
-    margin: 8px 0 0;
+    line-height: 1.35;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .signals {
+    border-top: 1px solid var(--line);
+    margin-top: 18px;
+    padding-top: 18px;
   }
 
   @media (max-width: 860px) {
-    .detail,
+    .resource-hero,
     .profile-grid {
       grid-template-columns: 1fr;
     }
 
-    .detail {
-      padding: 18px;
+    .hero-media {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
     }
 
-    h1 {
-      font-size: 3rem;
+    .hero-copy {
+      padding: 22px;
+    }
+
+    .judgment-grid,
+    .capability-grid,
+    .tag-groups {
+      grid-template-columns: 1fr;
     }
 
     .source-panel {
@@ -289,8 +637,25 @@ const jsonLd = {
   }
 
   @media (max-width: 620px) {
-    h1 {
-      font-size: 2.25rem;
+    .panel,
+    .source-panel {
+      padding: 18px;
+    }
+
+    .panel-head {
+      display: grid;
+    }
+
+    .source-panel dl div {
+      grid-template-columns: 1fr;
+    }
+
+    .actions {
+      display: grid;
+    }
+
+    .button {
+      width: 100%;
     }
   }
 </style>

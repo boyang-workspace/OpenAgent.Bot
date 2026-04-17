@@ -4,7 +4,7 @@ import "@/styles/global.css";
 type Props = {
   title: string;
   description?: string;
-  active: "overview" | "review" | "projects" | "published" | "publishing" | "pages" | "blog" | "settings";
+  active: "overview" | "review" | "projects" | "published" | "publishing" | "taxonomy" | "pages" | "blog" | "settings";
 };
 
 const nav = [
@@ -13,6 +13,7 @@ const nav = [
   { id: "projects", label: "Resources", href: "/admin/projects/" },
   { id: "published", label: "Published Resources", href: "/admin/published/" },
   { id: "publishing", label: "Publishing", href: "/admin/publishing/" },
+  { id: "taxonomy", label: "Taxonomy", href: "/admin/taxonomy/" },
   { id: "pages", label: "Pages", href: "/admin/pages/" },
   { id: "blog", label: "Blog", href: "/admin/blog/" },
   { id: "settings", label: "Settings", href: "/admin/settings/" }
@@ -291,6 +292,50 @@ const { title, description = "OpenAgent.bot admin", active } = Astro.props;
     color: #f5f5ef;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
     overflow-wrap: anywhere;
+  }
+
+  .taxonomy-picker {
+    display: grid;
+    gap: 12px;
+  }
+
+  .taxonomy-picker fieldset {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin: 0;
+    padding: 12px;
+  }
+
+  .taxonomy-picker legend {
+    color: var(--ink);
+    font-size: 0.86rem;
+    font-weight: 600;
+    padding: 0 6px;
+  }
+
+  .taxonomy-picker fieldset > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .taxonomy-picker label {
+    align-items: center;
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 0.84rem;
+    font-weight: 500;
+    gap: 6px;
+    min-height: 34px;
+    padding: 6px 9px;
+  }
+
+  .taxonomy-picker input {
+    min-height: 0;
+    padding: 0;
   }
 
   .admin-form label {

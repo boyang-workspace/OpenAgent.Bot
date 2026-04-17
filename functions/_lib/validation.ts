@@ -1,4 +1,7 @@
 import type { CategorySlug, ProjectDraftContent } from "./types";
+import { isControlledTag } from "../../src/lib/content/taxonomy";
+import { openProjectToResourceV1 } from "../../src/lib/content/resource-adapter";
+import { parseResourceV1 } from "../../src/lib/content/resource-schema";
 
 export const categories = ["models", "agents", "memory-systems", "skills", "plugins", "tools"] as const;
 
@@ -37,6 +40,15 @@ export function stringArrayField(input: Record<string, unknown>, key: string): s
     return value.split(",").map((item) => item.trim()).filter(Boolean);
   }
   return [];
+}
+
+function controlledTagsField(input: Record<string, unknown>, key: string): string[] {
+  const values = stringArrayField(input, key);
+  const unknown = values.filter((value) => !isControlledTag(value));
+  if (unknown.length) {
+    throw new Error(`${key} contains unsupported tags: ${unknown.join(", ")}.`);
+  }
+  return values;
 }
 
 export function validUrl(value: string | undefined, key: string, required = false): string | undefined {
@@ -124,7 +136,7 @@ export function parseDraftContent(input: Record<string, unknown>): ProjectDraftC
     bestFor: stringArrayField(input, "bestFor"),
     notFor: stringArrayField(input, "notFor"),
     category,
-    tags: stringArrayField(input, "tags"),
+    tags: controlledTagsField(input, "tags"),
     repoUrl,
     homepageUrl,
     docsUrl: validUrl(stringField(input, "docsUrl", { max: 300 }), "docsUrl"),
@@ -179,5 +191,12 @@ export function assertPublishable(content: ProjectDraftContent): void {
 
   if (!content.sourceLinks.length) {
     throw new Error("Draft needs at least one source link.");
+  }
+
+  try {
+    parseResourceV1(openProjectToResourceV1(content));
+  } catch (caught) {
+    const message = caught instanceof Error ? caught.message : "resource schema validation failed.";
+    throw new Error(`Draft is not valid Resource v1 content: ${message}`);
   }
 }

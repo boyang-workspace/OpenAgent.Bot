@@ -1,3 +1,5 @@
+import { taxonomy, type TaxonomyTagGroup } from "./taxonomy";
+
 export const resourceStatuses = ["draft", "published", "archived", "hidden"] as const;
 export const resourceTypes = ["model", "agent", "memory_system", "skill", "plugin", "tool", "protocol", "workflow"] as const;
 export const difficulties = ["beginner", "intermediate", "advanced"] as const;
@@ -22,57 +24,6 @@ export const linkTypes = [
 ] as const;
 
 export const primaryCategories = ["models", "agents", "memory-systems", "skills", "plugins", "tools", "protocols", "workflows"] as const;
-
-export const taxonomy = {
-  category: [
-    "agent",
-    "agent-framework",
-    "memory-system",
-    "model",
-    "open-source",
-    "plugin",
-    "protocol",
-    "skill",
-    "tool",
-    "workflow"
-  ],
-  capability: [
-    "agent-skill",
-    "automation",
-    "browser",
-    "browser-automation",
-    "chat-ui",
-    "connectors",
-    "context-retrieval",
-    "inference",
-    "local-inference",
-    "mcp",
-    "memory",
-    "model-serving",
-    "ollama",
-    "plugin",
-    "protocol",
-    "rag",
-    "state",
-    "state-management",
-    "tool-calling",
-    "workflow",
-    "workflow-orchestration"
-  ],
-  constraint: ["api-first", "docker", "local-first", "mcp-compatible", "open-source", "open-weights", "self-hosted", "source-available"],
-  scenario: [
-    "browser-agent",
-    "coding-agent",
-    "content-workflow",
-    "developer-workflow",
-    "local-ai",
-    "note-taking",
-    "personal-memory",
-    "production-agent",
-    "research",
-    "self-hosted-ai"
-  ]
-} as const;
 
 const allowedTopLevelKeys = [
   "schema_version",
@@ -104,7 +55,7 @@ export type Audience = (typeof audiences)[number];
 export type PricingModel = (typeof pricingModels)[number];
 export type LinkType = (typeof linkTypes)[number];
 export type PrimaryCategory = (typeof primaryCategories)[number];
-export type TagGroup = keyof typeof taxonomy;
+export type TagGroup = TaxonomyTagGroup;
 
 export type ResourceLink = {
   type: LinkType;

@@ -29,7 +29,7 @@ describe("admin CMS validation", () => {
       summary: "A practical browser automation toolkit.",
       whyItMatters: "Agents need reliable browser workflows.",
       bestFor: "Browser agents, QA automation",
-      tags: "browser, agents",
+      tags: "browser, automation",
       repoUrl: "https://github.com/browser-use/browser-use/",
       seoTitle: "Browser Use: Open-source browser automation",
       seoDescription: "A concise editorial profile of Browser Use for open-source AI builders.",
@@ -42,6 +42,45 @@ describe("admin CMS validation", () => {
     expect(content.bestFor).toEqual(["Browser agents", "QA automation"]);
     expect(content.repoUrl).toBe("https://github.com/browser-use/browser-use");
     expect(() => assertPublishable(content)).not.toThrow();
+  });
+
+  it("rejects unsupported free-form tags", () => {
+    expect(() =>
+      parseDraftContent({
+        slug: "made-up-tags",
+        title: "Made Up Tags",
+        category: "tools",
+        oneLiner: "A draft with unsupported taxonomy tags.",
+        summary: "A draft with unsupported taxonomy tags.",
+        whyItMatters: "It should keep published tags controlled.",
+        bestFor: "Testing",
+        tags: "totally-random",
+        repoUrl: "https://github.com/example/example",
+        seoTitle: "Made Up Tags",
+        seoDescription: "A draft with unsupported taxonomy tags should fail validation.",
+        shareTitle: "Made Up Tags",
+        shareDescription: "A draft with unsupported taxonomy tags."
+      })
+    ).toThrow(/unsupported tags/);
+  });
+
+  it("requires publishable drafts to satisfy Resource v1 tag groups", () => {
+    const content = parseDraftContent({
+      slug: "no-resource-tags",
+      title: "No Resource Tags",
+      category: "tools",
+      oneLiner: "A draft without enough controlled taxonomy tags.",
+      summary: "A draft without enough controlled taxonomy tags.",
+      whyItMatters: "Published resource pages need stable tag groups.",
+      bestFor: "Testing",
+      repoUrl: "https://github.com/example/example",
+      seoTitle: "No Resource Tags",
+      seoDescription: "A draft without controlled tags should fail Resource v1 validation.",
+      shareTitle: "No Resource Tags",
+      shareDescription: "A draft without controlled tags."
+    });
+
+    expect(() => assertPublishable(content)).toThrow(/Resource v1/);
   });
 
   it("blocks drafts without a source URL", () => {

@@ -1,6 +1,13 @@
 ---
 import AdminLayout from "@/layouts/AdminLayout.astro";
 import { categories, site } from "@/config/site";
+import { labelForTag, tagGroupLabels, taxonomy } from "@/lib/content/taxonomy";
+
+const taxonomyGroups = Object.entries(taxonomy).map(([group, values]) => ({
+  group,
+  label: tagGroupLabels[group as keyof typeof tagGroupLabels],
+  values
+}));
 ---
 
 <AdminLayout title="Resources" active="projects">
@@ -55,8 +62,23 @@ import { categories, site } from "@/config/site";
               </select>
             </label>
             <label>Status<select name="status"><option value="draft">Draft</option><option value="ready">Ready</option></select></label>
-            <label>Tags<input name="tags" placeholder="Comma-separated" /></label>
             <label>Works with<input name="worksWith" placeholder="Comma-separated" /></label>
+          </div>
+          <input name="tags" type="hidden" />
+          <div class="taxonomy-picker" aria-label="Controlled taxonomy tags">
+            {taxonomyGroups.map((group) => (
+              <fieldset>
+                <legend>{group.label}</legend>
+                <div>
+                  {group.values.map((tag) => (
+                    <label>
+                      <input class="taxonomy-checkbox" name="taxonomyTag" type="checkbox" value={tag} data-group={group.group} />
+                      <span>{labelForTag(tag)}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            ))}
           </div>
         </section>
 
@@ -156,6 +178,20 @@ import { categories, site } from "@/config/site";
   const textToArray = (value) => String(value ?? "").split(",").map((item) => item.trim()).filter(Boolean);
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
   let selectedProject = null;
+
+  function selectedTaxonomyTags() {
+    return Array.from(document.querySelectorAll(".taxonomy-checkbox:checked")).map((field) => field instanceof HTMLInputElement ? field.value : "").filter(Boolean);
+  }
+
+  function setTaxonomySelections(tags) {
+    const selected = new Set(Array.isArray(tags) ? tags : []);
+    document.querySelectorAll(".taxonomy-checkbox").forEach((field) => {
+      if (field instanceof HTMLInputElement) field.checked = selected.has(field.value);
+    });
+    const editor = document.querySelector("#project-editor");
+    const hidden = editor instanceof HTMLFormElement ? editor.elements.namedItem("tags") : null;
+    if (hidden instanceof HTMLInputElement) hidden.value = Array.from(selected).join(", ");
+  }
 
   async function api(path, options = {}) {
     const response = await fetch(path, { ...options, headers: { "content-type": "application/json", ...(options.headers ?? {}) } });
@@ -266,6 +302,7 @@ import { categories, site } from "@/config/site";
       if (field instanceof HTMLInputElement && field.type === "checkbox") field.checked = Boolean(value);
       else if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement) field.value = value ?? "";
     }
+    setTaxonomySelections(content.tags);
     const slugField = editor.elements.namedItem("slug");
     if (slugField instanceof HTMLInputElement) slugField.readOnly = selectedProject.operation === "update";
     const statusField = editor.elements.namedItem("status");
@@ -283,7 +320,7 @@ import { categories, site } from "@/config/site";
       ...data,
       bestFor: textToArray(data.bestFor),
       notFor: textToArray(data.notFor),
-      tags: textToArray(data.tags),
+      tags: selectedTaxonomyTags(),
       worksWith: textToArray(data.worksWith),
       sourceLinks: textToArray(data.sourceLinks),
       isFeatured: Boolean(editor.querySelector("[name='isFeatured']")?.checked),

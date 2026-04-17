@@ -1,5 +1,6 @@
 import type { CategorySlug, OpenProject, OpenSourceStatus } from "./schema";
-import { taxonomy, type DeploymentMode, type ResourceLink, type ResourceType, type ResourceV1 } from "./resource-schema";
+import { taxonomy } from "./taxonomy";
+import type { DeploymentMode, ResourceLink, ResourceType, ResourceV1 } from "./resource-schema";
 
 const canonicalBaseUrl = "https://www.openagent.bot";
 

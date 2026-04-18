@@ -1,6 +1,6 @@
 import type { CategorySlug, OpenProject, OpenSourceStatus } from "./schema";
 import { taxonomy } from "./taxonomy";
-import { linkTypes, type DeploymentMode, type EditorialCompareNote, type EditorialGettingStarted, type EditorialSeoArticle, type EditorialStrength, type EditorialUseCase, type LinkType, type ResourceLink, type ResourceType, type ResourceV1, type ThumbnailBrief } from "./resource-schema";
+import { linkTypes, type DeploymentMode, type EditorialCommandLine, type EditorialCompareNote, type EditorialGettingStarted, type EditorialSeoArticle, type EditorialStrength, type EditorialUseCase, type LinkType, type ResourceLink, type ResourceType, type ResourceV1, type ThumbnailBrief } from "./resource-schema";
 
 const canonicalBaseUrl = "https://www.openagent.bot";
 
@@ -129,6 +129,24 @@ function makeGettingStarted(project: OpenProject, links: ResourceV1["links"]): E
     url: link.url,
     type: link.type
   }));
+}
+
+function makeCommandLine(project: OpenProject): EditorialCommandLine[] | undefined {
+  if (project.commandLine?.length) {
+    return project.commandLine.map((item) => ({
+      label: item.label,
+      command: item.command,
+      description: item.description
+    }));
+  }
+
+  if (!project.installCommand) return undefined;
+  return [
+    {
+      label: "Install or run",
+      command: project.installCommand
+    }
+  ];
 }
 
 function fallbackCoreStrengths(project: OpenProject, capabilities: string[]): EditorialStrength[] {
@@ -362,6 +380,7 @@ export function openProjectToResourceV1(project: OpenProject, raw: ProjectRawFie
       use_case_notes: fallbackUseCases(project, scenarioTags),
       compare_notes: fallbackCompareNotes(project),
       getting_started: makeGettingStarted(project, links),
+      command_line: makeCommandLine(project),
       seo_article: makeSeoArticle(project, links)
     },
     timestamps: {

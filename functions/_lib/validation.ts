@@ -108,6 +108,14 @@ function gettingStartedField(input: Record<string, unknown>): ProjectDraftConten
   });
 }
 
+function commandLineField(input: Record<string, unknown>): ProjectDraftContent["commandLine"] {
+  return recordArrayField(input, "commandLine")?.map((item, index) => ({
+    label: stringField(item, "label", { required: true, max: 80 }) ?? `Command ${index + 1}`,
+    command: stringField(item, "command", { required: true, max: 260 }) ?? "",
+    description: stringField(item, "description", { max: 360 })
+  }));
+}
+
 function seoArticleField(input: Record<string, unknown>): ProjectDraftContent["seoArticle"] {
   const value = jsonValueField(input, "seoArticle");
   if (value === undefined) return undefined;
@@ -277,6 +285,7 @@ export function parseDraftContent(input: Record<string, unknown>): ProjectDraftC
     useCaseNotes: useCaseNotesField(input),
     compareNotes: compareNotesField(input),
     gettingStarted: gettingStartedField(input),
+    commandLine: commandLineField(input),
     seoArticle: seoArticleField(input),
     thumbnailBrief: thumbnailBriefField(input),
     noindex: booleanField(input, "noindex")

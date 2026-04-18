@@ -45,7 +45,8 @@
     "https://deepmind.google/models/gemma/gemma-4/",
     "https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/",
     "https://developers.googleblog.com/bring-state-of-the-art-agentic-skills-to-the-edge-with-gemma-4/",
-    "https://huggingface.co/collections/google/gemma-4"
+    "https://huggingface.co/collections/google/gemma-4",
+    "https://ollama.com/library/gemma4"
   ],
   "seoTitle": "Gemma 4: Open models from Google DeepMind for local AI",
   "seoDescription": "An editorial profile of Gemma 4, Google's Apache 2.0 open model family for multimodal reasoning, edge AI, local inference, and agentic workflows.",
@@ -127,6 +128,23 @@
       "label": "Try compatible models in Google AI Studio",
       "url": "https://aistudio.google.com/",
       "type": "demo"
+    },
+    {
+      "label": "Open the Ollama library page",
+      "url": "https://ollama.com/library/gemma4",
+      "type": "install"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Run a workstation model with Ollama",
+      "command": "ollama run gemma4:26b",
+      "description": "Use this after installing Ollama and confirming your machine has enough memory for the 26B variant."
+    },
+    {
+      "label": "Run the smaller edge-oriented variant",
+      "command": "ollama run gemma4:e2b",
+      "description": "Use the smaller variant when you want a lighter local test before trying larger Gemma 4 models."
     }
   ],
   "seoArticle": {

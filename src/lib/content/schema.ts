@@ -31,6 +31,12 @@ export type ProjectGettingStarted = {
   type: string;
 };
 
+export type ProjectCommandLine = {
+  label: string;
+  command: string;
+  description?: string;
+};
+
 export type ProjectFaqItem = {
   question: string;
   answer: string;
@@ -130,6 +136,7 @@ export type OpenProject = {
   useCaseNotes?: ProjectUseCaseNote[];
   compareNotes?: ProjectCompareNote[];
   gettingStarted?: ProjectGettingStarted[];
+  commandLine?: ProjectCommandLine[];
   seoArticle?: ProjectSeoArticle;
   thumbnailBrief?: ProjectThumbnailBrief;
   sourceMetrics?: SourceMetrics;
@@ -224,6 +231,14 @@ function optionalGettingStarted(record: Record<string, unknown>): ProjectGetting
     label: requireString(item, "label"),
     url: requireString(item, "url"),
     type: requireString(item, "type")
+  }));
+}
+
+function optionalCommandLine(record: Record<string, unknown>): ProjectCommandLine[] | undefined {
+  return optionalRecordArray(record, "commandLine")?.map((item) => ({
+    label: requireString(item, "label"),
+    command: requireString(item, "command"),
+    description: optionalString(item, "description")
   }));
 }
 
@@ -341,6 +356,7 @@ export function parseOpenProject(input: unknown): OpenProject {
     useCaseNotes: optionalUseCaseNotes(input),
     compareNotes: optionalCompareNotes(input),
     gettingStarted: optionalGettingStarted(input),
+    commandLine: optionalCommandLine(input),
     seoArticle: optionalSeoArticle(input),
     thumbnailBrief: optionalThumbnailBrief(input),
     sourceMetrics: optionalSourceMetrics(input),

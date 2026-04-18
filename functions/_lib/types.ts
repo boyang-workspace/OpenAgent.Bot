@@ -97,6 +97,11 @@ export type ProjectDraftContent = {
     url: string;
     type: string;
   }>;
+  commandLine?: Array<{
+    label: string;
+    command: string;
+    description?: string;
+  }>;
   seoArticle?: {
     intro?: string;
     whatItIs?: string;

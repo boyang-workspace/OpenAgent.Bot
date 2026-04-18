@@ -118,13 +118,28 @@ function seoArticleBlock(resource: ResourceV1): string[] {
   ];
 }
 
+function commandLineBlock(resource: ResourceV1): string[] {
+  const commands = resource.editorial?.command_line;
+  if (!commands?.length) return [];
+  return [
+    "",
+    "## Command Line",
+    ...commands.flatMap((item) => [
+      `### ${item.label}`,
+      ...(item.description ? [item.description, ""] : []),
+      "```bash",
+      item.command,
+      "```"
+    ])
+  ];
+}
+
 export function resourceMarkdown(resource: ResourceV1): string {
   const facts = [
     `- Category: ${resource.classification.primary_category}`,
     `- Resource type: ${resource.classification.resource_type}`,
     `- Open source: ${resource.decision_signals.open_source ? "yes" : "no"}`,
     `- License: ${resource.facts.license ?? "unknown"}`,
-    `- Pricing: ${resource.facts.pricing_model ?? "unknown"}`,
     `- Last verified: ${resource.facts.last_verified_at ?? "unknown"}`,
     ...(resource.facts.github_repo_full_name ? [`- GitHub repo: ${resource.facts.github_repo_full_name}`] : []),
     ...(resource.facts.github_stars !== undefined ? [`- GitHub stars: ${resource.facts.github_stars}`] : [])
@@ -143,6 +158,7 @@ export function resourceMarkdown(resource: ResourceV1): string {
     ...titledListBlock("What It Actually Does", resource.editorial?.core_strengths),
     ...titledListBlock("Typical Use Cases", resource.editorial?.use_case_notes),
     ...titledListBlock("How It Compares", resource.editorial?.compare_notes),
+    ...commandLineBlock(resource),
     "",
     "## Facts",
     ...facts,
@@ -155,7 +171,7 @@ export function resourceMarkdown(resource: ResourceV1): string {
     "## Links",
     ...resource.links.items.map((link) => `- ${link.label}: ${link.url}`),
     "",
-    "## Agent-readable",
+    "## Structured Outputs",
     `- JSON: ${resource.machine_readable.json_url}`,
     `- Markdown: ${resource.machine_readable.markdown_url}`,
     `- Canonical: ${resource.machine_readable.canonical_url}`

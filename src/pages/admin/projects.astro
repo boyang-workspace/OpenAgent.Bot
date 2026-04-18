@@ -211,6 +211,24 @@ const taxonomyGroups = Object.entries(taxonomy).map(([group, values]) => ({
 
         <section class="admin-form-section">
           <header>
+            <span class="eyebrow">Command line</span>
+            <h3>How someone can try it</h3>
+            <p>Use commands verified from official docs, READMEs, package pages, or manual testing. Leave blank if there is no reliable command.</p>
+          </header>
+          <label>
+            Command line JSON
+            <textarea name="commandLine" rows="7" placeholder='[
+  {
+    "label": "Run with Ollama",
+    "command": "ollama run gemma4",
+    "description": "Use this when the model is available through Ollama."
+  }
+]'></textarea>
+          </label>
+        </section>
+
+        <section class="admin-form-section">
+          <header>
             <span class="eyebrow">Facts & signals</span>
             <h3>Verifiable project facts</h3>
             <p>Keep facts separate from editorial judgment. Automation can update these later through reviewable PRs.</p>
@@ -424,6 +442,7 @@ const taxonomyGroups = Object.entries(taxonomy).map(([group, values]) => ({
       useCaseNotes: jsonToText(content.useCaseNotes),
       compareNotes: jsonToText(content.compareNotes),
       gettingStarted: jsonToText(content.gettingStarted),
+      commandLine: jsonToText(content.commandLine),
       seoArticle: jsonToText(content.seoArticle),
       thumbnailBrief: jsonToText(content.thumbnailBrief)
     };
@@ -457,6 +476,7 @@ const taxonomyGroups = Object.entries(taxonomy).map(([group, values]) => ({
       useCaseNotes: data.useCaseNotes,
       compareNotes: data.compareNotes,
       gettingStarted: data.gettingStarted,
+      commandLine: data.commandLine,
       seoArticle: data.seoArticle,
       thumbnailBrief: data.thumbnailBrief,
       isFeatured: Boolean(editor.querySelector("[name='isFeatured']")?.checked),

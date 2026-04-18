@@ -86,6 +86,12 @@ export type EditorialGettingStarted = {
   type: LinkType;
 };
 
+export type EditorialCommandLine = {
+  label: string;
+  command: string;
+  description?: string;
+};
+
 export type EditorialFaqItem = {
   question: string;
   answer: string;
@@ -206,6 +212,7 @@ export type ResourceV1 = {
     use_case_notes?: EditorialUseCase[];
     compare_notes?: EditorialCompareNote[];
     getting_started?: EditorialGettingStarted[];
+    command_line?: EditorialCommandLine[];
     seo_article?: EditorialSeoArticle;
   };
   timestamps: {
@@ -567,7 +574,7 @@ function parseSeo(input: unknown): ResourceV1["seo"] {
 function parseEditorial(input: unknown): ResourceV1["editorial"] {
   if (input === undefined) return undefined;
   if (!isRecord(input)) throw new Error("resource.editorial must be an object when present.");
-  assertNoUnknownKeys(input, ["featured_reason", "trust_note", "core_strengths", "use_case_notes", "compare_notes", "getting_started", "seo_article"], "resource.editorial");
+  assertNoUnknownKeys(input, ["featured_reason", "trust_note", "core_strengths", "use_case_notes", "compare_notes", "getting_started", "command_line", "seo_article"], "resource.editorial");
   const coreStrengths = optionalRecordArray(input, "core_strengths", "resource.editorial")?.map((item, index) => {
     const context = `resource.editorial.core_strengths[${index}]`;
     assertNoUnknownKeys(item, ["title", "description", "why_it_matters"], context);
@@ -603,6 +610,15 @@ function parseEditorial(input: unknown): ResourceV1["editorial"] {
       label: requireString(item, "label", context),
       url,
       type: requireEnum(item, "type", linkTypes, context)
+    };
+  });
+  const commandLine = optionalRecordArray(input, "command_line", "resource.editorial")?.map((item, index) => {
+    const context = `resource.editorial.command_line[${index}]`;
+    assertNoUnknownKeys(item, ["label", "command", "description"], context);
+    return {
+      label: requireString(item, "label", context),
+      command: requireString(item, "command", context),
+      description: optionalString(item, "description", context)
     };
   });
   let seoArticle: EditorialSeoArticle | undefined;
@@ -667,6 +683,7 @@ function parseEditorial(input: unknown): ResourceV1["editorial"] {
     use_case_notes: useCaseNotes,
     compare_notes: compareNotes,
     getting_started: gettingStarted,
+    command_line: commandLine,
     seo_article: seoArticle
   };
 }

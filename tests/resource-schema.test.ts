@@ -186,11 +186,11 @@ describe("resource schema v1", () => {
 
   it("reads public resources through the ResourceV1 layer", async () => {
     const resources = await getPublishedResources();
-    const langgraph = resources.find((resource) => resource.slug === "langgraph");
+    const gemma = resources.find((resource) => resource.slug === "gemma-4");
 
-    expect(langgraph?.schema_version).toBe("openagent.resource.v1");
+    expect(gemma?.schema_version).toBe("openagent.resource.v1");
     expect(resources.every((resource) => resource.status === "published")).toBe(true);
-    expect(resourceMarkdown(langgraph!).startsWith("# LangGraph")).toBe(true);
-    expect(resourceMarkdown(langgraph!)).toContain("## What It Actually Does");
+    expect(resourceMarkdown(gemma!).startsWith("# Gemma 4")).toBe(true);
+    expect(resourceMarkdown(gemma!)).toContain("## What It Actually Does");
   });
 });

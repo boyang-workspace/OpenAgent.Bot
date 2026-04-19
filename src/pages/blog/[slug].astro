@@ -110,7 +110,9 @@ function renderBlogBody(markdown: string): string {
       continue;
     }
 
-    paragraph.push(line);
+    flushList();
+    paragraph = [line];
+    flushParagraph();
   }
 
   flushAll();

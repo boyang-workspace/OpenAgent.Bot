@@ -4,11 +4,12 @@ import SectionHeading from "@/components/SectionHeading.astro";
 import EditorialShell from "@/components/EditorialShell.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { categories } from "@/config/site";
-import { posts } from "@/data/posts";
+import { getPublishedBlogPosts } from "@/lib/content/blog";
 import { getPublishedResources, resourcePath } from "@/lib/content/resources";
 import { resourceCategoryLabel, resourceImage } from "@/lib/content/resource-display";
 
 const resources = await getPublishedResources();
+const posts = await getPublishedBlogPosts();
 const today = resources.find((resource) => resource.editorial?.featured_reason) ?? resources[0];
 const trending = resources
   .filter((resource) => resource.editorial?.featured_reason || resource.facts.github_stars)

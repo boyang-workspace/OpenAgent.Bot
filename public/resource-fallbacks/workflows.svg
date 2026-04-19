@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Workflows fallback thumbnail">
+  <rect width="1200" height="675" fill="#f3f5f1"/>
+  <path d="M170 338c125-200 255 200 380 0s255-200 480 0" fill="none" stroke="#cbd2c7" stroke-width="16" stroke-linecap="round"/>
+  <g fill="#ffffff" stroke="#dce2d8" stroke-width="2">
+    <rect x="136" y="244" width="180" height="120" rx="8"/>
+    <rect x="406" y="310" width="180" height="120" rx="8"/>
+    <rect x="676" y="178" width="180" height="120" rx="8"/>
+    <rect x="946" y="310" width="180" height="120" rx="8"/>
+  </g>
+  <rect x="174" y="288" width="104" height="18" rx="8" fill="#16745a"/>
+  <rect x="444" y="354" width="104" height="18" rx="8" fill="#336f9f"/>
+  <rect x="714" y="222" width="104" height="18" rx="8" fill="#b84a3a"/>
+  <rect x="984" y="354" width="104" height="18" rx="8" fill="#171914"/>
+</svg>

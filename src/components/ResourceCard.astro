@@ -1,7 +1,7 @@
 ---
 import type { ResourceV1 } from "@/lib/content/resource-schema";
 import { resourcePath } from "@/lib/content/resources";
-import { resourceImage, resourceMeta, resourceSignals, resourceSummary, resourceTags } from "@/lib/content/resource-display";
+import { resourceCategoryLabel, resourceImage, resourceSummary } from "@/lib/content/resource-display";
 
 type Props = {
   resource: ResourceV1;
@@ -12,9 +12,8 @@ const { resource, large = false } = Astro.props;
 const href = resourcePath(resource);
 const image = resourceImage(resource);
 const summary = resourceSummary(resource);
-const tags = resourceTags(resource, 3);
-const meta = resourceMeta(resource);
-const signals = resourceSignals(resource, 3);
+const categoryLabel = resourceCategoryLabel(resource);
+const starMeta = resource.facts.github_stars !== undefined ? `${resource.facts.github_stars.toLocaleString("en-US")} stars` : undefined;
 ---
 
 <article class:list={["resource-card", { large }]}>
@@ -22,14 +21,11 @@ const signals = resourceSignals(resource, 3);
     <img src={image} alt="" loading="lazy" />
     <div class="resource-body">
       <div class="meta">
-        {meta.slice(0, 3).map((item) => <span>{item}</span>)}
+        <span>{categoryLabel}</span>
+        {starMeta && <span>{starMeta}</span>}
       </div>
       <h3>{resource.identity.name}</h3>
       <p>{summary}</p>
-      {signals.length > 0 && <div class="signals">{signals.map((signal) => <span>{signal}</span>)}</div>}
-      <div class="tags">
-        {tags.map((tag) => <span>{tag}</span>)}
-      </div>
     </div>
   </a>
 </article>
@@ -67,13 +63,11 @@ const signals = resourceSignals(resource, 3);
 
   .resource-body {
     display: grid;
-    gap: 10px;
+    gap: 8px;
     padding: 16px;
   }
 
-  .meta,
-  .signals,
-  .tags {
+  .meta {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -82,7 +76,7 @@ const signals = resourceSignals(resource, 3);
   .meta span {
     color: var(--muted);
     font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: 0;
     text-transform: uppercase;
   }
@@ -100,25 +94,12 @@ const signals = resourceSignals(resource, 3);
   }
 
   p {
+    display: -webkit-box;
+    line-height: 1.5;
     margin: 0;
-  }
-
-  .signals span {
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    color: var(--ink);
-    font-size: 0.76rem;
-    font-weight: 500;
-    padding: 4px 7px;
-  }
-
-  .tags span {
-    background: var(--surface-soft);
-    border: 1px solid transparent;
-    border-radius: 8px;
-    color: var(--muted);
-    font-size: 0.78rem;
-    padding: 4px 8px;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   .large a {

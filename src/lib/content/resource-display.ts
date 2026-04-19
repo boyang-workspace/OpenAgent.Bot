@@ -16,7 +16,12 @@ export function resourceSummary(resource: ResourceV1): string {
 }
 
 export function resourceImage(resource: ResourceV1): string {
-  return resource.media.thumbnail_url ?? resource.media.og_image_url ?? "/og-default.svg";
+  if (resource.media.thumbnail_url) return resource.media.thumbnail_url;
+  if (resource.media.og_image_url) return resource.media.og_image_url;
+  if (resource.facts.github_repo_full_name) {
+    return `https://opengraph.githubassets.com/openagent-bot/${resource.facts.github_repo_full_name}`;
+  }
+  return `/resource-fallbacks/${resource.classification.primary_category}.svg`;
 }
 
 export function resourceTags(resource: ResourceV1, limit = 3): string[] {

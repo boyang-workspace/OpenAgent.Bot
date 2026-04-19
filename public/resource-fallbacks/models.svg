@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Models fallback thumbnail">
+  <rect width="1200" height="675" fill="#eef4ef"/>
+  <rect x="72" y="72" width="1056" height="531" rx="8" fill="#fafaf7" stroke="#d9dfd5" stroke-width="2"/>
+  <g fill="none" stroke-linecap="round" stroke-width="14">
+    <path d="M190 360c120-180 230 180 350 0s230 180 350 0" stroke="#16745a"/>
+    <path d="M190 430c120-120 230 120 350 0s230 120 350 0" stroke="#336f9f" opacity=".72"/>
+  </g>
+  <g fill="#171914">
+    <circle cx="235" cy="235" r="18"/>
+    <circle cx="315" cy="235" r="18" opacity=".65"/>
+    <circle cx="395" cy="235" r="18" opacity=".35"/>
+  </g>
+  <rect x="870" y="196" width="150" height="150" rx="8" fill="#b84a3a" opacity=".9"/>
+  <rect x="925" y="251" width="150" height="150" rx="8" fill="#171914" opacity=".9"/>
+</svg>

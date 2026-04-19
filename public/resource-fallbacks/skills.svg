@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="Skills fallback thumbnail">
+  <rect width="1200" height="675" fill="#eef4ef"/>
+  <g transform="translate(120 116)">
+    <rect width="960" height="96" rx="8" fill="#ffffff" stroke="#dce2d8" stroke-width="2"/>
+    <rect y="132" width="760" height="96" rx="8" fill="#ffffff" stroke="#dce2d8" stroke-width="2"/>
+    <rect y="264" width="860" height="96" rx="8" fill="#ffffff" stroke="#dce2d8" stroke-width="2"/>
+    <rect y="396" width="660" height="96" rx="8" fill="#ffffff" stroke="#dce2d8" stroke-width="2"/>
+    <rect x="36" y="36" width="180" height="24" rx="8" fill="#16745a"/>
+    <rect x="36" y="168" width="300" height="24" rx="8" fill="#336f9f"/>
+    <rect x="36" y="300" width="240" height="24" rx="8" fill="#171914"/>
+    <rect x="36" y="432" width="170" height="24" rx="8" fill="#b84a3a"/>
+  </g>
+</svg>

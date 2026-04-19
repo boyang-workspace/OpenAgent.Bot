@@ -31,11 +31,9 @@ function parseArgs(argv: string[]): Options {
 function bodyFor(options: Options): string {
   const topic = options.topic ?? options.title;
   return [
-    `${topic} sits in the part of open AI where builders need more than a launch announcement. A useful OpenAgent article should explain what the project is, why it matters, who should care, and what a reader should inspect before trying it.`,
-    "",
-    `For ${options.title}, the first editorial pass should separate verified source facts from interpretation. The final article should cite official links, explain the practical use case, and compare the project with nearby alternatives instead of repeating marketing copy.`,
-    "",
-    "Before publishing, review the source links, add concrete examples, and replace this preparation draft with a sharper article."
+    `${topic} should be drafted as an OpenAgent SEO guide, not a short editorial note. Start by answering the target search intent in the first 100 words, then explain the practical decision the reader is trying to make.`,
+    `For ${options.title}, include a quick recommendation, a comparison table or structured comparison block, concrete examples, official source links, OpenAgent internal links, a clear next step, and an FAQ section. Separate verified facts from editorial interpretation and avoid repeating marketing copy.`,
+    "Before publishing, review docs/BLOG_STANDARD.md, replace this preparation draft with a complete article, and reject the draft if it lacks comparisons, source links, internal links, or an actionable next step."
   ].join("\n\n");
 }
 

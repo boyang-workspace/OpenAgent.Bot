@@ -63,6 +63,8 @@ When the owner asks for a specific article or resource, use the manual prep scri
 
 Resource drafts are written to `content/projects/drafts`. Blog drafts are written to `content/blog/drafts`. Drafts are not public until reviewed and published.
 
+Blog drafts must meet the OpenAgent blog quality bar in [`docs/BLOG_STANDARD.md`](./BLOG_STANDARD.md): search-intent first, comparison-heavy, practical, internally linked, FAQ-backed, and source-cited. Short editorial notes are no longer the default publishing standard.
+
 ## Review Workflow
 
 1. Trigger an editorial run from Codex or GitHub Actions.

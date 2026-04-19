@@ -1,0 +1,176 @@
+{
+  "slug": "qwen3-6",
+  "title": "Qwen3.6",
+  "oneLiner": "Qwen's open model line focused on stronger coding, agentic tasks, and real-world stability.",
+  "summary": "Qwen3.6 is the Qwen team's current open model series, useful for builders evaluating open models for coding, agentic workflows, and local or self-hosted experimentation.",
+  "whyItMatters": "Qwen3.6 matters because open model competition is shifting from raw benchmark jumps to stability in real workflows. For developers, that means testing whether a model behaves reliably across tool use, coding, and long prompts, not just whether it scores well once.",
+  "bestFor": [
+    "Developers comparing Apache-licensed open models for coding and agents",
+    "Teams that need an open model family with broad ecosystem support",
+    "Researchers tracking Qwen's dense and MoE model progress"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "models",
+  "tags": [
+    "model",
+    "open-source",
+    "open-weights",
+    "coding-agent",
+    "local-inference",
+    "tool-calling",
+    "research"
+  ],
+  "repoUrl": "https://github.com/QwenLM/Qwen3.6",
+  "homepageUrl": "https://qwen.ai/",
+  "docsUrl": "https://qwen.readthedocs.io/",
+  "license": "Apache-2.0",
+  "maintainer": "Qwen Team, Alibaba Group",
+  "sourceLinks": [
+    "https://github.com/QwenLM/Qwen3.6",
+    "https://qwen.ai/",
+    "https://qwen.readthedocs.io/"
+  ],
+  "seoTitle": "Qwen3.6: Models resource for open AI builders",
+  "seoDescription": "Qwen3.6 profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "Qwen3.6 on OpenAgent.bot",
+  "shareDescription": "Qwen's open model line focused on stronger coding, agentic tasks, and real-world stability.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Open model ecosystem momentum",
+      "description": "Qwen models are broadly supported across local and hosted tooling.",
+      "whyItMatters": "Ecosystem support shortens the path from reading a model card to actually testing it."
+    },
+    {
+      "title": "Coding and agentic utility",
+      "description": "Qwen3.6 is positioned around coding, agent workflows, and practical stability.",
+      "whyItMatters": "These are the tasks where OpenAgent readers need model choices to be dependable."
+    },
+    {
+      "title": "Permissive license path",
+      "description": "The Qwen line is commonly distributed with Apache-2.0 licensing for many releases.",
+      "whyItMatters": "License clarity matters when teams want to embed a model into products."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Coding assistants",
+      "description": "Evaluate Qwen3.6 in coding agents that edit files and run checks."
+    },
+    {
+      "title": "Local model comparisons",
+      "description": "Compare Qwen3.6 against GLM, Kimi, and Gemma models on local or self-hosted setups."
+    },
+    {
+      "title": "Agent tool workflows",
+      "description": "Test structured output, function calling patterns, and longer task reliability."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose Qwen3.6 when ecosystem support matters",
+      "against": "smaller niche open models",
+      "summary": "Qwen has a wide tooling footprint, making it easier to benchmark and integrate than many isolated releases."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/QwenLM/Qwen3.6",
+      "type": "github"
+    },
+    {
+      "label": "Read the documentation",
+      "url": "https://qwen.readthedocs.io/",
+      "type": "docs"
+    },
+    {
+      "label": "Official source",
+      "url": "https://qwen.ai/",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone the Qwen3.6 repository",
+      "command": "git clone https://github.com/QwenLM/Qwen3.6.git",
+      "description": "Review official model cards, licenses, and runtime examples before deployment."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Qwen3.6 is the Qwen team's current open model series, useful for builders evaluating open models for coding, agentic workflows, and local or self-hosted experimentation.",
+    "whatItIs": "Qwen3.6 is an open AI models resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "Qwen3.6 matters because open model competition is shifting from raw benchmark jumps to stability in real workflows. For developers, that means testing whether a model behaves reliably across tool use, coding, and long prompts, not just whether it scores well once.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "Coding assistants",
+        "description": "Evaluate Qwen3.6 in coding agents that edit files and run checks."
+      },
+      {
+        "title": "Local model comparisons",
+        "description": "Compare Qwen3.6 against GLM, Kimi, and Gemma models on local or self-hosted setups."
+      },
+      {
+        "title": "Agent tool workflows",
+        "description": "Test structured output, function calling patterns, and longer task reliability."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Choose Qwen3.6 when ecosystem support matters",
+        "against": "smaller niche open models",
+        "summary": "Qwen has a wide tooling footprint, making it easier to benchmark and integrate than many isolated releases."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/QwenLM/Qwen3.6",
+        "type": "github"
+      },
+      {
+        "label": "Read the documentation",
+        "url": "https://qwen.readthedocs.io/",
+        "type": "docs"
+      },
+      {
+        "label": "Official source",
+        "url": "https://qwen.ai/",
+        "type": "homepage"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is Qwen3.6 open source?",
+        "answer": "Qwen3.6 is listed with Apache-2.0 based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate Qwen3.6?",
+        "answer": "Developers comparing Apache-licensed open models for coding and agents"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "model",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "Qwen3.6",
+    "subtitle": "Qwen's open model line focused on stronger coding, agentic tasks, and real-world stability.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "slug": "ai-agents-skills",
+  "title": "AI Agents Skills",
+  "oneLiner": "Curated open repository of specialized skills for coding agents and AI assistants.",
+  "summary": "AI Agents Skills is a public collection of reusable skill files for coding agents such as GitHub Copilot, Cursor, Windsurf, and related assistant environments.",
+  "whyItMatters": "AI Agents Skills matters because skill files are becoming a standard way to package procedural knowledge for agents. A curated repository helps builders see what reusable agent instructions look like in practice.",
+  "bestFor": [
+    "Developers learning how to structure agent skills",
+    "Teams adding specialized behavior to coding assistants",
+    "Builders comparing skill conventions across agent platforms"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "skills",
+  "tags": [
+    "skill",
+    "open-source",
+    "agent-skill",
+    "coding-agent",
+    "developer-workflow",
+    "workflow"
+  ],
+  "repoUrl": "https://github.com/hoodini/ai-agents-skills",
+  "license": "MIT",
+  "maintainer": "Yuval Avidani",
+  "sourceLinks": [
+    "https://github.com/hoodini/ai-agents-skills"
+  ],
+  "seoTitle": "AI Agents Skills: Skills resource for open AI builders",
+  "seoDescription": "AI Agents Skills profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "AI Agents Skills on OpenAgent.bot",
+  "shareDescription": "Curated open repository of specialized skills for coding agents and AI assistants.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Curated skill examples",
+      "description": "The repository collects multiple specialized skills rather than one isolated instruction file.",
+      "whyItMatters": "Examples make it easier to understand what good reusable agent behavior can look like."
+    },
+    {
+      "title": "Coding-agent compatibility",
+      "description": "It targets common coding assistant environments.",
+      "whyItMatters": "Skills are most useful when they can travel across tools."
+    },
+    {
+      "title": "Open learning resource",
+      "description": "The repository can be inspected and adapted.",
+      "whyItMatters": "Teams can use it to bootstrap their own internal skill libraries."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Skill authoring reference",
+      "description": "Study existing skills before writing project-specific agent instructions."
+    },
+    {
+      "title": "Agent workflow expansion",
+      "description": "Add specialized procedures to coding assistants without changing the underlying model."
+    },
+    {
+      "title": "Cross-tool experimentation",
+      "description": "Compare how different agents respond to the same procedural skill."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Use it as a skill library reference",
+      "against": "custom one-off prompts",
+      "summary": "A skill repository gives more reusable structure than a pile of disconnected prompts."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/hoodini/ai-agents-skills",
+      "type": "github"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone the skills repository",
+      "command": "git clone https://github.com/hoodini/ai-agents-skills.git",
+      "description": "Review individual skills before copying them into an agent environment."
+    }
+  ],
+  "seoArticle": {
+    "intro": "AI Agents Skills is a public collection of reusable skill files for coding agents such as GitHub Copilot, Cursor, Windsurf, and related assistant environments.",
+    "whatItIs": "AI Agents Skills is an open AI skills resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "AI Agents Skills matters because skill files are becoming a standard way to package procedural knowledge for agents. A curated repository helps builders see what reusable agent instructions look like in practice.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "Skill authoring reference",
+        "description": "Study existing skills before writing project-specific agent instructions."
+      },
+      {
+        "title": "Agent workflow expansion",
+        "description": "Add specialized procedures to coding assistants without changing the underlying model."
+      },
+      {
+        "title": "Cross-tool experimentation",
+        "description": "Compare how different agents respond to the same procedural skill."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Use it as a skill library reference",
+        "against": "custom one-off prompts",
+        "summary": "A skill repository gives more reusable structure than a pile of disconnected prompts."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/hoodini/ai-agents-skills",
+        "type": "github"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is AI Agents Skills open source?",
+        "answer": "AI Agents Skills is listed with MIT based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate AI Agents Skills?",
+        "answer": "Developers learning how to structure agent skills"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "skill",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "AI Agents Skills",
+    "subtitle": "Curated open repository of specialized skills for coding agents and AI assistants.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "slug": "agentic-commerce-skills",
+  "title": "Agentic Commerce Skills",
+  "oneLiner": "Open skills and plugins for agentic commerce protocols, checkout, and ecommerce workflows.",
+  "summary": "Agentic Commerce Skills is an open repository from OrcaQubits covering commerce-focused agent skills and plugins for protocols, checkout, payments, and ecommerce integrations.",
+  "whyItMatters": "Agentic Commerce Skills matters because commerce is one of the first places agents need domain-specific procedure, not just general browsing. Checkout, payments, product feeds, and storefronts all need structured rules.",
+  "bestFor": [
+    "Builders exploring agentic commerce workflows",
+    "Ecommerce teams testing agent-facing checkout or protocol concepts",
+    "Developers who want skill examples for payments and commerce integrations"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "skills",
+  "tags": [
+    "skill",
+    "open-source",
+    "agent-skill",
+    "connectors",
+    "workflow",
+    "content-workflow",
+    "developer-workflow"
+  ],
+  "repoUrl": "https://github.com/OrcaQubits/agentic-commerce-skills-plugins",
+  "homepageUrl": "https://orcaqubits-ai.com/",
+  "license": "MIT",
+  "maintainer": "OrcaQubits",
+  "sourceLinks": [
+    "https://github.com/OrcaQubits/agentic-commerce-skills-plugins",
+    "https://orcaqubits-ai.com/"
+  ],
+  "seoTitle": "Agentic Commerce Skills: Skills resource for open AI builders",
+  "seoDescription": "Agentic Commerce Skills profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "Agentic Commerce Skills on OpenAgent.bot",
+  "shareDescription": "Open skills and plugins for agentic commerce protocols, checkout, and ecommerce workflows.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Commerce-specific domain knowledge",
+      "description": "The repository focuses on protocols and workflows around agentic commerce.",
+      "whyItMatters": "Commerce agents need clear rules around payment, checkout, inventory, and platform APIs."
+    },
+    {
+      "title": "Skills plus plugins orientation",
+      "description": "It packages knowledge in forms agents can use as procedural guidance.",
+      "whyItMatters": "Agents work better when domain instructions are reusable and scoped."
+    },
+    {
+      "title": "Protocol-aware positioning",
+      "description": "The project references emerging agent commerce and payment protocols.",
+      "whyItMatters": "This helps builders track a fast-moving area where standards are still forming."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Agentic checkout prototypes",
+      "description": "Explore how agents might handle shopping, checkout, and payment flows."
+    },
+    {
+      "title": "Commerce protocol research",
+      "description": "Use the skills to understand UCP, ACP, AP2, and adjacent protocol ideas."
+    },
+    {
+      "title": "Ecommerce integration guidance",
+      "description": "Give coding agents more domain context when working with Shopify, Stripe, or storefront APIs."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Use it when commerce context matters",
+      "against": "generic agent skill packs",
+      "summary": "Generic skills do not encode the special constraints of checkout, payment, and product feed workflows."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/OrcaQubits/agentic-commerce-skills-plugins",
+      "type": "github"
+    },
+    {
+      "label": "Official source",
+      "url": "https://orcaqubits-ai.com/",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone the repository",
+      "command": "git clone https://github.com/OrcaQubits/agentic-commerce-skills-plugins.git",
+      "description": "Review each skill or plugin before installing it into an agent environment."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Agentic Commerce Skills is an open repository from OrcaQubits covering commerce-focused agent skills and plugins for protocols, checkout, payments, and ecommerce integrations.",
+    "whatItIs": "Agentic Commerce Skills is an open AI skills resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "Agentic Commerce Skills matters because commerce is one of the first places agents need domain-specific procedure, not just general browsing. Checkout, payments, product feeds, and storefronts all need structured rules.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "Agentic checkout prototypes",
+        "description": "Explore how agents might handle shopping, checkout, and payment flows."
+      },
+      {
+        "title": "Commerce protocol research",
+        "description": "Use the skills to understand UCP, ACP, AP2, and adjacent protocol ideas."
+      },
+      {
+        "title": "Ecommerce integration guidance",
+        "description": "Give coding agents more domain context when working with Shopify, Stripe, or storefront APIs."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Use it when commerce context matters",
+        "against": "generic agent skill packs",
+        "summary": "Generic skills do not encode the special constraints of checkout, payment, and product feed workflows."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/OrcaQubits/agentic-commerce-skills-plugins",
+        "type": "github"
+      },
+      {
+        "label": "Official source",
+        "url": "https://orcaqubits-ai.com/",
+        "type": "homepage"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is Agentic Commerce Skills open source?",
+        "answer": "Agentic Commerce Skills is listed with MIT based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate Agentic Commerce Skills?",
+        "answer": "Builders exploring agentic commerce workflows"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "skill",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "Agentic Commerce Skills",
+    "subtitle": "Open skills and plugins for agentic commerce protocols, checkout, and ecommerce workflows.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

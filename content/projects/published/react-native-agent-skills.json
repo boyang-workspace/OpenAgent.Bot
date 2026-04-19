@@ -1,0 +1,152 @@
+{
+  "slug": "react-native-agent-skills",
+  "title": "React Native Agent Skills",
+  "oneLiner": "React Native-focused skills for helping coding agents work on mobile app projects.",
+  "summary": "React Native Agent Skills is a Callstack Incubator repository of agent-optimized skills for coding assistants working in React Native projects.",
+  "whyItMatters": "React Native Agent Skills matters because mobile projects have conventions, build systems, testing flows, and upgrade traps that generic agents often miss. Domain-specific skills can make agents behave more like an experienced React Native developer.",
+  "bestFor": [
+    "React Native teams using coding agents",
+    "Developers who want mobile-specific agent procedures",
+    "Tool builders studying domain-specific skill libraries"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "skills",
+  "tags": [
+    "skill",
+    "open-source",
+    "agent-skill",
+    "coding-agent",
+    "developer-workflow",
+    "workflow"
+  ],
+  "repoUrl": "https://github.com/callstackincubator/agent-skills",
+  "license": "MIT",
+  "maintainer": "Callstack Incubator",
+  "sourceLinks": [
+    "https://github.com/callstackincubator/agent-skills",
+    "https://skills.sh/callstackincubator"
+  ],
+  "seoTitle": "React Native Agent Skills: Skills resource for open AI builders",
+  "seoDescription": "React Native Agent Skills profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "React Native Agent Skills on OpenAgent.bot",
+  "shareDescription": "React Native-focused skills for helping coding agents work on mobile app projects.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Domain-specific skills",
+      "description": "The repository focuses on React Native rather than generic coding advice.",
+      "whyItMatters": "Specificity is what makes skills more valuable than broad prompts."
+    },
+    {
+      "title": "Agent-optimized format",
+      "description": "Skills are written for AI coding assistants and agent workflows.",
+      "whyItMatters": "The content is designed to guide agent behavior during real implementation tasks."
+    },
+    {
+      "title": "Mobile workflow coverage",
+      "description": "React Native work often needs upgrade, device, build, and platform context.",
+      "whyItMatters": "These are exactly the details generic LLMs tend to mishandle."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "React Native upgrades",
+      "description": "Guide agents through version and dependency upgrades with mobile-specific context."
+    },
+    {
+      "title": "Mobile debugging",
+      "description": "Help agents reason about simulator, device, and platform-specific issues."
+    },
+    {
+      "title": "Project conventions",
+      "description": "Provide reusable instructions for how React Native projects should be changed safely."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Better for mobile than generic coding skills",
+      "against": "general agent skill packs",
+      "summary": "General skills help with process; this repository is more useful when the codebase is specifically React Native."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/callstackincubator/agent-skills",
+      "type": "github"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone the skills",
+      "command": "git clone https://github.com/callstackincubator/agent-skills.git",
+      "description": "Use the repository instructions to install or copy relevant skills."
+    }
+  ],
+  "seoArticle": {
+    "intro": "React Native Agent Skills is a Callstack Incubator repository of agent-optimized skills for coding assistants working in React Native projects.",
+    "whatItIs": "React Native Agent Skills is an open AI skills resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "React Native Agent Skills matters because mobile projects have conventions, build systems, testing flows, and upgrade traps that generic agents often miss. Domain-specific skills can make agents behave more like an experienced React Native developer.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "React Native upgrades",
+        "description": "Guide agents through version and dependency upgrades with mobile-specific context."
+      },
+      {
+        "title": "Mobile debugging",
+        "description": "Help agents reason about simulator, device, and platform-specific issues."
+      },
+      {
+        "title": "Project conventions",
+        "description": "Provide reusable instructions for how React Native projects should be changed safely."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Better for mobile than generic coding skills",
+        "against": "general agent skill packs",
+        "summary": "General skills help with process; this repository is more useful when the codebase is specifically React Native."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/callstackincubator/agent-skills",
+        "type": "github"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is React Native Agent Skills open source?",
+        "answer": "React Native Agent Skills is listed with MIT based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate React Native Agent Skills?",
+        "answer": "React Native teams using coding agents"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "skill",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "React Native Agent Skills",
+    "subtitle": "React Native-focused skills for helping coding agents work on mobile app projects.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

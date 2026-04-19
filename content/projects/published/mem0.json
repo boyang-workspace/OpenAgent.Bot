@@ -1,0 +1,165 @@
+{
+  "slug": "mem0",
+  "title": "Mem0",
+  "oneLiner": "Open-source memory layer for AI agents and assistants that need personalized recall.",
+  "summary": "Mem0 is an open-source memory layer for AI applications, designed to store, retrieve, and update user or agent memories across conversations and workflows.",
+  "whyItMatters": "Mem0 matters because personalization and continuity are hard to build from scratch. A dedicated memory layer gives agents a place to store durable user facts, preferences, and task history.",
+  "bestFor": [
+    "Builders adding long-term memory to agents or chat apps",
+    "Teams that need self-hosted memory infrastructure",
+    "Developers comparing memory layers before building custom recall"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "memory-systems",
+  "tags": [
+    "memory-system",
+    "memory",
+    "open-source",
+    "context-retrieval",
+    "rag",
+    "state-management",
+    "self-hosted",
+    "api"
+  ],
+  "repoUrl": "https://github.com/mem0ai/mem0",
+  "docsUrl": "https://docs.mem0.ai/open-source",
+  "license": "Apache-2.0",
+  "maintainer": "Mem0",
+  "sourceLinks": [
+    "https://github.com/mem0ai/mem0",
+    "https://docs.mem0.ai/open-source"
+  ],
+  "seoTitle": "Mem0: Memory Systems resource for open AI builders",
+  "seoDescription": "Mem0 profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "Mem0 on OpenAgent.bot",
+  "shareDescription": "Open-source memory layer for AI agents and assistants that need personalized recall.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Memory-specific infrastructure",
+      "description": "Mem0 focuses on memory storage and retrieval rather than general agent orchestration.",
+      "whyItMatters": "Separating memory from the agent loop makes systems easier to reason about."
+    },
+    {
+      "title": "Self-hosted option",
+      "description": "The open-source docs describe a self-hosted memory path.",
+      "whyItMatters": "Memory often contains sensitive user context, so deployment control matters."
+    },
+    {
+      "title": "Agent-friendly API layer",
+      "description": "Mem0 exposes memory operations that can fit into assistant and agent workflows.",
+      "whyItMatters": "Agents need simple primitives for add, search, and recall."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Personal assistant memory",
+      "description": "Store user preferences and recurring context across conversations."
+    },
+    {
+      "title": "Agent task continuity",
+      "description": "Let an agent remember prior decisions or facts between sessions."
+    },
+    {
+      "title": "RAG-adjacent recall",
+      "description": "Use memory retrieval alongside documents and knowledge bases."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose Mem0 for product memory APIs",
+      "against": "plain vector databases",
+      "summary": "A vector database stores embeddings; Mem0 adds memory-oriented behavior and developer ergonomics around agent recall."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/mem0ai/mem0",
+      "type": "github"
+    },
+    {
+      "label": "Read the documentation",
+      "url": "https://docs.mem0.ai/open-source",
+      "type": "docs"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Install Mem0",
+      "command": "pip install mem0ai",
+      "description": "Follow the open-source docs for provider and storage configuration."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Mem0 is an open-source memory layer for AI applications, designed to store, retrieve, and update user or agent memories across conversations and workflows.",
+    "whatItIs": "Mem0 is an open AI memory systems resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "Mem0 matters because personalization and continuity are hard to build from scratch. A dedicated memory layer gives agents a place to store durable user facts, preferences, and task history.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "Personal assistant memory",
+        "description": "Store user preferences and recurring context across conversations."
+      },
+      {
+        "title": "Agent task continuity",
+        "description": "Let an agent remember prior decisions or facts between sessions."
+      },
+      {
+        "title": "RAG-adjacent recall",
+        "description": "Use memory retrieval alongside documents and knowledge bases."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Choose Mem0 for product memory APIs",
+        "against": "plain vector databases",
+        "summary": "A vector database stores embeddings; Mem0 adds memory-oriented behavior and developer ergonomics around agent recall."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/mem0ai/mem0",
+        "type": "github"
+      },
+      {
+        "label": "Read the documentation",
+        "url": "https://docs.mem0.ai/open-source",
+        "type": "docs"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is Mem0 open source?",
+        "answer": "Mem0 is listed with Apache-2.0 based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate Mem0?",
+        "answer": "Builders adding long-term memory to agents or chat apps"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "memory_system",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "Mem0",
+    "subtitle": "Open-source memory layer for AI agents and assistants that need personalized recall.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

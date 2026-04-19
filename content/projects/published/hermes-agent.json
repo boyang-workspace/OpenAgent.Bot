@@ -1,0 +1,163 @@
+{
+  "slug": "hermes-agent",
+  "title": "Hermes Agent",
+  "oneLiner": "MIT-licensed self-improving agent from Nous Research designed to grow with the user.",
+  "summary": "Hermes Agent is an open-source AI agent from Nous Research, positioned as an agent that learns from interaction and supports modern coding-agent and assistant workflows.",
+  "whyItMatters": "Hermes Agent matters because it packages the self-improving agent idea into an inspectable repository. For builders, it is a practical project to compare against OpenClaw, Goose, and coding-agent runtimes.",
+  "bestFor": [
+    "Developers evaluating self-improving or personalized agent workflows",
+    "Teams comparing open agent runtimes around coding and task execution",
+    "Nous Research users who want an agent path around Hermes models and tools"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "agents",
+  "tags": [
+    "agent",
+    "open-source",
+    "workflow-orchestration",
+    "tool-calling",
+    "coding-agent",
+    "self-hosted"
+  ],
+  "repoUrl": "https://github.com/NousResearch/hermes-agent",
+  "homepageUrl": "https://hermes-agent.ai/",
+  "license": "MIT",
+  "maintainer": "Nous Research",
+  "sourceLinks": [
+    "https://github.com/NousResearch/hermes-agent",
+    "https://hermes-agent.ai/"
+  ],
+  "seoTitle": "Hermes Agent: Agents resource for open AI builders",
+  "seoDescription": "Hermes Agent profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "Hermes Agent on OpenAgent.bot",
+  "shareDescription": "MIT-licensed self-improving agent from Nous Research designed to grow with the user.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Self-improvement framing",
+      "description": "Hermes Agent is described as an agent that grows with the user over time.",
+      "whyItMatters": "Personalization and learning are central to making agents useful beyond one-off tasks."
+    },
+    {
+      "title": "Open repository and MIT license",
+      "description": "The official repository lists MIT licensing and public installation paths.",
+      "whyItMatters": "This makes it easier to inspect, fork, and compare with other agent systems."
+    },
+    {
+      "title": "Agent ecosystem compatibility",
+      "description": "The project references modern agent toolchains and coding assistant contexts.",
+      "whyItMatters": "Compatibility matters when users already work across Claude Code, Codex, OpenClaw, and similar tools."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Personal agent experiments",
+      "description": "Test whether the agent can adapt to recurring tasks and user preferences."
+    },
+    {
+      "title": "Coding assistant workflows",
+      "description": "Evaluate it for repository navigation, planning, and coding-agent loops."
+    },
+    {
+      "title": "Open agent comparison",
+      "description": "Use it as part of a broader comparison across OpenClaw, Goose, and LangGraph-style systems."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Hermes Agent emphasizes learning with the user",
+      "against": "generic agent CLIs",
+      "summary": "Many agent tools focus on execution; Hermes Agent is interesting because its positioning centers on self-improvement and continuity."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "type": "github"
+    },
+    {
+      "label": "Official source",
+      "url": "https://hermes-agent.ai/",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone Hermes Agent",
+      "command": "git clone https://github.com/NousResearch/hermes-agent.git",
+      "description": "Start from the official repository and inspect current installation instructions before running setup scripts."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Hermes Agent is an open-source AI agent from Nous Research, positioned as an agent that learns from interaction and supports modern coding-agent and assistant workflows.",
+    "whatItIs": "Hermes Agent is an open AI agents resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "Hermes Agent matters because it packages the self-improving agent idea into an inspectable repository. For builders, it is a practical project to compare against OpenClaw, Goose, and coding-agent runtimes.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "Personal agent experiments",
+        "description": "Test whether the agent can adapt to recurring tasks and user preferences."
+      },
+      {
+        "title": "Coding assistant workflows",
+        "description": "Evaluate it for repository navigation, planning, and coding-agent loops."
+      },
+      {
+        "title": "Open agent comparison",
+        "description": "Use it as part of a broader comparison across OpenClaw, Goose, and LangGraph-style systems."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Hermes Agent emphasizes learning with the user",
+        "against": "generic agent CLIs",
+        "summary": "Many agent tools focus on execution; Hermes Agent is interesting because its positioning centers on self-improvement and continuity."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/NousResearch/hermes-agent",
+        "type": "github"
+      },
+      {
+        "label": "Official source",
+        "url": "https://hermes-agent.ai/",
+        "type": "homepage"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is Hermes Agent open source?",
+        "answer": "Hermes Agent is listed with MIT based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate Hermes Agent?",
+        "answer": "Developers evaluating self-improving or personalized agent workflows"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "agent",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "Hermes Agent",
+    "subtitle": "MIT-licensed self-improving agent from Nous Research designed to grow with the user.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

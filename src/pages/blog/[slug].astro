@@ -12,6 +12,10 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+const paragraphs = post.body
+  .split(/\n{2,}/)
+  .map((paragraph) => paragraph.trim())
+  .filter(Boolean);
 ---
 
 <BaseLayout
@@ -25,7 +29,7 @@ const { post } = Astro.props;
     <h1>{post.title}</h1>
     <p class="dek">{post.summary}</p>
     <div class="body">
-      <p>{post.body}</p>
+      {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
     </div>
   </article>
   </EditorialShell>

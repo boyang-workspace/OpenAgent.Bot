@@ -1,0 +1,165 @@
+{
+  "slug": "graphiti",
+  "title": "Graphiti",
+  "oneLiner": "Temporal knowledge graph memory system for agents that need facts, entities, and time-aware context.",
+  "summary": "Graphiti is an open-source temporal knowledge graph system from Zep for building agent memory that tracks entities, relationships, and changing facts over time.",
+  "whyItMatters": "Graphiti matters because memory is often relational and time-sensitive. Agents need to know not only what was said, but when it was true and how it connects to other facts.",
+  "bestFor": [
+    "Builders who need graph memory instead of simple chat history",
+    "Teams working with changing entities, relationships, or customer context",
+    "Developers exploring temporal memory for agent systems"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "memory-systems",
+  "tags": [
+    "memory-system",
+    "memory",
+    "open-source",
+    "context-retrieval",
+    "rag",
+    "state-management",
+    "self-hosted",
+    "mcp"
+  ],
+  "repoUrl": "https://github.com/getzep/graphiti",
+  "docsUrl": "https://help.getzep.com/graphiti",
+  "license": "Apache-2.0",
+  "maintainer": "Zep",
+  "sourceLinks": [
+    "https://github.com/getzep/graphiti",
+    "https://help.getzep.com/graphiti"
+  ],
+  "seoTitle": "Graphiti: Memory Systems resource for open AI builders",
+  "seoDescription": "Graphiti profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "Graphiti on OpenAgent.bot",
+  "shareDescription": "Temporal knowledge graph memory system for agents that need facts, entities, and time-aware context.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Temporal knowledge graph model",
+      "description": "Graphiti represents memory as entities and relationships with time-aware context.",
+      "whyItMatters": "This helps agents reason about changing facts instead of flattening everything into chunks."
+    },
+    {
+      "title": "Agent memory orientation",
+      "description": "The project is built for agent and assistant memory workflows.",
+      "whyItMatters": "It focuses on recall structures that matter to agents, not just generic graph storage."
+    },
+    {
+      "title": "Open-source implementation",
+      "description": "The repository and docs provide a concrete path for evaluation.",
+      "whyItMatters": "Graph memory is easier to trust when the implementation is inspectable."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Customer or user memory",
+      "description": "Track evolving relationships, preferences, and events across time."
+    },
+    {
+      "title": "Research knowledge graphs",
+      "description": "Represent entities and links discovered during research workflows."
+    },
+    {
+      "title": "Agent context retrieval",
+      "description": "Retrieve facts by relationship and recency rather than only semantic similarity."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Graphiti is stronger for relational memory",
+      "against": "vector-only memory",
+      "summary": "Vector search is useful for fuzzy recall; Graphiti is more appropriate when relationships and time matter."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/getzep/graphiti",
+      "type": "github"
+    },
+    {
+      "label": "Official source",
+      "url": "https://help.getzep.com/graphiti",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone Graphiti",
+      "command": "git clone https://github.com/getzep/graphiti.git",
+      "description": "Use the official docs for current installation and storage configuration."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Graphiti is an open-source temporal knowledge graph system from Zep for building agent memory that tracks entities, relationships, and changing facts over time.",
+    "whatItIs": "Graphiti is an open AI memory systems resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "Graphiti matters because memory is often relational and time-sensitive. Agents need to know not only what was said, but when it was true and how it connects to other facts.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "Customer or user memory",
+        "description": "Track evolving relationships, preferences, and events across time."
+      },
+      {
+        "title": "Research knowledge graphs",
+        "description": "Represent entities and links discovered during research workflows."
+      },
+      {
+        "title": "Agent context retrieval",
+        "description": "Retrieve facts by relationship and recency rather than only semantic similarity."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Graphiti is stronger for relational memory",
+        "against": "vector-only memory",
+        "summary": "Vector search is useful for fuzzy recall; Graphiti is more appropriate when relationships and time matter."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/getzep/graphiti",
+        "type": "github"
+      },
+      {
+        "label": "Official source",
+        "url": "https://help.getzep.com/graphiti",
+        "type": "homepage"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is Graphiti open source?",
+        "answer": "Graphiti is listed with Apache-2.0 based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate Graphiti?",
+        "answer": "Builders who need graph memory instead of simple chat history"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "memory_system",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "Graphiti",
+    "subtitle": "Temporal knowledge graph memory system for agents that need facts, entities, and time-aware context.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

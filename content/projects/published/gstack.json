@@ -1,0 +1,164 @@
+{
+  "slug": "gstack",
+  "title": "GStack",
+  "oneLiner": "Open agent skill stack for planning, browsing, QA, shipping, and product workflows.",
+  "summary": "GStack is a collection of agent skills and workflows that package repeatable planning, browsing, QA, design, review, and shipping behavior into reusable instructions.",
+  "whyItMatters": "GStack matters because agent quality often comes from process, not only model choice. Skills give agents stronger procedures for work that repeats across projects.",
+  "bestFor": [
+    "Builders who want reusable agent workflows instead of one-off prompts",
+    "Teams using coding agents for product, QA, and release work",
+    "Open-source maintainers studying how skill files improve agent consistency"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "skills",
+  "tags": [
+    "skill",
+    "open-source",
+    "agent-skill",
+    "browser-automation",
+    "workflow",
+    "developer-workflow",
+    "automation"
+  ],
+  "repoUrl": "https://github.com/garrytan/gstack",
+  "homepageUrl": "https://gstacks.org/",
+  "license": "MIT",
+  "maintainer": "Garry Tan",
+  "sourceLinks": [
+    "https://github.com/garrytan/gstack",
+    "https://gstacks.org/"
+  ],
+  "seoTitle": "GStack: Skills resource for open AI builders",
+  "seoDescription": "GStack profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "GStack on OpenAgent.bot",
+  "shareDescription": "Open agent skill stack for planning, browsing, QA, shipping, and product workflows.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Reusable workflow knowledge",
+      "description": "GStack packages processes as skills that agents can invoke repeatedly.",
+      "whyItMatters": "This reduces prompt drift and gives agents better operating habits."
+    },
+    {
+      "title": "Broad product-building coverage",
+      "description": "The stack spans planning, browsing, QA, design, review, and deployment workflows.",
+      "whyItMatters": "A useful agent needs more than code generation; it needs operating procedures."
+    },
+    {
+      "title": "Open skill format",
+      "description": "The repository can be inspected, forked, and adapted.",
+      "whyItMatters": "Teams can learn from the skill structure and tune it to their own projects."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "QA and browser checks",
+      "description": "Use GStack-style skills to make agents verify web apps with browser evidence."
+    },
+    {
+      "title": "Plan review",
+      "description": "Use structured review skills before implementing large product changes."
+    },
+    {
+      "title": "Shipping workflows",
+      "description": "Help agents follow a consistent test, commit, push, and deploy flow."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "GStack is a process layer",
+      "against": "single prompt libraries",
+      "summary": "Instead of collecting prompts, GStack focuses on reusable operational workflows that change how agents behave over a task."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/garrytan/gstack",
+      "type": "github"
+    },
+    {
+      "label": "Official source",
+      "url": "https://gstacks.org/",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone the skill stack",
+      "command": "git clone https://github.com/garrytan/gstack.git",
+      "description": "Review skills before installing or adapting them to an agent environment."
+    }
+  ],
+  "seoArticle": {
+    "intro": "GStack is a collection of agent skills and workflows that package repeatable planning, browsing, QA, design, review, and shipping behavior into reusable instructions.",
+    "whatItIs": "GStack is an open AI skills resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "GStack matters because agent quality often comes from process, not only model choice. Skills give agents stronger procedures for work that repeats across projects.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "QA and browser checks",
+        "description": "Use GStack-style skills to make agents verify web apps with browser evidence."
+      },
+      {
+        "title": "Plan review",
+        "description": "Use structured review skills before implementing large product changes."
+      },
+      {
+        "title": "Shipping workflows",
+        "description": "Help agents follow a consistent test, commit, push, and deploy flow."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "GStack is a process layer",
+        "against": "single prompt libraries",
+        "summary": "Instead of collecting prompts, GStack focuses on reusable operational workflows that change how agents behave over a task."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/garrytan/gstack",
+        "type": "github"
+      },
+      {
+        "label": "Official source",
+        "url": "https://gstacks.org/",
+        "type": "homepage"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is GStack open source?",
+        "answer": "GStack is listed with MIT based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate GStack?",
+        "answer": "Builders who want reusable agent workflows instead of one-off prompts"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "skill",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "GStack",
+    "subtitle": "Open agent skill stack for planning, browsing, QA, shipping, and product workflows.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

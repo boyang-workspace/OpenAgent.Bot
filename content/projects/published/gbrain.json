@@ -1,0 +1,152 @@
+{
+  "slug": "gbrain",
+  "title": "GBrain",
+  "oneLiner": "Open context and memory layer for giving agents a more durable project brain.",
+  "summary": "GBrain is an open project around structured agent memory and context, useful for builders exploring how agents can preserve working knowledge across sessions.",
+  "whyItMatters": "GBrain matters because agent work breaks down when context disappears. A durable project brain can help agents keep track of decisions, preferences, and reusable project knowledge.",
+  "bestFor": [
+    "Builders experimenting with persistent agent context",
+    "Teams that want a lightweight memory companion to agent skills",
+    "Developers comparing memory approaches for coding agents"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "skills",
+  "tags": [
+    "skill",
+    "open-source",
+    "agent-skill",
+    "memory",
+    "context-retrieval",
+    "state-management",
+    "developer-workflow"
+  ],
+  "repoUrl": "https://github.com/garrytan/gbrain",
+  "license": "MIT",
+  "maintainer": "Garry Tan",
+  "sourceLinks": [
+    "https://github.com/garrytan/gbrain"
+  ],
+  "seoTitle": "GBrain: Skills resource for open AI builders",
+  "seoDescription": "GBrain profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "GBrain on OpenAgent.bot",
+  "shareDescription": "Open context and memory layer for giving agents a more durable project brain.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Agent context focus",
+      "description": "GBrain is oriented around memory and reusable context rather than a single task prompt.",
+      "whyItMatters": "Persistent context is one of the practical blockers for reliable agent delegation."
+    },
+    {
+      "title": "Pairs naturally with skills",
+      "description": "Memory becomes more useful when combined with repeatable agent workflows.",
+      "whyItMatters": "The combination gives agents both procedure and recollection."
+    },
+    {
+      "title": "Open inspection path",
+      "description": "The repository gives builders a way to study and adapt the approach.",
+      "whyItMatters": "Memory systems need trust because they shape future agent behavior."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Project memory",
+      "description": "Store durable notes about architecture, conventions, and decisions for future agent sessions."
+    },
+    {
+      "title": "Skill augmentation",
+      "description": "Combine workflow skills with remembered project context."
+    },
+    {
+      "title": "Agent handoffs",
+      "description": "Use structured context to make agent-to-agent or session-to-session continuity less brittle."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "GBrain is closer to context infrastructure",
+      "against": "prompt snippets",
+      "summary": "Prompt snippets help in the moment; GBrain-style context is about what an agent can carry forward."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/garrytan/gbrain",
+      "type": "github"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone the repository",
+      "command": "git clone https://github.com/garrytan/gbrain.git",
+      "description": "Use the repository as the source of truth for setup and current usage."
+    }
+  ],
+  "seoArticle": {
+    "intro": "GBrain is an open project around structured agent memory and context, useful for builders exploring how agents can preserve working knowledge across sessions.",
+    "whatItIs": "GBrain is an open AI skills resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "GBrain matters because agent work breaks down when context disappears. A durable project brain can help agents keep track of decisions, preferences, and reusable project knowledge.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "Project memory",
+        "description": "Store durable notes about architecture, conventions, and decisions for future agent sessions."
+      },
+      {
+        "title": "Skill augmentation",
+        "description": "Combine workflow skills with remembered project context."
+      },
+      {
+        "title": "Agent handoffs",
+        "description": "Use structured context to make agent-to-agent or session-to-session continuity less brittle."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "GBrain is closer to context infrastructure",
+        "against": "prompt snippets",
+        "summary": "Prompt snippets help in the moment; GBrain-style context is about what an agent can carry forward."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/garrytan/gbrain",
+        "type": "github"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is GBrain open source?",
+        "answer": "GBrain is listed with MIT based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate GBrain?",
+        "answer": "Builders experimenting with persistent agent context"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "skill",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "GBrain",
+    "subtitle": "Open context and memory layer for giving agents a more durable project brain.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

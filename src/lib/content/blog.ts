@@ -20,6 +20,14 @@ function stringArrayField(record: Record<string, unknown>, key: string): string[
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string" && item.trim().length > 0) : [];
 }
 
+function bodyField(record: Record<string, unknown>): string {
+  const value = record.body;
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === "string" && item.trim().length > 0).join("\n");
+  }
+  return stringField(record, "body");
+}
+
 export function parseBlogPost(input: unknown): BlogPost {
   if (!isRecord(input)) throw new Error("Blog post must be an object.");
   return {
@@ -29,7 +37,7 @@ export function parseBlogPost(input: unknown): BlogPost {
     publishedAt: stringField(input, "publishedAt"),
     tags: stringArrayField(input, "tags"),
     author: stringField(input, "author", "OpenAgent.bot Editors"),
-    body: stringField(input, "body"),
+    body: bodyField(input),
     seoTitle: stringField(input, "seoTitle") || undefined,
     seoDescription: stringField(input, "seoDescription") || undefined
   };

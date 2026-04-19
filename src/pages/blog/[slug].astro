@@ -12,10 +12,112 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const paragraphs = post.body
-  .split(/\n{2,}/)
-  .map((paragraph) => paragraph.trim())
-  .filter(Boolean);
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function inlineMarkdown(value: string): string {
+  return escapeHtml(value)
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]+)\)/g, '<a href="$2">$1</a>');
+}
+
+function renderTable(lines: string[]): string {
+  const rows = lines
+    .filter((line) => !/^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(line))
+    .map((line) =>
+      line
+        .trim()
+        .replace(/^\|/, "")
+        .replace(/\|$/, "")
+        .split("|")
+        .map((cell) => inlineMarkdown(cell.trim()))
+    );
+  const [head, ...body] = rows;
+  if (!head) return "";
+  return `<div class="table-wrap"><table><thead><tr>${head.map((cell) => `<th>${cell}</th>`).join("")}</tr></thead><tbody>${body
+    .map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`)
+    .join("")}</tbody></table></div>`;
+}
+
+function renderBlogBody(markdown: string): string {
+  const lines = markdown.split("\n");
+  const html: string[] = [];
+  let paragraph: string[] = [];
+  let list: string[] = [];
+  let table: string[] = [];
+
+  const flushParagraph = () => {
+    if (!paragraph.length) return;
+    html.push(`<p>${inlineMarkdown(paragraph.join(" "))}</p>`);
+    paragraph = [];
+  };
+  const flushList = () => {
+    if (!list.length) return;
+    html.push(`<ul>${list.map((item) => `<li>${inlineMarkdown(item)}</li>`).join("")}</ul>`);
+    list = [];
+  };
+  const flushTable = () => {
+    if (!table.length) return;
+    html.push(renderTable(table));
+    table = [];
+  };
+  const flushAll = () => {
+    flushParagraph();
+    flushList();
+    flushTable();
+  };
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (!line) {
+      flushAll();
+      continue;
+    }
+
+    if (line.startsWith("|") && line.endsWith("|")) {
+      flushParagraph();
+      flushList();
+      table.push(line);
+      continue;
+    }
+
+    flushTable();
+
+    if (line.startsWith("### ")) {
+      flushParagraph();
+      flushList();
+      html.push(`<h3>${inlineMarkdown(line.slice(4))}</h3>`);
+      continue;
+    }
+
+    if (line.startsWith("## ")) {
+      flushParagraph();
+      flushList();
+      html.push(`<h2>${inlineMarkdown(line.slice(3))}</h2>`);
+      continue;
+    }
+
+    if (line.startsWith("- ")) {
+      flushParagraph();
+      list.push(line.slice(2));
+      continue;
+    }
+
+    paragraph.push(line);
+  }
+
+  flushAll();
+  return html.join("\n");
+}
+
+const bodyHtml = renderBlogBody(post.body);
 ---
 
 <BaseLayout
@@ -28,9 +130,7 @@ const paragraphs = post.body
     <span class="eyebrow">{post.publishedAt} · {post.author}</span>
     <h1>{post.title}</h1>
     <p class="dek">{post.summary}</p>
-    <div class="body">
-      {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-    </div>
+    <div class="body" set:html={bodyHtml} />
   </article>
   </EditorialShell>
 </BaseLayout>
@@ -61,9 +161,80 @@ const paragraphs = post.body
     padding-top: 28px;
   }
 
-  .body p {
+  .body :global(p) {
     color: var(--ink);
     font-size: 1.08rem;
+  }
+
+  .body :global(h2) {
+    border-top: 1px solid var(--line);
+    font-size: 1.72rem;
+    letter-spacing: 0;
+    line-height: 1.12;
+    margin: 34px 0 12px;
+    padding-top: 26px;
+  }
+
+  .body :global(h3) {
+    font-size: 1.16rem;
+    letter-spacing: 0;
+    margin: 24px 0 10px;
+  }
+
+  .body :global(ul) {
+    color: var(--ink);
+    margin: 12px 0 22px;
+    padding-left: 1.2rem;
+  }
+
+  .body :global(li) {
+    margin: 8px 0;
+  }
+
+  .body :global(a) {
+    color: var(--accent-info);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  .body :global(code) {
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.92em;
+    padding: 0.08em 0.28em;
+  }
+
+  .body :global(.table-wrap) {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin: 18px 0 28px;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .body :global(table) {
+    border-collapse: collapse;
+    font-size: 0.92rem;
+    width: 100%;
+  }
+
+  .body :global(th),
+  .body :global(td) {
+    border-bottom: 1px solid var(--line);
+    padding: 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .body :global(th) {
+    background: var(--surface-soft);
+    color: var(--ink);
+    font-weight: 650;
+  }
+
+  .body :global(tr:last-child td) {
+    border-bottom: 0;
   }
 
   @media (max-width: 640px) {

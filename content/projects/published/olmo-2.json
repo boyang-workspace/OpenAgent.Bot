@@ -1,0 +1,185 @@
+{
+  "slug": "olmo-2",
+  "title": "OLMo 2",
+  "oneLiner": "Fully open language model family from AI2 for transparent research, training, and evaluation.",
+  "summary": "OLMo 2 is part of AI2's open language model program, giving researchers and builders access to model artifacts, training code, and evaluation context that are unusually transparent for modern LLM work.",
+  "whyItMatters": "OLMo 2 matters because it emphasizes openness beyond downloadable weights. For teams that care about reproducibility, research transparency, and inspectable model development, it is one of the most useful open model families to study.",
+  "bestFor": [
+    "Researchers who need transparent model artifacts and training context",
+    "Developers comparing open models with clear provenance",
+    "Teams that want an Apache-licensed research baseline for experiments"
+  ],
+  "notFor": [
+    "Users looking for a polished hosted chatbot",
+    "Teams that only care about leaderboard performance and not model provenance"
+  ],
+  "category": "models",
+  "tags": [
+    "model",
+    "open-source",
+    "open-weights",
+    "local-ai",
+    "local-inference",
+    "research",
+    "self-hosted"
+  ],
+  "repoUrl": "https://github.com/allenai/OLMo",
+  "homepageUrl": "https://allenai.org/olmo",
+  "docsUrl": "https://github.com/allenai/OLMo",
+  "demoUrl": "https://huggingface.co/allenai",
+  "license": "Apache-2.0",
+  "maintainer": "Ai2",
+  "worksWith": [
+    "Hugging Face",
+    "PyTorch",
+    "OLMo evaluation tooling"
+  ],
+  "sourceLinks": [
+    "https://github.com/allenai/OLMo",
+    "https://allenai.org/olmo",
+    "https://huggingface.co/allenai"
+  ],
+  "seoTitle": "OLMo 2: Fully open model family from Ai2",
+  "seoDescription": "OLMo 2 profile: what Ai2's open model family is, why transparency matters, official links, command line, and OpenAgent structured data.",
+  "shareTitle": "OLMo 2 on OpenAgent.bot",
+  "shareDescription": "Fully open language model family for transparent AI research and evaluation.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "sourceMetrics": {
+    "stars": 6482,
+    "forks": 751
+  },
+  "coreStrengths": [
+    {
+      "title": "Openness beyond model weights",
+      "description": "OLMo is built around transparent model development, not just a downloadable checkpoint.",
+      "whyItMatters": "That matters for researchers who need to understand how a model was trained, evaluated, and released."
+    },
+    {
+      "title": "Apache-licensed research baseline",
+      "description": "The public repository uses Apache-2.0 and gives developers a clearer legal and technical starting point.",
+      "whyItMatters": "A permissive open baseline is easier to evaluate in academic, nonprofit, and commercial experiments."
+    },
+    {
+      "title": "Useful comparison point for closed-model alternatives",
+      "description": "OLMo 2 helps teams compare fully open development practices against open-weight-only releases.",
+      "whyItMatters": "Not all open models offer the same level of transparency, and OLMo makes that distinction visible."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Research reproducibility",
+      "description": "Use OLMo 2 when you need an open model family with more inspectable training and evaluation context."
+    },
+    {
+      "title": "Open model benchmarking",
+      "description": "Compare OLMo 2 against other model families when license clarity and provenance matter."
+    },
+    {
+      "title": "Education and model study",
+      "description": "Use the repository as a teaching and inspection path for how modern open language models are built."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose OLMo 2 when transparency matters more than hype",
+      "against": "open-weight-only model releases",
+      "summary": "Many releases expose weights but not enough context. OLMo 2 is stronger when your decision depends on training transparency, reproducibility, and clear research artifacts."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Open the OLMo repository",
+      "url": "https://github.com/allenai/OLMo",
+      "type": "github"
+    },
+    {
+      "label": "Read the Ai2 OLMo overview",
+      "url": "https://allenai.org/olmo",
+      "type": "homepage"
+    },
+    {
+      "label": "Browse Ai2 models on Hugging Face",
+      "url": "https://huggingface.co/allenai",
+      "type": "huggingface"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone the OLMo repository",
+      "command": "git clone https://github.com/allenai/OLMo.git",
+      "description": "Start with the official repository for model code, training context, and evaluation references."
+    }
+  ],
+  "seoArticle": {
+    "intro": "OLMo 2 is a strong choice when the question is not only which open model performs well, but which open model can actually be inspected. It is aimed at builders and researchers who care about provenance, licensing, and reproducible model development.",
+    "whatItIs": "OLMo 2 belongs to Ai2's open model program. The project is built around public model artifacts and an Apache-licensed repository that helps researchers study model development rather than treating the model as a black box.",
+    "whyItMatters": "Open AI needs more than downloadable weights. Teams need to understand what was trained, how it was evaluated, what the license permits, and whether the model can be reproduced or audited. OLMo 2 is important because it keeps those questions close to the model itself.",
+    "howItWorks": "Start by reading the official OLMo overview, then inspect the repository and model cards before running any benchmark. OLMo 2 is especially useful when your evaluation includes transparency, reproducibility, and governance criteria.",
+    "useCases": [
+      {
+        "title": "Academic model evaluation",
+        "description": "Use OLMo 2 as a baseline when research requires clear provenance and inspectable release artifacts."
+      },
+      {
+        "title": "Responsible open model selection",
+        "description": "Compare OLMo 2 with other open models when your organization needs more than a model download link."
+      },
+      {
+        "title": "Teaching model development",
+        "description": "Use the repository and public materials to explain how open language model projects are organized."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Use DeepSeek-R1 or Qwen for reasoning or coding benchmarks",
+        "against": "task-optimized open models",
+        "summary": "OLMo 2 is especially strong as a transparency and research baseline. For specialized production tasks, benchmark it against stronger task-focused model families."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Start with Ai2's overview",
+        "url": "https://allenai.org/olmo",
+        "type": "homepage"
+      },
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/allenai/OLMo",
+        "type": "github"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is OLMo 2 open source?",
+        "answer": "The OLMo repository is Apache-2.0, and Ai2 positions OLMo as a fully open model program. Verify the exact model card before deployment."
+      },
+      {
+        "question": "Who should use OLMo 2?",
+        "answer": "Researchers, educators, and builders who care about transparent model development should evaluate OLMo 2."
+      },
+      {
+        "question": "Is OLMo 2 mainly for production apps?",
+        "answer": "It can be evaluated for applications, but its strongest differentiator is openness and research transparency."
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "model",
+    "visualMotif": "transparent layered model stack with visible training and evaluation blocks",
+    "backgroundStyle": "clean research-lab editorial card with light paper surface",
+    "titleOverlay": "OLMo 2",
+    "subtitle": "Fully open model family",
+    "avoid": [
+      "closed black-box imagery",
+      "busy neural network cliche",
+      "overly academic chart clutter"
+    ]
+  }
+}

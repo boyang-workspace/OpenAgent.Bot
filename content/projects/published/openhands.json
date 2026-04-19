@@ -1,0 +1,179 @@
+{
+  "slug": "openhands",
+  "title": "OpenHands",
+  "oneLiner": "Open-source AI software development agent for coding tasks, repositories, and developer workflows.",
+  "summary": "OpenHands is an open-source AI-driven development project for letting agents work on software tasks, inspect repositories, modify code, and support developer workflows.",
+  "whyItMatters": "OpenHands matters because coding agents are moving from chat suggestions toward repository-level action. It gives developers an open implementation to inspect when evaluating how agents plan, edit, test, and recover inside real codebases.",
+  "bestFor": [
+    "Developers evaluating open-source coding agents",
+    "Teams that want an inspectable alternative to closed coding-agent products",
+    "Researchers studying repository-level task automation and software engineering agents"
+  ],
+  "notFor": [
+    "Non-technical users looking for a general personal assistant",
+    "Teams unwilling to review sandboxing and repository permissions before using coding agents"
+  ],
+  "category": "agents",
+  "tags": [
+    "agent",
+    "open-source",
+    "coding-agent",
+    "workflow-orchestration",
+    "tool-calling",
+    "self-hosted",
+    "docker"
+  ],
+  "repoUrl": "https://github.com/OpenHands/OpenHands",
+  "homepageUrl": "https://openhands.dev",
+  "docsUrl": "https://docs.openhands.dev/",
+  "license": "MIT",
+  "maintainer": "OpenHands",
+  "sourceLinks": [
+    "https://github.com/OpenHands/OpenHands",
+    "https://openhands.dev",
+    "https://docs.openhands.dev/"
+  ],
+  "seoTitle": "OpenHands: Open-source AI coding agent for developers",
+  "seoDescription": "OpenHands profile: what the open-source coding agent is, when to use it, official links, command line, and OpenAgent structured data.",
+  "shareTitle": "OpenHands on OpenAgent.bot",
+  "shareDescription": "Open-source AI-driven development agent for coding workflows.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "sourceMetrics": {
+    "stars": 71464,
+    "forks": 8996
+  },
+  "coreStrengths": [
+    {
+      "title": "Repository-level coding agent",
+      "description": "OpenHands is designed around software development tasks, not only answering programming questions.",
+      "whyItMatters": "Real coding assistance requires file edits, terminal work, testing, and iteration."
+    },
+    {
+      "title": "Open implementation for agent workflows",
+      "description": "The public repository lets builders inspect how the system approaches planning, execution, and developer controls.",
+      "whyItMatters": "Coding agents touch valuable codebases, so inspectability matters."
+    },
+    {
+      "title": "Strong fit for coding-agent comparison",
+      "description": "OpenHands is a useful reference point when comparing open coding agents against proprietary tools.",
+      "whyItMatters": "Teams can evaluate tradeoffs around local control, hosted convenience, and engineering safety."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Issue triage and code changes",
+      "description": "Use OpenHands as a candidate when an agent needs to inspect a repository and propose implementation changes."
+    },
+    {
+      "title": "Coding-agent research",
+      "description": "Study how an open coding agent handles tasks, tools, sandboxing, and developer feedback."
+    },
+    {
+      "title": "Self-hosted developer automation",
+      "description": "Evaluate whether parts of your coding workflow can run in an inspectable open-source environment."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose OpenHands for software development workflows",
+      "against": "browser automation agents",
+      "summary": "browser-use and OpenClaw are stronger for web workflows. OpenHands is more directly focused on repositories, code tasks, and software engineering."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Open the GitHub repository",
+      "url": "https://github.com/OpenHands/OpenHands",
+      "type": "github"
+    },
+    {
+      "label": "Read the docs",
+      "url": "https://docs.openhands.dev/",
+      "type": "docs"
+    },
+    {
+      "label": "Visit the project website",
+      "url": "https://openhands.dev",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone the OpenHands repository",
+      "command": "git clone https://github.com/OpenHands/OpenHands.git",
+      "description": "Start with the official repository and follow the docs for the current Docker or runtime setup."
+    }
+  ],
+  "seoArticle": {
+    "intro": "OpenHands is a practical open-source reference point for the coding-agent category. It is not just a chat interface for code explanations; it is aimed at agents that work inside software development workflows.",
+    "whatItIs": "OpenHands is an open-source AI-driven development project. It gives builders a way to evaluate repository-level agent behavior, including code inspection, edits, execution, and developer feedback loops.",
+    "whyItMatters": "Coding agents need more trust than chatbots because they can change files, run commands, and touch repositories. OpenHands is useful because its implementation can be inspected, tested, and compared against closed coding-agent products.",
+    "howItWorks": "A careful evaluation should start with a sandbox repository. Give the agent a narrow task, inspect its plan, watch the commands it runs, and review the resulting diff before expanding to more important codebases.",
+    "useCases": [
+      {
+        "title": "Open coding-agent benchmarking",
+        "description": "Use OpenHands to test repository-level tasks and compare results with other coding agents."
+      },
+      {
+        "title": "Developer workflow automation",
+        "description": "Evaluate whether repeated code maintenance tasks can be delegated safely under review."
+      },
+      {
+        "title": "Agent safety and sandboxing studies",
+        "description": "Study the operational boundaries needed when agents can modify code and run commands."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Use browser-use or OpenClaw for web actions",
+        "against": "browser agents",
+        "summary": "OpenHands is for software development workflows. Browser-oriented agents are better when the core task happens inside websites."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Read the docs",
+        "url": "https://docs.openhands.dev/",
+        "type": "docs"
+      },
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/OpenHands/OpenHands",
+        "type": "github"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is OpenHands open source?",
+        "answer": "The project repository shows an MIT license badge in its README. Verify the repository license before production use."
+      },
+      {
+        "question": "Is OpenHands only for developers?",
+        "answer": "Yes, its clearest fit is software development and repository workflows."
+      },
+      {
+        "question": "Should I use OpenHands on production code immediately?",
+        "answer": "No. Start with a sandbox repository and review every change before moving to important code."
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "agent",
+    "visualMotif": "code editor pane connected to an agent action timeline",
+    "backgroundStyle": "quiet developer editorial card with light surface and green accent",
+    "titleOverlay": "OpenHands",
+    "subtitle": "Open-source coding agent",
+    "avoid": [
+      "dark dashboard look",
+      "terminal wall of text",
+      "generic humanoid robot"
+    ]
+  }
+}

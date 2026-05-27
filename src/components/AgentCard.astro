@@ -1,0 +1,48 @@
+---
+import type { ResourceV1 } from "@/lib/content/resource-schema";
+import { resourcePath } from "@/lib/content/resources";
+import { resourceCategoryLabel } from "@/lib/content/resource-display";
+
+type Props = {
+  resource: ResourceV1;
+};
+
+const { resource } = Astro.props;
+const href = resourcePath(resource);
+const starMeta = resource.facts.github_stars !== undefined ? `${resource.facts.github_stars.toLocaleString("en-US")} stars` : undefined;
+const license = resource.facts.license ?? "Unknown";
+const lang = resource.facts.primary_language;
+const categoryLabel = resourceCategoryLabel(resource);
+const repoLink = resource.links.items.find((link) => link.type === "github");
+const cmd = resource.editorial?.command_line?.[0];
+const trackPayload = JSON.stringify({
+  name: resource.identity.name,
+  slug: resource.slug,
+  category: categoryLabel,
+  stars: resource.facts.github_stars ?? null
+});
+
+const installHint = cmd?.command ?? (repoLink ? `git clone ${repoLink.url}` : `# see official docs`);
+---
+
+<article class="agent-card">
+  <a href={href} data-analytics="resource" data-analytics-payload={trackPayload}>
+    <div class="agent-card-preview">
+      <div class="agent-card-terminal">
+        <div><span class="comment"># {resource.identity.name}</span></div>
+        <div><span class="prompt">$</span> <span class="cmd">{installHint}</span></div>
+        {cmd?.description && <div><span class="comment"># {cmd.description}</span></div>}
+      </div>
+    </div>
+    <div class="agent-card-body">
+      <div class="agent-card-meta">
+        <span>{categoryLabel}</span>
+        {starMeta && <span class="star-count">{starMeta}</span>}
+        <span>{license}</span>
+        {lang && <span>{lang}</span>}
+      </div>
+      <h3>{resource.identity.name}</h3>
+      <p class="purpose">{resource.identity.one_liner}</p>
+    </div>
+  </a>
+</article>

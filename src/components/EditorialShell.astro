@@ -12,22 +12,18 @@ type Props = {
 
 const { eyebrow, title, description, active } = Astro.props;
 const isHome = Astro.url.pathname === "/";
-const discoveryLinks = [
-  { label: "Today", href: isHome ? "#today" : "/#today", key: "today" },
-  { label: "Trending", href: isHome ? "#trending" : "/#trending", key: "trending" },
-  { label: "Recently Added", href: isHome ? "#recent" : "/#recent", key: "recent" }
+const primaryLinks = [
+  { label: "Agents", href: "/agents", key: "agents" },
+  { label: "Models", href: "/models", key: "models" },
+  { label: "Skills", href: "/skills", key: "skills" },
+  { label: "Memory", href: "/memory-systems", key: "memory-systems" },
+  { label: "Evaluations", href: "/evaluations", key: "evaluations" }
 ];
-const resourceCategoryOrder = ["models", "agents", "skills", "memory-systems", "plugins"];
-const resourceLinks = resourceCategoryOrder
-  .map((slug) => categories.find((category) => category.slug === slug))
-  .filter((category): category is (typeof categories)[number] => Boolean(category))
-  .map((category) => ({ label: category.label, href: `/${category.slug}`, key: category.slug }));
 const utilityLinks = [
-  { label: "Tools", href: "/tools", key: "tools" },
-  { label: "Blog", href: "/blog", key: "blog" },
-  { label: "Manifesto", href: "/manifesto", key: "manifesto" }
+  { label: "Guides", href: "/blog", key: "blog" },
+  { label: "Submit", href: "/submit", key: "submit" }
 ];
-const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
+const sectionLinks = [...primaryLinks, ...utilityLinks];
 ---
 
 <div class="editorial-shell">
@@ -39,13 +35,10 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
       </a>
       <nav>
         <div class="nav-group">
-          {discoveryLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href}>{item.label}</a>)}
-        </div>
-        <div class="nav-group">
-          {resourceLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href}>{item.label}</a>)}
+          {primaryLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href} data-analytics="nav" data-analytics-payload={JSON.stringify({label: item.label, href: item.href})}>{item.label}</a>)}
         </div>
         <div class="nav-group utility-group">
-          {utilityLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href}>{item.label}</a>)}
+          {utilityLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href} data-analytics="nav" data-analytics-payload={JSON.stringify({label: item.label, href: item.href})}>{item.label}</a>)}
         </div>
       </nav>
     </div>
@@ -54,7 +47,7 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
   <div class="editorial-main">
     <Header />
     <div class="mobile-rail" aria-label="OpenAgent.bot sections">
-      {sectionLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href}>{item.label}</a>)}
+      {sectionLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href} data-analytics="nav" data-analytics-payload={JSON.stringify({label: item.label, href: item.href, mobile: true})}>{item.label}</a>)}
     </div>
     <div class="editorial-content">
       {
@@ -75,24 +68,24 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
 <style>
   .editorial-shell {
     display: grid;
-    grid-template-columns: 248px minmax(0, 1fr);
+    grid-template-columns: 236px minmax(0, 1fr);
     min-height: 100vh;
   }
 
   .editorial-sidebar {
-    background: color-mix(in srgb, var(--paper) 92%, white);
+    background: #ffffff;
     border-right: 1px solid var(--line);
     height: 100vh;
     left: 0;
     overflow-y: auto;
-    padding: 24px 20px;
+    padding: 18px 14px;
     position: sticky;
     top: 0;
   }
 
   .sidebar-card {
     display: grid;
-    gap: 28px;
+    gap: 22px;
   }
 
   .sidebar-brand {
@@ -103,33 +96,33 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
   }
 
   .sidebar-brand strong {
-    font-size: 1rem;
-    font-weight: 650;
+    font-size: 0.92rem;
+    font-weight: 580;
   }
 
   .brand-mark {
     align-items: center;
-    background: var(--ink);
-    border-radius: 8px;
+    background: var(--accent-open);
+    border-radius: 7px;
     color: var(--paper);
     display: inline-flex;
     font-size: 0.78rem;
-    font-weight: 700;
-    height: 32px;
+    font-weight: 650;
+    height: 30px;
     justify-content: center;
-    width: 32px;
+    width: 30px;
   }
 
   nav {
     display: grid;
-    gap: 15px;
+    gap: 13px;
   }
 
   .nav-group {
     border-bottom: 1px solid var(--line);
     display: grid;
-    gap: 3px;
-    padding-bottom: 14px;
+    gap: 2px;
+    padding-bottom: 12px;
   }
 
   .nav-group:last-child {
@@ -139,14 +132,14 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
 
   nav a,
   .mobile-rail a {
-    border-radius: 8px;
+    border-radius: 7px;
     color: var(--muted);
   }
 
   nav a {
-    font-size: 14px;
+    font-size: 0.86rem;
     font-weight: 400;
-    padding: 8px 10px;
+    padding: 7px 9px;
   }
 
   .utility-group {
@@ -155,7 +148,7 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
 
   .utility-group a {
     color: var(--subtle);
-    font-size: 0.86rem;
+    font-size: 0.82rem;
   }
 
   nav a:hover,
@@ -165,11 +158,12 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
   .mobile-rail a.active {
     background: var(--surface);
     color: var(--ink);
-    font-weight: 500;
+    font-weight: 520;
   }
 
   nav a.active {
-    background: var(--surface-tint);
+    background: var(--surface-soft);
+    color: var(--accent-open);
   }
 
   .mobile-rail {
@@ -179,25 +173,26 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
   .editorial-main {
     min-width: 0;
     overflow: hidden;
-    padding-top: 64px;
+    padding-top: 58px;
   }
 
   .editorial-content {
     margin: 0 auto;
-    max-width: 1160px;
-    padding: 28px 28px 64px;
+    max-width: 1180px;
+    padding: 24px 26px 56px;
   }
 
   .editorial-content :global([id]) {
-    scroll-margin-top: 92px;
+    scroll-margin-top: 82px;
   }
 
   .editorial-head {
-    padding: 0 0 28px;
+    padding: 0 0 24px;
   }
 
   .editorial-head h1 {
-    font-size: 4rem;
+    font-size: 2.8rem;
+    font-weight: 520;
     letter-spacing: 0;
     line-height: 1;
     margin: 8px 0 0;
@@ -205,7 +200,7 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
   }
 
   .editorial-head p {
-    font-size: 1.08rem;
+    font-size: 0.96rem;
     margin: 18px 0 0;
     max-width: 720px;
   }
@@ -227,8 +222,7 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
       margin: 0 0 18px;
       overflow-x: auto;
       padding: 14px 18px 10px;
-      position: sticky;
-      top: 64px;
+      position: static;
       z-index: 11;
       scrollbar-width: none;
     }
@@ -243,11 +237,11 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
 
     .editorial-main {
       padding: 0;
-      padding-top: 64px;
+      padding-top: 60px;
     }
 
     .editorial-head h1 {
-      font-size: 3rem;
+      font-size: 2.2rem;
     }
 
     .editorial-head {
@@ -261,15 +255,11 @@ const sectionLinks = [...discoveryLinks, ...resourceLinks, ...utilityLinks];
 
   @media (max-width: 760px) {
     .editorial-main {
-      padding-top: 114px;
-    }
-
-    .mobile-rail {
-      top: 114px;
+      padding-top: 60px;
     }
 
     .editorial-content :global([id]) {
-      scroll-margin-top: 164px;
+      scroll-margin-top: 104px;
     }
   }
 

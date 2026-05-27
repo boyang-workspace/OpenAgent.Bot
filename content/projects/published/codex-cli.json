@@ -1,0 +1,183 @@
+{
+  "slug": "codex-cli",
+  "title": "Codex CLI",
+  "oneLiner": "Lightweight coding agent from OpenAI that runs locally in your terminal, built in Rust, works with ChatGPT plans or API keys.",
+  "summary": "Codex CLI is OpenAI's open-source terminal coding agent, built in Rust for speed and minimal overhead. It connects to OpenAI models through ChatGPT plans or API keys, supports local file editing and shell execution, and is designed as a lightweight alternative to heavier agent frameworks.",
+  "whyItMatters": "Codex CLI matters because it brings OpenAI's models into the terminal as a fully open-source tool under Apache-2.0. Its Rust implementation prioritizes speed and low resource usage, and its compatibility with ChatGPT plans means developers can use it without managing separate API keys.",
+  "bestFor": [
+    "Developers who want a fast, lightweight terminal agent powered by OpenAI models",
+    "Engineers who already have ChatGPT Plus or Pro and want to use it for coding tasks",
+    "Teams looking for an open-source terminal agent they can inspect and customize"
+  ],
+  "notFor": [
+    "Developers who need support for non-OpenAI model providers",
+    "Teams that require deep codebase indexing and large-context reasoning across dozens of files"
+  ],
+  "category": "agents",
+  "tags": [
+    "agent",
+    "coding-agent",
+    "terminal",
+    "cli",
+    "openai",
+    "rust"
+  ],
+  "repoUrl": "https://github.com/openai/codex",
+  "homepageUrl": "https://github.com/openai/codex",
+  "docsUrl": "https://github.com/openai/codex#readme",
+  "license": "Apache-2.0",
+  "maintainer": "OpenAI",
+  "sourceLinks": [
+    "https://github.com/openai/codex",
+    "https://github.com/openai/codex#readme"
+  ],
+  "seoTitle": "Codex CLI: Open-source coding agent resource for open AI builders",
+  "seoDescription": "Codex CLI profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data for the OpenAI terminal coding agent.",
+  "shareTitle": "Codex CLI on OpenAgent.bot",
+  "shareDescription": "Lightweight coding agent from OpenAI that runs locally in your terminal, built in Rust, works with ChatGPT plans or API keys.",
+  "status": "published",
+  "generatedAt": "2026-05-27T00:00:00.000Z",
+  "reviewedAt": "2026-05-27T00:00:00.000Z",
+  "updatedAt": "2026-05-27",
+  "lastVerifiedAt": "2026-05-27",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "featuredReason": "OpenAI's open-source terminal coding agent, built in Rust for speed, with ChatGPT plan integration making it accessible to millions of developers.",
+  "sourceMetrics": {
+    "stars": 86100,
+    "forks": 5400
+  },
+  "coreStrengths": [
+    {
+      "title": "Rust-built performance",
+      "description": "Codex CLI is implemented in Rust, giving it fast startup times and low resource consumption compared to Node.js or Python-based alternatives.",
+      "whyItMatters": "Terminal agents should feel instant. A lightweight runtime means less friction when invoking the agent for quick tasks."
+    },
+    {
+      "title": "ChatGPT plan integration",
+      "description": "Works with existing ChatGPT Plus, Pro, or Team plans, eliminating the need for separate API key management.",
+      "whyItMatters": "Millions of developers already pay for ChatGPT. Codex CLI lets them use that subscription for terminal coding without additional cost."
+    },
+    {
+      "title": "Fully open source",
+      "description": "Released under Apache-2.0, the entire codebase is available for inspection, forking, and modification.",
+      "whyItMatters": "Developers can audit the tool, contribute improvements, and embed it in their own workflows without licensing restrictions."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Quick code edits and generation",
+      "description": "Use Codex CLI for fast, targeted edits like fixing bugs, adding error handling, or generating utility functions."
+    },
+    {
+      "title": "Shell command assistance",
+      "description": "Ask Codex CLI to help with complex shell commands, build scripts, or DevOps tasks where you need an agent that can execute and iterate."
+    },
+    {
+      "title": "Code review and explanation",
+      "description": "Paste code or point Codex CLI at files to get explanations, identify potential issues, and suggest improvements."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose Codex CLI for speed and simplicity",
+      "against": "Claude Code",
+      "summary": "Codex CLI is lighter and faster for quick tasks. Claude Code handles large-context multi-file refactors better but has higher resource requirements."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Open the GitHub repository",
+      "url": "https://github.com/openai/codex",
+      "type": "github"
+    },
+    {
+      "label": "Read the documentation",
+      "url": "https://github.com/openai/codex#readme",
+      "type": "docs"
+    },
+    {
+      "label": "Visit the project website",
+      "url": "https://github.com/openai/codex",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Install Codex CLI",
+      "command": "npm install -g @openai/codex",
+      "description": "Install globally via npm, then run 'codex' in any project directory. Supports ChatGPT plans or OpenAI API keys."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Codex CLI is OpenAI's take on the terminal coding agent: a lightweight, Rust-built tool that connects to OpenAI models for local code editing and shell execution. It's fully open source and works with existing ChatGPT subscriptions.",
+    "whatItIs": "Codex CLI is an open-source terminal agent from OpenAI, implemented in Rust for performance. It connects to OpenAI's models to read files, make edits, execute shell commands, and help with coding tasks. Unlike heavier agent frameworks, it prioritizes speed and simplicity over feature breadth.",
+    "whyItMatters": "The terminal agent space is growing fast, and OpenAI's entry brings the most widely-used AI models into a developer-native tool. The Rust implementation means it starts fast and uses minimal resources. And because it works with ChatGPT plans, millions of developers can use it without managing API keys.",
+    "howItWorks": "Install via npm and run 'codex' in any directory. The agent connects to OpenAI's models using your ChatGPT subscription or API key. You describe tasks in natural language, and the agent reads files, makes edits, runs commands, and iterates. Its Rust runtime keeps startup and response times low.",
+    "useCases": [
+      {
+        "title": "Rapid bug fixing",
+        "description": "Point Codex CLI at a failing test or error message, and let it trace the issue and propose a fix."
+      },
+      {
+        "title": "Script and automation writing",
+        "description": "Describe a shell script or automation task and have Codex CLI generate, test, and refine it."
+      },
+      {
+        "title": "Codebase exploration",
+        "description": "Ask Codex CLI to explain how a module works, trace data flows, or summarize the architecture of an unfamiliar project."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Use Claude Code for larger context and multi-file refactors",
+        "against": "Claude Code",
+        "summary": "Codex CLI is faster for quick tasks, but Claude Code generally handles large codebases and complex multi-file reasoning better."
+      },
+      {
+        "title": "Use Gemini CLI for Google Search grounding",
+        "against": "Gemini CLI",
+        "summary": "Gemini CLI offers web search grounding and a free tier. Codex CLI is faster and lighter but limited to OpenAI models."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Read the documentation",
+        "url": "https://github.com/openai/codex#readme",
+        "type": "docs"
+      },
+      {
+        "label": "Inspect the repository",
+        "url": "https://github.com/openai/codex",
+        "type": "github"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is Codex CLI open source?",
+        "answer": "Yes. Codex CLI is released under the Apache-2.0 license, making it fully open source for inspection, modification, and redistribution."
+      },
+      {
+        "question": "Who should use Codex CLI?",
+        "answer": "Developers who want a fast, lightweight terminal agent powered by OpenAI models, especially those who already have ChatGPT Plus or Pro subscriptions."
+      },
+      {
+        "question": "How does Codex CLI compare to other coding agents?",
+        "answer": "Codex CLI's main advantages are its Rust-based speed, ChatGPT plan integration, and open-source license. It trades some advanced reasoning capabilities for simplicity and performance."
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "agent",
+    "visualMotif": "lightweight terminal prompt with Rust-orange accent and code snippet",
+    "backgroundStyle": "minimal editorial surface with restrained accent color",
+    "titleOverlay": "Codex CLI",
+    "subtitle": "Lightweight terminal coding agent",
+    "avoid": [
+      "busy poster layout",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

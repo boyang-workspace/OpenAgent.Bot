@@ -1,0 +1,183 @@
+{
+  "slug": "swe-agent",
+  "title": "SWE-agent",
+  "oneLiner": "Autonomous coding agent that takes GitHub issues and fixes them using LLMs, achieving state-of-the-art results on SWE-bench.",
+  "summary": "SWE-agent is an open-source autonomous coding agent that takes GitHub issues as input and produces pull request fixes using large language models. It achieves state-of-the-art results on the SWE-bench benchmark and provides a configurable agent-computer interface (ACI) for optimizing how LLMs interact with development environments.",
+  "whyItMatters": "SWE-agent matters because it was one of the first projects to demonstrate that LLMs can autonomously fix real-world GitHub issues at scale. Its agent-computer interface design influenced how many subsequent coding agents structure their tool interactions, and its benchmark results set a standard for the field.",
+  "bestFor": [
+    "Researchers benchmarking autonomous coding agent capabilities",
+    "Teams studying how LLMs interact with real-world development environments",
+    "Developers building autonomous issue-fixing pipelines for GitHub repositories"
+  ],
+  "notFor": [
+    "Developers who need interactive, conversational coding assistance",
+    "Teams looking for a production-ready CI/CD integration for automated bug fixing"
+  ],
+  "category": "agents",
+  "tags": [
+    "agent",
+    "coding-agent",
+    "swe-bench",
+    "github",
+    "autonomous"
+  ],
+  "repoUrl": "https://github.com/SWE-agent/SWE-agent",
+  "homepageUrl": "https://swe-agent.com",
+  "docsUrl": "https://swe-agent.com/docs",
+  "license": "MIT",
+  "maintainer": "SWE-agent",
+  "sourceLinks": [
+    "https://github.com/SWE-agent/SWE-agent",
+    "https://swe-agent.com",
+    "https://swe-agent.com/docs"
+  ],
+  "seoTitle": "SWE-agent: Open-source autonomous coding agent resource for open AI builders",
+  "seoDescription": "SWE-agent profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data for the autonomous GitHub issue-fixing agent.",
+  "shareTitle": "SWE-agent on OpenAgent.bot",
+  "shareDescription": "Autonomous coding agent that takes GitHub issues and fixes them using LLMs, achieving state-of-the-art results on SWE-bench.",
+  "status": "published",
+  "generatedAt": "2026-05-27T00:00:00.000Z",
+  "reviewedAt": "2026-05-27T00:00:00.000Z",
+  "updatedAt": "2026-05-27",
+  "lastVerifiedAt": "2026-05-27",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "featuredReason": "Pioneering autonomous coding agent that set the standard for LLM-based issue fixing with state-of-the-art SWE-bench results.",
+  "sourceMetrics": {
+    "stars": 19300,
+    "forks": 1800
+  },
+  "coreStrengths": [
+    {
+      "title": "Autonomous issue fixing",
+      "description": "SWE-agent takes a GitHub issue as input and autonomously produces a fix, from understanding the problem to writing the code and creating a pull request.",
+      "whyItMatters": "This is the end-to-end vision for coding agents: describe a problem and get a fix, with no human intervention required."
+    },
+    {
+      "title": "Agent-computer interface design",
+      "description": "SWE-agent's ACI defines how the agent interacts with the development environment — file navigation, search, editing, and testing — optimized for LLM capabilities.",
+      "whyItMatters": "The ACI design influenced many subsequent coding agents and demonstrates that how an agent interacts with tools matters as much as the model itself."
+    },
+    {
+      "title": "SWE-bench benchmark leader",
+      "description": "Achieves state-of-the-art results on the SWE-bench benchmark, which tests agents on real-world GitHub issues from popular Python repositories.",
+      "whyItMatters": "Benchmark results provide objective evidence of capability and help researchers compare different agent approaches."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Autonomous bug fixing research",
+      "description": "Use SWE-agent to study how well LLMs can understand bugs, navigate codebases, and produce correct fixes without human guidance."
+    },
+    {
+      "title": "Agent design experimentation",
+      "description": "Experiment with different ACI configurations to understand how tool design affects agent performance on coding tasks."
+    },
+    {
+      "title": "Issue triage and fixing pipelines",
+      "description": "Build pipelines that automatically attempt to fix incoming GitHub issues and submit PRs for human review."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose SWE-agent for autonomous issue fixing",
+      "against": "interactive coding agents",
+      "summary": "SWE-agent is designed for autonomous operation: give it an issue and get a fix. Interactive tools like Aider or Claude Code are better for conversational coding sessions."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Open the GitHub repository",
+      "url": "https://github.com/SWE-agent/SWE-agent",
+      "type": "github"
+    },
+    {
+      "label": "Read the documentation",
+      "url": "https://swe-agent.com/docs",
+      "type": "docs"
+    },
+    {
+      "label": "Visit the project website",
+      "url": "https://swe-agent.com",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Install SWE-agent",
+      "command": "pip install swe-agent",
+      "description": "Install via pip, then configure your GitHub token and model provider to start running autonomous issue fixes."
+    }
+  ],
+  "seoArticle": {
+    "intro": "SWE-agent is one of the most important projects in the autonomous coding agent space. It demonstrated that LLMs can autonomously fix real-world GitHub issues, and its agent-computer interface design influenced how many subsequent agents structure their tool interactions.",
+    "whatItIs": "SWE-agent is an open-source autonomous coding agent that takes GitHub issues as input and produces pull request fixes. It uses an agent-computer interface (ACI) that defines how the LLM interacts with the development environment — file navigation, code search, editing, and testing. The agent operates autonomously, requiring no human intervention from issue to PR.",
+    "whyItMatters": "The SWE-bench benchmark, which SWE-agent helped popularize, tests agents on real-world GitHub issues from popular Python repositories. SWE-agent's state-of-the-art results on this benchmark demonstrated that autonomous coding is viable, not just a research curiosity. Its ACI design also showed that tool interface design is a critical factor in agent performance.",
+    "howItWorks": "Given a GitHub issue, SWE-agent clones the repository, navigates the codebase to understand the problem, identifies the relevant files, makes edits, runs tests to verify the fix, and creates a pull request. The ACI provides optimized tools for each step — search commands that work well with LLM context windows, editing interfaces that minimize errors, and testing workflows that catch regressions.",
+    "useCases": [
+      {
+        "title": "Automated bug fix pipelines",
+        "description": "Feed GitHub issues to SWE-agent and let it attempt fixes automatically, submitting PRs for human review."
+      },
+      {
+        "title": "Agent benchmarking research",
+        "description": "Use SWE-agent as a baseline for benchmarking new agent architectures, tool designs, and model capabilities."
+      },
+      {
+        "title": "Agent-computer interface research",
+        "description": "Study how different tool designs affect agent performance by modifying SWE-agent's ACI and measuring results on SWE-bench."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Use Claude Code for interactive coding sessions",
+        "against": "Claude Code",
+        "summary": "SWE-agent is autonomous and issue-driven. Claude Code is interactive and conversational, better suited for iterative development workflows."
+      },
+      {
+        "title": "Use Aider for model-agnostic pair programming",
+        "against": "Aider",
+        "summary": "SWE-agent is designed for autonomous operation. Aider is designed for interactive pair programming with model flexibility."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Read the documentation",
+        "url": "https://swe-agent.com/docs",
+        "type": "docs"
+      },
+      {
+        "label": "Inspect the repository",
+        "url": "https://github.com/SWE-agent/SWE-agent",
+        "type": "github"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is SWE-agent open source?",
+        "answer": "Yes. SWE-agent is released under the MIT license, making it fully open source for inspection, modification, and redistribution."
+      },
+      {
+        "question": "Who should use SWE-agent?",
+        "answer": "Researchers studying autonomous coding agents, teams building automated bug-fixing pipelines, and developers interested in agent-computer interface design."
+      },
+      {
+        "question": "How does SWE-agent compare to other coding agents?",
+        "answer": "SWE-agent is unique in its focus on autonomous issue fixing and benchmark performance. Unlike interactive tools like Aider or Claude Code, it's designed to operate without human intervention."
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "agent",
+    "visualMotif": "GitHub issue card transforming into a pull request with code diff",
+    "backgroundStyle": "minimal editorial surface with restrained accent color",
+    "titleOverlay": "SWE-agent",
+    "subtitle": "Autonomous GitHub issue fixer",
+    "avoid": [
+      "busy poster layout",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

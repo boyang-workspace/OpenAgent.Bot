@@ -1,0 +1,177 @@
+{
+  "slug": "memori",
+  "title": "Memori",
+  "oneLiner": "Open-source memory engine for LLM apps and agents that need persistent context injection.",
+  "summary": "Memori is an open-source memory engine from GibsonAI for giving LLM applications and agents persistent memory, context injection, and configurable recall behavior.",
+  "whyItMatters": "Memori matters because many agent products need a practical memory engine before they need a full agent framework. It gives teams a focused way to add durable context to conversations and workflows.",
+  "bestFor": [
+    "Developers adding memory to LLM applications",
+    "Teams that want a Python-friendly memory engine",
+    "Builders comparing Mem0, Letta, and lighter memory libraries"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "memory-systems",
+  "tags": [
+    "memory-system",
+    "memory",
+    "open-source",
+    "context-retrieval",
+    "state-management",
+    "self-hosted",
+    "api",
+    "personal-memory"
+  ],
+  "repoUrl": "https://github.com/GibsonAI/memori",
+  "homepageUrl": "https://gibsonai.github.io/memori/",
+  "docsUrl": "https://gibsonai.github.io/memori/core-concepts/overview/",
+  "license": "Apache-2.0",
+  "maintainer": "GibsonAI",
+  "sourceLinks": [
+    "https://github.com/GibsonAI/memori",
+    "https://gibsonai.github.io/memori/",
+    "https://gibsonai.github.io/memori/core-concepts/overview/"
+  ],
+  "seoTitle": "Memori: Memory Systems resource for open AI builders",
+  "seoDescription": "Memori profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "Memori on OpenAgent.bot",
+  "shareDescription": "Open-source memory engine for LLM apps and agents that need persistent context injection.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Focused memory engine",
+      "description": "Memori centers on memory behavior rather than broad workflow orchestration.",
+      "whyItMatters": "A focused engine is easier to embed into existing applications."
+    },
+    {
+      "title": "Persistent context injection",
+      "description": "The docs describe memory concepts for injecting relevant context into interactions.",
+      "whyItMatters": "Agents become more useful when recall happens at the right moment."
+    },
+    {
+      "title": "Apache-2.0 open-source release",
+      "description": "Public materials describe Memori as Apache-2.0 open source.",
+      "whyItMatters": "Permissive licensing helps teams experiment without early legal friction."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Conversational memory",
+      "description": "Remember preferences and prior facts across user conversations."
+    },
+    {
+      "title": "Agent task context",
+      "description": "Inject previous task details when an agent resumes work."
+    },
+    {
+      "title": "Memory library evaluation",
+      "description": "Compare a focused memory engine against heavier agent platforms."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Memori is a lighter memory layer",
+      "against": "full agent platforms",
+      "summary": "Use Memori when you want memory inside an existing app rather than adopting a whole agent runtime."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/GibsonAI/memori",
+      "type": "github"
+    },
+    {
+      "label": "Official source",
+      "url": "https://gibsonai.github.io/memori/core-concepts/overview/",
+      "type": "homepage"
+    },
+    {
+      "label": "Official source",
+      "url": "https://gibsonai.github.io/memori/",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone Memori",
+      "command": "git clone https://github.com/GibsonAI/memori.git",
+      "description": "Use the official docs to confirm the current Python package and configuration before production use."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Memori is an open-source memory engine from GibsonAI for giving LLM applications and agents persistent memory, context injection, and configurable recall behavior.",
+    "whatItIs": "Memori is an open AI memory systems resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "Memori matters because many agent products need a practical memory engine before they need a full agent framework. It gives teams a focused way to add durable context to conversations and workflows.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "Conversational memory",
+        "description": "Remember preferences and prior facts across user conversations."
+      },
+      {
+        "title": "Agent task context",
+        "description": "Inject previous task details when an agent resumes work."
+      },
+      {
+        "title": "Memory library evaluation",
+        "description": "Compare a focused memory engine against heavier agent platforms."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Memori is a lighter memory layer",
+        "against": "full agent platforms",
+        "summary": "Use Memori when you want memory inside an existing app rather than adopting a whole agent runtime."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/GibsonAI/memori",
+        "type": "github"
+      },
+      {
+        "label": "Official source",
+        "url": "https://gibsonai.github.io/memori/core-concepts/overview/",
+        "type": "homepage"
+      },
+      {
+        "label": "Official source",
+        "url": "https://gibsonai.github.io/memori/",
+        "type": "homepage"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is Memori open source?",
+        "answer": "Memori is listed with Apache-2.0 based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate Memori?",
+        "answer": "Developers adding memory to LLM applications"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "memory_system",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "Memori",
+    "subtitle": "Open-source memory engine for LLM apps and agents that need persistent context injection.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

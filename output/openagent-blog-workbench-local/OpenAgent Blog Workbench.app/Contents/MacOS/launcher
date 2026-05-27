@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+APP_DIR="$(cd "$(dirname "$0")/../../.." && pwd)"
+COMMAND_FILE="$APP_DIR/OpenAgent Blog Workbench.command"
+
+if [ ! -f "$COMMAND_FILE" ]; then
+  osascript -e 'display alert "OpenAgent launcher is missing" message "OpenAgent Blog Workbench.command was not found next to the app." as critical'
+  exit 1
+fi
+
+exec /usr/bin/open -a Terminal "$COMMAND_FILE"

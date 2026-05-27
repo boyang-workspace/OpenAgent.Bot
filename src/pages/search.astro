@@ -1,11 +1,12 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import EditorialShell from "@/components/EditorialShell.astro";
-import { posts } from "@/data/posts";
+import { getPublishedBlogPosts } from "@/lib/content/blog";
 import { getPublishedResources, resourcePath } from "@/lib/content/resources";
 import { resourceCategoryLabel, resourceMeta, resourceSearchText, resourceSignals, resourceSummary, resourceTags } from "@/lib/content/resource-display";
 
 const resources = await getPublishedResources();
+const posts = await getPublishedBlogPosts();
 const searchIndex = [
   ...resources.map((resource) => {
     return {
@@ -26,8 +27,8 @@ const searchIndex = [
     title: post.title,
     summary: post.summary,
     href: `/blog/${post.slug}`,
-    category: "Blog",
-    meta: ["Blog", post.publishedAt],
+    category: "Guide",
+    meta: ["Guide", post.publishedAt],
     signals: [],
     tags: post.tags,
     updatedAt: post.publishedAt,
@@ -36,13 +37,13 @@ const searchIndex = [
 ];
 ---
 
-<BaseLayout title="Search" description="Search open AI resources, projects, and editorial notes." path="/search">
+<BaseLayout title="Search" description="Search open AI resources, projects, guides, and editorial notes." path="/search">
   <EditorialShell>
     <section class="search-page">
       <div class="search-head">
         <span class="eyebrow">Search</span>
         <h1>Search open AI resources.</h1>
-        <p>Find models, agents, skills, memory systems, plugins, tools, and editorial notes.</p>
+        <p>Find models, agents, skills, memory systems, plugins, tools, guides, and evaluation notes.</p>
       </div>
 
       <form class="search-form" action="/search" method="get" role="search">
@@ -160,7 +161,8 @@ const searchIndex = [
   }
 
   h1 {
-    font-size: 4rem;
+    font-size: 2.8rem;
+    font-weight: 520;
     letter-spacing: 0;
     line-height: 1;
     margin: 10px 0 0;

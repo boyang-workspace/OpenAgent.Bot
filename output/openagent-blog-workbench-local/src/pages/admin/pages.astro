@@ -1,0 +1,36 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Pages" active="pages">
+  <section class="admin-grid">
+    <div class="admin-panel">
+      <span class="eyebrow">Static pages</span>
+      <h2>Managed in GitHub</h2>
+      <p class="admin-note">Manifesto, About, and policy-style pages should stay file-backed for now. This keeps SEO pages reviewable and rollback-friendly.</p>
+      <div class="admin-list">
+        <article class="admin-item">
+          <div>
+            <strong>Manifesto</strong>
+            <p>Public editorial positioning for open-source AI resources.</p>
+            <small>GitHub-backed · public route</small>
+          </div>
+          <a class="button secondary" href="/manifesto/" target="_blank" rel="noreferrer">View</a>
+        </article>
+        <article class="admin-item">
+          <div>
+            <strong>Submit</strong>
+            <p>User-facing project submission page connected to D1.</p>
+            <small>D1 intake · public route</small>
+          </div>
+          <a class="button secondary" href="/submit/" target="_blank" rel="noreferrer">View</a>
+        </article>
+      </div>
+    </div>
+    <div class="admin-panel">
+      <span class="eyebrow">Next</span>
+      <h2>Page publishing</h2>
+      <p class="admin-note">A later version can add structured page drafts here. The same safe pattern should apply: edit in D1, preview diff, create GitHub PR, then merge.</p>
+    </div>
+  </section>
+</AdminLayout>

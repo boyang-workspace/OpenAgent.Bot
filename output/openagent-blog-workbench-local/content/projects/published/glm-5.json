@@ -1,0 +1,164 @@
+{
+  "slug": "glm-5",
+  "title": "GLM-5",
+  "oneLiner": "Open model line from Z.ai focused on agentic engineering and longer coding workflows.",
+  "summary": "GLM-5 is Z.ai's open model line positioned around agentic engineering: workflows where a model reasons across files, tools, tests, and implementation steps rather than only completing code snippets.",
+  "whyItMatters": "GLM-5 matters because coding models are moving from autocomplete toward agentic engineering. For OpenAgent readers, it is a useful signal that open model labs are optimizing for longer tool-using loops, not just static benchmarks.",
+  "bestFor": [
+    "Developers comparing open coding models for agentic engineering tasks",
+    "Teams testing long-running code modification and review workflows",
+    "Researchers tracking open model progress in tool use and software engineering"
+  ],
+  "notFor": [
+    "Users who only need a hosted chat assistant",
+    "Teams that require a mature managed SLA around the model runtime"
+  ],
+  "category": "models",
+  "tags": [
+    "model",
+    "open-source",
+    "open-weights",
+    "coding-agent",
+    "workflow-orchestration",
+    "tool-calling",
+    "research"
+  ],
+  "repoUrl": "https://github.com/zai-org/GLM-5",
+  "homepageUrl": "https://chat.z.ai/",
+  "license": "MIT",
+  "maintainer": "Z.ai",
+  "sourceLinks": [
+    "https://github.com/zai-org/GLM-5",
+    "https://chat.z.ai/"
+  ],
+  "seoTitle": "GLM-5: Models resource for open AI builders",
+  "seoDescription": "GLM-5 profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "GLM-5 on OpenAgent.bot",
+  "shareDescription": "Open model line from Z.ai focused on agentic engineering and longer coding workflows.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Agentic engineering direction",
+      "description": "GLM-5 is framed around engineering workflows that involve planning, tool use, code edits, and verification.",
+      "whyItMatters": "That makes it more relevant to coding agents than a model that only optimizes short answer quality."
+    },
+    {
+      "title": "Open model access path",
+      "description": "The public repository gives builders a starting point for reviewing model materials and launch details.",
+      "whyItMatters": "Open access lets teams test the model against their own codebases instead of relying on a closed demo."
+    },
+    {
+      "title": "Workflow-oriented evaluation target",
+      "description": "The project language emphasizes the shift from vibe coding toward more structured agentic work.",
+      "whyItMatters": "That is the same direction OpenAgent tracks across models, agents, and skills."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Coding agent experiments",
+      "description": "Evaluate GLM-5 inside an agent loop that plans, edits, runs checks, and revises code."
+    },
+    {
+      "title": "Software engineering benchmarks",
+      "description": "Use it as a candidate when testing repository-level issue fixing rather than isolated prompts."
+    },
+    {
+      "title": "Open model comparison",
+      "description": "Compare it against Qwen, Kimi, and DeepSeek-style coding models on the same code tasks."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Best compared against coding-agent models",
+      "against": "Qwen3.6 and Kimi-Dev",
+      "summary": "GLM-5 belongs in the agentic engineering comparison set, where the question is not only code generation but whether the model can support longer tool-driven workflows."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/zai-org/GLM-5",
+      "type": "github"
+    },
+    {
+      "label": "Official source",
+      "url": "https://chat.z.ai/",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone the repository",
+      "command": "git clone https://github.com/zai-org/GLM-5.git",
+      "description": "Use the official repository as the starting point for model notes, examples, and updates."
+    }
+  ],
+  "seoArticle": {
+    "intro": "GLM-5 is Z.ai's open model line positioned around agentic engineering: workflows where a model reasons across files, tools, tests, and implementation steps rather than only completing code snippets.",
+    "whatItIs": "GLM-5 is an open AI models resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "GLM-5 matters because coding models are moving from autocomplete toward agentic engineering. For OpenAgent readers, it is a useful signal that open model labs are optimizing for longer tool-using loops, not just static benchmarks.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "Coding agent experiments",
+        "description": "Evaluate GLM-5 inside an agent loop that plans, edits, runs checks, and revises code."
+      },
+      {
+        "title": "Software engineering benchmarks",
+        "description": "Use it as a candidate when testing repository-level issue fixing rather than isolated prompts."
+      },
+      {
+        "title": "Open model comparison",
+        "description": "Compare it against Qwen, Kimi, and DeepSeek-style coding models on the same code tasks."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Best compared against coding-agent models",
+        "against": "Qwen3.6 and Kimi-Dev",
+        "summary": "GLM-5 belongs in the agentic engineering comparison set, where the question is not only code generation but whether the model can support longer tool-driven workflows."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/zai-org/GLM-5",
+        "type": "github"
+      },
+      {
+        "label": "Official source",
+        "url": "https://chat.z.ai/",
+        "type": "homepage"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is GLM-5 open source?",
+        "answer": "GLM-5 is listed with MIT based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate GLM-5?",
+        "answer": "Developers comparing open coding models for agentic engineering tasks"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "model",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "GLM-5",
+    "subtitle": "Open model line from Z.ai focused on agentic engineering and longer coding workflows.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

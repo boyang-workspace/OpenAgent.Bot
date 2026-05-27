@@ -1,0 +1,8 @@
+ADMIN_EMAIL=you@example.com
+PUBLIC_SITE_URL=http://127.0.0.1:8788
+OLLAMA_BASE_URL=http://127.0.0.1:11434
+OLLAMA_DEFAULT_MODEL=qwen3.5:9b
+# Optional when testing publish PRs locally
+# GITHUB_ADMIN_TOKEN=
+# GITHUB_REPO=boyang-workspace/OpenAgent.Bot
+# GITHUB_BASE_BRANCH=main

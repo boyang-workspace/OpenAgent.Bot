@@ -1,0 +1,90 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Overview" active="overview">
+  <section class="admin-grid-3" id="summary">
+    <div class="admin-panel">Loading summary...</div>
+  </section>
+
+  <section class="admin-grid" style="margin-top: 16px;">
+    <div class="admin-panel">
+      <span class="eyebrow">Agent Tasks</span>
+      <h2>Next actions</h2>
+      <div class="admin-list" id="tasks-list">Loading tasks...</div>
+    </div>
+    <div class="admin-panel">
+      <span class="eyebrow">Activity</span>
+      <h2>Recent events</h2>
+      <div class="admin-list" id="events-list">Loading events...</div>
+    </div>
+  </section>
+</AdminLayout>
+
+<script is:inline>
+  async function api(path) {
+    const response = await fetch(path);
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.error ?? "Request failed.");
+    return result;
+  }
+
+  const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
+
+  async function loadOverview() {
+    const summaryEl = document.querySelector("#summary");
+    const tasksEl = document.querySelector("#tasks-list");
+    const eventsEl = document.querySelector("#events-list");
+    try {
+      const [{ summary }, { tasks }, { events }] = await Promise.all([
+        api("/admin/api/agent/summary"),
+        api("/admin/api/agent/tasks"),
+        api("/admin/api/agent/events")
+      ]);
+
+      if (summaryEl instanceof HTMLElement) {
+        summaryEl.innerHTML = [
+          ["New submissions", summary.newSubmissions, "/admin/review/"],
+          ["Drafts", summary.draftProjects, "/admin/projects/"],
+          ["Ready to publish", summary.readyProjects, "/admin/publishing/"],
+          ["Open PRs", summary.openPrs, "/admin/publishing/"]
+        ].map(([label, count, href]) => `
+          <a class="admin-panel" href="${href}">
+            <span class="eyebrow">${label}</span>
+            <h2 style="font-size: 3rem;">${count}</h2>
+          </a>
+        `).join("");
+      }
+
+      if (tasksEl instanceof HTMLElement) {
+        tasksEl.innerHTML = tasks.length ? tasks.slice(0, 8).map((task) => `
+          <article class="admin-item">
+            <div>
+              <strong>${escapeHtml(task.title)}</strong>
+              <p>${escapeHtml(task.recommendedAction)}</p>
+              <small>${escapeHtml(task.riskLevel)} risk · ${escapeHtml(task.type)}</small>
+            </div>
+          </article>
+        `).join("") : "<p>No agent tasks right now.</p>";
+      }
+
+      if (eventsEl instanceof HTMLElement) {
+        eventsEl.innerHTML = events.length ? events.slice(0, 8).map((event) => `
+          <article class="admin-item">
+            <div>
+              <strong>${escapeHtml(event.action)}</strong>
+              <p>${escapeHtml(event.entityType)} · ${escapeHtml(event.entityId)}</p>
+              <small>${new Date(event.createdAt).toLocaleString()}</small>
+            </div>
+          </article>
+        `).join("") : "<p>No admin events yet.</p>";
+      }
+    } catch (error) {
+      document.querySelectorAll("#summary, #tasks-list, #events-list").forEach((el) => {
+        if (el instanceof HTMLElement) el.innerHTML = `<p class="error-text">${error instanceof Error ? error.message : "Failed to load admin data."}</p>`;
+      });
+    }
+  }
+
+  loadOverview();
+</script>

@@ -1,90 +1,104 @@
 ---
 import AdminLayout from "@/layouts/AdminLayout.astro";
+
+const lanes = [
+  {
+    label: "Review inbox",
+    href: "/admin/review/",
+    title: "Triage submissions and drafts",
+    body: "Keep the queue small. Approve only resources that have source links, useful positioning, and a reason to exist in the directory."
+  },
+  {
+    label: "Resources",
+    href: "/admin/projects/",
+    title: "Maintain directory profiles",
+    body: "Edit facts, tags, fit notes, source links, and publish status for agent, model, memory, skill, plugin, and tool pages."
+  },
+  {
+    label: "Articles",
+    href: "/admin/blog/",
+    title: "Turn signals into articles",
+    body: "Use the article workbench only for search-backed comparisons, guides, and evidence-heavy posts that support the directory."
+  },
+  {
+    label: "Publishing",
+    href: "/admin/publishing/",
+    title: "Ship through GitHub",
+    body: "Publish reviewed changes through PRs or direct publish actions. Keep public content static and source-controlled."
+  }
+];
 ---
 
 <AdminLayout title="Overview" active="overview">
-  <section class="admin-grid-3" id="summary">
-    <div class="admin-panel">Loading summary...</div>
+  <section class="admin-focus">
+    <div>
+      <span class="eyebrow">Simplified admin</span>
+      <h2>Run the site from four queues.</h2>
+      <p>
+        The admin should help you review sources, maintain directory profiles, write comparison content,
+        and publish cleanly. Everything else can stay hidden until it earns its way back.
+      </p>
+    </div>
+    <a class="button" href="/admin/review/">Open review inbox</a>
   </section>
 
   <section class="admin-grid" style="margin-top: 16px;">
-    <div class="admin-panel">
-      <span class="eyebrow">Agent Tasks</span>
-      <h2>Next actions</h2>
-      <div class="admin-list" id="tasks-list">Loading tasks...</div>
-    </div>
-    <div class="admin-panel">
-      <span class="eyebrow">Activity</span>
-      <h2>Recent events</h2>
-      <div class="admin-list" id="events-list">Loading events...</div>
-    </div>
+    {lanes.map((lane) => (
+      <a class="admin-panel admin-lane" href={lane.href}>
+        <span class="eyebrow">{lane.label}</span>
+        <h2>{lane.title}</h2>
+        <p>{lane.body}</p>
+      </a>
+    ))}
   </section>
 </AdminLayout>
 
-<script is:inline>
-  async function api(path) {
-    const response = await fetch(path);
-    const result = await response.json().catch(() => ({}));
-    if (!response.ok || !result.ok) throw new Error(result.error ?? "Request failed.");
-    return result;
+<style>
+  .admin-focus {
+    align-items: end;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 20px;
   }
 
-  const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
+  .admin-focus h2 {
+    font-size: 1.8rem;
+    font-weight: 540;
+    letter-spacing: 0;
+    line-height: 1.08;
+    margin: 6px 0 0;
+  }
 
-  async function loadOverview() {
-    const summaryEl = document.querySelector("#summary");
-    const tasksEl = document.querySelector("#tasks-list");
-    const eventsEl = document.querySelector("#events-list");
-    try {
-      const [{ summary }, { tasks }, { events }] = await Promise.all([
-        api("/admin/api/agent/summary"),
-        api("/admin/api/agent/tasks"),
-        api("/admin/api/agent/events")
-      ]);
+  .admin-focus p {
+    font-size: 0.9rem;
+    margin: 10px 0 0;
+    max-width: 720px;
+  }
 
-      if (summaryEl instanceof HTMLElement) {
-        summaryEl.innerHTML = [
-          ["New submissions", summary.newSubmissions, "/admin/review/"],
-          ["Drafts", summary.draftProjects, "/admin/projects/"],
-          ["Ready to publish", summary.readyProjects, "/admin/publishing/"],
-          ["Open PRs", summary.openPrs, "/admin/publishing/"]
-        ].map(([label, count, href]) => `
-          <a class="admin-panel" href="${href}">
-            <span class="eyebrow">${label}</span>
-            <h2 style="font-size: 3rem;">${count}</h2>
-          </a>
-        `).join("");
-      }
+  .admin-lane {
+    display: grid;
+    gap: 10px;
+    min-height: 190px;
+  }
 
-      if (tasksEl instanceof HTMLElement) {
-        tasksEl.innerHTML = tasks.length ? tasks.slice(0, 8).map((task) => `
-          <article class="admin-item">
-            <div>
-              <strong>${escapeHtml(task.title)}</strong>
-              <p>${escapeHtml(task.recommendedAction)}</p>
-              <small>${escapeHtml(task.riskLevel)} risk · ${escapeHtml(task.type)}</small>
-            </div>
-          </article>
-        `).join("") : "<p>No agent tasks right now.</p>";
-      }
+  .admin-lane h2 {
+    font-size: 1.16rem;
+    font-weight: 560;
+    line-height: 1.18;
+  }
 
-      if (eventsEl instanceof HTMLElement) {
-        eventsEl.innerHTML = events.length ? events.slice(0, 8).map((event) => `
-          <article class="admin-item">
-            <div>
-              <strong>${escapeHtml(event.action)}</strong>
-              <p>${escapeHtml(event.entityType)} · ${escapeHtml(event.entityId)}</p>
-              <small>${new Date(event.createdAt).toLocaleString()}</small>
-            </div>
-          </article>
-        `).join("") : "<p>No admin events yet.</p>";
-      }
-    } catch (error) {
-      document.querySelectorAll("#summary, #tasks-list, #events-list").forEach((el) => {
-        if (el instanceof HTMLElement) el.innerHTML = `<p class="error-text">${error instanceof Error ? error.message : "Failed to load admin data."}</p>`;
-      });
+  .admin-lane p {
+    font-size: 0.86rem;
+    margin: 0;
+  }
+
+  @media (max-width: 760px) {
+    .admin-focus {
+      grid-template-columns: 1fr;
     }
   }
-
-  loadOverview();
-</script>
+</style>

@@ -485,11 +485,11 @@ const jsonLd = {
     background: #ffffff;
   }
 
-  /* ── Non-agent hero (existing) ── */
+  /* ── Non-agent hero ── */
 
   .profile-hero {
     align-items: stretch;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--dark-line);
     display: grid;
     gap: 22px;
     grid-template-columns: minmax(0, 1fr) 330px;
@@ -497,15 +497,16 @@ const jsonLd = {
   }
 
   .profile-hero h1 {
+    color: var(--dark-text);
     font-size: clamp(2rem, 4vw, 3.1rem);
-    font-weight: 520;
+    font-weight: 820;
     letter-spacing: 0;
     line-height: 1.02;
     margin: 8px 0 0;
   }
 
   .answer {
-    color: var(--ink);
+    color: var(--dark-text);
     font-size: 1rem;
     line-height: 1.48;
     margin: 14px 0 0;
@@ -513,6 +514,7 @@ const jsonLd = {
   }
 
   .summary {
+    color: var(--dark-muted);
     font-size: 0.9rem;
     margin: 10px 0 0;
     max-width: 780px;
@@ -534,23 +536,24 @@ const jsonLd = {
 
   .verdict-strip div,
   .test-card {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
+    background: rgba(237, 237, 236, 0.04);
+    border: 1px solid var(--dark-line);
     display: grid;
     gap: 6px;
     padding: 12px;
   }
 
   .verdict-strip span {
-    color: var(--accent-open);
-    font-size: 0.7rem;
+    color: var(--dark-muted);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
   .verdict-strip strong,
   .test-card strong {
-    color: var(--ink);
+    color: var(--dark-text);
     font-size: 0.9rem;
     font-weight: 560;
     line-height: 1.35;
@@ -558,17 +561,18 @@ const jsonLd = {
 
   .evidence-card,
   .rail-panel {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
+    background: rgba(237, 237, 236, 0.04);
+    border: 1px solid var(--dark-line);
     padding: 15px;
   }
 
   .evidence-card strong {
-    color: var(--accent-open);
+    color: var(--dark-muted);
     display: block;
-    font-size: 0.76rem;
-    font-weight: 620;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     margin-bottom: 8px;
     text-transform: uppercase;
   }
@@ -580,7 +584,7 @@ const jsonLd = {
   }
 
   dl div {
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--dark-line);
     display: grid;
     gap: 3px;
     grid-template-columns: 105px minmax(0, 1fr);
@@ -592,21 +596,20 @@ const jsonLd = {
   }
 
   dt {
-    color: var(--subtle);
+    color: var(--dark-muted);
     font-size: 0.72rem;
   }
 
   dd {
-    color: var(--ink);
+    color: var(--dark-text);
     font-size: 0.82rem;
     margin: 0;
     overflow-wrap: anywhere;
   }
 
   .fit-strip {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
+    background: rgba(237, 237, 236, 0.04);
+    border: 1px solid var(--dark-line);
     display: grid;
     gap: 14px;
     grid-template-columns: 1fr 1fr;
@@ -614,9 +617,11 @@ const jsonLd = {
   }
 
   .fit-strip span {
-    color: var(--subtle);
+    color: var(--dark-muted);
     display: block;
-    font-size: 0.72rem;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
     margin-bottom: 8px;
     text-transform: uppercase;
   }
@@ -628,12 +633,14 @@ const jsonLd = {
   }
 
   .chip-row em {
-    background: var(--surface-soft);
-    border: 1px solid var(--line);
+    background: rgba(237, 237, 236, 0.06);
+    border: 1px solid var(--dark-line);
     border-radius: 999px;
-    color: var(--accent-open);
-    font-size: 0.76rem;
+    color: var(--dark-muted);
+    font-family: var(--mono);
+    font-size: 0.68rem;
     font-style: normal;
+    letter-spacing: 0.04em;
     padding: 5px 8px;
   }
 
@@ -651,7 +658,7 @@ const jsonLd = {
 
   .content-section,
   .related-section {
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--dark-line);
     padding: 26px 0;
   }
 
@@ -661,14 +668,16 @@ const jsonLd = {
   }
 
   h2 {
+    color: var(--dark-text);
     font-size: 1.42rem;
-    font-weight: 560;
+    font-weight: 760;
     letter-spacing: 0;
     line-height: 1.14;
     margin: 5px 0 0;
   }
 
   h3 {
+    color: var(--dark-text);
     font-size: 0.94rem;
     font-weight: 580;
     letter-spacing: 0;
@@ -686,7 +695,7 @@ const jsonLd = {
   .stack-list p,
   .fit-grid li,
   details p {
-    color: var(--muted);
+    color: var(--dark-muted);
     font-size: 0.9rem;
     line-height: 1.62;
     margin: 0;
@@ -700,9 +709,8 @@ const jsonLd = {
   }
 
   .fit-grid article {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
+    background: rgba(237, 237, 236, 0.04);
+    border: 1px solid var(--dark-line);
     padding: 14px;
   }
 
@@ -713,7 +721,7 @@ const jsonLd = {
 
   .test-card p,
   .confidence {
-    color: var(--muted);
+    color: var(--dark-muted);
     font-size: 0.86rem;
     line-height: 1.55;
     margin: 0;
@@ -735,7 +743,7 @@ const jsonLd = {
   }
 
   .stack-list article {
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--dark-line);
     padding: 13px 0;
   }
 
@@ -744,9 +752,8 @@ const jsonLd = {
   }
 
   .compare-table {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
+    background: rgba(237, 237, 236, 0.04);
+    border: 1px solid var(--dark-line);
     margin-top: 16px;
     overflow-x: auto;
   }
@@ -759,22 +766,24 @@ const jsonLd = {
 
   th,
   td {
-    border-bottom: 1px solid var(--line);
-    color: var(--muted);
+    border-bottom: 1px solid var(--dark-line);
+    color: var(--dark-muted);
     font-size: 0.84rem;
     padding: 11px;
     text-align: left;
   }
 
   th {
-    color: var(--ink);
-    font-size: 0.7rem;
-    font-weight: 600;
+    color: var(--dark-text);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
   td:first-child a {
-    color: var(--ink);
+    color: var(--dark-text);
     font-weight: 560;
   }
 
@@ -790,6 +799,7 @@ const jsonLd = {
   }
 
   .rail-panel h2 {
+    color: var(--dark-text);
     font-size: 1rem;
     font-weight: 580;
     margin: 0 0 10px;
@@ -801,7 +811,7 @@ const jsonLd = {
   }
 
   .source-list a {
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--dark-line);
     display: grid;
     gap: 3px;
     padding: 10px 0;
@@ -812,13 +822,15 @@ const jsonLd = {
   }
 
   .source-list span {
-    color: var(--accent-open);
-    font-size: 0.72rem;
+    color: var(--dark-muted);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
   .source-list strong {
-    color: var(--ink);
+    color: var(--dark-text);
     font-size: 0.86rem;
     font-weight: 560;
   }
@@ -830,14 +842,13 @@ const jsonLd = {
   }
 
   details {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
+    background: rgba(237, 237, 236, 0.04);
+    border: 1px solid var(--dark-line);
     padding: 12px 14px;
   }
 
   summary {
-    color: var(--ink);
+    color: var(--dark-text);
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 560;

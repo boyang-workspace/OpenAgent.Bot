@@ -1,0 +1,47 @@
+name: Daily Blog Drafts
+
+on:
+  schedule:
+    - cron: "15 1 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  blog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Generate daily blog draft
+        run: npm run blog:daily -- --limit 1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      - name: Create blog draft pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/daily-blog-drafts
+          delete-branch: true
+          title: Daily blog draft candidates
+          commit-message: Daily blog draft candidates
+          body: |
+            Automated daily blog draft run for OpenAgent.bot.
+
+            Review before publishing:
+            - Topic shortlist: `content/blog/topics`
+            - Draft articles: `content/blog/drafts`
+            - Public articles still require Admin review or a separate publish PR into `content/blog/published`

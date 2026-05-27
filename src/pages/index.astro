@@ -181,7 +181,7 @@ const otherCategories = categories.filter((c) => c.slug !== "agents").map((categ
 <style>
   .home-hero {
     align-items: stretch;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--dark-line);
     display: grid;
     gap: 22px;
     grid-template-columns: minmax(0, 1fr) 270px;
@@ -189,8 +189,9 @@ const otherCategories = categories.filter((c) => c.slug !== "agents").map((categ
   }
 
   .home-hero h1 {
+    color: var(--dark-text);
     font-size: clamp(2rem, 4.2vw, 3.25rem);
-    font-weight: 520;
+    font-weight: 820;
     letter-spacing: 0;
     line-height: 1.02;
     margin: 8px 0 0;
@@ -203,14 +204,28 @@ const otherCategories = categories.filter((c) => c.slug !== "agents").map((categ
     max-width: 720px;
   }
 
-  .home-hero aside,
-  .category-panel,
-  .evaluation-grid a,
-  .shelf-strip a,
-  .article-grid a {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
+  .home-hero aside {
+    align-content: start;
+    border: 1px solid var(--dark-line);
+    display: grid;
+    gap: 8px;
+    padding: 14px;
+  }
+
+  .home-hero aside strong {
+    color: var(--dark-muted);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .home-hero aside a {
+    border-top: 1px solid var(--dark-line);
+    color: var(--dark-text);
+    font-size: 0.88rem;
+    padding: 10px 0 2px;
   }
 
   .shelf-strip {
@@ -221,43 +236,31 @@ const otherCategories = categories.filter((c) => c.slug !== "agents").map((categ
   }
 
   .shelf-strip a {
+    border: 1px solid var(--dark-line);
     display: grid;
     gap: 5px;
     padding: 13px 14px;
+    transition: border-color 160ms, background 160ms;
+  }
+
+  .shelf-strip a:hover {
+    background: rgba(237, 237, 236, 0.04);
+    border-color: var(--dark-line-strong);
   }
 
   .shelf-strip span {
-    color: var(--accent-open);
-    font-size: 0.7rem;
-    font-weight: 560;
+    color: var(--dark-muted);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
   }
 
   .shelf-strip strong {
-    color: var(--ink);
+    color: var(--dark-text);
     font-size: 0.9rem;
     font-weight: 560;
-  }
-
-  .home-hero aside {
-    align-content: start;
-    display: grid;
-    gap: 8px;
-    padding: 14px;
-  }
-
-  .home-hero aside strong {
-    color: var(--accent-open);
-    font-size: 0.78rem;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-
-  .home-hero aside a {
-    border-top: 1px solid var(--line);
-    color: var(--ink);
-    font-size: 0.88rem;
-    padding: 10px 0 2px;
   }
 
   .category-board {
@@ -268,9 +271,15 @@ const otherCategories = categories.filter((c) => c.slug !== "agents").map((categ
   }
 
   .category-panel {
+    border: 1px solid var(--dark-line);
     display: grid;
     gap: 12px;
     padding: 16px;
+    transition: border-color 160ms;
+  }
+
+  .category-panel:hover {
+    border-color: var(--dark-line-strong);
   }
 
   .category-head {
@@ -280,20 +289,30 @@ const otherCategories = categories.filter((c) => c.slug !== "agents").map((categ
     justify-content: space-between;
   }
 
-  .category-head span,
+  .category-head span {
+    color: var(--dark-muted);
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
   .evaluation-grid span,
   .article-grid span {
-    color: var(--accent-open);
+    color: var(--dark-muted);
     display: block;
-    font-size: 0.72rem;
-    font-weight: 560;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
   .category-head h2,
   .section-head h2 {
+    color: var(--dark-text);
     font-size: 1.42rem;
-    font-weight: 560;
+    font-weight: 760;
     letter-spacing: 0;
     line-height: 1.12;
     margin: 4px 0 0;
@@ -301,13 +320,23 @@ const otherCategories = categories.filter((c) => c.slug !== "agents").map((categ
 
   .category-head > a,
   .text-link {
-    color: var(--accent-open);
-    font-size: 0.82rem;
-    font-weight: 520;
+    color: var(--dark-muted);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     white-space: nowrap;
+    transition: color 160ms;
+  }
+
+  .category-head > a:hover,
+  .text-link:hover {
+    color: var(--dark-text);
   }
 
   .category-panel p {
+    color: var(--dark-muted);
     font-size: 0.86rem;
     margin: 0;
   }
@@ -320,17 +349,23 @@ const otherCategories = categories.filter((c) => c.slug !== "agents").map((categ
 
   .mini-list a,
   .recent-list a {
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--dark-line);
     display: grid;
     gap: 3px;
     padding: 10px 0;
+    transition: background 160ms;
+  }
+
+  .mini-list a:hover,
+  .recent-list a:hover {
+    background: rgba(237, 237, 236, 0.03);
   }
 
   .mini-list strong,
   .recent-list strong,
   .article-grid strong,
   .evaluation-grid h3 {
-    color: var(--ink);
+    color: var(--dark-text);
     font-size: 0.94rem;
     font-weight: 560;
     line-height: 1.28;
@@ -338,13 +373,13 @@ const otherCategories = categories.filter((c) => c.slug !== "agents").map((categ
 
   .mini-list span,
   .recent-list span {
-    color: var(--muted);
+    color: var(--dark-muted);
     font-size: 0.78rem;
     font-style: normal;
   }
 
   .section-block {
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--dark-line);
     padding: 28px 0;
   }
 
@@ -387,14 +422,23 @@ const otherCategories = categories.filter((c) => c.slug !== "agents").map((categ
 
   .evaluation-grid a,
   .article-grid a {
+    border: 1px solid var(--dark-line);
     display: grid;
     gap: 9px;
     min-height: 160px;
     padding: 15px;
+    transition: border-color 160ms, background 160ms;
+  }
+
+  .evaluation-grid a:hover,
+  .article-grid a:hover {
+    background: rgba(237, 237, 236, 0.04);
+    border-color: var(--dark-line-strong);
   }
 
   .evaluation-grid p,
   .article-grid p {
+    color: var(--dark-muted);
     font-size: 0.84rem;
     margin: 0;
   }

@@ -1,0 +1,142 @@
+---
+import type { ResourceV1 } from "@/lib/content/resource-schema";
+import { resourcePath } from "@/lib/content/resources";
+import { resourceCategoryLabel, resourceImage, resourceSummary } from "@/lib/content/resource-display";
+
+type Props = {
+  resource: ResourceV1;
+  large?: boolean;
+};
+
+const { resource, large = false } = Astro.props;
+const href = resourcePath(resource);
+const image = resourceImage(resource);
+const fallbackImage = `/resource-fallbacks/${resource.classification.primary_category}.svg`;
+const summary = resourceSummary(resource);
+const categoryLabel = resourceCategoryLabel(resource);
+const starMeta = resource.facts.github_stars !== undefined ? `${resource.facts.github_stars.toLocaleString("en-US")} stars` : undefined;
+---
+
+<article class:list={["resource-card", { large }]}>
+  <a href={href} aria-label={resource.identity.name}>
+    <img src={image} alt="" loading="lazy" decoding="async" onerror={`this.onerror=null;this.src='${fallbackImage}';`} />
+    <div class="resource-body">
+      <div class="meta">
+        <span>{categoryLabel}</span>
+        {starMeta && <span>{starMeta}</span>}
+      </div>
+      <h3>{resource.identity.name}</h3>
+      <p>{summary}</p>
+    </div>
+  </a>
+</article>
+
+<style>
+  .resource-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    min-height: 100%;
+    overflow: hidden;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease;
+  }
+
+  .resource-card:hover {
+    border-color: var(--line-strong);
+    box-shadow: 0 8px 24px rgba(23, 25, 20, 0.04);
+    transform: translateY(-2px);
+  }
+
+  a {
+    display: grid;
+    min-height: 100%;
+  }
+
+  img {
+    aspect-ratio: 16 / 9;
+    background: var(--surface-tint);
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .resource-body {
+    display: grid;
+    gap: 8px;
+    padding: 16px;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .meta span {
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .meta span:first-child {
+    color: var(--accent-open);
+  }
+
+  h3 {
+    font-size: 1.18rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.12;
+    margin: 0;
+  }
+
+  p {
+    display: -webkit-box;
+    line-height: 1.5;
+    margin: 0;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .large a {
+    grid-template-columns: minmax(0, 1.18fr) minmax(260px, 0.82fr);
+  }
+
+  .large img {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  .large .resource-body {
+    align-content: center;
+    padding: 34px;
+  }
+
+  .large h3 {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .large .meta span {
+    font-size: 0.76rem;
+  }
+
+  @media (max-width: 820px) {
+    .large a {
+      grid-template-columns: 1fr;
+    }
+
+    .large .resource-body {
+      padding: 20px;
+    }
+
+    .large h3 {
+      font-size: 1.8rem;
+    }
+  }
+</style>

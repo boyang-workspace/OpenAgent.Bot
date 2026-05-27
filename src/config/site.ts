@@ -5,13 +5,14 @@ export const site = {
   description:
     "Discover open-source AI models, agents, skills, memory systems, plugins, and tools through an editorial directory built for humans and agent-readable workflows.",
   nav: [
+    { label: "Evaluations", href: "/evaluations" },
     { label: "Models", href: "/models" },
     { label: "Agents", href: "/agents" },
     { label: "Skills", href: "/skills" },
     { label: "Memory", href: "/memory-systems" },
     { label: "Plugins", href: "/plugins" },
     { label: "Tools", href: "/tools" },
-    { label: "Blog", href: "/blog" }
+    { label: "Guides", href: "/blog" }
   ]
 };
 

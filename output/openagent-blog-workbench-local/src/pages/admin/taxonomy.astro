@@ -1,0 +1,63 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import { categories } from "@/config/site";
+import { audiences, deploymentModes, difficulties, maturities, pricingModels, resourceTypes } from "@/lib/content/resource-schema";
+import { labelForTag, tagGroupLabels, taxonomy } from "@/lib/content/taxonomy";
+
+const enumGroups = [
+  { label: "Resource types", values: resourceTypes },
+  { label: "Primary categories", values: categories.map((category) => category.slug) },
+  { label: "Deployment modes", values: deploymentModes },
+  { label: "Audiences", values: audiences },
+  { label: "Difficulty", values: difficulties },
+  { label: "Maturity", values: maturities },
+  { label: "Pricing models", values: pricingModels }
+] as const;
+
+const tagGroups = Object.entries(taxonomy).map(([group, values]) => ({
+  group,
+  label: tagGroupLabels[group as keyof typeof tagGroupLabels],
+  values
+}));
+---
+
+<AdminLayout title="Taxonomy" active="taxonomy">
+  <section class="admin-grid">
+    <div class="admin-panel">
+      <span class="eyebrow">Controlled tags</span>
+      <h2>Resource index layer</h2>
+      <p class="admin-note">Published resources should use these controlled tags instead of free-form labels. This keeps category pages, search, related resources, automation, and agent-readable output aligned.</p>
+      <div class="admin-list">
+        {tagGroups.map((group) => (
+          <article class="admin-item">
+            <div>
+              <strong>{group.label}</strong>
+              <p>{group.group === "category" ? "What the resource is." : group.group === "capability" ? "What the resource can do." : group.group === "constraint" ? "How the resource can be used." : "Where the resource is useful."}</p>
+              <small>{group.values.length} canonical terms</small>
+            </div>
+            <div class="admin-actions">
+              {group.values.map((tag) => <span class="status-pill">{labelForTag(tag)}</span>)}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="admin-panel">
+      <span class="eyebrow">Schema enums</span>
+      <h2>Fixed resource fields</h2>
+      <p class="admin-note">These values power Resource v1 validation. Editing the taxonomy in-app will come later; for now this page is the source-of-truth view for editors and agents.</p>
+      <div class="admin-list">
+        {enumGroups.map((group) => (
+          <article class="admin-item">
+            <div>
+              <strong>{group.label}</strong>
+              <p>{group.values.join(", ")}</p>
+              <small>{group.values.length} allowed values</small>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</AdminLayout>

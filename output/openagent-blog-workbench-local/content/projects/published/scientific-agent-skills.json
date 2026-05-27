@@ -1,0 +1,168 @@
+{
+  "slug": "scientific-agent-skills",
+  "title": "Scientific Agent Skills",
+  "oneLiner": "Open-source ready-to-use agent skills for research, science, engineering, analysis, finance, and writing.",
+  "summary": "Scientific Agent Skills is an MIT-licensed collection of reusable skills for research and technical work, aimed at agents that need more structured procedures than a single prompt can provide.",
+  "whyItMatters": "Scientific Agent Skills matters because research and analysis tasks need repeatable methods. A skill pack can encode reusable procedures for literature review, engineering analysis, finance work, and writing support without forcing the agent to invent the workflow every time.",
+  "bestFor": [
+    "Researchers exploring reusable agent workflows",
+    "Teams building agents for scientific, finance, engineering, or writing tasks",
+    "Developers studying how to package domain procedures as skills"
+  ],
+  "notFor": [
+    "Users who want a finished research assistant with hosted UI",
+    "Teams that need validated domain outputs without human review"
+  ],
+  "category": "skills",
+  "tags": [
+    "skill",
+    "open-source",
+    "agent-skill",
+    "workflow",
+    "research",
+    "automation",
+    "self-hosted"
+  ],
+  "repoUrl": "https://github.com/K-Dense-AI/scientific-agent-skills",
+  "homepageUrl": "https://k-dense.ai",
+  "docsUrl": "https://github.com/K-Dense-AI/scientific-agent-skills",
+  "license": "MIT",
+  "maintainer": "K-Dense AI",
+  "sourceLinks": [
+    "https://github.com/K-Dense-AI/scientific-agent-skills",
+    "https://k-dense.ai"
+  ],
+  "seoTitle": "Scientific Agent Skills: Open-source skills for research agents",
+  "seoDescription": "Scientific Agent Skills profile: what the open-source skill pack is, when to use it, official links, command line, and OpenAgent structured data.",
+  "shareTitle": "Scientific Agent Skills on OpenAgent.bot",
+  "shareDescription": "Reusable open-source skills for research, science, engineering, analysis, finance, and writing agents.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "sourceMetrics": {
+    "stars": 18824,
+    "forks": 2112
+  },
+  "coreStrengths": [
+    {
+      "title": "Domain-oriented skill collection",
+      "description": "The repository focuses on research, science, engineering, analysis, finance, and writing workflows.",
+      "whyItMatters": "Domain skills can give agents more useful procedures than generic prompting."
+    },
+    {
+      "title": "Reusable workflow packaging",
+      "description": "Skills can be inspected, reused, and adapted for specific agent systems.",
+      "whyItMatters": "Repeatability is especially important in research and analysis work."
+    },
+    {
+      "title": "Good source for skill taxonomy ideas",
+      "description": "The project helps clarify how broad skill collections might be organized across domains.",
+      "whyItMatters": "OpenAgent can use this kind of project to distinguish skills from agents, plugins, and tools."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Research agent procedures",
+      "description": "Use it as a starting point for agents that need repeatable research and analysis steps."
+    },
+    {
+      "title": "Domain workflow prototyping",
+      "description": "Adapt skill patterns for engineering, finance, scientific analysis, or writing workflows."
+    },
+    {
+      "title": "Skill library design",
+      "description": "Study how domain-specific skills are named, grouped, and documented."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose Scientific Agent Skills for domain-heavy workflows",
+      "against": "general agent skill packs",
+      "summary": "General packs are useful for broad automation. Scientific Agent Skills is more relevant when the agent must follow research or analysis procedures."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Open the GitHub repository",
+      "url": "https://github.com/K-Dense-AI/scientific-agent-skills",
+      "type": "github"
+    },
+    {
+      "label": "Visit K-Dense AI",
+      "url": "https://k-dense.ai",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone the skills repository",
+      "command": "git clone https://github.com/K-Dense-AI/scientific-agent-skills.git",
+      "description": "Start from the official repository before adapting any skill to your agent runtime."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Scientific Agent Skills is useful because many research and analysis workflows need more than a broad instruction. They need repeatable procedures that an agent can follow, inspect, and refine.",
+    "whatItIs": "Scientific Agent Skills is an MIT-licensed repository of ready-to-use agent skills for research, science, engineering, analysis, finance, and writing. It is a skill collection, not a single agent app.",
+    "whyItMatters": "Domain tasks are where generic agents often become vague. A skill pack can narrow the workflow: what to inspect, what to calculate, what to compare, and how to produce a useful output.",
+    "howItWorks": "Start by reviewing the repository structure, then pick one narrow skill and test it with a real task. Treat output as assisted work that still needs human review, especially in scientific, financial, or engineering contexts.",
+    "useCases": [
+      {
+        "title": "Literature and research workflows",
+        "description": "Use skill patterns to make review, synthesis, and note-taking tasks more repeatable."
+      },
+      {
+        "title": "Technical analysis workflows",
+        "description": "Adapt skills for engineering or data analysis tasks where a defined procedure matters."
+      },
+      {
+        "title": "Agent skill benchmarking",
+        "description": "Compare domain-specific skills against general-purpose agent prompts."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Use Hugging Face Skills for model-hub workflows",
+        "against": "Hugging Face Skills",
+        "summary": "Hugging Face Skills is stronger near the model ecosystem. Scientific Agent Skills is stronger for research and domain procedures."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Inspect the repository",
+        "url": "https://github.com/K-Dense-AI/scientific-agent-skills",
+        "type": "github"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is Scientific Agent Skills open source?",
+        "answer": "The GitHub repository is listed with an MIT license."
+      },
+      {
+        "question": "Is this a research agent?",
+        "answer": "No. It is a collection of skills that can be used by agents, not a full hosted assistant."
+      },
+      {
+        "question": "Should outputs be trusted without review?",
+        "answer": "No. Research, finance, science, and engineering outputs should always be reviewed by a qualified human."
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "skill",
+    "visualMotif": "stacked research notebooks and modular command blocks",
+    "backgroundStyle": "clean editorial surface with subtle graph and table motifs",
+    "titleOverlay": "Scientific Agent Skills",
+    "subtitle": "Reusable skills for research agents",
+    "avoid": [
+      "lab stock photo",
+      "busy paper collage",
+      "unverified scientific diagrams"
+    ]
+  }
+}

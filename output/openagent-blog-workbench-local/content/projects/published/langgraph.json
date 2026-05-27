@@ -1,0 +1,177 @@
+{
+  "slug": "langgraph",
+  "title": "LangGraph",
+  "oneLiner": "Framework for building long-running, stateful agents with controllable workflows.",
+  "summary": "LangGraph is an open-source framework for building stateful, durable agent workflows where developers need explicit control over graphs, state, checkpoints, and human-in-the-loop behavior.",
+  "whyItMatters": "LangGraph matters because many serious agents are not simple prompt chains. They need state, branching, recovery, and clear control over what happens between model calls and tool calls.",
+  "bestFor": [
+    "Developers building production-style stateful agents",
+    "Teams that need controllable workflows, checkpoints, and human review",
+    "Builders already using LangChain or nearby model/tool abstractions"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "agents",
+  "tags": [
+    "agent",
+    "open-source",
+    "agent-framework",
+    "workflow-orchestration",
+    "state-management",
+    "tool-calling",
+    "api",
+    "self-hosted"
+  ],
+  "repoUrl": "https://github.com/langchain-ai/langgraph",
+  "homepageUrl": "https://www.langchain.com/langgraph",
+  "docsUrl": "https://langchain-ai.github.io/langgraph/",
+  "license": "MIT",
+  "maintainer": "LangChain",
+  "sourceLinks": [
+    "https://github.com/langchain-ai/langgraph",
+    "https://langchain-ai.github.io/langgraph/",
+    "https://www.langchain.com/langgraph"
+  ],
+  "seoTitle": "LangGraph: Agents resource for open AI builders",
+  "seoDescription": "LangGraph profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "LangGraph on OpenAgent.bot",
+  "shareDescription": "Framework for building long-running, stateful agents with controllable workflows.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Stateful graph architecture",
+      "description": "LangGraph models agent flows as graphs with explicit state transitions.",
+      "whyItMatters": "This gives developers more control than a hidden loop inside a generic agent runner."
+    },
+    {
+      "title": "Durable and interruptible workflows",
+      "description": "Its design supports checkpointing, human review, and continuation.",
+      "whyItMatters": "Long-running agents need to pause, resume, and recover safely."
+    },
+    {
+      "title": "Large ecosystem fit",
+      "description": "LangGraph connects into the LangChain ecosystem and common model/tool integrations.",
+      "whyItMatters": "A framework is easier to adopt when surrounding integrations already exist."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Research agents",
+      "description": "Coordinate search, reading, note-taking, and synthesis across repeated steps."
+    },
+    {
+      "title": "Coding agents",
+      "description": "Represent planning, editing, testing, and review as controlled workflow nodes."
+    },
+    {
+      "title": "Human-in-the-loop systems",
+      "description": "Insert approvals or review steps before sensitive actions proceed."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose LangGraph when control matters",
+      "against": "one-shot agent runners",
+      "summary": "LangGraph is most useful when you need explicit workflow structure rather than a black-box loop."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/langchain-ai/langgraph",
+      "type": "github"
+    },
+    {
+      "label": "Official source",
+      "url": "https://langchain-ai.github.io/langgraph/",
+      "type": "homepage"
+    },
+    {
+      "label": "Official source",
+      "url": "https://www.langchain.com/langgraph",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Install LangGraph",
+      "command": "pip install -U langgraph",
+      "description": "Use the official docs for runtime-specific setup and examples."
+    }
+  ],
+  "seoArticle": {
+    "intro": "LangGraph is an open-source framework for building stateful, durable agent workflows where developers need explicit control over graphs, state, checkpoints, and human-in-the-loop behavior.",
+    "whatItIs": "LangGraph is an open AI agents resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "LangGraph matters because many serious agents are not simple prompt chains. They need state, branching, recovery, and clear control over what happens between model calls and tool calls.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "Research agents",
+        "description": "Coordinate search, reading, note-taking, and synthesis across repeated steps."
+      },
+      {
+        "title": "Coding agents",
+        "description": "Represent planning, editing, testing, and review as controlled workflow nodes."
+      },
+      {
+        "title": "Human-in-the-loop systems",
+        "description": "Insert approvals or review steps before sensitive actions proceed."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Choose LangGraph when control matters",
+        "against": "one-shot agent runners",
+        "summary": "LangGraph is most useful when you need explicit workflow structure rather than a black-box loop."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/langchain-ai/langgraph",
+        "type": "github"
+      },
+      {
+        "label": "Official source",
+        "url": "https://langchain-ai.github.io/langgraph/",
+        "type": "homepage"
+      },
+      {
+        "label": "Official source",
+        "url": "https://www.langchain.com/langgraph",
+        "type": "homepage"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is LangGraph open source?",
+        "answer": "LangGraph is listed with MIT based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate LangGraph?",
+        "answer": "Developers building production-style stateful agents"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "agent",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "LangGraph",
+    "subtitle": "Framework for building long-running, stateful agents with controllable workflows.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

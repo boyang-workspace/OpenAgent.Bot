@@ -29,6 +29,9 @@ const seo = buildSeo(Astro.props);
     {seo.image && <meta property="og:image" content={seo.image} />}
     <meta name="twitter:card" content={seo.image ? "summary_large_image" : "summary"} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-92BLS0VYN1"></script>
+    <script is:inline>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-92BLS0VYN1");</script>
+    <script is:inline>document.addEventListener("click",function(e){var t=e.target.closest("[data-analytics]");if(!t)return;var a=t.getAttribute("data-analytics"),p=t.getAttribute("data-analytics-payload");if(p)try{p=JSON.parse(p)}catch(a){p={}}p=p||{};var ev={resource:"click_resource",category:"click_category",blog:"click_blog",evaluation:"click_evaluation",signal:"click_signal",nav:"click_nav",cta:"click_cta"};var eventName=ev[a]||"click_custom";gtag("event",eventName,p)});document.addEventListener("submit",function(e){var t=e.target.closest("[data-analytics=search]");if(!t)return;var q=new FormData(t).get("q");if(!q||!q.toString().trim())return;gtag("event","search",{search_term:q.toString().trim()})});</script>
   </head>
   <body>
     <main>

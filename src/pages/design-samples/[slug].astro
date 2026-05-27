@@ -1,0 +1,942 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+type Kind = "agent" | "evaluation";
+type Variant = "ledger" | "command" | "editorial" | "leaderboard" | "lab" | "matrix";
+
+const agentFacts = [
+  ["Open source", "MIT"],
+  ["GitHub stars", "95,048"],
+  ["Primary language", "Python"],
+  ["Last checked", "May 22, 2026"],
+  ["Best for", "Browser automation agents"],
+  ["Deployment", "Local / self-hosted"]
+];
+
+const agentSources = [
+  ["GitHub repository", "https://github.com/browser-use/browser-use"],
+  ["Project documentation", "https://docs.browser-use.com/"],
+  ["OpenAgent agents category", "/agents"]
+];
+
+const comparisonRows = [
+  ["browser-use", "Browser automation", "MIT", "Python", "Fastest path to website actions"],
+  ["OpenHands", "Coding agent", "Open source", "Python", "Repository-level software tasks"],
+  ["smolagents", "Code agents", "Apache-2.0", "Python", "Minimal agent library"],
+  ["Goose", "Desktop developer agent", "Apache-2.0", "Rust", "Local agent workflows"]
+];
+
+const benchmarkRows = [
+  ["browser-use", "Browser workflow coverage", "High", "Best when the task is inside a website"],
+  ["OpenHands", "Repository task depth", "High", "Best when the task is code changes"],
+  ["smolagents", "Implementation simplicity", "High", "Best when you need a small code-agent library"],
+  ["AutoGen", "Multi-agent orchestration", "Medium", "Best when you need framework primitives"]
+];
+
+export function getStaticPaths() {
+  return [
+    {
+      params: { slug: "agent-evidence-ledger" },
+      props: {
+        slug: "agent-evidence-ledger",
+        page: {
+          kind: "agent" as Kind,
+          variant: "ledger" as Variant,
+          title: "browser-use: open-source browser agent profile",
+          description: "browser-use profile with open-source status, GitHub signals, use cases, alternatives, setup links, and source-backed facts.",
+          kicker: "Agent profile",
+          headline: "browser-use turns websites into an action surface for AI agents.",
+          dek: "A source-backed OpenAgent profile for builders comparing browser automation agents, open-source status, local deployment, and workflow fit.",
+          image: "/design-samples/agent-ledger.svg"
+        }
+      }
+    },
+    {
+      params: { slug: "agent-command-center" },
+      props: {
+        slug: "agent-command-center",
+        page: {
+          kind: "agent" as Kind,
+          variant: "command" as Variant,
+          title: "browser-use technical profile for agent builders",
+          description: "A technical browser-agent landing page sample for SEO visitors comparing browser-use with OpenHands, smolagents, and Goose.",
+          kicker: "Technical profile",
+          headline: "browser-use is the practical layer between LLMs and live websites.",
+          dek: "Built for readers who want a fast answer: what it is, when it works, what to compare, and where the official sources live.",
+          image: "/design-samples/agent-command.svg"
+        }
+      }
+    },
+    {
+      params: { slug: "agent-editorial-profile" },
+      props: {
+        slug: "agent-editorial-profile",
+        page: {
+          kind: "agent" as Kind,
+          variant: "editorial" as Variant,
+          title: "browser-use review: when to use this open-source browser agent",
+          description: "An editorial agent detail page sample with SEO article structure, alternatives, FAQs, sources, and visual proof.",
+          kicker: "Open-source agent review",
+          headline: "The browser agent category is getting real. browser-use is one of its clearest signals.",
+          dek: "A magazine-style profile for search visitors who need the story, the tradeoffs, and the next link in under a minute.",
+          image: "/design-samples/agent-editorial.svg"
+        }
+      }
+    },
+    {
+      params: { slug: "evaluation-leaderboard" },
+      props: {
+        slug: "evaluation-leaderboard",
+        page: {
+          kind: "evaluation" as Kind,
+          variant: "leaderboard" as Variant,
+          title: "Best open-source AI agents: benchmark and comparison sample",
+          description: "Leaderboard-style evaluation page sample for open-source AI agents with benchmark signals, comparison table, methodology, and FAQs.",
+          kicker: "Evaluation",
+          headline: "Best open-source AI agents for real workflow automation.",
+          dek: "A Google landing page that answers the query first, then lets readers inspect scores, sources, methodology, and next steps.",
+          image: "/design-samples/eval-leaderboard.svg"
+        }
+      }
+    },
+    {
+      params: { slug: "evaluation-lab-report" },
+      props: {
+        slug: "evaluation-lab-report",
+        page: {
+          kind: "evaluation" as Kind,
+          variant: "lab" as Variant,
+          title: "Open-source AI agent evaluation lab sample",
+          description: "Lab-report evaluation page sample with methodology, evidence, source links, benchmark definitions, and practical interpretation.",
+          kicker: "OpenAgent lab",
+          headline: "A reproducible evaluation format for agents that claim they can act.",
+          dek: "Designed for high-trust search traffic: define the test, show the evidence, explain the tradeoff, and avoid leaderboard theater.",
+          image: "/design-samples/eval-lab.svg"
+        }
+      }
+    },
+    {
+      params: { slug: "evaluation-decision-matrix" },
+      props: {
+        slug: "evaluation-decision-matrix",
+        page: {
+          kind: "evaluation" as Kind,
+          variant: "matrix" as Variant,
+          title: "AI agent decision matrix: choose by workflow",
+          description: "Decision-matrix evaluation page sample that maps AI agent benchmark signals to browser, coding, orchestration, and local workflows.",
+          kicker: "Decision guide",
+          headline: "Choose the agent by the job, not by the biggest benchmark number.",
+          dek: "A guide-style evaluation page for readers who arrive from Google with a practical question and need an answer they can act on.",
+          image: "/design-samples/eval-matrix.svg"
+        }
+      }
+    }
+  ];
+}
+
+const { page, slug } = Astro.props;
+const isAgent = page.kind === "agent";
+const jsonLd = isAgent
+  ? {
+      "@context": "https://schema.org",
+      "@type": "SoftwareSourceCode",
+      name: "browser-use",
+      description: page.description,
+      codeRepository: "https://github.com/browser-use/browser-use",
+      programmingLanguage: "Python",
+      license: "MIT",
+      url: "https://github.com/browser-use/browser-use"
+    }
+  : {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: page.title,
+      description: page.description,
+      author: { "@type": "Organization", name: "OpenAgent.bot" },
+      dateModified: "2026-05-22"
+    };
+---
+
+<BaseLayout title={page.title} description={page.description} path={`/design-samples/${slug}`} image={page.image} noindex>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <article class:list={["sample-page", `variant-${page.variant}`, page.kind]}>
+    <header class="sample-nav" aria-label="Sample navigation">
+      <a href="/design-samples">OpenAgent samples</a>
+      <nav>
+        <a href="/design-samples/agent-evidence-ledger">Agent A</a>
+        <a href="/design-samples/agent-command-center">Agent B</a>
+        <a href="/design-samples/agent-editorial-profile">Agent C</a>
+        <a href="/design-samples/evaluation-leaderboard">Eval A</a>
+        <a href="/design-samples/evaluation-lab-report">Eval B</a>
+        <a href="/design-samples/evaluation-decision-matrix">Eval C</a>
+        <a href="/design-samples/content-structures">Structures</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="kicker">{page.kicker}</p>
+        <h1>{page.headline}</h1>
+        <p class="dek">{page.dek}</p>
+        <div class="hero-actions">
+          <a class="primary-action" href="#answer">{isAgent ? "Read the profile" : "See the ranking"}</a>
+          <a class="secondary-action" href="#sources">View sources</a>
+        </div>
+      </div>
+
+      <aside class="hero-visual" aria-label={isAgent ? "Agent evidence panel" : "Evaluation evidence panel"}>
+        <img src={page.image} alt="" loading="eager" />
+        <div class="visual-panel">
+          <span>{isAgent ? "Source signal" : "Freshness"}</span>
+          <strong>{isAgent ? "95k GitHub stars" : "Updated May 22, 2026"}</strong>
+          <small>{isAgent ? "MIT · Python · local-first candidate" : "SWE-bench · WebArena · GAIA context"}</small>
+        </div>
+      </aside>
+    </section>
+
+    {
+      isAgent ? (
+        <>
+          <section id="answer" class="answer-block">
+            <div>
+              <h2>What is browser-use?</h2>
+              <p>browser-use is an open-source project that helps AI agents operate websites through browser automation. It is most relevant when the agent task involves navigation, forms, authenticated web apps, or repeated browser workflows.</p>
+            </div>
+            <dl class="fact-grid">
+              {agentFacts.map(([label, value]) => (
+                <div>
+                  <dt>{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+
+          <section class="decision-section">
+            <div class="section-head">
+              <h2>When to choose it</h2>
+              <p>Search visitors need a fast fit check before they click through to GitHub.</p>
+            </div>
+            <div class="decision-grid">
+              <article>
+                <h3>Best fit</h3>
+                <ul>
+                  <li>Browser-based automation and website tasks</li>
+                  <li>Teams comparing open-source browser agents</li>
+                  <li>Builders who want inspectable Python code</li>
+                </ul>
+              </article>
+              <article>
+                <h3>Weak fit</h3>
+                <ul>
+                  <li>Repository-level coding tasks</li>
+                  <li>Multi-agent planning benchmarks without browser actions</li>
+                  <li>Non-technical users who only need chat</li>
+                </ul>
+              </article>
+              <article>
+                <h3>Compare with</h3>
+                <ul>
+                  <li>OpenHands for software engineering tasks</li>
+                  <li>smolagents for minimal code-agent libraries</li>
+                  <li>Goose for local desktop developer workflows</li>
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <section class="comparison-section">
+            <div class="section-head">
+              <h2>Quick comparison</h2>
+              <p>This is the SEO table most search visitors expect on an agent detail page.</p>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Project</th>
+                    <th>Primary use</th>
+                    <th>License</th>
+                    <th>Language</th>
+                    <th>Why compare</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {comparisonRows.map((row) => (
+                    <tr>{row.map((cell) => <td>{cell}</td>)}</tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </>
+      ) : (
+        <>
+          <section id="answer" class="answer-block">
+            <div>
+              <h2>Quick answer</h2>
+              <p>For browser workflows, start with browser-use. For coding tasks, start with OpenHands. For small code-agent experiments, use smolagents. For local developer workflows, evaluate Goose. Benchmark scores should narrow the shortlist, not replace workflow fit.</p>
+            </div>
+            <div class="score-strip">
+              <span><strong>4</strong> agents compared</span>
+              <span><strong>3</strong> benchmark families</span>
+              <span><strong>12</strong> source checks</span>
+            </div>
+          </section>
+
+          <section class="leaderboard-section">
+            <div class="section-head">
+              <h2>Evaluation snapshot</h2>
+              <p>A strong benchmark page should show the answer, the caveats, and the source trail before the fold gets cold.</p>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Agent</th>
+                    <th>Strongest signal</th>
+                    <th>Rating</th>
+                    <th>Best next step</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {benchmarkRows.map((row) => (
+                    <tr>{row.map((cell) => <td>{cell}</td>)}</tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="method-section">
+            <div class="section-head">
+              <h2>Methodology</h2>
+              <p>Evaluation pages need trust mechanics. The reader should know what was measured and what was not.</p>
+            </div>
+            <div class="method-grid">
+              <article>
+                <h3>Task fit</h3>
+                <p>Map each agent to browser, coding, orchestration, local, or memory-heavy workflows.</p>
+              </article>
+              <article>
+                <h3>Source quality</h3>
+                <p>Prefer official repositories, docs, benchmark sites, changelogs, and reproducible traces.</p>
+              </article>
+              <article>
+                <h3>Freshness</h3>
+                <p>Flag last verified dates, benchmark update dates, and stale repository signals.</p>
+              </article>
+            </div>
+          </section>
+        </>
+      )
+    }
+
+    <section id="sources" class="sources-section">
+      <div class="section-head">
+        <h2>{isAgent ? "Official sources" : "Benchmark and source links"}</h2>
+        <p>Every claim on a production page should point back to a dated source or an OpenAgent fact record.</p>
+      </div>
+      <div class="source-list">
+        {(isAgent ? agentSources : [
+          ["SWE-bench", "https://www.swebench.com/"],
+          ["WebArena", "https://webarena.dev/"],
+          ["GAIA leaderboard", "https://huggingface.co/spaces/gaia-benchmark/leaderboard"]
+        ]).map(([label, href]) => (
+          <a href={href}>
+            <span>{label}</span>
+            <small>{href}</small>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="faq-section">
+      <h2>FAQ</h2>
+      <details open>
+        <summary>{isAgent ? "Is browser-use open source?" : "Should benchmark scores decide which agent to use?"}</summary>
+        <p>{isAgent ? "The public repository currently identifies browser-use as an MIT-licensed open-source project. Production pages should re-check the repository license before publishing updates." : "No. Scores help narrow the shortlist, but browser, coding, local, and orchestration tasks reward different agent designs."}</p>
+      </details>
+      <details>
+        <summary>{isAgent ? "What is browser-use best for?" : "Which benchmarks matter for agent pages?"}</summary>
+        <p>{isAgent ? "It is best for web tasks where an agent needs to navigate pages, fill forms, inspect DOM state, or repeat browser workflows." : "SWE-bench is useful for coding agents, WebArena for web task behavior, GAIA for general assistant work, and AgentBench-style suites for broader agent capabilities."}</p>
+      </details>
+      <details>
+        <summary>{isAgent ? "What should I compare it with?" : "How often should evaluation pages update?"}</summary>
+        <p>{isAgent ? "Compare it with OpenHands, smolagents, Goose, and other agents based on the workflow you need rather than the category label alone." : "High-traffic evaluation pages should show a last-verified date and refresh whenever major repositories, benchmarks, or model releases change the answer."}</p>
+      </details>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  :global(html) {
+    font-family: "Avenir Next", "Helvetica Neue", system-ui, sans-serif;
+  }
+
+  :global(body) {
+    background: var(--sample-bg);
+  }
+
+  .sample-page {
+    --sample-bg: #f6f1e6;
+    --sample-surface: #fffaf0;
+    --sample-panel: #fffdf8;
+    --sample-ink: #17140f;
+    --sample-muted: #665e50;
+    --sample-line: #d8cdb8;
+    --sample-accent: #be5b2c;
+    --sample-accent-2: #176a5b;
+    color: var(--sample-ink);
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 18px 24px 72px;
+  }
+
+  .variant-command {
+    --sample-bg: #070a0f;
+    --sample-surface: #0d131c;
+    --sample-panel: #111b27;
+    --sample-ink: #eef6ff;
+    --sample-muted: #a3b1c2;
+    --sample-line: #233345;
+    --sample-accent: #64f2c2;
+    --sample-accent-2: #8fb7ff;
+  }
+
+  .variant-editorial {
+    --sample-bg: #fffdf8;
+    --sample-surface: #f6e7cf;
+    --sample-panel: #ffffff;
+    --sample-ink: #16110c;
+    --sample-muted: #695d4e;
+    --sample-line: #d7c0a0;
+    --sample-accent: #d5362e;
+    --sample-accent-2: #0d6b79;
+  }
+
+  .variant-leaderboard {
+    --sample-bg: #f2f6f4;
+    --sample-surface: #ffffff;
+    --sample-panel: #edf6f1;
+    --sample-ink: #101816;
+    --sample-muted: #52615c;
+    --sample-line: #c9d9d2;
+    --sample-accent: #0a7a5a;
+    --sample-accent-2: #365ca8;
+  }
+
+  .variant-lab {
+    --sample-bg: #10100d;
+    --sample-surface: #1a1a15;
+    --sample-panel: #22231d;
+    --sample-ink: #fbf6e8;
+    --sample-muted: #c6bea9;
+    --sample-line: #3e3b2f;
+    --sample-accent: #e4c35a;
+    --sample-accent-2: #89d4b9;
+  }
+
+  .variant-matrix {
+    --sample-bg: #f5fbff;
+    --sample-surface: #ffffff;
+    --sample-panel: #eef7ff;
+    --sample-ink: #09213d;
+    --sample-muted: #4a647d;
+    --sample-line: #c7def3;
+    --sample-accent: #1565d8;
+    --sample-accent-2: #18a6c9;
+  }
+
+  .sample-page::before {
+    background:
+      linear-gradient(90deg, color-mix(in srgb, var(--sample-line) 38%, transparent) 1px, transparent 1px),
+      linear-gradient(0deg, color-mix(in srgb, var(--sample-line) 30%, transparent) 1px, transparent 1px);
+    background-size: 48px 48px;
+    content: "";
+    inset: 0;
+    opacity: 0.26;
+    pointer-events: none;
+    position: fixed;
+    z-index: -1;
+  }
+
+  .sample-nav,
+  .hero,
+  .answer-block,
+  .decision-section,
+  .comparison-section,
+  .leaderboard-section,
+  .method-section,
+  .sources-section,
+  .faq-section {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1180px;
+  }
+
+  .sample-nav {
+    align-items: center;
+    background: color-mix(in srgb, var(--sample-surface) 82%, transparent);
+    border: 1px solid var(--sample-line);
+    border-radius: 8px;
+    display: flex;
+    gap: 18px;
+    justify-content: space-between;
+    padding: 12px 14px;
+    position: sticky;
+    top: 12px;
+    z-index: 5;
+  }
+
+  .sample-nav a {
+    color: var(--sample-ink);
+    font-size: 0.82rem;
+    font-weight: 750;
+  }
+
+  .sample-nav nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .sample-nav nav a {
+    color: var(--sample-muted);
+  }
+
+  .hero {
+    display: grid;
+    gap: 28px;
+    grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+    padding: 74px 0 38px;
+  }
+
+  .kicker {
+    color: var(--sample-accent);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.78rem;
+    font-weight: 800;
+    margin: 0 0 18px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    color: var(--sample-ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 4.75rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 0.96;
+    margin: 0;
+    max-width: 840px;
+  }
+
+  .variant-command h1,
+  .variant-leaderboard h1,
+  .variant-matrix h1 {
+    font-family: "Avenir Next", "Helvetica Neue", system-ui, sans-serif;
+    font-weight: 800;
+  }
+
+  .variant-lab h1 {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.02;
+  }
+
+  .dek {
+    color: var(--sample-muted);
+    font-size: 1.14rem;
+    line-height: 1.62;
+    margin: 24px 0 0;
+    max-width: 700px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .primary-action,
+  .secondary-action {
+    align-items: center;
+    border-radius: 8px;
+    display: inline-flex;
+    font-size: 0.92rem;
+    font-weight: 800;
+    min-height: 44px;
+    padding: 0 18px;
+  }
+
+  .primary-action {
+    background: var(--sample-ink);
+    color: var(--sample-bg);
+  }
+
+  .secondary-action {
+    border: 1px solid var(--sample-line);
+    color: var(--sample-ink);
+  }
+
+  .variant-command .primary-action,
+  .variant-lab .primary-action {
+    background: var(--sample-accent);
+    color: #07100d;
+  }
+
+  .hero-visual {
+    align-self: stretch;
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--sample-accent) 16%, transparent), transparent 42%),
+      var(--sample-surface);
+    border: 1px solid var(--sample-line);
+    border-radius: 8px;
+    display: grid;
+    gap: 18px;
+    grid-template-rows: minmax(220px, 1fr) auto;
+    min-height: 420px;
+    overflow: hidden;
+    padding: 16px;
+  }
+
+  .hero-visual img {
+    background: var(--sample-panel);
+    border: 1px solid var(--sample-line);
+    border-radius: 8px;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .visual-panel {
+    background: var(--sample-panel);
+    border: 1px solid var(--sample-line);
+    border-radius: 8px;
+    display: grid;
+    gap: 6px;
+    padding: 16px;
+  }
+
+  .visual-panel span,
+  dt {
+    color: var(--sample-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .visual-panel strong {
+    color: var(--sample-ink);
+    font-size: 1.35rem;
+  }
+
+  .visual-panel small,
+  dd {
+    color: var(--sample-muted);
+  }
+
+  .answer-block {
+    background: var(--sample-surface);
+    border: 1px solid var(--sample-line);
+    border-radius: 8px;
+    display: grid;
+    gap: 24px;
+    grid-template-columns: minmax(0, 0.86fr) minmax(320px, 1.14fr);
+    margin-top: 20px;
+    padding: 24px;
+  }
+
+  h2 {
+    color: var(--sample-ink);
+    font-size: 2.05rem;
+    letter-spacing: 0;
+    line-height: 1.08;
+    margin: 0;
+  }
+
+  h3 {
+    color: var(--sample-ink);
+    font-size: 1.02rem;
+    letter-spacing: 0;
+    margin: 0 0 12px;
+  }
+
+  p,
+  li {
+    color: var(--sample-muted);
+    line-height: 1.62;
+  }
+
+  .answer-block p {
+    font-size: 1.04rem;
+    margin: 14px 0 0;
+  }
+
+  .fact-grid,
+  .score-strip {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .fact-grid div,
+  .score-strip span {
+    background: var(--sample-panel);
+    border: 1px solid var(--sample-line);
+    border-radius: 8px;
+    display: grid;
+    gap: 7px;
+    min-height: 94px;
+    padding: 14px;
+  }
+
+  dd {
+    font-size: 1rem;
+    font-weight: 750;
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .score-strip strong {
+    color: var(--sample-accent);
+    display: block;
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .decision-section,
+  .comparison-section,
+  .leaderboard-section,
+  .method-section,
+  .sources-section,
+  .faq-section {
+    padding-top: 54px;
+  }
+
+  .section-head {
+    align-items: end;
+    display: grid;
+    gap: 18px;
+    grid-template-columns: minmax(0, 0.7fr) minmax(280px, 0.3fr);
+    margin-bottom: 18px;
+  }
+
+  .section-head p {
+    margin: 0;
+  }
+
+  .decision-grid,
+  .method-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .decision-grid article,
+  .method-grid article {
+    background: var(--sample-surface);
+    border: 1px solid var(--sample-line);
+    border-radius: 8px;
+    min-height: 220px;
+    padding: 20px;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 1.05rem;
+  }
+
+  li + li {
+    margin-top: 10px;
+  }
+
+  .table-wrap {
+    background: var(--sample-surface);
+    border: 1px solid var(--sample-line);
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+
+  table {
+    border-collapse: collapse;
+    min-width: 780px;
+    width: 100%;
+  }
+
+  th,
+  td {
+    border-bottom: 1px solid var(--sample-line);
+    color: var(--sample-muted);
+    padding: 16px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    color: var(--sample-ink);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+  }
+
+  td:first-child {
+    color: var(--sample-ink);
+    font-weight: 800;
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .source-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .source-list a {
+    align-items: center;
+    background: var(--sample-surface);
+    border: 1px solid var(--sample-line);
+    border-radius: 8px;
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 220px minmax(0, 1fr);
+    padding: 16px;
+  }
+
+  .source-list span {
+    color: var(--sample-ink);
+    font-weight: 800;
+  }
+
+  .source-list small {
+    color: var(--sample-muted);
+    overflow-wrap: anywhere;
+  }
+
+  .faq-section {
+    display: grid;
+    gap: 12px;
+  }
+
+  details {
+    background: var(--sample-surface);
+    border: 1px solid var(--sample-line);
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+
+  summary {
+    color: var(--sample-ink);
+    cursor: pointer;
+    font-weight: 850;
+  }
+
+  details p {
+    margin: 12px 0 0;
+  }
+
+  .variant-ledger .hero {
+    grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+  }
+
+  .variant-ledger {
+    --sample-bg: #f5fbff;
+    --sample-surface: #ffffff;
+    --sample-panel: #eef7ff;
+    --sample-ink: #09213d;
+    --sample-muted: #4a647d;
+    --sample-line: #c7def3;
+    --sample-accent: #1565d8;
+    --sample-accent-2: #18a6c9;
+  }
+
+  .variant-ledger h1 {
+    border-bottom: 1px solid var(--sample-line);
+    padding-bottom: 24px;
+  }
+
+  .variant-command .hero-visual {
+    box-shadow: 0 0 70px rgba(100, 242, 194, 0.12);
+  }
+
+  .variant-editorial .hero {
+    align-items: end;
+    border-bottom: 3px solid var(--sample-ink);
+    grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+  }
+
+  .variant-editorial .hero-visual {
+    transform: rotate(1deg);
+  }
+
+  .variant-leaderboard .answer-block {
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+  }
+
+  .variant-lab .sample-page,
+  .variant-lab {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  .variant-lab .hero-visual,
+  .variant-lab .answer-block,
+  .variant-lab .decision-grid article,
+  .variant-lab .method-grid article,
+  .variant-lab .table-wrap,
+  .variant-lab details,
+  .variant-lab .source-list a {
+    border-style: dashed;
+  }
+
+  .variant-matrix .hero {
+    grid-template-columns: minmax(0, 0.8fr) minmax(420px, 1.2fr);
+  }
+
+  @media (max-width: 900px) {
+    .sample-page {
+      padding: 12px 16px 52px;
+    }
+
+    .sample-nav {
+      align-items: flex-start;
+      position: static;
+    }
+
+    .sample-nav,
+    .sample-nav nav {
+      flex-direction: column;
+    }
+
+    .hero,
+    .answer-block,
+    .section-head,
+    .decision-grid,
+    .method-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero {
+      padding-top: 44px;
+    }
+
+    h1,
+    .variant-lab h1 {
+      font-size: 3rem;
+    }
+
+    .fact-grid,
+    .score-strip {
+      grid-template-columns: 1fr;
+    }
+
+    .source-list a {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

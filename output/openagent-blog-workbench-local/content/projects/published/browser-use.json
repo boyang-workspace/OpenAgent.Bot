@@ -1,0 +1,180 @@
+{
+  "slug": "browser-use",
+  "title": "browser-use",
+  "oneLiner": "Open-source browser automation agent framework that makes websites accessible to AI agents.",
+  "summary": "browser-use is an MIT-licensed Python project for connecting AI agents to browser actions, making it useful for teams prototyping web automation, browser agents, and task execution over real websites.",
+  "whyItMatters": "browser-use matters because browser control is one of the most practical surfaces for action agents. Many workflows still happen inside websites, and this project gives builders a focused open-source framework for testing that layer.",
+  "bestFor": [
+    "Developers building agents that need to operate websites",
+    "Teams prototyping browser automation before committing to a larger agent platform",
+    "Researchers evaluating web task completion and browser action safety"
+  ],
+  "notFor": [
+    "Users who want a complete no-code automation product",
+    "Teams that cannot manage credentials, browser sessions, and site-specific failure cases"
+  ],
+  "category": "agents",
+  "tags": [
+    "agent",
+    "open-source",
+    "browser-automation",
+    "browser",
+    "workflow-orchestration",
+    "tool-calling",
+    "self-hosted"
+  ],
+  "repoUrl": "https://github.com/browser-use/browser-use",
+  "homepageUrl": "https://browser-use.com",
+  "docsUrl": "https://docs.browser-use.com/",
+  "license": "MIT",
+  "maintainer": "browser-use",
+  "sourceLinks": [
+    "https://github.com/browser-use/browser-use",
+    "https://browser-use.com",
+    "https://docs.browser-use.com/"
+  ],
+  "seoTitle": "browser-use: Open-source browser automation for AI agents",
+  "seoDescription": "browser-use profile: what the open-source browser agent framework is, when to use it, official links, command line, and OpenAgent structured data.",
+  "shareTitle": "browser-use on OpenAgent.bot",
+  "shareDescription": "Open-source browser automation agent framework for web task execution.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "featuredReason": "A focused open-source browser agent framework that pairs well with OpenClaw-style action-agent workflows.",
+  "sourceMetrics": {
+    "stars": 88493,
+    "forks": 10154
+  },
+  "coreStrengths": [
+    {
+      "title": "Browser-first agent surface",
+      "description": "browser-use focuses on making websites actionable for AI agents.",
+      "whyItMatters": "Most business workflows still cross web apps, forms, dashboards, and authenticated pages."
+    },
+    {
+      "title": "Python developer workflow",
+      "description": "The project is built for developers who want to compose browser automation into agent code.",
+      "whyItMatters": "A focused framework can be easier to adopt than a full agent operating environment."
+    },
+    {
+      "title": "Strong fit for narrow automation tests",
+      "description": "It is useful for validating whether a browser task can be represented as an agent workflow.",
+      "whyItMatters": "Narrow tests reveal site failures, credential needs, and reliability issues before a team scales automation."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Website task automation",
+      "description": "Use browser-use when an agent needs to navigate, click, type, inspect pages, or complete a web flow."
+    },
+    {
+      "title": "Browser agent prototypes",
+      "description": "Test browser automation as a standalone layer before adding memory, scheduling, or full workflow orchestration."
+    },
+    {
+      "title": "Web QA and research workflows",
+      "description": "Evaluate how agents behave across real web pages, changing layouts, and multi-step browser tasks."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose browser-use for browser automation primitives",
+      "against": "full action-agent platforms",
+      "summary": "OpenClaw and OpenHands cover broader agent workflows. browser-use is more focused when the core problem is browser operation itself."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Open the GitHub repository",
+      "url": "https://github.com/browser-use/browser-use",
+      "type": "github"
+    },
+    {
+      "label": "Read the documentation",
+      "url": "https://docs.browser-use.com/",
+      "type": "docs"
+    },
+    {
+      "label": "Visit the project website",
+      "url": "https://browser-use.com",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Install browser-use",
+      "command": "pip install browser-use",
+      "description": "Use the official package path, then follow the docs for model provider and browser setup."
+    }
+  ],
+  "seoArticle": {
+    "intro": "browser-use is one of the most direct ways to test whether an AI agent can operate a website. Instead of starting with a broad agent platform, it focuses on the browser surface: navigation, actions, page state, and the messy reality of web workflows.",
+    "whatItIs": "browser-use is an open-source Python framework that makes websites accessible to AI agents. It gives developers a way to connect model decisions to browser actions so agents can interact with web pages rather than only describe what a user should do.",
+    "whyItMatters": "If action agents are going to be useful, they need to work where real work happens. Browser-based systems are still the front door to many tools, CRMs, dashboards, stores, and internal apps. browser-use is useful because it isolates that problem and lets teams test it directly.",
+    "howItWorks": "A typical experiment starts with a narrow browser task, a model provider, and a controlled browser session. The developer then observes how the agent reads page state, selects actions, handles errors, and recovers when a page changes.",
+    "useCases": [
+      {
+        "title": "Automating web research",
+        "description": "Use browser-use to test agents that collect information from pages, compare options, or navigate repeated research flows."
+      },
+      {
+        "title": "Form and dashboard workflows",
+        "description": "Evaluate whether an agent can complete repeatable web tasks that previously required manual clicking."
+      },
+      {
+        "title": "Browser-agent safety testing",
+        "description": "Use it to study what permissions, prompts, and guardrails are needed when an agent controls a browser."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Use OpenClaw when you need a broader action-agent workspace",
+        "against": "OpenClaw",
+        "summary": "browser-use is focused on browser automation. OpenClaw is more relevant when browser control is only one layer in a larger workflow runtime."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Start with the docs",
+        "url": "https://docs.browser-use.com/",
+        "type": "docs"
+      },
+      {
+        "label": "Inspect the repository",
+        "url": "https://github.com/browser-use/browser-use",
+        "type": "github"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is browser-use open source?",
+        "answer": "The GitHub repository is listed with an MIT license."
+      },
+      {
+        "question": "Is browser-use the same as a full agent platform?",
+        "answer": "No. It is more focused on browser automation. You may still need memory, scheduling, permissions, and workflow orchestration around it."
+      },
+      {
+        "question": "Who should try browser-use?",
+        "answer": "Developers who need to test whether web tasks can be represented as reliable AI agent workflows should start here."
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "agent",
+    "visualMotif": "browser window outline with action path nodes and a small pointer trail",
+    "backgroundStyle": "clean editorial surface with restrained green and blue accents",
+    "titleOverlay": "browser-use",
+    "subtitle": "Websites for AI agents",
+    "avoid": [
+      "literal browser screenshots with private data",
+      "cartoon robot hands",
+      "busy automation flowchart"
+    ]
+  }
+}

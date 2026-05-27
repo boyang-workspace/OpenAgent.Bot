@@ -1,0 +1,177 @@
+{
+  "slug": "goose",
+  "title": "Goose",
+  "oneLiner": "Open-source desktop, CLI, and API agent from Block for coding and everyday workflows.",
+  "summary": "Goose is Block's open-source AI agent for working across code, local workflows, tools, and extensions through desktop, CLI, and API surfaces.",
+  "whyItMatters": "Goose matters because it treats agent work as something that belongs on the user's machine, connected to local files, development tools, and extensions rather than trapped inside a chat tab.",
+  "bestFor": [
+    "Developers who want a local agent for coding and workflow tasks",
+    "Teams evaluating desktop and CLI agent UX",
+    "Builders interested in MCP-style extension ecosystems"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "agents",
+  "tags": [
+    "agent",
+    "open-source",
+    "coding-agent",
+    "workflow-orchestration",
+    "tool-calling",
+    "self-hosted",
+    "mcp"
+  ],
+  "repoUrl": "https://github.com/block/goose",
+  "homepageUrl": "https://block.github.io/goose/",
+  "docsUrl": "https://block.github.io/goose/docs/",
+  "license": "Apache-2.0",
+  "maintainer": "Block",
+  "sourceLinks": [
+    "https://github.com/block/goose",
+    "https://block.github.io/goose/",
+    "https://block.xyz/inside/block-open-source-introduces-codename-goose",
+    "https://block.github.io/goose/docs/"
+  ],
+  "seoTitle": "Goose: Agents resource for open AI builders",
+  "seoDescription": "Goose profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "Goose on OpenAgent.bot",
+  "shareDescription": "Open-source desktop, CLI, and API agent from Block for coding and everyday workflows.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Local agent surface",
+      "description": "Goose provides desktop and CLI paths for agent work.",
+      "whyItMatters": "Local surfaces are often more natural for coding, files, and repeatable workflows."
+    },
+    {
+      "title": "Extension-oriented design",
+      "description": "Goose connects agents to tools through extensions and provider configuration.",
+      "whyItMatters": "Agents become more useful when they can safely reach the tools a user already relies on."
+    },
+    {
+      "title": "Permissive open-source release",
+      "description": "Block has described Goose as Apache-2.0 open source.",
+      "whyItMatters": "A permissive license makes it easier to study and adapt the agent runtime."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Developer task execution",
+      "description": "Use Goose to inspect repos, run tools, and work through coding tasks locally."
+    },
+    {
+      "title": "MCP-backed workflows",
+      "description": "Connect Goose to extensions or servers that expose tools to the agent."
+    },
+    {
+      "title": "Desktop agent evaluation",
+      "description": "Compare what a desktop-first agent can do compared with a browser-only chat UI."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Goose fits local developer workflows",
+      "against": "hosted agent products",
+      "summary": "Hosted agents can be convenient, but Goose is more interesting when local files, tools, and extension control matter."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/block/goose",
+      "type": "github"
+    },
+    {
+      "label": "Official source",
+      "url": "https://block.github.io/goose/docs/",
+      "type": "homepage"
+    },
+    {
+      "label": "Official source",
+      "url": "https://block.github.io/goose/",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone the Goose repository",
+      "command": "git clone https://github.com/block/goose.git",
+      "description": "Start from the official Block repository and follow the current install instructions in the docs."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Goose is Block's open-source AI agent for working across code, local workflows, tools, and extensions through desktop, CLI, and API surfaces.",
+    "whatItIs": "Goose is an open AI agents resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "Goose matters because it treats agent work as something that belongs on the user's machine, connected to local files, development tools, and extensions rather than trapped inside a chat tab.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "Developer task execution",
+        "description": "Use Goose to inspect repos, run tools, and work through coding tasks locally."
+      },
+      {
+        "title": "MCP-backed workflows",
+        "description": "Connect Goose to extensions or servers that expose tools to the agent."
+      },
+      {
+        "title": "Desktop agent evaluation",
+        "description": "Compare what a desktop-first agent can do compared with a browser-only chat UI."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Goose fits local developer workflows",
+        "against": "hosted agent products",
+        "summary": "Hosted agents can be convenient, but Goose is more interesting when local files, tools, and extension control matter."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/block/goose",
+        "type": "github"
+      },
+      {
+        "label": "Official source",
+        "url": "https://block.github.io/goose/docs/",
+        "type": "homepage"
+      },
+      {
+        "label": "Official source",
+        "url": "https://block.github.io/goose/",
+        "type": "homepage"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is Goose open source?",
+        "answer": "Goose is listed with Apache-2.0 based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate Goose?",
+        "answer": "Developers who want a local agent for coding and workflow tasks"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "agent",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "Goose",
+    "subtitle": "Open-source desktop, CLI, and API agent from Block for coding and everyday workflows.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

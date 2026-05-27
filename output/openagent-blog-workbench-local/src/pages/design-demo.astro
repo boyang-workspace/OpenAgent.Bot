@@ -1,0 +1,1090 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { categories } from "@/config/site";
+import { getPublishedResources, resourcePath } from "@/lib/content/resources";
+import { resourceCategoryLabel, resourceImage, resourceSignals, resourceSummary, resourceTags } from "@/lib/content/resource-display";
+
+const resources = await getPublishedResources();
+const featured =
+  resources.find((resource) => resource.editorial?.featured_reason) ??
+  resources.find((resource) => resource.facts.github_stars !== undefined) ??
+  resources[0];
+const ranked = [...resources]
+  .sort((a, b) => (b.facts.github_stars ?? 0) - (a.facts.github_stars ?? 0))
+  .slice(0, 7);
+const latest = [...resources].sort((a, b) => b.timestamps.updated_at.localeCompare(a.timestamps.updated_at)).slice(0, 5);
+const categoryCounts = categories
+  .map((category) => ({
+    ...category,
+    count: resources.filter((resource) => resource.classification.primary_category === category.slug).length
+  }))
+  .filter((category) => category.count > 0)
+  .slice(0, 6);
+
+const featurePath = featured ? resourcePath(featured) : "/";
+const featureTags = featured ? resourceTags(featured, 4) : [];
+const featureSignals = featured ? resourceSignals(featured, 4) : [];
+---
+
+<BaseLayout title="Design Demo | OpenAgent.bot" description="A private design exploration for OpenAgent.bot." path="/design-demo" noindex>
+  <div class="demo-page">
+    <div class="ambient-grid" aria-hidden="true"></div>
+
+    <header class="demo-nav" aria-label="Demo navigation">
+      <a class="demo-brand" href="/">
+        <span>OA</span>
+        <strong>OpenAgent.bot</strong>
+      </a>
+      <nav>
+        <a href="#desk">Desk</a>
+        <a href="#signals">Signals</a>
+        <a href="#index">Index</a>
+      </nav>
+      <a class="demo-ghost" href="/">Current site</a>
+    </header>
+
+    <main>
+      <section class="hero-stage" id="desk">
+        <div class="hero-copy">
+          <span class="eyebrow">Private Design Demo</span>
+          <h1>Open AI discovery, edited with sharper taste.</h1>
+          <p>
+            A calmer front desk for models, agents, skills, memory systems, plugins, and tools.
+            The demo treats every resource as a profile with evidence, context, and a clear next step.
+          </p>
+          <div class="hero-actions">
+            <a class="demo-button" href={featurePath}>Open featured profile</a>
+            <a class="demo-button secondary" href="#index">Browse the index</a>
+          </div>
+        </div>
+
+        {
+          featured && (
+            <a class="feature-board" href={featurePath} aria-label={featured.identity.name}>
+              <div class="image-stack">
+                <img src={resourceImage(featured)} alt="" loading="eager" decoding="async" />
+                <div class="live-ticker" aria-hidden="true">
+                  <span></span>
+                  <strong>Editorial pick</strong>
+                </div>
+              </div>
+              <div class="feature-meta">
+                <span>{resourceCategoryLabel(featured)}</span>
+                {featured.facts.github_stars !== undefined && <span>{featured.facts.github_stars.toLocaleString("en-US")} stars</span>}
+              </div>
+              <h2>{featured.identity.name}</h2>
+              <p>{resourceSummary(featured)}</p>
+              {featured.editorial?.featured_reason && <blockquote>{featured.editorial.featured_reason}</blockquote>}
+            </a>
+          )
+        }
+      </section>
+
+      <section class="signal-strip" id="signals" aria-label="Featured resource signals">
+        <div>
+          <span class="eyebrow">Evidence</span>
+          <h2>Show the facts before the pitch.</h2>
+        </div>
+        <div class="signal-list">
+          {[...featureSignals, ...featureTags].slice(0, 6).map((signal, index) => <span style={`--i:${index}`}>{signal}</span>)}
+        </div>
+      </section>
+
+      <section class="split-section">
+        <div class="section-intro">
+          <span class="eyebrow">Why Change</span>
+          <h2>The current site is clear, but it can feel like a polite catalog.</h2>
+          <p>
+            This direction makes the homepage behave more like an editorial workbench:
+            stronger hierarchy, fewer boxed modules, denser evidence, and more room for the featured resource to earn attention.
+          </p>
+        </div>
+        <div class="diagnosis-list">
+          <article>
+            <span>01</span>
+            <h3>Reduce card sameness</h3>
+            <p>Use rails, ranked rows, and one hero profile instead of repeating equal-width cards across every section.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Make browsing feel editorial</h3>
+            <p>Lead with proof points and category density so builders can scan with intent, not just scroll.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Upgrade the material system</h3>
+            <p>Move from soft boxes to fine lines, pressed controls, restrained shadows, and one desaturated accent.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="index-lab" id="index">
+        <div class="index-head">
+          <div>
+            <span class="eyebrow">Interactive Index</span>
+            <h2>Filter real resources without leaving the page.</h2>
+          </div>
+          <form class="demo-search" role="search">
+            <label for="demo-resource-search">Search resources</label>
+            <input id="demo-resource-search" name="q" type="search" placeholder="Try agent, memory, MCP, local" autocomplete="off" />
+            <p id="demo-search-help">Search title, category, summary, and tags.</p>
+          </form>
+        </div>
+
+        <div class="category-rail" aria-label="Category filters">
+          <button type="button" class="active" data-filter="all">All resources</button>
+          {
+            categoryCounts.map((category) => (
+              <button type="button" data-filter={category.slug}>
+                <span>{category.label}</span>
+                <strong>{category.count}</strong>
+              </button>
+            ))
+          }
+        </div>
+
+        <div class="state-panel loading-state" data-state="loading" hidden>
+          <div class="skeleton wide"></div>
+          <div class="skeleton"></div>
+          <div class="skeleton short"></div>
+        </div>
+        <div class="state-panel empty-state" data-state="empty" hidden>
+          <strong>No matching resource yet.</strong>
+          <p>Try a broader term or switch back to the full index.</p>
+        </div>
+        <div class="state-panel error-state" data-state="error" hidden>
+          <strong>Search paused.</strong>
+          <p>The demo caught an invalid query pattern. Clear the field and continue browsing.</p>
+        </div>
+
+        <div class="resource-ledger" data-resource-ledger>
+          {
+            ranked.map((resource, index) => {
+              const href = resourcePath(resource);
+              const tags = resourceTags(resource, 3);
+              const searchText = [
+                resource.identity.name,
+                resourceSummary(resource),
+                resourceCategoryLabel(resource),
+                resource.classification.primary_category,
+                tags.join(" ")
+              ]
+                .join(" ")
+                .toLowerCase();
+
+              return (
+                <a
+                  class="ledger-row"
+                  href={href}
+                  data-category={resource.classification.primary_category}
+                  data-search={searchText}
+                  style={`--i:${index}`}
+                >
+                  <span class="rank">{String(index + 1).padStart(2, "0")}</span>
+                  <img src={resourceImage(resource)} alt="" loading="lazy" decoding="async" />
+                  <div>
+                    <span class="row-category">{resourceCategoryLabel(resource)}</span>
+                    <h3>{resource.identity.name}</h3>
+                    <p>{resourceSummary(resource)}</p>
+                  </div>
+                  <div class="row-tags">
+                    {tags.map((tag) => <span>{tag}</span>)}
+                  </div>
+                  <span class="row-action">View profile</span>
+                </a>
+              );
+            })
+          }
+        </div>
+      </section>
+
+      <section class="closing-grid">
+        <div class="latest-panel">
+          <span class="eyebrow">Recently Verified</span>
+          {latest.map((resource) => (
+            <a href={resourcePath(resource)}>
+              <span>{resource.timestamps.updated_at.slice(0, 10)}</span>
+              <strong>{resource.identity.name}</strong>
+            </a>
+          ))}
+        </div>
+        <div class="memo-panel">
+          <span class="eyebrow">Design Direction</span>
+          <h2>Sharper, quieter, and more useful at scan speed.</h2>
+          <p>
+            Keep the current content model. Change the presentation layer:
+            stronger nav rhythm, ranked resource rows, one featured media surface, and fewer generic card shelves.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+</BaseLayout>
+
+<script>
+  const ledger = document.querySelector<HTMLElement>("[data-resource-ledger]");
+  const rows = Array.from(document.querySelectorAll<HTMLElement>(".ledger-row"));
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-filter]"));
+  const input = document.querySelector("#demo-resource-search");
+  const loadingState = document.querySelector<HTMLElement>('[data-state="loading"]');
+  const emptyState = document.querySelector<HTMLElement>('[data-state="empty"]');
+  const errorState = document.querySelector<HTMLElement>('[data-state="error"]');
+  let activeFilter = "all";
+  let timer = 0;
+
+  function setState(state: "ready" | "loading" | "empty" | "error") {
+    if (!loadingState || !emptyState || !errorState || !ledger) return;
+    loadingState.hidden = state !== "loading";
+    emptyState.hidden = state !== "empty";
+    errorState.hidden = state !== "error";
+    ledger.toggleAttribute("hidden", state !== "ready");
+  }
+
+  function applyFilter() {
+    if (!(input instanceof HTMLInputElement)) return;
+    const query = input.value.trim().toLowerCase();
+
+    if (query.includes("<") || query.includes(">")) {
+      setState("error");
+      return;
+    }
+
+    let visible = 0;
+    rows.forEach((row) => {
+      const matchesCategory = activeFilter === "all" || row.dataset.category === activeFilter;
+      const matchesQuery = !query || row.dataset.search?.includes(query);
+      const shouldShow = Boolean(matchesCategory && matchesQuery);
+      row.hidden = !shouldShow;
+      if (shouldShow) visible += 1;
+    });
+
+    setState(visible > 0 ? "ready" : "empty");
+  }
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      buttons.forEach((item) => item.classList.remove("active"));
+      button.classList.add("active");
+      activeFilter = button.dataset.filter ?? "all";
+      applyFilter();
+    });
+  });
+
+  input?.addEventListener("input", () => {
+    window.clearTimeout(timer);
+    setState("loading");
+    timer = window.setTimeout(applyFilter, 180);
+  });
+</script>
+
+<style>
+  :global(html) {
+    font-family:
+      "Geist",
+      "Avenir Next",
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+  }
+
+  .demo-page {
+    --demo-paper: #f7f9f4;
+    --demo-surface: #ffffff;
+    --demo-ink: #151814;
+    --demo-muted: #60675f;
+    --demo-soft: #e9eee4;
+    --demo-line: #dfe6db;
+    --demo-line-strong: #bdcab7;
+    --demo-accent: #25715b;
+    --demo-accent-soft: #dce9df;
+    background:
+      radial-gradient(circle at 12% 9%, rgba(37, 113, 91, 0.1), transparent 24rem),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(247, 249, 244, 0.92) 26rem),
+      var(--demo-paper);
+    color: var(--demo-ink);
+    min-height: 100dvh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ambient-grid {
+    background-image:
+      linear-gradient(rgba(21, 24, 20, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(21, 24, 20, 0.045) 1px, transparent 1px);
+    background-size: 42px 42px;
+    inset: 0;
+    mask-image: linear-gradient(180deg, black, transparent 58%);
+    pointer-events: none;
+    position: fixed;
+  }
+
+  .demo-page main,
+  .demo-nav {
+    margin: 0 auto;
+    max-width: 1360px;
+    position: relative;
+  }
+
+  .demo-page main {
+    display: grid;
+    gap: 80px;
+    padding: 36px 28px 80px;
+  }
+
+  .demo-nav {
+    align-items: center;
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 1fr auto 1fr;
+    min-height: 76px;
+    padding: 0 28px;
+  }
+
+  .demo-brand,
+  .demo-nav nav,
+  .hero-actions,
+  .feature-meta,
+  .signal-list,
+  .category-rail,
+  .row-tags {
+    align-items: center;
+    display: flex;
+  }
+
+  .demo-brand {
+    gap: 11px;
+    width: max-content;
+  }
+
+  .demo-brand span {
+    align-items: center;
+    background: var(--demo-ink);
+    border-radius: 8px;
+    color: var(--demo-paper);
+    display: inline-flex;
+    font-size: 0.78rem;
+    font-weight: 760;
+    height: 34px;
+    justify-content: center;
+    width: 34px;
+  }
+
+  .demo-brand strong {
+    font-size: 0.98rem;
+  }
+
+  .demo-nav nav {
+    background: color-mix(in srgb, var(--demo-surface) 76%, transparent);
+    border: 1px solid rgba(223, 230, 219, 0.82);
+    border-radius: 8px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .demo-nav nav a,
+  .demo-ghost {
+    border-radius: 7px;
+    color: var(--demo-muted);
+    font-size: 0.9rem;
+    font-weight: 650;
+    padding: 9px 12px;
+    transition:
+      background 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .demo-nav nav a:hover,
+  .demo-ghost:hover {
+    background: var(--demo-surface);
+    color: var(--demo-ink);
+    transform: translateY(-1px);
+  }
+
+  .demo-ghost {
+    border: 1px solid var(--demo-line);
+    justify-self: end;
+  }
+
+  .hero-stage {
+    display: grid;
+    gap: clamp(28px, 5vw, 76px);
+    grid-template-columns: minmax(0, 0.78fr) minmax(360px, 1.22fr);
+    min-height: min(760px, calc(100dvh - 112px));
+    padding-top: 18px;
+  }
+
+  .hero-copy {
+    align-self: center;
+    display: grid;
+    justify-items: start;
+    max-width: 580px;
+  }
+
+  .eyebrow {
+    color: var(--demo-accent);
+    font-size: 0.72rem;
+    font-weight: 760;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .hero-copy h1,
+  .section-intro h2,
+  .index-head h2,
+  .signal-strip h2,
+  .memo-panel h2 {
+    font-weight: 760;
+    letter-spacing: 0;
+    line-height: 0.98;
+    margin: 0;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.8rem, 5.35vw, 5.75rem);
+    margin-top: 18px;
+    max-width: 11ch;
+  }
+
+  .hero-copy p,
+  .section-intro p,
+  .memo-panel p {
+    color: var(--demo-muted);
+    font-size: 1.02rem;
+    line-height: 1.68;
+    margin: 24px 0 0;
+    max-width: 64ch;
+  }
+
+  .hero-actions {
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 34px;
+  }
+
+  .demo-button {
+    background: var(--demo-ink);
+    border: 1px solid var(--demo-ink);
+    border-radius: 8px;
+    color: var(--demo-paper);
+    display: inline-flex;
+    font-size: 0.94rem;
+    font-weight: 720;
+    min-height: 44px;
+    padding: 0 17px;
+    place-items: center;
+    transition:
+      background 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .demo-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .demo-button:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .demo-button.secondary {
+    background: var(--demo-surface);
+    border-color: var(--demo-line);
+    color: var(--demo-ink);
+  }
+
+  .feature-board {
+    align-self: stretch;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(223, 230, 219, 0.86);
+    border-radius: 8px;
+    box-shadow:
+      0 34px 80px -48px rgba(21, 24, 20, 0.32),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    display: grid;
+    grid-template-rows: minmax(320px, 1fr) auto auto auto;
+    min-width: 0;
+    overflow: hidden;
+    padding: 10px;
+  }
+
+  .image-stack {
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(233, 238, 228, 0.94)),
+      var(--demo-soft);
+    border-radius: 7px;
+    min-height: 320px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .image-stack img {
+    height: 100%;
+    object-fit: contain;
+    transform: scale(1.02);
+    transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    width: 100%;
+  }
+
+  .feature-board:hover img {
+    transform: scale(1.07);
+  }
+
+  .live-ticker {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    bottom: 14px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74);
+    display: flex;
+    gap: 9px;
+    left: 14px;
+    padding: 9px 11px;
+    position: absolute;
+  }
+
+  .live-ticker span {
+    animation: breathe 1800ms ease-in-out infinite;
+    background: var(--demo-accent);
+    border-radius: 999px;
+    height: 8px;
+    width: 8px;
+  }
+
+  .live-ticker strong {
+    font-size: 0.78rem;
+  }
+
+  .feature-meta {
+    flex-wrap: wrap;
+    gap: 9px;
+    padding: 20px 16px 0;
+  }
+
+  .feature-meta span,
+  .row-category,
+  .row-tags span,
+  .signal-list span {
+    color: var(--demo-accent);
+    font-size: 0.72rem;
+    font-weight: 720;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .feature-meta span + span {
+    color: var(--demo-muted);
+  }
+
+  .feature-board h2 {
+    font-size: clamp(2.25rem, 4vw, 4.4rem);
+    letter-spacing: 0;
+    line-height: 0.95;
+    margin: 12px 16px 0;
+  }
+
+  .feature-board p {
+    color: var(--demo-muted);
+    font-size: 1rem;
+    line-height: 1.58;
+    margin: 14px 16px 0;
+  }
+
+  .feature-board blockquote {
+    border-top: 1px solid var(--demo-line);
+    color: var(--demo-ink);
+    line-height: 1.58;
+    margin: 18px 16px 10px;
+    padding-top: 16px;
+  }
+
+  .signal-strip,
+  .split-section,
+  .index-lab,
+  .closing-grid {
+    display: grid;
+    gap: 28px;
+  }
+
+  .signal-strip {
+    align-items: end;
+    border-bottom: 1px solid var(--demo-line);
+    border-top: 1px solid var(--demo-line);
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    padding: 30px 0;
+  }
+
+  .signal-strip h2,
+  .section-intro h2,
+  .index-head h2,
+  .memo-panel h2 {
+    font-size: clamp(2rem, 4vw, 4.25rem);
+    margin-top: 10px;
+  }
+
+  .signal-list {
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .signal-list span,
+  .row-tags span {
+    animation: rise-in 500ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 80ms);
+    background: var(--demo-accent-soft);
+    border: 1px solid color-mix(in srgb, var(--demo-accent) 18%, transparent);
+    border-radius: 8px;
+    padding: 8px 10px;
+  }
+
+  .split-section {
+    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+  }
+
+  .section-intro {
+    padding-top: 20px;
+  }
+
+  .diagnosis-list {
+    border-top: 1px solid var(--demo-line);
+    display: grid;
+  }
+
+  .diagnosis-list article {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 58px minmax(0, 0.54fr) minmax(0, 1fr);
+    padding: 28px 0;
+  }
+
+  .diagnosis-list article + article {
+    border-top: 1px solid var(--demo-line);
+  }
+
+  .diagnosis-list span {
+    color: var(--demo-accent);
+    font-family: "Geist Mono", "SFMono-Regular", Consolas, monospace;
+    font-size: 0.84rem;
+    font-weight: 720;
+  }
+
+  .diagnosis-list h3 {
+    font-size: 1.45rem;
+    letter-spacing: 0;
+    line-height: 1.06;
+    margin: 0;
+  }
+
+  .diagnosis-list p {
+    color: var(--demo-muted);
+    line-height: 1.62;
+    margin: 0;
+  }
+
+  .index-lab {
+    background: rgba(255, 255, 255, 0.58);
+    border: 1px solid var(--demo-line);
+    border-radius: 8px;
+    box-shadow: 0 28px 70px -56px rgba(21, 24, 20, 0.34);
+    padding: clamp(18px, 3vw, 34px);
+  }
+
+  .index-head {
+    align-items: end;
+    display: grid;
+    gap: 22px;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+  }
+
+  .demo-search {
+    display: grid;
+    gap: 8px;
+  }
+
+  .demo-search label {
+    color: var(--demo-ink);
+    font-size: 0.86rem;
+    font-weight: 720;
+  }
+
+  .demo-search input {
+    background: var(--demo-surface);
+    border: 1px solid var(--demo-line);
+    border-radius: 8px;
+    color: var(--demo-ink);
+    font: inherit;
+    min-height: 46px;
+    outline: none;
+    padding: 0 14px;
+  }
+
+  .demo-search input:focus {
+    border-color: var(--demo-line-strong);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--demo-accent) 12%, transparent);
+  }
+
+  .demo-search p {
+    color: var(--demo-muted);
+    font-size: 0.84rem;
+    margin: 0;
+  }
+
+  .category-rail {
+    border-bottom: 1px solid var(--demo-line);
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 18px;
+    scrollbar-width: none;
+  }
+
+  .category-rail button {
+    align-items: center;
+    background: transparent;
+    border: 1px solid var(--demo-line);
+    border-radius: 8px;
+    color: var(--demo-muted);
+    cursor: pointer;
+    display: inline-flex;
+    flex: 0 0 auto;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 650;
+    gap: 9px;
+    min-height: 40px;
+    padding: 0 13px;
+    transition:
+      background 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      color 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .category-rail button strong {
+    color: var(--demo-accent);
+    font-family: "Geist Mono", "SFMono-Regular", Consolas, monospace;
+    font-size: 0.78rem;
+  }
+
+  .category-rail button:hover,
+  .category-rail button.active {
+    background: var(--demo-surface);
+    color: var(--demo-ink);
+    transform: translateY(-1px);
+  }
+
+  .resource-ledger {
+    display: grid;
+  }
+
+  .ledger-row {
+    align-items: center;
+    animation: rise-in 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 75ms);
+    border-bottom: 1px solid var(--demo-line);
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 44px 92px minmax(0, 1fr) minmax(160px, 0.5fr) auto;
+    min-height: 118px;
+    padding: 18px 0;
+    transition:
+      background 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .ledger-row:hover {
+    background: rgba(255, 255, 255, 0.62);
+    transform: translateX(4px);
+  }
+
+  .ledger-row[hidden] {
+    display: none;
+  }
+
+  .rank {
+    color: var(--demo-muted);
+    font-family: "Geist Mono", "SFMono-Regular", Consolas, monospace;
+    font-size: 0.86rem;
+  }
+
+  .ledger-row img {
+    aspect-ratio: 1 / 1;
+    background: var(--demo-soft);
+    border-radius: 8px;
+    object-fit: contain;
+    width: 92px;
+  }
+
+  .ledger-row h3 {
+    font-size: 1.35rem;
+    letter-spacing: 0;
+    line-height: 1.08;
+    margin: 5px 0 0;
+  }
+
+  .ledger-row p {
+    color: var(--demo-muted);
+    display: -webkit-box;
+    line-height: 1.5;
+    margin: 8px 0 0;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .row-tags {
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .row-tags span {
+    color: var(--demo-muted);
+    padding: 6px 8px;
+    text-transform: none;
+  }
+
+  .row-action {
+    color: var(--demo-accent);
+    font-size: 0.9rem;
+    font-weight: 720;
+    white-space: nowrap;
+  }
+
+  .state-panel {
+    background: var(--demo-surface);
+    border: 1px solid var(--demo-line);
+    border-radius: 8px;
+    min-height: 154px;
+    padding: 22px;
+  }
+
+  .state-panel strong {
+    display: block;
+    font-size: 1.3rem;
+  }
+
+  .state-panel p {
+    color: var(--demo-muted);
+    margin: 8px 0 0;
+  }
+
+  .skeleton {
+    animation: shimmer 1400ms ease-in-out infinite;
+    background: linear-gradient(90deg, var(--demo-soft), #f8faf6, var(--demo-soft));
+    background-size: 220% 100%;
+    border-radius: 8px;
+    height: 18px;
+    margin-top: 14px;
+    width: 72%;
+  }
+
+  .skeleton.wide {
+    height: 34px;
+    margin-top: 0;
+    width: 100%;
+  }
+
+  .skeleton.short {
+    width: 42%;
+  }
+
+  .error-state {
+    border-color: color-mix(in srgb, #9f4438 44%, var(--demo-line));
+  }
+
+  .closing-grid {
+    grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+  }
+
+  .latest-panel,
+  .memo-panel {
+    border-top: 1px solid var(--demo-line);
+    padding-top: 22px;
+  }
+
+  .latest-panel {
+    display: grid;
+    gap: 16px;
+  }
+
+  .latest-panel a {
+    display: grid;
+    gap: 5px;
+  }
+
+  .latest-panel a + a {
+    border-top: 1px solid var(--demo-line);
+    padding-top: 16px;
+  }
+
+  .latest-panel span {
+    color: var(--demo-muted);
+    font-family: "Geist Mono", "SFMono-Regular", Consolas, monospace;
+    font-size: 0.78rem;
+  }
+
+  .latest-panel strong {
+    font-size: 1.1rem;
+  }
+
+  @keyframes breathe {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(37, 113, 91, 0.26);
+      transform: scale(1);
+    }
+
+    50% {
+      box-shadow: 0 0 0 8px rgba(37, 113, 91, 0);
+      transform: scale(1.18);
+    }
+  }
+
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes shimmer {
+    from {
+      background-position: 0% 0;
+    }
+
+    to {
+      background-position: -220% 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 1ms !important;
+    }
+  }
+
+  @media (max-width: 980px) {
+    .demo-page main {
+      gap: 56px;
+      padding: 22px 18px 62px;
+    }
+
+    .demo-nav {
+      grid-template-columns: 1fr auto;
+      padding: 0 18px;
+    }
+
+    .demo-nav nav {
+      display: none;
+    }
+
+    .hero-stage,
+    .signal-strip,
+    .split-section,
+    .index-head,
+    .closing-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-stage {
+      min-height: 0;
+    }
+
+    .hero-copy h1 {
+      max-width: 12ch;
+    }
+
+    .signal-list {
+      justify-content: flex-start;
+    }
+
+    .diagnosis-list article {
+      grid-template-columns: 48px minmax(0, 1fr);
+    }
+
+    .diagnosis-list article p {
+      grid-column: 2;
+    }
+
+    .ledger-row {
+      grid-template-columns: 34px 74px minmax(0, 1fr);
+    }
+
+    .ledger-row img {
+      width: 74px;
+    }
+
+    .row-tags,
+    .row-action {
+      grid-column: 3;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .demo-brand strong {
+      display: none;
+    }
+
+    .hero-copy h1 {
+      font-size: 3.05rem;
+      max-width: 10ch;
+    }
+
+    .feature-board {
+      grid-template-rows: minmax(220px, auto) auto auto auto;
+    }
+
+    .image-stack {
+      min-height: 220px;
+    }
+
+    .demo-button {
+      justify-content: center;
+      width: 100%;
+    }
+
+    .diagnosis-list article {
+      gap: 12px;
+      grid-template-columns: 1fr;
+    }
+
+    .diagnosis-list article p {
+      grid-column: auto;
+    }
+
+    .ledger-row {
+      align-items: start;
+      gap: 12px;
+      grid-template-columns: 1fr;
+    }
+
+    .rank {
+      order: -2;
+    }
+
+    .ledger-row img {
+      aspect-ratio: 16 / 9;
+      order: -1;
+      width: 100%;
+    }
+
+    .row-tags,
+    .row-action {
+      grid-column: auto;
+    }
+  }
+</style>

@@ -15,12 +15,12 @@ const year = new Date().getFullYear();
       <a href="/sitemap.xml">Sitemap</a>
     </div>
   </div>
-  <div class="small">© {year} OpenAgent.bot. Built for the open AI stack.</div>
+  <div class="small">&copy; {year} OpenAgent.bot. Built for the open AI stack.</div>
 </footer>
 
 <style>
   footer {
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--dark-line);
     margin: 56px 0 0;
     padding: 22px 0 0;
   }
@@ -32,8 +32,12 @@ const year = new Date().getFullYear();
   }
 
   strong {
-    font-size: 0.86rem;
-    font-weight: 600;
+    color: var(--dark-text);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   p {
@@ -50,13 +54,17 @@ const year = new Date().getFullYear();
   }
 
   .footer-links a {
-    color: var(--muted);
+    color: var(--dark-muted);
     font-size: 0.78rem;
     font-weight: 500;
   }
 
+  .footer-links a:hover {
+    color: var(--dark-text);
+  }
+
   .small {
-    color: var(--muted);
+    color: rgba(169, 163, 155, 0.5);
     font-size: 0.74rem;
     font-weight: 400;
     margin-top: 16px;

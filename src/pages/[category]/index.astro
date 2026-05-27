@@ -1,10 +1,8 @@
 ---
-import SectionHeading from "@/components/SectionHeading.astro";
-import ResourceCard from "@/components/ResourceCard.astro";
 import EditorialShell from "@/components/EditorialShell.astro";
 import { categories } from "@/config/site";
-import { getResourcesByCategory } from "@/lib/content/resources";
-import { resourceSignals } from "@/lib/content/resource-display";
+import { getResourcesByCategory, resourcePath } from "@/lib/content/resources";
+import { resourceSignals, resourceTags } from "@/lib/content/resource-display";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export function getStaticPaths() {
@@ -15,98 +13,172 @@ export function getStaticPaths() {
 }
 
 const { category } = Astro.props;
-const categoryResources = await getResourcesByCategory(category.slug);
-const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) => resourceSignals(resource, 4)))).slice(0, 5);
+const categoryResources = (await getResourcesByCategory(category.slug)).sort((a, b) => (b.facts.github_stars ?? 0) - (a.facts.github_stars ?? 0));
+const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) => resourceSignals(resource, 4)))).slice(0, 6);
 ---
 
 <BaseLayout title={category.label} description={category.description} path={`/${category.slug}`}>
-  <EditorialShell active={category.slug} eyebrow="Category" title={category.label} description={category.description}>
-    <section class="category-summary">
+  <EditorialShell active={category.slug} eyebrow="Directory" title={category.label} description={category.description}>
+    <section class="directory-toolbar">
       <div>
-        <span>{categoryResources.length}</span>
-        <p>published resources</p>
+        <strong>{categoryResources.length}</strong>
+        <span>published entries</span>
       </div>
-      {
-        categorySignals.length > 0 && (
-          <div class="summary-signals">
-            {categorySignals.map((signal) => <small>{signal}</small>)}
-          </div>
-        )
-      }
-      <a class="button secondary" href="/submit">Submit a project</a>
+      <div class="summary-signals">
+        {categorySignals.map((signal) => <small>{signal}</small>)}
+      </div>
+      <a class="button secondary" href="/submit">Submit</a>
     </section>
 
-    <section>
-      <SectionHeading eyebrow="Directory" title={`Open ${category.label.toLowerCase()} worth reviewing`} />
-      <div class="resource-list">
-        {categoryResources.map((resource) => <ResourceCard resource={resource} />)}
+    <section class="directory-list">
+      <div class="list-head">
+        <span>Resource</span>
+        <span>Best for</span>
+        <span>License</span>
+        <span>Stars</span>
+        <span>Signals</span>
       </div>
+      {categoryResources.map((resource) => (
+        <a class="resource-row" href={resourcePath(resource)}>
+          <div>
+            <strong>{resource.identity.name}</strong>
+            <p>{resource.identity.one_liner}</p>
+          </div>
+          <span>{resource.positioning.best_for?.[0] ?? resource.classification.resource_type.replaceAll("_", " ")}</span>
+          <span>{resource.facts.license ?? "Unknown"}</span>
+          <span>{resource.facts.github_stars?.toLocaleString("en-US") ?? "n/a"}</span>
+          <div class="row-tags">{[...resourceSignals(resource, 2), ...resourceTags(resource, 2)].slice(0, 3).map((tag) => <small>{tag.replaceAll("-", " ")}</small>)}</div>
+        </a>
+      ))}
     </section>
   </EditorialShell>
 </BaseLayout>
 
 <style>
-  .category-summary {
+  .directory-toolbar {
     align-items: center;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    display: flex;
-    gap: 18px;
-    justify-content: space-between;
-    margin-bottom: 34px;
-    padding: 18px;
+    background: rgba(237, 237, 236, 0.04);
+    border: 1px solid var(--dark-line);
+    display: grid;
+    gap: 14px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    margin-bottom: 18px;
+    padding: 14px;
   }
 
-  .category-summary span {
+  .directory-toolbar strong {
+    color: var(--dark-text);
     display: block;
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: 0;
+    font-size: 1.6rem;
+    font-weight: 560;
     line-height: 1;
   }
 
-  .category-summary p {
-    margin: 4px 0 0;
+  .directory-toolbar span {
+    color: var(--dark-muted);
+    font-size: 0.78rem;
+  }
+
+  .summary-signals,
+  .row-tags {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
   }
 
   .summary-signals {
-    display: flex;
-    flex: 1 1 auto;
-    flex-wrap: wrap;
-    gap: 8px;
     justify-content: center;
   }
 
-  .summary-signals small {
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    color: var(--muted);
-    font-size: 0.78rem;
-    font-weight: 500;
-    padding: 6px 9px;
+  small {
+    background: rgba(237, 237, 236, 0.06);
+    border: 1px solid var(--dark-line);
+    border-radius: 999px;
+    color: var(--dark-muted);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    padding: 4px 7px;
   }
 
-  .resource-list {
+  .directory-list {
+    background: rgba(237, 237, 236, 0.03);
+    border: 1px solid var(--dark-line);
+    overflow: hidden;
+  }
+
+  .list-head,
+  .resource-row {
     display: grid;
-    gap: 16px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    grid-template-columns: minmax(240px, 1.4fr) minmax(160px, 0.9fr) 95px 80px minmax(160px, 0.8fr);
+    padding: 12px 14px;
   }
 
-  @media (max-width: 920px) {
-    .resource-list {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+  .list-head {
+    background: rgba(237, 237, 236, 0.05);
+    border-bottom: 1px solid var(--dark-line);
   }
 
-  @media (max-width: 620px) {
-    .category-summary {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 14px;
+  .list-head span {
+    color: var(--dark-muted);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .resource-row {
+    border-bottom: 1px solid var(--dark-line);
+    color: var(--dark-muted);
+    font-size: 0.84rem;
+    transition: background 160ms;
+  }
+
+  .resource-row:last-child {
+    border-bottom: 0;
+  }
+
+  .resource-row:hover {
+    background: rgba(237, 237, 236, 0.05);
+  }
+
+  .resource-row strong {
+    color: var(--dark-text);
+    display: block;
+    font-size: 0.96rem;
+    font-weight: 580;
+  }
+
+  .resource-row p {
+    color: var(--dark-muted);
+    display: -webkit-box;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    margin: 4px 0 0;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  @media (max-width: 900px) {
+    .directory-toolbar {
+      align-items: start;
+      grid-template-columns: 1fr;
     }
 
-    .resource-list {
+    .summary-signals {
+      justify-content: start;
+    }
+
+    .list-head {
+      display: none;
+    }
+
+    .resource-row {
       grid-template-columns: 1fr;
     }
   }

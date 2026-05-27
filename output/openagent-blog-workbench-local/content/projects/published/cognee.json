@@ -1,0 +1,177 @@
+{
+  "slug": "cognee",
+  "title": "Cognee",
+  "oneLiner": "Open-source memory and data infrastructure for AI applications that need reliable context.",
+  "summary": "Cognee is an open-source memory and data layer for AI applications, focused on turning data into structured, retrievable context for agents and LLM systems.",
+  "whyItMatters": "Cognee matters because teams quickly outgrow raw prompts and scattered documents. AI applications need a way to prepare, connect, and retrieve context in a structured way.",
+  "bestFor": [
+    "Builders creating AI apps over messy data sources",
+    "Teams that need memory plus retrieval infrastructure",
+    "Developers comparing RAG, graph, and context-engineering approaches"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "memory-systems",
+  "tags": [
+    "memory-system",
+    "memory",
+    "open-source",
+    "rag",
+    "context-retrieval",
+    "state-management",
+    "self-hosted",
+    "api"
+  ],
+  "repoUrl": "https://github.com/topoteretes/cognee",
+  "homepageUrl": "https://www.cognee.ai/",
+  "docsUrl": "https://docs.cognee.ai/",
+  "license": "Apache-2.0",
+  "maintainer": "Topoteretes / Cognee",
+  "sourceLinks": [
+    "https://github.com/topoteretes/cognee",
+    "https://docs.cognee.ai/",
+    "https://www.cognee.ai/"
+  ],
+  "seoTitle": "Cognee: Memory Systems resource for open AI builders",
+  "seoDescription": "Cognee profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "Cognee on OpenAgent.bot",
+  "shareDescription": "Open-source memory and data infrastructure for AI applications that need reliable context.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Data-to-memory pipeline",
+      "description": "Cognee focuses on transforming input data into usable memory and context.",
+      "whyItMatters": "AI apps fail when the context layer is improvised."
+    },
+    {
+      "title": "Open-source context infrastructure",
+      "description": "The project gives builders a repository and docs for evaluation.",
+      "whyItMatters": "Context infrastructure needs inspectability and deployment control."
+    },
+    {
+      "title": "Useful for agent apps",
+      "description": "Structured context can support agents that need to retrieve and reason over data.",
+      "whyItMatters": "Agents need grounded context to avoid acting on stale or missing information."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Knowledge ingestion",
+      "description": "Prepare documents, records, or project data for AI workflows."
+    },
+    {
+      "title": "Agent memory layer",
+      "description": "Use it as a context layer that agents can retrieve from during tasks."
+    },
+    {
+      "title": "Internal AI apps",
+      "description": "Build assistants that answer with company or project-specific context."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Cognee fits context engineering",
+      "against": "plain document loaders",
+      "summary": "A document loader moves data; Cognee is closer to an infrastructure layer for preparing and retrieving AI context."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/topoteretes/cognee",
+      "type": "github"
+    },
+    {
+      "label": "Read the documentation",
+      "url": "https://docs.cognee.ai/",
+      "type": "docs"
+    },
+    {
+      "label": "Official source",
+      "url": "https://www.cognee.ai/",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Install Cognee",
+      "command": "pip install cognee",
+      "description": "Check the docs for storage, graph, and provider options."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Cognee is an open-source memory and data layer for AI applications, focused on turning data into structured, retrievable context for agents and LLM systems.",
+    "whatItIs": "Cognee is an open AI memory systems resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "Cognee matters because teams quickly outgrow raw prompts and scattered documents. AI applications need a way to prepare, connect, and retrieve context in a structured way.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "Knowledge ingestion",
+        "description": "Prepare documents, records, or project data for AI workflows."
+      },
+      {
+        "title": "Agent memory layer",
+        "description": "Use it as a context layer that agents can retrieve from during tasks."
+      },
+      {
+        "title": "Internal AI apps",
+        "description": "Build assistants that answer with company or project-specific context."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Cognee fits context engineering",
+        "against": "plain document loaders",
+        "summary": "A document loader moves data; Cognee is closer to an infrastructure layer for preparing and retrieving AI context."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/topoteretes/cognee",
+        "type": "github"
+      },
+      {
+        "label": "Read the documentation",
+        "url": "https://docs.cognee.ai/",
+        "type": "docs"
+      },
+      {
+        "label": "Official source",
+        "url": "https://www.cognee.ai/",
+        "type": "homepage"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is Cognee open source?",
+        "answer": "Cognee is listed with Apache-2.0 based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate Cognee?",
+        "answer": "Builders creating AI apps over messy data sources"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "memory_system",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "Cognee",
+    "subtitle": "Open-source memory and data infrastructure for AI applications that need reliable context.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

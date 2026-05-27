@@ -1,0 +1,193 @@
+{
+  "slug": "deepseek-r1",
+  "title": "DeepSeek-R1",
+  "oneLiner": "Open reasoning model family for developers testing long-form reasoning, coding, and local AI workflows.",
+  "summary": "DeepSeek-R1 is an MIT-licensed open reasoning model release from DeepSeek, widely used by developers who want to evaluate transparent reasoning behavior, distilled model variants, and local or self-hosted inference paths.",
+  "whyItMatters": "DeepSeek-R1 matters because it made reasoning-oriented open models feel practical for more teams. It gives builders a concrete alternative to closed reasoning APIs when they need model weights, reproducible evaluation, local experiments, or self-hosted deployment.",
+  "bestFor": [
+    "Developers comparing open reasoning models against hosted reasoning APIs",
+    "Teams testing local or self-hosted coding and analysis workflows",
+    "Researchers studying distilled reasoning models and evaluation behavior"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer chatbot",
+    "Teams that cannot run their own model evaluation, safety checks, or inference stack"
+  ],
+  "category": "models",
+  "tags": [
+    "model",
+    "open-source",
+    "open-weights",
+    "local-ai",
+    "local-inference",
+    "self-hosted",
+    "research"
+  ],
+  "repoUrl": "https://github.com/deepseek-ai/DeepSeek-R1",
+  "homepageUrl": "https://www.deepseek.com/",
+  "docsUrl": "https://github.com/deepseek-ai/DeepSeek-R1",
+  "demoUrl": "https://huggingface.co/deepseek-ai/DeepSeek-R1",
+  "license": "MIT",
+  "maintainer": "DeepSeek",
+  "worksWith": [
+    "Hugging Face",
+    "Ollama",
+    "vLLM",
+    "SGLang",
+    "llama.cpp"
+  ],
+  "sourceLinks": [
+    "https://github.com/deepseek-ai/DeepSeek-R1",
+    "https://huggingface.co/deepseek-ai/DeepSeek-R1",
+    "https://ollama.com/library/deepseek-r1"
+  ],
+  "seoTitle": "DeepSeek-R1: Open reasoning model for local AI workflows",
+  "seoDescription": "DeepSeek-R1 profile: what the open reasoning model is, when to use it, how it compares, official links, command line, and structured OpenAgent data.",
+  "shareTitle": "DeepSeek-R1 on OpenAgent.bot",
+  "shareDescription": "Open reasoning model family for local AI, coding, and self-hosted evaluation.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "featuredReason": "A high-signal open reasoning model that many builders use as a baseline for local and self-hosted AI experiments.",
+  "sourceMetrics": {
+    "stars": 91963,
+    "forks": 11727
+  },
+  "coreStrengths": [
+    {
+      "title": "Reasoning-first open model release",
+      "description": "DeepSeek-R1 is designed around reasoning tasks rather than only short chat responses.",
+      "whyItMatters": "That makes it useful when a workflow needs multi-step analysis, coding support, or explainable reasoning traces."
+    },
+    {
+      "title": "Strong local evaluation path",
+      "description": "The model family is available through public repositories and model hubs, with smaller distilled variants that are easier to test locally.",
+      "whyItMatters": "Teams can start with local experiments before deciding whether to self-host larger models."
+    },
+    {
+      "title": "Useful baseline for open reasoning comparisons",
+      "description": "DeepSeek-R1 is commonly used as a reference point when evaluating newer open reasoning models.",
+      "whyItMatters": "A known baseline helps builders avoid choosing a model only because it is new or popular."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Coding and debugging support",
+      "description": "Use it to test reasoning-heavy coding assistance, issue diagnosis, and step-by-step technical explanations."
+    },
+    {
+      "title": "Local reasoning experiments",
+      "description": "Try distilled variants locally when you want to understand latency, quality, and hardware requirements before hosting a larger model."
+    },
+    {
+      "title": "Self-hosted analysis workflows",
+      "description": "Evaluate it for internal workflows where data control or cost makes hosted reasoning APIs less attractive."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose DeepSeek-R1 when reasoning behavior matters more than chat polish",
+      "against": "general chat models",
+      "summary": "General chat models can be smoother for casual interaction, but DeepSeek-R1 is worth testing when reasoning quality and open deployment are the main criteria."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Read the GitHub repository",
+      "url": "https://github.com/deepseek-ai/DeepSeek-R1",
+      "type": "github"
+    },
+    {
+      "label": "Open the Hugging Face model page",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1",
+      "type": "huggingface"
+    },
+    {
+      "label": "Try the Ollama library page",
+      "url": "https://ollama.com/library/deepseek-r1",
+      "type": "install"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Run DeepSeek-R1 with Ollama",
+      "command": "ollama run deepseek-r1",
+      "description": "Use this for a quick local test after installing Ollama and confirming your machine has enough memory for the selected variant."
+    },
+    {
+      "label": "Clone the official repository",
+      "command": "git clone https://github.com/deepseek-ai/DeepSeek-R1.git",
+      "description": "Use the repository for official release notes, model links, and evaluation context."
+    }
+  ],
+  "seoArticle": {
+    "intro": "DeepSeek-R1 is one of the clearest starting points for anyone comparing open reasoning models. It is not a consumer assistant by itself; it is a model release that helps developers test reasoning-heavy workflows outside a closed hosted API.",
+    "whatItIs": "DeepSeek-R1 is an MIT-licensed open reasoning model family from DeepSeek. The public release includes official source links and model distribution paths that make it practical to evaluate through model hubs, local runtimes, and self-hosted inference stacks.",
+    "whyItMatters": "Reasoning models are useful when a task requires more than a fluent answer. Coding, debugging, math-like analysis, planning, and technical review all benefit from models that can sustain multi-step reasoning. DeepSeek-R1 gives open AI builders a widely used baseline for those evaluations.",
+    "howItWorks": "A practical evaluation starts with a small or distilled variant, then moves to larger hosted or self-hosted setups if the task quality is strong enough. Teams should benchmark prompt reliability, latency, hallucination patterns, hardware cost, and safety behavior before using it in production.",
+    "useCases": [
+      {
+        "title": "Coding agent evaluation",
+        "description": "Use DeepSeek-R1 to test whether an open model can reason through bug reports, code changes, and multi-step implementation plans."
+      },
+      {
+        "title": "Local research assistant prototypes",
+        "description": "Run smaller variants locally to see whether reasoning quality is enough for document review, planning, or analytical note-taking."
+      },
+      {
+        "title": "Self-hosted reasoning API tests",
+        "description": "Use it as a baseline when deciding whether a team can replace some hosted reasoning calls with internal infrastructure."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Compare against Qwen, Gemma, and OLMo on your own tasks",
+        "against": "other open model families",
+        "summary": "DeepSeek-R1 has strong momentum, but model choice should still come from task-specific evaluation rather than popularity alone."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the repository first",
+        "url": "https://github.com/deepseek-ai/DeepSeek-R1",
+        "type": "github"
+      },
+      {
+        "label": "Inspect the Hugging Face model page",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-R1",
+        "type": "huggingface"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is DeepSeek-R1 open source?",
+        "answer": "The official GitHub repository is listed with an MIT license. Always verify the exact model card and terms for the variant you deploy."
+      },
+      {
+        "question": "Can DeepSeek-R1 run locally?",
+        "answer": "Yes, many users test DeepSeek-R1 variants locally through runtimes such as Ollama. Larger variants still require serious hardware planning."
+      },
+      {
+        "question": "Is DeepSeek-R1 best for every AI app?",
+        "answer": "No. It is most interesting for reasoning-heavy tasks. For simple chat, retrieval, or UI workflows, another model may be easier and cheaper."
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "model",
+    "visualMotif": "reasoning path grid with nested steps and a compact open model badge",
+    "backgroundStyle": "minimal technical editorial card with pale surface and dark ink",
+    "titleOverlay": "DeepSeek-R1",
+    "subtitle": "Open reasoning model family",
+    "avoid": [
+      "benchmark-heavy poster",
+      "unverified DeepSeek logos",
+      "generic robot imagery"
+    ]
+  }
+}

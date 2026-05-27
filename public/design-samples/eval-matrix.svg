@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-label="AI agent decision matrix visual">
+  <rect width="1200" height="720" fill="#eaf4ff"/>
+  <rect x="80" y="80" width="1040" height="560" rx="24" fill="#ffffff" stroke="#b9d7f5" stroke-width="2"/>
+  <text x="120" y="158" fill="#09213d" font-family="Arial, sans-serif" font-size="48" font-weight="800">Decision matrix</text>
+  <g stroke="#c8ddf2" stroke-width="2">
+    <path d="M120 232h960M120 336h960M120 440h960M120 544h960"/>
+    <path d="M360 212v352M600 212v352M840 212v352"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="26" font-weight="800">
+    <text x="144" y="292" fill="#1565d8">Browser</text>
+    <text x="394" y="292" fill="#09213d">browser-use</text>
+    <text x="144" y="396" fill="#1565d8">Coding</text>
+    <text x="394" y="396" fill="#09213d">OpenHands</text>
+    <text x="144" y="500" fill="#1565d8">Local</text>
+    <text x="394" y="500" fill="#09213d">Goose</text>
+  </g>
+  <g fill="#18a6c9">
+    <circle cx="930" cy="282" r="18"/>
+    <circle cx="930" cy="386" r="18"/>
+    <circle cx="930" cy="490" r="18"/>
+  </g>
+</svg>

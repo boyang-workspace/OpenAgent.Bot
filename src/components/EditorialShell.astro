@@ -73,8 +73,8 @@ const sectionLinks = [...primaryLinks, ...utilityLinks];
   }
 
   .editorial-sidebar {
-    background: #ffffff;
-    border-right: 1px solid var(--line);
+    background: #f7f7f4;
+    border-right: 1px solid rgba(14, 19, 18, 0.1);
     height: 100vh;
     left: 0;
     overflow-y: auto;
@@ -96,20 +96,26 @@ const sectionLinks = [...primaryLinks, ...utilityLinks];
   }
 
   .sidebar-brand strong {
-    font-size: 0.92rem;
-    font-weight: 580;
+    color: #0e1312;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .brand-mark {
     align-items: center;
-    background: var(--accent-open);
+    background: #0e1312;
     border-radius: 7px;
-    color: var(--paper);
+    color: #ededec;
     display: inline-flex;
-    font-size: 0.78rem;
-    font-weight: 650;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 900;
     height: 30px;
     justify-content: center;
+    letter-spacing: 0.06em;
     width: 30px;
   }
 
@@ -119,7 +125,7 @@ const sectionLinks = [...primaryLinks, ...utilityLinks];
   }
 
   .nav-group {
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid rgba(14, 19, 18, 0.1);
     display: grid;
     gap: 2px;
     padding-bottom: 12px;
@@ -133,7 +139,7 @@ const sectionLinks = [...primaryLinks, ...utilityLinks];
   nav a,
   .mobile-rail a {
     border-radius: 7px;
-    color: var(--muted);
+    color: rgba(14, 19, 18, 0.55);
   }
 
   nav a {
@@ -147,7 +153,7 @@ const sectionLinks = [...primaryLinks, ...utilityLinks];
   }
 
   .utility-group a {
-    color: var(--subtle);
+    color: rgba(14, 19, 18, 0.4);
     font-size: 0.82rem;
   }
 
@@ -156,14 +162,15 @@ const sectionLinks = [...primaryLinks, ...utilityLinks];
   nav a.active,
   .mobile-rail a:hover,
   .mobile-rail a.active {
-    background: var(--surface);
-    color: var(--ink);
+    background: rgba(14, 19, 18, 0.06);
+    color: #0e1312;
     font-weight: 520;
   }
 
   nav a.active {
-    background: var(--surface-soft);
-    color: var(--accent-open);
+    background: rgba(14, 19, 18, 0.1);
+    color: #0e1312;
+    font-weight: 600;
   }
 
   .mobile-rail {
@@ -171,12 +178,14 @@ const sectionLinks = [...primaryLinks, ...utilityLinks];
   }
 
   .editorial-main {
+    background: var(--dark-bg);
     min-width: 0;
     overflow: hidden;
     padding-top: 58px;
   }
 
   .editorial-content {
+    color: var(--dark-text);
     margin: 0 auto;
     max-width: 1180px;
     padding: 24px 26px 56px;
@@ -191,8 +200,9 @@ const sectionLinks = [...primaryLinks, ...utilityLinks];
   }
 
   .editorial-head h1 {
+    color: var(--dark-text);
     font-size: 2.8rem;
-    font-weight: 520;
+    font-weight: 820;
     letter-spacing: 0;
     line-height: 1;
     margin: 8px 0 0;
@@ -200,6 +210,7 @@ const sectionLinks = [...primaryLinks, ...utilityLinks];
   }
 
   .editorial-head p {
+    color: var(--dark-muted);
     font-size: 0.96rem;
     margin: 18px 0 0;
     max-width: 720px;
@@ -215,8 +226,8 @@ const sectionLinks = [...primaryLinks, ...utilityLinks];
     }
 
     .mobile-rail {
-      background: var(--paper);
-      border-bottom: 1px solid var(--line);
+      background: var(--dark-bg);
+      border-bottom: 1px solid var(--dark-line);
       display: flex;
       gap: 8px;
       margin: 0 0 18px;
@@ -228,9 +239,11 @@ const sectionLinks = [...primaryLinks, ...utilityLinks];
     }
 
     .mobile-rail a {
-      background: var(--surface);
+      background: rgba(237, 237, 236, 0.06);
+      border: 1px solid var(--dark-line);
+      color: var(--dark-muted);
       flex: 0 0 auto;
-      font-size: 0.92rem;
+      font-size: 0.82rem;
       padding: 9px 12px;
       white-space: nowrap;
     }

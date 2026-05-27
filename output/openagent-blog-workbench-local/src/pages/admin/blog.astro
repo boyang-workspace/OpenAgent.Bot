@@ -1,0 +1,481 @@
+---
+import AdminLayout from "@/layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Blog" active="blog">
+  <section class="admin-grid">
+    <div class="admin-panel">
+      <div class="admin-actions" style="justify-content: space-between; margin-bottom: 16px;">
+        <div>
+          <span class="eyebrow">Topic queue</span>
+          <h2>Topics</h2>
+        </div>
+        <div class="admin-actions">
+          <button class="button secondary" id="generate-topics" type="button">Generate topics</button>
+          <button class="button secondary" id="refresh-blog" type="button">Refresh</button>
+        </div>
+      </div>
+      <p class="admin-note">Auto topics and manual topics share the same queue. Manual topics carry higher default priority and only warn on duplicate overlap.</p>
+      <form class="admin-form" id="topic-form">
+        <input type="hidden" name="id" />
+        <div class="admin-form-grid">
+          <label>Title<input name="title" required /></label>
+          <label>Lane
+            <select name="lane">
+              <option value="trend">trend</option>
+              <option value="comparison">comparison</option>
+              <option value="evergreen">evergreen</option>
+            </select>
+          </label>
+        </div>
+        <label>Angle<textarea name="angle" rows="2" required></textarea></label>
+        <div class="admin-form-grid">
+          <label>Primary keyword<input name="primaryKeyword" required /></label>
+          <label>Search intent<input name="searchIntent" required /></label>
+        </div>
+        <div class="admin-form-grid">
+          <label>Date<input name="date" required /></label>
+          <label>Priority<input name="priority" type="number" value="100" /></label>
+        </div>
+        <label>Source links<textarea name="sourceLinks" rows="3" placeholder="One URL per line"></textarea></label>
+        <label>Notes<textarea name="notes" rows="2"></textarea></label>
+        <label><input name="manualOverride" type="checkbox" /> Skip duplicate block for this topic</label>
+        <div class="admin-actions">
+          <button class="button" type="submit">Save topic</button>
+          <button class="button secondary" id="duplicate-topic" type="button" disabled>Duplicate Topic</button>
+          <button class="button secondary" id="promote-topic" type="button" disabled>Promote Priority</button>
+          <button class="button secondary" id="clear-topic" type="button">Clear</button>
+        </div>
+        <p id="topic-status" class="form-status" role="status"></p>
+      </form>
+      <div class="admin-list" id="topic-list" style="margin-top: 16px;">Loading topics...</div>
+    </div>
+
+    <div class="admin-panel">
+      <div class="admin-actions" style="justify-content: space-between; margin-bottom: 16px;">
+        <div>
+          <span class="eyebrow">Draft queue</span>
+          <h2>Drafts</h2>
+        </div>
+        <span class="status-pill" id="draft-status">No draft selected</span>
+      </div>
+      <p class="admin-note">Edits stay in the draft queue until review passes and you manually approve the article for publish.</p>
+      <div class="admin-list" id="draft-list">Loading drafts...</div>
+    </div>
+  </section>
+
+  <section class="admin-panel" style="margin-top: 16px;">
+    <div class="admin-actions" style="justify-content: space-between; margin-bottom: 16px;">
+      <div>
+        <span class="eyebrow">Draft Review</span>
+        <h2 id="editor-title">Select a blog draft</h2>
+      </div>
+      <div class="admin-actions">
+        <a class="button secondary" href="/admin/blog-lab/">Open Prompt Lab</a>
+      </div>
+    </div>
+    <form class="admin-form" id="blog-form">
+      <label>Title<input name="title" required /></label>
+      <label>Slug<input name="slug" required /></label>
+      <label>Summary<textarea name="summary" rows="3" required></textarea></label>
+      <div class="admin-form-grid">
+        <label>Published date<input name="publishedAt" required /></label>
+        <label>Tags<input name="tags" placeholder="agents,open-source,comparison" required /></label>
+      </div>
+      <label>SEO title<input name="seoTitle" required /></label>
+      <label>SEO description<textarea name="seoDescription" rows="2" required></textarea></label>
+      <div class="admin-form-grid">
+        <label>Target keyword<input name="targetKeyword" /></label>
+        <label>Search intent<input name="searchIntent" /></label>
+      </div>
+      <label>Source links<textarea name="sourceLinks" rows="4" placeholder="One URL per line"></textarea></label>
+      <label>Body<textarea name="body" rows="18" required></textarea></label>
+      <div class="admin-grid" style="grid-template-columns: 1fr 1fr;">
+        <pre class="admin-preview" id="quality-report">Quality report appears after selecting or saving a draft.</pre>
+        <pre class="admin-preview" id="review-report">Review report appears after running review.</pre>
+      </div>
+      <div class="admin-actions">
+        <button class="button" type="submit" disabled>Save draft</button>
+        <button class="button secondary" id="rerun-review" type="button" disabled>Re-run Review</button>
+        <button class="button secondary" id="approve-draft" type="button" disabled>Approve</button>
+        <button class="button secondary" id="preview-publish" type="button" disabled>Preview publish</button>
+        <button class="button" id="publish-pr" type="button" disabled>Create PR</button>
+        <button class="button secondary danger" id="delete-draft" type="button" disabled>Delete</button>
+      </div>
+      <p id="blog-status" class="form-status" role="status"></p>
+    </form>
+  </section>
+</AdminLayout>
+
+<script is:inline>
+  const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
+  let selectedDraft = null;
+  let selectedTopic = null;
+  let drafts = [];
+  let topics = [];
+
+  async function api(path, options = {}) {
+    const response = await fetch(path, { ...options, headers: { "content-type": "application/json", ...(options.headers ?? {}) } });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.error ?? "Request failed.");
+    return result;
+  }
+
+  function setStatus(id, message, state = "") {
+    const status = document.querySelector(id);
+    if (status instanceof HTMLElement) {
+      status.textContent = message;
+      status.dataset.state = state;
+    }
+  }
+
+  function topicPayload({ duplicate = false } = {}) {
+    const form = document.querySelector("#topic-form");
+    if (!(form instanceof HTMLFormElement)) throw new Error("Topic form unavailable.");
+    const data = new FormData(form);
+    const title = String(data.get("title") ?? "").trim();
+    return {
+      title: duplicate ? `${title} copy` : title,
+      lane: String(data.get("lane") ?? "trend"),
+      angle: String(data.get("angle") ?? "").trim(),
+      primaryKeyword: String(data.get("primaryKeyword") ?? "").trim(),
+      searchIntent: String(data.get("searchIntent") ?? "").trim(),
+      date: String(data.get("date") ?? "").trim(),
+      priority: Number(data.get("priority") ?? 100),
+      sourceLinks: String(data.get("sourceLinks") ?? "").split("\n").map((item) => item.trim()).filter(Boolean),
+      notes: String(data.get("notes") ?? "").trim(),
+      manualOverride: data.get("manualOverride") === "on"
+    };
+  }
+
+  function draftPayload() {
+    const form = document.querySelector("#blog-form");
+    if (!(form instanceof HTMLFormElement)) throw new Error("Blog form unavailable.");
+    const data = new FormData(form);
+    return {
+      slug: String(data.get("slug") ?? "").trim(),
+      title: String(data.get("title") ?? "").trim(),
+      summary: String(data.get("summary") ?? "").trim(),
+      publishedAt: String(data.get("publishedAt") ?? "").trim(),
+      tags: String(data.get("tags") ?? "").split(",").map((item) => item.trim()).filter(Boolean),
+      author: "OpenAgent.bot Editors",
+      body: String(data.get("body") ?? "").trim(),
+      seoTitle: String(data.get("seoTitle") ?? "").trim(),
+      seoDescription: String(data.get("seoDescription") ?? "").trim(),
+      targetKeyword: String(data.get("targetKeyword") ?? "").trim(),
+      searchIntent: String(data.get("searchIntent") ?? "").trim(),
+      sourceLinks: String(data.get("sourceLinks") ?? "").split("\n").map((item) => item.trim()).filter(Boolean)
+    };
+  }
+
+  function renderTopicForm(topic = null) {
+    const form = document.querySelector("#topic-form");
+    if (!(form instanceof HTMLFormElement)) return;
+    selectedTopic = topic;
+    form.elements.id.value = topic?.id ?? "";
+    form.elements.title.value = topic?.title ?? "";
+    form.elements.lane.value = topic?.lane ?? "trend";
+    form.elements.angle.value = topic?.angle ?? "";
+    form.elements.primaryKeyword.value = topic?.primaryKeyword ?? "";
+    form.elements.searchIntent.value = topic?.searchIntent ?? "";
+    form.elements.date.value = topic?.date ?? new Date().toISOString().slice(0, 10);
+    form.elements.priority.value = topic?.priority ?? 100;
+    form.elements.sourceLinks.value = (topic?.sourceSignals ?? []).join("\n");
+    form.elements.notes.value = topic?.notes ?? "";
+    form.elements.manualOverride.checked = Boolean(topic?.manualOverride);
+    const duplicate = document.querySelector("#duplicate-topic");
+    const promote = document.querySelector("#promote-topic");
+    if (duplicate instanceof HTMLButtonElement) duplicate.disabled = !topic;
+    if (promote instanceof HTMLButtonElement) promote.disabled = !topic;
+  }
+
+  function renderTopicList() {
+    const list = document.querySelector("#topic-list");
+    if (!(list instanceof HTMLElement)) return;
+    list.innerHTML = topics.length ? topics.map((topic) => `
+      <article class="admin-item">
+        <div>
+          <strong>${escapeHtml(topic.title)}</strong>
+          <p>${escapeHtml(topic.angle)}</p>
+          <small>${escapeHtml(topic.date)} · ${escapeHtml(topic.lane)} · ${escapeHtml(topic.sourceType)} · priority ${escapeHtml(topic.priority)} · ${escapeHtml(topic.status)}</small>
+          ${(topic.warnings ?? []).length ? `<p class="admin-note">${topic.warnings.map((warning) => escapeHtml(warning)).join(" · ")}</p>` : ""}
+        </div>
+        <div class="admin-actions">
+          <button class="button secondary" data-edit-topic="${escapeHtml(topic.id)}" type="button">Edit</button>
+          <button class="button secondary" data-draft-topic="${escapeHtml(topic.id)}" type="button">Generate Draft</button>
+        </div>
+      </article>
+    `).join("") : "<p>No topics yet.</p>";
+  }
+
+  function renderDraftList() {
+    const list = document.querySelector("#draft-list");
+    if (!(list instanceof HTMLElement)) return;
+    list.innerHTML = drafts.length ? drafts.map((draft) => `
+      <article class="admin-item">
+        <div>
+          <strong>${escapeHtml(draft.title)}</strong>
+          <p>${escapeHtml(draft.content?.summary ?? "")}</p>
+          <small>${escapeHtml(draft.status)}${draft.approvedByHuman ? " · approved" : ""}${draft.publishStatus ? ` · ${escapeHtml(draft.publishStatus)}` : ""}</small>
+        </div>
+        <div class="admin-actions">
+          <button class="button secondary" data-open-draft="${escapeHtml(draft.id)}" type="button">Open</button>
+        </div>
+      </article>
+    `).join("") : "<p>No drafts yet.</p>";
+  }
+
+  function renderReports(draft) {
+    const quality = document.querySelector("#quality-report");
+    const review = document.querySelector("#review-report");
+    if (quality instanceof HTMLElement) quality.textContent = JSON.stringify(draft?.qualityReport ?? {}, null, 2);
+    if (review instanceof HTMLElement) review.textContent = JSON.stringify(draft?.reviewReport ?? {}, null, 2);
+  }
+
+  function selectDraft(draft) {
+    selectedDraft = draft;
+    const form = document.querySelector("#blog-form");
+    const title = document.querySelector("#editor-title");
+    const status = document.querySelector("#draft-status");
+    if (!(form instanceof HTMLFormElement)) return;
+    const content = draft.content ?? {};
+    form.elements.title.value = content.title ?? "";
+    form.elements.slug.value = content.slug ?? "";
+    form.elements.summary.value = content.summary ?? "";
+    form.elements.publishedAt.value = content.publishedAt ?? "";
+    form.elements.tags.value = (content.tags ?? []).join(",");
+    form.elements.seoTitle.value = content.seoTitle ?? "";
+    form.elements.seoDescription.value = content.seoDescription ?? "";
+    form.elements.targetKeyword.value = draft.targetKeyword ?? "";
+    form.elements.searchIntent.value = draft.searchIntent ?? "";
+    form.elements.sourceLinks.value = (draft.sourceLinks ?? []).join("\n");
+    form.elements.body.value = content.body ?? "";
+    if (title instanceof HTMLElement) title.textContent = content.title ?? "Blog draft";
+    if (status instanceof HTMLElement) status.textContent = `${draft.status}${draft.approvedByHuman ? " · approved" : " · awaiting approval"}${draft.publishStatus ? ` · ${draft.publishStatus}` : ""}`;
+    for (const button of form.querySelectorAll("button")) {
+      if (button instanceof HTMLButtonElement) button.disabled = false;
+    }
+    const publishPr = document.querySelector("#publish-pr");
+    const preview = document.querySelector("#preview-publish");
+    const approve = document.querySelector("#approve-draft");
+    if (publishPr instanceof HTMLButtonElement) publishPr.disabled = !(draft.status === "ready" && draft.approvedByHuman);
+    if (preview instanceof HTMLButtonElement) preview.disabled = !(draft.status === "ready" && draft.approvedByHuman);
+    if (approve instanceof HTMLButtonElement) approve.disabled = Boolean(draft.approvedByHuman);
+    renderReports(draft);
+  }
+
+  async function loadTopics() {
+    const result = await api("/admin/api/blog/topics");
+    topics = result.topics ?? [];
+    renderTopicList();
+  }
+
+  async function loadDrafts() {
+    const result = await api("/admin/api/blog/drafts");
+    drafts = result.drafts ?? [];
+    renderDraftList();
+    if (selectedDraft) {
+      const current = drafts.find((draft) => draft.id === selectedDraft.id);
+      if (current) selectDraft(current);
+    } else if (drafts[0]) {
+      selectDraft(drafts[0]);
+    }
+  }
+
+  async function refreshAll() {
+    await Promise.all([loadTopics(), loadDrafts()]);
+  }
+
+  async function generateTopics() {
+    setStatus("#topic-status", "Generating topic candidates...");
+    try {
+      await api("/admin/api/blog/topics/generate", { method: "POST", body: "{}" });
+      setStatus("#topic-status", "Topic candidates generated.", "success");
+      await loadTopics();
+    } catch (error) {
+      setStatus("#topic-status", error instanceof Error ? error.message : "Failed to generate topics.", "error");
+    }
+  }
+
+  async function saveTopic() {
+    const payload = topicPayload();
+    setStatus("#topic-status", selectedTopic ? "Updating topic..." : "Creating topic...");
+    try {
+      const result = selectedTopic
+        ? await api(`/admin/api/blog/topics/${selectedTopic.id}`, { method: "PATCH", body: JSON.stringify(payload) })
+        : await api("/admin/api/blog/topics/manual", { method: "POST", body: JSON.stringify(payload) });
+      setStatus("#topic-status", "Topic saved.", "success");
+      renderTopicForm(result.topic);
+      await loadTopics();
+    } catch (error) {
+      setStatus("#topic-status", error instanceof Error ? error.message : "Failed to save topic.", "error");
+    }
+  }
+
+  async function duplicateTopic() {
+    if (!selectedTopic) return;
+    setStatus("#topic-status", "Duplicating topic...");
+    try {
+      const result = await api("/admin/api/blog/topics/manual", { method: "POST", body: JSON.stringify(topicPayload({ duplicate: true })) });
+      setStatus("#topic-status", "Topic duplicated.", "success");
+      renderTopicForm(result.topic);
+      await loadTopics();
+    } catch (error) {
+      setStatus("#topic-status", error instanceof Error ? error.message : "Failed to duplicate topic.", "error");
+    }
+  }
+
+  async function promoteTopic() {
+    if (!selectedTopic) return;
+    setStatus("#topic-status", "Promoting topic priority...");
+    try {
+      const result = await api(`/admin/api/blog/topics/${selectedTopic.id}`, { method: "PATCH", body: JSON.stringify({ promote: true }) });
+      setStatus("#topic-status", "Topic priority increased.", "success");
+      renderTopicForm(result.topic);
+      await loadTopics();
+    } catch (error) {
+      setStatus("#topic-status", error instanceof Error ? error.message : "Failed to promote topic.", "error");
+    }
+  }
+
+  async function createDraftFromTopic(id) {
+    setStatus("#topic-status", "Creating draft from topic...");
+    try {
+      const result = await api(`/admin/api/blog/topics/${encodeURIComponent(id)}/draft`, { method: "POST", body: "{}" });
+      setStatus("#topic-status", result.duplicate ? "Draft already exists." : "Draft created.", "success");
+      await refreshAll();
+      if (result.draft) selectDraft(result.draft);
+    } catch (error) {
+      setStatus("#topic-status", error instanceof Error ? error.message : "Failed to create draft.", "error");
+    }
+  }
+
+  async function saveDraft() {
+    if (!selectedDraft) return;
+    setStatus("#blog-status", "Saving draft...");
+    try {
+      const result = await api(`/admin/api/blog/drafts/${selectedDraft.id}`, {
+        method: "PATCH",
+        body: JSON.stringify(draftPayload())
+      });
+      setStatus("#blog-status", "Draft saved and approval reset for fresh review.", "success");
+      await loadDrafts();
+      selectDraft(result.draft);
+    } catch (error) {
+      setStatus("#blog-status", error instanceof Error ? error.message : "Failed to save draft.", "error");
+    }
+  }
+
+  async function rerunReview() {
+    if (!selectedDraft) return;
+    setStatus("#blog-status", "Running review...");
+    try {
+      const result = await api(`/admin/api/blog/drafts/${selectedDraft.id}/review`, { method: "POST", body: "{}" });
+      setStatus("#blog-status", "Review completed.", "success");
+      await loadDrafts();
+      selectDraft(result.draft);
+    } catch (error) {
+      setStatus("#blog-status", error instanceof Error ? error.message : "Review failed.", "error");
+    }
+  }
+
+  async function approveDraft() {
+    if (!selectedDraft) return;
+    setStatus("#blog-status", "Approving draft...");
+    try {
+      const result = await api(`/admin/api/blog/drafts/${selectedDraft.id}/approve`, { method: "POST", body: "{}" });
+      setStatus("#blog-status", "Draft approved and ready for publishing.", "success");
+      await loadDrafts();
+      selectDraft(result.draft);
+    } catch (error) {
+      setStatus("#blog-status", error instanceof Error ? error.message : "Approval failed.", "error");
+    }
+  }
+
+  async function previewPublish() {
+    if (!selectedDraft) return;
+    setStatus("#blog-status", "Generating publish preview...");
+    try {
+      const result = await api(`/admin/api/blog/drafts/${selectedDraft.id}/publish-now?dryRun=true`, { method: "POST", body: JSON.stringify({ dryRun: true }) });
+      const report = document.querySelector("#review-report");
+      if (report instanceof HTMLElement) report.textContent = JSON.stringify(result.preview, null, 2);
+      setStatus("#blog-status", "Preview ready. No branch or PR was created.", "success");
+    } catch (error) {
+      setStatus("#blog-status", error instanceof Error ? error.message : "Preview failed.", "error");
+    }
+  }
+
+  async function createPublishPr() {
+    if (!selectedDraft) return;
+    setStatus("#blog-status", "Creating GitHub PR...");
+    try {
+      const result = await api(`/admin/api/blog/drafts/${selectedDraft.id}/publish-pr`, {
+        method: "POST",
+        body: JSON.stringify({ idempotencyKey: `blog-publish-pr:${selectedDraft.id}` })
+      });
+      setStatus("#blog-status", `PR created: ${result.prUrl}`, "success");
+      await loadDrafts();
+    } catch (error) {
+      setStatus("#blog-status", error instanceof Error ? error.message : "Failed to create PR.", "error");
+    }
+  }
+
+  async function deleteDraft() {
+    if (!selectedDraft || !confirm("Delete this blog draft from admin? This does not delete any published GitHub file.")) return;
+    setStatus("#blog-status", "Deleting draft...");
+    try {
+      await api(`/admin/api/blog/drafts/${selectedDraft.id}`, { method: "DELETE" });
+      selectedDraft = null;
+      setStatus("#blog-status", "Draft deleted.", "success");
+      await loadDrafts();
+      renderReports(null);
+    } catch (error) {
+      setStatus("#blog-status", error instanceof Error ? error.message : "Failed to delete draft.", "error");
+    }
+  }
+
+  document.querySelector("#generate-topics")?.addEventListener("click", generateTopics);
+  document.querySelector("#refresh-blog")?.addEventListener("click", refreshAll);
+  document.querySelector("#topic-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    saveTopic();
+  });
+  document.querySelector("#duplicate-topic")?.addEventListener("click", duplicateTopic);
+  document.querySelector("#promote-topic")?.addEventListener("click", promoteTopic);
+  document.querySelector("#clear-topic")?.addEventListener("click", () => {
+    renderTopicForm(null);
+    setStatus("#topic-status", "");
+  });
+  document.querySelector("#topic-list")?.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLButtonElement)) return;
+    if (target.dataset.editTopic) {
+      const topic = topics.find((item) => item.id === target.dataset.editTopic);
+      if (topic) renderTopicForm(topic);
+    }
+    if (target.dataset.draftTopic) createDraftFromTopic(target.dataset.draftTopic);
+  });
+  document.querySelector("#draft-list")?.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLButtonElement)) return;
+    if (target.dataset.openDraft) {
+      const draft = drafts.find((item) => item.id === target.dataset.openDraft);
+      if (draft) selectDraft(draft);
+    }
+  });
+  document.querySelector("#blog-form")?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    saveDraft();
+  });
+  document.querySelector("#rerun-review")?.addEventListener("click", rerunReview);
+  document.querySelector("#approve-draft")?.addEventListener("click", approveDraft);
+  document.querySelector("#preview-publish")?.addEventListener("click", previewPublish);
+  document.querySelector("#publish-pr")?.addEventListener("click", createPublishPr);
+  document.querySelector("#delete-draft")?.addEventListener("click", deleteDraft);
+
+  renderTopicForm(null);
+  refreshAll().catch((error) => {
+    setStatus("#topic-status", error instanceof Error ? error.message : "Failed to load blog admin.", "error");
+    setStatus("#blog-status", error instanceof Error ? error.message : "Failed to load blog admin.", "error");
+  });
+</script>

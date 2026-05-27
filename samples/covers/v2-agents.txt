@@ -1,0 +1,97 @@
+canvas 1200 630
+create_linear_gradient bg 0 0 1200 0
+add_color_stop bg 0 #0c0c1e
+add_color_stop bg 1 #1a1040
+set_fill_gradient bg
+fill_rect 0 0 1200 630
+
+create_linear_gradient accent 0 0 6 0
+add_color_stop accent 0 #06b6d4
+add_color_stop accent 1 #10b981
+set_fill_gradient accent
+fill_rect 0 0 6 630
+
+round_rect 60 180 640 300 20
+set_fill_style rgba(255,255,255,0.02)
+set_stroke_style rgba(255,255,255,0.06)
+set_line_width 1
+fill
+stroke
+
+set_fill_style #06b6d4
+set_font 13px Helvetica Neue
+set_text_align left
+fill_text "CATEGORY" 90 226
+
+set_fill_style #e8f0fe
+set_font 56px Helvetica Neue
+fill_text "Agents" 90 296
+
+set_fill_style #8098b0
+set_font 21px Helvetica Neue
+fill_text "AI agents, autonomous systems & agentic frameworks" 90 344
+
+round_rect 90 370 190 48 24
+set_fill_style rgba(6,182,212,0.15)
+fill
+
+set_fill_style #06b6d4
+set_font 14px Helvetica Neue
+fill_text "Browse agents \u2192" 118 400
+
+set_fill_style rgba(255,255,255,0.06)
+set_stroke_style rgba(255,255,255,0.07)
+set_line_width 1
+begin_path
+arc 900 180 30 0 6.2832
+fill
+stroke
+begin_path
+arc 1060 160 20 0 6.2832
+fill
+stroke
+begin_path
+arc 960 260 24 0 6.2832
+fill
+stroke
+begin_path
+arc 820 260 16 0 6.2832
+fill
+stroke
+begin_path
+arc 1000 340 18 0 6.2832
+fill
+stroke
+begin_path
+arc 880 360 14 0 6.2832
+fill
+stroke
+
+set_stroke_style rgba(255,255,255,0.05)
+set_line_width 1.5
+begin_path
+move_to 900 180
+line_to 1060 160
+line_to 960 260
+line_to 820 260
+line_to 900 180
+stroke
+begin_path
+move_to 960 260
+line_to 1000 340
+line_to 880 360
+line_to 960 260
+stroke
+
+set_fill_style rgba(6,182,212,0.3)
+begin_path
+arc 900 180 8 0 6.2832
+fill
+set_fill_style rgba(16,185,129,0.3)
+begin_path
+arc 1060 160 6 0 6.2832
+fill
+set_fill_style rgba(6,182,212,0.25)
+begin_path
+arc 1000 340 6 0 6.2832
+fill

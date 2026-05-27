@@ -1,0 +1,177 @@
+{
+  "slug": "letta",
+  "title": "Letta",
+  "oneLiner": "Platform for stateful agents with advanced memory, personalization, and learning over time.",
+  "summary": "Letta is an open-source platform for building stateful agents that remember users, maintain memory blocks, and interact through APIs and SDKs.",
+  "whyItMatters": "Letta matters because memory is not just a database problem; it changes how an agent behaves over time. Letta gives builders a more structured model for stateful agents and persistent memory.",
+  "bestFor": [
+    "Developers building personalized stateful agents",
+    "Teams that need memory APIs and SDKs instead of ad hoc context prompts",
+    "Researchers exploring learning and self-improving agents"
+  ],
+  "notFor": [
+    "Users who want a fully managed consumer product with no setup work",
+    "Teams that cannot review the linked source, license, and operational requirements before adoption"
+  ],
+  "category": "memory-systems",
+  "tags": [
+    "memory-system",
+    "memory",
+    "open-source",
+    "state-management",
+    "workflow-orchestration",
+    "api",
+    "self-hosted",
+    "agent"
+  ],
+  "repoUrl": "https://github.com/letta-ai/letta",
+  "homepageUrl": "https://www.letta.com/",
+  "docsUrl": "https://docs.letta.com/",
+  "license": "Apache-2.0",
+  "maintainer": "Letta",
+  "sourceLinks": [
+    "https://github.com/letta-ai/letta",
+    "https://docs.letta.com/",
+    "https://www.letta.com/"
+  ],
+  "seoTitle": "Letta: Memory Systems resource for open AI builders",
+  "seoDescription": "Letta profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "shareTitle": "Letta on OpenAgent.bot",
+  "shareDescription": "Platform for stateful agents with advanced memory, personalization, and learning over time.",
+  "status": "published",
+  "generatedAt": "2026-04-19T00:00:00.000Z",
+  "reviewedAt": "2026-04-19T00:00:00.000Z",
+  "updatedAt": "2026-04-19",
+  "lastVerifiedAt": "2026-04-19",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coreStrengths": [
+    {
+      "title": "Stateful agent model",
+      "description": "Letta treats memory as part of the agent state rather than a loose prompt append.",
+      "whyItMatters": "That makes it easier to build agents that remain coherent across sessions."
+    },
+    {
+      "title": "API and SDK surface",
+      "description": "Letta provides APIs and client SDKs for integrating stateful agents into applications.",
+      "whyItMatters": "Product teams need stable interfaces, not just demos."
+    },
+    {
+      "title": "Active open-source platform",
+      "description": "The project has frequent releases and documentation around agents and memory.",
+      "whyItMatters": "Active maintenance matters for infrastructure that sits inside an application."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Personalized AI agents",
+      "description": "Build assistants that retain a persona and user-specific memory blocks."
+    },
+    {
+      "title": "Stateful agent APIs",
+      "description": "Expose memory-backed agents inside applications through a service interface."
+    },
+    {
+      "title": "Learning workflows",
+      "description": "Experiment with agents that improve from ongoing interactions."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose Letta for stateful agent architecture",
+      "against": "standalone memory APIs",
+      "summary": "Letta is broader than memory storage; it is closer to a platform for agents whose behavior depends on state."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Review the GitHub repository",
+      "url": "https://github.com/letta-ai/letta",
+      "type": "github"
+    },
+    {
+      "label": "Read the documentation",
+      "url": "https://docs.letta.com/",
+      "type": "docs"
+    },
+    {
+      "label": "Official source",
+      "url": "https://www.letta.com/",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Clone Letta",
+      "command": "git clone https://github.com/letta-ai/letta.git",
+      "description": "Use the official documentation for the current server, API, and SDK setup path."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Letta is an open-source platform for building stateful agents that remember users, maintain memory blocks, and interact through APIs and SDKs.",
+    "whatItIs": "Letta is an open AI memory systems resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whyItMatters": "Letta matters because memory is not just a database problem; it changes how an agent behaves over time. Letta gives builders a more structured model for stateful agents and persistent memory.",
+    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "useCases": [
+      {
+        "title": "Personalized AI agents",
+        "description": "Build assistants that retain a persona and user-specific memory blocks."
+      },
+      {
+        "title": "Stateful agent APIs",
+        "description": "Expose memory-backed agents inside applications through a service interface."
+      },
+      {
+        "title": "Learning workflows",
+        "description": "Experiment with agents that improve from ongoing interactions."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Choose Letta for stateful agent architecture",
+        "against": "standalone memory APIs",
+        "summary": "Letta is broader than memory storage; it is closer to a platform for agents whose behavior depends on state."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/letta-ai/letta",
+        "type": "github"
+      },
+      {
+        "label": "Read the documentation",
+        "url": "https://docs.letta.com/",
+        "type": "docs"
+      },
+      {
+        "label": "Official source",
+        "url": "https://www.letta.com/",
+        "type": "homepage"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is Letta open source?",
+        "answer": "Letta is listed with Apache-2.0 based on its official source links. Always re-check the repository or model card before production use."
+      },
+      {
+        "question": "Who should evaluate Letta?",
+        "answer": "Developers building personalized stateful agents"
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "memory_system",
+    "visualMotif": "clean technical blocks with a small source-link motif",
+    "backgroundStyle": "minimal App Store editorial card using restrained open-source accents",
+    "titleOverlay": "Letta",
+    "subtitle": "Platform for stateful agents with advanced memory, personalization, and learning over time.",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  }
+}

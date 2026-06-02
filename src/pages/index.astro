@@ -12,6 +12,12 @@ const posts = await getPublishedBlogPosts();
 const floorOrder = ["agents", "models", "skills", "memory-systems"];
 const floorId = (slug: string) => (slug === "memory-systems" ? "memory" : slug);
 const resourceRank = (resource: (typeof resources)[number]) => (resource.decision_signals.open_source ? 1 : 0);
+const floorDescriptions: Record<string, string> = {
+  agents: "Open-source agents for browser, coding, terminal, and workflow automation.",
+  models: "Open models that can power private, local, and self-hosted AI workflows.",
+  skills: "Reusable capability packs that make agents useful in real tasks.",
+  "memory-systems": "Open memory systems for retrieval, long-term context, and user-owned knowledge."
+};
 const orderedFloors = [...categories]
   .filter((category) => floorOrder.includes(category.slug))
   .sort((a, b) => floorOrder.indexOf(a.slug) - floorOrder.indexOf(b.slug))
@@ -50,10 +56,10 @@ const evaluationCards = [
   <EditorialShell active="agents">
     <section class="home-intro" aria-labelledby="home-title">
       <p class="eyebrow">OpenAgent.bot</p>
-      <h1 id="home-title">A clean directory for open agents, models, skills, and memory systems.</h1>
+      <h1 id="home-title">Find open-source AI agents, models, skills, and memory systems.</h1>
       <p>
-        Browse source-backed AI resources in one page, then use evaluations and guides when you need a comparison
-        before choosing what to test.
+        A source-backed directory for builders choosing local-first, self-hostable, and transparent AI tools.
+        Browse official repos, licenses, docs, stars, and practical evaluation guides in one place.
       </p>
     </section>
 
@@ -63,7 +69,7 @@ const evaluationCards = [
           <div class="floor-head">
             <div>
               <h2>{floor.label}</h2>
-              <p>{floor.description}</p>
+              <p>{floorDescriptions[floor.slug] ?? floor.description}</p>
             </div>
           </div>
           <div class="card-grid">
@@ -78,7 +84,7 @@ const evaluationCards = [
         <div>
           <span class="eyebrow">Evaluations</span>
           <h2>Evaluations</h2>
-          <p>Decision pages for search visitors who already know the problem they need to solve.</p>
+          <p>Decision guides for choosing tools by workflow, license, and operational risk.</p>
         </div>
       </div>
       <div class="traffic-grid">
@@ -97,7 +103,7 @@ const evaluationCards = [
         <div>
           <span class="eyebrow">Guides</span>
           <h2>Guides</h2>
-          <p>Comparison articles, checklists, and explainers that connect back to the directory.</p>
+          <p>Practical comparisons and explainers around the open agent stack.</p>
         </div>
       </div>
       <div class="traffic-grid">

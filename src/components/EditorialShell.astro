@@ -36,11 +36,9 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
 
       <nav class="sidebar-nav" aria-label="Primary">
         <div class="nav-group">
-          <span class="nav-eyebrow">Directory</span>
           {primaryLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href} data-analytics="nav" data-analytics-payload={JSON.stringify({label: item.label, href: item.href})}>{item.label}</a>)}
         </div>
         <div class="nav-group utility-group">
-          <span class="nav-eyebrow">Editorial</span>
           {utilityLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href} data-analytics="nav" data-analytics-payload={JSON.stringify({label: item.label, href: item.href})}>{item.label}</a>)}
         </div>
       </nav>
@@ -129,7 +127,7 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
   .sidebar-nav {
     align-content: start;
     display: grid;
-    row-gap: 20px;
+    row-gap: 12px;
   }
 
   .nav-group {
@@ -137,14 +135,9 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
     row-gap: 1px;
   }
 
-  .nav-eyebrow {
-    color: var(--subtle);
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    margin: 0 9px 7px;
-    text-transform: uppercase;
+  .utility-group {
+    border-top: 1px solid var(--line);
+    padding-top: 12px;
   }
 
   nav a,
@@ -190,9 +183,9 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
 
   .sidebar-submit {
     align-self: stretch;
-    background: var(--ink);
-    border: 1px solid var(--ink);
-    color: #ffffff;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
     font-size: 0.82rem;
     font-weight: 520;
     justify-content: center;
@@ -204,8 +197,9 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
   .sidebar-submit:hover,
   .sidebar-submit:focus-visible,
   .sidebar-submit.active {
-    background: #000000;
-    color: #ffffff;
+    background: var(--surface);
+    border-color: var(--ink);
+    color: var(--ink);
     font-weight: 520;
   }
 

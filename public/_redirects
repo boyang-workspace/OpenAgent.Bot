@@ -28,3 +28,6 @@
 /blog/why-agent-readable-pages-matter/ /blog 301
 /blog/curating-open-agent-tools /blog 301
 /blog/curating-open-agent-tools/ /blog 301
+/design-demo / 301
+/design-demo/ / 301
+/design-samples/* / 301

@@ -60,7 +60,7 @@ const trackPayload = JSON.stringify({
 
   .resource-card:hover {
     border-color: var(--line-strong);
-    box-shadow: var(--shadow-soft);
+    box-shadow: 0 6px 18px rgba(22, 26, 29, 0.045);
     transform: translateY(-2px);
   }
 
@@ -70,15 +70,20 @@ const trackPayload = JSON.stringify({
   }
 
   .media {
-    background: var(--surface-soft);
+    align-items: center;
+    background: #f3f5f7;
+    display: grid;
+    min-height: 148px;
+    place-items: center;
     position: relative;
   }
 
   img {
-    aspect-ratio: 16 / 9;
-    background: var(--surface-soft);
+    background: transparent;
+    box-sizing: border-box;
+    height: 148px;
     object-fit: contain;
-    padding: 18px;
+    padding: 22px 30px;
     width: 100%;
   }
 
@@ -86,44 +91,44 @@ const trackPayload = JSON.stringify({
     align-items: flex-end;
     background: rgba(255, 255, 255, 0.92);
     border: 1px solid var(--line);
-    border-radius: 7px;
+    border-radius: 6px;
     display: grid;
-    gap: 2px;
-    padding: 6px 7px;
+    gap: 1px;
+    padding: 5px 6px;
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 9px;
+    top: 9px;
     text-align: right;
   }
 
   .source-meta span {
     color: var(--muted);
-    font-size: 0.66rem;
+    font-size: 0.62rem;
     line-height: 1.05;
     white-space: nowrap;
   }
 
   .source-meta span:first-child {
     color: var(--ink);
-    font-weight: 560;
+    font-weight: 580;
   }
 
   .resource-body {
     display: grid;
-    gap: 7px;
-    padding: 14px;
+    gap: 6px;
+    padding: 13px 14px 15px;
   }
 
   .meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 7px;
   }
 
   .meta span {
     color: var(--muted);
-    font-size: 0.72rem;
-    font-weight: 450;
+    font-size: 0.68rem;
+    font-weight: 430;
     letter-spacing: 0;
   }
 
@@ -133,7 +138,7 @@ const trackPayload = JSON.stringify({
 
   h3 {
     color: var(--ink);
-    font-size: 0.98rem;
+    font-size: 0.94rem;
     font-weight: 560;
     letter-spacing: 0;
     line-height: 1.16;
@@ -143,8 +148,8 @@ const trackPayload = JSON.stringify({
   p {
     color: var(--muted);
     display: -webkit-box;
-    font-size: 0.82rem;
-    line-height: 1.48;
+    font-size: 0.8rem;
+    line-height: 1.46;
     margin: 0;
     overflow: hidden;
     -webkit-box-orient: vertical;

@@ -75,7 +75,7 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
 <style>
   .editorial-shell {
     display: grid;
-    grid-template-columns: 240px minmax(0, 1fr);
+    grid-template-columns: 236px minmax(0, 1fr);
     min-height: 100vh;
   }
 
@@ -85,7 +85,7 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
     height: 100vh;
     left: 0;
     overflow-y: auto;
-    padding: 26px 18px 24px;
+    padding: 24px 14px 18px;
     position: sticky;
     top: 0;
   }
@@ -93,57 +93,57 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
   .sidebar-card {
     display: grid;
     grid-template-rows: auto 1fr auto;
-    min-height: calc(100vh - 50px);
-    row-gap: 28px;
+    min-height: calc(100vh - 42px);
+    row-gap: 22px;
   }
 
   .sidebar-brand {
     align-items: center;
     display: flex;
-    gap: 11px;
-    min-height: 32px;
-    padding: 2px 4px 0;
+    gap: 10px;
+    min-height: 34px;
+    padding: 0;
   }
 
   .sidebar-brand strong {
     color: var(--ink);
-    font-size: 0.88rem;
-    font-weight: 620;
+    font-size: 0.82rem;
+    font-weight: 650;
     letter-spacing: 0;
   }
 
   .brand-mark {
     align-items: center;
     background: var(--ink);
-    border-radius: 7px;
+    border-radius: 6px;
     color: #ffffff;
     display: inline-flex;
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 900;
-    height: 30px;
+    height: 28px;
     justify-content: center;
     letter-spacing: 0.06em;
-    width: 30px;
+    width: 28px;
   }
 
   .sidebar-nav {
     align-content: start;
     display: grid;
-    row-gap: 22px;
+    row-gap: 20px;
   }
 
   .nav-group {
     display: grid;
-    row-gap: 2px;
+    row-gap: 1px;
   }
 
   .nav-eyebrow {
-    color: var(--muted);
+    color: var(--subtle);
     font-family: var(--mono);
     font-size: 0.6rem;
     font-weight: 700;
     letter-spacing: 0.12em;
-    margin: 0 4px 8px;
+    margin: 0 9px 7px;
     text-transform: uppercase;
   }
 
@@ -158,15 +158,15 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
   .sidebar-submit {
     align-items: center;
     display: flex;
-    font-size: 0.86rem;
-    font-weight: 460;
-    min-height: 34px;
-    padding: 0 10px;
+    font-size: 0.82rem;
+    font-weight: 430;
+    min-height: 32px;
+    padding: 0 9px;
   }
 
   .utility-group a {
     color: var(--muted);
-    font-size: 0.84rem;
+    font-size: 0.82rem;
   }
 
   nav a:hover,
@@ -179,13 +179,13 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
   .mobile-rail a.active {
     background: rgba(22, 26, 29, 0.06);
     color: var(--ink);
-    font-weight: 540;
+    font-weight: 520;
   }
 
   nav a.active {
-    background: rgba(22, 26, 29, 0.09);
+    background: rgba(22, 26, 29, 0.075);
     color: var(--ink);
-    font-weight: 600;
+    font-weight: 580;
   }
 
   .sidebar-submit {
@@ -193,10 +193,10 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
     background: var(--ink);
     border: 1px solid var(--ink);
     color: #ffffff;
-    font-size: 0.84rem;
+    font-size: 0.82rem;
     font-weight: 520;
     justify-content: center;
-    min-height: 40px;
+    min-height: 38px;
     padding: 0 14px;
     text-align: center;
   }

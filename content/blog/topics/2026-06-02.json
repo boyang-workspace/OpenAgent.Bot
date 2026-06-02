@@ -1,0 +1,160 @@
+{
+  "date": "2026-06-02",
+  "topics": [
+    {
+      "id": "2026-06-02:comparison:best-open-source-browser-agents-for-workflow-automation",
+      "date": "2026-06-02",
+      "lane": "comparison",
+      "title": "Best open-source browser agents for workflow automation",
+      "angle": "Compare browser-agent projects by setup path, action surface, safety controls, and OpenAgent fit.",
+      "primaryKeyword": "best open-source browser agents",
+      "searchIntent": "Readers want a practical comparison for best open-source browser agents, with direct next steps and source links.",
+      "sourceSignals": [
+        "/agents/openai-agents-python",
+        "/agents/aider",
+        "/agents/autogen"
+      ],
+      "score": 94,
+      "status": "new"
+    },
+    {
+      "id": "2026-06-02:comparison:open-source-ai-memory-systems-compared",
+      "date": "2026-06-02",
+      "lane": "comparison",
+      "title": "Open-source AI memory systems compared",
+      "angle": "Help builders compare open memory systems for context, retrieval, and agent workflows.",
+      "primaryKeyword": "open-source AI memory systems",
+      "searchIntent": "Readers want a practical comparison for open-source AI memory systems, with direct next steps and source links.",
+      "sourceSignals": [
+        "/memory-systems/cognee",
+        "/memory-systems/graphiti",
+        "/memory-systems/letta"
+      ],
+      "score": 93,
+      "status": "new"
+    },
+    {
+      "id": "2026-06-02:comparison:openclaw-alternatives-for-open-source-action-agents",
+      "date": "2026-06-02",
+      "lane": "comparison",
+      "title": "OpenClaw alternatives for open-source action agents",
+      "angle": "Compare action-agent projects for browser workflows, coding tasks, and broader automation.",
+      "primaryKeyword": "OpenClaw alternatives",
+      "searchIntent": "Readers want a practical comparison for OpenClaw alternatives, with direct next steps and source links.",
+      "sourceSignals": [
+        "/agents/openai-agents-python",
+        "/agents/aider",
+        "/agents/autogen"
+      ],
+      "score": 92,
+      "status": "new"
+    },
+    {
+      "id": "2026-06-02:trend:system-prompts-and-models-of-ai-tools",
+      "date": "2026-06-02",
+      "lane": "trend",
+      "title": "system-prompts-and-models-of-ai-tools: should open-source AI builders care?",
+      "angle": "Explain what system-prompts-and-models-of-ai-tools appears to do, why it surfaced in discovery, and what to verify before adopting it.",
+      "primaryKeyword": "system-prompts-and-models-of-ai-tools open-source agents",
+      "searchIntent": "Readers want to know whether system-prompts-and-models-of-ai-tools is relevant, trustworthy, and worth testing.",
+      "sourceSignals": [
+        "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+        "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools/blob/main/README.md"
+      ],
+      "score": 89,
+      "status": "new"
+    },
+    {
+      "id": "2026-06-02:trend:gemini-cli",
+      "date": "2026-06-02",
+      "lane": "trend",
+      "title": "gemini-cli: should open-source AI builders care?",
+      "angle": "Explain what gemini-cli appears to do, why it surfaced in discovery, and what to verify before adopting it.",
+      "primaryKeyword": "gemini-cli open-source agents",
+      "searchIntent": "Readers want to know whether gemini-cli is relevant, trustworthy, and worth testing.",
+      "sourceSignals": [
+        "https://github.com/google-gemini/gemini-cli",
+        "https://github.com/google-gemini/gemini-cli/blob/main/README.md"
+      ],
+      "score": 89,
+      "status": "new"
+    },
+    {
+      "id": "2026-06-02:trend:goose",
+      "date": "2026-06-02",
+      "lane": "trend",
+      "title": "goose: should open-source AI builders care?",
+      "angle": "Explain what goose appears to do, why it surfaced in discovery, and what to verify before adopting it.",
+      "primaryKeyword": "goose open-source agents",
+      "searchIntent": "Readers want to know whether goose is relevant, trustworthy, and worth testing.",
+      "sourceSignals": [
+        "https://github.com/aaif-goose/goose",
+        "https://github.com/aaif-goose/goose/blob/main/README.md"
+      ],
+      "score": 89,
+      "status": "new"
+    },
+    {
+      "id": "2026-06-02:trend:cowagent",
+      "date": "2026-06-02",
+      "lane": "trend",
+      "title": "CowAgent: should open-source AI builders care?",
+      "angle": "Explain what CowAgent appears to do, why it surfaced in discovery, and what to verify before adopting it.",
+      "primaryKeyword": "CowAgent open-source memory systems",
+      "searchIntent": "Readers want to know whether CowAgent is relevant, trustworthy, and worth testing.",
+      "sourceSignals": [
+        "https://github.com/zhayujie/CowAgent",
+        "https://github.com/zhayujie/CowAgent/blob/master/README.md"
+      ],
+      "score": 89,
+      "status": "new"
+    },
+    {
+      "id": "2026-06-02:trend:nanobot",
+      "date": "2026-06-02",
+      "lane": "trend",
+      "title": "nanobot: should open-source AI builders care?",
+      "angle": "Explain what nanobot appears to do, why it surfaced in discovery, and what to verify before adopting it.",
+      "primaryKeyword": "nanobot open-source tools",
+      "searchIntent": "Readers want to know whether nanobot is relevant, trustworthy, and worth testing.",
+      "sourceSignals": [
+        "https://github.com/HKUDS/nanobot",
+        "https://github.com/HKUDS/nanobot/blob/main/README.md"
+      ],
+      "score": 89,
+      "status": "new"
+    },
+    {
+      "id": "2026-06-02:trend:ragflow",
+      "date": "2026-06-02",
+      "lane": "trend",
+      "title": "ragflow: should open-source AI builders care?",
+      "angle": "Explain what ragflow appears to do, why it surfaced in discovery, and what to verify before adopting it.",
+      "primaryKeyword": "ragflow open-source memory systems",
+      "searchIntent": "Readers want to know whether ragflow is relevant, trustworthy, and worth testing.",
+      "sourceSignals": [
+        "https://github.com/infiniflow/ragflow",
+        "https://github.com/infiniflow/ragflow/blob/main/README.md"
+      ],
+      "score": 89,
+      "status": "new"
+    },
+    {
+      "id": "2026-06-02:evergreen:how-to-choose-an-open-source-ai-agent-stack",
+      "date": "2026-06-02",
+      "lane": "evergreen",
+      "title": "How to choose an open-source AI agent stack",
+      "angle": "Explain how builders should combine models, tools, memory, skills, and browser action.",
+      "primaryKeyword": "open-source AI agent stack",
+      "searchIntent": "Readers want a durable guide to open-source AI agent stack, with criteria and OpenAgent resources.",
+      "sourceSignals": [
+        "/agents",
+        "/models",
+        "/memory-systems",
+        "/skills"
+      ],
+      "score": 82,
+      "status": "new"
+    }
+  ]
+}

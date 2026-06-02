@@ -110,9 +110,9 @@
   ],
   "seoArticle": {
     "intro": "Cognee is an open-source memory and data layer for AI applications, focused on turning data into structured, retrievable context for agents and LLM systems.",
-    "whatItIs": "Cognee is an open AI memory systems resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whatItIs": "Cognee is an open memory-system resource to evaluate by what it stores, how recall works, how memory is scoped, and whether users or teams can inspect, correct, export, or delete durable context.",
     "whyItMatters": "Cognee matters because teams quickly outgrow raw prompts and scattered documents. AI applications need a way to prepare, connect, and retrieve context in a structured way.",
-    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "howItWorks": "Test Cognee with repeated sessions. Add facts, update them, ask for recall, inspect retrieval behavior, and verify deletion or scoping controls before storing sensitive user or project memory.",
     "useCases": [
       {
         "title": "Knowledge ingestion",
@@ -153,12 +153,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Cognee?",
+        "answer": "Test Cognee with repeated sessions. Add facts, update them, ask for recall, inspect retrieval behavior, and verify deletion or scoping controls before storing sensitive user or project memory."
+      },
+      {
         "question": "Is Cognee open source?",
-        "answer": "Cognee is listed with Apache-2.0 based on its official source links. Always re-check the repository or model card before production use."
+        "answer": "Cognee is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
       },
       {
         "question": "Who should evaluate Cognee?",
-        "answer": "Builders creating AI apps over messy data sources"
+        "answer": "Cognee is most worth evaluating for builders creating AI apps over messy data sources."
       }
     ]
   },
@@ -173,5 +177,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/topoteretes.png"
 }

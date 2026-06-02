@@ -119,9 +119,9 @@
   ],
   "seoArticle": {
     "intro": "OLMo 2 is a strong choice when the question is not only which open model performs well, but which open model can actually be inspected. It is aimed at builders and researchers who care about provenance, licensing, and reproducible model development.",
-    "whatItIs": "OLMo 2 belongs to Ai2's open model program. The project is built around public model artifacts and an Apache-licensed repository that helps researchers study model development rather than treating the model as a black box.",
+    "whatItIs": "OLMo 2 is an open model resource to evaluate by workload, serving path, context behavior, license terms, and how reliably it supports the agent or local AI tasks you actually plan to run.",
     "whyItMatters": "Open AI needs more than downloadable weights. Teams need to understand what was trained, how it was evaluated, what the license permits, and whether the model can be reproduced or audited. OLMo 2 is important because it keeps those questions close to the model itself.",
-    "howItWorks": "Start by reading the official OLMo overview, then inspect the repository and model cards before running any benchmark. OLMo 2 is especially useful when your evaluation includes transparency, reproducibility, and governance criteria.",
+    "howItWorks": "Run OLMo 2 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it.",
     "useCases": [
       {
         "title": "Academic model evaluation",
@@ -157,8 +157,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using OLMo 2?",
+        "answer": "Run OLMo 2 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it."
+      },
+      {
         "question": "Is OLMo 2 open source?",
-        "answer": "The OLMo repository is Apache-2.0, and Ai2 positions OLMo as a fully open model program. Verify the exact model card before deployment."
+        "answer": "OLMo 2 is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate OLMo 2?",
+        "answer": "OLMo 2 is most worth evaluating for researchers who need transparent model artifacts and training context."
       },
       {
         "question": "Who should use OLMo 2?",
@@ -181,5 +189,6 @@
       "busy neural network cliche",
       "overly academic chart clutter"
     ]
-  }
+  },
+  "coverImage": "https://github.com/allenai.png"
 }

@@ -112,9 +112,9 @@
   ],
   "seoArticle": {
     "intro": "Gemini CLI is Google's open-source entry into the terminal coding agent space. It brings Gemini models directly into the developer's terminal with file editing, shell commands, and a unique capability: Google Search grounding.",
-    "whatItIs": "Gemini CLI is an Apache-2.0 licensed terminal agent that connects to Google's Gemini models. It can read and edit files, execute shell commands, search the web via Google Search, and connect to external tools through MCP servers. It runs entirely in the terminal with no GUI required.",
+    "whatItIs": "Gemini CLI is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
     "whyItMatters": "The terminal agent space has been dominated by proprietary tools. Gemini CLI changes that by being fully open source while leveraging Google's frontier models. The addition of Google Search grounding means the agent isn't limited to its training data — it can look up current documentation, recent API changes, and live examples.",
-    "howItWorks": "After installing via npm, run 'gemini' in any directory. The agent indexes your project structure, then enters an interactive loop. You describe tasks in natural language, and the agent reads files, makes edits, runs shell commands, and searches the web as needed. It supports MCP for extending its capabilities with custom tools.",
+    "howItWorks": "Start with one safe workflow for Gemini CLI. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
     "useCases": [
       {
         "title": "Learning unfamiliar codebases",
@@ -155,8 +155,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Gemini CLI?",
+        "answer": "Start with one safe workflow for Gemini CLI. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
         "question": "Is Gemini CLI open source?",
-        "answer": "Yes. Gemini CLI is released under the Apache-2.0 license, making it fully open source for inspection, modification, and redistribution."
+        "answer": "Gemini CLI is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate Gemini CLI?",
+        "answer": "Gemini CLI is most worth evaluating for developers who want free or low-cost access to frontier models in a terminal agent."
       },
       {
         "question": "Who should use Gemini CLI?",
@@ -179,5 +187,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/google-gemini.png"
 }

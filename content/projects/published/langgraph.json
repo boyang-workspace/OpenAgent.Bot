@@ -110,9 +110,9 @@
   ],
   "seoArticle": {
     "intro": "LangGraph is an open-source framework for building stateful, durable agent workflows where developers need explicit control over graphs, state, checkpoints, and human-in-the-loop behavior.",
-    "whatItIs": "LangGraph is an open AI agents resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whatItIs": "LangGraph is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
     "whyItMatters": "LangGraph matters because many serious agents are not simple prompt chains. They need state, branching, recovery, and clear control over what happens between model calls and tool calls.",
-    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "howItWorks": "Start with one safe workflow for LangGraph. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
     "useCases": [
       {
         "title": "Research agents",
@@ -153,12 +153,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using LangGraph?",
+        "answer": "Start with one safe workflow for LangGraph. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
         "question": "Is LangGraph open source?",
-        "answer": "LangGraph is listed with MIT based on its official source links. Always re-check the repository or model card before production use."
+        "answer": "LangGraph is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
       },
       {
         "question": "Who should evaluate LangGraph?",
-        "answer": "Developers building production-style stateful agents"
+        "answer": "LangGraph is most worth evaluating for developers building production-style stateful agents."
       }
     ]
   },
@@ -173,5 +177,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/langchain-ai.png"
 }

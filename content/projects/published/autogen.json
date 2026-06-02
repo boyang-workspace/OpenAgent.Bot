@@ -112,9 +112,9 @@
   ],
   "seoArticle": {
     "intro": "AutoGen is Microsoft Research's framework for building multi-agent AI systems. It treats agent conversations as the fundamental building block and provides a layered architecture that scales from quick prototypes to production systems.",
-    "whatItIs": "AutoGen is an open-source framework for building conversational multi-agent systems. It offers three layers: AgentChat for rapid prototyping with pre-built conversation patterns, Core API for fine-grained control over agent state and messaging, and Extensions for integrating with external tools and services. Agents collaborate through structured message passing.",
+    "whatItIs": "AutoGen is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
     "whyItMatters": "Multi-agent systems are becoming the standard approach for complex AI tasks, but building them from scratch is hard. AutoGen provides the primitives — agent registration, message routing, conversation management, state handling — so developers can focus on designing agent behaviors rather than infrastructure.",
-    "howItWorks": "Install via pip and choose your entry layer. AgentChat gives you pre-built conversation patterns for quick experiments. Core API gives you full control over agent lifecycle, messaging, and state. Extensions connect to external tools and services. Define your agents, set up their conversation patterns, and let AutoGen orchestrate the collaboration.",
+    "howItWorks": "Start with one safe workflow for AutoGen. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
     "useCases": [
       {
         "title": "Multi-agent code generation",
@@ -155,8 +155,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using AutoGen?",
+        "answer": "Start with one safe workflow for AutoGen. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
         "question": "Is AutoGen open source?",
-        "answer": "Yes. AutoGen is released under the CC-BY-4.0 license, making the source code available for inspection, modification, and redistribution."
+        "answer": "AutoGen is listed with CC-BY-4.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate AutoGen?",
+        "answer": "AutoGen is most worth evaluating for developers building conversational multi-agent systems."
       },
       {
         "question": "Who should use AutoGen?",
@@ -179,5 +187,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/microsoft.png"
 }

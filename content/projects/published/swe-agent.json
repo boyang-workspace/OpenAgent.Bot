@@ -112,9 +112,9 @@
   ],
   "seoArticle": {
     "intro": "SWE-agent is one of the most important projects in the autonomous coding agent space. It demonstrated that LLMs can autonomously fix real-world GitHub issues, and its agent-computer interface design influenced how many subsequent agents structure their tool interactions.",
-    "whatItIs": "SWE-agent is an open-source autonomous coding agent that takes GitHub issues as input and produces pull request fixes. It uses an agent-computer interface (ACI) that defines how the LLM interacts with the development environment — file navigation, code search, editing, and testing. The agent operates autonomously, requiring no human intervention from issue to PR.",
+    "whatItIs": "SWE-agent is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
     "whyItMatters": "The SWE-bench benchmark, which SWE-agent helped popularize, tests agents on real-world GitHub issues from popular Python repositories. SWE-agent's state-of-the-art results on this benchmark demonstrated that autonomous coding is viable, not just a research curiosity. Its ACI design also showed that tool interface design is a critical factor in agent performance.",
-    "howItWorks": "Given a GitHub issue, SWE-agent clones the repository, navigates the codebase to understand the problem, identifies the relevant files, makes edits, runs tests to verify the fix, and creates a pull request. The ACI provides optimized tools for each step — search commands that work well with LLM context windows, editing interfaces that minimize errors, and testing workflows that catch regressions.",
+    "howItWorks": "Start with one safe workflow for SWE-agent. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
     "useCases": [
       {
         "title": "Automated bug fix pipelines",
@@ -155,8 +155,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using SWE-agent?",
+        "answer": "Start with one safe workflow for SWE-agent. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
         "question": "Is SWE-agent open source?",
-        "answer": "Yes. SWE-agent is released under the MIT license, making it fully open source for inspection, modification, and redistribution."
+        "answer": "SWE-agent is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate SWE-agent?",
+        "answer": "SWE-agent is most worth evaluating for researchers benchmarking autonomous coding agent capabilities."
       },
       {
         "question": "Who should use SWE-agent?",
@@ -179,5 +187,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/SWE-agent.png"
 }

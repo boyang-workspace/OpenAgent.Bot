@@ -3,7 +3,7 @@ import ResourceCard from "@/components/ResourceCard.astro";
 import EditorialShell from "@/components/EditorialShell.astro";
 import { categories } from "@/config/site";
 import { getPublishedResources, getRelatedResources, resourcePath } from "@/lib/content/resources";
-import { resourceCategoryLabel, resourceMeta, resourceSignals, resourceTags } from "@/lib/content/resource-display";
+import { resourceCategoryLabel, resourceImage, resourceMeta, resourceSignals, resourceTags } from "@/lib/content/resource-display";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
@@ -24,6 +24,8 @@ const homepageLink = resource.links.items.find((link) => link.type === "homepage
 const docsLink = resource.links.items.find((link) => link.type === "docs");
 const primaryCta = repoLink ?? homepageLink ?? resource.links.items[0];
 const seoArticle = resource.editorial?.seo_article;
+const image = resourceImage(resource);
+const fallbackImage = `/resource-fallbacks/${resource.classification.primary_category}.svg`;
 const useCases =
   resource.editorial?.use_case_notes?.length
     ? resource.editorial.use_case_notes
@@ -55,14 +57,107 @@ const tags = resourceTags(resource, 8);
 const sourceLinks = resource.links.items.slice(0, 8);
 const primaryUseCase = resource.positioning.best_for?.[0] ?? useCases[0]?.title ?? `teams evaluating ${resourceCategoryLabel(resource).toLowerCase()}`;
 const firstTestByCategory: Record<string, string> = {
-  agents: "Run one narrow workflow in a sandbox account, then inspect logs, permissions, and failure cases before expanding scope.",
-  models: "Test one real prompt set from your agent workflow, then compare latency, cost, context handling, and output reliability.",
-  "memory-systems": "Run a repeated-session retrieval test and check what the system remembers, updates, forgets, and explains.",
-  skills: "Try one reusable task end to end, then check how easy it is to edit, version, and recover from mistakes.",
+  agents: "Run one narrow action in a sandbox, then inspect permissions, logs, recovery behavior, and every tool or browser step.",
+  models: "Run a real workload set, then compare output quality, latency, serving path, context limits, and license fit.",
+  "memory-systems": "Run a repeated-session recall test and check what the system stores, retrieves, updates, scopes, and forgets.",
+  skills: "Run one repeatable workflow, then check invocation rules, editable instructions, evidence output, and recovery paths.",
   plugins: "Connect one low-risk service first, then inspect auth scope, logs, and failure behavior.",
   tools: "Use it on one real builder workflow and verify whether it removes manual work without adding fragile setup."
 };
 const firstTest = firstTestByCategory[resource.classification.primary_category] ?? "Start with one small workflow whose success and failure are easy to observe.";
+const articleProfileByCategory: Record<string, {
+  lens: string;
+  quickEyebrow: string;
+  quickTitle: string;
+  fitTitle: string;
+  evaluationEyebrow: string;
+  evaluationTitle: string;
+  workflowTitle: string;
+  compareTitle: string;
+  faqTitle: string;
+  rows: Array<[string, string, string]>;
+}> = {
+  agents: {
+    lens: "Agent profiles are most useful when they explain the surfaces an agent can act on, how those actions are supervised, and what a safe first workflow looks like.",
+    quickEyebrow: "Action profile",
+    quickTitle: `What can ${resource.identity.name} actually do?`,
+    fitTitle: "Where it fits in an agent workflow",
+    evaluationEyebrow: "Action surface",
+    evaluationTitle: "What to inspect before using it",
+    workflowTitle: "Best workflows to test first",
+    compareTitle: "Compare by action boundary",
+    faqTitle: "Adoption questions",
+    rows: [
+      ["Action surface", "Browser, terminal, code, tools, APIs, files, or workflow steps it can operate.", "This defines the risk boundary."],
+      ["Supervision", "Logs, review points, approvals, and whether a human can pause or replay actions.", "Action agents need auditability."],
+      ["Failure mode", "What happens when a page changes, a tool fails, or the agent reaches uncertainty.", "Recovery behavior matters more than demos."]
+    ]
+  },
+  models: {
+    lens: "Model profiles should make capability, deployment, license, and evaluation tradeoffs concrete before readers choose a model for an agent or local workflow.",
+    quickEyebrow: "Model profile",
+    quickTitle: `What is ${resource.identity.name} good for?`,
+    fitTitle: "Workloads where this model makes sense",
+    evaluationEyebrow: "Model evaluation",
+    evaluationTitle: "What to test before adopting it",
+    workflowTitle: "Best model workloads to evaluate",
+    compareTitle: "Compare by workload and serving path",
+    faqTitle: "Model adoption questions",
+    rows: [
+      ["Capability", "Reasoning, coding, multimodal, OCR, local assistant, or tool-planning behavior.", "The workload should drive the model choice."],
+      ["Deployment", "Local runtime, open weights, hosted API, self-hosted inference, or hybrid routing.", "A strong model can still fail your constraints."],
+      ["Evaluation", "Real prompt sets, latency, cost, context handling, license fit, and retry behavior.", "Benchmarks alone are not enough."]
+    ]
+  },
+  skills: {
+    lens: "Skill profiles should explain what repeatable behavior the skill packages, when an agent should invoke it, and how it improves reliability over one-off prompting.",
+    quickEyebrow: "Skill profile",
+    quickTitle: `What behavior does ${resource.identity.name} package?`,
+    fitTitle: "Where this skill belongs in an agent workflow",
+    evaluationEyebrow: "Skill reliability",
+    evaluationTitle: "What to inspect before reusing it",
+    workflowTitle: "Best skill workflows to try",
+    compareTitle: "Compare by repeatability",
+    faqTitle: "Skill adoption questions",
+    rows: [
+      ["Invocation", "When the skill should run, what inputs it expects, and what output it produces.", "A skill needs a clear boundary."],
+      ["Procedure", "Steps, checks, stop conditions, and evidence the agent should collect.", "This is what separates skills from prompts."],
+      ["Adaptation", "How easy it is to edit, version, combine, and recover from failure.", "Reusable skills should be maintainable."]
+    ]
+  },
+  "memory-systems": {
+    lens: "Memory profiles should explain what is remembered, how recall works, how memory is scoped, and how users can inspect, update, or delete durable context.",
+    quickEyebrow: "Memory profile",
+    quickTitle: `What does ${resource.identity.name} remember?`,
+    fitTitle: "Where this memory layer helps",
+    evaluationEyebrow: "Memory safety",
+    evaluationTitle: "What to inspect before storing user context",
+    workflowTitle: "Best memory workflows to test",
+    compareTitle: "Compare by memory object and control",
+    faqTitle: "Memory adoption questions",
+    rows: [
+      ["Memory object", "User facts, task history, documents, graph entities, preferences, or workflow state.", "You cannot evaluate memory without naming what is stored."],
+      ["Recall behavior", "Search, retrieval, ranking, graph traversal, summaries, or context injection.", "Useful memory must surface the right context at the right time."],
+      ["Control", "Scope, deletion, export, consent, logs, and stale-memory correction.", "Bad memory can be worse than no memory."]
+    ]
+  }
+};
+const articleProfile = articleProfileByCategory[resource.classification.primary_category] ?? {
+  lens: "Use this profile to understand what the resource does, where it fits, and how to test it before adopting it.",
+  quickEyebrow: "Resource profile",
+  quickTitle: `What is ${resource.identity.name}?`,
+  fitTitle: "Where it fits",
+  evaluationEyebrow: "Evaluation",
+  evaluationTitle: "What to inspect before adopting it",
+  workflowTitle: "Best workflows to test first",
+  compareTitle: "How it compares",
+  faqTitle: "Adoption questions",
+  rows: [
+    ["Fit", "Workflow, source, license, and deployment match.", "Start with one real use case."],
+    ["Evidence", "Official docs, repository, examples, and maintenance signals.", "Trust should come from sources."],
+    ["Risk", "Setup burden, operational limits, and failure behavior.", "A small first test keeps adoption reversible."]
+  ]
+};
 const sourceConfidence = [
   repoLink ? "official repository" : undefined,
   docsLink ? "docs available" : undefined,
@@ -90,7 +185,7 @@ const jsonLd = {
   noindex={resource.status !== "published"}
 >
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </Fragment>
 
   <EditorialShell active={resource.classification.primary_category}>
@@ -177,9 +272,10 @@ const jsonLd = {
       <section class="content-grid">
         <main class="profile-main">
           <section class="content-section" id="answer">
-            <p class="eyebrow">Quick answer</p>
-            <h2>What is {resource.identity.name}?</h2>
+            <p class="eyebrow">{articleProfile.quickEyebrow}</p>
+            <h2>{articleProfile.quickTitle}</h2>
             <div class="prose">
+              <p>{articleProfile.lens}</p>
               {seoArticle?.intro && <p>{seoArticle.intro}</p>}
               {seoArticle?.what_it_is && <p>{seoArticle.what_it_is}</p>}
               {!seoArticle?.intro && !seoArticle?.what_it_is && <p>{resource.identity.short_description ?? resource.identity.one_liner}</p>}
@@ -188,7 +284,7 @@ const jsonLd = {
 
           <section class="content-section">
             <p class="eyebrow">Fit check</p>
-            <h2>When to use it</h2>
+            <h2>{articleProfile.fitTitle}</h2>
             <div class="fit-grid">
               <article>
                 <h3>Good fit if</h3>
@@ -206,6 +302,20 @@ const jsonLd = {
           </section>
 
           <section class="content-section">
+            <p class="eyebrow">{articleProfile.evaluationEyebrow}</p>
+            <h2>{articleProfile.evaluationTitle}</h2>
+            <div class="evaluation-grid">
+              {articleProfile.rows.map(([label, description, why]) => (
+                <article>
+                  <span>{label}</span>
+                  <p>{description}</p>
+                  <small>{why}</small>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="content-section">
             <p class="eyebrow">First test</p>
             <h2>How to evaluate it before committing</h2>
             <div class="test-card">
@@ -216,7 +326,7 @@ const jsonLd = {
 
           <section class="content-section">
             <p class="eyebrow">Workflows</p>
-            <h2>Common ways to evaluate it</h2>
+            <h2>{articleProfile.workflowTitle}</h2>
             <div class="stack-list">
               {useCases.slice(0, 5).map((item) => (
                 <article>
@@ -229,7 +339,7 @@ const jsonLd = {
 
           <section class="content-section">
             <p class="eyebrow">Compare</p>
-            <h2>How it compares</h2>
+            <h2>{articleProfile.compareTitle}</h2>
             <div class="stack-list">
               {compareNotes.slice(0, 4).map((item) => (
                 <article>
@@ -267,7 +377,7 @@ const jsonLd = {
           {seoArticle?.faq?.length && (
             <section class="content-section">
               <p class="eyebrow">FAQ</p>
-              <h2>Questions search visitors ask</h2>
+              <h2>{articleProfile.faqTitle}</h2>
               <div class="faq-list">
                 {seoArticle.faq.slice(0, 6).map((item) => (
                   <details>
@@ -281,6 +391,26 @@ const jsonLd = {
         </main>
 
         <aside class="profile-rail">
+          <section class="rail-panel asset-panel">
+            <img src={image} alt={`${resource.identity.name} official visual`} loading="lazy" decoding="async" onerror={`this.onerror=null;this.src='${fallbackImage}';`} />
+            <h2>Official web presence</h2>
+            <p>{homepageLink ? "Use the official site for product context, then verify implementation details in the repository or docs." : "No separate homepage is listed yet; start from the repository or official docs."}</p>
+            <div class="source-list">
+              {homepageLink && (
+                <a href={homepageLink.url} data-analytics="cta" data-analytics-payload={JSON.stringify({action: "official_homepage", name: resource.identity.name, slug: resource.slug})}>
+                  <span>homepage</span>
+                  <strong>{homepageLink.label}</strong>
+                </a>
+              )}
+              {docsLink && (
+                <a href={docsLink.url} data-analytics="cta" data-analytics-payload={JSON.stringify({action: "official_docs", name: resource.identity.name, slug: resource.slug})}>
+                  <span>docs</span>
+                  <strong>{docsLink.label}</strong>
+                </a>
+              )}
+            </div>
+          </section>
+
           <section class="rail-panel">
             <h2>Source confidence</h2>
             <p class="confidence">{sourceConfidence}</p>
@@ -716,6 +846,41 @@ const jsonLd = {
     padding: 14px 16px;
   }
 
+  .evaluation-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 14px;
+  }
+
+  .evaluation-grid article {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 8px;
+    padding: 14px 15px;
+  }
+
+  .evaluation-grid span {
+    color: var(--ink);
+    font-size: 0.9rem;
+    font-weight: 580;
+  }
+
+  .evaluation-grid p {
+    color: var(--muted);
+    font-size: 0.84rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .evaluation-grid small {
+    color: var(--subtle);
+    font-size: 0.72rem;
+    line-height: 1.45;
+  }
+
   .test-card {
     margin-top: 14px;
     max-width: 780px;
@@ -809,6 +974,24 @@ const jsonLd = {
     margin: 0 0 10px;
   }
 
+  .asset-panel img {
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 22%;
+    box-shadow: 0 1px 2px rgba(22, 26, 29, 0.08);
+    height: 74px;
+    margin-bottom: 12px;
+    object-fit: contain;
+    width: 74px;
+  }
+
+  .asset-panel p {
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    margin: 0 0 8px;
+  }
+
   .source-list {
     display: grid;
     gap: 0;
@@ -875,6 +1058,7 @@ const jsonLd = {
     .fit-strip,
     .content-grid,
     .fit-grid,
+    .evaluation-grid,
     .verdict-strip,
     .related-grid {
       grid-template-columns: 1fr;

@@ -102,9 +102,9 @@
   ],
   "seoArticle": {
     "intro": "smolagents is a lightweight open-source agent library from Hugging Face, focused on simple code-agent patterns and practical integrations without a heavy framework surface.",
-    "whatItIs": "smolagents is an open AI agents resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whatItIs": "smolagents is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
     "whyItMatters": "smolagents matters because not every agent project needs a large orchestration stack. It gives builders a smaller surface for trying tool use, code actions, and model-driven reasoning.",
-    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "howItWorks": "Start with one safe workflow for smolagents. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
     "useCases": [
       {
         "title": "Agent prototypes",
@@ -140,12 +140,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using smolagents?",
+        "answer": "Start with one safe workflow for smolagents. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
         "question": "Is smolagents open source?",
-        "answer": "smolagents is listed with Apache-2.0 based on its official source links. Always re-check the repository or model card before production use."
+        "answer": "smolagents is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
       },
       {
         "question": "Who should evaluate smolagents?",
-        "answer": "Developers who want a small agent library before adopting a larger framework"
+        "answer": "smolagents is most worth evaluating for developers who want a small agent library before adopting a larger framework."
       }
     ]
   },
@@ -160,5 +164,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/huggingface.png"
 }

@@ -112,9 +112,9 @@
   ],
   "seoArticle": {
     "intro": "Aider is one of the original terminal coding agents, and it remains one of the most popular. Its model-agnostic design and automatic git integration make it a practical choice for developers who want AI pair programming without vendor lock-in.",
-    "whatItIs": "Aider is an open-source terminal tool for AI pair programming. It connects to any LLM provider, builds a map of your codebase, and works with you to edit code through natural conversation. Every change is automatically committed to git with a descriptive message, giving you a clean audit trail.",
+    "whatItIs": "Aider is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
     "whyItMatters": "Most coding agents lock you into a specific model provider. Aider's model-agnostic design means you can use the best model for each task — GPT-4 for complex reasoning, Claude for writing, or a local model for privacy-sensitive code. Combined with automatic git integration, it's one of the most production-ready coding agents available.",
-    "howItWorks": "Install via pip and run 'aider' in any git repository. Aider scans your codebase and builds a repository map that helps the model understand file relationships. You then chat naturally about what you want to change. Aider edits files, shows diffs, and auto-commits when you're satisfied. You can undo any commit, review the AI's reasoning, and iterate until the code is right.",
+    "howItWorks": "Start with one safe workflow for Aider. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
     "useCases": [
       {
         "title": "Adding tests to existing code",
@@ -155,8 +155,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Aider?",
+        "answer": "Start with one safe workflow for Aider. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
         "question": "Is Aider open source?",
-        "answer": "Yes. Aider is released under the Apache-2.0 license, making it fully open source for inspection, modification, and redistribution."
+        "answer": "Aider is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate Aider?",
+        "answer": "Aider is most worth evaluating for developers who want model-agnostic AI pair programming in the terminal."
       },
       {
         "question": "Who should use Aider?",
@@ -179,5 +187,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/Aider-AI.png"
 }

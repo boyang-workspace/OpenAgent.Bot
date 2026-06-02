@@ -112,9 +112,9 @@
   ],
   "seoArticle": {
     "intro": "Codex CLI is OpenAI's take on the terminal coding agent: a lightweight, Rust-built tool that connects to OpenAI models for local code editing and shell execution. It's fully open source and works with existing ChatGPT subscriptions.",
-    "whatItIs": "Codex CLI is an open-source terminal agent from OpenAI, implemented in Rust for performance. It connects to OpenAI's models to read files, make edits, execute shell commands, and help with coding tasks. Unlike heavier agent frameworks, it prioritizes speed and simplicity over feature breadth.",
+    "whatItIs": "Codex CLI is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
     "whyItMatters": "The terminal agent space is growing fast, and OpenAI's entry brings the most widely-used AI models into a developer-native tool. The Rust implementation means it starts fast and uses minimal resources. And because it works with ChatGPT plans, millions of developers can use it without managing API keys.",
-    "howItWorks": "Install via npm and run 'codex' in any directory. The agent connects to OpenAI's models using your ChatGPT subscription or API key. You describe tasks in natural language, and the agent reads files, makes edits, runs commands, and iterates. Its Rust runtime keeps startup and response times low.",
+    "howItWorks": "Start with one safe workflow for Codex CLI. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
     "useCases": [
       {
         "title": "Rapid bug fixing",
@@ -155,8 +155,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Codex CLI?",
+        "answer": "Start with one safe workflow for Codex CLI. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
         "question": "Is Codex CLI open source?",
-        "answer": "Yes. Codex CLI is released under the Apache-2.0 license, making it fully open source for inspection, modification, and redistribution."
+        "answer": "Codex CLI is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate Codex CLI?",
+        "answer": "Codex CLI is most worth evaluating for developers who want a fast, lightweight terminal agent powered by OpenAI models."
       },
       {
         "question": "Who should use Codex CLI?",
@@ -179,5 +187,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/openai.png"
 }

@@ -101,9 +101,9 @@
   ],
   "seoArticle": {
     "intro": "Hermes Agent is an open-source AI agent from Nous Research, positioned as an agent that learns from interaction and supports modern coding-agent and assistant workflows.",
-    "whatItIs": "Hermes Agent is an open AI agents resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whatItIs": "Hermes Agent is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
     "whyItMatters": "Hermes Agent matters because it packages the self-improving agent idea into an inspectable repository. For builders, it is a practical project to compare against OpenClaw, Goose, and coding-agent runtimes.",
-    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "howItWorks": "Start with one safe workflow for Hermes Agent. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
     "useCases": [
       {
         "title": "Personal agent experiments",
@@ -139,12 +139,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Hermes Agent?",
+        "answer": "Start with one safe workflow for Hermes Agent. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
         "question": "Is Hermes Agent open source?",
-        "answer": "Hermes Agent is listed with MIT based on its official source links. Always re-check the repository or model card before production use."
+        "answer": "Hermes Agent is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
       },
       {
         "question": "Who should evaluate Hermes Agent?",
-        "answer": "Developers evaluating self-improving or personalized agent workflows"
+        "answer": "Hermes Agent is most worth evaluating for developers evaluating self-improving or personalized agent workflows."
       }
     ]
   },
@@ -159,5 +163,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/NousResearch.png"
 }

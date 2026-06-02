@@ -48,8 +48,8 @@
   "status": "published",
   "generatedAt": "2026-04-19T00:00:00.000Z",
   "reviewedAt": "2026-04-19T00:00:00.000Z",
-  "updatedAt": "2026-04-19",
-  "lastVerifiedAt": "2026-04-19",
+  "updatedAt": "2026-06-02",
+  "lastVerifiedAt": "2026-06-02",
   "openSourceStatus": "open-source",
   "isFeatured": true,
   "isSponsored": false,
@@ -94,6 +94,11 @@
       "title": "Choose DeepSeek-R1 when reasoning behavior matters more than chat polish",
       "against": "general chat models",
       "summary": "General chat models can be smoother for casual interaction, but DeepSeek-R1 is worth testing when reasoning quality and open deployment are the main criteria."
+    },
+    {
+      "title": "Keep DeepSeek-R1 as a reasoning baseline",
+      "against": "DeepSeek V4",
+      "summary": "DeepSeek V4 is the newer family to evaluate for current long-context, coding, and tool-call behavior; R1 remains useful as a known reasoning comparison point."
     }
   ],
   "gettingStarted": [
@@ -127,9 +132,9 @@
   ],
   "seoArticle": {
     "intro": "DeepSeek-R1 is one of the clearest starting points for anyone comparing open reasoning models. It is not a consumer assistant by itself; it is a model release that helps developers test reasoning-heavy workflows outside a closed hosted API.",
-    "whatItIs": "DeepSeek-R1 is an MIT-licensed open reasoning model family from DeepSeek. The public release includes official source links and model distribution paths that make it practical to evaluate through model hubs, local runtimes, and self-hosted inference stacks.",
+    "whatItIs": "DeepSeek-R1 is an open model resource to evaluate by workload, serving path, context behavior, license terms, and how reliably it supports the agent or local AI tasks you actually plan to run.",
     "whyItMatters": "Reasoning models are useful when a task requires more than a fluent answer. Coding, debugging, math-like analysis, planning, and technical review all benefit from models that can sustain multi-step reasoning. DeepSeek-R1 gives open AI builders a widely used baseline for those evaluations.",
-    "howItWorks": "A practical evaluation starts with a small or distilled variant, then moves to larger hosted or self-hosted setups if the task quality is strong enough. Teams should benchmark prompt reliability, latency, hallucination patterns, hardware cost, and safety behavior before using it in production.",
+    "howItWorks": "Run DeepSeek-R1 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it.",
     "useCases": [
       {
         "title": "Coding agent evaluation",
@@ -149,6 +154,11 @@
         "title": "Compare against Qwen, Gemma, and OLMo on your own tasks",
         "against": "other open model families",
         "summary": "DeepSeek-R1 has strong momentum, but model choice should still come from task-specific evaluation rather than popularity alone."
+      },
+      {
+        "title": "Add DeepSeek V4 to current DeepSeek comparisons",
+        "against": "DeepSeek V4",
+        "summary": "DeepSeek-R1 should no longer be the only DeepSeek page in a model shortlist. Use it as a reasoning baseline while testing V4-Pro and V4-Flash for current long-context and agent workflows."
       }
     ],
     "gettingStarted": [
@@ -165,8 +175,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using DeepSeek-R1?",
+        "answer": "Run DeepSeek-R1 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it."
+      },
+      {
         "question": "Is DeepSeek-R1 open source?",
-        "answer": "The official GitHub repository is listed with an MIT license. Always verify the exact model card and terms for the variant you deploy."
+        "answer": "DeepSeek-R1 is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate DeepSeek-R1?",
+        "answer": "DeepSeek-R1 is most worth evaluating for developers comparing open reasoning models against hosted reasoning APIs."
       },
       {
         "question": "Can DeepSeek-R1 run locally?",
@@ -189,5 +207,6 @@
       "unverified DeepSeek logos",
       "generic robot imagery"
     ]
-  }
+  },
+  "coverImage": "https://github.com/deepseek-ai.png"
 }

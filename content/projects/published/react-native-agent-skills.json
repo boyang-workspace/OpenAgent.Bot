@@ -95,9 +95,9 @@
   ],
   "seoArticle": {
     "intro": "React Native Agent Skills is a Callstack Incubator repository of agent-optimized skills for coding assistants working in React Native projects.",
-    "whatItIs": "React Native Agent Skills is an open AI skills resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whatItIs": "React Native Agent Skills is an open agent skill resource: a reusable procedure, instruction pack, or capability layer that should make an agent better at a repeatable task than one-off prompting.",
     "whyItMatters": "React Native Agent Skills matters because mobile projects have conventions, build systems, testing flows, and upgrade traps that generic agents often miss. Domain-specific skills can make agents behave more like an experienced React Native developer.",
-    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "howItWorks": "Evaluate React Native Agent Skills by reading its official source, then running one workflow end to end. Check when the skill should be invoked, what inputs it expects, what evidence it collects, and how easy it is to edit or version.",
     "useCases": [
       {
         "title": "React Native upgrades",
@@ -128,12 +128,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using React Native Agent Skills?",
+        "answer": "Evaluate React Native Agent Skills by reading its official source, then running one workflow end to end. Check when the skill should be invoked, what inputs it expects, what evidence it collects, and how easy it is to edit or version."
+      },
+      {
         "question": "Is React Native Agent Skills open source?",
-        "answer": "React Native Agent Skills is listed with MIT based on its official source links. Always re-check the repository or model card before production use."
+        "answer": "React Native Agent Skills is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
       },
       {
         "question": "Who should evaluate React Native Agent Skills?",
-        "answer": "React Native teams using coding agents"
+        "answer": "React Native Agent Skills is most worth evaluating for react Native teams using coding agents."
       }
     ]
   },
@@ -148,5 +152,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/callstackincubator.png"
 }

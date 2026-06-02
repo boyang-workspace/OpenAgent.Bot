@@ -112,9 +112,9 @@
   ],
   "seoArticle": {
     "intro": "Claude Code is Anthropic's answer to the agentic coding problem: how do you give an AI agent enough context to actually help with real software engineering? Instead of building another IDE plugin, Anthropic went terminal-native.",
-    "whatItIs": "Claude Code is a terminal-based agentic coding tool powered by Claude models. It reads your codebase, understands project structure, and executes multi-step development tasks through natural language. You describe what you want, and the agent edits files, runs commands, creates commits, and iterates until the task is done.",
+    "whatItIs": "Claude Code is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
     "whyItMatters": "The gap between AI chatbots and AI engineers is context. Claude Code closes that gap by reading entire repositories, understanding dependencies, and reasoning about architecture. For developers, this means less time translating between what the AI sees and what actually exists in the codebase.",
-    "howItWorks": "Run 'claude' in any git repository. The agent indexes your codebase, then enters a loop: it reads your instruction, plans an approach, reads relevant files, makes edits, runs tests, and iterates. It uses MCP to connect to external tools and can execute shell commands, manage git, and interact with your development environment.",
+    "howItWorks": "Start with one safe workflow for Claude Code. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
     "useCases": [
       {
         "title": "Refactoring legacy code",
@@ -155,8 +155,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Claude Code?",
+        "answer": "Start with one safe workflow for Claude Code. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
         "question": "Is Claude Code open source?",
-        "answer": "Claude Code source is available on GitHub, but it uses a proprietary license. The source code is inspectable, but redistribution and modification are restricted."
+        "answer": "Claude Code is listed with Proprietary based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate Claude Code?",
+        "answer": "Claude Code is most worth evaluating for developers who want an AI coding partner that understands entire repositories."
       },
       {
         "question": "Who should use Claude Code?",
@@ -179,5 +187,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/anthropics.png"
 }

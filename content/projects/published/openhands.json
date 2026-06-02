@@ -113,9 +113,9 @@
   ],
   "seoArticle": {
     "intro": "OpenHands is a practical open-source reference point for the coding-agent category. It is not just a chat interface for code explanations; it is aimed at agents that work inside software development workflows.",
-    "whatItIs": "OpenHands is an open-source AI-driven development project. It gives builders a way to evaluate repository-level agent behavior, including code inspection, edits, execution, and developer feedback loops.",
+    "whatItIs": "OpenHands is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
     "whyItMatters": "Coding agents need more trust than chatbots because they can change files, run commands, and touch repositories. OpenHands is useful because its implementation can be inspected, tested, and compared against closed coding-agent products.",
-    "howItWorks": "A careful evaluation should start with a sandbox repository. Give the agent a narrow task, inspect its plan, watch the commands it runs, and review the resulting diff before expanding to more important codebases.",
+    "howItWorks": "Start with one safe workflow for OpenHands. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
     "useCases": [
       {
         "title": "Open coding-agent benchmarking",
@@ -151,8 +151,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using OpenHands?",
+        "answer": "Start with one safe workflow for OpenHands. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
         "question": "Is OpenHands open source?",
-        "answer": "The project repository shows an MIT license badge in its README. Verify the repository license before production use."
+        "answer": "OpenHands is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate OpenHands?",
+        "answer": "OpenHands is most worth evaluating for developers evaluating open-source coding agents."
       },
       {
         "question": "Is OpenHands only for developers?",
@@ -175,5 +183,6 @@
       "terminal wall of text",
       "generic humanoid robot"
     ]
-  }
+  },
+  "coverImage": "https://github.com/OpenHands.png"
 }

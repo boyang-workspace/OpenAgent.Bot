@@ -103,9 +103,9 @@
   ],
   "seoArticle": {
     "intro": "Mem0 is an open-source memory layer for AI applications, designed to store, retrieve, and update user or agent memories across conversations and workflows.",
-    "whatItIs": "Mem0 is an open AI memory systems resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whatItIs": "Mem0 is an open memory-system resource to evaluate by what it stores, how recall works, how memory is scoped, and whether users or teams can inspect, correct, export, or delete durable context.",
     "whyItMatters": "Mem0 matters because personalization and continuity are hard to build from scratch. A dedicated memory layer gives agents a place to store durable user facts, preferences, and task history.",
-    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "howItWorks": "Test Mem0 with repeated sessions. Add facts, update them, ask for recall, inspect retrieval behavior, and verify deletion or scoping controls before storing sensitive user or project memory.",
     "useCases": [
       {
         "title": "Personal assistant memory",
@@ -141,12 +141,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Mem0?",
+        "answer": "Test Mem0 with repeated sessions. Add facts, update them, ask for recall, inspect retrieval behavior, and verify deletion or scoping controls before storing sensitive user or project memory."
+      },
+      {
         "question": "Is Mem0 open source?",
-        "answer": "Mem0 is listed with Apache-2.0 based on its official source links. Always re-check the repository or model card before production use."
+        "answer": "Mem0 is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
       },
       {
         "question": "Who should evaluate Mem0?",
-        "answer": "Builders adding long-term memory to agents or chat apps"
+        "answer": "Mem0 is most worth evaluating for builders adding long-term memory to agents or chat apps."
       }
     ]
   },
@@ -161,5 +165,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/mem0ai.png"
 }

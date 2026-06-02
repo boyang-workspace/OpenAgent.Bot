@@ -110,9 +110,9 @@
   ],
   "seoArticle": {
     "intro": "Goose is Block's open-source AI agent for working across code, local workflows, tools, and extensions through desktop, CLI, and API surfaces.",
-    "whatItIs": "Goose is an open AI agents resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whatItIs": "Goose is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
     "whyItMatters": "Goose matters because it treats agent work as something that belongs on the user's machine, connected to local files, development tools, and extensions rather than trapped inside a chat tab.",
-    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "howItWorks": "Start with one safe workflow for Goose. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
     "useCases": [
       {
         "title": "Developer task execution",
@@ -153,12 +153,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Goose?",
+        "answer": "Start with one safe workflow for Goose. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
         "question": "Is Goose open source?",
-        "answer": "Goose is listed with Apache-2.0 based on its official source links. Always re-check the repository or model card before production use."
+        "answer": "Goose is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
       },
       {
         "question": "Who should evaluate Goose?",
-        "answer": "Developers who want a local agent for coding and workflow tasks"
+        "answer": "Goose is most worth evaluating for developers who want a local agent for coding and workflow tasks."
       }
     ]
   },
@@ -173,5 +177,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/block.png"
 }

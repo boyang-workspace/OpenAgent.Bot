@@ -101,9 +101,9 @@
   ],
   "seoArticle": {
     "intro": "Kimi K2.5 is Moonshot AI's powerful open-weight model line, positioned for multimodal and agentic workflows with API access and public model materials.",
-    "whatItIs": "Kimi K2.5 is an open AI models resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whatItIs": "Kimi K2.5 is an open model resource to evaluate by workload, serving path, context behavior, license terms, and how reliably it supports the agent or local AI tasks you actually plan to run.",
     "whyItMatters": "Kimi K2.5 matters because it sits at the intersection of frontier-style agent behavior and open model distribution. For teams comparing model choices for coding, tool use, and multimodal tasks, it is one of the models worth evaluating closely.",
-    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "howItWorks": "Run Kimi K2.5 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it.",
     "useCases": [
       {
         "title": "Agent model comparison",
@@ -139,12 +139,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Kimi K2.5?",
+        "answer": "Run Kimi K2.5 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it."
+      },
+      {
         "question": "Is Kimi K2.5 open source?",
-        "answer": "Kimi K2.5 is listed with Modified MIT based on its official source links. Always re-check the repository or model card before production use."
+        "answer": "Kimi K2.5 is listed with Modified MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
       },
       {
         "question": "Who should evaluate Kimi K2.5?",
-        "answer": "Teams comparing open-weight models for tool-using agents"
+        "answer": "Kimi K2.5 is most worth evaluating for teams comparing open-weight models for tool-using agents."
       }
     ]
   },
@@ -159,5 +163,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/MoonshotAI.png"
 }

@@ -1,8 +1,9 @@
 ---
+import ResourceCard from "@/components/ResourceCard.astro";
 import EditorialShell from "@/components/EditorialShell.astro";
 import { categories } from "@/config/site";
-import { getResourcesByCategory, resourcePath } from "@/lib/content/resources";
-import { resourceSignals, resourceTags } from "@/lib/content/resource-display";
+import { getResourcesByCategory } from "@/lib/content/resources";
+import type { ResourceV1 } from "@/lib/content/resource-schema";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export function getStaticPaths() {
@@ -12,207 +13,393 @@ export function getStaticPaths() {
   }));
 }
 
+type FloorRule = {
+  id: string;
+  title: string;
+  description: string;
+  match: (resource: ResourceV1) => boolean;
+};
+
+type CategoryProfile = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  guide: Array<{ title: string; body: string }>;
+  floors: FloorRule[];
+};
+
+const allLabels = (resource: ResourceV1) =>
+  new Set([
+    resource.slug,
+    resource.identity.name.toLowerCase(),
+    resource.classification.resource_type,
+    ...(resource.classification.subcategories ?? []),
+    ...resource.tags.category,
+    ...resource.tags.capability,
+    ...resource.tags.constraint,
+    ...resource.tags.scenario,
+    ...(resource.positioning.use_cases ?? [])
+  ]);
+
+const matches = (resource: ResourceV1, needles: string[]) => {
+  const labels = allLabels(resource);
+  const text = Array.from(labels).join(" ");
+  return needles.some((needle) => labels.has(needle) || text.includes(needle));
+};
+
+const byUpdatedSource = (resource: ResourceV1) => (resource.facts.last_verified_at ?? resource.timestamps.updated_at).slice(0, 10);
+const resourceRank = (resource: ResourceV1) => (resource.decision_signals.open_source ? 1 : 0);
+
+const coreProfiles: Record<string, CategoryProfile> = {
+  agents: {
+    eyebrow: "Agents directory",
+    title: "Open-source agents by action surface",
+    description: "Browse agents by the software surface they can operate, the supervision model they need, and the first workflow worth testing.",
+    guide: [
+      { title: "Start with the surface", body: "Browser agents, coding agents, and orchestration frameworks have different risk boundaries." },
+      { title: "Check supervision", body: "Prefer agents with inspectable logs, approvals, recovery paths, and narrow first-run scopes." },
+      { title: "Test one real action", body: "The first evaluation should be small, observable, and easy to roll back." }
+    ],
+    floors: [
+      {
+        id: "browser-action-agents",
+        title: "Browser and web action agents",
+        description: "Agents that navigate websites, click through flows, fill forms, or use browser state.",
+        match: (resource) => matches(resource, ["browser-agent", "browser", "browser-automation", "openclaw", "browser-use"])
+      },
+      {
+        id: "coding-agents",
+        title: "Coding and repository agents",
+        description: "Agents that inspect repositories, edit files, run checks, and help with software changes.",
+        match: (resource) => matches(resource, ["coding-agent", "terminal", "cli", "aider", "codex", "claude-code", "gemini-cli", "swe-agent", "openhands"])
+      },
+      {
+        id: "frameworks-orchestration",
+        title: "Frameworks and orchestration",
+        description: "Frameworks for multi-agent systems, graph workflows, tool routing, and production agent control.",
+        match: (resource) => matches(resource, ["agent-framework", "workflow-orchestration", "workflow", "autogen", "crewai", "langgraph", "openai-agents-python", "smolagents"])
+      },
+      {
+        id: "local-agent-runtimes",
+        title: "Local runtimes and MCP-ready agents",
+        description: "Agents that fit local-first, self-hosted, CLI, or MCP-connected development workflows.",
+        match: (resource) => resource.decision_signals.local_first || resource.decision_signals.self_hostable || resource.decision_signals.supports_mcp || matches(resource, ["mcp", "local-ai", "self-hosted", "goose", "hermes-agent"])
+      }
+    ]
+  },
+  models: {
+    eyebrow: "Models directory",
+    title: "Open models by workload and deployment path",
+    description: "Browse models by the work they are likely to power: reasoning, coding, multimodal understanding, OCR, local inference, and self-hosted agent stacks.",
+    guide: [
+      { title: "Pick the workload first", body: "Reasoning, coding, OCR, long context, and multimodal tasks reward different model families." },
+      { title: "Check the serving path", body: "Open weights, hosted API access, local runtimes, and self-hosting change cost and data control." },
+      { title: "Evaluate on your prompts", body: "Use your own agent traces, latency budget, and license constraints before trusting public rankings." }
+    ],
+    floors: [
+      {
+        id: "reasoning-coding-models",
+        title: "Reasoning and coding models",
+        description: "Models to test for planning, code changes, technical review, and tool-heavy agent prompts.",
+        match: (resource) => matches(resource, ["coding-agent", "tool-calling", "reasoning", "deepseek", "qwen", "kimi", "glm-5"])
+      },
+      {
+        id: "multimodal-document-models",
+        title: "Multimodal, OCR, and document models",
+        description: "Models for image understanding, documents, screenshots, OCR, and visual agent workflows.",
+        match: (resource) => matches(resource, ["multimodal", "ocr", "vl", "vision", "document", "gemma", "qwen3-vl", "glm-ocr"])
+      },
+      {
+        id: "local-self-hosted-models",
+        title: "Local and self-hosted models",
+        description: "Open-weight candidates for teams that care about privacy, reproducibility, and deployment control.",
+        match: (resource) => resource.decision_signals.local_first || resource.decision_signals.self_hostable || matches(resource, ["local-ai", "local-inference", "open-weights", "self-hosted"])
+      },
+      {
+        id: "compact-general-models",
+        title: "Compact and general-purpose candidates",
+        description: "Useful baselines for cheaper inference, edge experiments, and broad assistant workloads.",
+        match: (resource) => matches(resource, ["gemma", "mistral", "olmo", "small", "compact"])
+      }
+    ]
+  },
+  skills: {
+    eyebrow: "Skills directory",
+    title: "Open agent skills by repeatable workflow",
+    description: "Browse skills by the behavior they package: browsing, coding, writing, commerce, research, memory, and general reusable agent procedures.",
+    guide: [
+      { title: "Define invocation", body: "A good skill says when it should run, what inputs it needs, and what output counts as success." },
+      { title: "Prefer evidence", body: "Skills are more valuable when they force the agent to inspect sources, collect proof, or run checks." },
+      { title: "Keep them editable", body: "The best skill packs are easy to version, combine, and adapt to your team’s workflow." }
+    ],
+    floors: [
+      {
+        id: "browser-qa-automation",
+        title: "Browser, QA, and web automation skills",
+        description: "Skills for inspecting pages, testing flows, scraping web context, and collecting browser evidence.",
+        match: (resource) => matches(resource, ["browser", "browser-automation", "automation", "qa", "web", "gstack", "hugging-face-skills"])
+      },
+      {
+        id: "coding-developer-workflow",
+        title: "Coding and developer workflow skills",
+        description: "Skills that make coding agents more reliable across repositories, checks, handoffs, and project context.",
+        match: (resource) => matches(resource, ["developer-workflow", "coding-agent", "react-native", "agent-skill", "gbrain"])
+      },
+      {
+        id: "writing-commerce-content",
+        title: "Writing, commerce, and content workflows",
+        description: "Reusable instructions for content generation, commerce agents, and workflow-specific writing tasks.",
+        match: (resource) => matches(resource, ["content-workflow", "commerce", "connectors", "agentic-commerce"])
+      },
+      {
+        id: "research-scientific-work",
+        title: "Research and scientific work",
+        description: "Skills for technical research, scientific workflows, source review, and repeatable evidence gathering.",
+        match: (resource) => matches(resource, ["research", "scientific"])
+      },
+      {
+        id: "memory-context-skills",
+        title: "Memory and context skills",
+        description: "Skills that package durable context, recall, or state management for repeat agent sessions.",
+        match: (resource) => matches(resource, ["memory", "context-retrieval", "state-management", "gbrain"])
+      },
+      {
+        id: "general-skill-libraries",
+        title: "General skill libraries",
+        description: "Broad skill collections and prompt-to-procedure libraries for extending agent behavior.",
+        match: (resource) => matches(resource, ["skill", "agent-skill", "ai-agents-skills"])
+      }
+    ]
+  },
+  "memory-systems": {
+    eyebrow: "Memory directory",
+    title: "Open memory systems by recall model",
+    description: "Browse memory systems by what they store, how recall works, who controls the memory, and where the data can run.",
+    guide: [
+      { title: "Name the memory object", body: "User facts, task history, graph entities, and workflow state should be evaluated differently." },
+      { title: "Inspect recall behavior", body: "Good memory retrieves the right context, explains why, and corrects stale information." },
+      { title: "Require user control", body: "Memory needs scoping, deletion, export, and deployment choices because it stores sensitive context." }
+    ],
+    floors: [
+      {
+        id: "user-product-memory",
+        title: "User and product memory",
+        description: "Memory layers for personalization, preferences, assistant continuity, and product-level recall.",
+        match: (resource) => matches(resource, ["personal-memory", "mem0", "memori"])
+      },
+      {
+        id: "graph-knowledge-memory",
+        title: "Graph and knowledge memory",
+        description: "Systems that use graphs, RAG, retrieval, or knowledge structures to recall durable context.",
+        match: (resource) => matches(resource, ["graph", "rag", "context-retrieval", "cognee", "graphiti"])
+      },
+      {
+        id: "agent-state-memory",
+        title: "Agent state and workflow memory",
+        description: "Memory used to preserve agent state, decisions, tool history, and long-running workflow context.",
+        match: (resource) => matches(resource, ["state", "state-management", "workflow-orchestration", "letta"])
+      },
+      {
+        id: "self-hosted-memory-infra",
+        title: "Self-hosted memory infrastructure",
+        description: "Memory systems that can run closer to your data with APIs, local control, or self-hosted deployment.",
+        match: (resource) => resource.decision_signals.self_hostable || matches(resource, ["self-hosted", "api", "docker"])
+      }
+    ]
+  }
+};
+
+const fallbackProfile = (label: string, description: string): CategoryProfile => ({
+  eyebrow: "Directory",
+  title: label,
+  description,
+  guide: [
+    { title: "Verify sources", body: "Start from the official repository, docs, and license before adopting a resource." },
+    { title: "Test a narrow workflow", body: "Use one observable workflow to compare setup time, reliability, and maintenance burden." },
+    { title: "Prefer open paths", body: "Choose resources that can be inspected, self-hosted, or replaced if your constraints change." }
+  ],
+  floors: [
+    {
+      id: "all-resources",
+      title: `All ${label.toLowerCase()}`,
+      description: "Published resources in this category.",
+      match: () => true
+    }
+  ]
+});
+
 const { category } = Astro.props;
-const resourceRank = (resource: (typeof categoryResources)[number]) => (resource.decision_signals.open_source ? 1 : 0);
 const categoryResources = (await getResourcesByCategory(category.slug)).sort(
   (a, b) =>
     resourceRank(b) - resourceRank(a) ||
     (b.facts.github_stars ?? 0) - (a.facts.github_stars ?? 0) ||
+    byUpdatedSource(b).localeCompare(byUpdatedSource(a)) ||
     a.identity.name.localeCompare(b.identity.name)
 );
-const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) => resourceSignals(resource, 4)))).slice(0, 6);
+const profile = coreProfiles[category.slug] ?? fallbackProfile(category.label, category.description);
+const coveredSlugs = new Set<string>();
+const floors = profile.floors
+  .map((floor) => {
+    const items = categoryResources.filter((resource) => floor.match(resource));
+    items.forEach((resource) => coveredSlugs.add(resource.slug));
+    return { ...floor, items };
+  })
+  .filter((floor) => floor.items.length > 0);
+const uncovered = categoryResources.filter((resource) => !coveredSlugs.has(resource.slug));
+if (uncovered.length) {
+  floors.push({
+    id: "more-resources",
+    title: "More resources to compare",
+    description: "Additional published resources that do not fit one narrow subcategory yet.",
+    match: () => true,
+    items: uncovered
+  });
+}
 ---
 
-<BaseLayout title={category.label} description={category.description} path={`/${category.slug}`}>
-  <EditorialShell active={category.slug} eyebrow="Directory" title={category.label} description={category.description}>
-    <section class="directory-toolbar">
-      <div>
-        <strong>{categoryResources.length}</strong>
-        <span>published entries</span>
-      </div>
-      <div class="summary-signals">
-        {categorySignals.map((signal) => <small>{signal}</small>)}
-      </div>
-      <a class="button secondary" href="/submit">Submit</a>
-    </section>
-
-    <section class="directory-list">
-      <div class="list-head">
-        <span>Resource</span>
-        <span>Best for</span>
-        <span>License</span>
-        <span>Stars</span>
-        <span>Signals</span>
-      </div>
-      {categoryResources.map((resource) => (
-        <a class="resource-row" href={resourcePath(resource)}>
-          <div>
-            <strong>{resource.identity.name}</strong>
-            <p>{resource.identity.one_liner}</p>
-          </div>
-          <span data-label="Best for">{resource.positioning.best_for?.[0] ?? resource.classification.resource_type.replaceAll("_", " ")}</span>
-          <span data-label="License">{resource.facts.license ?? "Unknown"}</span>
-          <span data-label="Stars">{resource.facts.github_stars?.toLocaleString("en-US") ?? "n/a"}</span>
-          <div class="row-tags" data-label="Signals">{[...resourceSignals(resource, 2), ...resourceTags(resource, 2)].slice(0, 3).map((tag) => <small>{tag.replaceAll("-", " ")}</small>)}</div>
-        </a>
+<BaseLayout title={profile.title} description={profile.description} path={`/${category.slug}`}>
+  <EditorialShell active={category.slug} eyebrow={profile.eyebrow} title={profile.title} description={profile.description}>
+    <section class="category-guide" aria-label={`${category.label} evaluation guide`}>
+      {profile.guide.map((item) => (
+        <article>
+          <strong>{item.title}</strong>
+          <p>{item.body}</p>
+        </article>
       ))}
     </section>
+
+    <nav class="subcategory-nav" aria-label={`${category.label} subcategories`}>
+      {floors.map((floor) => <a href={`#${floor.id}`}>{floor.title}</a>)}
+    </nav>
+
+    <div class="category-floors">
+      {floors.map((floor) => (
+        <section class="category-floor" id={floor.id}>
+          <div class="floor-head">
+            <div>
+              <h2>{floor.title}</h2>
+              <p>{floor.description}</p>
+            </div>
+          </div>
+          <div class="card-grid">
+            {floor.items.map((resource) => <ResourceCard resource={resource} />)}
+          </div>
+        </section>
+      ))}
+    </div>
   </EditorialShell>
 </BaseLayout>
 
 <style>
-  .directory-toolbar {
-    align-items: center;
+  .category-guide {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-bottom: 18px;
+  }
+
+  .category-guide article {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 8px;
     display: grid;
-    gap: 14px;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    margin-bottom: 18px;
-    padding: 14px 16px;
+    gap: 8px;
+    padding: 14px 15px;
   }
 
-  .directory-toolbar strong {
+  .category-guide strong {
     color: var(--ink);
-    display: block;
-    font-size: 1.6rem;
-    font-weight: 560;
-    line-height: 1;
+    font-size: 0.9rem;
+    font-weight: 580;
+    line-height: 1.3;
   }
 
-  .directory-toolbar span {
+  .category-guide p {
     color: var(--muted);
-    font-size: 0.78rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    margin: 0;
   }
 
-  .summary-signals,
-  .row-tags {
-    align-items: flex-start;
+  .subcategory-nav {
+    border-bottom: 1px solid var(--line);
+    border-top: 1px solid var(--line);
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
+    margin-bottom: 4px;
+    padding: 12px 0;
   }
 
-  .summary-signals {
-    justify-content: center;
-  }
-
-  small {
-    background: var(--surface-soft);
+  .subcategory-nav a {
+    background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 999px;
     color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.04em;
-    line-height: 1.1;
-    padding: 4px 7px;
+    font-size: 0.76rem;
+    line-height: 1;
+    padding: 8px 10px;
   }
 
-  .directory-list {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    overflow: hidden;
+  .subcategory-nav a:hover {
+    border-color: var(--line-strong);
+    color: var(--ink);
   }
 
-  .list-head,
-  .resource-row {
+  .category-floors {
     display: grid;
-    gap: 12px;
-    grid-template-columns: minmax(240px, 1.4fr) minmax(160px, 0.9fr) 95px 80px minmax(160px, 0.8fr);
-    padding: 12px 16px;
+    gap: 0;
   }
 
-  .list-head {
-    background: var(--surface-soft);
+  .category-floor {
     border-bottom: 1px solid var(--line);
+    padding: 30px 0;
   }
 
-  .list-head span {
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+  .category-floor:last-child {
+    border-bottom: 0;
+    padding-bottom: 12px;
   }
 
-  .resource-row {
-    border-bottom: 1px solid var(--line);
+  .floor-head {
+    margin-bottom: 14px;
+  }
+
+  .floor-head h2 {
+    color: var(--ink);
+    font-size: 1.45rem;
+    font-weight: 560;
+    letter-spacing: 0;
+    line-height: 1.2;
+    margin: 0;
+    max-width: 820px;
+  }
+
+  .floor-head p {
     color: var(--muted);
     font-size: 0.84rem;
-    transition: background 160ms;
+    line-height: 1.5;
+    margin: 7px 0 0;
+    max-width: 760px;
   }
 
-  .resource-row:last-child {
-    border-bottom: 0;
+  .card-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .resource-row:hover {
-    background: var(--surface-soft);
+  @media (max-width: 980px) {
+    .category-guide,
+    .card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
-  .resource-row strong {
-    color: var(--ink);
-    display: block;
-    font-size: 0.96rem;
-    font-weight: 580;
-  }
-
-  .resource-row p {
-    color: var(--muted);
-    display: -webkit-box;
-    font-size: 0.82rem;
-    line-height: 1.45;
-    margin: 4px 0 0;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-
-  .row-label {
-    color: var(--muted);
-    display: block;
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    margin-bottom: 4px;
-    text-transform: uppercase;
-  }
-
-  @media (max-width: 900px) {
-    .directory-toolbar {
-      align-items: start;
+  @media (max-width: 640px) {
+    .category-guide,
+    .card-grid {
       grid-template-columns: 1fr;
-    }
-
-    .summary-signals {
-      justify-content: start;
-    }
-
-    .list-head {
-      display: none;
-    }
-
-    .resource-row {
-      gap: 10px;
-      grid-template-columns: 1fr;
-      padding: 16px 16px 18px;
-    }
-
-    .resource-row [data-label]::before {
-      color: var(--muted);
-      content: attr(data-label);
-      display: block;
-      font-family: var(--mono);
-      font-size: 0.58rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      margin-bottom: 3px;
-      text-transform: uppercase;
     }
   }
 </style>

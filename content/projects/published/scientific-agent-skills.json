@@ -107,9 +107,9 @@
   ],
   "seoArticle": {
     "intro": "Scientific Agent Skills is useful because many research and analysis workflows need more than a broad instruction. They need repeatable procedures that an agent can follow, inspect, and refine.",
-    "whatItIs": "Scientific Agent Skills is an MIT-licensed repository of ready-to-use agent skills for research, science, engineering, analysis, finance, and writing. It is a skill collection, not a single agent app.",
+    "whatItIs": "Scientific Agent Skills is an open agent skill resource: a reusable procedure, instruction pack, or capability layer that should make an agent better at a repeatable task than one-off prompting.",
     "whyItMatters": "Domain tasks are where generic agents often become vague. A skill pack can narrow the workflow: what to inspect, what to calculate, what to compare, and how to produce a useful output.",
-    "howItWorks": "Start by reviewing the repository structure, then pick one narrow skill and test it with a real task. Treat output as assisted work that still needs human review, especially in scientific, financial, or engineering contexts.",
+    "howItWorks": "Evaluate Scientific Agent Skills by reading its official source, then running one workflow end to end. Check when the skill should be invoked, what inputs it expects, what evidence it collects, and how easy it is to edit or version.",
     "useCases": [
       {
         "title": "Literature and research workflows",
@@ -140,8 +140,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Scientific Agent Skills?",
+        "answer": "Evaluate Scientific Agent Skills by reading its official source, then running one workflow end to end. Check when the skill should be invoked, what inputs it expects, what evidence it collects, and how easy it is to edit or version."
+      },
+      {
         "question": "Is Scientific Agent Skills open source?",
-        "answer": "The GitHub repository is listed with an MIT license."
+        "answer": "Scientific Agent Skills is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate Scientific Agent Skills?",
+        "answer": "Scientific Agent Skills is most worth evaluating for researchers exploring reusable agent workflows."
       },
       {
         "question": "Is this a research agent?",
@@ -164,5 +172,6 @@
       "busy paper collage",
       "unverified scientific diagrams"
     ]
-  }
+  },
+  "coverImage": "https://github.com/K-Dense-AI.png"
 }

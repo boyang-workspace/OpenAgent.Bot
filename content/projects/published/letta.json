@@ -110,9 +110,9 @@
   ],
   "seoArticle": {
     "intro": "Letta is an open-source platform for building stateful agents that remember users, maintain memory blocks, and interact through APIs and SDKs.",
-    "whatItIs": "Letta is an open AI memory systems resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whatItIs": "Letta is an open memory-system resource to evaluate by what it stores, how recall works, how memory is scoped, and whether users or teams can inspect, correct, export, or delete durable context.",
     "whyItMatters": "Letta matters because memory is not just a database problem; it changes how an agent behaves over time. Letta gives builders a more structured model for stateful agents and persistent memory.",
-    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "howItWorks": "Test Letta with repeated sessions. Add facts, update them, ask for recall, inspect retrieval behavior, and verify deletion or scoping controls before storing sensitive user or project memory.",
     "useCases": [
       {
         "title": "Personalized AI agents",
@@ -153,12 +153,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Letta?",
+        "answer": "Test Letta with repeated sessions. Add facts, update them, ask for recall, inspect retrieval behavior, and verify deletion or scoping controls before storing sensitive user or project memory."
+      },
+      {
         "question": "Is Letta open source?",
-        "answer": "Letta is listed with Apache-2.0 based on its official source links. Always re-check the repository or model card before production use."
+        "answer": "Letta is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
       },
       {
         "question": "Who should evaluate Letta?",
-        "answer": "Developers building personalized stateful agents"
+        "answer": "Letta is most worth evaluating for developers building personalized stateful agents."
       }
     ]
   },
@@ -173,5 +177,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/letta-ai.png"
 }

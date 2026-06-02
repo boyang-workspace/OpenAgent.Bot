@@ -94,9 +94,9 @@
   ],
   "seoArticle": {
     "intro": "GLM-OCR is an open OCR model and document pipeline from Z.ai, focused on accurate, fast, and comprehensive image-to-text extraction for documents, tables, formulas, and complex layouts.",
-    "whatItIs": "GLM-OCR is an open AI models resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whatItIs": "GLM-OCR is an open model resource to evaluate by workload, serving path, context behavior, license terms, and how reliably it supports the agent or local AI tasks you actually plan to run.",
     "whyItMatters": "GLM-OCR matters because many real AI workflows begin with messy documents, not clean chat messages. A strong open OCR layer can become the front door for PDF analysis, retrieval systems, research workflows, and agent tools that need reliable document ingestion.",
-    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "howItWorks": "Run GLM-OCR on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it.",
     "useCases": [
       {
         "title": "PDF and document ingestion",
@@ -127,12 +127,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using GLM-OCR?",
+        "answer": "Run GLM-OCR on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it."
+      },
+      {
         "question": "Is GLM-OCR open source?",
-        "answer": "GLM-OCR is listed with MIT model / Apache-2.0 code based on its official source links. Always re-check the repository or model card before production use."
+        "answer": "GLM-OCR is listed with MIT model / Apache-2.0 code based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
       },
       {
         "question": "Who should evaluate GLM-OCR?",
-        "answer": "Builders working on document AI, PDF processing, or knowledge ingestion"
+        "answer": "GLM-OCR is most worth evaluating for builders working on document AI, PDF processing, or knowledge ingestion."
       }
     ]
   },
@@ -147,5 +151,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/zai-org.png"
 }

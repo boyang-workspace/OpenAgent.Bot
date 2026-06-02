@@ -112,9 +112,9 @@
   ],
   "seoArticle": {
     "intro": "CrewAI is one of the most popular frameworks for building multi-agent AI systems. Instead of relying on a single agent to handle everything, CrewAI lets you define specialized agents that work together like a team.",
-    "whatItIs": "CrewAI is an open-source Python framework for orchestrating multiple AI agents. You define agents with specific roles, goals, and tools, then assemble them into crews that execute structured workflows. Agents can delegate tasks, share context, and collaborate to produce results that no single agent could achieve alone.",
+    "whatItIs": "CrewAI is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
     "whyItMatters": "Most AI agent frameworks focus on single-agent tasks. But many real-world problems — research, analysis, content production, customer support — require multiple specialized agents working together. CrewAI makes this pattern accessible with a clean API and intuitive role-based design.",
-    "howItWorks": "Install via pip and define your agents in Python. Each agent gets a role (e.g., 'Senior Researcher'), a goal (e.g., 'Find accurate, up-to-date information'), and a backstory that shapes its behavior. You then define tasks and assemble agents into a crew. CrewAI orchestrates the workflow — sequential, parallel, or hierarchical — and handles context passing between agents.",
+    "howItWorks": "Start with one safe workflow for CrewAI. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
     "useCases": [
       {
         "title": "Automated research reports",
@@ -155,8 +155,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using CrewAI?",
+        "answer": "Start with one safe workflow for CrewAI. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
         "question": "Is CrewAI open source?",
-        "answer": "Yes. CrewAI is released under the MIT license, making it fully open source for inspection, modification, and redistribution."
+        "answer": "CrewAI is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate CrewAI?",
+        "answer": "CrewAI is most worth evaluating for developers building multi-agent workflows with specialized roles."
       },
       {
         "question": "Who should use CrewAI?",
@@ -179,5 +187,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/crewAIInc.png"
 }

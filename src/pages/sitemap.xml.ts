@@ -3,7 +3,7 @@ import { categories, site } from "@/config/site";
 import { getPublishedBlogPosts } from "@/lib/content/blog";
 import { getPublishedResources, resourcePath } from "@/lib/content/resources";
 
-const staticPaths = ["/", "/blog", "/about", "/manifesto", "/submit"];
+const staticPaths = ["/", "/blog", "/evaluations", "/about", "/manifesto", "/submit"];
 
 export const GET: APIRoute = async () => {
   const resources = await getPublishedResources();

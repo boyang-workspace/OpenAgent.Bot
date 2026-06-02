@@ -110,9 +110,9 @@
   ],
   "seoArticle": {
     "intro": "Memori is an open-source memory engine from GibsonAI for giving LLM applications and agents persistent memory, context injection, and configurable recall behavior.",
-    "whatItIs": "Memori is an open AI memory systems resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whatItIs": "Memori is an open memory-system resource to evaluate by what it stores, how recall works, how memory is scoped, and whether users or teams can inspect, correct, export, or delete durable context.",
     "whyItMatters": "Memori matters because many agent products need a practical memory engine before they need a full agent framework. It gives teams a focused way to add durable context to conversations and workflows.",
-    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "howItWorks": "Test Memori with repeated sessions. Add facts, update them, ask for recall, inspect retrieval behavior, and verify deletion or scoping controls before storing sensitive user or project memory.",
     "useCases": [
       {
         "title": "Conversational memory",
@@ -153,12 +153,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Memori?",
+        "answer": "Test Memori with repeated sessions. Add facts, update them, ask for recall, inspect retrieval behavior, and verify deletion or scoping controls before storing sensitive user or project memory."
+      },
+      {
         "question": "Is Memori open source?",
-        "answer": "Memori is listed with Apache-2.0 based on its official source links. Always re-check the repository or model card before production use."
+        "answer": "Memori is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
       },
       {
         "question": "Who should evaluate Memori?",
-        "answer": "Developers adding memory to LLM applications"
+        "answer": "Memori is most worth evaluating for developers adding memory to LLM applications."
       }
     ]
   },
@@ -173,5 +177,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/GibsonAI.png"
 }

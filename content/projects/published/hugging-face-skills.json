@@ -113,9 +113,9 @@
   ],
   "seoArticle": {
     "intro": "Hugging Face Skills is a useful example of where agent development is heading: away from single prompts and toward reusable capabilities. It packages agent behavior around the Hugging Face ecosystem, where models, datasets, and AI tooling already live.",
-    "whatItIs": "Hugging Face Skills is an open-source repository for giving agents access to Hugging Face ecosystem capabilities. It is best understood as a skill layer rather than an end-user product.",
+    "whatItIs": "Hugging Face Skills is an open agent skill resource: a reusable procedure, instruction pack, or capability layer that should make an agent better at a repeatable task than one-off prompting.",
     "whyItMatters": "Skills are one way to make agents less fragile. Instead of asking a model to improvise every workflow, a skill gives it a named, inspectable capability with a clearer boundary.",
-    "howItWorks": "Start by cloning the repository and reading the available skill structure. Then decide whether the pattern fits your own agent runtime, especially if your workflows involve model cards, datasets, inference, or Hugging Face-hosted resources.",
+    "howItWorks": "Evaluate Hugging Face Skills by reading its official source, then running one workflow end to end. Check when the skill should be invoked, what inputs it expects, what evidence it collects, and how easy it is to edit or version.",
     "useCases": [
       {
         "title": "Hugging Face workflow automation",
@@ -146,8 +146,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Hugging Face Skills?",
+        "answer": "Evaluate Hugging Face Skills by reading its official source, then running one workflow end to end. Check when the skill should be invoked, what inputs it expects, what evidence it collects, and how easy it is to edit or version."
+      },
+      {
         "question": "Is Hugging Face Skills open source?",
-        "answer": "The GitHub repository is listed with an Apache-2.0 license."
+        "answer": "Hugging Face Skills is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate Hugging Face Skills?",
+        "answer": "Hugging Face Skills is most worth evaluating for agent builders who want reusable skills around Hugging Face workflows."
       },
       {
         "question": "Is this a complete agent platform?",
@@ -170,5 +178,6 @@
       "model leaderboard screenshot",
       "busy plugin store layout"
     ]
-  }
+  },
+  "coverImage": "https://github.com/huggingface.png"
 }

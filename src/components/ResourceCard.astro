@@ -100,6 +100,7 @@ const trackPayload = JSON.stringify({
     position: absolute;
     right: 9px;
     top: 9px;
+    max-width: calc(100% - 18px);
     text-align: right;
   }
 
@@ -107,6 +108,9 @@ const trackPayload = JSON.stringify({
     color: var(--muted);
     font-size: 0.62rem;
     line-height: 1.05;
+    max-width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     white-space: nowrap;
   }
 

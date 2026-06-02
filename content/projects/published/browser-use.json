@@ -114,9 +114,9 @@
   ],
   "seoArticle": {
     "intro": "browser-use is one of the most direct ways to test whether an AI agent can operate a website. Instead of starting with a broad agent platform, it focuses on the browser surface: navigation, actions, page state, and the messy reality of web workflows.",
-    "whatItIs": "browser-use is an open-source Python framework that makes websites accessible to AI agents. It gives developers a way to connect model decisions to browser actions so agents can interact with web pages rather than only describe what a user should do.",
+    "whatItIs": "browser-use is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
     "whyItMatters": "If action agents are going to be useful, they need to work where real work happens. Browser-based systems are still the front door to many tools, CRMs, dashboards, stores, and internal apps. browser-use is useful because it isolates that problem and lets teams test it directly.",
-    "howItWorks": "A typical experiment starts with a narrow browser task, a model provider, and a controlled browser session. The developer then observes how the agent reads page state, selects actions, handles errors, and recovers when a page changes.",
+    "howItWorks": "Start with one safe workflow for browser-use. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
     "useCases": [
       {
         "title": "Automating web research",
@@ -152,8 +152,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using browser-use?",
+        "answer": "Start with one safe workflow for browser-use. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
         "question": "Is browser-use open source?",
-        "answer": "The GitHub repository is listed with an MIT license."
+        "answer": "browser-use is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate browser-use?",
+        "answer": "browser-use is most worth evaluating for developers building agents that need to operate websites."
       },
       {
         "question": "Is browser-use the same as a full agent platform?",
@@ -176,5 +184,6 @@
       "cartoon robot hands",
       "busy automation flowchart"
     ]
-  }
+  },
+  "coverImage": "https://github.com/browser-use.png"
 }

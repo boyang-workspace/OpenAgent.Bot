@@ -102,9 +102,9 @@
   ],
   "seoArticle": {
     "intro": "GStack is a collection of agent skills and workflows that package repeatable planning, browsing, QA, design, review, and shipping behavior into reusable instructions.",
-    "whatItIs": "GStack is an open AI skills resource tracked by OpenAgent.bot because it gives builders a concrete implementation path rather than just a product claim.",
+    "whatItIs": "GStack is an open agent skill resource: a reusable procedure, instruction pack, or capability layer that should make an agent better at a repeatable task than one-off prompting.",
     "whyItMatters": "GStack matters because agent quality often comes from process, not only model choice. Skills give agents stronger procedures for work that repeats across projects.",
-    "howItWorks": "Start from the official repository or documentation, verify the license and runtime requirements, then test it on a narrow workflow before expanding it into production use.",
+    "howItWorks": "Evaluate GStack by reading its official source, then running one workflow end to end. Check when the skill should be invoked, what inputs it expects, what evidence it collects, and how easy it is to edit or version.",
     "useCases": [
       {
         "title": "QA and browser checks",
@@ -140,12 +140,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using GStack?",
+        "answer": "Evaluate GStack by reading its official source, then running one workflow end to end. Check when the skill should be invoked, what inputs it expects, what evidence it collects, and how easy it is to edit or version."
+      },
+      {
         "question": "Is GStack open source?",
-        "answer": "GStack is listed with MIT based on its official source links. Always re-check the repository or model card before production use."
+        "answer": "GStack is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
       },
       {
         "question": "Who should evaluate GStack?",
-        "answer": "Builders who want reusable agent workflows instead of one-off prompts"
+        "answer": "GStack is most worth evaluating for builders who want reusable agent workflows instead of one-off prompts."
       }
     ]
   },
@@ -160,5 +164,6 @@
       "unverified logos",
       "marketing-heavy screenshots"
     ]
-  }
+  },
+  "coverImage": "https://github.com/garrytan.png"
 }

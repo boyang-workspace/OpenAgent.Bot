@@ -116,9 +116,9 @@
   ],
   "seoArticle": {
     "intro": "Mistral Small 3.2 is worth tracking because small open models are often the difference between a prototype that is interesting and a product feature that is affordable. It is a candidate for teams evaluating local or self-hosted inference without starting from the largest model available.",
-    "whatItIs": "Mistral Small 3.2 is a compact open model release from Mistral AI. It is useful as a practical instruction-following model candidate for local inference, self-hosting tests, and early agent workflows.",
+    "whatItIs": "Mistral Small 3.2 is an open model resource to evaluate by workload, serving path, context behavior, license terms, and how reliably it supports the agent or local AI tasks you actually plan to run.",
     "whyItMatters": "Open model selection is not only about top benchmark scores. Many teams need a model that is small enough to run cheaply, permissive enough to adopt, and capable enough for real workflow tasks. Mistral Small 3.2 fits that evaluation slot.",
-    "howItWorks": "Start with the official model card, then run a small benchmark on your own prompts. Test latency, tool-output reliability, summarization quality, and failure modes before deciding whether it should handle production traffic.",
+    "howItWorks": "Run Mistral Small 3.2 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it.",
     "useCases": [
       {
         "title": "Cost-sensitive assistant features",
@@ -154,8 +154,16 @@
     ],
     "faq": [
       {
+        "question": "What should I check before using Mistral Small 3.2?",
+        "answer": "Run Mistral Small 3.2 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it."
+      },
+      {
         "question": "Is Mistral Small 3.2 open source?",
-        "answer": "The public model card should be treated as the source of truth for license terms. This OpenAgent profile tracks it as an Apache-licensed open model candidate."
+        "answer": "Mistral Small 3.2 is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate Mistral Small 3.2?",
+        "answer": "Mistral Small 3.2 is most worth evaluating for developers comparing compact open models for local or self-hosted inference."
       },
       {
         "question": "Why use a smaller model?",
@@ -178,5 +186,6 @@
       "noisy benchmark collage",
       "unofficial Mistral logo recreation"
     ]
-  }
+  },
+  "coverImage": "https://github.com/mistralai.png"
 }

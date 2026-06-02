@@ -20,7 +20,7 @@ Current project:
 - Pages project: `openagent-bot`
 - Production URL: `https://openagent-bot.pages.dev/`
 - Custom domains added in Cloudflare Pages: `openagent.bot`, `www.openagent.bot`
-- Current custom domain status: pending DNS verification
+- Current custom domain status: active. `https://www.openagent.bot/` is the canonical production URL.
 
 ## Environment Variables
 

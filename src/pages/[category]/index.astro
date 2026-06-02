@@ -13,7 +13,13 @@ export function getStaticPaths() {
 }
 
 const { category } = Astro.props;
-const categoryResources = (await getResourcesByCategory(category.slug)).sort((a, b) => (b.facts.github_stars ?? 0) - (a.facts.github_stars ?? 0));
+const resourceRank = (resource: (typeof categoryResources)[number]) => (resource.decision_signals.open_source ? 1 : 0);
+const categoryResources = (await getResourcesByCategory(category.slug)).sort(
+  (a, b) =>
+    resourceRank(b) - resourceRank(a) ||
+    (b.facts.github_stars ?? 0) - (a.facts.github_stars ?? 0) ||
+    a.identity.name.localeCompare(b.identity.name)
+);
 const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) => resourceSignals(resource, 4)))).slice(0, 6);
 ---
 
@@ -44,10 +50,10 @@ const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) 
             <strong>{resource.identity.name}</strong>
             <p>{resource.identity.one_liner}</p>
           </div>
-          <span>{resource.positioning.best_for?.[0] ?? resource.classification.resource_type.replaceAll("_", " ")}</span>
-          <span>{resource.facts.license ?? "Unknown"}</span>
-          <span>{resource.facts.github_stars?.toLocaleString("en-US") ?? "n/a"}</span>
-          <div class="row-tags">{[...resourceSignals(resource, 2), ...resourceTags(resource, 2)].slice(0, 3).map((tag) => <small>{tag.replaceAll("-", " ")}</small>)}</div>
+          <span data-label="Best for">{resource.positioning.best_for?.[0] ?? resource.classification.resource_type.replaceAll("_", " ")}</span>
+          <span data-label="License">{resource.facts.license ?? "Unknown"}</span>
+          <span data-label="Stars">{resource.facts.github_stars?.toLocaleString("en-US") ?? "n/a"}</span>
+          <div class="row-tags" data-label="Signals">{[...resourceSignals(resource, 2), ...resourceTags(resource, 2)].slice(0, 3).map((tag) => <small>{tag.replaceAll("-", " ")}</small>)}</div>
         </a>
       ))}
     </section>
@@ -57,17 +63,18 @@ const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) 
 <style>
   .directory-toolbar {
     align-items: center;
-    background: rgba(237, 237, 236, 0.04);
-    border: 1px solid var(--dark-line);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
     display: grid;
     gap: 14px;
     grid-template-columns: auto minmax(0, 1fr) auto;
     margin-bottom: 18px;
-    padding: 14px;
+    padding: 14px 16px;
   }
 
   .directory-toolbar strong {
-    color: var(--dark-text);
+    color: var(--ink);
     display: block;
     font-size: 1.6rem;
     font-weight: 560;
@@ -75,7 +82,7 @@ const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) 
   }
 
   .directory-toolbar span {
-    color: var(--dark-muted);
+    color: var(--muted);
     font-size: 0.78rem;
   }
 
@@ -92,10 +99,10 @@ const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) 
   }
 
   small {
-    background: rgba(237, 237, 236, 0.06);
-    border: 1px solid var(--dark-line);
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
     border-radius: 999px;
-    color: var(--dark-muted);
+    color: var(--muted);
     font-family: var(--mono);
     font-size: 0.62rem;
     letter-spacing: 0.04em;
@@ -104,8 +111,9 @@ const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) 
   }
 
   .directory-list {
-    background: rgba(237, 237, 236, 0.03);
-    border: 1px solid var(--dark-line);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
     overflow: hidden;
   }
 
@@ -114,16 +122,16 @@ const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) 
     display: grid;
     gap: 12px;
     grid-template-columns: minmax(240px, 1.4fr) minmax(160px, 0.9fr) 95px 80px minmax(160px, 0.8fr);
-    padding: 12px 14px;
+    padding: 12px 16px;
   }
 
   .list-head {
-    background: rgba(237, 237, 236, 0.05);
-    border-bottom: 1px solid var(--dark-line);
+    background: var(--surface-soft);
+    border-bottom: 1px solid var(--line);
   }
 
   .list-head span {
-    color: var(--dark-muted);
+    color: var(--muted);
     font-family: var(--mono);
     font-size: 0.62rem;
     font-weight: 700;
@@ -132,8 +140,8 @@ const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) 
   }
 
   .resource-row {
-    border-bottom: 1px solid var(--dark-line);
-    color: var(--dark-muted);
+    border-bottom: 1px solid var(--line);
+    color: var(--muted);
     font-size: 0.84rem;
     transition: background 160ms;
   }
@@ -143,18 +151,18 @@ const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) 
   }
 
   .resource-row:hover {
-    background: rgba(237, 237, 236, 0.05);
+    background: var(--surface-soft);
   }
 
   .resource-row strong {
-    color: var(--dark-text);
+    color: var(--ink);
     display: block;
     font-size: 0.96rem;
     font-weight: 580;
   }
 
   .resource-row p {
-    color: var(--dark-muted);
+    color: var(--muted);
     display: -webkit-box;
     font-size: 0.82rem;
     line-height: 1.45;
@@ -162,6 +170,17 @@ const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) 
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+  }
+
+  .row-label {
+    color: var(--muted);
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+    text-transform: uppercase;
   }
 
   @media (max-width: 900px) {
@@ -179,7 +198,21 @@ const categorySignals = Array.from(new Set(categoryResources.flatMap((resource) 
     }
 
     .resource-row {
+      gap: 10px;
       grid-template-columns: 1fr;
+      padding: 16px 16px 18px;
+    }
+
+    .resource-row [data-label]::before {
+      color: var(--muted);
+      content: attr(data-label);
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      margin-bottom: 3px;
+      text-transform: uppercase;
     }
   }
 </style>

@@ -8,3 +8,8 @@ dist/
 .env.*
 !.env.example
 .gstack/
+.playwright-mcp/
+output/
+samples/
+OpenAgent Blog Workbench.app/
+OpenAgent Blog Workbench.command

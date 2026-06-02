@@ -1,7 +1,18 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { posts as legacyPosts, type BlogPost } from "../../data/posts";
+
+export type BlogPost = {
+  slug: string;
+  title: string;
+  summary: string;
+  publishedAt: string;
+  tags: string[];
+  author: string;
+  body: string;
+  seoTitle?: string;
+  seoDescription?: string;
+};
 
 function fileSystemRootDir(): string | undefined {
   const metaUrl = typeof import.meta !== "undefined" ? import.meta.url : undefined;
@@ -71,7 +82,7 @@ async function readPublishedBlogFiles(): Promise<BlogPost[]> {
 
 export async function getPublishedBlogPosts(): Promise<BlogPost[]> {
   const filePosts = await readPublishedBlogFiles();
-  return [...filePosts, ...legacyPosts].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt) || a.title.localeCompare(b.title));
+  return filePosts.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt) || a.title.localeCompare(b.title));
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | undefined> {

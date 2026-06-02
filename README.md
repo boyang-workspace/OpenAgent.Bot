@@ -94,38 +94,50 @@ Admin routes require the D1 binding and Cloudflare Access setup described in [do
 
 ```text
 src/
-  components/      reusable UI components
+  components/      reusable UI components (EditorialShell, Header, Footer, ResourceCard)
   config/          site metadata and category config
-  data/            blog seed data
   layouts/         page shells and SEO defaults
-  lib/             shared helpers
+  lib/             shared helpers (content loaders, SEO, display helpers)
   pages/           Astro routes
   styles/          global styling
-public/            static assets
+public/            static assets (favicon, fallback covers, og-default.svg)
 content/
-  projects/        published and draft project profiles
+  projects/        legacy project JSON profiles, adapted to ResourceV1 at build
+  resources/       ResourceV1 JSON profiles
+  blog/            published blog posts
   discovery/       raw daily discovery outputs
   topics/          daily topic candidates
 scripts/
   discovery/       collectors, scoring, enrichment, draft generation
+  blog/            daily blog pipeline
+  content/         resource and blog preparation helpers
 functions/
   api/             Cloudflare Pages Functions for submit and admin CMS
 migrations/        Cloudflare D1 schema migrations
 ```
 
-Planned later:
+## Design System
 
-```text
-admin polish       search, filters, Turnstile, and richer review states
-```
+Light, editorial, source-backed. The directory uses a left sidebar (App Store-style) with a single column of resource cards on the right. Colors, spacing, and component rhythm live in `src/styles/global.css` (light theme tokens) and individual component `<style>` blocks. Keep `--paper`, `--surface`, `--line`, `--ink`, `--muted` as the only allowed color tokens for new work.
 
-## Phased PR Plan
+## SEO and Social
 
-1. Public website skeleton: routes, homepage, category/detail/blog templates, SEO, sitemap, robots, Cloudflare config.
-2. Unified content schema and project profiles: typed JSON content, published/draft split, project profile pages.
-3. GitHub and Hacker News discovery: daily candidates, scoring, topic formation, draft generation.
-4. Daily discovery GitHub Action: scheduled run that opens a review PR.
-5. Lightweight review experience: read-only review page before full CMS.
-6. Lightweight admin and submissions: D1-backed editing, states, Turnstile, review flow.
-7. Product Hunt and X sources: optional signals that never block the core pipeline.
-8. Commercial fields: sponsor metadata and click tracking hooks without payment complexity.
+Every page renders:
+
+- `<title>` and `<meta name="description">`
+- `<link rel="canonical">`
+- Open Graph and Twitter card meta tags (image defaults to `/og-default.svg` if a page does not pass one)
+- `<link rel="preconnect" href="https://github.com">` for avatar performance
+- `robots.txt` (disallows `/admin/` and `/api/`)
+- `sitemap.xml` covering all published content
+- Resource detail pages also emit `SoftwareSourceCode` JSON-LD inside `<head>`
+
+## Quality Gate
+
+CI runs on every PR and push to `main` (`.github/workflows/ci.yml`):
+
+1. `npm run check` — Astro type check
+2. `npm test` — vitest suite
+3. `npm run build` — full static build
+
+The site also ships with an agent-readable layer (`/llms.txt`, `/index.json`, per-resource `.json` and `.md` outputs) and a `Blog` workbench for local drafting. See `docs/` for details.

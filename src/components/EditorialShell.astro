@@ -20,9 +20,9 @@ const primaryLinks = [
 ];
 const utilityLinks = [
   { label: "Evaluations", href: "/evaluations", key: "evaluations" },
-  { label: "Guides", href: "/blog", key: "blog" },
+  { label: "Guides", href: "/blog", key: "blog" }
 ];
-const submitLink = { label: "Submit", href: "/submit", key: "submit" };
+const submitLink = { label: "Submit a resource", href: "/submit", key: "submit" };
 const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
 ---
 
@@ -33,15 +33,21 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
         <span class="brand-mark">OA</span>
         <strong>OpenAgent.bot</strong>
       </a>
-      <nav>
+
+      <nav class="sidebar-nav" aria-label="Primary">
         <div class="nav-group">
+          <span class="nav-eyebrow">Directory</span>
           {primaryLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href} data-analytics="nav" data-analytics-payload={JSON.stringify({label: item.label, href: item.href})}>{item.label}</a>)}
         </div>
         <div class="nav-group utility-group">
+          <span class="nav-eyebrow">Editorial</span>
           {utilityLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href} data-analytics="nav" data-analytics-payload={JSON.stringify({label: item.label, href: item.href})}>{item.label}</a>)}
         </div>
       </nav>
-      <a class:list={["sidebar-submit", { active: active === submitLink.key }]} href={submitLink.href} data-analytics="nav" data-analytics-payload={JSON.stringify({label: submitLink.label, href: submitLink.href})}>{submitLink.label}</a>
+
+      <a class:list={["sidebar-submit", { active: active === submitLink.key }]} href={submitLink.href} data-analytics="nav" data-analytics-payload={JSON.stringify({label: submitLink.label, href: submitLink.href})}>
+        {submitLink.label}
+      </a>
     </div>
   </aside>
 
@@ -69,7 +75,7 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
 <style>
   .editorial-shell {
     display: grid;
-    grid-template-columns: 236px minmax(0, 1fr);
+    grid-template-columns: 240px minmax(0, 1fr);
     min-height: 100vh;
   }
 
@@ -79,27 +85,29 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
     height: 100vh;
     left: 0;
     overflow-y: auto;
-    padding: 18px 14px;
+    padding: 26px 18px 24px;
     position: sticky;
     top: 0;
   }
 
   .sidebar-card {
     display: grid;
-    gap: 22px;
-    min-height: calc(100vh - 36px);
+    grid-template-rows: auto 1fr auto;
+    min-height: calc(100vh - 50px);
+    row-gap: 28px;
   }
 
   .sidebar-brand {
     align-items: center;
     display: flex;
-    gap: 10px;
-    min-height: 36px;
+    gap: 11px;
+    min-height: 32px;
+    padding: 2px 4px 0;
   }
 
   .sidebar-brand strong {
     color: var(--ink);
-    font-size: 0.86rem;
+    font-size: 0.88rem;
     font-weight: 620;
     letter-spacing: 0;
   }
@@ -118,21 +126,25 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
     width: 30px;
   }
 
-  nav {
+  .sidebar-nav {
+    align-content: start;
     display: grid;
-    gap: 13px;
+    row-gap: 22px;
   }
 
   .nav-group {
-    border-bottom: 1px solid var(--line);
     display: grid;
-    gap: 2px;
-    padding-bottom: 12px;
+    row-gap: 2px;
   }
 
-  .nav-group:last-child {
-    border-bottom: 0;
-    padding-bottom: 0;
+  .nav-eyebrow {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin: 0 4px 8px;
+    text-transform: uppercase;
   }
 
   nav a,
@@ -144,19 +156,17 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
 
   nav a,
   .sidebar-submit {
-    display: block;
-    font-size: 0.84rem;
-    font-weight: 400;
-    padding: 7px 9px;
-  }
-
-  .utility-group {
-    margin-top: 4px;
+    align-items: center;
+    display: flex;
+    font-size: 0.86rem;
+    font-weight: 460;
+    min-height: 34px;
+    padding: 0 10px;
   }
 
   .utility-group a {
     color: var(--muted);
-    font-size: 0.82rem;
+    font-size: 0.84rem;
   }
 
   nav a:hover,
@@ -169,7 +179,7 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
   .mobile-rail a.active {
     background: rgba(22, 26, 29, 0.06);
     color: var(--ink);
-    font-weight: 520;
+    font-weight: 540;
   }
 
   nav a.active {
@@ -179,10 +189,24 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
   }
 
   .sidebar-submit {
-    align-self: end;
-    border: 1px solid var(--line);
-    margin-top: auto;
+    align-self: stretch;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    color: #ffffff;
+    font-size: 0.84rem;
+    font-weight: 520;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 14px;
     text-align: center;
+  }
+
+  .sidebar-submit:hover,
+  .sidebar-submit:focus-visible,
+  .sidebar-submit.active {
+    background: #000000;
+    color: #ffffff;
+    font-weight: 520;
   }
 
   .mobile-rail {
@@ -200,7 +224,7 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
     color: var(--ink);
     margin: 0 auto;
     max-width: 1180px;
-    padding: 24px 26px 56px;
+    padding: 26px 26px 56px;
   }
 
   .editorial-content :global([id]) {
@@ -208,7 +232,7 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
   }
 
   .editorial-head {
-    padding: 0 0 24px;
+    padding: 0 0 26px;
   }
 
   .editorial-head h1 {

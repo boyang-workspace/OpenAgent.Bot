@@ -1,5 +1,4 @@
-import { parseBlogPost } from "./blog";
-import type { BlogPost } from "../../data/posts";
+import { parseBlogPost, type BlogPost } from "./blog";
 
 export const blogTopicLanes = ["trend", "comparison", "evergreen"] as const;
 export const blogTopicStatuses = ["new", "drafted", "ignored"] as const;

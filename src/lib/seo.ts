@@ -13,12 +13,13 @@ export function buildSeo(input: SeoInput = {}) {
   const description = input.description ?? site.description;
   const path = input.path ?? "/";
   const canonical = new URL(path, site.url).toString();
+  const image = input.image ?? `${site.url}/og-default.svg`;
 
   return {
     title,
     description,
     canonical,
-    image: input.image,
+    image,
     noindex: input.noindex ?? false
   };
 }

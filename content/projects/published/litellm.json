@@ -1,0 +1,54 @@
+{
+  "slug": "litellm",
+  "title": "LiteLLM",
+  "oneLiner": "AI gateway and Python SDK for calling many LLM providers through OpenAI-compatible or native formats.",
+  "summary": "LiteLLM is a Python SDK and proxy server used by AI builders to route requests across many model providers, track cost, add logging, and manage gateway behavior.",
+  "whyItMatters": "Agent applications often need provider routing, fallbacks, cost tracking, and observability before they can be trusted in production. LiteLLM gives teams a practical gateway layer for those needs.",
+  "bestFor": [
+    "Teams routing agent traffic across multiple model providers",
+    "Developers who want OpenAI-compatible access to many LLM APIs",
+    "Builders adding cost tracking, load balancing, and gateway logs"
+  ],
+  "notFor": [
+    "Teams that only call one model provider directly",
+    "Users who do not want to operate a gateway or proxy"
+  ],
+  "category": "tools",
+  "tags": [
+    "tool",
+    "model-serving",
+    "inference",
+    "connectors",
+    "llm-gateway",
+    "proxy",
+    "openai-compatible",
+    "observability",
+    "python"
+  ],
+  "repoUrl": "https://github.com/BerriAI/litellm",
+  "homepageUrl": "https://docs.litellm.ai/docs/",
+  "docsUrl": "https://docs.litellm.ai/docs/",
+  "license": "See repository",
+  "maintainer": "BerriAI",
+  "installCommand": "pip install litellm",
+  "sourceLinks": [
+    "https://github.com/BerriAI/litellm",
+    "https://docs.litellm.ai/docs/"
+  ],
+  "seoTitle": "LiteLLM: AI gateway and SDK for agent builders",
+  "seoDescription": "LiteLLM profile: provider routing, OpenAI-compatible proxy, cost tracking, official links, and OpenAgent structured data.",
+  "shareTitle": "LiteLLM on OpenAgent.bot",
+  "shareDescription": "AI gateway and SDK for multi-provider LLM applications.",
+  "status": "published",
+  "generatedAt": "2026-06-02T00:00:00.000Z",
+  "reviewedAt": "2026-06-02T00:00:00.000Z",
+  "updatedAt": "2026-06-02",
+  "lastVerifiedAt": "2026-06-02",
+  "openSourceStatus": "source-available",
+  "isFeatured": true,
+  "isSponsored": false,
+  "sourceMetrics": {
+    "stars": 48958,
+    "forks": 8536
+  }
+}

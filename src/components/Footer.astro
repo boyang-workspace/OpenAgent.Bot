@@ -19,8 +19,8 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
-  footer {
-    border-top: 1px solid var(--dark-line);
+footer {
+    border-top: 1px solid var(--line);
     margin: 56px 0 0;
     padding: 22px 0 0;
   }
@@ -32,12 +32,10 @@ const year = new Date().getFullYear();
   }
 
   strong {
-    color: var(--dark-text);
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    font-weight: 900;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    color: var(--ink);
+    font-size: 0.86rem;
+    font-weight: 620;
+    letter-spacing: 0;
   }
 
   p {
@@ -54,17 +52,17 @@ const year = new Date().getFullYear();
   }
 
   .footer-links a {
-    color: var(--dark-muted);
+    color: var(--muted);
     font-size: 0.78rem;
     font-weight: 500;
   }
 
   .footer-links a:hover {
-    color: var(--dark-text);
+    color: var(--ink);
   }
 
   .small {
-    color: rgba(169, 163, 155, 0.5);
+    color: var(--subtle);
     font-size: 0.74rem;
     font-weight: 400;
     margin-top: 16px;

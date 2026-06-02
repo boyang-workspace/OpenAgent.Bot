@@ -14,7 +14,11 @@ const image = resourceImage(resource);
 const fallbackImage = `/resource-fallbacks/${resource.classification.primary_category}.svg`;
 const summary = resourceSummary(resource);
 const categoryLabel = resourceCategoryLabel(resource);
-const starMeta = resource.facts.github_stars !== undefined ? `${resource.facts.github_stars.toLocaleString("en-US")} stars` : undefined;
+const compactStars =
+  resource.facts.github_stars !== undefined
+    ? `${Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(resource.facts.github_stars)} stars`
+    : undefined;
+const sourceLabel = resource.decision_signals.open_source ? "Open source" : (resource.facts.license ?? "Source");
 const trackPayload = JSON.stringify({
   name: resource.identity.name,
   slug: resource.slug,
@@ -26,11 +30,17 @@ const trackPayload = JSON.stringify({
 
 <article class:list={["resource-card", { large }]}>
   <a href={href} aria-label={resource.identity.name} data-analytics="resource" data-analytics-payload={trackPayload}>
-    <img src={image} alt="" loading="lazy" decoding="async" onerror={`this.onerror=null;this.src='${fallbackImage}';`} />
+    <div class="media">
+      <img src={image} alt="" loading="lazy" decoding="async" onerror={`this.onerror=null;this.src='${fallbackImage}';`} />
+      <div class="source-meta">
+        <span>{sourceLabel}</span>
+        {compactStars && <span>{compactStars}</span>}
+      </div>
+    </div>
     <div class="resource-body">
       <div class="meta">
         <span>{categoryLabel}</span>
-        {starMeta && <span>{starMeta}</span>}
+        {resource.facts.license && <span>{resource.facts.license}</span>}
       </div>
       <h3>{resource.identity.name}</h3>
       <p>{summary}</p>
@@ -40,16 +50,17 @@ const trackPayload = JSON.stringify({
 
 <style>
   .resource-card {
-    background: rgba(237, 237, 236, 0.04);
-    border: 1px solid var(--dark-line);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
     min-height: 100%;
     overflow: hidden;
-    transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
   }
 
   .resource-card:hover {
-    border-color: var(--dark-line-strong);
-    background: rgba(237, 237, 236, 0.07);
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow-soft);
     transform: translateY(-2px);
   }
 
@@ -58,11 +69,43 @@ const trackPayload = JSON.stringify({
     min-height: 100%;
   }
 
+  .media {
+    background: var(--surface-soft);
+    position: relative;
+  }
+
   img {
     aspect-ratio: 16 / 9;
-    background: rgba(237, 237, 236, 0.06);
-    object-fit: cover;
+    background: var(--surface-soft);
+    object-fit: contain;
+    padding: 18px;
     width: 100%;
+  }
+
+  .source-meta {
+    align-items: flex-end;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    display: grid;
+    gap: 2px;
+    padding: 6px 7px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    text-align: right;
+  }
+
+  .source-meta span {
+    color: var(--muted);
+    font-size: 0.66rem;
+    line-height: 1.05;
+    white-space: nowrap;
+  }
+
+  .source-meta span:first-child {
+    color: var(--ink);
+    font-weight: 560;
   }
 
   .resource-body {
@@ -78,31 +121,29 @@ const trackPayload = JSON.stringify({
   }
 
   .meta span {
-    color: var(--dark-muted);
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 450;
+    letter-spacing: 0;
   }
 
   .meta span:first-child {
-    color: var(--dark-muted);
+    color: var(--ink);
   }
 
   h3 {
-    color: var(--dark-text);
-    font-size: 1.02rem;
-    font-weight: 620;
+    color: var(--ink);
+    font-size: 0.98rem;
+    font-weight: 560;
     letter-spacing: 0;
     line-height: 1.16;
     margin: 0;
   }
 
   p {
-    color: var(--dark-muted);
+    color: var(--muted);
     display: -webkit-box;
-    font-size: 0.86rem;
+    font-size: 0.82rem;
     line-height: 1.48;
     margin: 0;
     overflow: hidden;
@@ -125,8 +166,8 @@ const trackPayload = JSON.stringify({
   }
 
   .large h3 {
-    font-size: 2rem;
-    font-weight: 580;
+    font-size: 1.7rem;
+    font-weight: 560;
     line-height: 1.04;
   }
 

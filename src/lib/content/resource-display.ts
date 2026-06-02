@@ -18,6 +18,10 @@ export function resourceSummary(resource: ResourceV1): string {
 export function resourceImage(resource: ResourceV1): string {
   if (resource.media.thumbnail_url) return resource.media.thumbnail_url;
   if (resource.media.og_image_url) return resource.media.og_image_url;
+  if (resource.facts.github_repo_full_name) {
+    const [owner] = resource.facts.github_repo_full_name.split("/");
+    if (owner) return `https://github.com/${owner}.png`;
+  }
   return `/resource-fallbacks/${resource.classification.primary_category}.svg`;
 }
 

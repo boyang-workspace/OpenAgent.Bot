@@ -1,0 +1,51 @@
+{
+  "slug": "openai-agents-python",
+  "title": "OpenAI Agents SDK",
+  "oneLiner": "Lightweight Python framework for building multi-agent workflows with handoffs, tools, tracing, and guardrails.",
+  "summary": "OpenAI Agents SDK is an MIT-licensed Python framework for building agent workflows that can use tools, hand off between agents, trace execution, and apply guardrails.",
+  "whyItMatters": "It matters because many builders want an official, small-footprint agent framework rather than a large orchestration stack. It is especially relevant when the agent workflow already uses OpenAI models and APIs.",
+  "bestFor": [
+    "Developers building multi-agent workflows in Python",
+    "Teams that want tracing and guardrails close to the agent runtime",
+    "Builders comparing small agent frameworks against LangGraph, CrewAI, and smolagents"
+  ],
+  "notFor": [
+    "Teams that need a model-agnostic orchestration platform from day one",
+    "Users looking for a no-code agent product"
+  ],
+  "category": "agents",
+  "tags": [
+    "agent",
+    "open-source",
+    "multi-agent",
+    "tool-calling",
+    "python",
+    "workflow-orchestration"
+  ],
+  "repoUrl": "https://github.com/openai/openai-agents-python",
+  "homepageUrl": "https://openai.github.io/openai-agents-python/",
+  "docsUrl": "https://openai.github.io/openai-agents-python/",
+  "license": "MIT",
+  "maintainer": "OpenAI",
+  "installCommand": "pip install openai-agents",
+  "sourceLinks": [
+    "https://github.com/openai/openai-agents-python",
+    "https://openai.github.io/openai-agents-python/"
+  ],
+  "seoTitle": "OpenAI Agents SDK: Python framework for multi-agent workflows",
+  "seoDescription": "OpenAI Agents SDK profile: what it is, when to use it, official links, install command, and OpenAgent structured data.",
+  "shareTitle": "OpenAI Agents SDK on OpenAgent.bot",
+  "shareDescription": "Open-source Python framework for multi-agent workflows.",
+  "status": "published",
+  "generatedAt": "2026-06-02T00:00:00.000Z",
+  "reviewedAt": "2026-06-02T00:00:00.000Z",
+  "updatedAt": "2026-06-02",
+  "lastVerifiedAt": "2026-06-02",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "sourceMetrics": {
+    "stars": 26833,
+    "forks": 4138
+  }
+}

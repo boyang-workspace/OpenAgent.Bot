@@ -12,29 +12,13 @@ const supportingPosts = posts.slice(1);
   <EditorialShell
     active="blog"
     eyebrow="Guides"
-    title="Comparison guides for choosing agents and models."
-    description="Search-backed notes that connect the directory, evaluations, and real source links into pages people can land on from Google."
+    title="Guides for choosing open agents and builder tools."
+    description="Comparison articles, checklists, and explainers that help search visitors move from research to a short candidate list."
   >
-    <section class="guide-console">
-      <div class="guide-console-copy">
-        <span class="eyebrow">Editorial system</span>
-        <h2>Every guide should point readers toward a decision.</h2>
-        <p>
-          Comparisons, checklists, and trend explainers work best when they end in a concrete next step:
-          inspect an agent profile, read a benchmark, or subscribe to the signal.
-        </p>
-      </div>
-      <div class="guide-metrics" aria-label="Guide metrics">
-        <span><strong>{posts.length}</strong> guides</span>
-        <span><strong>3</strong> intent lanes</span>
-        <span><strong>SEO</strong> ready</span>
-      </div>
-    </section>
-
     {
       featuredPost && (
         <section class="featured-guide">
-          <a href={`/blog/${featuredPost.slug}`}>
+          <a href={`/blog/${featuredPost.slug}`} data-analytics="blog" data-analytics-payload={JSON.stringify({title: featuredPost.title, slug: featuredPost.slug, featured: true})}>
             <span class="eyebrow">Featured guide</span>
             <h2>{featuredPost.title}</h2>
             <p>{featuredPost.summary}</p>
@@ -42,33 +26,18 @@ const supportingPosts = posts.slice(1);
               {featuredPost.tags.slice(0, 4).map((tag) => <small>{tag}</small>)}
             </div>
           </a>
-          <aside>
-            <span class="eyebrow">Reader intent</span>
-            <ul>
-              <li>Compare tools before adopting one</li>
-              <li>Validate open-source claims and source links</li>
-              <li>Move from research to a short candidate list</li>
-            </ul>
-          </aside>
         </section>
       )
     }
 
-    <section class="guide-index" aria-label="All guides">
-      <div class="guide-index-head">
-        <span>Guide</span>
-        <span>Tags</span>
-        <span>Updated</span>
-      </div>
+    <section class="guide-grid" aria-label="All guides">
       {
         supportingPosts.map((post) => (
-          <a class="guide-row" href={`/blog/${post.slug}`}>
-            <div>
-              <h2>{post.title}</h2>
-              <p>{post.summary}</p>
-            </div>
-            <div class="guide-tags">{post.tags.slice(0, 3).map((tag) => <small>{tag}</small>)}</div>
+          <a class="guide-card" href={`/blog/${post.slug}`} data-analytics="blog" data-analytics-payload={JSON.stringify({title: post.title, slug: post.slug})}>
             <time>{post.publishedAt}</time>
+            <h2>{post.title}</h2>
+            <p>{post.summary}</p>
+            <div class="guide-tags">{post.tags.slice(0, 3).map((tag) => <small>{tag}</small>)}</div>
           </a>
         ))
       }
@@ -77,165 +46,87 @@ const supportingPosts = posts.slice(1);
 </BaseLayout>
 
 <style>
-  .guide-console {
-    align-items: end;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    display: grid;
-    gap: 18px;
-    grid-template-columns: minmax(0, 1fr) auto;
-    margin-bottom: 18px;
-    padding: 22px;
-  }
-
-  .guide-console h2 {
-    font-size: 1.55rem;
-    font-weight: 540;
-    letter-spacing: 0;
-    line-height: 1.12;
-    margin: 8px 0 0;
-  }
-
-  .guide-console p {
-    font-size: 0.9rem;
-    margin: 10px 0 0;
-    max-width: 680px;
-  }
-
-  .guide-metrics {
-    display: flex;
-    gap: 8px;
-  }
-
-  .guide-metrics span {
-    background: var(--surface-soft);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    color: var(--muted);
-    display: grid;
-    font-size: 0.76rem;
-    gap: 2px;
-    min-width: 92px;
-    padding: 10px 12px;
-  }
-
-  .guide-metrics strong {
-    color: var(--ink);
-    font-size: 0.95rem;
-    font-weight: 620;
-  }
-
   .featured-guide {
-    display: grid;
-    gap: 16px;
-    grid-template-columns: minmax(0, 1.7fr) minmax(240px, 0.8fr);
-    margin-bottom: 18px;
+    margin-bottom: 16px;
   }
 
   .featured-guide a,
-  .featured-guide aside,
-  .guide-index {
+  .guide-card {
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: 8px;
+    display: grid;
+    gap: 10px;
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
   }
 
   .featured-guide a {
-    display: grid;
-    gap: 10px;
     padding: 24px;
-    transition:
-      border-color 160ms ease,
-      box-shadow 160ms ease;
   }
 
   .featured-guide a:hover,
-  .guide-row:hover {
+  .guide-card:hover {
     border-color: var(--line-strong);
-    box-shadow: 0 8px 24px rgba(21, 101, 216, 0.06);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
   }
 
   .featured-guide h2 {
-    font-size: 2rem;
+    color: var(--ink);
+    font-size: clamp(1.55rem, 3vw, 2.2rem);
     font-weight: 540;
     letter-spacing: 0;
     line-height: 1.08;
     margin: 0;
+    max-width: 880px;
   }
 
   .featured-guide p {
-    font-size: 0.96rem;
+    font-size: 0.92rem;
     margin: 0;
     max-width: 760px;
   }
 
-  .featured-guide aside {
-    padding: 20px;
+  .guide-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .featured-guide ul {
+  .guide-card {
+    min-height: 210px;
+    padding: 18px;
+  }
+
+  .guide-card h2 {
     color: var(--ink);
-    display: grid;
-    font-size: 0.88rem;
-    gap: 10px;
-    line-height: 1.55;
-    margin: 12px 0 0;
-    padding-left: 1.1rem;
-  }
-
-  .guide-index {
-    overflow: hidden;
-  }
-
-  .guide-index-head,
-  .guide-row {
-    display: grid;
-    gap: 16px;
-    grid-template-columns: minmax(0, 1.6fr) minmax(180px, 0.7fr) 110px;
-  }
-
-  .guide-index-head {
-    background: var(--surface-soft);
-    border-bottom: 1px solid var(--line);
-    color: var(--muted);
-    font-size: 0.72rem;
-    font-weight: 650;
-    letter-spacing: 0.06em;
-    padding: 11px 16px;
-    text-transform: uppercase;
-  }
-
-  .guide-row {
-    border-bottom: 1px solid var(--line);
-    padding: 16px;
-    transition:
-      background 160ms ease,
-      border-color 160ms ease,
-      box-shadow 160ms ease;
-  }
-
-  .guide-row:last-child {
-    border-bottom: 0;
-  }
-
-  .guide-row h2 {
-    font-size: 1.02rem;
-    font-weight: 560;
-    line-height: 1.25;
+    font-size: 1.08rem;
+    font-weight: 540;
+    letter-spacing: 0;
+    line-height: 1.24;
     margin: 0;
   }
 
-  .guide-row p {
+  .guide-card p {
+    display: -webkit-box;
     font-size: 0.84rem;
-    margin: 6px 0 0;
+    margin: 0;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  time {
+    color: var(--muted);
+    font-size: 0.72rem;
   }
 
   .guide-tags {
     align-items: flex-start;
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 7px;
+    margin-top: auto;
     min-width: 0;
   }
 
@@ -244,30 +135,14 @@ const supportingPosts = posts.slice(1);
     border: 1px solid var(--line);
     border-radius: 999px;
     color: var(--muted);
-    font-size: 0.74rem;
+    font-size: 0.72rem;
     line-height: 1.1;
     padding: 4px 8px;
   }
 
-  time {
-    color: var(--muted);
-    font-size: 0.82rem;
-  }
-
   @media (max-width: 820px) {
-    .guide-console,
-    .featured-guide,
-    .guide-index-head,
-    .guide-row {
+    .guide-grid {
       grid-template-columns: 1fr;
-    }
-
-    .guide-index-head {
-      display: none;
-    }
-
-    .guide-metrics {
-      flex-wrap: wrap;
     }
   }
 </style>

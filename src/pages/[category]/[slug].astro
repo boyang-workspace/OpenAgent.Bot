@@ -345,14 +345,13 @@ const jsonLd = {
     gap: 24px;
   }
 
-  /* ── Agent dark hero (UnBoring-inspired) ── */
-
   .agent-hero {
-    background: var(--dark-bg);
-    border-radius: 0;
-    color: var(--dark-text);
-    margin: -24px -26px 0;
-    padding: 48px 26px 42px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    margin: 0;
+    padding: 28px;
   }
 
   .agent-hero-inner {
@@ -360,47 +359,44 @@ const jsonLd = {
   }
 
   .agent-hero-meta {
-    color: var(--dark-muted);
+    color: var(--muted);
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
-    font-size: 0.68rem;
-    margin-bottom: 24px;
-  }
-
-  .agent-hero-meta::before {
-    content: "//";
-    color: rgba(169, 163, 155, 0.5);
+    gap: 10px;
+    font-size: 0.7rem;
+    letter-spacing: 0;
+    margin-bottom: 18px;
+    text-transform: none;
   }
 
   .agent-hero h1 {
-    font-size: clamp(2.4rem, 5vw, 4.2rem);
-    font-weight: 820;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 540;
     letter-spacing: 0;
     line-height: 0.92;
     margin: 0;
-    color: var(--dark-text);
+    color: var(--ink);
   }
 
   .agent-hero-tagline {
-    color: var(--dark-text);
-    font-size: 1.08rem;
+    color: var(--ink);
+    font-size: 1rem;
     line-height: 1.48;
     margin: 18px 0 0;
     max-width: 780px;
   }
 
   .agent-hero-summary {
-    color: var(--dark-muted);
+    color: var(--muted);
     font-size: 0.92rem;
     margin: 12px 0 0;
     max-width: 780px;
   }
 
   .agent-hero-terminal {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--dark-line);
-    border-radius: 10px;
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
     margin-top: 28px;
     max-width: 640px;
     overflow: hidden;
@@ -408,22 +404,22 @@ const jsonLd = {
 
   .terminal-header {
     align-items: center;
-    background: rgba(0, 0, 0, 0.3);
-    border-bottom: 1px solid var(--dark-line);
+    background: rgba(22, 26, 29, 0.03);
+    border-bottom: 1px solid var(--line);
     display: flex;
     gap: 6px;
     padding: 10px 14px;
   }
 
   .terminal-dot {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--line-strong);
     border-radius: 50%;
     height: 10px;
     width: 10px;
   }
 
   .terminal-title {
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--subtle);
     font-family: var(--mono);
     font-size: 0.68rem;
     letter-spacing: 0.06em;
@@ -438,15 +434,15 @@ const jsonLd = {
   }
 
   .prompt-char {
-    color: #22c55e;
+    color: var(--accent-open);
   }
 
   .cmd-text {
-    color: var(--dark-text);
+    color: var(--ink);
   }
 
   .terminal-comment {
-    color: rgba(169, 163, 155, 0.45);
+    color: var(--muted);
     font-size: 0.76rem;
     margin-top: 4px;
   }
@@ -460,53 +456,53 @@ const jsonLd = {
 
   .agent-hero-actions .button {
     background: transparent;
-    border-color: var(--dark-line-strong);
-    color: var(--dark-text);
-    border-radius: 0;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    border-color: var(--line);
+    color: var(--ink);
+    border-radius: 7px;
+    font-size: 0.82rem;
+    font-weight: 520;
+    letter-spacing: 0;
   }
 
   .agent-hero-actions .button.primary {
-    background: var(--dark-text);
-    border-color: var(--dark-text);
-    color: var(--dark-bg);
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #ffffff;
   }
 
   .agent-hero-actions .button:hover {
-    background: rgba(237, 237, 236, 0.12);
+    background: var(--surface-soft);
     transform: translateY(-1px);
   }
 
   .agent-hero-actions .button.primary:hover {
-    background: #ffffff;
+    background: #000000;
   }
 
   /* ── Non-agent hero ── */
 
   .profile-hero {
     align-items: stretch;
-    border-bottom: 1px solid var(--dark-line);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
     display: grid;
     gap: 22px;
     grid-template-columns: minmax(0, 1fr) 330px;
-    padding: 10px 0 26px;
+    padding: 24px;
   }
 
   .profile-hero h1 {
-    color: var(--dark-text);
-    font-size: clamp(2rem, 4vw, 3.1rem);
-    font-weight: 820;
+    color: var(--ink);
+    font-size: clamp(1.85rem, 4vw, 2.7rem);
+    font-weight: 540;
     letter-spacing: 0;
     line-height: 1.02;
     margin: 8px 0 0;
   }
 
   .answer {
-    color: var(--dark-text);
+    color: var(--ink);
     font-size: 1rem;
     line-height: 1.48;
     margin: 14px 0 0;
@@ -514,7 +510,7 @@ const jsonLd = {
   }
 
   .summary {
-    color: var(--dark-muted);
+    color: var(--muted);
     font-size: 0.9rem;
     margin: 10px 0 0;
     max-width: 780px;

@@ -1,0 +1,50 @@
+{
+  "slug": "model-context-protocol-python-sdk",
+  "title": "Model Context Protocol Python SDK",
+  "oneLiner": "Official Python SDK for building MCP servers and clients.",
+  "summary": "The Model Context Protocol Python SDK is an official MIT-licensed SDK for building MCP servers and clients in Python.",
+  "whyItMatters": "MCP is a practical connector pattern for agents. The official Python SDK gives builders a source-backed way to expose tools, resources, and prompts to agent systems.",
+  "bestFor": [
+    "Python teams building MCP connectors",
+    "Agent builders exposing tools and data sources through MCP",
+    "Developers who want an official SDK rather than a wrapper"
+  ],
+  "notFor": [
+    "TypeScript-first projects",
+    "Teams that do not need MCP compatibility"
+  ],
+  "category": "plugins",
+  "tags": [
+    "plugin",
+    "mcp",
+    "python",
+    "sdk",
+    "connectors",
+    "protocol"
+  ],
+  "repoUrl": "https://github.com/modelcontextprotocol/python-sdk",
+  "homepageUrl": "https://modelcontextprotocol.github.io/python-sdk/",
+  "docsUrl": "https://modelcontextprotocol.github.io/python-sdk/",
+  "license": "MIT",
+  "maintainer": "Model Context Protocol",
+  "sourceLinks": [
+    "https://github.com/modelcontextprotocol/python-sdk",
+    "https://modelcontextprotocol.github.io/python-sdk/"
+  ],
+  "seoTitle": "Model Context Protocol Python SDK: official MCP SDK",
+  "seoDescription": "MCP Python SDK profile: official Python SDK for MCP servers and clients, links, and OpenAgent structured data.",
+  "shareTitle": "MCP Python SDK on OpenAgent.bot",
+  "shareDescription": "Official Python SDK for Model Context Protocol servers and clients.",
+  "status": "published",
+  "generatedAt": "2026-06-02T00:00:00.000Z",
+  "reviewedAt": "2026-06-02T00:00:00.000Z",
+  "updatedAt": "2026-06-02",
+  "lastVerifiedAt": "2026-06-02",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "sourceMetrics": {
+    "stars": 23199,
+    "forks": 3496
+  }
+}

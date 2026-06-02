@@ -1,0 +1,38 @@
+{
+  "slug": "agent-evaluation-stack-promptfoo-ragas-langfuse",
+  "title": "Agent Evaluation Stack: promptfoo, Ragas, and Langfuse",
+  "summary": "How to combine test suites, RAG quality checks, and production traces when evaluating AI agents.",
+  "publishedAt": "2026-06-02",
+  "tags": [
+    "agent-evaluation",
+    "promptfoo",
+    "ragas",
+    "langfuse"
+  ],
+  "author": "OpenAgent.bot Editors",
+  "seoTitle": "Agent Evaluation Stack: promptfoo, Ragas, and Langfuse",
+  "seoDescription": "Compare promptfoo, Ragas, and Langfuse for testing, RAG evaluation, observability, and production agent quality.",
+  "body": [
+    "Agent evaluation usually fails when teams try to make one tool answer every question. Testing, RAG quality, and production observability are different layers.",
+    "A practical stack is: **promptfoo** for repeatable test cases and red-team checks, **Ragas** for retrieval and answer-quality evaluation, and **Langfuse** for traces, prompts, datasets, and feedback loops.",
+    "## Quick recommendation",
+    "- Use [promptfoo](/tools/promptfoo) when you need a repeatable test suite for prompts, agent tasks, or red-team cases.",
+    "- Use [Ragas](/tools/ragas) when retrieval quality is part of the agent's answer.",
+    "- Use [Langfuse](/tools/langfuse) when you need production traces, prompt versions, datasets, and ongoing monitoring.",
+    "## Comparison table",
+    "| Tool | Evaluation layer | Best first test | Official source |",
+    "|---|---|---|---|",
+    "| [promptfoo](/tools/promptfoo) | Test suites and red teaming | Turn top failure cases into repeatable evals | [GitHub](https://github.com/promptfoo/promptfoo) |",
+    "| [Ragas](/tools/ragas) | RAG and answer quality | Evaluate one retrieval dataset | [GitHub](https://github.com/vibrantlabsai/ragas) |",
+    "| [Langfuse](/tools/langfuse) | Observability and datasets | Trace one real agent workflow | [GitHub](https://github.com/langfuse/langfuse) |",
+    "## What to measure first",
+    "Start with failures you can explain. For a browser agent, that may be task completion and recovery. For a coding agent, it may be patch quality and unsafe command behavior. For a RAG agent, it may be retrieval quality, citation usefulness, and answer faithfulness.",
+    "Once you know the failure shape, choose the tool. promptfoo is useful when the failure can be turned into a test. Ragas is useful when the failure is tied to retrieval or context quality. Langfuse is useful when the failure appears in production and you need traces to investigate it.",
+    "## OpenAgent next step",
+    "Browse [Tools](/tools), then compare [promptfoo](/tools/promptfoo), [Ragas](/tools/ragas), and [Langfuse](/tools/langfuse).",
+    "## Official sources",
+    "- [promptfoo GitHub](https://github.com/promptfoo/promptfoo)",
+    "- [Ragas GitHub](https://github.com/vibrantlabsai/ragas)",
+    "- [Langfuse GitHub](https://github.com/langfuse/langfuse)"
+  ]
+}

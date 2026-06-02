@@ -134,7 +134,12 @@ function extractLinks(markdown: string, kind: "external" | "internal"): string[]
 function linkLabel(link: string): string {
   if (link.startsWith("/")) return link;
   try {
-    return new URL(link).hostname.replace(/^www\./, "");
+    const url = new URL(link);
+    if (url.hostname === "github.com") {
+      const [owner, repo] = url.pathname.split("/").filter(Boolean);
+      if (owner && repo) return `${owner}/${repo}`;
+    }
+    return url.hostname.replace(/^www\./, "");
   } catch {
     return link;
   }
@@ -165,9 +170,9 @@ const relatedPosts = allPosts.filter((item) => item.slug !== post.slug).slice(0,
 
       <aside class="article-rail" aria-label="Guide context">
         <section>
-          <span class="eyebrow">Guide status</span>
-          <strong>Evidence-backed comparison</strong>
-          <p>Designed as a Google landing page: quick answer first, comparison criteria in the body, and source links near the decision.</p>
+          <span class="eyebrow">Reader intent</span>
+          <strong>Compare before adopting</strong>
+          <p>Use this guide to move from a broad search query to a smaller list of tools worth testing.</p>
         </section>
 
         <section>
@@ -228,8 +233,8 @@ const relatedPosts = allPosts.filter((item) => item.slug !== post.slug).slice(0,
   .article-layout {
     align-items: start;
     display: grid;
-    gap: 18px;
-    grid-template-columns: minmax(0, 820px) 300px;
+    gap: 22px;
+    grid-template-columns: minmax(0, 780px) 300px;
     min-width: 0;
   }
 
@@ -238,20 +243,21 @@ const relatedPosts = allPosts.filter((item) => item.slug !== post.slug).slice(0,
     border: 1px solid var(--line);
     border-radius: 8px;
     min-width: 0;
-    padding: 32px;
+    padding: 30px;
   }
 
   h1 {
-    font-size: 2.55rem;
+    color: var(--ink);
+    font-size: clamp(1.85rem, 4vw, 2.45rem);
     font-weight: 540;
     letter-spacing: 0;
-    line-height: 1.04;
+    line-height: 1.08;
     margin: 12px 0 0;
     overflow-wrap: anywhere;
   }
 
   .dek {
-    font-size: 1rem;
+    font-size: 0.95rem;
     margin-bottom: 0;
   }
 
@@ -280,13 +286,14 @@ const relatedPosts = allPosts.filter((item) => item.slug !== post.slug).slice(0,
 
   .body :global(p) {
     color: var(--ink);
-    font-size: 0.98rem;
-    line-height: 1.72;
+    font-size: 0.94rem;
+    line-height: 1.7;
   }
 
   .body :global(h2) {
     border-top: 1px solid var(--line);
-    font-size: 1.45rem;
+    color: var(--ink);
+    font-size: 1.32rem;
     font-weight: 560;
     letter-spacing: 0;
     line-height: 1.12;
@@ -295,7 +302,8 @@ const relatedPosts = allPosts.filter((item) => item.slug !== post.slug).slice(0,
   }
 
   .body :global(h3) {
-    font-size: 1.08rem;
+    color: var(--ink);
+    font-size: 1.02rem;
     font-weight: 560;
     letter-spacing: 0;
     margin: 24px 0 10px;

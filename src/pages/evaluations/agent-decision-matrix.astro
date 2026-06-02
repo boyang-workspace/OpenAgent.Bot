@@ -98,21 +98,24 @@ const matrix = [
 <style>
   .matrix-page {
     display: grid;
-    gap: 26px;
+    gap: 28px;
   }
 
   .matrix-hero {
     align-items: stretch;
-    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
     display: grid;
     gap: 22px;
     grid-template-columns: minmax(0, 1fr) 330px;
-    padding: 10px 0 28px;
+    padding: 24px;
   }
 
   h1 {
-    font-size: clamp(2rem, 4vw, 3.1rem);
-    font-weight: 520;
+    color: var(--ink);
+    font-size: clamp(1.85rem, 4vw, 2.55rem);
+    font-weight: 540;
     letter-spacing: 0;
     line-height: 1.02;
     margin: 8px 0 0;
@@ -138,10 +141,9 @@ const matrix = [
 
   .matrix-hero aside strong,
   .scenario-grid span {
-    color: var(--accent-open);
+    color: var(--muted);
     font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
+    font-weight: 520;
   }
 
   .matrix-hero aside span,
@@ -160,7 +162,8 @@ const matrix = [
   }
 
   h2 {
-    font-size: 1.42rem;
+    color: var(--ink);
+    font-size: 1.24rem;
     font-weight: 560;
     letter-spacing: 0;
     line-height: 1.12;

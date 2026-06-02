@@ -1,0 +1,38 @@
+{
+  "slug": "openai-agents-sdk-vs-langgraph-vs-crewai",
+  "title": "OpenAI Agents SDK vs LangGraph vs CrewAI",
+  "summary": "How to compare a lightweight official SDK, a graph-based orchestration framework, and a role-oriented multi-agent framework.",
+  "publishedAt": "2026-06-02",
+  "tags": [
+    "openai-agents-sdk",
+    "langgraph",
+    "crewai",
+    "agent-frameworks"
+  ],
+  "author": "OpenAgent.bot Editors",
+  "seoTitle": "OpenAI Agents SDK vs LangGraph vs CrewAI",
+  "seoDescription": "Compare OpenAI Agents SDK, LangGraph, and CrewAI by workflow fit, orchestration needs, setup burden, and first-test strategy.",
+  "body": [
+    "OpenAI Agents SDK, LangGraph, and CrewAI are not interchangeable names for the same thing. They represent different defaults for building agent workflows.",
+    "Use [OpenAI Agents SDK](/agents/openai-agents-python) when you want a lightweight Python framework close to OpenAI APIs. Use [LangGraph](/agents/langgraph) when your workflow is a graph of stateful steps. Use [CrewAI](/agents/crewai) when the project is organized around role-based agents and task delegation.",
+    "## Quick recommendation",
+    "- Choose [OpenAI Agents SDK](/agents/openai-agents-python) for smaller Python workflows with tools, handoffs, tracing, and guardrails.",
+    "- Choose [LangGraph](/agents/langgraph) when you need explicit graph state, branches, persistence, and durable orchestration.",
+    "- Choose [CrewAI](/agents/crewai) when a role-and-task model maps naturally to your workflow.",
+    "## Comparison table",
+    "| Framework | Best for | Setup burden | Main risk | Official source |",
+    "|---|---|---|---|---|",
+    "| [OpenAI Agents SDK](/agents/openai-agents-python) | Lightweight multi-agent Python workflows | Low to medium | Less model-agnostic by default | [GitHub](https://github.com/openai/openai-agents-python) |",
+    "| [LangGraph](/agents/langgraph) | Stateful graph orchestration | Medium to high | Architecture can get complex | [GitHub](https://github.com/langchain-ai/langgraph) |",
+    "| [CrewAI](/agents/crewai) | Role-based teams of agents | Medium | Roles can become vague without strict tasks | [GitHub](https://github.com/crewAIInc/crewAI) |",
+    "## The first test to run",
+    "Do not start with a complete product workflow. Start with one narrow task where the agent must call a tool, handle a failure, and produce a result a human can review.",
+    "For OpenAI Agents SDK, test one handoff or tool call. For LangGraph, test one branch and one recovery path. For CrewAI, test whether role separation actually improves the result or only adds ceremony.",
+    "## OpenAgent next step",
+    "Compare [OpenAI Agents SDK](/agents/openai-agents-python), [LangGraph](/agents/langgraph), and [CrewAI](/agents/crewai) in the [Agents directory](/agents).",
+    "## Official sources",
+    "- [OpenAI Agents SDK GitHub](https://github.com/openai/openai-agents-python)",
+    "- [LangGraph GitHub](https://github.com/langchain-ai/langgraph)",
+    "- [CrewAI GitHub](https://github.com/crewAIInc/crewAI)"
+  ]
+}

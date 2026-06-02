@@ -1,0 +1,49 @@
+{
+  "slug": "mcp-inspector",
+  "title": "MCP Inspector",
+  "oneLiner": "Visual testing tool for Model Context Protocol servers.",
+  "summary": "MCP Inspector is a developer tool from the Model Context Protocol project for testing MCP servers visually while building or debugging agent integrations.",
+  "whyItMatters": "As MCP adoption grows, builders need a fast way to inspect tools, resources, prompts, and server behavior before connecting an agent to production systems.",
+  "bestFor": [
+    "Developers building MCP servers",
+    "Teams debugging agent tool integrations",
+    "Builders validating MCP capabilities before exposing them to an agent"
+  ],
+  "notFor": [
+    "Users who only need a hosted plugin marketplace",
+    "Teams that are not using Model Context Protocol"
+  ],
+  "category": "tools",
+  "tags": [
+    "tool",
+    "mcp",
+    "debugging",
+    "developer-tool",
+    "agent-builder"
+  ],
+  "repoUrl": "https://github.com/modelcontextprotocol/inspector",
+  "homepageUrl": "https://modelcontextprotocol.io",
+  "docsUrl": "https://modelcontextprotocol.io",
+  "license": "See repository",
+  "maintainer": "Model Context Protocol",
+  "sourceLinks": [
+    "https://github.com/modelcontextprotocol/inspector",
+    "https://modelcontextprotocol.io"
+  ],
+  "seoTitle": "MCP Inspector: visual testing tool for MCP servers",
+  "seoDescription": "MCP Inspector profile: what the visual MCP testing tool does, when to use it, and official links.",
+  "shareTitle": "MCP Inspector on OpenAgent.bot",
+  "shareDescription": "Visual testing tool for Model Context Protocol servers.",
+  "status": "published",
+  "generatedAt": "2026-06-02T00:00:00.000Z",
+  "reviewedAt": "2026-06-02T00:00:00.000Z",
+  "updatedAt": "2026-06-02",
+  "lastVerifiedAt": "2026-06-02",
+  "openSourceStatus": "unknown",
+  "isFeatured": true,
+  "isSponsored": false,
+  "sourceMetrics": {
+    "stars": 9954,
+    "forks": 1345
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "mcp-tools-and-sdks-for-agent-builders",
+  "title": "MCP Tools and SDKs for Agent Builders",
+  "summary": "A focused guide to MCP Inspector, FastMCP, and the official Model Context Protocol Python and TypeScript SDKs.",
+  "publishedAt": "2026-06-02",
+  "tags": [
+    "mcp",
+    "agent-connectors",
+    "plugins",
+    "developer-tools"
+  ],
+  "author": "OpenAgent.bot Editors",
+  "seoTitle": "MCP Tools and SDKs for Agent Builders",
+  "seoDescription": "Compare MCP Inspector, FastMCP, and official MCP SDKs for building agent connectors and tool servers.",
+  "body": [
+    "Model Context Protocol is becoming a common way to expose tools, resources, and prompts to agents. The practical question for builders is simple: which MCP tool should you try first?",
+    "Start with the official SDK for your language, then use MCP Inspector to debug server behavior. Python teams should compare the [MCP Python SDK](/plugins/model-context-protocol-python-sdk) and [FastMCP](/plugins/fastmcp). TypeScript teams should start with the [MCP TypeScript SDK](/plugins/model-context-protocol-typescript-sdk).",
+    "## Quick recommendation",
+    "- Use [MCP Inspector](/tools/mcp-inspector) to visually test and debug MCP servers.",
+    "- Use [FastMCP](/plugins/fastmcp) when you want a Pythonic way to build MCP servers and clients quickly.",
+    "- Use the [MCP Python SDK](/plugins/model-context-protocol-python-sdk) when you want the official Python route.",
+    "- Use the [MCP TypeScript SDK](/plugins/model-context-protocol-typescript-sdk) when the rest of your agent product is TypeScript-first.",
+    "## Comparison table",
+    "| Resource | Best for | First test | Official source |",
+    "|---|---|---|---|",
+    "| [MCP Inspector](/tools/mcp-inspector) | Visual debugging | Inspect tools, resources, and prompts from one local server | [GitHub](https://github.com/modelcontextprotocol/inspector) |",
+    "| [FastMCP](/plugins/fastmcp) | Python server/client development | Build one small tool server from existing business logic | [GitHub](https://github.com/PrefectHQ/fastmcp) |",
+    "| [MCP Python SDK](/plugins/model-context-protocol-python-sdk) | Official Python SDK | Recreate one internal tool as an MCP server | [GitHub](https://github.com/modelcontextprotocol/python-sdk) |",
+    "| [MCP TypeScript SDK](/plugins/model-context-protocol-typescript-sdk) | Official TypeScript SDK | Expose one typed tool and test it with Inspector | [GitHub](https://github.com/modelcontextprotocol/typescript-sdk) |",
+    "## How to evaluate an MCP connector",
+    "A useful connector test has four checks: can the agent discover the tool, can it call the tool with the right arguments, can you see what happened, and can you restrict the scope before giving it real credentials?",
+    "Do not start by wiring every internal system into an agent. Start with one low-risk tool, one test account, and clear logs. MCP makes connectors easier to standardize, but it does not remove the need for permissions and review.",
+    "## OpenAgent next step",
+    "Browse [Plugins](/plugins) for MCP SDKs and [Tools](/tools) for testing and evaluation layers.",
+    "## Official sources",
+    "- [MCP Inspector GitHub](https://github.com/modelcontextprotocol/inspector)",
+    "- [FastMCP GitHub](https://github.com/PrefectHQ/fastmcp)",
+    "- [MCP Python SDK GitHub](https://github.com/modelcontextprotocol/python-sdk)",
+    "- [MCP TypeScript SDK GitHub](https://github.com/modelcontextprotocol/typescript-sdk)"
+  ]
+}

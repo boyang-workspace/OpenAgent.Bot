@@ -1,0 +1,50 @@
+{
+  "slug": "model-context-protocol-typescript-sdk",
+  "title": "Model Context Protocol TypeScript SDK",
+  "oneLiner": "Official TypeScript SDK for MCP servers and clients.",
+  "summary": "The Model Context Protocol TypeScript SDK is the official SDK for building MCP servers and clients in TypeScript.",
+  "whyItMatters": "Many agent products are built in JavaScript or TypeScript. The official TypeScript SDK gives those teams a direct path to MCP-compatible tools and connectors.",
+  "bestFor": [
+    "TypeScript teams building MCP servers",
+    "Developers exposing tools and resources to agents",
+    "Agent builders comparing official MCP SDKs"
+  ],
+  "notFor": [
+    "Python-first teams that want the Python SDK",
+    "Teams not adopting MCP as a connector layer"
+  ],
+  "category": "plugins",
+  "tags": [
+    "plugin",
+    "mcp",
+    "typescript",
+    "sdk",
+    "connectors",
+    "protocol"
+  ],
+  "repoUrl": "https://github.com/modelcontextprotocol/typescript-sdk",
+  "homepageUrl": "https://modelcontextprotocol.io",
+  "docsUrl": "https://modelcontextprotocol.io",
+  "license": "See repository",
+  "maintainer": "Model Context Protocol",
+  "sourceLinks": [
+    "https://github.com/modelcontextprotocol/typescript-sdk",
+    "https://modelcontextprotocol.io"
+  ],
+  "seoTitle": "Model Context Protocol TypeScript SDK: official MCP SDK",
+  "seoDescription": "MCP TypeScript SDK profile: official TypeScript SDK for MCP servers and clients, links, and OpenAgent structured data.",
+  "shareTitle": "MCP TypeScript SDK on OpenAgent.bot",
+  "shareDescription": "Official TypeScript SDK for Model Context Protocol servers and clients.",
+  "status": "published",
+  "generatedAt": "2026-06-02T00:00:00.000Z",
+  "reviewedAt": "2026-06-02T00:00:00.000Z",
+  "updatedAt": "2026-06-02",
+  "lastVerifiedAt": "2026-06-02",
+  "openSourceStatus": "unknown",
+  "isFeatured": true,
+  "isSponsored": false,
+  "sourceMetrics": {
+    "stars": 12581,
+    "forks": 1890
+  }
+}

@@ -5,6 +5,9 @@ on:
     - cron: "0 6 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   discover:
     name: Discover and draft new projects
@@ -23,7 +26,6 @@ jobs:
         run: |
           git config user.name "openagent-bot"
           git config user.email "bot@openagent.bot"
-          git remote set-url origin https://${{ secrets.DISCOVERY_PAT }}@github.com/${{ github.repository }}.git
           git add content/discovery/ content/topics/ content/projects/drafts/
           if git diff --cached --quiet; then
             echo "No new discovery data"

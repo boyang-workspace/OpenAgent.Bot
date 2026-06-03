@@ -18,7 +18,7 @@ jobs:
       - run: npm ci
       - run: npm run discovery:daily
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DISCOVERY_PAT }}
       - name: Commit discovery outputs
         run: |
           git config user.name "openagent-bot"

@@ -32,7 +32,18 @@ function isKnownLicense(license: string | undefined): boolean {
 }
 
 function meetsAutoPublishGates(candidate: ScoredCandidate, license: string | undefined): boolean {
+  const text = `${candidate.title} ${candidate.description ?? ""}`.toLowerCase();
+
+  const exclusionPatterns = [
+    /awesome/i, /curated/i, /collection/i, /list of/i,
+    /system.?prompts?/i, /prompt.?collection/i,
+    /awesome.*list/i, /awesome.*ai/i,
+    /FULL [A-Z]/  // title starts with "FULL" — list of other tools
+  ];
+  const isCuratedList = exclusionPatterns.some((p) => p.test(text));
+
   return (
+    !isCuratedList &&
     candidate.score >= discoveryThresholds.autoPublish &&
     !!candidate.repoUrl &&
     isKnownLicense(license) &&

@@ -204,7 +204,7 @@ const firstTests: Record<ShowcaseArchetype, string> = {
   "connector-tool": "Connect one low-risk service or local server, then inspect auth scope, logs, schema clarity, and failure behavior."
 };
 
-function inferHeroVariant(resource: ResourceV1, archetype: ShowcaseArchetype): HeroVariant {
+function inferHeroVariant(_resource: ResourceV1, archetype: ShowcaseArchetype): HeroVariant {
   if (archetype === "model-lab" || archetype === "vision-model" || archetype === "memory-graph" || archetype === "memory-personal") return "stats";
   if (archetype === "coding-agent" || archetype === "evaluation-tool" || archetype === "connector-tool") return "code";
   return "brand";

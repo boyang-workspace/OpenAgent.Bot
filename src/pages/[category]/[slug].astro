@@ -1,6 +1,9 @@
 ---
 import EditorialShell from "@/components/EditorialShell.astro";
 import ShowcasePage from "@/components/ShowcasePage.astro";
+import ShowcaseVariantPlatform from "@/components/ShowcaseVariantPlatform.astro";
+import ShowcaseVariantDevtool from "@/components/ShowcaseVariantDevtool.astro";
+import ShowcaseVariantTerminal from "@/components/ShowcaseVariantTerminal.astro";
 import { buildShowcaseProfile } from "@/lib/content/showcase";
 import { getPublishedResources, getRelatedResources, resourcePath } from "@/lib/content/resources";
 import { resourceCategoryLabel, resourceMeta } from "@/lib/content/resource-display";
@@ -112,10 +115,27 @@ const faqJsonLd =
   noindex={resource.status !== "published"}
 >
   <Fragment slot="head">
+    <link rel="preload" as="image" href={profile.image} />
     <script is:inline type="application/ld+json" set:html={JSON.stringify([softwareJsonLd, webpageJsonLd, breadcrumbJsonLd, faqJsonLd].filter(Boolean))} />
   </Fragment>
 
-  <EditorialShell active={resource.classification.primary_category}>
-    <ShowcasePage resource={resource} profile={profile} />
-  </EditorialShell>
+  {
+    (() => {
+      const a = profile.archetype;
+      if (a === "platform-os" || a === "agent-framework" || a === "design-agent" || a === "skill-system") {
+        return <ShowcaseVariantPlatform resource={resource} profile={profile} />;
+      }
+      if (a === "coding-agent") {
+        return <ShowcaseVariantTerminal resource={resource} profile={profile} />;
+      }
+      if (a === "browser-automation" || a === "evaluation-tool" || a === "connector-tool" || a === "skill-library") {
+        return <ShowcaseVariantDevtool resource={resource} profile={profile} />;
+      }
+      return (
+        <EditorialShell active={resource.classification.primary_category}>
+          <ShowcasePage resource={resource} profile={profile} />
+        </EditorialShell>
+      );
+    })()
+  }
 </BaseLayout>

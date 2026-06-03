@@ -50,7 +50,7 @@ const statItems = [
   <section class="showcase-hero" aria-labelledby="resource-title">
     <div class="hero-copy">
       <div class="product-identity">
-        <img src={profile.image} alt="" loading="eager" decoding="async" onerror={`this.onerror=null;this.src='${profile.fallbackImage}';`} />
+        <img src={profile.image} alt="" loading="eager" decoding="async" fetchpriority="high" onerror={`this.onerror=null;this.src='${profile.fallbackImage}';`} />
         <div>
           <span>{profile.categoryLabel}</span>
           <strong>{profile.archetypeLabel}</strong>

@@ -102,6 +102,7 @@ type ShowcaseOptions = {
 
 const slugArchetypes: Record<string, ShowcaseArchetype> = {
   openclaw: "platform-os",
+  odysseus: "platform-os",
   "hermes-agent": "platform-os",
   "browser-use": "browser-automation",
   aider: "coding-agent",

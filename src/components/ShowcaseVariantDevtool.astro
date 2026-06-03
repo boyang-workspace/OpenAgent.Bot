@@ -8,9 +8,10 @@ type Props = {
 };
 
 const { resource, profile } = Astro.props;
-const t = profile.theme;
 const strengths = resource.editorial?.core_strengths ?? [];
 const useCases = resource.editorial?.use_case_notes ?? [];
+const compareNotes = resource.editorial?.compare_notes ?? [];
+const faqs = profile.faq;
 const cmds = profile.commandLines;
 const integrations = profile.integrations;
 const signals = profile.signals;
@@ -19,14 +20,6 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
 ---
 
 <section class="d-hero">
-  <nav class="d-nav">
-    <a href="/" class="d-logo">
-      <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><rect width="26" height="26" rx="5" fill={t.accent}/><text x="13" y="18" text-anchor="middle" fill="#fff" font-size="13" font-weight="700" font-family="system-ui">OA</text></svg>
-      <span>OpenAgent.bot</span>
-    </a>
-    <a href={`/${resource.classification.primary_category}`} class="d-nav-link">← {profile.categoryLabel}</a>
-  </nav>
-
   <div class="d-hero-split">
     <div class="d-hero-left">
       <div class="d-badge">{resource.facts.license} · {profile.categoryLabel}</div>
@@ -41,6 +34,7 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
         {resource.facts.github_forks && <span><strong>{(resource.facts.github_forks / 1000).toFixed(1)}K</strong> forks</span>}
         {resource.facts.primary_language && <span><strong>{resource.facts.primary_language}</strong> language</span>}
         {resource.facts.license && <span><strong>{resource.facts.license}</strong> license</span>}
+        {resource.facts.last_verified_at && <span><strong>{resource.facts.last_verified_at.slice(0, 10)}</strong> verified</span>}
       </div>
     </div>
     <div class="d-hero-right">
@@ -161,15 +155,44 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
   </section>
 )}
 
-<section class="d-section d-section-dark" style="padding:20px 0">
-  <div class="d-section-inner" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-    <span style="color:rgba(255,255,255,0.55);font-size:0.8rem">OpenAgent.bot — independent product showcase</span>
-    <div style="display:flex;gap:12px">
-      <a href={resource.machine_readable.json_url} style="color:rgba(255,255,255,0.6);font-size:0.8rem">JSON</a>
-      <a href={`/${resource.classification.primary_category}`} style="color:rgba(255,255,255,0.6);font-size:0.8rem">Directory</a>
+{compareNotes.length > 0 && (
+  <section class="d-section d-section-gray">
+    <div class="d-section-inner">
+      <div class="d-section-head">
+        <span class="d-eyebrow">Comparison</span>
+        <h2>How it stacks up</h2>
+      </div>
+      <div class="d-compare">
+        {compareNotes.map((c) => (
+          <div class="d-card">
+            <h3>{c.against ? c.title : c.title}</h3>
+            {c.against && <span class="d-compare-vs">vs <strong>{c.against}</strong></span>}
+            <p>{c.summary}</p>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+)}
+
+{faqs.length > 0 && (
+  <section class="d-section d-section-white">
+    <div class="d-section-inner">
+      <div class="d-section-head">
+        <span class="d-eyebrow">FAQ</span>
+        <h2>Questions</h2>
+      </div>
+      <div class="d-faqs">
+        {faqs.slice(0, 4).map((faq) => (
+          <details class="d-faq">
+            <summary>{faq.title}</summary>
+            <p>{faq.body}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
 
 <style>
   .d-hero {
@@ -197,19 +220,6 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
     opacity: 0.6;
     position: absolute;
   }
-
-  .d-nav {
-    align-items: center;
-    display: flex;
-    gap: 16px;
-    justify-content: space-between;
-    padding: 14px 32px;
-  }
-
-  .d-logo { align-items: center; display: flex; gap: 8px; text-decoration: none; }
-  .d-logo span { color: var(--ink); font-size: 0.85rem; font-weight: 560; }
-  .d-nav-link { color: var(--muted); font-size: 0.82rem; text-decoration: none; }
-  .d-nav-link:hover { color: var(--ink); }
 
   .d-hero-split {
     display: grid;
@@ -395,9 +405,20 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
   }
   .d-tag-int { background: {t.accentSoft}; border-color: {t.accent}33; color: {t.accent}; }
 
+  .d-compare { display: grid; gap: 16px; }
+  .d-compare .d-card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; display: grid; gap: 8px; padding: 20px; }
+  .d-compare .d-card h3 { font-size: 1rem; font-weight: 580; margin: 0; }
+  .d-compare-vs { color: var(--muted); font-size: 0.82rem; }
+  .d-compare-vs strong { color: var(--ink); font-weight: 560; }
+  .d-compare .d-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.5; margin: 0; }
+
+  .d-faqs { display: grid; gap: 8px; }
+  .d-faq { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; }
+  .d-faq summary { cursor: pointer; font-size: 0.9rem; font-weight: 560; }
+  .d-faq p { color: var(--muted); font-size: 0.84rem; line-height: 1.5; margin: 10px 0 0; }
+
   @media (max-width: 800px) {
     .d-hero-split { grid-template-columns: 1fr; padding: 30px 20px 40px; }
-    .d-nav { padding: 12px 16px; }
     .d-grid-3 { grid-template-columns: 1fr; }
     .d-section-inner { padding: 0 20px; }
     .d-section { padding: 40px 0; }

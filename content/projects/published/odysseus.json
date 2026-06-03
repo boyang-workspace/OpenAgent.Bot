@@ -1,0 +1,212 @@
+{
+  "slug": "odysseus",
+  "title": "Odysseus",
+  "oneLiner": "Self-hosted AI workspace for chat, autonomous agents, deep research, email, documents, and more — local-first, privacy-first, no telemetry.",
+  "summary": "Odysseus is a self-hosted AI workspace that unifies chat, autonomous agents, deep research, email triage, document editing, calendar, notes, memory, and model serving into a single local-first interface. It runs on your own hardware against your own endpoints — no telemetry, no cloud dependency, and full data privacy.",
+  "whyItMatters": "Odysseus matters because it offers a rare combination: a full-featured AI workspace that runs entirely on your own hardware. Most AI tools push you toward a hosted subscription — Odysseus gives you chat, agents, research, email, documents, and model management in one self-contained package, all while keeping your data local.",
+  "bestFor": [
+    "Developers who want a self-hosted all-in-one AI workspace with full data privacy",
+    "Users who run local models and need a polished UI for chat, agents, and tools",
+    "Teams evaluating self-hosted alternatives to cloud AI workspaces like ChatGPT or Claude"
+  ],
+  "notFor": [
+    "Users who prefer managed cloud services with no self-hosting overhead",
+    "Non-technical users unwilling to manage Docker or Python runtimes"
+  ],
+  "category": "agents",
+  "tags": [
+    "agent",
+    "open-source",
+    "self-hosted",
+    "workspace",
+    "local-first",
+    "privacy",
+    "mcp",
+    "tools",
+    "chat"
+  ],
+  "repoUrl": "https://github.com/pewdiepie-archdaemon/odysseus",
+  "homepageUrl": "https://pewdiepie-archdaemon.github.io/odysseus/",
+  "license": "MIT",
+  "maintainer": "pewdiepie-archdaemon",
+  "sourceLinks": [
+    "https://github.com/pewdiepie-archdaemon/odysseus",
+    "https://pewdiepie-archdaemon.github.io/odysseus/"
+  ],
+  "seoTitle": "Odysseus: AI Agent — Self-hosted AI workspace for chat, autonomous agents, deep research, email, d...",
+  "seoDescription": "Odysseus is an open-source AI agent. Self-hosted AI workspace for chat, autonomous agents, deep research, email, documents, and more — local-first, privacy-first, no telemetry.. 了解 Odysseus 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。",
+  "shareTitle": "Odysseus on OpenAgent.bot",
+  "shareDescription": "Self-hosted AI workspace for chat, autonomous agents, deep research, email, documents, and more.",
+  "status": "published",
+  "generatedAt": "2026-06-03T00:00:00.000Z",
+  "reviewedAt": "2026-06-03T00:00:00.000Z",
+  "updatedAt": "2026-06-03",
+  "lastVerifiedAt": "2026-06-03",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "featuredReason": "One of the most comprehensive self-hosted AI workspaces, combining chat, agents, deep research, email, documents, and model management in a single local-first package.",
+  "sourceMetrics": {
+    "stars": 36300,
+    "forks": 4300
+  },
+  "coreStrengths": [
+    {
+      "title": "All-in-one self-hosted workspace",
+      "description": "Odysseus combines chat, autonomous agents, deep research, email triage, document editing, calendar, notes, memory, model serving, and more in a single application.",
+      "whyItMatters": "Most AI tools require stitching together multiple services. Odysseus gives you everything in one local-first package without sending data to the cloud."
+    },
+    {
+      "title": "Local-first with privacy by default",
+      "description": "Runs entirely on your hardware against your own model endpoints. No telemetry, no cloud dependency, and no third-party access to your conversations or data.",
+      "whyItMatters": "Privacy is the default architecture, not an afterthought or a premium feature."
+    },
+    {
+      "title": "Agent loop built on opencode with MCP",
+      "description": "Odysseus's agent system is built on opencode, with full MCP tool support, web browsing, file access, shell commands, and persistent memory.",
+      "whyItMatters": "The agent isn't just a chat wrapper — it can take real actions, use tools, and evolve its own skills over time."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "All-in-one local AI workspace",
+      "description": "Run chat, agents, email, documents, and calendar from a single self-hosted dashboard connected to your own models."
+    },
+    {
+      "title": "Autonomous agent workflows",
+      "description": "Give the agent tools (MCP, shell, files, web) and let it plan and execute multi-step tasks autonomously."
+    },
+    {
+      "title": "Local model management and serving",
+      "description": "Use the Cookbook to scan your hardware, discover suitable models, download them, and serve them — all from the UI."
+    },
+    {
+      "title": "Privacy-preserving email assistant",
+      "description": "Connect your IMAP/SMTP accounts for AI-powered email triage, summaries, and draft replies — without sending email data to third-party services."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose Odysseus for a complete self-hosted workspace",
+      "against": "cloud AI workspaces",
+      "summary": "ChatGPT and Claude offer polished hosted experiences. Odysseus gives you the same breadth of features — chat, agents, research, tools — but runs entirely on your own hardware with no telemetry."
+    },
+    {
+      "title": "Choose Odysseus for breadth over specialization",
+      "against": "single-purpose tools",
+      "summary": "Dedicated coding agents like Aider or OpenHands go deeper on code tasks. Odysseus is broader — it handles email, calendar, documents, and model management alongside agent capabilities."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Open the GitHub repository",
+      "url": "https://github.com/pewdiepie-archdaemon/odysseus",
+      "type": "github"
+    },
+    {
+      "label": "Visit the official site",
+      "url": "https://pewdiepie-archdaemon.github.io/odysseus/",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Install with Docker (recommended)",
+      "command": "git clone https://github.com/pewdiepie-archdaemon/odysseus.git && cd odysseus && docker compose up -d --build",
+      "description": "Clone the repository and start Odysseus with Docker. Open http://localhost:7000 when containers are healthy."
+    },
+    {
+      "label": "Install natively on Linux/macOS",
+      "command": "git clone https://github.com/pewdiepie-archdaemon/odysseus.git && cd odysseus && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python setup.py && python -m uvicorn app:app --host 127.0.0.1 --port 7000",
+      "description": "Native install requires Python 3.11+. The Cookbook feature also needs tmux for background model operations."
+    },
+    {
+      "label": "Apple Silicon (GPU-accelerated)",
+      "command": "git clone https://github.com/pewdiepie-archdaemon/odysseus.git && cd odysseus && ./start-macos.sh",
+      "description": "Docker on macOS cannot use Metal GPU. Use the native script for GPU-accelerated model serving on M-series Macs."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Odysseus is a self-hosted AI workspace that brings together chat, autonomous agents, deep research, email management, document editing, calendar, notes, memory, and model serving into one local-first application. It runs entirely on your hardware against your own endpoints.",
+    "whatItIs": "Odysseus is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
+    "whyItMatters": "The self-hosted AI space has many single-purpose tools — a chat UI here, an agent framework there, a model server somewhere else. Odysseus combines them into a cohesive workspace, making it practical to run your entire AI stack locally without stitching together disparate services.",
+    "howItWorks": "Start with one safe workflow for Odysseus. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
+    "useCases": [
+      {
+        "title": "Local AI workspace for daily workflows",
+        "description": "Use Odysseus as your daily driver for chat, research, email, documents, and calendar — all connected to your own local or API-hosted models."
+      },
+      {
+        "title": "Autonomous task execution with MCP tools",
+        "description": "Give the agent access to MCP servers, shell, files, and web search. Let it plan and execute multi-step tasks while you supervise."
+      },
+      {
+        "title": "Private email assistant",
+        "description": "Connect IMAP/SMTP accounts for AI-powered summarization, auto-tagging, spam triage, and draft replies — all processed locally."
+      },
+      {
+        "title": "Model discovery and serving",
+        "description": "Use the Cookbook to scan hardware, browse 270+ catalogued models by VRAM fit score, download, and serve them — all from the UI."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Use Odysseus for breadth; dedicated tools for depth",
+        "against": "specialized agents",
+        "summary": "Aider, OpenHands, and Claude Code are more focused on coding. Odysseus offers a broader workspace — email, documents, calendar, model serving — alongside agent capabilities."
+      },
+      {
+        "title": "Use cloud workspaces for zero-setup convenience",
+        "against": "ChatGPT / Claude",
+        "summary": "ChatGPT and Claude require no setup and offer polished hosted experiences. Odysseus requires Docker or Python setup but keeps all data local with no telemetry."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Read the README",
+        "url": "https://github.com/pewdiepie-archdaemon/odysseus",
+        "type": "github"
+      },
+      {
+        "label": "Visit the official site",
+        "url": "https://pewdiepie-archdaemon.github.io/odysseus/",
+        "type": "homepage"
+      }
+    ],
+    "faq": [
+      {
+        "question": "What should I check before using Odysseus?",
+        "answer": "Start with one safe workflow for Odysseus. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
+        "question": "Is Odysseus open source?",
+        "answer": "Odysseus is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate Odysseus?",
+        "answer": "Odysseus is most worth evaluating for developers who want a self-hosted all-in-one AI workspace with full data privacy."
+      },
+      {
+        "question": "Does Odysseus require a GPU?",
+        "answer": "No. Odysseus connects to any LLM endpoint — local or remote. The Cookbook model serving is optional and GPU-dependent. You can use it with API providers like OpenAI, Anthropic, or OpenRouter without any local GPU."
+      },
+      {
+        "question": "How does Odysseus compare to running separate tools?",
+        "answer": "Odysseus combines chat, agents, deep research, email, documents, calendar, and model management into one application. The tradeoff is breadth over specialization — dedicated tools may go deeper on specific tasks."
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "agent",
+    "visualMotif": "clean workspace dashboard with connected tool icons and local-first indicator",
+    "backgroundStyle": "minimal App Store editorial card using restrained blue accent",
+    "titleOverlay": "Odysseus",
+    "subtitle": "Self-hosted AI workspace",
+    "avoid": [
+      "busy benchmark poster",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  },
+  "coverImage": "https://github.com/pewdiepie-archdaemon.png"
+}

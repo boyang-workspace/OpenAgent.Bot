@@ -2,15 +2,21 @@
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
 
+type Breadcrumb = {
+  label: string;
+  href?: string;
+};
+
 type Props = {
   eyebrow?: string;
   title?: string;
   description?: string;
   active?: string;
   variant?: boolean;
+  breadcrumbs?: Breadcrumb[];
 };
 
-const { eyebrow, title, description, active, variant } = Astro.props;
+const { eyebrow, title, description, active, variant, breadcrumbs } = Astro.props;
 const isHome = Astro.url.pathname === "/";
 const homeHref = (hash: string) => (isHome ? hash : `/${hash}`);
 const primaryLinks = [
@@ -56,6 +62,13 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
       {sectionLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href} data-analytics="nav" data-analytics-payload={JSON.stringify({label: item.label, href: item.href, mobile: true})}>{item.label}</a>)}
     </div>
     <div class:list={["editorial-content", { "is-variant": variant }]}>
+      {variant && breadcrumbs && breadcrumbs.length > 0 && (
+        <nav aria-label="Breadcrumb" class="variant-breadcrumb">
+          {breadcrumbs.map((b, i) => (
+            <>{i > 0 && <span class="bc-sep">/</span>}{b.href ? <a href={b.href}>{b.label}</a> : <span aria-current="page">{b.label}</span>}</>
+          ))}
+        </nav>
+      )}
       {
         title && (
           <header class="editorial-head">
@@ -300,6 +313,33 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
   .editorial-content.is-variant {
     max-width: none;
     padding: 0;
+  }
+
+  .variant-breadcrumb {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    gap: 6px;
+    padding: 12px 32px;
+  }
+
+  .variant-breadcrumb a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .variant-breadcrumb a:hover { color: var(--ink); }
+
+  .variant-breadcrumb span[aria-current="page"] {
+    color: var(--subtle);
+  }
+
+  .bc-sep { color: var(--line-strong); }
+
+  @media (max-width: 800px) {
+    .variant-breadcrumb { padding: 10px 20px; }
   }
 
   @media (max-width: 760px) {

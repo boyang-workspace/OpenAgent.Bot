@@ -24,16 +24,6 @@ const stats = [
 ---
 
 <section class="v-hero">
-  <nav class="v-nav">
-    <a href="/" class="v-logo">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="6" fill={t.accent}/><text x="14" y="19" text-anchor="middle" fill="#fff" font-size="14" font-weight="700" font-family="system-ui">OA</text></svg>
-      <span>OpenAgent.bot / <em>{resource.identity.name}</em></span>
-    </a>
-    <div class="v-nav-links">
-      <a href={`/${resource.classification.primary_category}`}>Directory</a>
-    </div>
-  </nav>
-
   <div class="v-hero-inner">
     <div class="v-hero-badge">{profile.categoryLabel}</div>
     <h1 class="v-hero-title">{resource.identity.name}</h1>
@@ -51,6 +41,12 @@ const stats = [
         <span>{s.label}</span>
       </div>
     ))}
+    {resource.facts.last_verified_at && (
+      <div class="v-stat">
+        <strong>{resource.facts.last_verified_at.slice(0, 10)}</strong>
+        <span>Verified</span>
+      </div>
+    )}
   </div>
 </section>
 
@@ -174,17 +170,6 @@ const stats = [
   </section>
 )}
 
-<section class="v-section v-section-dark" style="padding:20px 0">
-  <div class="v-section-inner" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-    <span style="color:rgba(255,255,255,0.6);font-size:0.82rem">OpenAgent.bot — independent product showcase</span>
-    <div style="display:flex;gap:12px">
-      <a href={resource.machine_readable.json_url} style="color:rgba(255,255,255,0.7);font-size:0.82rem">JSON</a>
-      <a href={resource.machine_readable.markdown_url} style="color:rgba(255,255,255,0.7);font-size:0.82rem">Markdown</a>
-      <a href={`/${resource.classification.primary_category}`} style="color:rgba(255,255,255,0.7);font-size:0.82rem">Directory</a>
-    </div>
-  </div>
-</section>
-
 <style>
   .v-hero {
     background: linear-gradient(135deg, {t.heroTint} 0%, #ffffff 70%);
@@ -213,20 +198,6 @@ const stats = [
     opacity: 0.5;
     position: absolute;
   }
-
-  .v-nav {
-    align-items: center;
-    display: flex;
-    gap: 12px;
-    justify-content: space-between;
-    padding: 16px 32px;
-  }
-
-  .v-nav a { color: var(--muted); font-size: 0.85rem; }
-  .v-logo { align-items: center; display: flex; gap: 10px; text-decoration: none; }
-  .v-logo span { color: var(--ink); font-size: 0.88rem; font-weight: 560; }
-  .v-logo em { color: var(--muted); font-style: normal; font-weight: 400; }
-  .v-nav-links { display: flex; gap: 16px; }
 
   .v-hero-inner {
     display: grid;
@@ -490,7 +461,6 @@ const stats = [
   }
 
   @media (max-width: 720px) {
-    .v-nav { padding: 12px 16px; flex-direction: column; gap: 8px; }
     .v-hero-inner { padding: 40px 20px 30px; }
     .v-section-inner { padding: 0 20px; }
     .v-section { padding: 40px 0; }

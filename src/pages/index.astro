@@ -30,6 +30,25 @@ const orderedFloors = [...categories]
   }))
   .filter((floor) => floor.items.length > 0);
 
+const homeWebSite = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "OpenAgent.bot",
+  url: "https://www.openagent.bot",
+  description: "Open-source AI resources, curated for humans and structured for agents.",
+  potentialAction: {
+    "@type": "SearchAction",
+    target: "https://www.openagent.bot/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+};
+const homeOrg = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "OpenAgent.bot",
+  url: "https://www.openagent.bot",
+  logo: "https://www.openagent.bot/favicon.svg"
+};
 const evaluationCards = [
   {
     title: "Choose an open-source AI agent by workflow",
@@ -53,6 +72,10 @@ const evaluationCards = [
 ---
 
 <BaseLayout>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(homeWebSite)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(homeOrg)} />
+  </Fragment>
   <EditorialShell active="agents">
     <section class="home-intro" aria-labelledby="home-title">
       <p class="eyebrow">OpenAgent.bot</p>

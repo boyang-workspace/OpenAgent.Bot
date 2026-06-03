@@ -1,13 +1,13 @@
 {
   "slug": "hermes-agent",
   "title": "Hermes Agent",
-  "oneLiner": "MIT-licensed self-improving agent from Nous Research designed to grow with the user.",
-  "summary": "Hermes Agent is an open-source AI agent from Nous Research, positioned as an agent that learns from interaction and supports modern coding-agent and assistant workflows.",
-  "whyItMatters": "Hermes Agent matters because it packages the self-improving agent idea into an inspectable repository. For builders, it is a practical project to compare against OpenClaw, Goose, and coding-agent runtimes.",
+  "oneLiner": "MIT-licensed self-improving agent from Nous Research with persistent memory, skills, and always-on workflow channels.",
+  "summary": "Hermes Agent is an open-source AI agent from Nous Research built around persistent memory, a learning loop, reusable skills, and gateways for terminal, messaging, cron, and self-hosted workflows.",
+  "whyItMatters": "Hermes Agent matters because it turns the self-improving agent idea into an inspectable system: memory, custom skills, platform gateways, scheduled work, and source code that builders can compare with OpenClaw, Goose, OpenHands, and coding-agent runtimes.",
   "bestFor": [
-    "Developers evaluating self-improving or personalized agent workflows",
-    "Teams comparing open agent runtimes around coding and task execution",
-    "Nous Research users who want an agent path around Hermes models and tools"
+    "Developers evaluating self-improving agents with durable memory and custom skills",
+    "Teams comparing open agent runtimes around coding, research, cron, and task execution",
+    "Builders who want a self-hostable agent that can run through terminal, Telegram, Discord, Slack, or other gateways"
   ],
   "notFor": [
     "Users who want a fully managed consumer product with no setup work",
@@ -20,57 +20,64 @@
     "workflow-orchestration",
     "tool-calling",
     "coding-agent",
-    "self-hosted"
+    "self-hosted",
+    "memory",
+    "agent-skill",
+    "cron",
+    "messaging"
   ],
   "repoUrl": "https://github.com/NousResearch/hermes-agent",
   "homepageUrl": "https://hermes-agent.ai/",
+  "docsUrl": "https://hermes-agent.ai/how-to/install-hermes-agent",
   "license": "MIT",
   "maintainer": "Nous Research",
   "sourceLinks": [
     "https://github.com/NousResearch/hermes-agent",
-    "https://hermes-agent.ai/"
+    "https://hermes-agent.ai/",
+    "https://hermes-agent.ai/how-to/install-hermes-agent",
+    "https://hermes-agent.ai/how-to/create-hermes-skills"
   ],
-  "seoTitle": "Hermes Agent: Agents resource for open AI builders",
-  "seoDescription": "Hermes Agent profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "seoTitle": "Hermes Agent Skills, Memory, and Self-Hosted Workflow Guide",
+  "seoDescription": "Evaluate Hermes Agent by memory, custom skills, terminal and messaging gateways, self-hosting path, and the OpenAgent skill resources that pair best with it.",
   "shareTitle": "Hermes Agent on OpenAgent.bot",
   "shareDescription": "MIT-licensed self-improving agent from Nous Research designed to grow with the user.",
   "status": "published",
   "generatedAt": "2026-04-19T00:00:00.000Z",
   "reviewedAt": "2026-04-19T00:00:00.000Z",
-  "updatedAt": "2026-04-19",
-  "lastVerifiedAt": "2026-04-19",
+  "updatedAt": "2026-06-03",
+  "lastVerifiedAt": "2026-06-03",
   "openSourceStatus": "open-source",
   "isFeatured": false,
   "isSponsored": false,
   "coreStrengths": [
     {
-      "title": "Self-improvement framing",
-      "description": "Hermes Agent is described as an agent that grows with the user over time.",
-      "whyItMatters": "Personalization and learning are central to making agents useful beyond one-off tasks."
+      "title": "Learning loop and custom skills",
+      "description": "Hermes positions skills as reusable instruction sets and describes a learning loop that can turn repeated tasks into more consistent agent behavior.",
+      "whyItMatters": "This makes Hermes especially relevant for teams that want an agent to improve around recurring workflows instead of starting from scratch every session."
     },
     {
-      "title": "Open repository and MIT license",
-      "description": "The official repository lists MIT licensing and public installation paths.",
+      "title": "Open repository, MIT license, and self-hosting path",
+      "description": "The official sources list MIT licensing, a local installer, provider setup, health checks, and optional self-hosted deployment paths.",
       "whyItMatters": "This makes it easier to inspect, fork, and compare with other agent systems."
     },
     {
-      "title": "Agent ecosystem compatibility",
-      "description": "The project references modern agent toolchains and coding assistant contexts.",
-      "whyItMatters": "Compatibility matters when users already work across Claude Code, Codex, OpenClaw, and similar tools."
+      "title": "Multi-platform agent gateway",
+      "description": "Hermes is designed to run through terminal and messaging channels such as Telegram, Discord, and Slack, with memory and skills shared across entry points.",
+      "whyItMatters": "A useful personal or team agent often needs to live where work already happens, not only inside a single IDE or chat box."
     }
   ],
   "useCaseNotes": [
     {
       "title": "Personal agent experiments",
-      "description": "Test whether the agent can adapt to recurring tasks and user preferences."
+      "description": "Test whether Hermes can preserve preferences, project context, and repeated decisions across sessions."
     },
     {
-      "title": "Coding assistant workflows",
-      "description": "Evaluate it for repository navigation, planning, and coding-agent loops."
+      "title": "Skill-driven coding assistant workflows",
+      "description": "Pair Hermes with coding-agent skill packs for repo onboarding, PR review, debugging routines, QA checks, and repeatable delivery steps."
     },
     {
-      "title": "Open agent comparison",
-      "description": "Use it as part of a broader comparison across OpenClaw, Goose, and LangGraph-style systems."
+      "title": "Always-on research or operations agent",
+      "description": "Use cron, messaging gateways, and memory-oriented skills to test daily briefings, literature monitoring, customer-support triage, or team operations."
     }
   ],
   "compareNotes": [
@@ -90,32 +97,42 @@
       "label": "Official source",
       "url": "https://hermes-agent.ai/",
       "type": "homepage"
+    },
+    {
+      "label": "Install Hermes Agent",
+      "url": "https://hermes-agent.ai/how-to/install-hermes-agent",
+      "type": "docs"
+    },
+    {
+      "label": "Create custom Hermes skills",
+      "url": "https://hermes-agent.ai/how-to/create-hermes-skills",
+      "type": "docs"
     }
   ],
   "commandLine": [
     {
-      "label": "Clone Hermes Agent",
-      "command": "git clone https://github.com/NousResearch/hermes-agent.git",
-      "description": "Start from the official repository and inspect current installation instructions before running setup scripts."
+      "label": "Install Hermes Agent",
+      "command": "curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash",
+      "description": "Use the official installer, then run the documented health check and a smoke test before adding gateways, cron, or custom skills."
     }
   ],
   "seoArticle": {
-    "intro": "Hermes Agent is an open-source AI agent from Nous Research, positioned as an agent that learns from interaction and supports modern coding-agent and assistant workflows.",
-    "whatItIs": "Hermes Agent is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
-    "whyItMatters": "Hermes Agent matters because it packages the self-improving agent idea into an inspectable repository. For builders, it is a practical project to compare against OpenClaw, Goose, and coding-agent runtimes.",
-    "howItWorks": "Start with one safe workflow for Hermes Agent. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
+    "intro": "Hermes Agent is a self-improving open-source agent from Nous Research. The strongest way to evaluate it is not only as a chat assistant, but as a memory-plus-skills runtime that can learn recurring workflows and run through terminal, messaging, cron, and self-hosted channels.",
+    "whatItIs": "Hermes Agent combines an agent runtime, persistent memory, reusable skills, model-provider configuration, and platform gateways. Its official guides emphasize a local install path, health checks, custom skill folders, and staged expansion into integrations such as Telegram, Discord, Docker, Notion, cron, and VPS hosting.",
+    "whyItMatters": "Hermes is a good page to connect with OpenAgent skill resources because skills are central to how it becomes useful: broad coding-agent skills, workflow QA packs, project memory, research skills, and model ecosystem skills all map to real Hermes adoption paths.",
+    "howItWorks": "Start with the official installer, configure one model provider, run hermes doctor, and complete a one-command chat smoke test. After the base agent is healthy, add one skill layer at a time: coding workflow skills, memory/context skills, research skills, or gateway-specific automation.",
     "useCases": [
       {
         "title": "Personal agent experiments",
-        "description": "Test whether the agent can adapt to recurring tasks and user preferences."
+        "description": "Use Hermes to test whether preferences, project state, and repeated workflows survive beyond one chat session."
       },
       {
-        "title": "Coding assistant workflows",
-        "description": "Evaluate it for repository navigation, planning, and coding-agent loops."
+        "title": "Skill-backed coding assistant workflows",
+        "description": "Pair Hermes with AI Agents Skills, GStack, or React Native Agent Skills depending on whether the repository work is general, delivery-focused, or mobile-specific."
       },
       {
-        "title": "Open agent comparison",
-        "description": "Use it as part of a broader comparison across OpenClaw, Goose, and LangGraph-style systems."
+        "title": "Research and operations automation",
+        "description": "Use Scientific Agent Skills, GBrain, and Hermes cron or messaging gateways for daily research monitoring, project memory, and operational briefings."
       }
     ],
     "alternatives": [
@@ -135,20 +152,34 @@
         "label": "Official source",
         "url": "https://hermes-agent.ai/",
         "type": "homepage"
+      },
+      {
+        "label": "Install guide",
+        "url": "https://hermes-agent.ai/how-to/install-hermes-agent",
+        "type": "docs"
+      },
+      {
+        "label": "Custom skills guide",
+        "url": "https://hermes-agent.ai/how-to/create-hermes-skills",
+        "type": "docs"
       }
     ],
     "faq": [
       {
+        "question": "Which OpenAgent skills pair best with Hermes Agent?",
+        "answer": "Start with AI Agents Skills for broad coding-agent procedures, GStack for planning, browsing, QA, and shipping workflows, GBrain for durable project memory, and Scientific Agent Skills when Hermes is used for research or analysis."
+      },
+      {
         "question": "What should I check before using Hermes Agent?",
-        "answer": "Start with one safe workflow for Hermes Agent. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+        "answer": "Install from the official source, configure one model provider, run hermes doctor, complete a smoke test, and only then add gateways, cron jobs, Docker, Notion, or custom skills one at a time."
       },
       {
         "question": "Is Hermes Agent open source?",
-        "answer": "Hermes Agent is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        "answer": "Hermes Agent is listed as MIT licensed in its official sources. Re-check the repository and install docs before production use."
       },
       {
         "question": "Who should evaluate Hermes Agent?",
-        "answer": "Hermes Agent is most worth evaluating for developers evaluating self-improving or personalized agent workflows."
+        "answer": "Hermes Agent is most worth evaluating for developers, researchers, and operators who want a self-hostable agent with persistent memory, reusable skills, and always-on workflow channels."
       }
     ]
   },

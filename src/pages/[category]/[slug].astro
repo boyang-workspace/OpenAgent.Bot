@@ -1,10 +1,15 @@
 ---
-import ResourceCard from "@/components/ResourceCard.astro";
 import EditorialShell from "@/components/EditorialShell.astro";
-import { categories } from "@/config/site";
+import ShowcasePage from "@/components/ShowcasePage.astro";
+import { buildShowcaseProfile } from "@/lib/content/showcase";
 import { getPublishedResources, getRelatedResources, resourcePath } from "@/lib/content/resources";
-import { resourceCategoryLabel, resourceImage, resourceMeta, resourceSignals, resourceTags } from "@/lib/content/resource-display";
+import { resourceCategoryLabel, resourceMeta } from "@/lib/content/resource-display";
+import type { ResourceV1 } from "@/lib/content/resource-schema";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+
+type Props = {
+  resource: ResourceV1;
+};
 
 export async function getStaticPaths() {
   const resources = await getPublishedResources();
@@ -15,1066 +20,102 @@ export async function getStaticPaths() {
   }));
 }
 
-const { resource } = Astro.props;
-const isAgent = resource.classification.primary_category === "agents";
-const category = categories.find((item) => item.slug === resource.classification.primary_category);
+const { resource } = Astro.props as Props;
+const allResources = await getPublishedResources();
 const related = await getRelatedResources(resource);
+const profile = buildShowcaseProfile(resource, { allResources, related });
 const repoLink = resource.links.items.find((link) => link.type === "github");
 const homepageLink = resource.links.items.find((link) => link.type === "homepage");
 const docsLink = resource.links.items.find((link) => link.type === "docs");
-const primaryCta = repoLink ?? homepageLink ?? resource.links.items[0];
-const seoArticle = resource.editorial?.seo_article;
-const image = resourceImage(resource);
-const fallbackImage = `/resource-fallbacks/${resource.classification.primary_category}.svg`;
-const useCases =
-  resource.editorial?.use_case_notes?.length
-    ? resource.editorial.use_case_notes
-    : (resource.positioning.use_cases ?? resource.capabilities.core_capabilities ?? []).slice(0, 4).map((item) => ({
-        title: item.replaceAll("-", " ").replaceAll("_", " "),
-        description: `Use ${resource.identity.name} when this workflow matches your source, deployment, and maintenance requirements.`
-      }));
-const compareNotes =
-  resource.editorial?.compare_notes?.length
-    ? resource.editorial.compare_notes
-    : [
-        {
-          title: `When to choose ${resource.identity.name}`,
-          summary: `Compare it with nearby ${resourceCategoryLabel(resource).toLowerCase()} by looking at workflow fit, license, deployment model, and official docs.`
-        }
-      ];
-const facts = [
-  ["Category", category?.label ?? resourceCategoryLabel(resource)],
-  ["Type", resource.classification.resource_type.replaceAll("_", " ")],
-  ["License", resource.facts.license ?? "Unknown"],
-  ["Language", resource.facts.primary_language],
-  ["Stars", resource.facts.github_stars?.toLocaleString("en-US")],
-  ["Forks", resource.facts.github_forks?.toLocaleString("en-US")],
-  ["Repository", resource.facts.github_repo_full_name],
-  ["Verified", resource.facts.last_verified_at?.slice(0, 10) ?? resource.timestamps.updated_at.slice(0, 10)]
-].filter((item): item is [string, string] => Boolean(item[1]));
-const signals = resourceSignals(resource, 8);
-const tags = resourceTags(resource, 8);
-const sourceLinks = resource.links.items.slice(0, 8);
-const primaryUseCase = resource.positioning.best_for?.[0] ?? useCases[0]?.title ?? `teams evaluating ${resourceCategoryLabel(resource).toLowerCase()}`;
-const firstTestByCategory: Record<string, string> = {
-  agents: "Run one narrow action in a sandbox, then inspect permissions, logs, recovery behavior, and every tool or browser step.",
-  models: "Run a real workload set, then compare output quality, latency, serving path, context limits, and license fit.",
-  "memory-systems": "Run a repeated-session recall test and check what the system stores, retrieves, updates, scopes, and forgets.",
-  skills: "Run one repeatable workflow, then check invocation rules, editable instructions, evidence output, and recovery paths.",
-  plugins: "Connect one low-risk service first, then inspect auth scope, logs, and failure behavior.",
-  tools: "Use it on one real builder workflow and verify whether it removes manual work without adding fragile setup."
-};
-const firstTest = firstTestByCategory[resource.classification.primary_category] ?? "Start with one small workflow whose success and failure are easy to observe.";
-const articleProfileByCategory: Record<string, {
-  lens: string;
-  quickEyebrow: string;
-  quickTitle: string;
-  fitTitle: string;
-  evaluationEyebrow: string;
-  evaluationTitle: string;
-  workflowTitle: string;
-  compareTitle: string;
-  faqTitle: string;
-  rows: Array<[string, string, string]>;
-}> = {
-  agents: {
-    lens: "Agent profiles are most useful when they explain the surfaces an agent can act on, how those actions are supervised, and what a safe first workflow looks like.",
-    quickEyebrow: "Action profile",
-    quickTitle: `What can ${resource.identity.name} actually do?`,
-    fitTitle: "Where it fits in an agent workflow",
-    evaluationEyebrow: "Action surface",
-    evaluationTitle: "What to inspect before using it",
-    workflowTitle: "Best workflows to test first",
-    compareTitle: "Compare by action boundary",
-    faqTitle: "Adoption questions",
-    rows: [
-      ["Action surface", "Browser, terminal, code, tools, APIs, files, or workflow steps it can operate.", "This defines the risk boundary."],
-      ["Supervision", "Logs, review points, approvals, and whether a human can pause or replay actions.", "Action agents need auditability."],
-      ["Failure mode", "What happens when a page changes, a tool fails, or the agent reaches uncertainty.", "Recovery behavior matters more than demos."]
-    ]
-  },
-  models: {
-    lens: "Model profiles should make capability, deployment, license, and evaluation tradeoffs concrete before readers choose a model for an agent or local workflow.",
-    quickEyebrow: "Model profile",
-    quickTitle: `What is ${resource.identity.name} good for?`,
-    fitTitle: "Workloads where this model makes sense",
-    evaluationEyebrow: "Model evaluation",
-    evaluationTitle: "What to test before adopting it",
-    workflowTitle: "Best model workloads to evaluate",
-    compareTitle: "Compare by workload and serving path",
-    faqTitle: "Model adoption questions",
-    rows: [
-      ["Capability", "Reasoning, coding, multimodal, OCR, local assistant, or tool-planning behavior.", "The workload should drive the model choice."],
-      ["Deployment", "Local runtime, open weights, hosted API, self-hosted inference, or hybrid routing.", "A strong model can still fail your constraints."],
-      ["Evaluation", "Real prompt sets, latency, cost, context handling, license fit, and retry behavior.", "Benchmarks alone are not enough."]
-    ]
-  },
-  skills: {
-    lens: "Skill profiles should explain what repeatable behavior the skill packages, when an agent should invoke it, and how it improves reliability over one-off prompting.",
-    quickEyebrow: "Skill profile",
-    quickTitle: `What behavior does ${resource.identity.name} package?`,
-    fitTitle: "Where this skill belongs in an agent workflow",
-    evaluationEyebrow: "Skill reliability",
-    evaluationTitle: "What to inspect before reusing it",
-    workflowTitle: "Best skill workflows to try",
-    compareTitle: "Compare by repeatability",
-    faqTitle: "Skill adoption questions",
-    rows: [
-      ["Invocation", "When the skill should run, what inputs it expects, and what output it produces.", "A skill needs a clear boundary."],
-      ["Procedure", "Steps, checks, stop conditions, and evidence the agent should collect.", "This is what separates skills from prompts."],
-      ["Adaptation", "How easy it is to edit, version, combine, and recover from failure.", "Reusable skills should be maintainable."]
-    ]
-  },
-  "memory-systems": {
-    lens: "Memory profiles should explain what is remembered, how recall works, how memory is scoped, and how users can inspect, update, or delete durable context.",
-    quickEyebrow: "Memory profile",
-    quickTitle: `What does ${resource.identity.name} remember?`,
-    fitTitle: "Where this memory layer helps",
-    evaluationEyebrow: "Memory safety",
-    evaluationTitle: "What to inspect before storing user context",
-    workflowTitle: "Best memory workflows to test",
-    compareTitle: "Compare by memory object and control",
-    faqTitle: "Memory adoption questions",
-    rows: [
-      ["Memory object", "User facts, task history, documents, graph entities, preferences, or workflow state.", "You cannot evaluate memory without naming what is stored."],
-      ["Recall behavior", "Search, retrieval, ranking, graph traversal, summaries, or context injection.", "Useful memory must surface the right context at the right time."],
-      ["Control", "Scope, deletion, export, consent, logs, and stale-memory correction.", "Bad memory can be worse than no memory."]
-    ]
-  }
-};
-const articleProfile = articleProfileByCategory[resource.classification.primary_category] ?? {
-  lens: "Use this profile to understand what the resource does, where it fits, and how to test it before adopting it.",
-  quickEyebrow: "Resource profile",
-  quickTitle: `What is ${resource.identity.name}?`,
-  fitTitle: "Where it fits",
-  evaluationEyebrow: "Evaluation",
-  evaluationTitle: "What to inspect before adopting it",
-  workflowTitle: "Best workflows to test first",
-  compareTitle: "How it compares",
-  faqTitle: "Adoption questions",
-  rows: [
-    ["Fit", "Workflow, source, license, and deployment match.", "Start with one real use case."],
-    ["Evidence", "Official docs, repository, examples, and maintenance signals.", "Trust should come from sources."],
-    ["Risk", "Setup burden, operational limits, and failure behavior.", "A small first test keeps adoption reversible."]
-  ]
-};
-const sourceConfidence = [
-  repoLink ? "official repository" : undefined,
-  docsLink ? "docs available" : undefined,
-  resource.facts.last_verified_at ? `verified ${resource.facts.last_verified_at.slice(0, 10)}` : `updated ${resource.timestamps.updated_at.slice(0, 10)}`
-].filter(Boolean).join(" · ");
-const installCmd = resource.editorial?.command_line?.[0];
-const installHint = installCmd?.command ?? (repoLink ? `git clone ${repoLink.url}` : `# see official docs`);
-const jsonLd = {
+const generatedTitle = `${resource.identity.name}: ${profile.archetypeLabel.replace(" showcase", "")} for open AI builders`;
+const generatedDescription = `${resource.identity.name} independent showcase with official sources, adoption checks, facts, related resources, and OpenAgent structured data.`;
+const pageTitle = resource.seo?.title?.includes("resource for open AI builders") ? generatedTitle : (resource.seo?.title ?? generatedTitle);
+const pageDescription = resource.seo?.description?.includes("profile on OpenAgent.bot") ? generatedDescription : (resource.seo?.description ?? generatedDescription);
+
+const softwareJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
   name: resource.identity.name,
   description: resource.identity.short_description ?? resource.identity.one_liner,
   codeRepository: repoLink?.url,
-  url: homepageLink?.url ?? repoLink?.url ?? resource.links.primary_url,
+  url: homepageLink?.url ?? docsLink?.url ?? repoLink?.url ?? resource.links.primary_url,
   license: resource.facts.license,
   programmingLanguage: resource.facts.primary_language,
-  keywords: [...resourceMeta(resource), ...tags].join(", ")
+  keywords: [...resourceMeta(resource), ...profile.tags].join(", ")
 };
+
+const webpageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: pageTitle,
+  description: pageDescription,
+  url: resource.machine_readable.canonical_url,
+  about: {
+    "@type": "Thing",
+    name: resource.identity.name,
+    description: resource.identity.one_liner
+  },
+  isPartOf: {
+    "@type": "WebSite",
+    name: "OpenAgent.bot",
+    url: "https://www.openagent.bot"
+  }
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "OpenAgent.bot",
+      item: "https://www.openagent.bot/"
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: resourceCategoryLabel(resource),
+      item: `https://www.openagent.bot/${resource.classification.primary_category}`
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: resource.identity.name,
+      item: resource.machine_readable.canonical_url
+    }
+  ]
+};
+
+const faqJsonLd =
+  profile.faq.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: profile.faq.map((item) => ({
+          "@type": "Question",
+          name: item.title,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.body
+          }
+        }))
+      }
+    : undefined;
 ---
 
 <BaseLayout
-  title={resource.seo?.title ?? `${resource.identity.name}: ${resourceCategoryLabel(resource)} profile`}
-  description={resource.seo?.description ?? resource.identity.short_description ?? resource.identity.one_liner}
+  title={pageTitle}
+  description={pageDescription}
   path={resourcePath(resource)}
+  image={profile.image}
   noindex={resource.status !== "published"}
 >
   <Fragment slot="head">
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify([softwareJsonLd, webpageJsonLd, breadcrumbJsonLd, faqJsonLd].filter(Boolean))} />
   </Fragment>
 
   <EditorialShell active={resource.classification.primary_category}>
-    <article class="profile-page">
-      {isAgent ? (
-        <section class="agent-hero">
-          <div class="agent-hero-inner">
-            <div class="agent-hero-meta mono">
-              <span>{resourceCategoryLabel(resource)}</span>
-              <span>{resource.decision_signals.open_source ? "open-source" : resource.facts.license ?? "source-available"}</span>
-              {resource.facts.primary_language && <span>{resource.facts.primary_language}</span>}
-              {resource.facts.github_stars && <span>{resource.facts.github_stars.toLocaleString("en-US")} stars</span>}
-            </div>
-            <h1>{resource.identity.name}</h1>
-            <p class="agent-hero-tagline">{resource.identity.one_liner}</p>
-            {resource.identity.short_description && <p class="agent-hero-summary">{resource.identity.short_description}</p>}
-            <div class="agent-hero-terminal">
-              <div class="terminal-header">
-                <span class="terminal-dot"></span>
-                <span class="terminal-dot"></span>
-                <span class="terminal-dot"></span>
-                <span class="terminal-title">terminal</span>
-              </div>
-              <div class="terminal-body">
-                <div><span class="prompt-char">$</span> <span class="cmd-text">{installHint}</span></div>
-                {installCmd?.description && <div class="terminal-comment"># {installCmd.description}</div>}
-              </div>
-            </div>
-            <div class="agent-hero-actions">
-              {primaryCta && <a class="button primary" href={primaryCta.url} data-analytics="cta" data-analytics-payload={JSON.stringify({action: "open_repository", name: resource.identity.name, slug: resource.slug, url: primaryCta.url})}>{primaryCta.type === "github" ? "Open repository" : primaryCta.label}</a>}
-              {docsLink && <a class="button" href={docsLink.url} data-analytics="cta" data-analytics-payload={JSON.stringify({action: "read_docs", name: resource.identity.name, slug: resource.slug})}>Read docs</a>}
-              <a class="button" href="#sources" data-analytics="cta" data-analytics-payload={JSON.stringify({action: "view_sources", name: resource.identity.name, slug: resource.slug})}>View sources</a>
-            </div>
-          </div>
-        </section>
-      ) : (
-        <section class="profile-hero">
-          <div class="hero-copy">
-            <p class="eyebrow">{resourceCategoryLabel(resource)} profile</p>
-            <h1>{resource.identity.name}</h1>
-            <p class="answer">{resource.identity.one_liner}</p>
-            {resource.identity.short_description && <p class="summary">{resource.identity.short_description}</p>}
-            <div class="verdict-strip">
-              <div>
-                <span>Best for</span>
-                <strong>{primaryUseCase}</strong>
-              </div>
-              <div>
-                <span>First test</span>
-                <strong>{firstTest}</strong>
-              </div>
-            </div>
-            <div class="hero-actions">
-              {primaryCta && <a class="button" href={primaryCta.url} data-analytics="cta" data-analytics-payload={JSON.stringify({action: "open_repository", name: resource.identity.name, slug: resource.slug, url: primaryCta.url})}>{primaryCta.type === "github" ? "Open repository" : primaryCta.label}</a>}
-              {docsLink && <a class="button secondary" href={docsLink.url} data-analytics="cta" data-analytics-payload={JSON.stringify({action: "read_docs", name: resource.identity.name, slug: resource.slug})}>Read docs</a>}
-              <a class="button secondary" href="#sources" data-analytics="cta" data-analytics-payload={JSON.stringify({action: "view_sources", name: resource.identity.name, slug: resource.slug})}>View sources</a>
-            </div>
-          </div>
-          <aside class="evidence-card">
-            <strong>At a glance</strong>
-            <dl>
-              {facts.slice(0, 6).map(([label, value]) => (
-                <div>
-                  <dt>{label}</dt>
-                  <dd>{value}</dd>
-                </div>
-              ))}
-            </dl>
-          </aside>
-        </section>
-      )}
-
-      <section class="fit-strip">
-        <div>
-          <span>Decision signals</span>
-          <div class="chip-row">{signals.map((signal) => <em>{signal}</em>)}</div>
-        </div>
-        <div>
-          <span>Tags</span>
-          <div class="chip-row">{tags.map((tag) => <em>{tag.replaceAll("-", " ")}</em>)}</div>
-        </div>
-      </section>
-
-      <section class="content-grid">
-        <main class="profile-main">
-          <section class="content-section" id="answer">
-            <p class="eyebrow">{articleProfile.quickEyebrow}</p>
-            <h2>{articleProfile.quickTitle}</h2>
-            <div class="prose">
-              <p>{articleProfile.lens}</p>
-              {seoArticle?.intro && <p>{seoArticle.intro}</p>}
-              {seoArticle?.what_it_is && <p>{seoArticle.what_it_is}</p>}
-              {!seoArticle?.intro && !seoArticle?.what_it_is && <p>{resource.identity.short_description ?? resource.identity.one_liner}</p>}
-            </div>
-          </section>
-
-          <section class="content-section">
-            <p class="eyebrow">Fit check</p>
-            <h2>{articleProfile.fitTitle}</h2>
-            <div class="fit-grid">
-              <article>
-                <h3>Good fit if</h3>
-                <ul>
-                  {(resource.positioning.best_for ?? ["You are evaluating this category and the official source matches your workflow."]).map((item) => <li>{item}</li>)}
-                </ul>
-              </article>
-              <article>
-                <h3>Not a fit if</h3>
-                <ul>
-                  {(resource.positioning.not_for ?? ["You need a different hosting model, license, interface, or maturity level."]).map((item) => <li>{item}</li>)}
-                </ul>
-              </article>
-            </div>
-          </section>
-
-          <section class="content-section">
-            <p class="eyebrow">{articleProfile.evaluationEyebrow}</p>
-            <h2>{articleProfile.evaluationTitle}</h2>
-            <div class="evaluation-grid">
-              {articleProfile.rows.map(([label, description, why]) => (
-                <article>
-                  <span>{label}</span>
-                  <p>{description}</p>
-                  <small>{why}</small>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          <section class="content-section">
-            <p class="eyebrow">First test</p>
-            <h2>How to evaluate it before committing</h2>
-            <div class="test-card">
-              <strong>{firstTest}</strong>
-              <p>Keep the first test small enough that you can inspect the source, understand the permissions, and compare the result with nearby OpenAgent resources.</p>
-            </div>
-          </section>
-
-          <section class="content-section">
-            <p class="eyebrow">Workflows</p>
-            <h2>{articleProfile.workflowTitle}</h2>
-            <div class="stack-list">
-              {useCases.slice(0, 5).map((item) => (
-                <article>
-                  <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          <section class="content-section">
-            <p class="eyebrow">Compare</p>
-            <h2>{articleProfile.compareTitle}</h2>
-            <div class="stack-list">
-              {compareNotes.slice(0, 4).map((item) => (
-                <article>
-                  <h3>{item.title}{item.against ? ` vs ${item.against}` : ""}</h3>
-                  <p>{item.summary}</p>
-                </article>
-              ))}
-            </div>
-            {related.length > 0 && (
-              <div class="compare-table">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Resource</th>
-                      <th>Category</th>
-                      <th>License</th>
-                      <th>Stars</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {related.map((item) => (
-                      <tr>
-                        <td><a href={resourcePath(item)}>{item.identity.name}</a></td>
-                        <td>{resourceCategoryLabel(item)}</td>
-                        <td>{item.facts.license ?? "Unknown"}</td>
-                        <td>{item.facts.github_stars?.toLocaleString("en-US") ?? "n/a"}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </section>
-
-          {seoArticle?.faq?.length && (
-            <section class="content-section">
-              <p class="eyebrow">FAQ</p>
-              <h2>{articleProfile.faqTitle}</h2>
-              <div class="faq-list">
-                {seoArticle.faq.slice(0, 6).map((item) => (
-                  <details>
-                    <summary>{item.question}</summary>
-                    <p>{item.answer}</p>
-                  </details>
-                ))}
-              </div>
-            </section>
-          )}
-        </main>
-
-        <aside class="profile-rail">
-          <section class="rail-panel asset-panel">
-            <img src={image} alt={`${resource.identity.name} official visual`} loading="lazy" decoding="async" onerror={`this.onerror=null;this.src='${fallbackImage}';`} />
-            <h2>Official web presence</h2>
-            <p>{homepageLink ? "Use the official site for product context, then verify implementation details in the repository or docs." : "No separate homepage is listed yet; start from the repository or official docs."}</p>
-            <div class="source-list">
-              {homepageLink && (
-                <a href={homepageLink.url} data-analytics="cta" data-analytics-payload={JSON.stringify({action: "official_homepage", name: resource.identity.name, slug: resource.slug})}>
-                  <span>homepage</span>
-                  <strong>{homepageLink.label}</strong>
-                </a>
-              )}
-              {docsLink && (
-                <a href={docsLink.url} data-analytics="cta" data-analytics-payload={JSON.stringify({action: "official_docs", name: resource.identity.name, slug: resource.slug})}>
-                  <span>docs</span>
-                  <strong>{docsLink.label}</strong>
-                </a>
-              )}
-            </div>
-          </section>
-
-          <section class="rail-panel">
-            <h2>Source confidence</h2>
-            <p class="confidence">{sourceConfidence}</p>
-          </section>
-
-          <section class="rail-panel">
-            <h2>Source-backed facts</h2>
-            <dl>
-              {facts.map(([label, value]) => (
-                <div>
-                  <dt>{label}</dt>
-                  <dd>{value}</dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-
-          <section class="rail-panel" id="sources">
-            <h2>Official sources</h2>
-            <div class="source-list">
-              {sourceLinks.map((link) => (
-                <a href={link.url} data-analytics="cta" data-analytics-payload={JSON.stringify({action: "source_link", name: resource.identity.name, slug: resource.slug, type: link.type, label: link.label})}>
-                  <span>{link.type.replaceAll("_", " ")}</span>
-                  <strong>{link.label}</strong>
-                </a>
-              ))}
-            </div>
-          </section>
-
-          <section class="rail-panel">
-            <h2>Structured outputs</h2>
-            <div class="source-list">
-              <a href={resource.machine_readable.json_url.replace("https://www.openagent.bot", "")} data-analytics="cta" data-analytics-payload={JSON.stringify({action: "structured_output", name: resource.identity.name, slug: resource.slug, format: "json"})}>
-                <span>machine readable</span>
-                <strong>JSON profile</strong>
-              </a>
-              <a href={resource.machine_readable.markdown_url.replace("https://www.openagent.bot", "")} data-analytics="cta" data-analytics-payload={JSON.stringify({action: "structured_output", name: resource.identity.name, slug: resource.slug, format: "markdown"})}>
-                <span>agent readable</span>
-                <strong>Markdown profile</strong>
-              </a>
-            </div>
-          </section>
-        </aside>
-      </section>
-
-      {related.length > 0 && (
-        <section class="related-section">
-          <div class="section-head">
-            <p class="eyebrow">Related</p>
-            <h2>More {category?.label.toLowerCase() ?? "resources"} to compare</h2>
-          </div>
-          <div class="related-grid">
-            {related.map((item) => <ResourceCard resource={item} />)}
-          </div>
-        </section>
-      )}
-    </article>
+    <ShowcasePage resource={resource} profile={profile} />
   </EditorialShell>
 </BaseLayout>
-
-<style>
-  .profile-page {
-    display: grid;
-    gap: 24px;
-  }
-
-  .agent-hero {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    color: var(--ink);
-    margin: 0;
-    padding: 28px;
-  }
-
-  .agent-hero-inner {
-    max-width: 980px;
-  }
-
-  .agent-hero-meta {
-    color: var(--muted);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    font-size: 0.7rem;
-    letter-spacing: 0;
-    margin-bottom: 18px;
-    text-transform: none;
-  }
-
-  .agent-hero h1 {
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    font-weight: 540;
-    letter-spacing: 0;
-    line-height: 0.92;
-    margin: 0;
-    color: var(--ink);
-  }
-
-  .agent-hero-tagline {
-    color: var(--ink);
-    font-size: 1rem;
-    line-height: 1.48;
-    margin: 18px 0 0;
-    max-width: 780px;
-  }
-
-  .agent-hero-summary {
-    color: var(--muted);
-    font-size: 0.92rem;
-    margin: 12px 0 0;
-    max-width: 780px;
-  }
-
-  .agent-hero-terminal {
-    background: var(--surface-soft);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    margin-top: 28px;
-    max-width: 640px;
-    overflow: hidden;
-  }
-
-  .terminal-header {
-    align-items: center;
-    background: rgba(22, 26, 29, 0.03);
-    border-bottom: 1px solid var(--line);
-    display: flex;
-    gap: 6px;
-    padding: 10px 14px;
-  }
-
-  .terminal-dot {
-    background: var(--line-strong);
-    border-radius: 50%;
-    height: 10px;
-    width: 10px;
-  }
-
-  .terminal-title {
-    color: var(--subtle);
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.06em;
-    margin-left: 8px;
-  }
-
-  .terminal-body {
-    font-family: var(--mono);
-    font-size: 0.82rem;
-    line-height: 1.8;
-    padding: 16px 18px;
-  }
-
-  .prompt-char {
-    color: var(--accent-open);
-  }
-
-  .cmd-text {
-    color: var(--ink);
-  }
-
-  .terminal-comment {
-    color: var(--muted);
-    font-size: 0.76rem;
-    margin-top: 4px;
-  }
-
-  .agent-hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 28px;
-  }
-
-  .agent-hero-actions .button {
-    background: transparent;
-    border-color: var(--line);
-    color: var(--ink);
-    border-radius: 7px;
-    font-size: 0.82rem;
-    font-weight: 520;
-    letter-spacing: 0;
-  }
-
-  .agent-hero-actions .button.primary {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: #ffffff;
-  }
-
-  .agent-hero-actions .button:hover {
-    background: var(--surface-soft);
-    transform: translateY(-1px);
-  }
-
-  .agent-hero-actions .button.primary:hover {
-    background: #000000;
-  }
-
-  /* ── Non-agent hero ── */
-
-  .profile-hero {
-    align-items: stretch;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    display: grid;
-    gap: 22px;
-    grid-template-columns: minmax(0, 1fr) 330px;
-    padding: 24px;
-  }
-
-  .profile-hero h1 {
-    color: var(--ink);
-    font-size: clamp(1.85rem, 4vw, 2.7rem);
-    font-weight: 540;
-    letter-spacing: 0;
-    line-height: 1.02;
-    margin: 8px 0 0;
-  }
-
-  .answer {
-    color: var(--ink);
-    font-size: 1rem;
-    line-height: 1.48;
-    margin: 14px 0 0;
-    max-width: 780px;
-  }
-
-  .summary {
-    color: var(--muted);
-    font-size: 0.9rem;
-    margin: 10px 0 0;
-    max-width: 780px;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-    margin-top: 18px;
-  }
-
-  .verdict-strip {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-top: 18px;
-  }
-
-  .verdict-strip div,
-  .test-card {
-    background: var(--surface-soft);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    display: grid;
-    gap: 6px;
-    padding: 12px 14px;
-  }
-
-  .verdict-strip span {
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .verdict-strip strong,
-  .test-card strong {
-    color: var(--ink);
-    font-size: 0.9rem;
-    font-weight: 560;
-    line-height: 1.35;
-  }
-
-  .evidence-card,
-  .rail-panel {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 16px;
-  }
-
-  .evidence-card strong {
-    color: var(--muted);
-    display: block;
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-  }
-
-  dl {
-    display: grid;
-    gap: 0;
-    margin: 0;
-  }
-
-  dl div {
-    border-top: 1px solid var(--line);
-    display: grid;
-    gap: 3px;
-    grid-template-columns: 105px minmax(0, 1fr);
-    padding: 8px 0;
-  }
-
-  dl div:first-child {
-    border-top: 0;
-  }
-
-  dt {
-    color: var(--muted);
-    font-size: 0.72rem;
-  }
-
-  dd {
-    color: var(--ink);
-    font-size: 0.82rem;
-    margin: 0;
-    overflow-wrap: anywhere;
-  }
-
-  .fit-strip {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    display: grid;
-    gap: 14px;
-    grid-template-columns: 1fr 1fr;
-    padding: 14px 16px;
-  }
-
-  .fit-strip span {
-    color: var(--muted);
-    display: block;
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-  }
-
-  .chip-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-  }
-
-  .chip-row em {
-    background: var(--surface-soft);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    font-style: normal;
-    letter-spacing: 0.04em;
-    padding: 5px 8px;
-  }
-
-  .content-grid {
-    align-items: start;
-    display: grid;
-    gap: 28px;
-    grid-template-columns: minmax(0, 1fr) 320px;
-  }
-
-  .profile-main {
-    display: grid;
-    gap: 0;
-  }
-
-  .content-section,
-  .related-section {
-    border-top: 1px solid var(--line);
-    padding: 26px 0;
-  }
-
-  .profile-main .content-section:first-child {
-    border-top: 0;
-    padding-top: 0;
-  }
-
-  .profile-page h2 {
-    color: var(--ink);
-    font-size: 1.32rem;
-    font-weight: 580;
-    letter-spacing: 0;
-    line-height: 1.18;
-    margin: 5px 0 0;
-  }
-
-  .profile-page h3 {
-    color: var(--ink);
-    font-size: 0.96rem;
-    font-weight: 580;
-    letter-spacing: 0;
-    margin: 0 0 7px;
-  }
-
-  .prose {
-    display: grid;
-    gap: 11px;
-    margin-top: 12px;
-    max-width: 780px;
-  }
-
-  .prose p,
-  .stack-list p,
-  .fit-grid li,
-  details p {
-    color: var(--muted);
-    font-size: 0.9rem;
-    line-height: 1.62;
-    margin: 0;
-  }
-
-  .fit-grid {
-    display: grid;
-    gap: 14px;
-    grid-template-columns: 1fr 1fr;
-    margin-top: 14px;
-  }
-
-  .fit-grid article {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 14px 16px;
-  }
-
-  .evaluation-grid {
-    display: grid;
-    gap: 12px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin-top: 14px;
-  }
-
-  .evaluation-grid article {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    display: grid;
-    gap: 8px;
-    padding: 14px 15px;
-  }
-
-  .evaluation-grid span {
-    color: var(--ink);
-    font-size: 0.9rem;
-    font-weight: 580;
-  }
-
-  .evaluation-grid p {
-    color: var(--muted);
-    font-size: 0.84rem;
-    line-height: 1.55;
-    margin: 0;
-  }
-
-  .evaluation-grid small {
-    color: var(--subtle);
-    font-size: 0.72rem;
-    line-height: 1.45;
-  }
-
-  .test-card {
-    margin-top: 14px;
-    max-width: 780px;
-  }
-
-  .test-card p,
-  .confidence {
-    color: var(--muted);
-    font-size: 0.86rem;
-    line-height: 1.55;
-    margin: 0;
-  }
-
-  ul {
-    margin: 0;
-    padding-left: 1.05rem;
-  }
-
-  li + li {
-    margin-top: 7px;
-  }
-
-  .stack-list {
-    display: grid;
-    gap: 0;
-    margin-top: 12px;
-  }
-
-  .stack-list article {
-    border-top: 1px solid var(--line);
-    padding: 13px 0;
-  }
-
-  .stack-list article:first-child {
-    border-top: 0;
-  }
-
-  .compare-table {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    margin-top: 16px;
-    overflow-x: auto;
-  }
-
-  table {
-    border-collapse: collapse;
-    min-width: 620px;
-    width: 100%;
-  }
-
-  th,
-  td {
-    border-bottom: 1px solid var(--line);
-    color: var(--muted);
-    font-size: 0.84rem;
-    padding: 11px;
-    text-align: left;
-  }
-
-  th {
-    background: var(--surface-soft);
-    color: var(--ink);
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  td:first-child a {
-    color: var(--ink);
-    font-weight: 560;
-  }
-
-  tr:last-child td {
-    border-bottom: 0;
-  }
-
-  .profile-rail {
-    display: grid;
-    gap: 12px;
-    position: sticky;
-    top: 78px;
-  }
-
-  .rail-panel h2 {
-    color: var(--ink);
-    font-size: 1rem;
-    font-weight: 580;
-    margin: 0 0 10px;
-  }
-
-  .asset-panel img {
-    background: var(--surface-soft);
-    border: 1px solid var(--line);
-    border-radius: 22%;
-    box-shadow: 0 1px 2px rgba(22, 26, 29, 0.08);
-    height: 74px;
-    margin-bottom: 12px;
-    object-fit: contain;
-    width: 74px;
-  }
-
-  .asset-panel p {
-    color: var(--muted);
-    font-size: 0.82rem;
-    line-height: 1.5;
-    margin: 0 0 8px;
-  }
-
-  .source-list {
-    display: grid;
-    gap: 0;
-  }
-
-  .source-list a {
-    border-top: 1px solid var(--line);
-    display: grid;
-    gap: 3px;
-    padding: 10px 0;
-  }
-
-  .source-list a:first-child {
-    border-top: 0;
-  }
-
-  .source-list span {
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .source-list strong {
-    color: var(--ink);
-    font-size: 0.86rem;
-    font-weight: 560;
-  }
-
-  .faq-list {
-    display: grid;
-    gap: 8px;
-    margin-top: 14px;
-  }
-
-  details {
-    background: var(--surface-soft);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 12px 14px;
-  }
-
-  summary {
-    color: var(--ink);
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 560;
-  }
-
-  details p {
-    margin-top: 9px;
-  }
-
-  .related-grid {
-    display: grid;
-    gap: 12px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    margin-top: 14px;
-  }
-
-  @media (max-width: 960px) {
-    .profile-hero,
-    .fit-strip,
-    .content-grid,
-    .fit-grid,
-    .evaluation-grid,
-    .verdict-strip,
-    .related-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .profile-rail {
-      position: static;
-    }
-
-    .agent-hero {
-      margin: -18px -16px 0;
-      padding: 32px 16px 28px;
-    }
-
-    .agent-hero h1 {
-      font-size: 2.4rem;
-    }
-  }
-</style>

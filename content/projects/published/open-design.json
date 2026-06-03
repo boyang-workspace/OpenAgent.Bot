@@ -1,0 +1,245 @@
+{
+  "slug": "open-design",
+  "title": "Open Design",
+  "oneLiner": "Local-first open-source design agent for prototypes, decks, dashboards, images, video, and agent-driven design systems.",
+  "summary": "Open Design is a local-first, open-source design agent and desktop studio from nexu-io. It turns coding agents and model routers into a design workflow for web, desktop, mobile prototypes, live dashboards, slide decks, images, videos, and reusable design systems.",
+  "whyItMatters": "Open Design matters because it moves AI design work out of a closed chat surface and into an inspectable, local-first workflow. Builders can connect Claude Code, Codex, Cursor, OpenCode, OpenClaw, Qwen, Copilot, Hermes, Kimi, and other CLIs, then generate artifacts that can be previewed, exported, and handed back to engineering.",
+  "bestFor": [
+    "Developers and designers who want an open-source Claude Design alternative",
+    "Teams prototyping web apps, dashboards, mobile flows, decks, and branded artifacts with AI agents",
+    "Agent builders who want design skills, design systems, plugins, MCP integration, and local-first artifact generation"
+  ],
+  "notFor": [
+    "Teams that need a mature visual canvas replacement for every Figma collaboration workflow today",
+    "Non-technical users who do not want to manage local apps, agent CLIs, model accounts, or self-hosted services",
+    "Production teams that cannot tolerate early-stage issues around model behavior, CPU usage, onboarding, or fast-moving releases"
+  ],
+  "category": "agents",
+  "tags": [
+    "agent",
+    "open-source",
+    "ai-design",
+    "claude-design-alternative",
+    "figma-alternative",
+    "design-systems",
+    "prototyping",
+    "mcp",
+    "local-first",
+    "desktop-app",
+    "coding-agents",
+    "artifact-generation"
+  ],
+  "repoUrl": "https://github.com/nexu-io/open-design",
+  "homepageUrl": "https://open-design.ai",
+  "docsUrl": "https://github.com/nexu-io/open-design/blob/main/QUICKSTART.md",
+  "demoUrl": "https://github.com/nexu-io/open-design",
+  "license": "Apache-2.0",
+  "maintainer": "nexu-io",
+  "installCommand": "git clone https://github.com/nexu-io/open-design.git && cd open-design && corepack enable && pnpm install && pnpm tools-dev run web",
+  "worksWith": [
+    "Claude Code",
+    "Codex CLI",
+    "Cursor",
+    "OpenCode",
+    "OpenClaw",
+    "GitHub Copilot CLI",
+    "Gemini CLI",
+    "Qwen",
+    "Hermes Agent",
+    "Kimi"
+  ],
+  "sourceLinks": [
+    "https://github.com/nexu-io/open-design",
+    "https://open-design.ai",
+    "https://github.com/nexu-io/open-design/blob/main/README.md",
+    "https://github.com/nexu-io/open-design/blob/main/QUICKSTART.md",
+    "https://github.com/nexu-io/open-design/releases/tag/open-design-v0.9.0",
+    "https://github.com/nexu-io/open-design/issues/3537",
+    "https://github.com/nexu-io/open-design/issues/3533",
+    "https://github.com/nexu-io/open-design/discussions/1727",
+    "https://x.com/nexudotio"
+  ],
+  "seoTitle": "Open Design: Open-Source AI Design Agent and Claude Design Alternative",
+  "seoDescription": "Open Design profile for AI builders: local-first open-source design agent, Claude Design alternative, Figma alternative signals, GitHub stats, setup, strengths, risks, and guides.",
+  "shareTitle": "Open Design on OpenAgent.bot",
+  "shareDescription": "Local-first open-source design agent for prototypes, decks, dashboards, images, video, and agent-driven design systems.",
+  "status": "published",
+  "generatedAt": "2026-06-03T00:00:00.000Z",
+  "reviewedAt": "2026-06-03T00:00:00.000Z",
+  "updatedAt": "2026-06-03",
+  "lastVerifiedAt": "2026-06-03",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "featuredReason": "Open Design is one of the fastest-growing open-source design-agent projects, with a broad artifact surface, local-first positioning, and first-class integrations for coding agents.",
+  "coreStrengths": [
+    {
+      "title": "Agent-native design workflow",
+      "description": "Open Design connects coding agents, model routers, skills, design systems, and previews into one studio for generating artifacts.",
+      "whyItMatters": "It lets teams evaluate AI design as an engineering workflow instead of a closed black-box canvas."
+    },
+    {
+      "title": "Many artifact types",
+      "description": "The project targets prototypes, dashboards, decks, images, videos, HyperFrames, HTML, PDF, PPTX, MP4, and ZIP exports.",
+      "whyItMatters": "That breadth makes it useful for product, marketing, design systems, demos, and internal reporting."
+    },
+    {
+      "title": "Local-first and open source",
+      "description": "The Apache-2.0 repository, desktop app, Docker path, MCP support, and BYOK/API options give teams several ways to inspect and run it.",
+      "whyItMatters": "Design agents touch brand assets, code, prompts, and credentials, so deployment control is part of the product value."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Claude Design alternative",
+      "description": "Use Open Design when you want an open-source AI design agent that can run through local coding agents instead of only a hosted assistant."
+    },
+    {
+      "title": "Design-system-driven prototypes",
+      "description": "Pair a DESIGN.md-style brand contract with a design skill to generate web, mobile, dashboard, or deck artifacts."
+    },
+    {
+      "title": "Agent workflow testing",
+      "description": "Evaluate how Codex, Claude Code, Cursor, OpenCode, OpenClaw, or other agents perform when the target output is visual and exportable."
+    },
+    {
+      "title": "Self-hosted design automation",
+      "description": "Run the Docker or local dev path when you need more control over preview, storage, model access, and artifact generation."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Open Design",
+      "against": "Claude Design",
+      "summary": "Claude Design is the closed, polished reference point; Open Design is the open-source local-first alternative for teams that want inspectability, agent choice, and exportable artifacts."
+    },
+    {
+      "title": "Open Design",
+      "against": "Figma",
+      "summary": "Figma remains the mature collaborative visual design canvas. Open Design is better framed as an agent-era artifact generator and design-system workflow, not a total Figma replacement yet."
+    },
+    {
+      "title": "Open Design",
+      "against": "AI UI generators",
+      "summary": "Open Design differentiates through skills, plugins, design systems, coding-agent integrations, local preview, and multi-format export rather than a single prompt-to-screen flow."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Open the GitHub repository",
+      "url": "https://github.com/nexu-io/open-design",
+      "type": "github"
+    },
+    {
+      "label": "Read the Quickstart",
+      "url": "https://github.com/nexu-io/open-design/blob/main/QUICKSTART.md",
+      "type": "docs"
+    },
+    {
+      "label": "Download the latest release",
+      "url": "https://github.com/nexu-io/open-design/releases",
+      "type": "install"
+    },
+    {
+      "label": "Follow nexu on X",
+      "url": "https://x.com/nexudotio",
+      "type": "x"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Run Open Design in dev mode",
+      "command": "git clone https://github.com/nexu-io/open-design.git && cd open-design && corepack enable && pnpm install && pnpm tools-dev run web",
+      "description": "The official quickstart requires Node 24 and pnpm through Corepack for the local development path."
+    },
+    {
+      "label": "Install the MCP server for Codex",
+      "command": "od mcp install codex",
+      "description": "The README documents one-line MCP install commands for supported coding agents, including Codex."
+    },
+    {
+      "label": "Run the Docker path",
+      "command": "cd deploy && cp .env.example .env && docker compose up -d",
+      "description": "Use the Docker path if you want a containerized Open Design instance without a full local Node setup."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Open Design is a local-first open-source AI design agent for teams that want a Claude Design alternative they can inspect, run, and connect to their own coding agents.",
+    "whatItIs": "Open Design combines a desktop/web studio, design skills, brand-grade design systems, plugins, MCP tooling, sandboxed preview, and export paths for HTML, PDF, PPTX, MP4, and ZIP artifacts. The public repository describes support for Claude Code, Codex, Cursor, OpenCode, OpenClaw, Copilot, Qwen, Hermes, Kimi, and other agent CLIs.",
+    "whyItMatters": "The product is important because design agents are becoming part of the software delivery loop. Instead of treating design as a closed prompt UI, Open Design exposes the workflow as files, skills, templates, plugins, agent adapters, previews, and exports.",
+    "howItWorks": "A typical Open Design workflow starts with a skill, a design system, and a prompt. The selected agent streams an artifact into the studio, Open Design previews it in a sandbox, and the user can save or export the result. Version 0.9.0 also emphasizes Open Design AMR, an official model router intended to reduce first-run setup.",
+    "useCases": [
+      {
+        "title": "Prototype web and mobile products",
+        "description": "Generate single-page web, desktop, or mobile prototypes that follow a selected design system."
+      },
+      {
+        "title": "Create decks and dashboards",
+        "description": "Use Open Design for pitch decks, internal updates, live dashboards, decision rooms, and other artifact-heavy work."
+      },
+      {
+        "title": "Test design-agent quality",
+        "description": "Compare Claude Code, Codex, Cursor, OpenCode, OpenClaw, and other coding agents on the same visual brief."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Choose Open Design for open agent workflows",
+        "against": "Claude Design",
+        "summary": "Open Design is less mature than a closed first-party product, but it gives builders source visibility, local-first control, and more agent choice."
+      },
+      {
+        "title": "Choose Figma for mature collaborative editing",
+        "against": "Figma",
+        "summary": "Figma still owns the collaborative canvas. Open Design is a better fit when the job is agent-generated artifacts, prototypes, decks, and design-system experiments."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "GitHub repository",
+        "url": "https://github.com/nexu-io/open-design",
+        "type": "github"
+      },
+      {
+        "label": "Quickstart",
+        "url": "https://github.com/nexu-io/open-design/blob/main/QUICKSTART.md",
+        "type": "docs"
+      }
+    ],
+    "faq": [
+      {
+        "question": "Is Open Design open source?",
+        "answer": "Yes. The GitHub repository is published under Apache-2.0 as of the June 3, 2026 verification for this profile."
+      },
+      {
+        "question": "Is Open Design a Figma replacement?",
+        "answer": "Not for every workflow. It is better described as an open-source design agent and artifact generator, while Figma remains the mature collaborative visual canvas."
+      },
+      {
+        "question": "What community feedback should teams watch?",
+        "answer": "GitHub issues show fast iteration and early-stage bugs, including AMR instruction hallucination, macOS CPU usage, conversation startup, billing/invoice, and model/attachment problems. Public Reddit/X feedback was limited in searchable results at verification time, so GitHub remains the strongest visible feedback channel."
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "agent",
+    "visualMotif": "local desktop design studio, artifact preview panes, design-system tokens, and agent connection nodes",
+    "backgroundStyle": "clean editorial software surface with neutral grays, sharp black type, and restrained teal accents",
+    "titleOverlay": "Open Design",
+    "subtitle": "Open-source AI design agent",
+    "priorityAssets": [
+      "https://repo-assets.open-design.ai/resources/images/hero.png",
+      "https://github.com/nexu-io.png"
+    ],
+    "avoid": [
+      "generic Figma logo imitation",
+      "dark blurred SaaS hero",
+      "unverified third-party screenshots"
+    ]
+  },
+  "sourceMetrics": {
+    "stars": 57656,
+    "forks": 6512
+  },
+  "coverImage": "https://github.com/nexu-io.png"
+}

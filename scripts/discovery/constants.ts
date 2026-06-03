@@ -14,7 +14,9 @@ export const discoveryKeywords = [
 export const discoveryThresholds = {
   candidate: 50,
   draft: 75,
-  maxDailyDrafts: 10
+  autoPublish: 80,
+  maxDailyDrafts: 10,
+  maxDailyPublished: 5
 };
 
 export const discoveryDirs = {

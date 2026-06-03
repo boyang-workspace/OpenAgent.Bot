@@ -147,6 +147,10 @@ export type OpenProjectDraft = OpenProject & {
   status: "draft";
 };
 
+export type OpenProjectPublished = OpenProject & {
+  status: "published";
+};
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }

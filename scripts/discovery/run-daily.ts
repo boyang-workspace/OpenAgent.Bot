@@ -48,6 +48,7 @@ async function main() {
       scored: scored.length,
       topics: topics.length,
       drafts: drafts.written.length,
+      autoPublished: drafts.published.length,
       skippedDrafts: drafts.skipped.length
     },
     candidates: scored
@@ -70,6 +71,7 @@ async function main() {
       `merged=${merged.length}`,
       `topics=${topics.length}`,
       `drafts=${drafts.written.length}`,
+      `autoPublished=${drafts.published.length}`,
       `skippedDrafts=${drafts.skipped.length}`
     ].join(" ")
   );

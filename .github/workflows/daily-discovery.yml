@@ -26,7 +26,7 @@ jobs:
         run: |
           git config user.name "openagent-bot"
           git config user.email "bot@openagent.bot"
-          git add content/discovery/ content/topics/ content/projects/drafts/
+          git add content/discovery/ content/topics/ content/projects/drafts/ content/projects/published/
           if git diff --cached --quiet; then
             echo "No new discovery data"
           else

@@ -4,6 +4,7 @@ import ShowcasePage from "@/components/ShowcasePage.astro";
 import ShowcaseVariantPlatform from "@/components/ShowcaseVariantPlatform.astro";
 import ShowcaseVariantDevtool from "@/components/ShowcaseVariantDevtool.astro";
 import ShowcaseVariantTerminal from "@/components/ShowcaseVariantTerminal.astro";
+import ShowcaseVariantStats from "@/components/ShowcaseVariantStats.astro";
 import { buildShowcaseProfile } from "@/lib/content/showcase";
 import { getPublishedResources, getRelatedResources, resourcePath } from "@/lib/content/resources";
 import { resourceCategoryLabel, resourceMeta } from "@/lib/content/resource-display";
@@ -122,18 +123,18 @@ const faqJsonLd =
   {
     (() => {
       const a = profile.archetype;
-      if (a === "platform-os" || a === "agent-framework" || a === "design-agent" || a === "skill-system") {
-        return <ShowcaseVariantPlatform resource={resource} profile={profile} />;
-      }
-      if (a === "coding-agent") {
-        return <ShowcaseVariantTerminal resource={resource} profile={profile} />;
-      }
-      if (a === "browser-automation" || a === "evaluation-tool" || a === "connector-tool" || a === "skill-library") {
-        return <ShowcaseVariantDevtool resource={resource} profile={profile} />;
-      }
+      const isVariant = true;
       return (
-        <EditorialShell active={resource.classification.primary_category}>
-          <ShowcasePage resource={resource} profile={profile} />
+        <EditorialShell active={resource.classification.primary_category} variant>
+          {a === "platform-os" || a === "agent-framework" || a === "design-agent" || a === "skill-system" ? (
+            <ShowcaseVariantPlatform resource={resource} profile={profile} />
+          ) : a === "coding-agent" ? (
+            <ShowcaseVariantTerminal resource={resource} profile={profile} />
+          ) : a === "browser-automation" || a === "evaluation-tool" || a === "connector-tool" || a === "skill-library" ? (
+            <ShowcaseVariantDevtool resource={resource} profile={profile} />
+          ) : (
+            <ShowcaseVariantStats resource={resource} profile={profile} />
+          )}
         </EditorialShell>
       );
     })()

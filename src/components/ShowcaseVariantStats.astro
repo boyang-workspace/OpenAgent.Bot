@@ -1,0 +1,430 @@
+---
+import type { ResourceV1 } from "@/lib/content/resource-schema";
+import type { ShowcaseProfile } from "@/lib/content/showcase";
+
+type Props = {
+  resource: ResourceV1;
+  profile: ShowcaseProfile;
+};
+
+const { resource, profile } = Astro.props;
+const t = profile.theme;
+const strengths = resource.editorial?.core_strengths ?? [];
+const useCases = resource.editorial?.use_case_notes ?? [];
+const compareNotes = resource.editorial?.compare_notes ?? [];
+const faqs = profile.faq;
+const signals = profile.signals;
+const tags = profile.tags;
+const stats = [
+  { label: "Stars", value: resource.facts.github_stars ? `${(resource.facts.github_stars / 1000).toFixed(resource.facts.github_stars >= 10000 ? 0 : 1)}K` : null },
+  { label: "Language", value: resource.facts.primary_language },
+  { label: "License", value: resource.facts.license },
+  { label: "Forks", value: resource.facts.github_forks ? `${(resource.facts.github_forks / 1000).toFixed(1)}K` : null },
+].filter((s) => s.value);
+const statStr = stats.map((s) => `${s.value} ${s.label}`).join(" · ");
+const firstSignal = signals[0];
+const secondSignal = signals[1];
+---
+
+<section class="s-hero" style={`--s-accent:${t.accent};--s-accent2:${t.accent2}`}>
+  <div class="s-hero-inner">
+    <div class="s-hero-text">
+      <div class="s-eyebrow">{profile.categoryLabel}</div>
+      <h1 class="s-title">{resource.identity.name}</h1>
+      <p class="s-desc">{resource.identity.one_liner}</p>
+      <div class="s-actions">
+        {profile.primaryCta && <a class="s-btn s-btn-primary" href={profile.primaryCta.url}>{profile.primaryCta.label}</a>}
+        {profile.secondaryCta && <a class="s-btn s-btn-secondary" href={profile.secondaryCta.url}>{profile.secondaryCta.label}</a>}
+      </div>
+    </div>
+    <div class="s-hero-stats">
+      {stats.map((s) => (
+        <div class="s-stat-card">
+          <span class="s-stat-val">{s.value}</span>
+          <span class="s-stat-label">{s.label}</span>
+        </div>
+      ))}
+      {signals.length > 0 && (
+        <div class="s-signals">
+          {signals.slice(0, 4).map((sig) => (
+            <span class="s-signal-chip">{sig}</span>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+  <div class="s-meta-strip">
+    <span>{resource.identity.name}</span>
+    <span>{statStr}</span>
+    <span>{profile.officialHost ?? resource.facts.github_repo_full_name ?? profile.categoryLabel}</span>
+  </div>
+</section>
+
+<section class="s-section">
+  <div class="s-inner">
+    <div class="s-section-head">
+      <span class="s-eyebrow-small">About</span>
+      <h2>{resource.identity.name} overview</h2>
+    </div>
+    <p class="s-lead">{resource.identity.short_description ?? resource.identity.one_liner}</p>
+    {strengths.length > 0 && (
+      <div class="s-grid-3">
+        {strengths.map((s) => (
+          <div class="s-card" style={`--card-border:${t.accentSoft}`}>
+            <div class="s-card-icon" style={`background:${t.accentSoft};color:${t.accent}`}>✦</div>
+            <h3>{s.title}</h3>
+            <p>{s.description}</p>
+            {s.why_it_matters && <small style={`color:${t.accent}`}>{s.why_it_matters}</small>}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+{useCases.length > 0 && (
+  <section class="s-section s-section-alt" style={`--s-bg:${t.heroTint}`}>
+    <div class="s-inner">
+      <div class="s-section-head">
+        <span class="s-eyebrow-small">Use cases</span>
+        <h2>When to use {resource.identity.name}</h2>
+      </div>
+      <div class="s-grid-2">
+        {useCases.map((uc) => (
+          <div class="s-use-card">
+            <h3>{uc.title}</h3>
+            <p>{uc.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<section class="s-section">
+  <div class="s-inner">
+    <div class="s-section-head">
+      <span class="s-eyebrow-small">Compare</span>
+      <h2>How it compares</h2>
+    </div>
+    {compareNotes.length > 0 ? (
+      <div class="s-comparison">
+        {compareNotes.map((c) => (
+          <div class="s-comp-row">
+            <span class="s-comp-label">{c.against ? `${c.title} vs ${c.against}` : c.title}</span>
+            <p>{c.summary}</p>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p class="s-muted-text">Evaluate {resource.identity.name} against nearby options by workload fit, license, and deployment model.</p>
+    )}
+  </div>
+</section>
+
+{faqs.length > 0 && (
+  <section class="s-section s-section-alt" style={`--s-bg:${t.heroTint}`}>
+    <div class="s-inner">
+      <div class="s-section-head">
+        <span class="s-eyebrow-small">FAQ</span>
+        <h2>Questions</h2>
+      </div>
+      <div class="s-faqs">
+        {faqs.slice(0, 4).map((faq) => (
+          <details class="s-faq">
+            <summary>{faq.title}</summary>
+            <p>{faq.body}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+{tags.length > 0 && (
+  <section class="s-section">
+    <div class="s-inner">
+      <div class="s-section-head">
+        <span class="s-eyebrow-small">Tags</span>
+        <h2>Capabilities</h2>
+      </div>
+      <div class="s-tags">
+        {tags.map((tag) => <span class="s-tag">{tag}</span>)}
+      </div>
+    </div>
+  </section>
+)}
+
+<footer class="s-footer">
+  <div class="s-inner" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+    <span>OpenAgent.bot — structured product showcase</span>
+    <div style="display:flex;gap:16px">
+      <a href={resource.machine_readable.json_url}>JSON</a>
+      <a href={resource.machine_readable.markdown_url}>MD</a>
+      <a href={`/${resource.classification.primary_category}`}>Directory</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .s-hero {
+    background: linear-gradient(135deg, var(--s-accent, #2563eb) 0%, #1a1a2e 100%);
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .s-hero::before {
+    background: radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 60%);
+    content: "";
+    inset: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .s-hero::after {
+    background: repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 40px);
+    content: "";
+    inset: 0;
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .s-hero-inner {
+    display: grid;
+    gap: 40px;
+    grid-template-columns: 1fr auto;
+    margin: 0 auto;
+    max-width: 1100px;
+    padding: 50px 32px 60px;
+    position: relative;
+  }
+
+  .s-hero-text { align-content: center; display: grid; gap: 14px; max-width: 560px; }
+
+  .s-eyebrow {
+    color: rgba(255,255,255,0.6);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+
+  .s-title {
+    font-size: clamp(2.6rem, 5vw, 4rem);
+    font-weight: 620;
+    letter-spacing: -0.02em;
+    line-height: 0.92;
+    margin: 0;
+  }
+
+  .s-desc {
+    color: rgba(255,255,255,0.8);
+    font-size: 1rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .s-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+
+  .s-btn {
+    border-radius: 6px;
+    font-size: 0.88rem;
+    font-weight: 520;
+    padding: 10px 22px;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .s-btn-primary {
+    background: #fff;
+    color: var(--s-accent, #2563eb);
+  }
+
+  .s-btn-primary:hover {
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    transform: translateY(-1px);
+  }
+
+  .s-btn-secondary {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+  }
+
+  .s-btn-secondary:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  .s-hero-stats {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 1fr 1fr;
+    min-width: 220px;
+  }
+
+  .s-stat-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    display: grid;
+    gap: 4px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+
+  .s-stat-val {
+    font-size: 1.4rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  .s-stat-label {
+    color: rgba(255,255,255,0.6);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+  }
+
+  .s-signals {
+    align-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    grid-column: 1 / -1;
+    justify-content: center;
+  }
+
+  .s-signal-chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 999px;
+    color: rgba(255,255,255,0.7);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    padding: 4px 10px;
+  }
+
+  .s-meta-strip {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 1100px;
+    padding: 14px 32px;
+  }
+
+  .s-meta-strip span {
+    color: rgba(255,255,255,0.5);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+  }
+
+  .s-section { padding: 52px 0; }
+  .s-section-alt { background: var(--s-bg, #f6f9ff); }
+  .s-inner { margin: 0 auto; max-width: 960px; padding: 0 32px; }
+
+  .s-section-head { margin-bottom: 24px; }
+  .s-section-head h2 { font-size: 1.5rem; font-weight: 560; letter-spacing: -0.01em; line-height: 1.2; margin: 6px 0 0; }
+
+  .s-eyebrow-small {
+    color: var(--s-accent, #2563eb);
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+  }
+
+  .s-lead {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 28px;
+    max-width: 720px;
+  }
+
+  .s-grid-3 { display: grid; gap: 16px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .s-grid-2 { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .s-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 8px;
+    padding: 20px;
+  }
+
+  .s-card-icon {
+    border-radius: 6px;
+    font-size: 1rem;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    width: 28px;
+  }
+
+  .s-card h3 { font-size: 1rem; font-weight: 580; margin: 0; }
+  .s-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.55; margin: 0; }
+  .s-card small { display: block; font-size: 0.75rem; font-weight: 500; margin-top: 4px; }
+
+  .s-use-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: grid;
+    gap: 8px;
+    padding: 18px;
+  }
+
+  .s-use-card h3 { font-size: 0.95rem; font-weight: 580; margin: 0; }
+  .s-use-card p { color: var(--muted); font-size: 0.84rem; line-height: 1.55; margin: 0; }
+
+  .s-comparison { border: 1px solid var(--line); border-radius: 8px; }
+  .s-comp-row { border-bottom: 1px solid var(--line); padding: 14px 18px; }
+  .s-comp-row:last-child { border-bottom: 0; }
+  .s-comp-label { font-size: 0.88rem; font-weight: 560; }
+  .s-comp-row p { color: var(--muted); font-size: 0.84rem; line-height: 1.5; margin: 4px 0 0; }
+  .s-muted-text { color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
+
+  .s-faqs { display: grid; gap: 8px; }
+  .s-faq {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .s-faq summary { cursor: pointer; font-size: 0.9rem; font-weight: 560; }
+  .s-faq p { color: var(--muted); font-size: 0.84rem; line-height: 1.5; margin: 10px 0 0; }
+
+  .s-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .s-tag {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    padding: 6px 12px;
+  }
+
+  .s-footer {
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    color: var(--subtle);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 16px 0;
+  }
+
+  .s-footer a { color: var(--muted); text-decoration: none; }
+  .s-footer a:hover { color: var(--ink); }
+
+  @media (max-width: 800px) {
+    .s-hero-inner { grid-template-columns: 1fr; padding: 36px 20px 40px; }
+    .s-hero-stats { grid-template-columns: 1fr 1fr; min-width: 0; }
+    .s-inner { padding: 0 20px; }
+    .s-section { padding: 36px 0; }
+    .s-grid-3, .s-grid-2 { grid-template-columns: 1fr; }
+  }
+</style>

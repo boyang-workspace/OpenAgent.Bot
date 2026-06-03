@@ -163,10 +163,10 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
 
 <section class="d-section d-section-dark" style="padding:20px 0">
   <div class="d-section-inner" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-    <span style="color:rgba(255,255,255,0.4);font-size:0.8rem">OpenAgent.bot — independent product showcase</span>
+    <span style="color:rgba(255,255,255,0.55);font-size:0.8rem">OpenAgent.bot — independent product showcase</span>
     <div style="display:flex;gap:12px">
-      <a href={resource.machine_readable.json_url} style="color:rgba(255,255,255,0.5);font-size:0.8rem">JSON</a>
-      <a href={`/${resource.classification.primary_category}`} style="color:rgba(255,255,255,0.5);font-size:0.8rem">Directory</a>
+      <a href={resource.machine_readable.json_url} style="color:rgba(255,255,255,0.6);font-size:0.8rem">JSON</a>
+      <a href={`/${resource.classification.primary_category}`} style="color:rgba(255,255,255,0.6);font-size:0.8rem">Directory</a>
     </div>
   </div>
 </section>
@@ -187,6 +187,15 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
     position: absolute;
     right: 0;
     top: 0;
+    z-index: 1;
+  }
+
+  .d-hero::after {
+    background: radial-gradient(ellipse 500px 250px at 30% 0%, {t.accentSoft} 0%, transparent 60%);
+    content: "";
+    inset: 0;
+    opacity: 0.6;
+    position: absolute;
   }
 
   .d-nav {
@@ -274,7 +283,7 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
   }
 
   .d-term-flag {
-    color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.5);
     font-family: var(--mono);
     font-size: 0.65rem;
     margin-left: auto;
@@ -288,7 +297,7 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
 
   .d-term-line code { color: #e2e8f0; font-family: var(--mono); font-size: 0.82rem; }
 
-  .d-term-cm { color: #6b7280 !important; }
+  .d-term-cm { color: rgba(255,255,255,0.45) !important; }
 
   .d-term-dots { display: flex; gap: 4px; margin-top: 4px; }
 
@@ -326,7 +335,7 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
   .d-section-head { display: grid; gap: 10px; margin-bottom: 32px; max-width: 660px; }
   .d-section-head h2 { font-size: 1.8rem; font-weight: 590; letter-spacing: -0.01em; line-height: 1.15; margin: 0; }
   .d-section-dark .d-section-head h2 { color: #fff; }
-  .d-section-dark .d-section-head p { color: rgba(255,255,255,0.6); }
+  .d-section-dark .d-section-head p { color: rgba(255,255,255,0.7); }
   .d-section-head p { color: var(--muted); font-size: 0.95rem; line-height: 1.55; margin: 0; }
 
   .d-eyebrow {
@@ -355,8 +364,8 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
   }
 
   .d-section-dark .d-card h3 { color: #fff; }
-  .d-section-dark .d-card p { color: rgba(255,255,255,0.55); }
-  .d-section-dark .d-card small { color: rgba(255,255,255,0.35); }
+  .d-section-dark .d-card p { color: rgba(255,255,255,0.68); }
+  .d-section-dark .d-card small { color: rgba(255,255,255,0.45); }
 
   .d-card h3 { font-size: 1rem; font-weight: 580; margin: 0; }
   .d-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.5; margin: 0; }

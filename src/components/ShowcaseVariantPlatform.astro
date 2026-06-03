@@ -176,11 +176,11 @@ const stats = [
 
 <section class="v-section v-section-dark" style="padding:20px 0">
   <div class="v-section-inner" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-    <span style="color:rgba(255,255,255,0.5);font-size:0.82rem">OpenAgent.bot — independent product showcase</span>
+    <span style="color:rgba(255,255,255,0.6);font-size:0.82rem">OpenAgent.bot — independent product showcase</span>
     <div style="display:flex;gap:12px">
-      <a href={resource.machine_readable.json_url} style="color:rgba(255,255,255,0.6);font-size:0.82rem">JSON</a>
-      <a href={resource.machine_readable.markdown_url} style="color:rgba(255,255,255,0.6);font-size:0.82rem">Markdown</a>
-      <a href={`/${resource.classification.primary_category}`} style="color:rgba(255,255,255,0.6);font-size:0.82rem">Directory</a>
+      <a href={resource.machine_readable.json_url} style="color:rgba(255,255,255,0.7);font-size:0.82rem">JSON</a>
+      <a href={resource.machine_readable.markdown_url} style="color:rgba(255,255,255,0.7);font-size:0.82rem">Markdown</a>
+      <a href={`/${resource.classification.primary_category}`} style="color:rgba(255,255,255,0.7);font-size:0.82rem">Directory</a>
     </div>
   </div>
 </section>
@@ -203,6 +203,15 @@ const stats = [
     position: absolute;
     right: 0;
     top: 0;
+    z-index: 1;
+  }
+
+  .v-hero::after {
+    background: radial-gradient(ellipse 600px 300px at 50% 0%, {t.accentSoft} 0%, transparent 70%);
+    content: "";
+    inset: 0;
+    opacity: 0.5;
+    position: absolute;
   }
 
   .v-nav {
@@ -337,7 +346,7 @@ const stats = [
     text-transform: uppercase;
   }
 
-  .v-eyebrow-light { color: rgba(255,255,255,0.5); }
+  .v-eyebrow-light { color: rgba(255,255,255,0.65); }
 
   .v-strengths {
     display: grid;
@@ -411,7 +420,7 @@ const stats = [
   }
 
   .v-term-title {
-    color: rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.5);
     font-family: var(--mono);
     font-size: 0.7rem;
     margin-left: auto;
@@ -439,7 +448,7 @@ const stats = [
 
   .v-link-card:hover { background: rgba(255,255,255,0.12); }
   .v-link-card strong { color: #fff; font-weight: 520; font-size: 0.9rem; }
-  .v-link-card span { color: rgba(255,255,255,0.4); }
+  .v-link-card span { color: rgba(255,255,255,0.55); }
 
   .v-compare { display: grid; gap: 16px; }
 

@@ -7,9 +7,10 @@ type Props = {
   title?: string;
   description?: string;
   active?: string;
+  variant?: boolean;
 };
 
-const { eyebrow, title, description, active } = Astro.props;
+const { eyebrow, title, description, active, variant } = Astro.props;
 const isHome = Astro.url.pathname === "/";
 const homeHref = (hash: string) => (isHome ? hash : `/${hash}`);
 const primaryLinks = [
@@ -54,7 +55,7 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
     <div class="mobile-rail" aria-label="OpenAgent.bot sections">
       {sectionLinks.map((item) => <a class:list={{ active: active === item.key }} href={item.href} data-analytics="nav" data-analytics-payload={JSON.stringify({label: item.label, href: item.href, mobile: true})}>{item.label}</a>)}
     </div>
-    <div class="editorial-content">
+    <div class:list={["editorial-content", { "is-variant": variant }]}>
       {
         title && (
           <header class="editorial-head">
@@ -294,6 +295,11 @@ const sectionLinks = [...primaryLinks, ...utilityLinks, submitLink];
     .editorial-content {
       padding: 18px 16px 48px;
     }
+  }
+
+  .editorial-content.is-variant {
+    max-width: none;
+    padding: 0;
   }
 
   @media (max-width: 760px) {

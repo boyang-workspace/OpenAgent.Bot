@@ -1,0 +1,49 @@
+{
+  "slug": "ruflo",
+  "title": "ruflo",
+  "oneLiner": "🌊 The leading agent meta-harness for Claude.",
+  "summary": "🌊 The leading agent meta-harness for Claude. Deploy intelligent multi-agent swarms, coordinate autonomous workflows, and build conversational AI systems. Features adaptive memory, self-learning swarm intelligence, RAG integration, and native Claude Code / Codex Integration",
+  "whyItMatters": "ruflo showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "bestFor": [
+    "Builders evaluating agents",
+    "Open-source AI discovery",
+    "Editorial review"
+  ],
+  "notFor": [
+    "Production adoption without manual verification"
+  ],
+  "category": "agents",
+  "tags": [
+    "agents",
+    "multi-agent",
+    "orchestration",
+    "open-source",
+    "claude"
+  ],
+  "repoUrl": "https://github.com/ruvnet/ruflo",
+  "homepageUrl": "https://Cognitum.One",
+  "license": "MIT",
+  "maintainer": "ruvnet",
+  "worksWith": [
+    "agents"
+  ],
+  "sourceLinks": [
+    "https://github.com/ruvnet/ruflo"
+  ],
+  "seoTitle": "ruflo: Open-Source Agent Meta-Harness for Claude",
+  "seoDescription": "ruflo is a leading agent meta-harness for Claude. Deploy multi-agent swarms, coordinate autonomous workflows, with adaptive memory and RAG integration.",
+  "shareTitle": "ruflo on OpenAgent.bot",
+  "shareDescription": "🌊 The leading agent meta-harness for Claude.",
+  "status": "published",
+  "updatedAt": "2026-06-03",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/ruvnet/ruflo",
+  "sourceMetrics": {
+    "stars": 57619,
+    "forks": 6588
+  },
+  "noindex": false,
+  "reviewedAt": "2026-06-03"
+}

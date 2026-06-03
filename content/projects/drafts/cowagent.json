@@ -1,0 +1,50 @@
+{
+  "slug": "cowagent",
+  "title": "CowAgent",
+  "oneLiner": "Open-source super AI assistant & Agent Harness.",
+  "summary": "Open-source super AI assistant & Agent Harness. Plans tasks, runs tools and skills, autonomously grows with memory and knowledge. Multi-model, multi-channel. Lightweight, extensible, one-line install. (formerly chatgpt-on-wechat)",
+  "whyItMatters": "CowAgent showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "bestFor": [
+    "Builders evaluating memory systems",
+    "Open-source AI discovery",
+    "Editorial review"
+  ],
+  "notFor": [
+    "Production adoption without manual verification"
+  ],
+  "category": "memory-systems",
+  "tags": [
+    "memory-systems",
+    "open-source",
+    "ai",
+    "repo-and-license-signals",
+    "strong-ai-relevance"
+  ],
+  "repoUrl": "https://github.com/zhayujie/CowAgent",
+  "homepageUrl": "https://cowagent.ai",
+  "license": "MIT",
+  "maintainer": "zhayujie",
+  "worksWith": [
+    "memory systems"
+  ],
+  "sourceLinks": [
+    "https://github.com/zhayujie/CowAgent",
+    "https://github.com/zhayujie/CowAgent/blob/master/README.md"
+  ],
+  "seoTitle": "CowAgent: Open-source memory systems for AI builders",
+  "seoDescription": "A concise editorial profile of CowAgent, including what it does, who it is best for, license, repo, and related open-source AI resources.",
+  "shareTitle": "CowAgent on OpenAgent.bot",
+  "shareDescription": "Open-source super AI assistant & Agent Harness.",
+  "status": "draft",
+  "generatedAt": "2026-06-03T00:00:00.000Z",
+  "updatedAt": "2026-06-03",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/zhayujie/CowAgent",
+  "sourceMetrics": {
+    "stars": 45035,
+    "forks": 10166
+  },
+  "noindex": true
+}

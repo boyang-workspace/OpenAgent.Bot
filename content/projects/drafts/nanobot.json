@@ -1,0 +1,50 @@
+{
+  "slug": "nanobot",
+  "title": "nanobot",
+  "oneLiner": "Lightweight, open-source AI agent for your tools, chats, and workflows.",
+  "summary": "Lightweight, open-source AI agent for your tools, chats, and workflows.",
+  "whyItMatters": "nanobot showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "bestFor": [
+    "Builders evaluating tools",
+    "Open-source AI discovery",
+    "Editorial review"
+  ],
+  "notFor": [
+    "Production adoption without manual verification"
+  ],
+  "category": "tools",
+  "tags": [
+    "tools",
+    "open-source",
+    "ai",
+    "repo-and-license-signals",
+    "strong-ai-relevance"
+  ],
+  "repoUrl": "https://github.com/HKUDS/nanobot",
+  "homepageUrl": "https://nanobot.wiki",
+  "license": "MIT",
+  "maintainer": "HKUDS",
+  "worksWith": [
+    "tools"
+  ],
+  "sourceLinks": [
+    "https://github.com/HKUDS/nanobot",
+    "https://github.com/HKUDS/nanobot/blob/main/README.md"
+  ],
+  "seoTitle": "nanobot: Open-source tools for AI builders",
+  "seoDescription": "A concise editorial profile of nanobot, including what it does, who it is best for, license, repo, and related open-source AI resources.",
+  "shareTitle": "nanobot on OpenAgent.bot",
+  "shareDescription": "Lightweight, open-source AI agent for your tools, chats, and workflows.",
+  "status": "draft",
+  "generatedAt": "2026-06-03T00:00:00.000Z",
+  "updatedAt": "2026-06-03",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/HKUDS/nanobot",
+  "sourceMetrics": {
+    "stars": 43570,
+    "forks": 7711
+  },
+  "noindex": true
+}

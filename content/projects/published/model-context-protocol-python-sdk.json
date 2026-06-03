@@ -31,8 +31,8 @@
     "https://github.com/modelcontextprotocol/python-sdk",
     "https://modelcontextprotocol.github.io/python-sdk/"
   ],
-  "seoTitle": "Model Context Protocol Python SDK: official MCP SDK",
-  "seoDescription": "MCP Python SDK profile: official Python SDK for MCP servers and clients, links, and OpenAgent structured data.",
+  "seoTitle": "Model Context Protocol Python SDK: Plugin/Extension — Official Python SDK for building MCP servers and clients.",
+  "seoDescription": "Model Context Protocol Python SDK is an open-source plugin. Official Python SDK for building MCP servers and clients.. 了解 Model Context Protocol Python SDK 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。",
   "shareTitle": "MCP Python SDK on OpenAgent.bot",
   "shareDescription": "Official Python SDK for Model Context Protocol servers and clients.",
   "status": "published",

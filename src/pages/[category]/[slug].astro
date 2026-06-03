@@ -1,11 +1,11 @@
 ---
 import EditorialShell from "@/components/EditorialShell.astro";
-import ShowcasePage from "@/components/ShowcasePage.astro";
 import ShowcaseVariantPlatform from "@/components/ShowcaseVariantPlatform.astro";
 import ShowcaseVariantDevtool from "@/components/ShowcaseVariantDevtool.astro";
 import ShowcaseVariantTerminal from "@/components/ShowcaseVariantTerminal.astro";
 import ShowcaseVariantStats from "@/components/ShowcaseVariantStats.astro";
 import { buildShowcaseProfile } from "@/lib/content/showcase";
+import { getPublishedBlogPosts } from "@/lib/content/blog";
 import { getPublishedResources, getRelatedResources, resourcePath } from "@/lib/content/resources";
 import { resourceCategoryLabel, resourceMeta } from "@/lib/content/resource-display";
 import type { ResourceV1 } from "@/lib/content/resource-schema";
@@ -28,6 +28,12 @@ const { resource } = Astro.props as Props;
 const allResources = await getPublishedResources();
 const related = await getRelatedResources(resource);
 const profile = buildShowcaseProfile(resource, { allResources, related });
+const allPosts = await getPublishedBlogPosts();
+const resourceName = resource.identity.name.toLowerCase();
+const relatedPosts = allPosts.filter((post) =>
+  post.body.toLowerCase().includes(resourceName) ||
+  post.tags.some((tag) => resourceName.includes(tag) || tag.includes(resourceName))
+).slice(0, 3);
 const repoLink = resource.links.items.find((link) => link.type === "github");
 const homepageLink = resource.links.items.find((link) => link.type === "homepage");
 const docsLink = resource.links.items.find((link) => link.type === "docs");
@@ -123,9 +129,12 @@ const faqJsonLd =
   {
     (() => {
       const a = profile.archetype;
-      const isVariant = true;
       return (
-        <EditorialShell active={resource.classification.primary_category} variant>
+        <EditorialShell active={resource.classification.primary_category} variant breadcrumbs={[
+          { label: "OpenAgent.bot", href: "/" },
+          { label: resourceCategoryLabel(resource), href: `/${resource.classification.primary_category}` },
+          { label: resource.identity.name }
+        ]}>
           {a === "platform-os" || a === "agent-framework" || a === "design-agent" || a === "skill-system" ? (
             <ShowcaseVariantPlatform resource={resource} profile={profile} />
           ) : a === "coding-agent" ? (
@@ -135,6 +144,23 @@ const faqJsonLd =
           ) : (
             <ShowcaseVariantStats resource={resource} profile={profile} />
           )}
+          {
+            relatedPosts.length > 0 && (
+              <section class="related-guides-section">
+                <hr class="section-divider" />
+                <h2 class="related-heading">Related guides</h2>
+                <div class="related-grid">
+                  {relatedPosts.map((post) => (
+                    <a class="related-card" href={`/blog/${post.slug}`}>
+                      <strong>{post.title}</strong>
+                      <p>{post.summary}</p>
+                      <span class="related-meta">{post.publishedAt}</span>
+                    </a>
+                  ))}
+                </div>
+              </section>
+            )
+          }
         </EditorialShell>
       );
     })()

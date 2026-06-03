@@ -35,8 +35,8 @@
     "https://github.com/BerriAI/litellm",
     "https://docs.litellm.ai/docs/"
   ],
-  "seoTitle": "LiteLLM: AI gateway and SDK for agent builders",
-  "seoDescription": "LiteLLM profile: provider routing, OpenAI-compatible proxy, cost tracking, official links, and OpenAgent structured data.",
+  "seoTitle": "LiteLLM: Tool/Utility — AI gateway and Python SDK for calling many LLM providers through OpenAI-compa...",
+  "seoDescription": "LiteLLM is an open-source tool. AI gateway and Python SDK for calling many LLM providers through OpenAI-compatible or native formats.. 了解 LiteLLM 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。",
   "shareTitle": "LiteLLM on OpenAgent.bot",
   "shareDescription": "AI gateway and SDK for multi-provider LLM applications.",
   "status": "published",

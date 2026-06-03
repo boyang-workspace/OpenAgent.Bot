@@ -41,8 +41,8 @@
     "https://huggingface.co/deepseek-ai/DeepSeek-R1",
     "https://ollama.com/library/deepseek-r1"
   ],
-  "seoTitle": "DeepSeek-R1: Open reasoning model for local AI workflows",
-  "seoDescription": "DeepSeek-R1 profile: what the open reasoning model is, when to use it, how it compares, official links, command line, and structured OpenAgent data.",
+  "seoTitle": "DeepSeek-R1: AI Model — Open reasoning model family for developers testing long-form reasoning, codin...",
+  "seoDescription": "DeepSeek-R1 is an open-source open-source model. Open reasoning model family for developers testing long-form reasoning, coding, and local AI workflows.. 了解 DeepSeek-R1 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。",
   "shareTitle": "DeepSeek-R1 on OpenAgent.bot",
   "shareDescription": "Open reasoning model family for local AI, coding, and self-hosted evaluation.",
   "status": "published",

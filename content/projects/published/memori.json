@@ -34,8 +34,8 @@
     "https://gibsonai.github.io/memori/",
     "https://gibsonai.github.io/memori/core-concepts/overview/"
   ],
-  "seoTitle": "Memori: Memory Systems resource for open AI builders",
-  "seoDescription": "Memori profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "seoTitle": "Memori: Memory System — Open-source memory engine for LLM apps and agents that need persistent contex...",
+  "seoDescription": "Memori is an open-source memory system. Open-source memory engine for LLM apps and agents that need persistent context injection.. 了解 Memori 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。",
   "shareTitle": "Memori on OpenAgent.bot",
   "shareDescription": "Open-source memory engine for LLM apps and agents that need persistent context injection.",
   "status": "published",

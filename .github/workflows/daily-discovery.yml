@@ -1,0 +1,32 @@
+name: Daily Discovery
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+jobs:
+  discover:
+    name: Discover and draft new projects
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run discovery:daily
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit discovery outputs
+        run: |
+          git config user.name "openagent-bot"
+          git config user.email "bot@openagent.bot"
+          git add content/discovery/ content/topics/ content/projects/drafts/
+          if git diff --cached --quiet; then
+            echo "No new discovery data"
+          else
+            git commit -m "chore: daily discovery output"
+            git push
+          fi

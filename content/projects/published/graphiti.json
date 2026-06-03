@@ -32,8 +32,8 @@
     "https://github.com/getzep/graphiti",
     "https://help.getzep.com/graphiti"
   ],
-  "seoTitle": "Graphiti: Memory Systems resource for open AI builders",
-  "seoDescription": "Graphiti profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data.",
+  "seoTitle": "Graphiti: Memory System — Temporal knowledge graph memory system for agents that need facts, entities, ...",
+  "seoDescription": "Graphiti is an open-source memory system. Temporal knowledge graph memory system for agents that need facts, entities, and time-aware context.. 了解 Graphiti 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。",
   "shareTitle": "Graphiti on OpenAgent.bot",
   "shareDescription": "Temporal knowledge graph memory system for agents that need facts, entities, and time-aware context.",
   "status": "published",

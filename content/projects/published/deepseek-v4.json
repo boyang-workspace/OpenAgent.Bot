@@ -46,8 +46,8 @@
     "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash",
     "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/main/LICENSE"
   ],
-  "seoTitle": "DeepSeek V4: Open model profile for agent and coding workflows",
-  "seoDescription": "DeepSeek V4 profile: V4-Pro and V4-Flash, official links, model fit, long-context agent evaluation notes, license signal, and OpenAgent data.",
+  "seoTitle": "DeepSeek V4: AI Model — Open DeepSeek V4 model family for million-token context, coding, reasoning, a...",
+  "seoDescription": "DeepSeek V4 is an open-source open-source model. Open DeepSeek V4 model family for million-token context, coding, reasoning, and agent workflows.. 了解 DeepSeek V4 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。",
   "shareTitle": "DeepSeek V4 on OpenAgent.bot",
   "shareDescription": "Current DeepSeek V4 model family for coding, reasoning, million-token context, and agent evaluation.",
   "status": "published",

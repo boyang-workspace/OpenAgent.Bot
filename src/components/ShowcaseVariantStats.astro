@@ -22,8 +22,6 @@ const stats = [
   { label: "Forks", value: resource.facts.github_forks ? `${(resource.facts.github_forks / 1000).toFixed(1)}K` : null },
 ].filter((s) => s.value);
 const statStr = stats.map((s) => `${s.value} ${s.label}`).join(" · ");
-const firstSignal = signals[0];
-const secondSignal = signals[1];
 ---
 
 <section class="s-hero" style={`--s-accent:${t.accent};--s-accent2:${t.accent2}`}>
@@ -57,6 +55,7 @@ const secondSignal = signals[1];
     <span>{resource.identity.name}</span>
     <span>{statStr}</span>
     <span>{profile.officialHost ?? resource.facts.github_repo_full_name ?? profile.categoryLabel}</span>
+    {resource.facts.last_verified_at && <span>verified {resource.facts.last_verified_at.slice(0, 10)}</span>}
   </div>
 </section>
 
@@ -154,17 +153,6 @@ const secondSignal = signals[1];
     </div>
   </section>
 )}
-
-<footer class="s-footer">
-  <div class="s-inner" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-    <span>OpenAgent.bot — structured product showcase</span>
-    <div style="display:flex;gap:16px">
-      <a href={resource.machine_readable.json_url}>JSON</a>
-      <a href={resource.machine_readable.markdown_url}>MD</a>
-      <a href={`/${resource.classification.primary_category}`}>Directory</a>
-    </div>
-  </div>
-</footer>
 
 <style>
   .s-hero {
@@ -407,18 +395,6 @@ const secondSignal = signals[1];
     font-size: 0.72rem;
     padding: 6px 12px;
   }
-
-  .s-footer {
-    background: var(--paper);
-    border-top: 1px solid var(--line);
-    color: var(--subtle);
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    padding: 16px 0;
-  }
-
-  .s-footer a { color: var(--muted); text-decoration: none; }
-  .s-footer a:hover { color: var(--ink); }
 
   @media (max-width: 800px) {
     .s-hero-inner { grid-template-columns: 1fr; padding: 36px 20px 40px; }

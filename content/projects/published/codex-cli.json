@@ -31,8 +31,8 @@
     "https://github.com/openai/codex",
     "https://github.com/openai/codex#readme"
   ],
-  "seoTitle": "Codex CLI: Open-source coding agent resource for open AI builders",
-  "seoDescription": "Codex CLI profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data for the OpenAI terminal coding agent.",
+  "seoTitle": "Codex CLI: AI Agent — Lightweight coding agent from OpenAI that runs locally in your terminal, buil...",
+  "seoDescription": "Codex CLI is an open-source AI agent. Lightweight coding agent from OpenAI that runs locally in your terminal, built in Rust, works with ChatGPT plans or API keys.. 了解 Codex CLI 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。",
   "shareTitle": "Codex CLI on OpenAgent.bot",
   "shareDescription": "Lightweight coding agent from OpenAI that runs locally in your terminal, built in Rust, works with ChatGPT plans or API keys.",
   "status": "published",

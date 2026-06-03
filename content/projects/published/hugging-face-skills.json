@@ -37,8 +37,8 @@
     "https://github.com/huggingface/skills",
     "https://huggingface.co"
   ],
-  "seoTitle": "Hugging Face Skills: Open-source skills for AI agents",
-  "seoDescription": "Hugging Face Skills profile: what the open-source agent skills repository is, when to use it, official links, command line, and OpenAgent data.",
+  "seoTitle": "Hugging Face Skills: Skill System — Open-source skill collection that gives agents reusable access to Hugging Fac...",
+  "seoDescription": "Hugging Face Skills is an open-source skill system. Open-source skill collection that gives agents reusable access to Hugging Face ecosystem capabilities.. 了解 Hugging Face Skills 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。",
   "shareTitle": "Hugging Face Skills on OpenAgent.bot",
   "shareDescription": "Open-source reusable skills for agents using the Hugging Face ecosystem.",
   "status": "published",

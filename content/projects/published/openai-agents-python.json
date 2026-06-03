@@ -32,8 +32,8 @@
     "https://github.com/openai/openai-agents-python",
     "https://openai.github.io/openai-agents-python/"
   ],
-  "seoTitle": "OpenAI Agents SDK: Python framework for multi-agent workflows",
-  "seoDescription": "OpenAI Agents SDK profile: what it is, when to use it, official links, install command, and OpenAgent structured data.",
+  "seoTitle": "OpenAI Agents SDK: AI Agent — Lightweight Python framework for building multi-agent workflows with handoffs...",
+  "seoDescription": "OpenAI Agents SDK is an open-source AI agent. Lightweight Python framework for building multi-agent workflows with handoffs, tools, tracing, and guardrails.. 了解 OpenAI Agents SDK 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。",
   "shareTitle": "OpenAI Agents SDK on OpenAgent.bot",
   "shareDescription": "Open-source Python framework for multi-agent workflows.",
   "status": "published",

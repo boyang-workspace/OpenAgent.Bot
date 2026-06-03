@@ -32,8 +32,8 @@
     "https://github.com/PrefectHQ/fastmcp",
     "https://gofastmcp.com"
   ],
-  "seoTitle": "FastMCP: Python framework for MCP servers and clients",
-  "seoDescription": "FastMCP profile: Python MCP server and client framework, official links, command line, and OpenAgent structured data.",
+  "seoTitle": "FastMCP: Plugin/Extension — Pythonic framework for building MCP servers and clients.",
+  "seoDescription": "FastMCP is an open-source plugin. Pythonic framework for building MCP servers and clients.. 了解 FastMCP 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。",
   "shareTitle": "FastMCP on OpenAgent.bot",
   "shareDescription": "Pythonic framework for building MCP servers and clients.",
   "status": "published",

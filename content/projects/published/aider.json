@@ -31,8 +31,8 @@
     "https://aider.chat",
     "https://aider.chat/docs"
   ],
-  "seoTitle": "Aider: Open-source AI pair programming resource for open AI builders",
-  "seoDescription": "Aider profile on OpenAgent.bot: what it is, when to use it, official links, open-source status, and structured resource data for the model-agnostic terminal coding agent.",
+  "seoTitle": "Aider: AI Agent — AI pair programming in your terminal that maps your codebase, auto-commits to...",
+  "seoDescription": "Aider is an open-source AI agent. AI pair programming in your terminal that maps your codebase, auto-commits to git, and works with 100+ languages and any LLM provider.. 了解 Aider 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。",
   "shareTitle": "Aider on OpenAgent.bot",
   "shareDescription": "AI pair programming in your terminal that maps your codebase, auto-commits to git, and works with 100+ languages and any LLM provider.",
   "status": "published",

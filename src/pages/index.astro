@@ -17,7 +17,7 @@ const floorDescriptions: Record<string, string> = {
   models: "Open models that can power private, local, and self-hosted AI workflows.",
   skills: "Reusable capability packs that make agents useful in real tasks.",
   "memory-systems": "Open memory systems for retrieval, long-term context, and user-owned knowledge.",
-  bots: "Open-source bots and robotics tooling for physical AI agents."
+  bots: "Open-source AI bots for Discord, Telegram, Slack, WhatsApp, Matrix, WeChat, and self-hosted agent channels."
 };
 const orderedFloors = [...categories]
   .filter((category) => floorOrder.includes(category.slug))
@@ -72,7 +72,10 @@ const evaluationCards = [
 ];
 ---
 
-<BaseLayout>
+  <BaseLayout
+    title="Open-source AI agents, models & tools directory"
+    description="Curated directory of open-source AI agents, models, skills, and memory systems. Find self-hostable, local-first AI tools with source-backed evaluations."
+  >
   <Fragment slot="head">
     <script is:inline type="application/ld+json" set:html={JSON.stringify(homeWebSite)} />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(homeOrg)} />
@@ -80,10 +83,13 @@ const evaluationCards = [
   <EditorialShell active="agents">
     <section class="home-intro" aria-labelledby="home-title">
       <p class="eyebrow">OpenAgent.bot</p>
-      <h1 id="home-title">Find open-source AI agents, models, skills, and memory systems.</h1>
+      <h1 id="home-title">Open-source AI agents, models, skills, and memory systems directory.</h1>
       <p>
-        A source-backed directory for builders choosing local-first, self-hostable, and transparent AI tools.
-        Browse official repos, licenses, docs, stars, and practical evaluation guides in one place.
+        Find, compare, and evaluate self-hostable AI tools. Browse <a href="/agents">open-source AI agents</a>,
+        <a href="/models">open models</a>, <a href="/skills">reusable skills</a>,
+        <a href="/memory-systems">memory systems</a>, <a href="/plugins">plugins</a>,
+        <a href="/bots">bots</a>, and <a href="/tools">developer tools</a> with official sources,
+        license info, and practical evaluations — all in one place.
       </p>
     </section>
 
@@ -99,6 +105,7 @@ const evaluationCards = [
           <div class="card-grid">
             {floor.items.map((resource) => <ResourceCard resource={resource} />)}
           </div>
+          <a href={`/${floor.slug}`} class="floor-link">Browse all {floor.label.toLowerCase()} →</a>
         </section>
       ))}
     </div>
@@ -205,6 +212,18 @@ const evaluationCards = [
     line-height: 1.48;
     margin: 6px 0 0;
     max-width: 680px;
+  }
+
+  .floor-link {
+    color: var(--green);
+    display: inline-block;
+    font-size: 0.82rem;
+    font-weight: 540;
+    margin-top: 14px;
+  }
+
+  .floor-link:hover {
+    opacity: 0.8;
   }
 
   .card-grid,

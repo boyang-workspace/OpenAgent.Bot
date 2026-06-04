@@ -31,15 +31,22 @@ const tagAliases: Record<string, string> = {
   "browser-automation": "browser-automation",
   "chat-ui": "chat-ui",
   connectors: "connectors",
+  discord: "messaging",
   inference: "inference",
   "local-ai": "local-inference",
   "local-inference": "local-inference",
   mcp: "mcp",
   memory: "memory",
+  messaging: "messaging",
   ollama: "ollama",
   plugin: "plugin",
   protocol: "protocol",
   rag: "rag",
+  slack: "messaging",
+  telegram: "messaging",
+  whatsapp: "messaging",
+  matrix: "messaging",
+  zulip: "messaging",
   "self-hosted": "self-hosted",
   state: "state",
   "state-management": "state-management",
@@ -48,7 +55,8 @@ const tagAliases: Record<string, string> = {
     robot: "robotics",
     robotics: "robotics",
     "robotics-agent": "robotics-agent",
-    teleoperation: "robotics"
+    teleoperation: "robotics",
+    "support-bot": "support-bot"
 };
 
 function uniq(values: Array<string | undefined>): string[] {
@@ -210,7 +218,7 @@ function fallbackThumbnailBrief(project: OpenProject): ThumbnailBrief {
     skills: "modular command blocks and action steps",
     plugins: "connectors, ports, and structured modules",
     tools: "clean utility panel and geometric control surface",
-    bots: "robot arm, joint stream, or sensor actuator diagram"
+    bots: "chat bubbles, channel connectors, and agent status indicators"
   };
 
   return {
@@ -255,7 +263,7 @@ function mapCapabilities(project: OpenProject): string[] {
   if (project.category === "agents") normalized.push("workflow-orchestration");
   if (project.category === "memory-systems") normalized.push("memory");
   if (project.category === "models") normalized.push("local-inference");
-  if (project.category === "bots") normalized.push("robotics");
+  if (project.category === "bots") normalized.push("messaging");
   return limit(uniq(normalized));
 }
 
@@ -280,7 +288,7 @@ function mapScenarios(project: OpenProject): string[] {
   if (tags.has("self-hosted") || project.category === "tools") values.push("self-hosted-ai");
   if (project.category === "agents" || project.category === "skills" || project.category === "plugins") values.push("developer-workflow");
   if (project.category === "memory-systems") values.push("personal-memory");
-  if (project.category === "bots") values.push("robotics-agent");
+  if (project.category === "bots") values.push(project.tags.includes("robotics") ? "robotics-agent" : "chatbot");
   return limit(uniq(values.length ? values : ["developer-workflow"]));
 }
 

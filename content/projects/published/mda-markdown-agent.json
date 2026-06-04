@@ -1,0 +1,108 @@
+{
+  "slug": "mda-markdown-agent",
+  "title": "MDA",
+  "oneLiner": "Markdown superset that compiles agent-facing documents such as SKILL.md, AGENTS.md, MCP-SERVER.md, and CLAUDE.md.",
+  "summary": "MDA is an open-source agent skill resource focused on markdown superset that compiles agent-facing documents such as skill.md, agents.md, mcp-server.md, and claude.md.",
+  "whyItMatters": "MDA matters because the agent ecosystem is moving from one-off prompts to reusable skills, instructions, and workflow packs. It gives builders a source-backed way to inspect, adapt, and compare task-specific agent capability instead of reinventing the same prompt structure every time.",
+  "bestFor": [
+    "Builders looking for reusable agent skills",
+    "Teams standardizing repeated AI workflows",
+    "Researchers comparing skill-based agent architectures"
+  ],
+  "notFor": [
+    "Teams that need a fully managed closed product with no repository review",
+    "Workflows that cannot tolerate experimental community-maintained skill packs"
+  ],
+  "category": "skills",
+  "tags": [
+    "skill",
+    "open-source",
+    "agent-skill",
+    "mcp",
+    "documentation",
+    "developer-workflow"
+  ],
+  "repoUrl": "https://github.com/sno-ai/mda",
+  "homepageUrl": "https://github.com/sno-ai/mda",
+  "docsUrl": "https://github.com/sno-ai/mda",
+  "license": "Apache-2.0",
+  "maintainer": "sno-ai",
+  "worksWith": [
+    "Claude Code",
+    "Codex CLI",
+    "Cursor",
+    "Gemini CLI",
+    "OpenCode"
+  ],
+  "sourceLinks": [
+    "https://github.com/sno-ai/mda"
+  ],
+  "seoTitle": "MDA: Open-source agent skill for builders",
+  "seoDescription": "MDA is an open-source agent skill listed on OpenAgent.bot with official GitHub links, license details, use cases, and evaluation notes.",
+  "shareTitle": "MDA on OpenAgent.bot",
+  "shareDescription": "Markdown superset that compiles agent-facing documents such as SKILL.md, AGENTS.md, MCP-SERVER.md, and CLAUDE.md.",
+  "status": "published",
+  "generatedAt": "2026-06-05T00:00:00.000Z",
+  "reviewedAt": "2026-06-05T00:00:00.000Z",
+  "updatedAt": "2026-06-05",
+  "lastVerifiedAt": "2026-06-05",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/sno-ai/mda",
+  "sourceMetrics": {
+    "stars": 565
+  },
+  "coreStrengths": [
+    {
+      "title": "Reusable skill packaging",
+      "description": "MDA treats repeated agent behavior as reusable files or workflows rather than one-off prompts.",
+      "whyItMatters": "Reusable packaging is the difference between a clever demo and an operational agent workflow."
+    },
+    {
+      "title": "Source-backed adaptation",
+      "description": "The public repository gives teams a concrete starting point for forking, pruning, and adapting skills to their own standards.",
+      "whyItMatters": "Agent skills often need local conventions, so editable source is more valuable than a static prompt."
+    },
+    {
+      "title": "Useful for capability mapping",
+      "description": "The project helps OpenAgent readers see which skill categories are emerging around coding, security, design, marketing, research, and operations.",
+      "whyItMatters": "A good skill directory should help builders understand the shape of the ecosystem, not only collect links."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Build an internal skill library",
+      "description": "Use MDA as a reference when deciding how to organize reusable agent instructions and procedures."
+    },
+    {
+      "title": "Compare agent capability coverage",
+      "description": "Check whether the repository covers the task areas your agents repeatedly perform."
+    },
+    {
+      "title": "Fork and localize workflows",
+      "description": "Adapt the skills to your engineering standards, tools, terminology, and review process before using them on private work."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "When to choose MDA",
+      "summary": "Choose it when its official repository shows the workflow, license, and integration model you need more directly than a broad framework."
+    }
+  ],
+  "seoArticle": {
+    "whatItIs": "MDA is an open-source agent skill project tracked by OpenAgent.bot. MDA is an open-source agent skill resource focused on markdown superset that compiles agent-facing documents such as skill.md, agents.md, mcp-server.md, and claude.md.",
+    "whyItMatters": "MDA matters because the agent ecosystem is moving from one-off prompts to reusable skills, instructions, and workflow packs. It gives builders a source-backed way to inspect, adapt, and compare task-specific agent capability instead of reinventing the same prompt structure every time.",
+    "howItWorks": "Open the official repository first, review setup instructions, verify the license, then test the project with non-sensitive data before connecting real accounts or production workflows.",
+    "faq": [
+      {
+        "question": "Is MDA open source?",
+        "answer": "Yes. The linked GitHub repository lists Apache-2.0 licensing information; verify the current license before production use."
+      },
+      {
+        "question": "Who should evaluate MDA?",
+        "answer": "Builders looking for reusable agent skills"
+      }
+    ]
+  }
+}

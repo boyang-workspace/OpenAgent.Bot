@@ -1,0 +1,111 @@
+{
+  "slug": "astrbot",
+  "title": "AstrBot",
+  "oneLiner": "Multi-platform AI agent assistant framework for IM platforms, LLMs, plugins, and AI features.",
+  "summary": "AstrBot is an open-source AI bot project focused on multi-platform ai agent assistant framework for im platforms, llms, plugins, and ai features.",
+  "whyItMatters": "AstrBot matters because many useful agents will not live only inside an IDE or web app. They need to work inside the communication channels people already use, with source code that can be inspected, self-hosted, and adapted around privacy, permissions, memory, and operational controls.",
+  "bestFor": [
+    "Builders evaluating self-hosted AI bots for real messaging channels",
+    "Teams comparing Discord, Telegram, Slack, WhatsApp, Matrix, or WeChat AI assistant options",
+    "Developers who want open-source bot infrastructure instead of closed chatbot SaaS"
+  ],
+  "notFor": [
+    "Teams unwilling to review bot permissions, channel credentials, and data retention policies",
+    "Users who only need a hosted consumer chatbot with no deployment work"
+  ],
+  "category": "bots",
+  "tags": [
+    "bot",
+    "open-source",
+    "messaging",
+    "agent-framework",
+    "plugin",
+    "self-hosted",
+    "chat-ui"
+  ],
+  "repoUrl": "https://github.com/AstrBotDevs/AstrBot",
+  "homepageUrl": "https://github.com/AstrBotDevs/AstrBot",
+  "docsUrl": "https://github.com/AstrBotDevs/AstrBot",
+  "license": "AGPL-3.0",
+  "maintainer": "AstrBotDevs",
+  "worksWith": [
+    "Discord",
+    "Telegram",
+    "Slack",
+    "WeChat",
+    "QQ",
+    "LLMs"
+  ],
+  "sourceLinks": [
+    "https://github.com/AstrBotDevs/AstrBot"
+  ],
+  "seoTitle": "AstrBot: Open-source AI bot for builders",
+  "seoDescription": "AstrBot is an open-source AI bot listed on OpenAgent.bot with official GitHub links, license details, use cases, and evaluation notes.",
+  "shareTitle": "AstrBot on OpenAgent.bot",
+  "shareDescription": "Multi-platform AI agent assistant framework for IM platforms, LLMs, plugins, and AI features.",
+  "status": "published",
+  "generatedAt": "2026-06-05T00:00:00.000Z",
+  "reviewedAt": "2026-06-05T00:00:00.000Z",
+  "updatedAt": "2026-06-05",
+  "lastVerifiedAt": "2026-06-05",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/AstrBotDevs/AstrBot",
+  "sourceMetrics": {
+    "stars": 33820,
+    "forks": 2321
+  },
+  "coreStrengths": [
+    {
+      "title": "Lives in existing communication channels",
+      "description": "AstrBot brings AI assistance into messaging surfaces rather than forcing users into a separate app.",
+      "whyItMatters": "Bots become useful when they meet users where coordination already happens."
+    },
+    {
+      "title": "Self-hostable source path",
+      "description": "The public repository lets teams inspect runtime behavior, credentials handling, and integration choices before deployment.",
+      "whyItMatters": "AI bots can see sensitive conversations, so source review and controlled hosting matter."
+    },
+    {
+      "title": "Good comparison target for agent gateways",
+      "description": "The project shows how open bots connect LLMs, permissions, plugins, memory, or channel adapters.",
+      "whyItMatters": "These patterns are likely to become a core part of practical open-agent infrastructure."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Team chat AI assistant",
+      "description": "Deploy or study AstrBot as a starting point for AI help inside messaging channels."
+    },
+    {
+      "title": "Personal always-on bot",
+      "description": "Evaluate whether its channel support, model support, and hosting model fit a private personal assistant workflow."
+    },
+    {
+      "title": "Agent gateway prototype",
+      "description": "Use the project to compare how bots handle message routing, model calls, plugins, and long-running tasks."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "When to choose AstrBot",
+      "summary": "Choose it when its official repository shows the workflow, license, and integration model you need more directly than a broad framework."
+    }
+  ],
+  "seoArticle": {
+    "whatItIs": "AstrBot is an open-source AI bot project tracked by OpenAgent.bot. AstrBot is an open-source AI bot project focused on multi-platform ai agent assistant framework for im platforms, llms, plugins, and ai features.",
+    "whyItMatters": "AstrBot matters because many useful agents will not live only inside an IDE or web app. They need to work inside the communication channels people already use, with source code that can be inspected, self-hosted, and adapted around privacy, permissions, memory, and operational controls.",
+    "howItWorks": "Open the official repository first, review setup instructions, verify the license, then test the project with non-sensitive data before connecting real accounts or production workflows.",
+    "faq": [
+      {
+        "question": "Is AstrBot open source?",
+        "answer": "Yes. The linked GitHub repository lists AGPL-3.0 licensing information; verify the current license before production use."
+      },
+      {
+        "question": "Who should evaluate AstrBot?",
+        "answer": "Builders evaluating self-hosted AI bots for real messaging channels"
+      }
+    ]
+  }
+}

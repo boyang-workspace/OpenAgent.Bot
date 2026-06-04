@@ -1,0 +1,108 @@
+{
+  "slug": "antigravity-awesome-skills",
+  "title": "Antigravity Awesome Skills",
+  "oneLiner": "Large installable library of agentic skills for Claude Code, Cursor, Codex CLI, Gemini CLI, and Antigravity.",
+  "summary": "Antigravity Awesome Skills is an open-source agent skill resource focused on large installable library of agentic skills for claude code, cursor, codex cli, gemini cli, and antigravity.",
+  "whyItMatters": "Antigravity Awesome Skills matters because the agent ecosystem is moving from one-off prompts to reusable skills, instructions, and workflow packs. It gives builders a source-backed way to inspect, adapt, and compare task-specific agent capability instead of reinventing the same prompt structure every time.",
+  "bestFor": [
+    "Builders looking for reusable coding-agent skills",
+    "Teams standardizing repeated AI workflows",
+    "Researchers comparing skill-based agent architectures"
+  ],
+  "notFor": [
+    "Teams that need a fully managed closed product with no repository review",
+    "Workflows that cannot tolerate experimental community-maintained skill packs"
+  ],
+  "category": "skills",
+  "tags": [
+    "skill",
+    "open-source",
+    "agent-skill",
+    "skill-library",
+    "developer-workflow",
+    "coding-agent"
+  ],
+  "repoUrl": "https://github.com/sickn33/antigravity-awesome-skills",
+  "homepageUrl": "https://github.com/sickn33/antigravity-awesome-skills",
+  "docsUrl": "https://github.com/sickn33/antigravity-awesome-skills",
+  "license": "MIT",
+  "maintainer": "sickn33",
+  "worksWith": [
+    "Claude Code",
+    "Codex CLI",
+    "Cursor",
+    "Gemini CLI",
+    "OpenCode"
+  ],
+  "sourceLinks": [
+    "https://github.com/sickn33/antigravity-awesome-skills"
+  ],
+  "seoTitle": "Antigravity Awesome Skills: Open-source agent skill for builders",
+  "seoDescription": "Antigravity Awesome Skills is an open-source agent skill listed on OpenAgent.bot with official GitHub links, license details, use cases, and evaluation notes.",
+  "shareTitle": "Antigravity Awesome Skills on OpenAgent.bot",
+  "shareDescription": "Large installable library of agentic skills for Claude Code, Cursor, Codex CLI, Gemini CLI, and Antigravity.",
+  "status": "published",
+  "generatedAt": "2026-06-05T00:00:00.000Z",
+  "reviewedAt": "2026-06-05T00:00:00.000Z",
+  "updatedAt": "2026-06-05",
+  "lastVerifiedAt": "2026-06-05",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/sickn33/antigravity-awesome-skills",
+  "sourceMetrics": {
+    "stars": 39721
+  },
+  "coreStrengths": [
+    {
+      "title": "Reusable skill packaging",
+      "description": "Antigravity Awesome Skills treats repeated agent behavior as reusable files or workflows rather than one-off prompts.",
+      "whyItMatters": "Reusable packaging is the difference between a clever demo and an operational agent workflow."
+    },
+    {
+      "title": "Source-backed adaptation",
+      "description": "The public repository gives teams a concrete starting point for forking, pruning, and adapting skills to their own standards.",
+      "whyItMatters": "Agent skills often need local conventions, so editable source is more valuable than a static prompt."
+    },
+    {
+      "title": "Useful for capability mapping",
+      "description": "The project helps OpenAgent readers see which skill categories are emerging around coding, security, design, marketing, research, and operations.",
+      "whyItMatters": "A good skill directory should help builders understand the shape of the ecosystem, not only collect links."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Build an internal skill library",
+      "description": "Use Antigravity Awesome Skills as a reference when deciding how to organize reusable agent instructions and procedures."
+    },
+    {
+      "title": "Compare agent capability coverage",
+      "description": "Check whether the repository covers the task areas your agents repeatedly perform."
+    },
+    {
+      "title": "Fork and localize workflows",
+      "description": "Adapt the skills to your engineering standards, tools, terminology, and review process before using them on private work."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "When to choose Antigravity Awesome Skills",
+      "summary": "Choose it when its official repository shows the workflow, license, and integration model you need more directly than a broad framework."
+    }
+  ],
+  "seoArticle": {
+    "whatItIs": "Antigravity Awesome Skills is an open-source agent skill project tracked by OpenAgent.bot. Antigravity Awesome Skills is an open-source agent skill resource focused on large installable library of agentic skills for claude code, cursor, codex cli, gemini cli, and antigravity.",
+    "whyItMatters": "Antigravity Awesome Skills matters because the agent ecosystem is moving from one-off prompts to reusable skills, instructions, and workflow packs. It gives builders a source-backed way to inspect, adapt, and compare task-specific agent capability instead of reinventing the same prompt structure every time.",
+    "howItWorks": "Open the official repository first, review setup instructions, verify the license, then test the project with non-sensitive data before connecting real accounts or production workflows.",
+    "faq": [
+      {
+        "question": "Is Antigravity Awesome Skills open source?",
+        "answer": "Yes. The linked GitHub repository lists MIT licensing information; verify the current license before production use."
+      },
+      {
+        "question": "Who should evaluate Antigravity Awesome Skills?",
+        "answer": "Builders looking for reusable coding-agent skills"
+      }
+    ]
+  }
+}

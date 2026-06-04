@@ -4,7 +4,7 @@ import type { CategorySlug, OpenProjectDraft } from "../../src/lib/content/schem
 import { parseOpenProject } from "../../src/lib/content/schema";
 import { slugify } from "../discovery/utils";
 
-const categories = new Set(["models", "agents", "memory-systems", "skills", "plugins", "tools"]);
+const categories = new Set(["models", "agents", "memory-systems", "skills", "plugins", "tools", "bots"]);
 
 type Options = {
   title: string;
@@ -22,7 +22,7 @@ function parseArgs(argv: string[]): Options {
   const title = valueAfter("--title");
   if (!title) throw new Error("--title is required.");
   const category = valueAfter("--category") ?? "tools";
-  if (!categories.has(category)) throw new Error("--category must be one of models, agents, memory-systems, skills, plugins, tools.");
+  if (!categories.has(category)) throw new Error("--category must be one of models, agents, memory-systems, skills, plugins, tools, bots.");
   return {
     title,
     category: category as CategorySlug,
@@ -39,7 +39,8 @@ function categoryTag(category: CategorySlug): string {
     "memory-systems": "memory-system",
     skills: "skill",
     plugins: "plugin",
-    tools: "tool"
+    tools: "tool",
+    bots: "bot"
   }[category];
 }
 
@@ -48,6 +49,7 @@ function defaultTags(category: CategorySlug): string[] {
   if (category === "memory-systems") base.push("memory", "personal-memory");
   if (category === "agents") base.push("workflow-orchestration", "coding-agent");
   if (category === "tools") base.push("automation", "self-hosted-ai");
+  if (category === "bots") base.push("messaging", "chatbot", "self-hosted-ai");
   return Array.from(new Set(base));
 }
 

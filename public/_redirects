@@ -31,3 +31,8 @@
 /design-demo / 301
 /design-demo/ / 301
 /design-samples/* / 301
+
+# SEO redirects
+https://openagent.bot/* https://www.openagent.bot/:splat 301
+/home/ / 301
+/home / 301

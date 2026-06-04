@@ -1,0 +1,108 @@
+{
+  "slug": "magicskills",
+  "title": "MagicSkills",
+  "oneLiner": "Composable SKILL.md folders for reusable agent capabilities.",
+  "summary": "MagicSkills is an open-source agent skill resource focused on composable skill.md folders for reusable agent capabilities.",
+  "whyItMatters": "MagicSkills matters because the agent ecosystem is moving from one-off prompts to reusable skills, instructions, and workflow packs. It gives builders a source-backed way to inspect, adapt, and compare task-specific agent capability instead of reinventing the same prompt structure every time.",
+  "bestFor": [
+    "Builders looking for reusable agent skills",
+    "Teams standardizing repeated AI workflows",
+    "Researchers comparing skill-based agent architectures"
+  ],
+  "notFor": [
+    "Teams that need a fully managed closed product with no repository review",
+    "Workflows that cannot tolerate experimental community-maintained skill packs"
+  ],
+  "category": "skills",
+  "tags": [
+    "skill",
+    "open-source",
+    "agent-skill",
+    "skill-library",
+    "developer-workflow",
+    "automation"
+  ],
+  "repoUrl": "https://github.com/Narwhal-Lab/MagicSkills",
+  "homepageUrl": "https://github.com/Narwhal-Lab/MagicSkills",
+  "docsUrl": "https://github.com/Narwhal-Lab/MagicSkills",
+  "license": "MIT",
+  "maintainer": "Narwhal Lab",
+  "worksWith": [
+    "Claude Code",
+    "Codex CLI",
+    "Cursor",
+    "Gemini CLI",
+    "OpenCode"
+  ],
+  "sourceLinks": [
+    "https://github.com/Narwhal-Lab/MagicSkills"
+  ],
+  "seoTitle": "MagicSkills: Open-source agent skill for builders",
+  "seoDescription": "MagicSkills is an open-source agent skill listed on OpenAgent.bot with official GitHub links, license details, use cases, and evaluation notes.",
+  "shareTitle": "MagicSkills on OpenAgent.bot",
+  "shareDescription": "Composable SKILL.md folders for reusable agent capabilities.",
+  "status": "published",
+  "generatedAt": "2026-06-05T00:00:00.000Z",
+  "reviewedAt": "2026-06-05T00:00:00.000Z",
+  "updatedAt": "2026-06-05",
+  "lastVerifiedAt": "2026-06-05",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "coverImage": "https://opengraph.githubassets.com/openagentbot/Narwhal-Lab/MagicSkills",
+  "sourceMetrics": {
+    "stars": 298
+  },
+  "coreStrengths": [
+    {
+      "title": "Reusable skill packaging",
+      "description": "MagicSkills treats repeated agent behavior as reusable files or workflows rather than one-off prompts.",
+      "whyItMatters": "Reusable packaging is the difference between a clever demo and an operational agent workflow."
+    },
+    {
+      "title": "Source-backed adaptation",
+      "description": "The public repository gives teams a concrete starting point for forking, pruning, and adapting skills to their own standards.",
+      "whyItMatters": "Agent skills often need local conventions, so editable source is more valuable than a static prompt."
+    },
+    {
+      "title": "Useful for capability mapping",
+      "description": "The project helps OpenAgent readers see which skill categories are emerging around coding, security, design, marketing, research, and operations.",
+      "whyItMatters": "A good skill directory should help builders understand the shape of the ecosystem, not only collect links."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Build an internal skill library",
+      "description": "Use MagicSkills as a reference when deciding how to organize reusable agent instructions and procedures."
+    },
+    {
+      "title": "Compare agent capability coverage",
+      "description": "Check whether the repository covers the task areas your agents repeatedly perform."
+    },
+    {
+      "title": "Fork and localize workflows",
+      "description": "Adapt the skills to your engineering standards, tools, terminology, and review process before using them on private work."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "When to choose MagicSkills",
+      "summary": "Choose it when its official repository shows the workflow, license, and integration model you need more directly than a broad framework."
+    }
+  ],
+  "seoArticle": {
+    "whatItIs": "MagicSkills is an open-source agent skill project tracked by OpenAgent.bot. MagicSkills is an open-source agent skill resource focused on composable skill.md folders for reusable agent capabilities.",
+    "whyItMatters": "MagicSkills matters because the agent ecosystem is moving from one-off prompts to reusable skills, instructions, and workflow packs. It gives builders a source-backed way to inspect, adapt, and compare task-specific agent capability instead of reinventing the same prompt structure every time.",
+    "howItWorks": "Open the official repository first, review setup instructions, verify the license, then test the project with non-sensitive data before connecting real accounts or production workflows.",
+    "faq": [
+      {
+        "question": "Is MagicSkills open source?",
+        "answer": "Yes. The linked GitHub repository lists MIT licensing information; verify the current license before production use."
+      },
+      {
+        "question": "Who should evaluate MagicSkills?",
+        "answer": "Builders looking for reusable agent skills"
+      }
+    ]
+  }
+}

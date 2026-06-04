@@ -75,7 +75,8 @@ function categoryTag(category: CategorySlug): string {
     "memory-systems": "memory-system",
     skills: "skill",
     plugins: "plugin",
-    tools: "tool"
+    tools: "tool",
+    bots: "bot"
   }[category];
 }
 
@@ -90,6 +91,7 @@ function capabilityTags(candidate: ScoredCandidate): string[] {
   if (/api|server/.test(text)) tags.add("api-first");
   if (/cli/.test(text)) tags.add("automation");
   if (candidate.category === "tools") tags.add("automation");
+  if (candidate.category === "bots") tags.add("messaging");
   return Array.from(tags).slice(0, 3);
 }
 

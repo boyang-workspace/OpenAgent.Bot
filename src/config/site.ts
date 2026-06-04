@@ -46,7 +46,7 @@ export const categories = [
   {
     slug: "bots",
     label: "Bots",
-    description: "Open-source bots built with LeRobot and related robotics tooling for physical AI agents."
+    description: "Open-source AI bots for Discord, Telegram, Slack, WhatsApp, Matrix, WeChat, and self-hosted agent channels."
   },
   {
     slug: "tools",

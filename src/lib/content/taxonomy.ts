@@ -27,6 +27,7 @@ export const taxonomy = {
     "chat-ui",
     "connectors",
     "context-retrieval",
+    "messaging",
     "inference",
     "local-inference",
     "mcp",
@@ -36,6 +37,7 @@ export const taxonomy = {
     "plugin",
     "protocol",
     "rag",
+    "support-bot",
     "state",
     "state-management",
     "tool-calling",
@@ -48,6 +50,7 @@ export const taxonomy = {
     "browser-agent",
     "coding-agent",
     "content-workflow",
+    "chatbot",
     "developer-workflow",
     "local-ai",
     "note-taking",
@@ -55,7 +58,8 @@ export const taxonomy = {
     "production-agent",
     "research",
     "robotics-agent",
-    "self-hosted-ai"
+    "self-hosted-ai",
+    "team-chat"
   ]
 } as const;
 

@@ -229,6 +229,39 @@ const relatedPosts = allPosts.filter((item) => item.slug !== post.slug).slice(0,
   </EditorialShell>
 </BaseLayout>
 
+<script is:inline type="application/ld+json" set:html={JSON.stringify([
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.summary,
+    datePublished: post.publishedAt,
+    author: {
+      "@type": "Person",
+      name: post.author
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "OpenAgent.bot",
+      url: "https://www.openagent.bot"
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://www.openagent.bot/blog/${post.slug}`
+    }
+  },
+  ...(post.body.includes("|Best for") || post.body.includes("Best for")
+    ? [{
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: post.title,
+        description: post.summary,
+        numberOfItems: (post.body.match(/\*\*([^*]+)\*\*.*?https?:\/\/[^\s)]+/g)?.length ?? 0) || 3
+      }]
+    : [])
+].filter(Boolean))} />
+</script>
+
 <style>
   .article-layout {
     align-items: start;

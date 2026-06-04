@@ -8,6 +8,7 @@ type Props = {
 };
 
 const { resource, profile } = Astro.props;
+const t = profile.theme;
 const strengths = resource.editorial?.core_strengths ?? [];
 const useCases = resource.editorial?.use_case_notes ?? [];
 const compareNotes = resource.editorial?.compare_notes ?? [];
@@ -19,7 +20,7 @@ const tags = resource.tags;
 const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.constraint ?? [])].slice(0, 8);
 ---
 
-<section class="d-hero">
+<section class="d-hero" style={`--variant-accent:${t.accent};--variant-accent-soft:${t.accentSoft};--variant-ink:${t.ink};--variant-hero-tint:${t.heroTint}`}>
   <div class="d-hero-split">
     <div class="d-hero-left">
       <div class="d-badge">{resource.facts.license} · {profile.categoryLabel}</div>
@@ -196,14 +197,14 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
 
 <style>
   .d-hero {
-    background: linear-gradient(135deg, {t.heroTint} 0%, #ffffff 60%);
+    background: linear-gradient(135deg, var(--variant-hero-tint) 0%, #ffffff 60%);
     border-bottom: 1px solid var(--line);
     overflow: hidden;
     position: relative;
   }
 
   .d-hero::before {
-    background: {t.accent};
+    background: var(--variant-accent);
     content: "";
     height: 3px;
     left: 0;
@@ -214,7 +215,7 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
   }
 
   .d-hero::after {
-    background: radial-gradient(ellipse 500px 250px at 30% 0%, {t.accentSoft} 0%, transparent 60%);
+    background: radial-gradient(ellipse 500px 250px at 30% 0%, var(--variant-accent-soft) 0%, transparent 60%);
     content: "";
     inset: 0;
     opacity: 0.6;
@@ -233,7 +234,7 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
   .d-hero-left { display: grid; gap: 18px; align-content: center; }
 
   .d-badge {
-    color: {t.accent};
+    color: var(--variant-accent);
     font-family: var(--mono);
     font-size: 0.72rem;
     font-weight: 600;
@@ -241,7 +242,7 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
   }
 
   .d-title {
-    color: {t.ink};
+    color: var(--variant-ink);
     font-size: clamp(2.5rem, 5vw, 3.8rem);
     font-weight: 620;
     letter-spacing: -0.02em;
@@ -259,8 +260,8 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
 
   .d-hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
   .d-btn { border-radius: 7px; font-size: 0.9rem; font-weight: 540; padding: 10px 22px; text-decoration: none; transition: all 0.2s; }
-  .d-btn-primary { background: {t.ink}; color: #fff; display: inline-flex; align-items: center; gap: 6px; }
-  .d-btn-primary:hover { background: {t.accent}; transform: translateY(-1px); }
+  .d-btn-primary { background: var(--variant-ink); color: #fff; display: inline-flex; align-items: center; gap: 6px; }
+  .d-btn-primary:hover { background: var(--variant-accent); transform: translateY(-1px); }
   .d-btn-secondary { background: transparent; border: 1px solid var(--line-strong); color: var(--ink); }
   .d-btn-secondary:hover { background: var(--surface-soft); }
 
@@ -327,9 +328,9 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
   .d-signals { display: flex; flex-wrap: wrap; gap: 6px; }
 
   .d-signal-chip {
-    border: 1px solid {t.accent}44;
+    border: 1px solid color-mix(in srgb, var(--variant-accent) 27%, transparent);
     border-radius: 999px;
-    color: {t.accent};
+    color: var(--variant-accent);
     font-size: 0.72rem;
     font-weight: 500;
     padding: 5px 12px;
@@ -349,7 +350,7 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
   .d-section-head p { color: var(--muted); font-size: 0.95rem; line-height: 1.55; margin: 0; }
 
   .d-eyebrow {
-    color: {t.accent};
+    color: var(--variant-accent);
     font-family: var(--mono);
     font-size: 0.65rem;
     font-weight: 700;
@@ -381,7 +382,7 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
   .d-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.5; margin: 0; }
   .d-card small { color: var(--subtle); font-size: 0.75rem; }
 
-  .d-card-icon h3::before { content: "→ "; color: {t.accent}; }
+  .d-card-icon h3::before { content: "→ "; color: var(--variant-accent); }
 
   .d-code-block {
     background: #1e1e1e;
@@ -403,7 +404,7 @@ const allTags = [...(tags.category ?? []), ...(tags.capability ?? []), ...(tags.
     font-size: 0.8rem;
     padding: 6px 14px;
   }
-  .d-tag-int { background: {t.accentSoft}; border-color: {t.accent}33; color: {t.accent}; }
+  .d-tag-int { background: var(--variant-accent-soft); border-color: color-mix(in srgb, var(--variant-accent) 20%, transparent); color: var(--variant-accent); }
 
   .d-compare { display: grid; gap: 16px; }
   .d-compare .d-card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; display: grid; gap: 8px; padding: 20px; }

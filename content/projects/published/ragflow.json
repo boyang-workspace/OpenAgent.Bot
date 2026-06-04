@@ -1,16 +1,17 @@
 {
   "slug": "ragflow",
   "title": "ragflow",
-  "oneLiner": "RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context layer for LLMs",
-  "summary": "RAGFlow is a leading open-source Retrieval-Augmented Generation (RAG) engine that fuses cutting-edge RAG with Agent capabilities to create a superior context layer for LLMs",
-  "whyItMatters": "ragflow showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "oneLiner": "Open-source Retrieval-Augmented Generation engine that combines deep document understanding with agent capabilities.",
+  "summary": "RAGFlow is an open-source RAG engine that goes beyond simple vector search by combining deep document understanding, layout analysis, and agent-based orchestration. It processes complex documents (PDFs, images, tables) with layout-aware parsing, then uses agent capabilities to route, filter, and augment retrieval results — creating a production-ready context layer for LLM applications.",
+  "whyItMatters": "Most RAG systems fail on complex documents with tables, images, and unusual layouts. RAGFlow's deep document understanding pipeline solves this, making it the leading open-source RAG engine with 81K+ GitHub stars. Its combination of layout-aware parsing and agent orchestration sets a new standard for production RAG quality.",
   "bestFor": [
-    "Builders evaluating memory systems",
-    "Open-source AI discovery",
-    "Editorial review"
+    "Teams building RAG systems that need to handle complex documents with tables, images, and multi-column layouts",
+    "Organizations deploying document Q&A over PDFs, contracts, reports, and technical documentation",
+    "Engineers who want an all-in-one RAG solution with document processing, retrieval, and agent orchestration"
   ],
   "notFor": [
-    "Production adoption without manual verification"
+    "Simple vector search use cases where basic chunking and embedding are sufficient",
+    "Teams that prefer to assemble RAG pipelines from individual components rather than using an integrated platform"
   ],
   "category": "memory-systems",
   "tags": [
@@ -47,5 +48,27 @@
   },
   "noindex": false,
   "reviewedAt": "2026-06-03",
-  "generatedAt": "2026-06-03T00:00:00.000Z"
+  "generatedAt": "2026-06-03T00:00:00.000Z",
+  "seoArticle": {
+    "whatItIs": "RAGFlow is an open-source RAG engine that combines deep document understanding with agent capabilities. It processes complex documents with layout-aware parsing and uses agent orchestration for production-quality retrieval.",
+    "whyItMatters": "RAGFlow is the most popular open-source RAG engine (81K+ stars) specifically because it handles the hardest part of RAG: extracting quality content from complex documents.",
+    "faq": [
+      {
+        "question": "What types of documents can RAGFlow process?",
+        "answer": "RAGFlow processes PDFs, images, Office documents, and other complex formats with layout-aware parsing that preserves tables, headers, and multi-column structure."
+      },
+      {
+        "question": "Does RAGFlow include agent capabilities?",
+        "answer": "Yes, RAGFlow combines RAG with agent orchestration for intelligent routing, filtering, and result augmentation."
+      },
+      {
+        "question": "Is RAGFlow open source?",
+        "answer": "Yes, it is open source under the Apache-2.0 license with 81K+ GitHub stars."
+      },
+      {
+        "question": "Can RAGFlow be self-hosted?",
+        "answer": "Yes, RAGFlow is designed for self-hosted deployment with Docker support."
+      }
+    ]
+  }
 }

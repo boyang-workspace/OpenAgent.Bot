@@ -43,10 +43,11 @@
   ],
   "sourceLinks": [
     "https://deepmind.google/models/gemma/gemma-4/",
-    "https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/",
+    "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemma-4-12b/",
     "https://developers.googleblog.com/bring-state-of-the-art-agentic-skills-to-the-edge-with-gemma-4/",
     "https://huggingface.co/collections/google/gemma-4",
-    "https://ollama.com/library/gemma4"
+    "https://ollama.com/library/gemma4",
+    "https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/"
   ],
   "seoTitle": "Gemma 4: AI Model — Google DeepMind's open model family for local, multimodal, and agentic AI wor...",
   "seoDescription": "Gemma 4 is an open-source open-source model. Google DeepMind's open model family for local, multimodal, and agentic AI workflows.. 了解 Gemma 4 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。",
@@ -55,13 +56,13 @@
   "status": "published",
   "generatedAt": "2026-04-18T00:00:00.000Z",
   "reviewedAt": "2026-04-18T00:00:00.000Z",
-  "updatedAt": "2026-04-18",
-  "lastVerifiedAt": "2026-04-18",
+  "updatedAt": "2026-06-04",
+  "lastVerifiedAt": "2026-06-04",
   "openSourceStatus": "open-source",
   "isFeatured": true,
   "isSponsored": false,
   "featuredReason": "A major open model release from Google DeepMind with local, multimodal, and agentic workflow relevance.",
-  "coverImage": "https://huggingface.co/google.png",
+  "coverImage": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Social_Image_G4_12B.width-1300.png",
   "coreStrengths": [
     {
       "title": "Open model family with practical size range",
@@ -111,13 +112,13 @@
   ],
   "gettingStarted": [
     {
-      "label": "Read the Google DeepMind overview",
+      "label": "Read the Gemma 4 family overview",
       "url": "https://deepmind.google/models/gemma/gemma-4/",
       "type": "homepage"
     },
     {
-      "label": "Read the launch post",
-      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/",
+      "label": "Read the Gemma 4 12B launch post",
+      "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemma-4-12b/",
       "type": "docs"
     },
     {
@@ -126,12 +127,12 @@
       "type": "huggingface"
     },
     {
-      "label": "Try compatible models in Google AI Studio",
+      "label": "Try Gemma in Google AI Studio",
       "url": "https://aistudio.google.com/",
       "type": "demo"
     },
     {
-      "label": "Open the Ollama library page",
+      "label": "Run Gemma models with Ollama",
       "url": "https://ollama.com/library/gemma4",
       "type": "install"
     }

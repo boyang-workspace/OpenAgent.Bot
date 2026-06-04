@@ -23,7 +23,7 @@ const stats = [
 ].filter((s) => s.value);
 ---
 
-<section class="v-hero">
+<section class="v-hero" style={`--variant-accent:${t.accent};--variant-accent-soft:${t.accentSoft};--variant-ink:${t.ink};--variant-hero-tint:${t.heroTint}`}>
   <div class="v-hero-inner">
     <div class="v-hero-badge">{profile.categoryLabel}</div>
     <h1 class="v-hero-title">{resource.identity.name}</h1>
@@ -172,7 +172,7 @@ const stats = [
 
 <style>
   .v-hero {
-    background: linear-gradient(135deg, {t.heroTint} 0%, #ffffff 70%);
+    background: linear-gradient(135deg, var(--variant-hero-tint) 0%, #ffffff 70%);
     border-bottom: 1px solid var(--line);
     display: grid;
     gap: 0;
@@ -181,7 +181,7 @@ const stats = [
   }
 
   .v-hero::before {
-    background: {t.accent};
+    background: var(--variant-accent);
     content: "";
     height: 4px;
     left: 0;
@@ -192,7 +192,7 @@ const stats = [
   }
 
   .v-hero::after {
-    background: radial-gradient(ellipse 600px 300px at 50% 0%, {t.accentSoft} 0%, transparent 70%);
+    background: radial-gradient(ellipse 600px 300px at 50% 0%, var(--variant-accent-soft) 0%, transparent 70%);
     content: "";
     inset: 0;
     opacity: 0.5;
@@ -209,9 +209,9 @@ const stats = [
   }
 
   .v-hero-badge {
-    background: {t.accentSoft};
+    background: var(--variant-accent-soft);
     border-radius: 999px;
-    color: {t.accent};
+    color: var(--variant-accent);
     font-size: 0.78rem;
     font-weight: 600;
     justify-self: center;
@@ -219,7 +219,7 @@ const stats = [
   }
 
   .v-hero-title {
-    color: {t.ink};
+    color: var(--variant-ink);
     font-size: clamp(3rem, 8vw, 5.5rem);
     font-weight: 620;
     letter-spacing: -0.02em;
@@ -247,17 +247,17 @@ const stats = [
   }
 
   .v-btn-primary {
-    background: {t.ink};
+    background: var(--variant-ink);
     color: #fff;
   }
-  .v-btn-primary:hover { background: {t.accent}; transform: translateY(-1px); }
+  .v-btn-primary:hover { background: var(--variant-accent); transform: translateY(-1px); }
 
   .v-btn-secondary {
     background: transparent;
     border: 1px solid var(--line-strong);
     color: var(--ink);
   }
-  .v-btn-secondary:hover { background: var(--surface-soft); border-color: {t.accent}; color: {t.accent}; }
+  .v-btn-secondary:hover { background: var(--surface-soft); border-color: var(--variant-accent); color: var(--variant-accent); }
 
   .v-hero-stats {
     border-top: 1px solid var(--line);
@@ -275,7 +275,7 @@ const stats = [
   }
 
   .v-stat:first-child { border-left: 0; }
-  .v-stat strong { color: {t.ink}; font-size: 1.25rem; font-weight: 620; }
+  .v-stat strong { color: var(--variant-ink); font-size: 1.25rem; font-weight: 620; }
   .v-stat span { color: var(--muted); font-size: 0.8rem; }
 
   .v-section { padding: 64px 0; }
@@ -309,7 +309,7 @@ const stats = [
   .v-desc { color: var(--muted); font-size: 1rem; line-height: 1.6; margin: 0; }
 
   .v-eyebrow {
-    color: {t.accent};
+    color: var(--variant-accent);
     font-family: var(--mono);
     font-size: 0.7rem;
     font-weight: 700;

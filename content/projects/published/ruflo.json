@@ -1,16 +1,17 @@
 {
   "slug": "ruflo",
   "title": "ruflo",
-  "oneLiner": "🌊 The leading agent meta-harness for Claude.",
-  "summary": "🌊 The leading agent meta-harness for Claude. Deploy intelligent multi-agent swarms, coordinate autonomous workflows, and build conversational AI systems. Features adaptive memory, self-learning swarm intelligence, RAG integration, and native Claude Code / Codex Integration",
-  "whyItMatters": "ruflo showed enough open AI signals to merit editorial review. The draft should be checked for real use cases, current maintenance, and source accuracy before publishing.",
+  "oneLiner": "Open-source agent meta-harness for orchestrating multi-agent swarms with Claude, adaptive memory, and RAG integration.",
+  "summary": "ruflo is an open-source meta-harness for orchestrating multi-agent swarms, primarily designed for Claude-based workflows. It features adaptive memory, self-learning swarm intelligence, RAG integration, and native integration with Claude Code and Codex CLI for coordinated autonomous workflows.",
+  "whyItMatters": "ruflo provides a higher-level orchestration layer for teams running multiple Claude agents in production. With 57K+ GitHub stars and active development, it fills the gap between single-agent tools and full agent platforms — particularly for Claude-specific multi-agent deployments.",
   "bestFor": [
-    "Builders evaluating agents",
-    "Open-source AI discovery",
-    "Editorial review"
+    "Teams running Claude-based multi-agent workflows that need swarm coordination and adaptive memory",
+    "Developers building autonomous agent systems with Claude Code and Codex CLI integration",
+    "Engineers evaluating meta-orchestration layers for managing multiple AI agents"
   ],
   "notFor": [
-    "Production adoption without manual verification"
+    "Single-agent use cases where a direct Claude API integration is sufficient",
+    "Teams that prefer a model-agnostic orchestration framework over Claude-specific tooling"
   ],
   "category": "agents",
   "tags": [
@@ -46,5 +47,27 @@
   },
   "noindex": false,
   "reviewedAt": "2026-06-03",
-  "generatedAt": "2026-06-03T00:00:00.000Z"
+  "generatedAt": "2026-06-03T00:00:00.000Z",
+  "seoArticle": {
+    "whatItIs": "ruflo is an open-source meta-harness for orchestrating multi-agent swarms with Claude. It provides adaptive memory, swarm intelligence, and native Claude Code integration.",
+    "whyItMatters": "ruflo addresses the growing need for multi-agent orchestration as teams deploy multiple Claude agents. Its swarm intelligence and adaptive memory features go beyond simple agent chaining.",
+    "faq": [
+      {
+        "question": "What is a meta-harness?",
+        "answer": "A meta-harness is an orchestration layer that manages multiple AI agents, coordinating their work, memory, and tool access."
+      },
+      {
+        "question": "Does ruflo work with models other than Claude?",
+        "answer": "ruflo is primarily designed for Claude, with native Claude Code and Codex CLI integration."
+      },
+      {
+        "question": "Is ruflo open source?",
+        "answer": "Yes, it is open source under the MIT license with 57K+ GitHub stars."
+      },
+      {
+        "question": "What is swarm intelligence in ruflo?",
+        "answer": "Swarm intelligence allows multiple agents to learn from each other's outputs and adapt their behavior collectively."
+      }
+    ]
+  }
 }

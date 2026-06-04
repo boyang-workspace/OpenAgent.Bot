@@ -522,6 +522,19 @@
       "status": "drafted"
     },
     {
+      "id": "2026-06-04:show-hn-terse-typescript-first-workflow-builder",
+      "candidateIds": [
+        "hackernews:48371847"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Terse, TypeScript First Workflow Builder",
+      "angle": "Explain what Show HN: Terse, TypeScript First Workflow Builder does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Terse, TypeScript First Workflow Builder open source tools",
+      "reason": "repo and license signals; strong AI relevance",
+      "score": 80,
+      "status": "drafted"
+    },
+    {
       "id": "2026-06-04:show-hn-greenkube-open-source-k8s-cost-and-co2-optimization-engine",
       "candidateIds": [
         "hackernews:48384180"
@@ -548,27 +561,14 @@
       "status": "drafted"
     },
     {
-      "id": "2026-06-04:show-hn-terse-typescript-first-workflow-builder",
+      "id": "2026-06-04:show-hn-2-command-cli-to-give-ai-agents-structured-data-retrieval-on-postgresql",
       "candidateIds": [
-        "hackernews:48371847"
+        "hackernews:48357212"
       ],
       "topicType": "single-project",
-      "title": "Profile Show HN: Terse, TypeScript First Workflow Builder",
-      "angle": "Explain what Show HN: Terse, TypeScript First Workflow Builder does, who it is for, and whether it is a useful open AI resource.",
-      "targetKeyword": "Show HN: Terse, TypeScript First Workflow Builder open source tools",
-      "reason": "repo and license signals; strong AI relevance",
-      "score": 80,
-      "status": "drafted"
-    },
-    {
-      "id": "2026-06-04:show-hn-carto-structural-intelligence-for-ai-coding-agents-oss",
-      "candidateIds": [
-        "hackernews:48380183"
-      ],
-      "topicType": "single-project",
-      "title": "Profile Show HN: Carto – structural intelligence for AI coding agents (OSS)",
-      "angle": "Explain what Show HN: Carto – structural intelligence for AI coding agents (OSS) does, who it is for, and whether it is a useful open AI resource.",
-      "targetKeyword": "Show HN: Carto – structural intelligence for AI coding agents (OSS) open source agents",
+      "title": "Profile Show HN: 2-command CLI to give AI agents structured data retrieval on PostgreSQL",
+      "angle": "Explain what Show HN: 2-command CLI to give AI agents structured data retrieval on PostgreSQL does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: 2-command CLI to give AI agents structured data retrieval on PostgreSQL open source memory systems",
       "reason": "repo and license signals; strong AI relevance",
       "score": 80,
       "status": "drafted"
@@ -600,14 +600,14 @@
       "status": "drafted"
     },
     {
-      "id": "2026-06-04:agent-code-open-source-mac-app-for-managing-ai-coding-agents",
+      "id": "2026-06-04:tensorsharp-open-source-local-llm-inference-engine",
       "candidateIds": [
-        "hackernews:48361456"
+        "hackernews:48392099"
       ],
       "topicType": "single-project",
-      "title": "Profile Agent Code – open-source Mac app for managing AI coding agents",
-      "angle": "Explain what Agent Code – open-source Mac app for managing AI coding agents does, who it is for, and whether it is a useful open AI resource.",
-      "targetKeyword": "Agent Code – open-source Mac app for managing AI coding agents open source agents",
+      "title": "Profile TensorSharp: Open-Source Local LLM Inference Engine",
+      "angle": "Explain what TensorSharp: Open-Source Local LLM Inference Engine does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "TensorSharp: Open-Source Local LLM Inference Engine open source models",
       "reason": "repo and license signals; strong AI relevance",
       "score": 77,
       "status": "drafted"
@@ -743,6 +743,19 @@
       "status": "new"
     },
     {
+      "id": "2026-06-04:open-source-ai-sales-agent-with-next-js-15-and-ollama-zero-api-costs",
+      "candidateIds": [
+        "hackernews:48369940"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Open-source AI Sales Agent with Next.js 15 and Ollama – zero API costs",
+      "angle": "Explain what Open-source AI Sales Agent with Next.js 15 and Ollama – zero API costs does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Open-source AI Sales Agent with Next.js 15 and Ollama – zero API costs open source agents",
+      "reason": "repo and license signals",
+      "score": 68,
+      "status": "new"
+    },
+    {
       "id": "2026-06-04:show-hn-yoga-for-agentic-ai-cognitive-training-practices-from-a-yoga-studio",
       "candidateIds": [
         "hackernews:48390017"
@@ -756,14 +769,14 @@
       "status": "new"
     },
     {
-      "id": "2026-06-04:show-hn-a-desktop-first-local-log-analyzer-with-fast-search-and-mcp",
+      "id": "2026-06-04:show-hn-wd-41-hot-reload-webserver-for-static-sites",
       "candidateIds": [
-        "hackernews:48369139"
+        "hackernews:48394490"
       ],
       "topicType": "single-project",
-      "title": "Profile Show HN: A desktop first local log analyzer with fast search and MCP",
-      "angle": "Explain what Show HN: A desktop first local log analyzer with fast search and MCP does, who it is for, and whether it is a useful open AI resource.",
-      "targetKeyword": "Show HN: A desktop first local log analyzer with fast search and MCP open source plugins",
+      "title": "Profile Show HN: Wd-41, hot-reload webserver for static sites",
+      "angle": "Explain what Show HN: Wd-41, hot-reload webserver for static sites does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Wd-41, hot-reload webserver for static sites open source agents",
       "reason": "repo and license signals",
       "score": 63,
       "status": "new"
@@ -777,32 +790,6 @@
       "title": "Profile Show HN: OpenSOP, We got tired of agents lying to us, so we built them a harness",
       "angle": "Explain what Show HN: OpenSOP, We got tired of agents lying to us, so we built them a harness does, who it is for, and whether it is a useful open AI resource.",
       "targetKeyword": "Show HN: OpenSOP, We got tired of agents lying to us, so we built them a harness open source agents",
-      "reason": "strong AI relevance",
-      "score": 55,
-      "status": "new"
-    },
-    {
-      "id": "2026-06-04:show-hn-odeva-booking-a-unified-pms-for-holiday-parks-and-campgrounds",
-      "candidateIds": [
-        "hackernews:48376362"
-      ],
-      "topicType": "single-project",
-      "title": "Profile Show HN: Odeva Booking – A unified PMS for holiday parks and campgrounds",
-      "angle": "Explain what Show HN: Odeva Booking – A unified PMS for holiday parks and campgrounds does, who it is for, and whether it is a useful open AI resource.",
-      "targetKeyword": "Show HN: Odeva Booking – A unified PMS for holiday parks and campgrounds open source plugins",
-      "reason": "strong AI relevance",
-      "score": 55,
-      "status": "new"
-    },
-    {
-      "id": "2026-06-04:show-hn-nano-open-core-siem-built-on-rust-and-clickhouse",
-      "candidateIds": [
-        "hackernews:48383563"
-      ],
-      "topicType": "single-project",
-      "title": "Profile Show HN: Nano – open core siem built on rust and ClickHouse",
-      "angle": "Explain what Show HN: Nano – open core siem built on rust and ClickHouse does, who it is for, and whether it is a useful open AI resource.",
-      "targetKeyword": "Show HN: Nano – open core siem built on rust and ClickHouse open source tools",
       "reason": "strong AI relevance",
       "score": 55,
       "status": "new"
@@ -847,14 +834,14 @@
       "status": "new"
     },
     {
-      "id": "2026-06-04:show-hn-ctp-room-a-shared-chat-room-where-your-ai-coding-agents-coordinate",
+      "id": "2026-06-04:show-hn-one-click-open-source-ecommerce-starter-magento-drive-it-with-claude",
       "candidateIds": [
-        "hackernews:48387448"
+        "hackernews:48356655"
       ],
       "topicType": "single-project",
-      "title": "Profile Show HN: CTP Room – a shared chat room where your AI coding agents coordinate",
-      "angle": "Explain what Show HN: CTP Room – a shared chat room where your AI coding agents coordinate does, who it is for, and whether it is a useful open AI resource.",
-      "targetKeyword": "Show HN: CTP Room – a shared chat room where your AI coding agents coordinate open source memory systems",
+      "title": "Profile Show HN: One-click open-source ecommerce starter (Magento), drive it with Claude",
+      "angle": "Explain what Show HN: One-click open-source ecommerce starter (Magento), drive it with Claude does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: One-click open-source ecommerce starter (Magento), drive it with Claude open source tools",
       "reason": "strong AI relevance",
       "score": 50,
       "status": "new"
@@ -867,20 +854,7 @@
       "topicType": "single-project",
       "title": "Profile Show HN: MetaBrain – A local document memory for AI agents",
       "angle": "Explain what Show HN: MetaBrain – A local document memory for AI agents does, who it is for, and whether it is a useful open AI resource.",
-      "targetKeyword": "Show HN: MetaBrain – A local document memory for AI agents open source tools",
-      "reason": "strong AI relevance",
-      "score": 50,
-      "status": "new"
-    },
-    {
-      "id": "2026-06-04:show-hn-one-click-open-source-ecommerce-starter-magento-drive-it-with-claude",
-      "candidateIds": [
-        "hackernews:48356655"
-      ],
-      "topicType": "single-project",
-      "title": "Profile Show HN: One-click open-source ecommerce starter (Magento), drive it with Claude",
-      "angle": "Explain what Show HN: One-click open-source ecommerce starter (Magento), drive it with Claude does, who it is for, and whether it is a useful open AI resource.",
-      "targetKeyword": "Show HN: One-click open-source ecommerce starter (Magento), drive it with Claude open source tools",
+      "targetKeyword": "Show HN: MetaBrain – A local document memory for AI agents open source memory systems",
       "reason": "strong AI relevance",
       "score": 50,
       "status": "new"
@@ -977,27 +951,53 @@
       "status": "new"
     },
     {
-      "id": "2026-06-04:show-hn-voice-control-coding-agents-on-your-machine-via-smartwatch-carplay",
+      "id": "2026-06-04:show-hn-formproxy-form-back-end-for-ai-generated-pages-mcp-ready",
       "candidateIds": [
-        "hackernews:48356768"
+        "hackernews:48357884"
       ],
       "topicType": "single-project",
-      "title": "Profile Show HN: Voice control coding agents on your machine via smartwatch / CarPlay",
-      "angle": "Explain what Show HN: Voice control coding agents on your machine via smartwatch / CarPlay does, who it is for, and whether it is a useful open AI resource.",
-      "targetKeyword": "Show HN: Voice control coding agents on your machine via smartwatch / CarPlay open source tools",
+      "title": "Profile Show HN: FormProxy – form back end for AI-generated pages – MCP Ready",
+      "angle": "Explain what Show HN: FormProxy – form back end for AI-generated pages – MCP Ready does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: FormProxy – form back end for AI-generated pages – MCP Ready open source models",
       "reason": "strong AI relevance",
       "score": 50,
       "status": "new"
     },
     {
-      "id": "2026-06-04:show-hn-holaclaw-desktop-app-for-openclaw",
+      "id": "2026-06-04:codeguilds-community-registry-for-claude-code-skills-agents-mcp-servers",
       "candidateIds": [
-        "hackernews:48383677"
+        "hackernews:48357494"
       ],
       "topicType": "single-project",
-      "title": "Profile Show HN: HolaClaw Desktop App for OpenClaw",
-      "angle": "Explain what Show HN: HolaClaw Desktop App for OpenClaw does, who it is for, and whether it is a useful open AI resource.",
-      "targetKeyword": "Show HN: HolaClaw Desktop App for OpenClaw open source skills",
+      "title": "Profile CodeGuilds – community registry for Claude Code (skills, agents, MCP servers)",
+      "angle": "Explain what CodeGuilds – community registry for Claude Code (skills, agents, MCP servers) does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "CodeGuilds – community registry for Claude Code (skills, agents, MCP servers) open source agents",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-06-04:show-hn-agents-run-any-coding-agent-on-your-subscription-not-api-costs",
+      "candidateIds": [
+        "hackernews:48346958"
+      ],
+      "topicType": "single-project",
+      "title": "Profile Show HN: Agents, run any coding agent on your subscription not API costs",
+      "angle": "Explain what Show HN: Agents, run any coding agent on your subscription not API costs does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Show HN: Agents, run any coding agent on your subscription not API costs open source agents",
+      "reason": "strong AI relevance",
+      "score": 50,
+      "status": "new"
+    },
+    {
+      "id": "2026-06-04:what-are-you-using-for-distributed-block-storage-on-nvme-in-production",
+      "candidateIds": [
+        "hackernews:48393511"
+      ],
+      "topicType": "single-project",
+      "title": "Profile What are you using for distributed block storage on NVMe in production?",
+      "angle": "Explain what What are you using for distributed block storage on NVMe in production? does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "What are you using for distributed block storage on NVMe in production? open source memory systems",
       "reason": "strong AI relevance",
       "score": 50,
       "status": "new"
@@ -1029,14 +1029,14 @@
       "status": "new"
     },
     {
-      "id": "2026-06-04:ask-hn-feedback-on-an-ai-driven-life-rpg-for-real-world-skill-building",
+      "id": "2026-06-04:ask-hn-what-are-your-ai-assistants-doing",
       "candidateIds": [
-        "hackernews:48379087"
+        "hackernews:48395194"
       ],
       "topicType": "single-project",
-      "title": "Profile Ask HN: Feedback on an AI-driven \"Life RPG\" for real-world skill building?",
-      "angle": "Explain what Ask HN: Feedback on an AI-driven \"Life RPG\" for real-world skill building? does, who it is for, and whether it is a useful open AI resource.",
-      "targetKeyword": "Ask HN: Feedback on an AI-driven \"Life RPG\" for real-world skill building? open source memory systems",
+      "title": "Profile Ask HN: What are your AI assistants doing?",
+      "angle": "Explain what Ask HN: What are your AI assistants doing? does, who it is for, and whether it is a useful open AI resource.",
+      "targetKeyword": "Ask HN: What are your AI assistants doing? open source agents",
       "reason": "strong AI relevance",
       "score": 50,
       "status": "new"

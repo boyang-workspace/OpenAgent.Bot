@@ -1,0 +1,196 @@
+{
+  "slug": "cline",
+  "title": "Cline",
+  "oneLiner": "Open-source autonomous coding agent for VS Code that creates and edits files, executes commands, and uses a browser — all with human approval at every step.",
+  "summary": "Cline is an open-source autonomous coding agent that runs as a VS Code extension with 5M+ installs and 58K+ GitHub stars. It can create and edit files, execute terminal commands, use a headless browser for testing, and integrate with MCP tools. Every action requires human approval, keeping developers in control while automating complex development workflows.",
+  "whyItMatters": "Cline pioneered the human-in-the-loop autonomous coding agent model. Its Plan/Act split, MCP marketplace, and checkpoints system have become reference architecture for the entire open-source coding agent ecosystem, inspiring major forks like Roo Code and Kilo Code.",
+  "bestFor": [
+    "Developers who want step-by-step approval control over AI coding actions",
+    "Teams that need an auditable, open-source coding agent with enterprise-grade governance",
+    "Engineers who want browser automation integrated into their coding workflow"
+  ],
+  "notFor": [
+    "Users who prefer terminal-only workflows over IDE extensions",
+    "Teams looking for a fully autonomous agent that operates without human oversight"
+  ],
+  "category": "agents",
+  "tags": [
+    "agent",
+    "coding-agent",
+    "vs-code",
+    "ide",
+    "mcp",
+    "browser-automation",
+    "terminal"
+  ],
+  "repoUrl": "https://github.com/cline/cline",
+  "homepageUrl": "https://cline.bot",
+  "docsUrl": "https://docs.cline.bot",
+  "license": "Apache-2.0",
+  "maintainer": "Cline Bot Inc.",
+  "worksWith": ["agents", "models"],
+  "sourceLinks": [
+    "https://github.com/cline/cline",
+    "https://cline.bot",
+    "https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev"
+  ],
+  "seoTitle": "Cline: AI Agent — Open-source autonomous coding agent for VS Code with human-in-the-loop approval and MCP integration.",
+  "seoDescription": "Cline is an open-source AI agent. Open-source autonomous coding agent for VS Code that creates and edits files, executes commands, and uses a browser — all with human approval at every step.",
+  "shareTitle": "Cline on OpenAgent.bot",
+  "shareDescription": "Open-source autonomous coding agent for VS Code with human-in-the-loop approval and MCP integration.",
+  "status": "published",
+  "generatedAt": "2026-06-04T00:00:00.000Z",
+  "reviewedAt": "2026-06-04",
+  "updatedAt": "2026-06-04",
+  "lastVerifiedAt": "2026-06-04",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "featuredReason": "The most popular open-source VS Code coding agent with 5M+ installs, pioneering the human-in-the-loop autonomous agent model that inspired an entire ecosystem.",
+  "sourceMetrics": {
+    "stars": 58600,
+    "forks": 5100
+  },
+  "coreStrengths": [
+    {
+      "title": "Human-in-the-loop design",
+      "description": "Every file edit, terminal command, and browser action requires explicit human approval with visible diff previews before execution.",
+      "whyItMatters": "Developers maintain full control and audit trail over AI actions, making Cline suitable for production codebases where mistakes are costly."
+    },
+    {
+      "title": "Plan/Act mode separation",
+      "description": "Cline separates planning from execution — Plan mode researches and proposes changes, Act mode executes with approval. This reduces errors and keeps the developer in the loop.",
+      "whyItMatters": "Planning before acting prevents the agent from making premature or incorrect changes, especially on complex multi-file tasks."
+    },
+    {
+      "title": "Browser automation built in",
+      "description": "Cline can launch a headless browser to test web applications, capture screenshots, verify UI changes, and debug frontend issues.",
+      "whyItMatters": "Full-stack developers can test visual changes without leaving their editor, closing the loop between code and verification."
+    },
+    {
+      "title": "MCP marketplace",
+      "description": "Access a growing marketplace of Model Context Protocol servers for custom tools, integrations, and extended capabilities.",
+      "whyItMatters": "Teams can extend Cline with custom MCP servers for their specific stack without modifying the core agent."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Multi-file refactoring with safety",
+      "description": "Use Cline's Plan mode to research architecture and propose changes, then Act mode to execute with per-file approval."
+    },
+    {
+      "title": "Visual UI testing and debugging",
+      "description": "Ask Cline to launch a browser, navigate to your app, and verify that UI changes look correct after code edits."
+    },
+    {
+      "title": "Onboarding and codebase exploration",
+      "description": "Let Cline read and explain unfamiliar codebases, then make targeted improvements with full approval control."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose Cline for governance and control",
+      "against": "Claude Code",
+      "summary": "Cline offers step-by-step approval, browser automation, and a rich MCP marketplace. Claude Code has deeper codebase reasoning but less granular action control."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Open the GitHub repository",
+      "url": "https://github.com/cline/cline",
+      "type": "github"
+    },
+    {
+      "label": "Install from VS Code Marketplace",
+      "url": "https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev",
+      "type": "install"
+    },
+    {
+      "label": "Visit the project website",
+      "url": "https://cline.bot",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Install Cline",
+      "command": "Open VS Code → Extensions → Search 'Cline' → Install",
+      "description": "Install from the VS Code Marketplace, then configure your API key and start using the autonomous coding agent."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Cline is the pioneer of human-in-the-loop autonomous coding agents. With 5M+ VS Code installs and 58K+ GitHub stars, it has become the reference implementation for the open-source coding agent ecosystem, inspiring major forks while continuing to innovate with its own SDK and multi-editor support.",
+    "whatItIs": "Cline is an open-source autonomous coding agent that runs as a VS Code extension. It can create and edit files, execute terminal commands, use a headless browser, and work with MCP tools — all with human approval at every step.",
+    "whyItMatters": "Cline introduced the Plan/Act mode split that has become a standard pattern across the coding agent space. Its emphasis on human oversight, combined with browser automation and MCP extensibility, makes it one of the most capable and trustworthy open-source coding agents available.",
+    "howItWorks": "Start with one safe workflow for Cline. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
+    "useCases": [
+      {
+        "title": "Safe refactoring with review",
+        "description": "Let Cline plan a refactoring, review the proposed changes in Plan mode, then approve execution file by file in Act mode."
+      },
+      {
+        "title": "End-to-end feature implementation",
+        "description": "Describe a feature, let Cline create files, run the app, test in a browser, and iterate — all with approval at each stage."
+      },
+      {
+        "title": "Automated bug fixing",
+        "description": "Point Cline at a failing test or error message, let it investigate, propose a fix, and verify the solution."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Use OpenCode for multi-provider flexibility and terminal-native workflow",
+        "against": "OpenCode",
+        "summary": "Cline offers deeper IDE integration and browser automation. OpenCode provides 75+ provider support and works across terminal, IDE, and desktop."
+      },
+      {
+        "title": "Use Aider for terminal-only git-native workflows",
+        "against": "Aider",
+        "summary": "Cline is IDE-native with browser automation. Aider is terminal-native with best-in-class git integration."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Read the documentation",
+        "url": "https://docs.cline.bot",
+        "type": "docs"
+      },
+      {
+        "label": "Inspect the repository",
+        "url": "https://github.com/cline/cline",
+        "type": "github"
+      }
+    ],
+    "faq": [
+      {
+        "question": "What should I check before using Cline?",
+        "answer": "Start with one safe workflow for Cline. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
+        "question": "Is Cline open source?",
+        "answer": "Cline is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate Cline?",
+        "answer": "Cline is most worth evaluating for developers who want step-by-step approval control over AI coding actions."
+      },
+      {
+        "question": "What editors does Cline support?",
+        "answer": "Cline started as a VS Code extension and has since expanded to support JetBrains, Cursor, Windsurf, Zed, Neovim, and a preview CLI."
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "agent",
+    "visualMotif": "VS Code sidebar with agent conversation and diff preview panel",
+    "backgroundStyle": "minimal editorial surface with restrained blue accent color",
+    "titleOverlay": "Cline",
+    "subtitle": "Autonomous coding agent for VS Code",
+    "avoid": [
+      "busy poster layout",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  },
+  "coverImage": "https://github.com/cline.png"
+}

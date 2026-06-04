@@ -1,0 +1,201 @@
+{
+  "slug": "opencode",
+  "title": "OpenCode",
+  "oneLiner": "Open-source AI coding agent that connects to 75+ AI providers and runs in your terminal, IDE, or desktop with LSP integration and multi-session support.",
+  "summary": "OpenCode is an open-source AI coding agent built in Go that connects to 75+ AI providers including Anthropic, OpenAI, Google, and local models via Ollama. It runs as a terminal TUI, VS Code extension, and desktop app with features like LSP integration, multi-session support, session sharing, and privacy-first design where no code or context data is stored.",
+  "whyItMatters": "OpenCode is one of the fastest-growing open-source coding agents with 160K+ GitHub stars and 7.5M monthly developers. Its model-agnostic design lets developers use existing subscriptions (ChatGPT Plus, Copilot, etc.) or bring their own API keys, making it one of the most cost-effective and flexible coding agents available.",
+  "bestFor": [
+    "Developers who want a model-agnostic coding agent with maximum provider flexibility",
+    "Teams that need a privacy-first agent with no code storage or telemetry",
+    "Engineers who want both terminal and IDE-based agent workflows"
+  ],
+  "notFor": [
+    "Users who need a fully managed cloud-hosted coding agent",
+    "Teams that prefer single-model deep integration over multi-provider flexibility"
+  ],
+  "category": "agents",
+  "tags": [
+    "agent",
+    "coding-agent",
+    "terminal",
+    "cli",
+    "go",
+    "mcp",
+    "local-ai",
+    "multi-provider"
+  ],
+  "repoUrl": "https://github.com/anomalyco/opencode",
+  "homepageUrl": "https://opencode.ai",
+  "docsUrl": "https://opencode.ai/docs",
+  "license": "MIT",
+  "maintainer": "anomalyco",
+  "worksWith": ["agents", "models"],
+  "sourceLinks": [
+    "https://github.com/anomalyco/opencode",
+    "https://opencode.ai",
+    "https://opencode.ai/docs"
+  ],
+  "seoTitle": "OpenCode: AI Agent — Open-source AI coding agent with 75+ provider support, LSP integration, and multi-session workflow.",
+  "seoDescription": "OpenCode is an open-source AI agent. Open-source AI coding agent that connects to 75+ AI providers and runs in your terminal, IDE, or desktop with LSP integration and multi-session support.",
+  "shareTitle": "OpenCode on OpenAgent.bot",
+  "shareDescription": "Open-source AI coding agent that connects to 75+ AI providers and runs in your terminal, IDE, or desktop.",
+  "status": "published",
+  "generatedAt": "2026-06-04T00:00:00.000Z",
+  "reviewedAt": "2026-06-04",
+  "updatedAt": "2026-06-04",
+  "lastVerifiedAt": "2026-06-04",
+  "openSourceStatus": "open-source",
+  "isFeatured": true,
+  "isSponsored": false,
+  "featuredReason": "One of the fastest-growing open-source coding agents with 160K+ GitHub stars, 75+ provider support, and a unique model-agnostic approach that works with existing subscriptions.",
+  "sourceMetrics": {
+    "stars": 160000,
+    "forks": 9000
+  },
+  "coreStrengths": [
+    {
+      "title": "75+ AI provider support",
+      "description": "Works with any AI provider — Anthropic, OpenAI, Google, Groq, Ollama local models, and 70+ more through an extensible provider system.",
+      "whyItMatters": "Developers can use existing subscriptions (ChatGPT Plus, Copilot) or choose the best model for each task without being locked into a single provider."
+    },
+    {
+      "title": "Multi-surface workflow",
+      "description": "Available as a terminal TUI, VS Code extension, and desktop app with seamless session sync across all surfaces.",
+      "whyItMatters": "Developers can start a task in the terminal, refine it in the IDE, and share results via session links — all from the same agent."
+    },
+    {
+      "title": "Privacy-first design",
+      "description": "OpenCode does not store any code or context data. No telemetry, no data retention, and full local control.",
+      "whyItMatters": "Privacy-sensitive teams can use OpenCode in regulated environments without worrying about data leaving their control."
+    },
+    {
+      "title": "LSP integration",
+      "description": "Automatically loads the right Language Server Protocol configurations for the LLM, giving it deeper code understanding.",
+      "whyItMatters": "Better context leads to more accurate edits and fewer hallucinations when working with unfamiliar codebases."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Multi-provider experimentation",
+      "description": "Switch between Claude, GPT, Gemini, and local models mid-session to compare results for different coding tasks."
+    },
+    {
+      "title": "Privacy-sensitive development",
+      "description": "Use OpenCode with local models via Ollama for fully offline, zero-exfiltration coding assistance."
+    },
+    {
+      "title": "Team collaboration via session sharing",
+      "description": "Share session links with teammates for code review, debugging help, or reproducing issues."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose OpenCode for provider flexibility and privacy",
+      "against": "Claude Code",
+      "summary": "OpenCode supports 75+ providers and stores no code data. Claude Code offers deeper Anthropic model integration but locks you into a single provider."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Open the GitHub repository",
+      "url": "https://github.com/anomalyco/opencode",
+      "type": "github"
+    },
+    {
+      "label": "Read the documentation",
+      "url": "https://opencode.ai/docs",
+      "type": "docs"
+    },
+    {
+      "label": "Visit the project website",
+      "url": "https://opencode.ai",
+      "type": "homepage"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Install OpenCode",
+      "command": "curl -fsSL https://opencode.ai/install | bash",
+      "description": "Install via the official script, then run 'opencode' in any project directory. Supports 75+ providers and works with existing subscriptions."
+    }
+  ],
+  "seoArticle": {
+    "intro": "OpenCode is redefining what an open-source coding agent can be. With support for 75+ AI providers, a privacy-first architecture, and multi-surface availability (terminal, IDE, desktop), it has rapidly grown to 160K+ GitHub stars and 7.5M monthly active developers.",
+    "whatItIs": "OpenCode is an open-source AI coding agent built in Go that connects to 75+ AI providers. It runs in your terminal, as a VS Code extension, or as a desktop app, with LSP integration for deeper code understanding and multi-session support for parallel agent workflows.",
+    "whyItMatters": "The coding agent space has been dominated by tools that lock you into a single model provider. OpenCode breaks that pattern by supporting 75+ providers, including the ability to use existing ChatGPT Plus and Copilot subscriptions. Combined with its privacy-first architecture (no code stored, no telemetry), it represents a new model for what an open-source coding agent should be.",
+    "howItWorks": "Start with one safe workflow for OpenCode. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
+    "useCases": [
+      {
+        "title": "Cost-effective multi-model development",
+        "description": "Use your existing ChatGPT Plus or Copilot subscription with OpenCode instead of paying for additional API access. Switch between models based on task complexity."
+      },
+      {
+        "title": "Local-first development",
+        "description": "Run OpenCode with Ollama and local models for fully offline coding assistance. Ideal for air-gapped environments or privacy-sensitive projects."
+      },
+      {
+        "title": "Parallel agent workflows",
+        "description": "Use OpenCode's multi-session support to run multiple agents on the same project simultaneously — one refactoring, one testing, one writing documentation."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Use Claude Code for deeper codebase reasoning with Anthropic models",
+        "against": "Claude Code",
+        "summary": "OpenCode offers model flexibility and privacy. Claude Code may handle complex multi-file reasoning better but locks you into Anthropic's ecosystem."
+      },
+      {
+        "title": "Use Aider for deeper git integration",
+        "against": "Aider",
+        "summary": "Aider has best-in-class git integration with auto-commit. OpenCode offers broader provider support and multi-surface availability."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Read the documentation",
+        "url": "https://opencode.ai/docs",
+        "type": "docs"
+      },
+      {
+        "label": "Inspect the repository",
+        "url": "https://github.com/anomalyco/opencode",
+        "type": "github"
+      }
+    ],
+    "faq": [
+      {
+        "question": "What should I check before using OpenCode?",
+        "answer": "Start with one safe workflow for OpenCode. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
+        "question": "Is OpenCode open source?",
+        "answer": "OpenCode is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+      },
+      {
+        "question": "Who should evaluate OpenCode?",
+        "answer": "OpenCode is most worth evaluating for developers who want a model-agnostic coding agent with maximum provider flexibility."
+      },
+      {
+        "question": "Who should use OpenCode?",
+        "answer": "Developers who want a privacy-first, model-agnostic coding agent that works across terminal, IDE, and desktop, especially those who already have ChatGPT Plus or Copilot subscriptions."
+      },
+      {
+        "question": "How does OpenCode compare to other coding agents?",
+        "answer": "OpenCode's main differentiators are its 75+ provider support, privacy-first design, and multi-surface availability. It trades deep single-provider integration for maximum flexibility."
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "agent",
+    "visualMotif": "terminal with multi-provider connection indicators and code flow visualization",
+    "backgroundStyle": "minimal editorial surface with restrained green accent color",
+    "titleOverlay": "OpenCode",
+    "subtitle": "Open-source AI coding agent",
+    "avoid": [
+      "busy poster layout",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  },
+  "coverImage": "https://github.com/anomalyco.png"
+}

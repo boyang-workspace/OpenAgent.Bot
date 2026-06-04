@@ -1,0 +1,190 @@
+{
+  "slug": "codebuff",
+  "title": "Codebuff",
+  "oneLiner": "Terminal-native AI coding agent that understands your entire codebase and makes precise, style-consistent edits from natural language instructions.",
+  "summary": "Codebuff is a terminal-based AI coding agent that deeply understands your entire codebase — structure, dependencies, and patterns — to make precise, style-consistent edits. It coordinates specialized sub-agents (File Explorer, Planner, Editor, Reviewer) for better results, supports any model on OpenRouter, and persists project knowledge in markdown files that evolve with every session.",
+  "whyItMatters": "Codebuff's multi-agent architecture coordinates specialized sub-agents for different tasks, beating Claude Code on benchmarks (61% vs 53%). Its deep project mapping and knowledge files create an evolving understanding of your codebase that improves with every session.",
+  "bestFor": [
+    "Developers who want a CLI-native coding agent with deep codebase understanding",
+    "Engineers who prefer multi-agent architectures over single-model approaches",
+    "Teams that want persistent project knowledge that improves across sessions"
+  ],
+  "notFor": [
+    "Users who prefer IDE-based agents over terminal workflows",
+    "Teams that need a fully open-source, self-hostable solution"
+  ],
+  "category": "agents",
+  "tags": [
+    "agent",
+    "coding-agent",
+    "terminal",
+    "cli",
+    "multi-agent",
+    "knowledge-base"
+  ],
+  "repoUrl": "https://github.com/CodebuffAI/codebuff",
+  "homepageUrl": "https://codebuff.com",
+  "docsUrl": "https://codebuff.com/docs",
+  "license": "Proprietary",
+  "maintainer": "Codebuff (YC)",
+  "worksWith": ["agents", "models"],
+  "sourceLinks": [
+    "https://github.com/CodebuffAI/codebuff",
+    "https://codebuff.com",
+    "https://npmjs.com/package/codebuff"
+  ],
+  "seoTitle": "Codebuff: AI Agent — Terminal-native AI coding agent with multi-agent architecture and deep codebase understanding.",
+  "seoDescription": "Codebuff is an AI agent. Terminal-native AI coding agent that understands your entire codebase and makes precise, style-consistent edits from natural language instructions.",
+  "shareTitle": "Codebuff on OpenAgent.bot",
+  "shareDescription": "Terminal-native AI coding agent with multi-agent architecture and deep codebase understanding.",
+  "status": "published",
+  "generatedAt": "2026-06-04T00:00:00.000Z",
+  "reviewedAt": "2026-06-04",
+  "updatedAt": "2026-06-04",
+  "lastVerifiedAt": "2026-06-04",
+  "openSourceStatus": "source-available",
+  "isFeatured": false,
+  "isSponsored": false,
+  "sourceMetrics": {
+    "stars": 4500,
+    "forks": 200
+  },
+  "coreStrengths": [
+    {
+      "title": "Multi-agent architecture",
+      "description": "Coordinates specialized sub-agents — File Explorer, Planner, Editor, Reviewer — each focused on a specific aspect of the coding task.",
+      "whyItMatters": "Specialized agents outperform single-model approaches. Codebuff beats Claude Code 61% to 53% on its public benchmarks across 175+ real-world coding tasks."
+    },
+    {
+      "title": "Whole-codebase understanding",
+      "description": "Automatically maps project structure, dependencies, and hidden patterns before making any changes.",
+      "whyItMatters": "Deep context leads to more accurate edits that respect existing patterns, reducing the need for manual review and cleanup."
+    },
+    {
+      "title": "Persistent knowledge files",
+      "description": "Stores project insights and preferences in markdown knowledge files that evolve with every session.",
+      "whyItMatters": "The agent gets smarter about your specific project over time, learning patterns and preferences without requiring manual configuration."
+    },
+    {
+      "title": "Any model on OpenRouter",
+      "description": "Supports any model available on OpenRouter — from Claude and GPT to DeepSeek, Qwen, and specialized models.",
+      "whyItMatters": "Switching models is a config change, not a migration. Use the best model for each task without platform lock-in."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Full-stack feature implementation",
+      "description": "Describe a feature in plain English; Codebuff understands the full stack and updates backend, frontend, and test files."
+    },
+    {
+      "title": "Style-consistent refactoring",
+      "description": "Ask Codebuff to refactor a module — it preserves existing patterns, naming conventions, and architectural decisions."
+    },
+    {
+      "title": "Automated test generation",
+      "description": "Point Codebuff at a module, and it generates comprehensive tests that match the existing test patterns in your project."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose Codebuff for multi-agent architecture and codebase awareness",
+      "against": "Claude Code",
+      "summary": "Codebuff's multi-agent system and knowledge files provide deeper project context over time. Claude Code has stronger single-session reasoning with its large context window."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "Open the GitHub repository",
+      "url": "https://github.com/CodebuffAI/codebuff",
+      "type": "github"
+    },
+    {
+      "label": "Visit the project website",
+      "url": "https://codebuff.com",
+      "type": "homepage"
+    },
+    {
+      "label": "Install from npm",
+      "url": "https://www.npmjs.com/package/codebuff",
+      "type": "npm"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Install Codebuff",
+      "command": "npm install -g codebuff",
+      "description": "Install globally via npm, then run 'codebuff' in any project directory to start the AI coding agent."
+    }
+  ],
+  "seoArticle": {
+    "intro": "Codebuff takes a different approach to AI coding agents: instead of a single model doing everything, it coordinates specialized sub-agents for different tasks. Combined with deep codebase mapping and persistent knowledge files, this multi-agent architecture delivers benchmark-beating results.",
+    "whatItIs": "Codebuff is a terminal-based AI coding agent that uses a multi-agent architecture — File Explorer, Planner, Editor, Reviewer — to understand and edit codebases with precision and consistency.",
+    "whyItMatters": "The multi-agent approach addresses a fundamental limitation of single-model coding agents: different tasks benefit from different capabilities. A File Explorer agent optimized for codebase navigation, combined with an Editor focused on precise changes, outperforms a general-purpose model trying to do everything.",
+    "howItWorks": "Start with one safe workflow for Codebuff. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
+    "useCases": [
+      {
+        "title": "Complex multi-file features",
+        "description": "Let Codebuff's Planner agent break down a feature request, then delegate implementation to specialized sub-agents for each file."
+      },
+      {
+        "title": "Codebase-wide pattern enforcement",
+        "description": "Use Codebuff's deep project mapping to enforce consistent patterns, naming conventions, and architectural decisions across the entire codebase."
+      },
+      {
+        "title": "Learning and onboarding",
+        "description": "Codebuff's knowledge files accumulate project context over time, making it progressively more helpful for onboarding new team members."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Use OpenCode for broader provider support and multi-surface availability",
+        "against": "OpenCode",
+        "summary": "Codebuff offers superior multi-agent architecture and codebase understanding. OpenCode provides broader provider support and works across terminal, IDE, and desktop."
+      },
+      {
+        "title": "Use Aider for stronger git-native workflows",
+        "against": "Aider",
+        "summary": "Codebuff's multi-agent system gives it an edge on complex tasks. Aider has deeper git integration and broader model support."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "Read the documentation",
+        "url": "https://codebuff.com/docs",
+        "type": "docs"
+      },
+      {
+        "label": "Inspect the repository",
+        "url": "https://github.com/CodebuffAI/codebuff",
+        "type": "github"
+      }
+    ],
+    "faq": [
+      {
+        "question": "What should I check before using Codebuff?",
+        "answer": "Start with one safe workflow for Codebuff. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+      },
+      {
+        "question": "Is Codebuff open source?",
+        "answer": "Codebuff is listed with Proprietary based on the official source links in this profile. The source code is available on GitHub but the license may restrict commercial use."
+      },
+      {
+        "question": "How does Codebuff's multi-agent architecture work?",
+        "answer": "Codebuff coordinates specialized sub-agents — File Explorer, Planner, Editor, Reviewer — each optimized for a specific aspect of the coding task, then combines their outputs for better results."
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "agent",
+    "visualMotif": "terminal with multi-agent orchestration diagram and code diff visualization",
+    "backgroundStyle": "minimal editorial surface with restrained indigo accent color",
+    "titleOverlay": "Codebuff",
+    "subtitle": "Multi-agent coding for terminal",
+    "avoid": [
+      "busy poster layout",
+      "unverified logos",
+      "marketing-heavy screenshots"
+    ]
+  },
+  "coverImage": "https://github.com/CodebuffAI.png"
+}

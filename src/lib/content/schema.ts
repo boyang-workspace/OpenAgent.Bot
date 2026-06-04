@@ -1,4 +1,4 @@
-export const categories = ["models", "agents", "memory-systems", "skills", "plugins", "tools"] as const;
+export const categories = ["models", "agents", "memory-systems", "skills", "plugins", "tools", "bots"] as const;
 export const sources = ["github", "hackernews", "producthunt", "x"] as const;
 export const projectStatuses = ["draft", "published", "archived"] as const;
 export const openSourceStatuses = ["open-source", "open-core", "source-available", "unknown"] as const;

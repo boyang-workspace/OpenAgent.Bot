@@ -9,6 +9,7 @@ export const taxonomy = {
   category: [
     "agent",
     "agent-framework",
+    "bot",
     "memory-system",
     "model",
     "open-source",
@@ -38,6 +39,7 @@ export const taxonomy = {
     "state",
     "state-management",
     "tool-calling",
+    "robotics",
     "workflow",
     "workflow-orchestration"
   ],
@@ -52,6 +54,7 @@ export const taxonomy = {
     "personal-memory",
     "production-agent",
     "research",
+    "robotics-agent",
     "self-hosted-ai"
   ]
 } as const;

@@ -1,0 +1,177 @@
+{
+  "slug": "openeai",
+  "title": "OpenEAI",
+  "oneLiner": "Complete open-source hardware-software platform for real-world embodied AI from arm to VLA policy.",
+  "summary": "OpenEAI is a fully open-source hardware-software unified platform for real-world embodied manipulation. It consists of two repositories: OpenEAI-Arm, a low-cost 6-DoF desktop robotic arm with complete manufacturing files, and OpenEAI-VLA, an end-to-end vision-language-action policy trained with a two-stage recipe (large-scale pretraining + task-specific fine-tuning). The platform covers the full pipeline — hardware design, low-level control, data collection, dataset processing, VLA training, and real-time deployment.",
+  "whyItMatters": "OpenEAI matters because it is one of the few projects that open-sources the complete pipeline from robot hardware to trained VLA policy. Most VLA research uses expensive closed-source arms (Franka, UR) and proprietary training pipelines. OpenEAI provides reproducible manufacturing files for a capable 6-DoF arm (2kg payload, desktop form factor), along with a VLA training recipe that works with public datasets. This lowers the barrier for researchers to enter embodied AI research without industry budgets.",
+  "bestFor": [
+    "Researchers needing a reproducible hardware platform for VLA research",
+    "Teams building custom robotic manipulation systems on a budget",
+    "Academics teaching embodied AI with open-source tools end-to-end"
+  ],
+  "notFor": [
+    "Production deployment (designed for research, not industrial use)",
+    "Researchers needing non-manipulation platforms like mobile or humanoid robots"
+  ],
+  "category": "bots",
+  "tags": [
+    "bot",
+    "open-source",
+    "robotics",
+    "robot-arm",
+    "vla",
+    "deep-learning",
+    "self-hosted"
+  ],
+  "repoUrl": "https://github.com/eai-yeslab/OpenEAI-Arm",
+  "homepageUrl": "https://github.com/eai-yeslab/OpenEAI-VLA",
+  "docsUrl": "https://github.com/eai-yeslab/OpenEAI-Arm",
+  "license": "BSD-3-Clause",
+  "maintainer": "YES Lab (Shanghai Jiao Tong University)",
+  "sourceLinks": [
+    "https://github.com/eai-yeslab/OpenEAI-Arm",
+    "https://github.com/eai-yeslab/OpenEAI-VLA"
+  ],
+  "seoTitle": "OpenEAI: Open-source hardware-software platform for embodied AI from arm to VLA",
+  "seoDescription": "OpenEAI is a fully open-source platform for embodied AI — a low-cost 6-DoF robotic arm plus end-to-end VLA training pipeline. BSD-3 licensed.",
+  "shareTitle": "OpenEAI on OpenAgent.bot",
+  "shareDescription": "Complete open-source hardware-software platform for embodied AI manipulation.",
+  "status": "published",
+  "generatedAt": "2026-06-04T00:00:00.000Z",
+  "reviewedAt": "2026-06-04T00:00:00.000Z",
+  "updatedAt": "2026-06-04",
+  "lastVerifiedAt": "2026-06-04",
+  "openSourceStatus": "open-source",
+  "isFeatured": false,
+  "isSponsored": false,
+  "sourceMetrics": {
+    "stars": 622,
+    "forks": 6
+  },
+  "coreStrengths": [
+    {
+      "title": "End-to-end open-source pipeline from hardware to VLA",
+      "description": "OpenEAI releases the complete stack: CAD files, manufacturing drawings, low-level C++ control, multi-modal teleoperation, dataset processing, two-stage VLA training, and real-time deployment.",
+      "whyItMatters": "Most embodied AI papers release only model weights or simulation code. OpenEAI lets anyone reproduce the full system."
+    },
+    {
+      "title": "Low-cost 6-DoF arm with 2kg payload",
+      "description": "The OpenEAI-Arm is a desktop 6-DoF manipulator with 2kg payload capacity, significantly cheaper than Franka/UR arms while maintaining sufficient capability for VLA research.",
+      "whyItMatters": "Cost has been the primary barrier to entering real-world robotics research. OpenEAI's arm design is reproducible for a fraction of the cost of commercial alternatives."
+    },
+    {
+      "title": "Two-stage VLA training recipe",
+      "description": "The VLA training pipeline uses large-scale pretraining on public robot datasets followed by task-specific fine-tuning with as few as 10-50 demonstrations.",
+      "whyItMatters": "This recipe addresses the data efficiency challenge — you get the benefits of large-scale pretraining without needing to collect millions of your own demonstrations."
+    },
+    {
+      "title": "Multi-modal teleoperation support",
+      "description": "Supports GELLO (puppet), SpaceMouse (delta pose), and VR (absolute pose) teleoperation methods out of the box.",
+      "whyItMatters": "Different data collection scenarios require different teleoperation interfaces. OpenEAI covers the three most common modalities."
+    }
+  ],
+  "useCaseNotes": [
+    {
+      "title": "Reproducible VLA research",
+      "description": "Use OpenEAI's complete pipeline to conduct VLA research on hardware that any other lab can reproduce, enabling verifiable and comparable results."
+    },
+    {
+      "title": "Teaching embodied AI from end to end",
+      "description": "Build the arm, collect data, train a VLA policy, and deploy — all with open-source tools. A complete embodied AI curriculum in one platform."
+    },
+    {
+      "title": "Custom manipulation task development",
+      "description": "Design a new manipulation task, collect demonstrations via VR teleoperation, fine-tune the VLA policy, and evaluate on real hardware — all within the OpenEAI framework."
+    }
+  ],
+  "compareNotes": [
+    {
+      "title": "Choose OpenEAI for the most complete open-source VLA pipeline",
+      "against": "other open robot arms",
+      "summary": "AIRA and SO-100 provide excellent hardware but do not include a full VLA training pipeline. OpenEAI is the choice when you want hardware + training in one open-source platform."
+    }
+  ],
+  "gettingStarted": [
+    {
+      "label": "OpenEAI-Arm GitHub",
+      "url": "https://github.com/eai-yeslab/OpenEAI-Arm",
+      "type": "github"
+    },
+    {
+      "label": "OpenEAI-VLA GitHub",
+      "url": "https://github.com/eai-yeslab/OpenEAI-VLA",
+      "type": "github"
+    }
+  ],
+  "commandLine": [
+    {
+      "label": "Install OpenEAI stack",
+      "command": "# Clone both repositories\ngit clone https://github.com/eai-yeslab/OpenEAI-Arm\ngit clone https://github.com/eai-yeslab/OpenEAI-VLA\n# Follow the hardware assembly guide and training recipe in each repo",
+      "description": "Clone both repositories and follow the respective READMEs for hardware assembly and VLA training."
+    }
+  ],
+  "seoArticle": {
+    "intro": "OpenEAI is a fully open-source platform that provides everything needed to do real-world embodied AI research — from the robot arm itself to the VLA policy that controls it.",
+    "whatItIs": "OpenEAI is a unified platform with two components: OpenEAI-Arm, a low-cost 6-DoF desktop robotic arm with complete manufacturing files, assembly guides, and a full C++/Python control stack; and OpenEAI-VLA, an end-to-end vision-language-action policy with a two-stage training recipe (large-scale pretraining + task-specific fine-tuning). The platform supports multi-modal teleoperation (GELLO, SpaceMouse, VR), LeRobot-format dataset processing, and real-time deployment via a client-server architecture.",
+    "whyItMatters": "Embodied AI research has been limited by two factors: the cost and complexity of robot hardware, and the fragmented nature of training pipelines. OpenEAI addresses both by open-sourcing an entire platform. A research group can build the arm, collect demonstration data, train a state-of-the-art VLA policy, and deploy it — all with publicly available code and designs. This is a model for how open-source can accelerate embodied AI research.",
+    "howItWorks": "The hardware is a 6-DoF arm with a 2kg payload, designed for reproducibility with STEP/STL files and manufacturing drawings. Low-level control runs C++ drivers with gravity compensation and feed-forward PID tracking for smooth execution. The VLA pipeline uses dataset adapters to unify heterogeneous state/action conventions from public datasets, trains on large-scale pretraining data, and fine-tunes on task-specific demonstrations. Deployment uses a standard robot-client / policy-server ZMQ interface for streaming observations and receiving action chunks.",
+    "useCases": [
+      {
+        "title": "End-to-end VLA research with reproducible hardware",
+        "description": "Build the OpenEAI arm, collect data, train a VLA policy, and deploy — all steps are documented, open-source, and reproducible by any other lab."
+      },
+      {
+        "title": "Cross-dataset VLA pretraining evaluation",
+        "description": "Use OpenEAI's dataset adapters to train VLA policies on heterogeneous public datasets and evaluate how well pretraining transfers to real-world hardware."
+      },
+      {
+        "title": "Teleoperation method comparison",
+        "description": "Compare data quality and policy success rates across GELLO, SpaceMouse, and VR teleoperation methods using the same arm and task setup."
+      }
+    ],
+    "alternatives": [
+      {
+        "title": "Use LeRobot + SO-100 for a simpler entry point",
+        "against": "OpenEAI",
+        "summary": "If you only need data collection and imitation learning without VLA training, LeRobot with SO-100 is simpler. OpenEAI is for teams that want the complete hardware-to-VLA pipeline."
+      }
+    ],
+    "gettingStarted": [
+      {
+        "label": "OpenEAI-Arm repository",
+        "url": "https://github.com/eai-yeslab/OpenEAI-Arm",
+        "type": "github"
+      },
+      {
+        "label": "OpenEAI-VLA repository",
+        "url": "https://github.com/eai-yeslab/OpenEAI-VLA",
+        "type": "github"
+      }
+    ],
+    "faq": [
+      {
+        "question": "How much does OpenEAI-Arm cost?",
+        "answer": "The exact BOM cost is documented in the repository. It is designed to be significantly cheaper than Franka/UR arms while providing sufficient capability for VLA research."
+      },
+      {
+        "question": "Can I use OpenEAI-VLA without the OpenEAI-Arm hardware?",
+        "answer": "Yes, the VLA training pipeline works with any robot. Use the dataset adapters to convert your robot's data format and fine-tune the policy."
+      },
+      {
+        "question": "Is OpenEAI commercially usable?",
+        "answer": "OpenEAI is licensed under BSD 3-Clause, which permits commercial use with attribution."
+      }
+    ]
+  },
+  "thumbnailBrief": {
+    "resourceType": "bot",
+    "visualMotif": "desktop robot arm with circuit board details and VLA pipeline diagram",
+    "backgroundStyle": "quiet editorial card with light surface and amber accent",
+    "titleOverlay": "OpenEAI",
+    "subtitle": "Open-source embodied AI platform",
+    "avoid": [
+      "dense circuit schematic",
+      "generic industrial robot look"
+    ]
+  }
+}

@@ -10,7 +10,8 @@ const categoryToResourceType: Record<CategorySlug, ResourceType> = {
   "memory-systems": "memory_system",
   skills: "skill",
   plugins: "plugin",
-  tools: "tool"
+  tools: "tool",
+  bots: "bot"
 };
 
 const categoryTags: Record<CategorySlug, string> = {
@@ -19,7 +20,8 @@ const categoryTags: Record<CategorySlug, string> = {
   "memory-systems": "memory-system",
   skills: "skill",
   plugins: "plugin",
-  tools: "tool"
+  tools: "tool",
+  bots: "bot"
 };
 
 const tagAliases: Record<string, string> = {
@@ -41,8 +43,12 @@ const tagAliases: Record<string, string> = {
   "self-hosted": "self-hosted",
   state: "state",
   "state-management": "state-management",
-  workflow: "workflow",
-  "workflow-orchestration": "workflow-orchestration"
+    workflow: "workflow",
+    "workflow-orchestration": "workflow-orchestration",
+    robot: "robotics",
+    robotics: "robotics",
+    "robotics-agent": "robotics-agent",
+    teleoperation: "robotics"
 };
 
 function uniq(values: Array<string | undefined>): string[] {
@@ -203,7 +209,8 @@ function fallbackThumbnailBrief(project: OpenProject): ThumbnailBrief {
     "memory-systems": "layered cards, archive grid, or stacked memory tiles",
     skills: "modular command blocks and action steps",
     plugins: "connectors, ports, and structured modules",
-    tools: "clean utility panel and geometric control surface"
+    tools: "clean utility panel and geometric control surface",
+    bots: "robot arm, joint stream, or sensor actuator diagram"
   };
 
   return {
@@ -248,6 +255,7 @@ function mapCapabilities(project: OpenProject): string[] {
   if (project.category === "agents") normalized.push("workflow-orchestration");
   if (project.category === "memory-systems") normalized.push("memory");
   if (project.category === "models") normalized.push("local-inference");
+  if (project.category === "bots") normalized.push("robotics");
   return limit(uniq(normalized));
 }
 
@@ -272,6 +280,7 @@ function mapScenarios(project: OpenProject): string[] {
   if (tags.has("self-hosted") || project.category === "tools") values.push("self-hosted-ai");
   if (project.category === "agents" || project.category === "skills" || project.category === "plugins") values.push("developer-workflow");
   if (project.category === "memory-systems") values.push("personal-memory");
+  if (project.category === "bots") values.push("robotics-agent");
   return limit(uniq(values.length ? values : ["developer-workflow"]));
 }
 

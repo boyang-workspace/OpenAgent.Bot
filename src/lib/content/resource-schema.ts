@@ -1,7 +1,7 @@
 import { taxonomy, type TaxonomyTagGroup } from "./taxonomy";
 
 export const resourceStatuses = ["draft", "published", "archived", "hidden"] as const;
-export const resourceTypes = ["model", "agent", "memory_system", "skill", "plugin", "tool", "protocol", "workflow"] as const;
+export const resourceTypes = ["model", "agent", "memory_system", "skill", "plugin", "tool", "protocol", "workflow", "bot"] as const;
 export const difficulties = ["beginner", "intermediate", "advanced"] as const;
 export const maturities = ["experimental", "active", "stable", "legacy"] as const;
 export const deploymentModes = ["local", "self_hosted", "cloud", "hybrid"] as const;
@@ -23,7 +23,7 @@ export const linkTypes = [
   "docker"
 ] as const;
 
-export const primaryCategories = ["models", "agents", "memory-systems", "skills", "plugins", "tools", "protocols", "workflows"] as const;
+export const primaryCategories = ["models", "agents", "memory-systems", "skills", "plugins", "tools", "protocols", "workflows", "bots"] as const;
 
 const allowedTopLevelKeys = [
   "schema_version",

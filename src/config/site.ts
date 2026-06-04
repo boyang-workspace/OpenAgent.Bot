@@ -9,6 +9,7 @@ export const site = {
     { label: "Models", href: "/models" },
     { label: "Agents", href: "/agents" },
     { label: "Skills", href: "/skills" },
+    { label: "Bots", href: "/bots" },
     { label: "Memory", href: "/memory-systems" },
     { label: "Plugins", href: "/plugins" },
     { label: "Tools", href: "/tools" },
@@ -41,6 +42,11 @@ export const categories = [
     slug: "plugins",
     label: "Plugins",
     description: "Extensions, connectors, and plugin ecosystems for AI tooling."
+  },
+  {
+    slug: "bots",
+    label: "Bots",
+    description: "Open-source bots built with LeRobot and related robotics tooling for physical AI agents."
   },
   {
     slug: "tools",

@@ -9,14 +9,15 @@ import { getPublishedResources } from "@/lib/content/resources";
 const resources = await getPublishedResources();
 const posts = await getPublishedBlogPosts();
 
-const floorOrder = ["agents", "models", "skills", "memory-systems"];
+const floorOrder = ["agents", "models", "skills", "bots", "memory-systems"];
 const floorId = (slug: string) => (slug === "memory-systems" ? "memory" : slug);
 const resourceRank = (resource: (typeof resources)[number]) => (resource.decision_signals.open_source ? 1 : 0);
 const floorDescriptions: Record<string, string> = {
   agents: "Open-source agents for browser, coding, terminal, and workflow automation.",
   models: "Open models that can power private, local, and self-hosted AI workflows.",
   skills: "Reusable capability packs that make agents useful in real tasks.",
-  "memory-systems": "Open memory systems for retrieval, long-term context, and user-owned knowledge."
+  "memory-systems": "Open memory systems for retrieval, long-term context, and user-owned knowledge.",
+  bots: "Open-source bots and robotics tooling for physical AI agents."
 };
 const orderedFloors = [...categories]
   .filter((category) => floorOrder.includes(category.slug))

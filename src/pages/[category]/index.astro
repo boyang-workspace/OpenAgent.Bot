@@ -209,6 +209,99 @@ const coreProfiles: Record<string, CategoryProfile> = {
   }
 };
 
+const extendedProfiles: Record<string, CategoryProfile> = {
+  plugins: {
+    eyebrow: "Plugins directory",
+    title: "Open AI plugins by integration surface",
+    description: "Browse plugins for extension points, MCP protocol support, and ecosystem connectors that add agent capabilities.",
+    guide: [
+      { title: "Start with MCP", body: "Model Context Protocol is becoming the standard bridge between agents and external tools." },
+      { title: "Check the ecosystem", body: "Plugin ecosystems tied to specific platforms limit portability across agent runtimes." },
+      { title: "Prefer protocol plugins", body: "Plugins built on open protocols work across more agents than platform-specific extensions." }
+    ],
+    floors: [
+      {
+        id: "mcp-protocol-plugins",
+        title: "MCP and protocol-based plugins",
+        description: "Plugins and servers that implement the Model Context Protocol for cross-agent tool integration.",
+        match: (resource) => matches(resource, ["mcp", "model-context-protocol", "protocol", "server"])
+      },
+      {
+        id: "platform-ecosystem-plugins",
+        title: "Platform and ecosystem plugins",
+        description: "Connectors, extensions, and plugin systems for specific agent platforms and AI frameworks.",
+        match: (resource) => matches(resource, ["plugin", "extension", "connector", "ecosystem"])
+      },
+      {
+        id: "connector-integration-plugins",
+        title: "Connectors and integrations",
+        description: "Tools that bridge AI agents with external services, APIs, databases, and third-party platforms.",
+        match: (resource) => matches(resource, ["connector", "integration", "api", "bridge"])
+      }
+    ]
+  },
+  bots: {
+    eyebrow: "Bots directory",
+    title: "Open-source bots and robotics tooling",
+    description: "Browse open-source bots, robotics frameworks, and physical AI agent tools with practical adoption cues.",
+    guide: [
+      { title: "Define the physical surface", body: "LeRobot, hardware SDKs, and simulation toolkits serve different robotics entry points." },
+      { title: "Check the sim-to-real gap", body: "Bots that test well in simulation may need significant work to deploy on physical hardware." },
+      { title: "Look for active communities", body: "Robotics tooling benefits from active maintenance, hardware compatibility lists, and real-world demos." }
+    ],
+    floors: [
+      {
+        id: "robotics-frameworks",
+        title: "Robotics frameworks and SDKs",
+        description: "Frameworks, SDKs, and toolkits for building, training, and deploying robotic AI agents.",
+        match: (resource) => matches(resource, ["robot", "lerobot", "robotics", "sdk", "hardware"])
+      },
+      {
+        id: "simulation-tools",
+        title: "Simulation and training environments",
+        description: "Simulation platforms for training and testing AI agents in virtual environments before physical deployment.",
+        match: (resource) => matches(resource, ["simulation", "simulator", "training", "environment"])
+      },
+      {
+        id: "physical-agent-platforms",
+        title: "Physical agent platforms",
+        description: "End-to-end platforms for building and operating physical AI agents in real-world settings.",
+        match: (resource) => matches(resource, ["physical-agent", "embedded", "iot", "edge"])
+      }
+    ]
+  },
+  tools: {
+    eyebrow: "Tools directory",
+    title: "Open AI development and evaluation tools",
+    description: "Browse practical utilities for building, testing, benchmarking, and operating AI products and agent systems.",
+    guide: [
+      { title: "Match the workflow stage", body: "Building, testing, observing, and deploying agents require different tool categories." },
+      { title: "Prefer composable tools", body: "Tools that work with standard formats, APIs, and export paths integrate better into existing stacks." },
+      { title: "Consider operational maturity", body: "Docs, update cadence, and community responsiveness matter more for production tooling." }
+    ],
+    floors: [
+      {
+        id: "evaluation-benchmark-tools",
+        title: "Evaluation and benchmark tools",
+        description: "Frameworks and tools for benchmarking, testing, and evaluating AI agent and model performance.",
+        match: (resource) => matches(resource, ["evaluation", "benchmark", "testing", "qa", "evals"])
+      },
+      {
+        id: "observability-debugging-tools",
+        title: "Observability and debugging tools",
+        description: "Tools for tracing, logging, inspecting, and debugging agent behavior and LLM interactions.",
+        match: (resource) => matches(resource, ["observability", "debugging", "tracing", "logging", "monitoring"])
+      },
+      {
+        id: "deployment-serving-tools",
+        title: "Deployment and serving tools",
+        description: "Utilities for deploying, serving, and managing AI models and agent systems in production.",
+        match: (resource) => matches(resource, ["deployment", "serving", "hosting", "infrastructure", "docker"])
+      }
+    ]
+  }
+};
+
 const fallbackProfile = (label: string, description: string): CategoryProfile => ({
   eyebrow: "Directory",
   title: label,
@@ -236,7 +329,7 @@ const categoryResources = (await getResourcesByCategory(category.slug)).sort(
     byUpdatedSource(b).localeCompare(byUpdatedSource(a)) ||
     a.identity.name.localeCompare(b.identity.name)
 );
-const profile = coreProfiles[category.slug] ?? fallbackProfile(category.label, category.description);
+const profile = coreProfiles[category.slug] ?? extendedProfiles[category.slug] ?? fallbackProfile(category.label, category.description);
 const coveredSlugs = new Set<string>();
 const floors = profile.floors
   .map((floor) => {

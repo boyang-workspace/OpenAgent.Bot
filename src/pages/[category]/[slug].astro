@@ -37,10 +37,12 @@ const relatedPosts = allPosts.filter((post) =>
 const repoLink = resource.links.items.find((link) => link.type === "github");
 const homepageLink = resource.links.items.find((link) => link.type === "homepage");
 const docsLink = resource.links.items.find((link) => link.type === "docs");
-const generatedTitle = `${resource.identity.name}: ${profile.archetypeLabel.replace(" showcase", "")} for open AI builders`;
-const generatedDescription = `${resource.identity.name} independent showcase with official sources, adoption checks, facts, related resources, and OpenAgent structured data.`;
-const pageTitle = resource.seo?.title?.includes("resource for open AI builders") ? generatedTitle : (resource.seo?.title ?? generatedTitle);
-const pageDescription = resource.seo?.description?.includes("profile on OpenAgent.bot") ? generatedDescription : (resource.seo?.description ?? generatedDescription);
+const generatedTitle = `${resource.identity.name}: ${profile.archetypeLabel.replace(" showcase", "")} — open-source AI overview`;
+const generatedDescription = `${resource.identity.name} open-source overview: features, adoption signals, GitHub stats, license, and curated resources for AI builders.`;
+const seoTitle = resource.seo?.title?.trim();
+const seoDesc = resource.seo?.description?.trim();
+const pageTitle = seoTitle && seoTitle.length > 20 ? seoTitle : generatedTitle;
+const pageDescription = seoDesc && seoDesc.length > 30 ? seoDesc : generatedDescription;
 
 const softwareJsonLd = {
   "@context": "https://schema.org",

@@ -24,6 +24,15 @@ export const GET: APIRoute = async () => {
       license: r.facts.license,
       open_source: r.decision_signals.open_source,
     })),
+    pillar_guides: [
+      {
+        title: "The Open-Source AI Agent Stack",
+        summary:
+          "A practical map of open-source AI agents, models, skills, memory systems, plugins, tools, and bots for builders choosing an agent stack.",
+        url: `${site.url}/open-source-ai-agent-stack`,
+        tags: ["agents", "models", "skills", "memory", "mcp", "evaluation"],
+      },
+    ],
     guides: posts.map((p) => ({
       title: p.title,
       summary: p.summary,

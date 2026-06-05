@@ -14,6 +14,20 @@ export async function GET() {
   const posts = await getPublishedBlogPosts();
 
   const searchIndex = [
+    {
+      type: "guide",
+      title: "The Open-Source AI Agent Stack",
+      summary:
+        "A practical map of open-source AI agents, models, skills, memory systems, plugins, tools, and bots for builders choosing an agent stack.",
+      href: "/open-source-ai-agent-stack",
+      category: "Pillar Guide",
+      meta: ["Pillar guide", "Open-source AI agents"],
+      signals: ["Agents", "Models", "Memory", "MCP"],
+      tags: ["agents", "models", "skills", "memory", "mcp", "evaluation"],
+      updatedAt: new Date().toISOString().slice(0, 10),
+      searchable:
+        "open-source ai agent stack agent frameworks open models skills memory systems plugins mcp tools evaluation coding agents browser agents local-first agents"
+    },
     ...resources.map((resource) => ({
       type: "project",
       title: resource.identity.name,

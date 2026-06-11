@@ -1,7 +1,7 @@
 import { readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const projectsDir = path.resolve("content/projects/published");
+const resourcesDir = path.resolve("content/resources/published");
 
 const categoryLabels: Record<string, string> = {
   agents: "AI Agent",
@@ -10,6 +10,7 @@ const categoryLabels: Record<string, string> = {
   skills: "Skill System",
   plugins: "Plugin/Extension",
   tools: "Tool/Utility",
+  bots: "AI Bot",
 };
 
 const categoryDescriptions: Record<string, string> = {
@@ -19,6 +20,7 @@ const categoryDescriptions: Record<string, string> = {
   skills: "skill system",
   plugins: "plugin",
   tools: "tool",
+  bots: "AI bot",
 };
 
 function improveSeoTitle(name: string, oneLiner: string, category: string): string {
@@ -33,28 +35,27 @@ function improveSeoDescription(name: string, oneLiner: string, category: string)
 }
 
 async function main() {
-  const files = await readdir(projectsDir);
+  const files = await readdir(resourcesDir);
   const jsonFiles = files.filter((f) => f.endsWith(".json"));
 
   let updated = 0;
   for (const file of jsonFiles) {
-    const filePath = path.join(projectsDir, file);
+    const filePath = path.join(resourcesDir, file);
     const raw = await readFile(filePath, "utf8");
-    const project = JSON.parse(raw);
+    const resource = JSON.parse(raw);
 
-    const name = project.title ?? project.slug ?? "";
-    const oneLiner = project.oneLiner ?? "";
-    const category = project.category ?? "tools";
-    const oldTitle = project.seoTitle ?? "";
-    const oldDesc = project.seoDescription ?? "";
+    const name = resource.identity?.name ?? resource.slug ?? "";
+    const oneLiner = resource.identity?.one_liner ?? "";
+    const category = resource.classification?.primary_category ?? "tools";
+    const oldTitle = resource.seo?.title ?? "";
+    const oldDesc = resource.seo?.description ?? "";
 
     const newTitle = improveSeoTitle(name, oneLiner, category);
     const newDesc = improveSeoDescription(name, oneLiner, category);
 
     if (oldTitle !== newTitle || oldDesc !== newDesc) {
-      project.seoTitle = newTitle;
-      project.seoDescription = newDesc;
-      await writeFile(filePath, JSON.stringify(project, null, 2) + "\n", "utf8");
+      resource.seo = { ...(resource.seo ?? {}), title: newTitle, description: newDesc };
+      await writeFile(filePath, JSON.stringify(resource, null, 2) + "\n", "utf8");
       updated++;
       console.log(`  ✓ ${file}: "${oldTitle}" → "${newTitle}"`);
     } else {

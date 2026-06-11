@@ -1,0 +1,30 @@
+{
+  "slug": "meeting-prep-with-ai-agent-skills",
+  "title": "Meeting Prep with AI Agent Skills: A Practical Workflow",
+  "summary": "Use recent research skills to prepare for calls with fresher context than static profile pages can provide.",
+  "publishedAt": "2026-06-10",
+  "tags": [
+    "meeting-prep",
+    "agent-skills",
+    "research"
+  ],
+  "author": "OpenAgent.bot Editors",
+  "seoTitle": "Meeting Prep with AI Agent Skills",
+  "seoDescription": "A practical workflow for using AI agent skills such as last30days to prepare for meetings with recent public context.",
+  "body": [
+    "Good meeting prep is not only reading a company website. It is understanding what changed recently.",
+    "[last30days](/skills/last30days-skill) is useful here because it can search recent public signals about a person, company, product, or market before a call.",
+    "## Five-minute prep workflow",
+    "- Search the person, company, and product category.",
+    "- Look for recent launches, posts, interviews, repository activity, or community reactions.",
+    "- Pull out three likely priorities and three thoughtful questions.",
+    "- Verify factual claims against official pages before using them.",
+    "- Keep the final brief short enough to read before the call.",
+    "## What not to do",
+    "Do not treat social posts as private insight. Do not over-personalize from one noisy thread. Do not mention facts you have not verified.",
+    "## Good output shape",
+    "A useful prep brief has recent context, open questions, possible objections, and source links. It should make the conversation warmer and sharper without feeling invasive.",
+    "## Related project",
+    "- [last30days](/skills/last30days-skill)"
+  ]
+}

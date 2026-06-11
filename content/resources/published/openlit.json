@@ -1,0 +1,203 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_openlit",
+  "slug": "openlit",
+  "status": "published",
+  "identity": {
+    "name": "OpenLIT",
+    "one_liner": "OpenTelemetry-native open-source AI engineering platform for LLM observability, evaluations, guardrails, prompts, and GPU monitoring.",
+    "short_description": "OpenLIT is an open-source AI engineering platform for observability, evaluations, guardrails, prompt management, vault workflows, playgrounds, and GPU monitoring. It integrates with many LLM providers, vector databases, and agent frameworks."
+  },
+  "classification": {
+    "resource_type": "tool",
+    "primary_category": "tools",
+    "subcategories": [
+      "automation",
+      "workflow",
+      "observability",
+      "evaluation",
+      "guardrails"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Production agents need traces, metrics, evaluations, guardrails, and operational visibility. OpenLIT brings those layers into an OpenTelemetry-native toolchain.",
+    "best_for": [
+      "Teams operating production LLM and agent applications",
+      "Developers who want OpenTelemetry-native AI observability",
+      "Builders comparing evaluation and guardrail platforms"
+    ],
+    "not_for": [
+      "Solo prototypes that only need a small prompt test file",
+      "Teams looking for a low-level agent framework"
+    ],
+    "use_cases": [
+      "self-hosted-ai"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 2516,
+    "github_forks": 293,
+    "github_repo_full_name": "openlit/openlit",
+    "last_verified_at": "2026-06-10"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "automation",
+      "workflow"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/openlit/openlit",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/openlit/openlit"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://docs.openlit.io"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/openlit.png",
+    "og_image_url": "https://github.com/openlit.png",
+    "thumbnail_brief": {
+      "resource_type": "tool",
+      "visual_motif": "clean utility panel and geometric control surface",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "OpenLIT",
+      "subtitle": "OpenTelemetry-native open-source AI engineering platform for LLM observability, evaluations, guardrails, prompts, and GPU monitoring.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "tool",
+      "open-source"
+    ],
+    "capability": [
+      "automation",
+      "workflow"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "self-hosted-ai"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/tools/openlit",
+    "json_url": "https://www.openagent.bot/tools/openlit.json",
+    "markdown_url": "https://www.openagent.bot/tools/openlit.md"
+  },
+  "seo": {
+    "title": "OpenLIT: Open-Source AI Observability and Evaluation Platform",
+    "description": "OpenLIT is an OpenTelemetry-native open-source AI engineering platform for LLM observability, evaluations, guardrails, and prompt management."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "OpenTelemetry-native observability",
+        "description": "OpenLIT focuses on AI observability through OpenTelemetry-native tracing and monitoring.",
+        "why_it_matters": "Teams can connect agent behavior to existing observability systems instead of creating isolated AI dashboards."
+      },
+      {
+        "title": "Evaluation and guardrails",
+        "description": "The platform includes evaluations and guardrail workflows.",
+        "why_it_matters": "Operational visibility is stronger when paired with repeatable quality and safety checks."
+      },
+      {
+        "title": "Broad integration surface",
+        "description": "OpenLIT describes integrations across LLM providers, vector databases, agent frameworks, and GPUs.",
+        "why_it_matters": "Agent stacks are heterogeneous, so observability tools need broad coverage."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Agent tracing",
+        "description": "Trace model calls, tools, latency, and failures across production agent workflows."
+      },
+      {
+        "title": "Evaluation monitoring",
+        "description": "Connect evaluations and guardrails to ongoing LLM application operations."
+      },
+      {
+        "title": "AI platform operations",
+        "description": "Monitor provider usage, GPU behavior, and prompt workflows in one engineering platform."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose OpenLIT",
+        "summary": "Compare it with nearby tools by looking at hosting model, integration surface, license, and whether the official docs show the workflow you need."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/openlit/openlit",
+        "type": "github"
+      },
+      {
+        "label": "Read the documentation",
+        "url": "https://docs.openlit.io",
+        "type": "docs"
+      }
+    ],
+    "seo_article": {
+      "intro": "OpenLIT is an open-source AI engineering platform for observability, evaluations, guardrails, and prompt workflows.",
+      "what_it_is": "It is a tool layer around LLM and agent applications, not an agent framework.",
+      "why_it_matters": "Teams need to see what agents are doing in production and catch regressions before users do.",
+      "how_it_works": "Start by instrumenting one agent workflow, then add evaluation and guardrail checks around the highest-risk steps.",
+      "faq": [
+        {
+          "question": "Is OpenLIT open source?",
+          "answer": "Yes. The GitHub repository is listed under the Apache-2.0 license."
+        },
+        {
+          "question": "How does OpenLIT fit with MLflow or Langfuse?",
+          "answer": "OpenLIT is especially interesting for teams that want OpenTelemetry-native observability and operational monitoring around LLM and agent systems."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-10T00:00:00.000Z",
+    "updated_at": "2026-06-10T00:00:00.000Z",
+    "published_at": "2026-06-10T00:00:00.000Z"
+  }
+}

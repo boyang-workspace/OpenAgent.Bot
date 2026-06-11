@@ -1,0 +1,202 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_open_swe",
+  "slug": "open-swe",
+  "status": "published",
+  "identity": {
+    "name": "Open SWE",
+    "one_liner": "LangChain's open-source asynchronous coding agent for internal software engineering workflows.",
+    "short_description": "Open SWE is an open-source asynchronous coding agent from LangChain. It is designed for internal coding-agent workflows where tasks can run in the background, produce code changes, and fit into software engineering review loops."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "coding-agent",
+      "workflow-orchestration",
+      "automation",
+      "software-engineering",
+      "langchain"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Coding agents are shifting from interactive copilots to asynchronous teammates. Open SWE matters because it focuses on background software engineering work rather than only editor-time completion.",
+    "best_for": [
+      "Teams evaluating asynchronous coding agents",
+      "Developers comparing open-source alternatives to hosted SWE agents",
+      "Engineering orgs experimenting with internal coding-agent workflows"
+    ],
+    "not_for": [
+      "Users who only need autocomplete inside an IDE",
+      "Teams that cannot review agent-generated code changes before merge"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "github_stars": 9944,
+    "github_forks": 1131,
+    "github_repo_full_name": "langchain-ai/open-swe",
+    "last_verified_at": "2026-06-11"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "workflow-orchestration",
+      "automation"
+    ],
+    "interfaces": [
+      "repo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/langchain-ai/open-swe",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/langchain-ai/open-swe"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://www.langchain.com/blog/open-swe-an-open-source-framework-for-internal-coding-agents"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/langchain-ai.png",
+    "og_image_url": "https://github.com/langchain-ai.png",
+    "thumbnail_brief": {
+      "resource_type": "agent",
+      "visual_motif": "flow graph, branching path, or node network",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "Open SWE",
+      "subtitle": "LangChain's open-source asynchronous coding agent for internal software engineering workflows.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "agent",
+      "open-source"
+    ],
+    "capability": [
+      "workflow-orchestration",
+      "automation"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/open-swe",
+    "json_url": "https://www.openagent.bot/agents/open-swe.json",
+    "markdown_url": "https://www.openagent.bot/agents/open-swe.md"
+  },
+  "seo": {
+    "title": "Open SWE: Open-Source Asynchronous Coding Agent",
+    "description": "Open SWE is LangChain's open-source asynchronous coding agent for internal software engineering workflows."
+  },
+  "editorial": {
+    "featured_reason": "A high-visibility open-source asynchronous coding agent from LangChain.",
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Asynchronous coding workflow",
+        "description": "Open SWE is positioned as an asynchronous coding agent.",
+        "why_it_matters": "Background coding agents can take on larger tasks than synchronous chat-only assistants."
+      },
+      {
+        "title": "Internal engineering focus",
+        "description": "The project homepage frames it around internal coding-agent workflows.",
+        "why_it_matters": "Engineering teams need reviewable, auditable workflows rather than one-off generated snippets."
+      },
+      {
+        "title": "LangChain ecosystem",
+        "description": "Open SWE is maintained under the LangChain GitHub organization.",
+        "why_it_matters": "LangChain's agent and orchestration ecosystem gives the project a familiar foundation for many builders."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Background coding tasks",
+        "description": "Assign scoped engineering tasks for an agent to work on asynchronously."
+      },
+      {
+        "title": "Internal agent pilot",
+        "description": "Evaluate how an open-source coding agent fits into branch, review, and CI workflows."
+      },
+      {
+        "title": "SWE agent comparison",
+        "description": "Compare Open SWE with terminal coding agents and hosted SWE automation products."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose Open SWE",
+        "summary": "Compare it with nearby agents by looking at hosting model, integration surface, license, and whether the official docs show the workflow you need."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/langchain-ai/open-swe",
+        "type": "github"
+      },
+      {
+        "label": "Read the launch article",
+        "url": "https://www.langchain.com/blog/open-swe-an-open-source-framework-for-internal-coding-agents",
+        "type": "docs"
+      }
+    ],
+    "seo_article": {
+      "intro": "Open SWE is an open-source asynchronous coding agent from LangChain.",
+      "what_it_is": "It is a software engineering agent for background coding workflows rather than only interactive chat.",
+      "why_it_matters": "Asynchronous coding agents can fit into issue, branch, review, and CI workflows if teams keep human review in the loop.",
+      "how_it_works": "Start with a low-risk internal repository task, require review before merge, and compare output quality with your existing coding-agent stack.",
+      "faq": [
+        {
+          "question": "Is Open SWE open source?",
+          "answer": "Yes. The GitHub repository is listed under the MIT license."
+        },
+        {
+          "question": "Who should evaluate Open SWE?",
+          "answer": "Engineering teams exploring asynchronous coding agents for internal software workflows should evaluate it."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-11T00:00:00.000Z",
+    "updated_at": "2026-06-11T00:00:00.000Z",
+    "published_at": "2026-06-11T00:00:00.000Z"
+  }
+}

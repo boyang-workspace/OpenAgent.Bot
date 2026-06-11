@@ -1,0 +1,249 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_genesis",
+  "slug": "genesis",
+  "status": "published",
+  "identity": {
+    "name": "Genesis",
+    "one_liner": "Universal physics engine and simulation platform for robotics and embodied AI at 430,000x real-time speed.",
+    "short_description": "Genesis is a universal physics platform re-built from the ground up for general-purpose robotics, embodied AI, and physical AI applications. It integrates a high-performance physics engine, photo-realistic rendering, and a generative data engine into one Pythonic framework. Supported by a generative agent framework, Genesis can transform natural language prompts into multimodal training data at unprecedented speed."
+  },
+  "classification": {
+    "resource_type": "bot",
+    "primary_category": "bots",
+    "subcategories": [
+      "robotics",
+      "simulation",
+      "physics-engine",
+      "gpu",
+      "python"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Genesis matters because it collapses the simulation-to-data pipeline that has been a major bottleneck in robotics research. By running 430,000 times faster than real-time on a single RTX 4090, it allows researchers to generate years of simulated training data in hours. Its unified solver framework — rigid body, MPM, SPH, FEM, PBD, and fluid — means you can simulate a robotic arm picking up a deformable object in a fluid environment without switching tools. This is a step change in how fast the embodied AI community can iterate.",
+    "best_for": [
+      "Robotics researchers needing ultra-fast physics simulation for policy training",
+      "Embodied AI teams generating synthetic training data from natural language prompts",
+      "Developers building sim-to-real pipelines for manipulation and locomotion"
+    ],
+    "not_for": [
+      "Production-level real-time robot control (it is a simulation platform, not a robot OS)"
+    ],
+    "use_cases": [
+      "robotics-agent"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 28799,
+    "github_forks": 2708,
+    "github_repo_full_name": "Genesis-Embodied-AI/Genesis",
+    "last_verified_at": "2026-06-04"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "robotics",
+      "messaging"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/Genesis-Embodied-AI/Genesis",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/Genesis-Embodied-AI/Genesis"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://genesis-world.readthedocs.io"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_brief": {
+      "resource_type": "bot",
+      "visual_motif": "physics simulation grid with robot arm and particle effects",
+      "background_style": "quiet editorial card with light surface and teal accent",
+      "title_overlay": "Genesis",
+      "subtitle": "Universal physics engine for robotics",
+      "avoid": [
+        "dense physics formula wall",
+        "generic 3D render",
+        "game-like visuals"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "bot",
+      "open-source"
+    ],
+    "capability": [
+      "robotics",
+      "messaging"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "robotics-agent"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/bots/genesis",
+    "json_url": "https://www.openagent.bot/bots/genesis.json",
+    "markdown_url": "https://www.openagent.bot/bots/genesis.md"
+  },
+  "seo": {
+    "title": "Genesis: Universal physics engine for robotics simulation — 430,000x faster than real-time",
+    "description": "Genesis is an open-source physics platform for robotics and embodied AI. Universal physics engine, photo-realistic rendering, generative data engine, 430K FPS on RTX 4090."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Unified multi-solver physics engine",
+        "description": "Genesis integrates rigid body, MPM, SPH, FEM, PBD, and fluid solvers into a single framework, enabling coupled simulation of diverse materials.",
+        "why_it_matters": "Real-world tasks often involve multiple physical phenomena — a robot arm picking up a wet cloth, for example. Genesis simulates the whole scene without switching engines."
+      },
+      {
+        "title": "430,000x real-time simulation speed",
+        "description": "Simulating a Franka robotic arm at over 43 million FPS on a single RTX 4090 — 430,000 times faster than real-time.",
+        "why_it_matters": "This speed makes it practical to generate massive synthetic datasets for training robot policies in hours instead of months."
+      },
+      {
+        "title": "Generative data engine from natural language",
+        "description": "A generative agent framework that takes natural language prompts and produces multimodal training data — scenes, tasks, trajectories, and sensor streams.",
+        "why_it_matters": "Data scarcity is the main bottleneck in robotics. Genesis turns language descriptions into infinite training data."
+      },
+      {
+        "title": "Photo-realistic ray-tracing rendering",
+        "description": "Native ray-tracing-based rendering pipeline for generating visually realistic synthetic images that bridge the sim-to-real gap.",
+        "why_it_matters": "Policies trained on photo-realistic simulation transfer better to real-world deployment."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Large-scale policy training data generation",
+        "description": "Use Genesis to generate millions of demonstration episodes across diverse scenes, tasks, and physical conditions for training robust robot policies."
+      },
+      {
+        "title": "Sim-to-real transfer research",
+        "description": "The combination of physics fidelity, rendering quality, and domain randomization in one framework makes Genesis a strong platform for sim-to-real studies."
+      },
+      {
+        "title": "Deformable object manipulation",
+        "description": "Genesis's MPM, SPH, and FEM solvers enable realistic simulation of deformable objects, fluids, and granular materials for advanced manipulation research."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose Genesis for generative data at scale",
+        "summary": "MuJoCo and PyBullet are excellent for rigid-body simulation but lack Genesis's multi-solver integration, generative AI pipeline, and extreme simulation speed.",
+        "against": "traditional robotics simulators"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "View the GitHub repository",
+        "url": "https://github.com/Genesis-Embodied-AI/Genesis",
+        "type": "github"
+      },
+      {
+        "label": "Read the documentation",
+        "url": "https://genesis-world.readthedocs.io",
+        "type": "docs"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install Genesis",
+        "command": "pip install genesis-world",
+        "description": "Install the Genesis simulation platform via pip."
+      }
+    ],
+    "seo_article": {
+      "intro": "Genesis is a universal physics platform designed for general-purpose robotics and embodied AI learning, rebuilt from the ground up to address the data generation bottleneck in physical AI.",
+      "what_it_is": "Genesis is simultaneously a universal physics engine, a lightweight ultra-fast robotics simulation platform, a photo-realistic rendering system, and a generative data engine. It integrates diverse physics solvers — rigid body, MPM, SPH, FEM, PBD, Stable Fluid — into one unified Pythonic framework, and wraps them with a generative agent framework that produces multimodal training data from natural language prompts.",
+      "why_it_matters": "Robotics research has been constrained by slow simulation (most simulators run at 1x to 10x real-time) and the manual effort required to create diverse training scenarios. At 430,000x real-time, Genesis removes the speed constraint. Its generative pipeline removes the manual-scenario constraint. Together, they open the door to training policies on synthetic data at a scale previously limited to companies with massive compute budgets.",
+      "how_it_works": "Genesis uses a unified physics engine architecture that integrates multiple solver types (rigid body for articulated robots, MPM for granular materials, SPH for fluids, FEM for deformables, PBD for soft bodies) into a single computational graph. Each solver runs on GPU via the Taichi compute backend. The generative framework sits on top: a high-level agent takes natural language, plans a scene, generates trajectories, and outputs complete multimodal datasets ready for training.",
+      "use_cases": [
+        {
+          "title": "Generating training data for robotic manipulation policies",
+          "description": "Describe the task in natural language — 'robot arm picks up red cube from table and places in yellow bin' — and Genesis generates thousands of variations with different lighting, friction, object positions, and camera angles."
+        },
+        {
+          "title": "Coupled physics simulation for advanced manipulation",
+          "description": "Simulate tasks involving fluid dynamics (scooping soup), deformable objects (folding cloth), or granular materials (scooping gravel) alongside rigid-body robot control."
+        },
+        {
+          "title": "Embodied AI benchmarking at scale",
+          "description": "Generate standardized evaluation suites with procedurally varied scenes and tasks for reproducible benchmarking of robot learning algorithms."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use MuJoCo for lightweight rigid-body simulation",
+          "summary": "MuJoCo is faster for pure rigid-body simulation and has a large ecosystem. Genesis is better when you need multi-physics coupling, generative data, or extreme parallelization.",
+          "against": "Genesis"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "View the repository",
+          "url": "https://github.com/Genesis-Embodied-AI/Genesis",
+          "type": "github"
+        },
+        {
+          "label": "Read the docs",
+          "url": "https://genesis-world.readthedocs.io",
+          "type": "docs"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What hardware do I need to run Genesis?",
+          "answer": "Genesis runs on Linux, macOS, and Windows. GPU acceleration (NVIDIA/AMD) provides the best performance, but CPU mode is also available. The 430,000x speed benchmark was on a single RTX 4090."
+        },
+        {
+          "question": "Does Genesis support my robot?",
+          "answer": "Genesis supports loading MJCF (.xml), URDF, .obj, .glb, .ply, and .stl files. If your robot has a URDF, it can be simulated in Genesis."
+        },
+        {
+          "question": "Is Genesis differentiable?",
+          "answer": "Yes, Genesis is designed to be fully differentiable. Currently the MPM solver and Tool Solver support differentiability, with rigid body differentiation planned."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-04T00:00:00.000Z",
+    "updated_at": "2026-06-04T00:00:00.000Z",
+    "published_at": "2026-06-04T00:00:00.000Z"
+  }
+}

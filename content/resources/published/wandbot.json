@@ -1,0 +1,204 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_wandbot",
+  "slug": "wandbot",
+  "status": "published",
+  "identity": {
+    "name": "wandbot",
+    "one_liner": "Technical support bot for Weights & Biases developer tools that can run in Discord, Slack, ChatGPT, and Zendesk.",
+    "short_description": "wandbot is an open-source AI bot project focused on technical support bot for weights & biases developer tools that can run in discord, slack, chatgpt, and zendesk."
+  },
+  "classification": {
+    "resource_type": "bot",
+    "primary_category": "bots",
+    "subcategories": [
+      "support-bot",
+      "rag",
+      "slack",
+      "discord",
+      "self-hosted"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "wandbot matters because many useful agents will not live only inside an IDE or web app. They need to work inside the communication channels people already use, with source code that can be inspected, self-hosted, and adapted around privacy, permissions, memory, and operational controls.",
+    "best_for": [
+      "Builders evaluating self-hosted AI bots for real messaging channels",
+      "Teams comparing Discord, Telegram, Slack, WhatsApp, Matrix, or WeChat AI assistant options",
+      "Developers who want open-source bot infrastructure instead of closed chatbot SaaS"
+    ],
+    "not_for": [
+      "Teams unwilling to review bot permissions, channel credentials, and data retention policies",
+      "Users who only need a hosted consumer chatbot with no deployment work"
+    ],
+    "use_cases": [
+      "self-hosted-ai",
+      "chatbot"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": true,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 310,
+    "github_forks": 56,
+    "github_repo_full_name": "wandb/wandbot",
+    "last_verified_at": "2026-06-05"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "support-bot",
+      "rag",
+      "messaging"
+    ],
+    "integrations": [
+      "Discord",
+      "Slack",
+      "ChatGPT",
+      "Zendesk",
+      "Weights & Biases"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/wandb/wandbot",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/wandb/wandbot"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://opengraph.githubassets.com/openagentbot/wandb/wandbot",
+    "og_image_url": "https://opengraph.githubassets.com/openagentbot/wandb/wandbot",
+    "thumbnail_brief": {
+      "resource_type": "bot",
+      "visual_motif": "chat bubbles, channel connectors, and agent status indicators",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "wandbot",
+      "subtitle": "Technical support bot for Weights & Biases developer tools that can run in Discord, Slack, ChatGPT, and Zendesk.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "bot",
+      "open-source"
+    ],
+    "capability": [
+      "support-bot",
+      "rag",
+      "messaging"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted"
+    ],
+    "scenario": [
+      "self-hosted-ai",
+      "chatbot"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/bots/wandbot",
+    "json_url": "https://www.openagent.bot/bots/wandbot.json",
+    "markdown_url": "https://www.openagent.bot/bots/wandbot.md"
+  },
+  "seo": {
+    "title": "wandbot: Open-source AI bot for builders",
+    "description": "wandbot is an open-source AI bot listed on OpenAgent.bot with official GitHub links, license details, use cases, and evaluation notes."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Lives in existing communication channels",
+        "description": "wandbot brings AI assistance into messaging surfaces rather than forcing users into a separate app.",
+        "why_it_matters": "Bots become useful when they meet users where coordination already happens."
+      },
+      {
+        "title": "Self-hostable source path",
+        "description": "The public repository lets teams inspect runtime behavior, credentials handling, and integration choices before deployment.",
+        "why_it_matters": "AI bots can see sensitive conversations, so source review and controlled hosting matter."
+      },
+      {
+        "title": "Good comparison target for agent gateways",
+        "description": "The project shows how open bots connect LLMs, permissions, plugins, memory, or channel adapters.",
+        "why_it_matters": "These patterns are likely to become a core part of practical open-agent infrastructure."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Team chat AI assistant",
+        "description": "Deploy or study wandbot as a starting point for AI help inside messaging channels."
+      },
+      {
+        "title": "Personal always-on bot",
+        "description": "Evaluate whether its channel support, model support, and hosting model fit a private personal assistant workflow."
+      },
+      {
+        "title": "Agent gateway prototype",
+        "description": "Use the project to compare how bots handle message routing, model calls, plugins, and long-running tasks."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose wandbot",
+        "summary": "Choose it when its official repository shows the workflow, license, and integration model you need more directly than a broad framework."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/wandb/wandbot",
+        "type": "github"
+      }
+    ],
+    "seo_article": {
+      "what_it_is": "wandbot is an open-source AI bot project tracked by OpenAgent.bot. wandbot is an open-source AI bot project focused on technical support bot for weights & biases developer tools that can run in discord, slack, chatgpt, and zendesk.",
+      "why_it_matters": "wandbot matters because many useful agents will not live only inside an IDE or web app. They need to work inside the communication channels people already use, with source code that can be inspected, self-hosted, and adapted around privacy, permissions, memory, and operational controls.",
+      "how_it_works": "Open the official repository first, review setup instructions, verify the license, then test the project with non-sensitive data before connecting real accounts or production workflows.",
+      "faq": [
+        {
+          "question": "Is wandbot open source?",
+          "answer": "Yes. The linked GitHub repository lists Apache-2.0 licensing information; verify the current license before production use."
+        },
+        {
+          "question": "Who should evaluate wandbot?",
+          "answer": "Builders evaluating self-hosted AI bots for real messaging channels"
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-05T00:00:00.000Z",
+    "updated_at": "2026-06-05T00:00:00.000Z",
+    "published_at": "2026-06-05T00:00:00.000Z"
+  }
+}

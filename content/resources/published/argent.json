@@ -1,0 +1,320 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_argent",
+  "slug": "argent",
+  "status": "published",
+  "identity": {
+    "name": "Argent",
+    "one_liner": "Agentic toolkit that gives AI assistants direct access to iOS Simulators and Android Emulators.",
+    "short_description": "Argent is an agentic toolkit by Software Mansion that connects AI coding assistants directly to iOS Simulators and Android Emulators. It enables agents to tap, swipe, type, launch apps, inspect view hierarchies, read console logs, capture crash reports, profile React Native and Xcode Instruments sessions, and debug mobile apps — all from within the CLI without switching context. It ships as an MCP server and supports Claude Code, Cursor, Copilot, Codex, Gemini, OpenCode, Windsurf, and Zed."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "mobile-development",
+      "ios-simulator",
+      "android-emulator",
+      "react-native",
+      "developer-workflow"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Mobile development has a feedback loop problem — build, switch to simulator, reproduce, switch back, fix. Argent closes that loop by giving agents direct control over simulators so they can reproduce issues, inspect state, run performance profiles, and iterate autonomously. For React Native teams especially, this is the first toolkit that lets an agent navigate the app and run diagnostics in the same session.",
+    "best_for": [
+      "React Native and mobile developers using AI coding assistants",
+      "Teams that want agents to reproduce bugs, run UI tests, and profile performance on simulators autonomously",
+      "Developers using Claude Code, Cursor, Codex, or Gemini who build for iOS and Android"
+    ],
+    "not_for": [
+      "Users who only develop for web or backend and never touch mobile simulators",
+      "Teams that cannot install macOS with Xcode (iOS) or Android SDK Platform Tools (Android)"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": false,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": true,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0 with proprietary binaries",
+    "pricing_model": "free",
+    "github_stars": 3200,
+    "github_forks": 90,
+    "github_repo_full_name": "software-mansion/argent",
+    "last_verified_at": "2026-06-03"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "tool-calling",
+      "mcp",
+      "workflow-orchestration"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/software-mansion/argent",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/software-mansion/argent"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://argent.swmansion.com"
+      },
+      {
+        "type": "npm",
+        "label": "Source",
+        "url": "https://www.npmjs.com/package/@swmansion/argent"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/software-mansion.png",
+    "og_image_url": "https://github.com/software-mansion.png",
+    "thumbnail_brief": {
+      "resource_type": "agent",
+      "visual_motif": "simulator device outline with connection nodes and a small agent path trace",
+      "background_style": "clean editorial surface with Software Mansion navy and blue accents",
+      "title_overlay": "Argent",
+      "subtitle": "Mobile simulators for AI agents",
+      "avoid": [
+        "literal simulator screenshots with private app data",
+        "cartoon robot hands",
+        "busy mobile device mockup collage"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "agent"
+    ],
+    "capability": [
+      "tool-calling",
+      "mcp",
+      "workflow-orchestration"
+    ],
+    "constraint": [
+      "source-available",
+      "mcp-compatible"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/argent",
+    "json_url": "https://www.openagent.bot/agents/argent.json",
+    "markdown_url": "https://www.openagent.bot/agents/argent.md"
+  },
+  "seo": {
+    "title": "Argent: AI Agent — Agentic toolkit that gives AI assistants direct access to iOS Simulators and ...",
+    "description": "Argent is an open-source AI agent. Agentic toolkit that gives AI assistants direct access to iOS Simulators and Android Emulators.. 了解 Argent 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "featured_reason": "The first agentic toolkit that gives coding agents direct mobile simulator control — tapping, debugging, profiling, all from the CLI.",
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Direct simulator control without XCUITest overhead",
+        "description": "Argent talks to the simulator directly instead of routing through XCUITest, making interactions faster and more context-efficient for agents.",
+        "why_it_matters": "XCUITest requires switching between test runner and app for every action, which is slow and wasteful for agent loops. Direct control means the agent can tap, swipe, and type without waiting."
+      },
+      {
+        "title": "Deep diagnostic suite beyond UI interaction",
+        "description": "Argent can attach the debugger, explore view hierarchy, read console logs, evaluate expressions, inspect React component tree, read network requests, and run Xcode Instruments profiling.",
+        "why_it_matters": "Most simulator tools only handle UI interaction. Argent lets agents go from reproduction → diagnosis → fix in one session without leaving the CLI."
+      },
+      {
+        "title": "React Native and Expo native support",
+        "description": "Argent works with React Native apps out of the box — agents can build, launch, and iterate on RN projects the same way they would native apps.",
+        "why_it_matters": "React Native developers are often caught between native tooling and JS workflows. Argent bridges that gap with zero extra setup."
+      },
+      {
+        "title": "MCP-native architecture",
+        "description": "Argent runs as an MCP server over stdio, natively supported by Claude Code, Cursor, Copilot, Codex, Gemini, OpenCode, Windsurf, and Zed.",
+        "why_it_matters": "MCP is the emerging standard for agent-tool communication. Argent requires no custom agent harness — just `argent init` and the agent discovers all capabilities."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Autonomous bug reproduction on simulators",
+        "description": "Ask your agent to reproduce a bug report — Argent launches the app, navigates the UI, reads console logs, and captures crash reports automatically."
+      },
+      {
+        "title": "Performance profiling and optimization",
+        "description": "Agents can record React and native iOS profiles simultaneously, trace slow commits to native stack frames, detect UI hangs and render cascades."
+      },
+      {
+        "title": "Manual QA automation",
+        "description": "Let agents step through test flows, swipe, type, and tap through screens while logging every interaction and screenshot."
+      },
+      {
+        "title": "CI-adjacent diagnostics",
+        "description": "Use in development workflows to let agents diagnose simulator failures, inspect network requests, and read native logs without leaving the terminal."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose Argent for mobile-specific agent workflows",
+        "summary": "browser-use and OpenClaw focus on web browser control. Argent is purpose-built for iOS Simulator and Android Emulator control, including deep diagnostics and profiling.",
+        "against": "general-purpose browser agent tools"
+      },
+      {
+        "title": "Choose Argent for simulator control",
+        "summary": "React Native Agent Skills provides instructions for agents working on RN projects. Argent is a runtime toolkit that actually controls the simulator — they complement each other.",
+        "against": "React Native Agent Skills"
+      },
+      {
+        "title": "Deeper than screencap-based approaches",
+        "summary": "Argent uses accessibility trees and direct simulator protocols instead of screen coordinates from screenshots, making interactions more reliable and context-efficient.",
+        "against": "screenshot-and-click agent tools"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/software-mansion/argent",
+        "type": "github"
+      },
+      {
+        "label": "Visit the project website",
+        "url": "https://argent.swmansion.com",
+        "type": "homepage"
+      },
+      {
+        "label": "View on npm",
+        "url": "https://www.npmjs.com/package/@swmansion/argent",
+        "type": "npm"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install Argent via npx",
+        "command": "npx @swmansion/argent init",
+        "description": "Run from your project root. The init wizard installs the package globally, detects your editor, and registers the MCP server automatically."
+      },
+      {
+        "label": "Install Argent globally",
+        "command": "npm install -g @swmansion/argent && argent init",
+        "description": "Alternative manual install path for global setup."
+      },
+      {
+        "label": "Update Argent",
+        "command": "argent update",
+        "description": "Pulls the latest version and refreshes workspace configuration."
+      },
+      {
+        "label": "Remove Argent",
+        "command": "argent remove",
+        "description": "Unregisters the MCP server and uninstalls the package."
+      }
+    ],
+    "seo_article": {
+      "intro": "Mobile simulators are a blind spot for AI coding assistants. An agent can write Swift or Kotlin confidently but cannot launch the app, tap through a flow, or read a crash log — until now. Argent by Software Mansion gives AI agents direct control over iOS Simulators and Android Emulators so they can do what human developers do: build, run, reproduce, debug, and profile.",
+      "what_it_is": "Argent is an MCP-native toolkit that connects AI coding assistants to iOS Simulators and Android Emulators. It provides a full suite of capabilities: UI interaction (tap, swipe, pinch, type, gestures, hardware buttons), debugging (console logs, view hierarchy, network requests, React component tree), and profiling (React and Xcode Instruments sessions). It auto-detects editors like Claude Code, Cursor, Codex, Gemini, OpenCode, Windsurf, and Zed, and registers itself as an MCP server at `argent init`.",
+      "why_it_matters": "Mobile development feedback loops are slow. Build → switch to simulator → reproduce → switch back → fix. Argent closes that loop by letting agents operate the simulator directly. Instead of describing what the agent should do, you tell it what you want, and Argent handles reproduction, diagnostics, and profiling. For React Native teams, this is especially powerful — Argent works natively with RN projects so agents can build, launch, and iterate without extra setup.",
+      "how_it_works": "Argent runs as an MCP stdio server. After `npx @swmansion/argent init`, your agent discovers Argent's tools automatically. The toolkit talks to simulators directly via `simulator-server` (iOS) and `adb` (Android), bypassing slow XCUITest-based approaches. Every interaction returns structured feedback so the agent knows screen state. For profiling, it runs React and native profiles concurrently and can answer multiple questions from one profiling session without re-running it.",
+      "use_cases": [
+        {
+          "title": "Autonomous bug reproduction",
+          "description": "Tell your agent 'reproduce this crash' and Argent launches the app, navigates through the flow, reads logs, and captures the crash report — all without you touching the simulator."
+        },
+        {
+          "title": "Performance optimization",
+          "description": "Ask your agent to profile a slow screen. Argent records React commit traces and native Xcode Instruments simultaneously, traces the slow commit to a native stack frame, and presents a summary with optimization targets."
+        },
+        {
+          "title": "Manual QA on simulators",
+          "description": "Let agents step through regression flows across iOS and Android simulators, tapping and swiping through screens while logging every interaction."
+        },
+        {
+          "title": "CI-adjacent debugging",
+          "description": "When CI fails with a cryptic simulator error, switch to your agent and ask it to diagnose — Argent attaches the debugger, inspects views, and reads logs in context."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Choose Argent for mobile simulator control",
+          "summary": "Tools like browser-use and OpenClaw cover web automation but do not support mobile simulators. Argent is purpose-built for iOS and Android.",
+          "against": "browser-based agent tools"
+        },
+        {
+          "title": "Choose Argent for runtime simulator interaction",
+          "summary": "React Native Agent Skills provides procedural instructions for agents. Argent actually drives the simulator — they work well together.",
+          "against": "React Native Agent Skills"
+        },
+        {
+          "title": "More reliable than screenshot-based control",
+          "summary": "Argent uses accessibility trees and simulator protocols instead of pixel coordinates, making interactions more reliable across screen sizes and orientations.",
+          "against": "UI automation via screenshots"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Run the init command",
+          "url": "https://github.com/software-mansion/argent",
+          "type": "github"
+        },
+        {
+          "label": "Visit the website",
+          "url": "https://argent.swmansion.com",
+          "type": "homepage"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using Argent?",
+          "answer": "You need macOS with Xcode for iOS simulator control, or Android SDK Platform Tools (adb) for Android. Argent runs on Node.js 18+. Review the mixed-license model before production use."
+        },
+        {
+          "question": "Is Argent open source?",
+          "answer": "Argent uses a mixed licensing model. Source code is Apache 2.0. Proprietary binaries (simulator-server, ax-service, and native .dylib files) are licensed solely for use within this project."
+        },
+        {
+          "question": "Which coding assistants does Argent support?",
+          "answer": "Argent works with Claude Code, Cursor, GitHub Copilot, OpenAI Codex, Google Gemini, OpenCode, Windsurf, and Zed — any agent that can run shell commands and supports MCP."
+        },
+        {
+          "question": "Does Argent work on Android?",
+          "answer": "Yes. Argent supports both iOS Simulators and Android Emulators, including UI interaction, debugging, and profiling."
+        },
+        {
+          "question": "What makes Argent different from XCUITest or Appium?",
+          "answer": "XCUITest requires switching between test runner and app for every action. Argent talks to the simulator directly, making interactions faster and more suitable for agent loops. It also includes profiling and diagnostics that those tools do not offer."
+        },
+        {
+          "question": "Is Argent free?",
+          "answer": "Yes, Argent is free to use and published on npm as @swmansion/argent."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-03T00:00:00.000Z",
+    "updated_at": "2026-06-03T00:00:00.000Z",
+    "published_at": "2026-06-03T00:00:00.000Z"
+  }
+}

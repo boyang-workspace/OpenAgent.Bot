@@ -14,6 +14,13 @@ export const GET: APIRoute = async () => {
     "",
     `Site URL: ${site.url}`,
     "",
+    "## Agent Capability Resolver",
+    "",
+    `- Stack Finder: ${site.url}/stack-finder`,
+    `- Recommendations JSON: ${site.url}/recommendations/index.json`,
+    `- Capabilities JSON: ${site.url}/capabilities/index.json`,
+    `- Static recommendation API: ${site.url}/api/recommend.json`,
+    "",
     "## Resources",
     "",
     ...resources.map(

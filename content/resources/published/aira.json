@@ -1,0 +1,253 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_aira",
+  "slug": "aira",
+  "status": "published",
+  "identity": {
+    "name": "AIRA",
+    "one_liner": "3D-printable 7-DoF robotic arm with native LeRobot integration for ACT, Diffusion, PI0, and GR00T.",
+    "short_description": "AIRA is a fully 3D-printable, 7-degree-of-freedom (6-DoF + 1-DoF gripper) robotic arm designed as a native LeRobot plugin. It plugs directly into the LeRobot ecosystem — ACT, Diffusion Policy, PI0, GR00T N1.5, and every other policy in the LeRobot framework work out of the box. With an interactive setup wizard, Damiao CAN bus motors, and MIT impedance control, AIRA is designed for makers, researchers, and educators who want an open, affordable platform for robot learning."
+  },
+  "classification": {
+    "resource_type": "bot",
+    "primary_category": "bots",
+    "subcategories": [
+      "robotics",
+      "robot-arm",
+      "3d-printing",
+      "lerobot",
+      "self-hosted"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "AIRA matters because it closes the gap between affordable hobbyist arms and serious robot learning research. By building as a LeRobot plugin rather than a fork, it stays automatically compatible with Hugging Face's entire robotics ecosystem. The 3D-printable design and Damiao CAN bus motors keep costs low while maintaining the precision needed for imitation learning data collection. For the first time, a researcher can download, print, assemble, and train an arm using the same software stack as a Franka or a humanoid.",
+    "best_for": [
+      "Makers and educators building an affordable robot learning platform",
+      "Researchers wanting a LeRobot-compatible arm without the Franka price tag",
+      "Teams prototyping manipulation policies before scaling to industrial hardware"
+    ],
+    "not_for": [
+      "Industrial precision manufacturing (3D-printed frame has lower stiffness than CNC aluminum)",
+      "Teams needing a turnkey robot without any assembly or tuning"
+    ],
+    "use_cases": [
+      "self-hosted-ai",
+      "robotics-agent"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": true,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 212,
+    "github_forks": 18,
+    "github_repo_full_name": "robertorobotics/Nextis-AIRA-3D",
+    "last_verified_at": "2026-06-04"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "robotics",
+      "messaging"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/robertorobotics/Nextis-AIRA-3D",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/robertorobotics/Nextis-AIRA-3D"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://www.nextis.tech/hardware"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_brief": {
+      "resource_type": "bot",
+      "visual_motif": "3D-printed robot arm joint diagram with CAN bus connection labels",
+      "background_style": "quiet editorial card with light surface and purple accent",
+      "title_overlay": "AIRA",
+      "subtitle": "3D-printable LeRobot arm",
+      "avoid": [
+        "overly mechanical industrial robot aesthetic",
+        "generic 3D printer render"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "bot",
+      "open-source"
+    ],
+    "capability": [
+      "robotics",
+      "messaging"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted"
+    ],
+    "scenario": [
+      "self-hosted-ai",
+      "robotics-agent"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/bots/aira",
+    "json_url": "https://www.openagent.bot/bots/aira.json",
+    "markdown_url": "https://www.openagent.bot/bots/aira.md"
+  },
+  "seo": {
+    "title": "AIRA: Open-source 3D-printable robotic arm with LeRobot integration",
+    "description": "AIRA is a 3D-printable 7-DoF robotic arm that works natively with LeRobot. Supports ACT, Diffusion, PI0, GR00T policies. Open-source, Apache-2.0."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "LeRobot-native plugin architecture",
+        "description": "AIRA registers with LeRobot's plugin system — install via pip, and LeRobot discovers the robot and teleoperator automatically. Not a fork, so updates come from upstream LeRobot.",
+        "why_it_matters": "You get the latest LeRobot features and policies without maintaining a separate fork. Install, plug in, and train."
+      },
+      {
+        "title": "3D-printable and open hardware",
+        "description": "The full frame is 3D-printable, with STEP files, STLs, and assembly guides available. Verified kit and CNC aluminum upgrade options also available.",
+        "why_it_matters": "Hardware cost has been the main barrier to entry in robotics research. 3D printing brings the cost down by an order of magnitude."
+      },
+      {
+        "title": "Damiao CAN bus motors with MIT impedance control",
+        "description": "High-torque CAN bus motors (base joints at 20/35 Nm) with compliant impedance control for safe, smooth teleoperation and policy deployment.",
+        "why_it_matters": "CAN bus motors provide the torque and precision needed for real manipulation tasks, while impedance control ensures safe human-robot interaction."
+      },
+      {
+        "title": "Interactive setup wizard",
+        "description": "The aira-setup wizard guides users through motor-by-motor configuration with no terminal expertise needed.",
+        "why_it_matters": "Setting up a robotic arm typically requires deep embedded systems knowledge. AIRA's wizard makes it accessible to ML researchers."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Affordable robot learning platform for education",
+        "description": "Print and assemble an AIRA arm in a university lab, install LeRobot, and have students go from teleoperation to policy training in a single semester."
+      },
+      {
+        "title": "VLA policy prototyping before industrial deployment",
+        "description": "Prototype manipulation policies on AIRA, validate with real-world data, then transfer to production hardware using the same LeRobot codebase."
+      },
+      {
+        "title": "Open-source teleoperation data collection",
+        "description": "Use AIRA's leader-follower setup with MIT impedance control to collect high-quality demonstration data for training imitation learning policies."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose AIRA for open, affordable LeRobot-native hardware",
+        "summary": "SO-100 arms are cheaper but have fewer degrees of freedom. AIRA's 7-DoF, CAN bus motors, and LeRobot plugin architecture make it more capable and easier to integrate.",
+        "against": "SO-100 / SO-101 arms"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "View the GitHub repository",
+        "url": "https://github.com/robertorobotics/Nextis-AIRA-3D",
+        "type": "github"
+      },
+      {
+        "label": "Visit the project website",
+        "url": "https://www.nextis.tech/hardware",
+        "type": "homepage"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install AIRA plugin",
+        "command": "git clone https://github.com/robertorobotics/Nextis-AIRA-3D && cd Nextis-AIRA-3D && pip install -e .",
+        "description": "Clone and install the AIRA LeRobot plugin."
+      }
+    ],
+    "seo_article": {
+      "intro": "AIRA is an open-source, 3D-printable robotic arm designed to make the full LeRobot ecosystem accessible on affordable hardware.",
+      "what_it_is": "AIRA is a 7-DoF (6-DoF arm + 1-DoF gripper) robotic arm that connects to LeRobot via its plugin system. It uses Damiao CAN bus motors with MIT impedance control for safe, smooth teleoperation. The complete hardware design — STEP files, STLs, mechanical drawings, and PCB files — is open source. The software registers with LeRobot automatically via Python packaging conventions, so any LeRobot policy (ACT, Diffusion, PI0, GR00T) works without code changes.",
+      "why_it_matters": "The robotics field has a hardware access problem. Quality research-grade arms cost $10,000-$50,000. Hobbyist arms lack the precision and software ecosystem needed for serious robot learning. AIRA fills the gap: it is affordable enough for individual researchers and educators, but its LeRobot-native design means it runs the same state-of-the-art VLA policies as a Franka arm.",
+      "how_it_works": "AIRA registers with LeRobot's pkgutil-based plugin discovery system. When you run lerobot-teleoperate --robot.type=aira_follower, LeRobot finds lerobot_robot_aira and lerobot_teleoperator_aira automatically. The leader arm uses LeRobot's built-in Dynamixel driver, while the follower uses AIRA's custom Damiao CAN bus driver. MIT impedance control provides compliant position tracking on the follower for smooth teleoperation.",
+      "use_cases": [
+        {
+          "title": "Teaching robot learning with accessible hardware",
+          "description": "Set up a lab with multiple AIRA arms for students to learn teleoperation, data collection, and policy training without the cost and complexity of industrial robots."
+        },
+        {
+          "title": "Rapid policy iteration with consistent hardware",
+          "description": "Use AIRA's 3D-printable design to build multiple identical arms for parallel data collection, accelerating the policy iteration cycle."
+        },
+        {
+          "title": "Reproducible robotics research",
+          "description": "Publish datasets collected on AIRA alongside research papers — anyone with a 3D printer can reproduce the hardware and validate the results."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Choose SO-100 for lower cost at fewer DOF",
+          "summary": "SO-100 arms are cheaper and well-supported by LeRobot but offer fewer degrees of freedom and less torque. AIRA is the choice when 7-DoF and CAN bus precision are needed.",
+          "against": "AIRA"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Clone the repository",
+          "url": "https://github.com/robertorobotics/Nextis-AIRA-3D",
+          "type": "github"
+        },
+        {
+          "label": "Visit hardware page",
+          "url": "https://www.nextis.tech/hardware",
+          "type": "homepage"
+        }
+      ],
+      "faq": [
+        {
+          "question": "Do I need a 3D printer to build AIRA?",
+          "answer": "No. You can print the frame yourself, order a verified kit, or upgrade to CNC aluminum. All options are documented."
+        },
+        {
+          "question": "What policies can I run on AIRA?",
+          "answer": "Any LeRobot-compatible policy: ACT, Diffusion, VQ-BeT, PI0, PI0.5, GR00T N1.5, SmolVLA, XVLA, and more. No code changes needed."
+        },
+        {
+          "question": "Does AIRA support bimanual (dual-arm) setups?",
+          "answer": "The current release focuses on single-arm setup. Bimanual support may be added in future releases based on community interest."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-04T00:00:00.000Z",
+    "updated_at": "2026-06-04T00:00:00.000Z",
+    "published_at": "2026-06-04T00:00:00.000Z"
+  }
+}

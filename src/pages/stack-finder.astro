@@ -1,0 +1,472 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import EditorialShell from "@/components/EditorialShell.astro";
+import { workflowProfiles } from "@/lib/recommendations/stack-resolver";
+
+const workflowOptions = workflowProfiles.map((profile) => ({
+  id: profile.id,
+  title: profile.title,
+  summary: profile.summary
+}));
+---
+
+<BaseLayout
+  title="Stack Finder for AI agents"
+  description="Find open-source agents, skills, MCP connectors, memory systems, and evaluation tools by workflow, environment, and safety constraints."
+  path="/stack-finder"
+>
+  <EditorialShell active="stack-finder">
+    <section class="finder-shell" data-workflows={JSON.stringify(workflowOptions)}>
+      <div class="finder-head">
+        <h1>Find the right tools for your agent.</h1>
+        <p>Start with the workflow, then narrow by environment, safety constraints, and production readiness.</p>
+      </div>
+
+      <div class="finder-layout">
+        <form class="finder-panel" id="stack-form">
+          <label>
+            <span>Workflow</span>
+            <select name="workflow">
+              {workflowOptions.map((workflow) => <option value={workflow.id}>{workflow.title}</option>)}
+            </select>
+          </label>
+
+          <label>
+            <span>Environment</span>
+            <select name="environment">
+              <option value="local-macos">Local macOS</option>
+              <option value="self-hosted-server">Self-hosted server</option>
+              <option value="cloud">Cloud</option>
+              <option value="team">Team workspace</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Stage</span>
+            <select name="stage">
+              <option value="prototype">Prototype</option>
+              <option value="production">Production</option>
+            </select>
+          </label>
+
+          <fieldset>
+            <legend>Constraints</legend>
+            <label><input type="checkbox" name="constraints" value="open-source" checked /> Open source</label>
+            <label><input type="checkbox" name="constraints" value="human-approval" checked /> Human approval</label>
+            <label><input type="checkbox" name="constraints" value="local-first" /> Local first</label>
+            <label><input type="checkbox" name="constraints" value="self-hostable" /> Self-hostable</label>
+            <label><input type="checkbox" name="constraints" value="mcp" /> MCP compatible</label>
+            <label><input type="checkbox" name="constraints" value="no-shell" /> No shell access</label>
+            <label><input type="checkbox" name="constraints" value="team-safe" /> Team safe</label>
+          </fieldset>
+        </form>
+
+        <section class="result-panel" id="stack-result" aria-live="polite">
+          <p class="loading">Loading recommendations...</p>
+        </section>
+      </div>
+    </section>
+
+    <script is:inline>
+      const form = document.querySelector("#stack-form");
+      const result = document.querySelector("#stack-result");
+      let recommendations = [];
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
+
+      function checkedConstraints() {
+        if (!(form instanceof HTMLFormElement)) return [];
+        return Array.from(form.querySelectorAll('input[name="constraints"]:checked')).map((input) => input.value);
+      }
+
+      function requestState() {
+        const data = new FormData(form);
+        return {
+          workflow: String(data.get("workflow") ?? "browser-automation"),
+          environment: String(data.get("environment") ?? "local-macos"),
+          stage: String(data.get("stage") ?? "prototype"),
+          constraints: checkedConstraints()
+        };
+      }
+
+      function scoreFor(item, request) {
+        let score = item.score.total;
+        if (request.constraints.includes("mcp") && item.signals.includes("MCP")) score += 8;
+        if (request.constraints.includes("local-first") && item.signals.includes("Local first")) score += 8;
+        if (request.constraints.includes("self-hostable") && item.signals.includes("Self-hostable")) score += 6;
+        if (request.constraints.includes("no-shell") && item.permission_surface.includes("shell/files")) score -= 24;
+        return Math.max(0, Math.min(100, Math.round(score)));
+      }
+
+      function render() {
+        if (!(result instanceof HTMLElement)) return;
+        const request = requestState();
+        const stack = recommendations.find((item) => item.id === request.workflow) ?? recommendations[0];
+        if (!stack) {
+          result.innerHTML = '<p class="loading">No recommendations available.</p>';
+          return;
+        }
+        const tools = [...stack.recommended_tools]
+          .map((item) => ({ ...item, adjusted: scoreFor(item, request) }))
+          .sort((a, b) => b.adjusted - a.adjusted)
+          .slice(0, 7);
+        const riskNotes = Array.from(new Set(tools.flatMap((item) => item.cautions))).slice(0, 5);
+        result.innerHTML = `
+          <div class="result-head">
+            <div>
+              <span>${escapeHtml(stack.title)}</span>
+              <h2>${escapeHtml(stack.summary)}</h2>
+            </div>
+            <a href="/recommendations/index.json">JSON</a>
+          </div>
+          <div class="capability-row">
+            ${stack.required_capabilities.slice(0, 6).map((item) => `<small class="capability-chip">${escapeHtml(item.replaceAll("_", " "))}</small>`).join("")}
+          </div>
+          <div class="tool-list">
+            ${tools.map((tool) => `
+              <a class="tool-row" href="${escapeHtml(tool.href)}">
+                <div>
+                  <span class="tool-meta">${escapeHtml(tool.role)} · ${escapeHtml(tool.category)}</span>
+                  <strong>${escapeHtml(tool.name)}</strong>
+                  <p>${escapeHtml(tool.reasons[0] ?? "Matched by OpenAgent resolver signals.")}</p>
+                  <div class="signal-row">
+                    ${tool.signals.slice(0, 4).map((signal) => `<small class="signal-chip">${escapeHtml(signal)}</small>`).join("")}
+                  </div>
+                </div>
+                <div class="score-box">
+                  <strong>${tool.adjusted}</strong>
+                  <small class="score-risk">${escapeHtml(tool.risk_level)} risk</small>
+                </div>
+              </a>
+            `).join("")}
+          </div>
+          <div class="decision-grid">
+            <article>
+              <strong>First test</strong>
+              <p>${escapeHtml(stack.first_test)}</p>
+            </article>
+            <article>
+              <strong>Risk notes</strong>
+              <ul>${riskNotes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>
+            </article>
+            <article>
+              <strong>Install plan</strong>
+              <ol>${stack.install_plan.slice(0, 4).map((step) => `<li>${escapeHtml(step)}</li>`).join("")}</ol>
+            </article>
+          </div>
+        `;
+      }
+
+      async function init() {
+        try {
+          const response = await fetch("/recommendations/index.json", { credentials: "omit" });
+          if (!response.ok) throw new Error("Failed to load recommendations.");
+          const payload = await response.json();
+          recommendations = payload.recommendations ?? [];
+          render();
+        } catch (error) {
+          if (result instanceof HTMLElement) result.innerHTML = '<p class="loading">Recommendations are unavailable.</p>';
+        }
+      }
+
+      form?.addEventListener("change", render);
+      init();
+    </script>
+  </EditorialShell>
+</BaseLayout>
+
+<style>
+  .finder-shell {
+    display: grid;
+    gap: 22px;
+  }
+
+  .finder-head {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 22px;
+  }
+
+  h1 {
+    color: var(--ink);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 560;
+    letter-spacing: 0;
+    line-height: 1;
+    margin: 0;
+    max-width: 780px;
+  }
+
+  .finder-head p {
+    color: var(--muted);
+    font-size: 0.94rem;
+    line-height: 1.55;
+    margin: 12px 0 0;
+    max-width: 680px;
+  }
+
+  .finder-layout {
+    align-items: start;
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 320px minmax(0, 1fr);
+  }
+
+  .finder-panel,
+  .result-panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+
+  .finder-panel {
+    display: grid;
+    gap: 14px;
+    padding: 16px;
+    position: sticky;
+    top: 18px;
+  }
+
+  label,
+  fieldset {
+    display: grid;
+    gap: 7px;
+    margin: 0;
+  }
+
+  label span,
+  legend {
+    color: var(--ink);
+    font-size: 0.76rem;
+    font-weight: 580;
+  }
+
+  select {
+    appearance: none;
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.86rem;
+    min-height: 40px;
+    padding: 0 11px;
+  }
+
+  fieldset {
+    border: 0;
+    padding: 0;
+  }
+
+  fieldset label {
+    align-items: center;
+    color: var(--muted);
+    display: flex;
+    font-size: 0.82rem;
+    gap: 8px;
+    line-height: 1.25;
+  }
+
+  input {
+    accent-color: var(--green);
+  }
+
+  .result-panel {
+    min-height: 520px;
+    padding: 18px;
+  }
+
+  .loading {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  :global(.result-head) {
+    align-items: start;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+  }
+
+  :global(.result-head span) {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+  }
+
+  :global(.result-head h2) {
+    color: var(--ink);
+    font-size: clamp(1.08rem, 2vw, 1.35rem);
+    font-weight: 560;
+    letter-spacing: 0;
+    line-height: 1.18;
+    margin: 6px 0 0;
+    max-width: 760px;
+  }
+
+  :global(.result-head a) {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    font-size: 0.76rem;
+    padding: 8px 10px;
+  }
+
+  :global(.capability-row),
+  :global(.signal-row) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  :global(.capability-row) {
+    border-bottom: 1px solid var(--line);
+    margin-top: 16px;
+    padding-bottom: 16px;
+  }
+
+  :global(.capability-chip),
+  :global(.signal-chip) {
+    background: var(--surface-tint);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 0.7rem;
+    padding: 4px 7px;
+  }
+
+  :global(.tool-list) {
+    display: grid;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  :global(.tool-row) {
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: inherit;
+    display: grid;
+    gap: 14px;
+    grid-template-columns: minmax(0, 1fr) 76px;
+    padding: 13px;
+    text-decoration: none;
+    transition: border-color 160ms ease, background 160ms ease;
+  }
+
+  :global(.tool-row:hover) {
+    background: var(--surface-soft);
+    border-color: var(--line-strong);
+  }
+
+  :global(.tool-meta) {
+    color: var(--muted);
+    font-size: 0.7rem;
+    text-transform: capitalize;
+  }
+
+  :global(.tool-row strong) {
+    color: var(--ink);
+    display: block;
+    font-size: 1rem;
+    font-weight: 580;
+    margin-top: 4px;
+  }
+
+  :global(.tool-row p) {
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.45;
+    margin: 5px 0 8px;
+  }
+
+  :global(.score-box) {
+    border-left: 1px solid var(--line);
+    display: grid;
+    justify-items: end;
+    padding-left: 12px;
+  }
+
+  :global(.score-box strong) {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  :global(.score-risk) {
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.7rem;
+    padding: 0;
+  }
+
+  :global(.decision-grid) {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 16px;
+  }
+
+  :global(.decision-grid article) {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px;
+  }
+
+  :global(.decision-grid strong) {
+    color: var(--ink);
+    font-size: 0.86rem;
+  }
+
+  :global(.decision-grid p),
+  :global(.decision-grid li) {
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+
+  :global(.decision-grid p),
+  :global(.decision-grid ul),
+  :global(.decision-grid ol) {
+    margin: 8px 0 0;
+    padding-left: 18px;
+  }
+
+  @media (max-width: 920px) {
+    .finder-layout {
+      grid-template-columns: 1fr;
+    }
+
+    :global(.decision-grid) {
+      grid-template-columns: 1fr;
+    }
+
+    .finder-panel {
+      position: static;
+    }
+  }
+
+  @media (max-width: 560px) {
+    :global(.result-head),
+    :global(.tool-row) {
+      grid-template-columns: 1fr;
+    }
+
+    :global(.result-head) {
+      display: grid;
+    }
+
+    :global(.score-box) {
+      border-left: 0;
+      border-top: 1px solid var(--line);
+      justify-items: start;
+      padding-left: 0;
+      padding-top: 10px;
+    }
+  }
+</style>

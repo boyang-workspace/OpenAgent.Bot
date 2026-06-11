@@ -1,0 +1,306 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_pilotdeck",
+  "slug": "pilotdeck",
+  "status": "published",
+  "identity": {
+    "name": "PilotDeck",
+    "one_liner": "Open-source agent operating system with WorkSpace isolation, white-box memory, smart routing, and always-on execution.",
+    "short_description": "PilotDeck is an open-source agent OS from Tsinghua THUNLP, ModelBest, OpenBMB, and AI9Stars, built around WorkSpace-level isolation for files, memory, and skills across projects."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "agent-os",
+      "workspace",
+      "memory",
+      "model-routing",
+      "always-on"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "PilotDeck matters because it addresses the open problems of production agent work: memory traceability, per-task cost tracking, automatic model tiering, and background execution when you walk away from the keyboard.",
+    "best_for": [
+      "Teams running multiple parallel agent projects that need clean isolation",
+      "Builders who want white-box, editable, rollback-capable agent memory",
+      "Users looking to cut token costs through intelligent model routing"
+    ],
+    "not_for": [
+      "Users who only want a single-chat chatbot with no project structure",
+      "Teams unwilling to review model provider credentials and routing configuration before usage"
+    ],
+    "use_cases": [
+      "self-hosted-ai",
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": true,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": true,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "AGPL-3.0",
+    "pricing_model": "open_source",
+    "github_stars": 2873,
+    "github_forks": 287,
+    "github_repo_full_name": "OpenBMB/PilotDeck",
+    "last_verified_at": "2026-06-03"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "memory",
+      "mcp",
+      "workflow-orchestration"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/OpenBMB/PilotDeck",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/OpenBMB/PilotDeck"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://pilotdeck.openbmb.cn"
+      },
+      {
+        "type": "docs",
+        "label": "Docs",
+        "url": "https://pilotdeck.openbmb.cn/pilotdeck.github.io/docs/en/introduction"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/OpenBMB.png",
+    "og_image_url": "https://github.com/OpenBMB.png",
+    "thumbnail_brief": {
+      "resource_type": "agent",
+      "visual_motif": "clean technical blocks with a small source-link motif",
+      "background_style": "minimal App Store editorial card using restrained open-source accents",
+      "title_overlay": "PilotDeck",
+      "subtitle": "Open-source agent OS with WorkSpace isolation",
+      "avoid": [
+        "busy benchmark poster",
+        "unverified logos",
+        "marketing-heavy screenshots"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "agent",
+      "open-source"
+    ],
+    "capability": [
+      "memory",
+      "mcp",
+      "workflow-orchestration"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted",
+      "mcp-compatible"
+    ],
+    "scenario": [
+      "self-hosted-ai",
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/pilotdeck",
+    "json_url": "https://www.openagent.bot/agents/pilotdeck.json",
+    "markdown_url": "https://www.openagent.bot/agents/pilotdeck.md"
+  },
+  "seo": {
+    "title": "PilotDeck: AI Agent — Open-source agent operating system with WorkSpace isolation, white-box memory...",
+    "description": "PilotDeck is an open-source AI agent. Open-source agent operating system with WorkSpace isolation, white-box memory, smart routing, and always-on execution.. 了解 PilotDeck 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "WorkSpace-level isolation",
+        "description": "Every project gets its own file system, memory store, and skill set. Parallel work does not interfere, retrieval is bounded, and skills accrete naturally per project.",
+        "why_it_matters": "Without isolation, multiple tasks pollute a shared context; with PilotDeck, projects run in parallel with clean boundaries."
+      },
+      {
+        "title": "Traceable white-box memory",
+        "description": "Memory generation, extraction, storage, and retrieval are visible end-to-end. Users can edit or delete entries, pin critical decisions, and one-click rollback via Dream Mode.",
+        "why_it_matters": "When AI mis-remembers, you can pinpoint the offending entry and fix it directly instead of starting a new chat."
+      },
+      {
+        "title": "Smart routing for cost optimization",
+        "description": "TokenSaver automatically classifies task complexity and routes simple tasks to lighter models, cutting token spend by up to 70% without sacrificing quality.",
+        "why_it_matters": "Running agents in the background becomes economically viable when you are not burning flagship models on trivial calls."
+      },
+      {
+        "title": "Always-on background execution",
+        "description": "After you sign off, the agent keeps discovering candidate tasks, running monitors, and landing deliverables as files with a summary report waiting for you.",
+        "why_it_matters": "Agent work should not stop when you close the laptop."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Multi-project agent workflows",
+        "description": "Use PilotDeck when running agents across several projects simultaneously, with each needing independent files, memory, and skills."
+      },
+      {
+        "title": "Cost-sensitive agent deployment",
+        "description": "Use TokenSaver routing to automatically match task difficulty to the right model tier, dramatically cutting token bills."
+      },
+      {
+        "title": "Unattended automation",
+        "description": "Deploy Always On mode so the agent discovers issues, runs scheduled cron tasks, and produces reports while you are away."
+      },
+      {
+        "title": "Auditable agent memory",
+        "description": "Use white-box memory when you need to inspect, edit, or roll back exactly what the agent remembers per project."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "PilotDeck is a full agent OS, not just a coding agent",
+        "summary": "Claude Code and OpenHands focus on repository-level coding. PilotDeck is a general-purpose agent OS with WorkSpace isolation, routing, memory, and always-on execution.",
+        "against": "coding agents"
+      },
+      {
+        "title": "PilotDeck isolates by project, not by session",
+        "summary": "Standard agents mix all context in one pool. PilotDeck gives each WorkSpace its own files, memory, and skills so projects never bleed into each other.",
+        "against": "standard chat agents"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/OpenBMB/PilotDeck",
+        "type": "github"
+      },
+      {
+        "label": "Visit the official website",
+        "url": "https://pilotdeck.openbmb.cn",
+        "type": "homepage"
+      },
+      {
+        "label": "Read the docs",
+        "url": "https://pilotdeck.openbmb.cn/pilotdeck.github.io/docs/en/introduction",
+        "type": "docs"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "One-line install (macOS / Linux)",
+        "command": "curl -fsSL https://raw.githubusercontent.com/OpenBMB/PilotDeck/main/install.sh | bash",
+        "description": "Auto-installs Node.js 22, clones the repo, installs dependencies, and builds the frontend."
+      },
+      {
+        "label": "Start the server",
+        "command": "pilotdeck",
+        "description": "Starts the PilotDeck server at http://localhost:3001"
+      },
+      {
+        "label": "Clone from source",
+        "command": "git clone https://github.com/OpenBMB/PilotDeck.git && cd PilotDeck && npm install && cd ui && npm install && cd ..",
+        "description": "Manual source-based install for developers."
+      }
+    ],
+    "seo_article": {
+      "intro": "PilotDeck is an open-source agent operating system designed around the concept of WorkSpace. Developed by Tsinghua THUNLP, ModelBest, OpenBMB, and AI9Stars, it targets general-purpose, multi-task productivity scenarios where agents need project isolation, traceable memory, cost-efficient routing, and unattended execution.",
+      "what_it_is": "PilotDeck is an open agent OS to evaluate by project isolation and memory architecture: how it separates work into WorkSpaces, whether memory is white-box and editable, how it routes tasks to the right model tier, and whether it can run background discovery and cron jobs.",
+      "why_it_matters": "PilotDeck matters because it addresses the gaps in current agent platforms: memory that is opaque and uneditable, token costs that do not differentiate between trivial and complex tasks, and agents that stop working when you walk away. Its WorkSpace-first design and three pillar capabilities (white-box memory, smart routing, always-on) are practical explorations of these open problems.",
+      "how_it_works": "Start with one WorkSpace in PilotDeck. Inspect how memory is captured and displayed, configure model providers with multiple tiers, enable TokenSaver routing, and test Always On discovery in an idle project. Expand from sandbox projects into production automation after verifying isolation and cost controls.",
+      "use_cases": [
+        {
+          "title": "Multi-project agent operations",
+          "description": "Run parallel agent workflows where each project has independent files, memory, and skills without cross-contamination."
+        },
+        {
+          "title": "Cost-optimized agent deployment",
+          "description": "Let TokenSaver automatically route simple tasks to cheaper models and complex tasks to flagship models, cutting bills by up to 70%."
+        },
+        {
+          "title": "Unattended background work",
+          "description": "Enable Always On mode so the agent discovers code issues, runs cron jobs, and drops reports on disk while you are away."
+        },
+        {
+          "title": "Auditable agent memory",
+          "description": "Use the white-box memory editor to view, edit, pin, and roll back exactly what the agent remembers per WorkSpace."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use OpenClaw or browser-use for browser automation",
+          "summary": "PilotDeck is a general-purpose agent OS. For pure browser or web workflow automation, OpenClaw or browser-use may be more specialized.",
+          "against": "browser agents"
+        },
+        {
+          "title": "Use Claude Code or OpenHands for coding workflows",
+          "summary": "PilotDeck covers coding but is broader. Claude Code and OpenHands focus specifically on repository-level software engineering.",
+          "against": "coding agents"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "One-line install",
+          "url": "https://github.com/OpenBMB/PilotDeck",
+          "type": "github"
+        },
+        {
+          "label": "Official website",
+          "url": "https://pilotdeck.openbmb.cn",
+          "type": "homepage"
+        },
+        {
+          "label": "Documentation",
+          "url": "https://pilotdeck.openbmb.cn/pilotdeck.github.io/docs/en/introduction",
+          "type": "docs"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using PilotDeck?",
+          "answer": "Start with one WorkSpace in PilotDeck. Inspect how memory is captured and displayed, configure model providers with multiple tiers, enable TokenSaver routing, and test Always On discovery in an idle project."
+        },
+        {
+          "question": "Is PilotDeck open source?",
+          "answer": "PilotDeck is listed with AGPL-3.0 based on the official source links in this profile. Re-check the repository, license file, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate PilotDeck?",
+          "answer": "PilotDeck is most worth evaluating for teams running multiple parallel agent projects that need clean isolation, traceable memory, and cost-efficient model routing."
+        },
+        {
+          "question": "What makes PilotDeck different from other agent platforms?",
+          "answer": "PilotDeck is WorkSpace-first: each project has isolated files, memory, and skills. It also provides white-box editable memory, automatic model tiering (TokenSaver), and always-on background execution — capabilities most agent platforms lack."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-03T00:00:00.000Z",
+    "updated_at": "2026-06-03T00:00:00.000Z",
+    "published_at": "2026-06-03T00:00:00.000Z"
+  }
+}

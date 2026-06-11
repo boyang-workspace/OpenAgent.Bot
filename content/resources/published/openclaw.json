@@ -1,0 +1,258 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_openclaw",
+  "slug": "openclaw",
+  "status": "published",
+  "identity": {
+    "name": "OpenClaw",
+    "one_liner": "Open-source agent platform for browser, tool, and workflow automation that actually takes actions.",
+    "short_description": "OpenClaw is an open-source agent platform for running action-oriented AI workflows across browser automation, tools, skills, local execution, and connected services."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "browser-automation",
+      "workflow-orchestration",
+      "tool-calling",
+      "self-hosted",
+      "mcp"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "OpenClaw matters because it represents the shift from chat assistants to agents that operate software. It gives builders a concrete runtime to study browser control, tool execution, skills, safety boundaries, and workflow automation in one place.",
+    "best_for": [
+      "Builders experimenting with browser and tool-using agents",
+      "Teams that want a self-hosted runtime for repeatable automation workflows",
+      "Researchers studying agent safety, permissions, and real-world action boundaries"
+    ],
+    "not_for": [
+      "Users who only want a passive chatbot",
+      "Teams unwilling to review sandboxing, credentials, and safety controls before giving an agent tool access"
+    ],
+    "use_cases": [
+      "browser-agent",
+      "self-hosted-ai",
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": true,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": true,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "github_repo_full_name": "openclaw/openclaw",
+    "last_verified_at": "2026-04-19"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "browser-automation",
+      "workflow-orchestration",
+      "tool-calling",
+      "mcp",
+      "browser"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/openclaw/openclaw",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/openclaw/openclaw"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://openclawdoc.com/"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/openclaw.png",
+    "og_image_url": "https://github.com/openclaw.png",
+    "thumbnail_brief": {
+      "resource_type": "agent",
+      "visual_motif": "clean technical blocks with a small source-link motif",
+      "background_style": "minimal App Store editorial card using restrained open-source accents",
+      "title_overlay": "OpenClaw",
+      "subtitle": "Open-source agent platform for browser, tool, and workflow automation that actually takes actions.",
+      "avoid": [
+        "busy benchmark poster",
+        "unverified logos",
+        "marketing-heavy screenshots"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "agent",
+      "open-source"
+    ],
+    "capability": [
+      "browser-automation",
+      "workflow-orchestration",
+      "tool-calling",
+      "mcp",
+      "browser"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted",
+      "mcp-compatible"
+    ],
+    "scenario": [
+      "browser-agent",
+      "self-hosted-ai",
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/openclaw",
+    "json_url": "https://www.openagent.bot/agents/openclaw.json",
+    "markdown_url": "https://www.openagent.bot/agents/openclaw.md"
+  },
+  "seo": {
+    "title": "OpenClaw: AI Agent — Open-source agent platform for browser, tool, and workflow automation that ac...",
+    "description": "OpenClaw is an open-source AI agent. Open-source agent platform for browser, tool, and workflow automation that actually takes actions.. 了解 OpenClaw 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Action-oriented runtime",
+        "description": "OpenClaw is designed for agents that can use tools and automate tasks, not just answer questions.",
+        "why_it_matters": "That makes it a useful reference point for the whole action-agent category."
+      },
+      {
+        "title": "Browser and workflow surface",
+        "description": "Its ecosystem emphasizes browser control, tools, channels, and reusable skills.",
+        "why_it_matters": "Real agent work often happens across websites, APIs, files, and messaging systems."
+      },
+      {
+        "title": "Open-source inspection path",
+        "description": "The public repository lets builders inspect how the runtime handles execution and boundaries.",
+        "why_it_matters": "Action agents require trust, and trust starts with inspectable implementation details."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Browser-based automation",
+        "description": "Use OpenClaw as a candidate when an agent must navigate websites, fill forms, or inspect pages."
+      },
+      {
+        "title": "Reusable agent workflows",
+        "description": "Turn repeated tasks into skills, scripts, or controlled workflows that agents can run again."
+      },
+      {
+        "title": "Agent safety research",
+        "description": "Study the risks that appear when agents can execute code, access accounts, and use authenticated browser sessions."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "OpenClaw is for doing, not just chatting",
+        "summary": "A chatbot interface is useful for conversation; OpenClaw is relevant when the agent needs tool access and workflow execution.",
+        "against": "chatbot UIs"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/openclaw/openclaw",
+        "type": "github"
+      },
+      {
+        "label": "Official source",
+        "url": "https://openclawdoc.com/",
+        "type": "homepage"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Clone the OpenClaw repository",
+        "command": "git clone https://github.com/openclaw/openclaw.git",
+        "description": "Start from the official repository and docs before installing daemons, browser access, or connected services."
+      }
+    ],
+    "seo_article": {
+      "intro": "OpenClaw is an open-source agent platform for running action-oriented AI workflows across browser automation, tools, skills, local execution, and connected services.",
+      "what_it_is": "OpenClaw is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
+      "why_it_matters": "OpenClaw matters because it represents the shift from chat assistants to agents that operate software. It gives builders a concrete runtime to study browser control, tool execution, skills, safety boundaries, and workflow automation in one place.",
+      "how_it_works": "Start with one safe workflow for OpenClaw. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
+      "use_cases": [
+        {
+          "title": "Browser-based automation",
+          "description": "Use OpenClaw as a candidate when an agent must navigate websites, fill forms, or inspect pages."
+        },
+        {
+          "title": "Reusable agent workflows",
+          "description": "Turn repeated tasks into skills, scripts, or controlled workflows that agents can run again."
+        },
+        {
+          "title": "Agent safety research",
+          "description": "Study the risks that appear when agents can execute code, access accounts, and use authenticated browser sessions."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "OpenClaw is for doing, not just chatting",
+          "summary": "A chatbot interface is useful for conversation; OpenClaw is relevant when the agent needs tool access and workflow execution.",
+          "against": "chatbot UIs"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Review the GitHub repository",
+          "url": "https://github.com/openclaw/openclaw",
+          "type": "github"
+        },
+        {
+          "label": "Official source",
+          "url": "https://openclawdoc.com/",
+          "type": "homepage"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using OpenClaw?",
+          "answer": "Start with one safe workflow for OpenClaw. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+        },
+        {
+          "question": "Is OpenClaw open source?",
+          "answer": "OpenClaw is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate OpenClaw?",
+          "answer": "OpenClaw is most worth evaluating for builders experimenting with browser and tool-using agents."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-04-19T00:00:00.000Z",
+    "updated_at": "2026-04-19T00:00:00.000Z",
+    "published_at": "2026-04-19T00:00:00.000Z"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "slug": "choosing-browser-agent-vs-protocol-vs-framework",
+  "title": "Browser Agent, Browser Protocol, or Automation Script?",
+  "summary": "A simple decision guide for choosing between Webwright, Agent Browser Protocol, browser-use, and plain browser automation.",
+  "publishedAt": "2026-06-09",
+  "tags": [
+    "browser-agent",
+    "automation",
+    "mcp"
+  ],
+  "author": "OpenAgent.bot Editors",
+  "seoTitle": "Browser Agent vs Browser Protocol vs Automation Script",
+  "seoDescription": "Choose between a browser agent framework, browser protocol, browser-use style library, or plain automation script.",
+  "body": [
+    "Browser automation now has several layers. Picking the wrong layer can make a simple task too heavy or a risky task too loose.",
+    "Use [Webwright](/agents/webwright) when the browser task is long and decision-heavy. Use [Agent Browser Protocol](/plugins/agent-browser-protocol) when browser access should become a reusable agent tool. Use [browser-use](/agents/browser-use) when you want a practical browser agent library. Use a plain script when the page flow is stable and deterministic.",
+    "## Decision table",
+    "| Need | Best fit |",
+    "|---|---|",
+    "| One stable workflow | Automation script |",
+    "| Agent makes decisions across pages | Browser agent framework |",
+    "| Multiple agents need browser access | Browser protocol or MCP tool |",
+    "| Researching long tasks | Webwright-style benchmark workflow |",
+    "## Security baseline",
+    "Start with a non-production account, record actions, block irreversible steps, and require approval before sensitive forms, payments, or account changes.",
+    "## Practical advice",
+    "Do not start by giving a browser agent full access. Start with one workflow, one success metric, and one recovery plan.",
+    "## Related projects",
+    "- [Webwright](/agents/webwright)",
+    "- [Agent Browser Protocol](/plugins/agent-browser-protocol)",
+    "- [browser-use](/agents/browser-use)"
+  ]
+}

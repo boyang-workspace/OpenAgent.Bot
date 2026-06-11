@@ -10,7 +10,7 @@ Goal: organic traffic → ad revenue. 3 products: Directory, Blog, Discovery Pip
 
 **Problem**: every resource page has generic titles like "OpenClaw: Agents resource for open AI builders". Google reads these as thin pages.
 
-**Action** — write a script to batch-update `seoTitle` + `seoDescription` in all `content/projects/published/*.json`:
+**Action** — write a script to batch-update `seo.title` + `seo.description` in all `content/resources/published/*.json`:
 
 - Pattern for `seoTitle`: `"{ToolName}: {what it actually does} | OpenAgent.bot"`
 - Example: `"browser-use: 开源浏览器自动化工具，让 AI 操作网页"`
@@ -31,7 +31,7 @@ SEO scoring: each page becomes a landing page for 3-5 long-tail keywords.
 
 ### 1.3 Move content from legacy to new path
 
-**Problem**: resources live in `content/projects/published/` (legacy OpenProject format) instead of `content/resources/published/` (new ResourceV1 format). Build-time adapter works but adds complexity.
+**Status update**: published resources now live in `content/resources/published/` as ResourceV1. Admin/editorial drafts can still start in `content/projects/drafts/`, but public pages read the unified resource source.
 
 **Action**: migrate legacy files to new format/path. Verify `getPublishedResources()` still finds them. Remove adapter code.
 
@@ -199,7 +199,7 @@ If directory authority grows, consider:
 
 ### Week 1-2
 - `scripts/content/` — new script: `batch-update-seo.ts`
-- `content/projects/published/*.json` — batch update seoTitle/seoDescription
+- `content/resources/published/*.json` — batch update `seo.title`/`seo.description`
 - `src/lib/content/blog.ts` — add `related_resources` field
 - `src/pages/[category]/[slug].astro` — add related posts section
 - `src/pages/[category]/index.astro` — add see-also links
@@ -212,7 +212,7 @@ If directory authority grows, consider:
 - `src/lib/content/resource-schema.ts` — verify ResourceV1 has all fields needed
 
 ### Week 5-6
-- `content/projects/published/*.json` — FAQ content audit
+- `content/resources/published/*.json` — FAQ content audit
 - `src/pages/[category]/index.astro` — add editorial guide sections
 - `src/lib/content/resource-schema.ts` — add HowTo schema interface
 

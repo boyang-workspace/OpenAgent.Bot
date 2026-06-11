@@ -23,5 +23,5 @@ export const discoveryDirs = {
   discovery: "content/discovery",
   topics: "content/topics",
   drafts: "content/projects/drafts",
-  published: "content/projects/published"
+  published: "content/resources/published"
 };

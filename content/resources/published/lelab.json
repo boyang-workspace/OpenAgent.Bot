@@ -1,0 +1,276 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_lelab",
+  "slug": "lelab",
+  "status": "published",
+  "identity": {
+    "name": "LeLab",
+    "one_liner": "A web UI for training and running real-world robotics policies from Hugging Face LeRobot.",
+    "short_description": "LeLab is the official graphical interface for LeRobot, Hugging Face's open-source robotics library. It turns the full robot learning workflow — calibrate, teleoperate, record, train, replay — into a single browser UI. Plug in a robotic arm, open the app, and go from unboxing to training your first policy in minutes."
+  },
+  "classification": {
+    "resource_type": "bot",
+    "primary_category": "bots",
+    "subcategories": [
+      "robotics",
+      "robot-learning",
+      "gui",
+      "teleoperation",
+      "self-hosted"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "LeLab matters because it bridges the gap between robotics research and hands-on experimentation. Instead of wrangling CLI tools and config files, newcomers get a browser UI that guides them through every step of the robot learning pipeline. This lowers the barrier for students, hobbyists, and researchers to contribute to open-source physical AI.",
+    "best_for": [
+      "Students and researchers getting started with real-world robotics",
+      "Hobbyists building with low-cost robotic arms (SO-100, Koch, etc.)",
+      "Teams evaluating imitation learning and VLA policies on physical hardware"
+    ],
+    "not_for": [
+      "Production deployment of robot fleets at scale",
+      "Simulation-only robotics projects without physical hardware"
+    ],
+    "use_cases": [
+      "self-hosted-ai",
+      "robotics-agent"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": true,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": true
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 36,
+    "github_forks": 3,
+    "github_repo_full_name": "huggingface/leLab",
+    "last_verified_at": "2026-06-04"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "robotics",
+      "messaging"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/huggingface/leLab",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/huggingface/leLab"
+      },
+      {
+        "type": "huggingface",
+        "label": "Homepage",
+        "url": "https://huggingface.co/spaces/lerobot/LeLab"
+      },
+      {
+        "type": "huggingface",
+        "label": "Docs",
+        "url": "https://huggingface.co/docs/lerobot/main/en/lelab"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/huggingface.png",
+    "og_image_url": "https://github.com/huggingface.png",
+    "thumbnail_brief": {
+      "resource_type": "bot",
+      "visual_motif": "robot arm joint diagram with a browser window overlay",
+      "background_style": "quiet editorial card with light surface and blue accent",
+      "title_overlay": "LeLab",
+      "subtitle": "Web UI for robot learning",
+      "avoid": [
+        "dark industrial robot imagery",
+        "generic humanoid robot",
+        "complex wiring diagrams"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "bot",
+      "open-source"
+    ],
+    "capability": [
+      "robotics",
+      "messaging"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted",
+      "docker"
+    ],
+    "scenario": [
+      "self-hosted-ai",
+      "robotics-agent"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/bots/lelab",
+    "json_url": "https://www.openagent.bot/bots/lelab.json",
+    "markdown_url": "https://www.openagent.bot/bots/lelab.md"
+  },
+  "seo": {
+    "title": "LeLab: Web UI for LeRobot — Train real-world robotics policies from your browser",
+    "description": "LeLab is Hugging Face's official web UI for LeRobot. Calibrate, teleoperate, record, train, and deploy robot learning policies — all from your browser. Open-source, Apache-2.0."
+  },
+  "editorial": {
+    "featured_reason": "LeLab is the first bot in our new Bots category — a web UI that makes real-world robot learning accessible to everyone.",
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Complete robotics workflow in a browser",
+        "description": "LeLab wraps calibration, teleoperation, data recording, training, and inference into one web app — no CLI hunting required.",
+        "why_it_matters": "The main barrier to entry in robotics is setup complexity. LeLab removes it with a single-command install and a guided UI."
+      },
+      {
+        "title": "Built on LeRobot, Hugging Face's robotics library",
+        "description": "LeLab is the official front-end for LeRobot, which provides state-of-the-art policies (ACT, Diffusion, Pi0, GR00T), standardized datasets, and multi-hardware support.",
+        "why_it_matters": "You get immediate access to the latest imitation learning and VLA research without writing infrastructure code."
+      },
+      {
+        "title": "One-click dataset upload to Hugging Face Hub",
+        "description": "Recorded episodes can be pushed to the HF Hub with a single click, making it easy to share datasets and collaborate.",
+        "why_it_matters": "Dataset sharing is critical for reproducible robotics research and community progress."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Educational robotics",
+        "description": "Use LeLab as a teaching tool for robot learning — students can go from connecting an arm to training a policy in one session."
+      },
+      {
+        "title": "Rapid policy prototyping",
+        "description": "Quickly collect demonstration data from a teleoperated arm, train an imitation learning policy, and evaluate on hardware."
+      },
+      {
+        "title": "Open-source robotics benchmarking",
+        "description": "Record and share standardized datasets on the HF Hub, enabling reproducible comparisons across policies and hardware."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose LeLab for a browser-based robotics workflow",
+        "summary": "LeLab provides a guided UI for the full LeRobot pipeline. If you prefer programmatic control or are working in headless environments, the underlying LeRobot Python library may be a better fit.",
+        "against": "CLI-only robotics frameworks"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the LeLab Space",
+        "url": "https://huggingface.co/spaces/lerobot/LeLab",
+        "type": "demo"
+      },
+      {
+        "label": "View the GitHub repository",
+        "url": "https://github.com/huggingface/leLab",
+        "type": "github"
+      },
+      {
+        "label": "Read the LeRobot docs",
+        "url": "https://huggingface.co/docs/lerobot/index",
+        "type": "docs"
+      },
+      {
+        "label": "Join the Discord community",
+        "url": "https://discord.gg/q8Dzzpym3f",
+        "type": "discord"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install and run LeLab",
+        "command": "pip install lerobot && lelab --dev",
+        "description": "Installs LeRobot with LeLab and starts the dev server. A browser window opens automatically."
+      }
+    ],
+    "seo_article": {
+      "intro": "LeLab is Hugging Face's official graphical interface for LeRobot, designed to make real-world robot learning accessible from a browser. Instead of stitching together calibration scripts, teleoperation tools, training pipelines, and inference servers, you get one web app that connects a physical robotic arm to state-of-the-art AI policies.",
+      "what_it_is": "LeLab is a web application that wraps the full LeRobot workflow — calibrate, teleoperate, record, train, replay, and upload — into a guided browser experience. It supports a range of robotic arms including low-cost options like SO-100, and provides a live joint-streaming teleoperation interface, camera recording, training job management with live logs, and one-click dataset upload to the Hugging Face Hub.",
+      "why_it_matters": "Physical AI has been held back by complexity. Getting a robot arm to learn a task traditionally requires assembling multiple tools, writing glue code, and deep knowledge of both robotics and ML. LeLab collapses that into a single install command and a browser tab. This matters because the faster people can go from unboxing to training, the more data, policies, and contributions the open-source robotics ecosystem will generate.",
+      "how_it_works": "After a one-line install, LeLab opens in your browser. The guided workflow starts with calibration — a step-by-step web flow for configuring your robot arm. Then teleoperation lets you move the leader arm while the follower mirrors it in real time. You record demonstration episodes with synchronized camera feeds into a LeRobotDataset. Training kicks off a LeRobot policy training job with live log streaming. Finally, you can run inference to execute the trained policy on hardware or replay recorded episodes.",
+      "use_cases": [
+        {
+          "title": "Learning from demonstration for pick-and-place tasks",
+          "description": "Teleoperate an arm to demonstrate picking and placing objects, train an ACT or Diffusion policy, then let the robot execute autonomously."
+        },
+        {
+          "title": "Multi-episode dataset collection for research",
+          "description": "Record hundreds of demonstration episodes with synchronized video, organize them into datasets, and push to the HF Hub for community use."
+        },
+        {
+          "title": "Evaluating VLA models on real hardware",
+          "description": "Test state-of-the-art Vision-Language-Action models like Pi0, GR00T, and SmolVLA on physical robotic arms without writing deployment code."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use LeRobot Python API for programmatic control",
+          "summary": "LeLab is a browser UI on top of LeRobot. If you need to script robotics pipelines, integrate with CI, or work headlessly, use the underlying LeRobot library directly.",
+          "against": "LeLab"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Try LeLab in your browser",
+          "url": "https://huggingface.co/spaces/lerobot/LeLab",
+          "type": "demo"
+        },
+        {
+          "label": "Clone the repository",
+          "url": "https://github.com/huggingface/leLab",
+          "type": "github"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What hardware does LeLab support?",
+          "answer": "LeLab supports multiple arms including SO-100, LeKiwi, Koch, HopeJR, OMX, EarthRover, Reachy2, OpenARM, and Unitree G1. It also works with standard gamepads, keyboards, and phones for teleoperation."
+        },
+        {
+          "question": "Do I need a GPU to use LeLab?",
+          "answer": "You need a GPU for training policies, but teleoperation and data recording can run on CPU. The exact requirements depend on the policy (ACT, Diffusion, Pi0, etc.) and dataset size."
+        },
+        {
+          "question": "Is LeLab open source?",
+          "answer": "Yes, LeLab and LeRobot are both open source under the Apache-2.0 license."
+        },
+        {
+          "question": "Can I use LeLab without real hardware?",
+          "answer": "LeLab is designed for real-world robotics, but LeRobot also supports simulation environments like LIBERO and MetaWorld for development and evaluation."
+        },
+        {
+          "question": "How is LeLab different from the LeRobot CLI?",
+          "answer": "LeLab is a web UI that provides a guided visual workflow. The LeRobot Python library and CLI offer the same capabilities for programmatic and headless use."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-04T00:00:00.000Z",
+    "updated_at": "2026-06-04T00:00:00.000Z",
+    "published_at": "2026-06-04T00:00:00.000Z"
+  }
+}

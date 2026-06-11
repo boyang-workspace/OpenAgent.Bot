@@ -1,0 +1,32 @@
+{
+  "slug": "trend-research-agent-skills-2026",
+  "title": "Trend Research Agent Skills to Watch in 2026",
+  "summary": "Agent skills are turning trend research into repeatable workflows with sources, scoring, and synthesis.",
+  "publishedAt": "2026-06-10",
+  "tags": [
+    "trend-research",
+    "agent-skills",
+    "2026"
+  ],
+  "author": "OpenAgent.bot Editors",
+  "seoTitle": "Trend Research Agent Skills to Watch in 2026",
+  "seoDescription": "Why trend research is becoming a strong use case for AI agent skills, with last30days as a practical example.",
+  "body": [
+    "Trend research is a natural fit for agent skills because the workflow repeats: search recent sources, rank noisy signals, synthesize themes, and preserve uncertainty.",
+    "[last30days](/skills/last30days-skill) is a useful example. It turns recent social, developer, market, and web research into an invocable skill rather than a one-off prompt.",
+    "## What a good trend skill needs",
+    "- Clear source coverage.",
+    "- Recency controls.",
+    "- Engagement and credibility signals.",
+    "- Source links or citations.",
+    "- A way to separate facts, sentiment, and speculation.",
+    "## Where trend skills help",
+    "They are useful for product discovery, content planning, market scans, competitive research, open-source scouting, and community pulse checks.",
+    "## Evaluation checklist",
+    "Rerun the same topic across several days, compare output stability, inspect the source links, and check whether the skill notices when evidence is thin.",
+    "## Related skills",
+    "- [last30days](/skills/last30days-skill)",
+    "- [Garden Skills](/skills/garden-skills)",
+    "- [Text-To-Lottie](/skills/lottie)"
+  ]
+}

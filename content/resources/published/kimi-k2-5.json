@@ -1,0 +1,245 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_kimi_k2_5",
+  "slug": "kimi-k2-5",
+  "status": "published",
+  "identity": {
+    "name": "Kimi K2.5",
+    "one_liner": "Moonshot AI's open-weight multimodal model for agentic and tool-using workflows.",
+    "short_description": "Kimi K2.5 is Moonshot AI's powerful open-weight model line, positioned for multimodal and agentic workflows with API access and public model materials."
+  },
+  "classification": {
+    "resource_type": "model",
+    "primary_category": "models",
+    "subcategories": [
+      "open-weights",
+      "tool-calling",
+      "workflow-orchestration",
+      "research"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Kimi K2.5 matters because it sits at the intersection of frontier-style agent behavior and open model distribution. For teams comparing model choices for coding, tool use, and multimodal tasks, it is one of the models worth evaluating closely.",
+    "best_for": [
+      "Teams comparing open-weight models for tool-using agents",
+      "Developers testing coding and reasoning workflows with Kimi-compatible APIs",
+      "Researchers watching how Chinese open model labs approach multimodal agents"
+    ],
+    "not_for": [
+      "Teams that require a pure OSI-style open-source license without extra model terms",
+      "Users who want a local-only consumer app with no API or model operations work"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "researcher"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": false,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Modified MIT",
+    "pricing_model": "free",
+    "github_repo_full_name": "MoonshotAI/Kimi-K2.5",
+    "last_verified_at": "2026-04-19"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "tool-calling",
+      "workflow-orchestration",
+      "local-inference"
+    ],
+    "interfaces": [
+      "repo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/MoonshotAI/Kimi-K2.5",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/MoonshotAI/Kimi-K2.5"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://platform.moonshot.ai/"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/MoonshotAI.png",
+    "og_image_url": "https://github.com/MoonshotAI.png",
+    "thumbnail_brief": {
+      "resource_type": "model",
+      "visual_motif": "clean technical blocks with a small source-link motif",
+      "background_style": "minimal App Store editorial card using restrained open-source accents",
+      "title_overlay": "Kimi K2.5",
+      "subtitle": "Moonshot AI's open-weight multimodal model for agentic and tool-using workflows.",
+      "avoid": [
+        "busy benchmark poster",
+        "unverified logos",
+        "marketing-heavy screenshots"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "model"
+    ],
+    "capability": [
+      "tool-calling",
+      "workflow-orchestration",
+      "local-inference"
+    ],
+    "constraint": [
+      "source-available",
+      "open-weights"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/models/kimi-k2-5",
+    "json_url": "https://www.openagent.bot/models/kimi-k2-5.json",
+    "markdown_url": "https://www.openagent.bot/models/kimi-k2-5.md"
+  },
+  "seo": {
+    "title": "Kimi K2.5: AI Model — Moonshot AI's open-weight multimodal model for agentic and tool-using workflows.",
+    "description": "Kimi K2.5 is an open-source open-source model. Moonshot AI's open-weight multimodal model for agentic and tool-using workflows.. 了解 Kimi K2.5 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Agentic model positioning",
+        "description": "Kimi K2.5 is marketed around tool use and agentic tasks rather than only chat.",
+        "why_it_matters": "That makes it a serious candidate for OpenAgent-style workflows."
+      },
+      {
+        "title": "Open-weight distribution",
+        "description": "Moonshot publishes public repository and model access materials for evaluation.",
+        "why_it_matters": "Open weights let builders compare behavior outside a single hosted interface."
+      },
+      {
+        "title": "Multimodal direction",
+        "description": "The Kimi K2.5 line is positioned as a multimodal model rather than a text-only assistant.",
+        "why_it_matters": "Multimodal inputs are increasingly important for agents that read screens, documents, and visual context."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Agent model comparison",
+        "description": "Evaluate Kimi K2.5 against Qwen, GLM, and DeepSeek-style models on tool-using workflows."
+      },
+      {
+        "title": "Coding and repository tasks",
+        "description": "Test whether it can reason across code, instructions, and tool calls in realistic engineering loops."
+      },
+      {
+        "title": "Multimodal assistant prototypes",
+        "description": "Use it as a candidate when an assistant needs more than plain text input."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Strong candidate for open-weight agent testing",
+        "summary": "Kimi K2.5 is useful when the comparison target is agentic behavior and multimodal capability, but its modified license terms should be reviewed carefully.",
+        "against": "Qwen3.6 and GLM-5"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/MoonshotAI/Kimi-K2.5",
+        "type": "github"
+      },
+      {
+        "label": "Official source",
+        "url": "https://platform.moonshot.ai/",
+        "type": "homepage"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Clone the model repository",
+        "command": "git clone https://github.com/MoonshotAI/Kimi-K2.5.git",
+        "description": "Start with official model materials and license notes before using it in production."
+      }
+    ],
+    "seo_article": {
+      "intro": "Kimi K2.5 is Moonshot AI's powerful open-weight model line, positioned for multimodal and agentic workflows with API access and public model materials.",
+      "what_it_is": "Kimi K2.5 is an open model resource to evaluate by workload, serving path, context behavior, license terms, and how reliably it supports the agent or local AI tasks you actually plan to run.",
+      "why_it_matters": "Kimi K2.5 matters because it sits at the intersection of frontier-style agent behavior and open model distribution. For teams comparing model choices for coding, tool use, and multimodal tasks, it is one of the models worth evaluating closely.",
+      "how_it_works": "Run Kimi K2.5 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it.",
+      "use_cases": [
+        {
+          "title": "Agent model comparison",
+          "description": "Evaluate Kimi K2.5 against Qwen, GLM, and DeepSeek-style models on tool-using workflows."
+        },
+        {
+          "title": "Coding and repository tasks",
+          "description": "Test whether it can reason across code, instructions, and tool calls in realistic engineering loops."
+        },
+        {
+          "title": "Multimodal assistant prototypes",
+          "description": "Use it as a candidate when an assistant needs more than plain text input."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Strong candidate for open-weight agent testing",
+          "summary": "Kimi K2.5 is useful when the comparison target is agentic behavior and multimodal capability, but its modified license terms should be reviewed carefully.",
+          "against": "Qwen3.6 and GLM-5"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Review the GitHub repository",
+          "url": "https://github.com/MoonshotAI/Kimi-K2.5",
+          "type": "github"
+        },
+        {
+          "label": "Official source",
+          "url": "https://platform.moonshot.ai/",
+          "type": "homepage"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using Kimi K2.5?",
+          "answer": "Run Kimi K2.5 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it."
+        },
+        {
+          "question": "Is Kimi K2.5 open source?",
+          "answer": "Kimi K2.5 is listed with Modified MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate Kimi K2.5?",
+          "answer": "Kimi K2.5 is most worth evaluating for teams comparing open-weight models for tool-using agents."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-04-19T00:00:00.000Z",
+    "updated_at": "2026-04-19T00:00:00.000Z",
+    "published_at": "2026-04-19T00:00:00.000Z"
+  }
+}

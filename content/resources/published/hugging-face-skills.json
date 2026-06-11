@@ -1,0 +1,264 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_hugging_face_skills",
+  "slug": "hugging-face-skills",
+  "status": "published",
+  "identity": {
+    "name": "Hugging Face Skills",
+    "one_liner": "Open-source skill collection that gives agents reusable access to Hugging Face ecosystem capabilities.",
+    "short_description": "Hugging Face Skills is an Apache-licensed repository for packaging reusable agent capabilities around Hugging Face tools, models, and workflows."
+  },
+  "classification": {
+    "resource_type": "skill",
+    "primary_category": "skills",
+    "subcategories": [
+      "agent-skill",
+      "workflow",
+      "tool-calling",
+      "connectors",
+      "self-hosted"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Hugging Face Skills matters because agent capabilities become more useful when they are packaged as reusable skills rather than one-off prompts. It points toward a practical pattern for connecting agents to model hubs, datasets, and AI tooling.",
+    "best_for": [
+      "Agent builders who want reusable skills around Hugging Face workflows",
+      "Developers packaging model and dataset operations as agent capabilities",
+      "Teams exploring skill-based agent systems instead of ad hoc prompting"
+    ],
+    "not_for": [
+      "Users looking for a finished consumer app",
+      "Teams that do not already work with Hugging Face or model-hub workflows"
+    ],
+    "use_cases": [
+      "self-hosted-ai",
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": true,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 10216,
+    "github_forks": 637,
+    "github_repo_full_name": "huggingface/skills",
+    "last_verified_at": "2026-04-19"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "agent-skill",
+      "workflow",
+      "tool-calling",
+      "connectors"
+    ],
+    "integrations": [
+      "Hugging Face",
+      "Python",
+      "Agents"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/huggingface/skills",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/huggingface/skills"
+      },
+      {
+        "type": "huggingface",
+        "label": "Homepage",
+        "url": "https://huggingface.co"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/huggingface.png",
+    "og_image_url": "https://github.com/huggingface.png",
+    "thumbnail_brief": {
+      "resource_type": "skill",
+      "visual_motif": "modular skill blocks connected to a model hub node",
+      "background_style": "light editorial card with small amber and green accents",
+      "title_overlay": "HF Skills",
+      "subtitle": "Reusable skills for agents",
+      "avoid": [
+        "large mascot illustration",
+        "model leaderboard screenshot",
+        "busy plugin store layout"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "skill",
+      "open-source"
+    ],
+    "capability": [
+      "agent-skill",
+      "workflow",
+      "tool-calling",
+      "connectors"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted"
+    ],
+    "scenario": [
+      "self-hosted-ai",
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/skills/hugging-face-skills",
+    "json_url": "https://www.openagent.bot/skills/hugging-face-skills.json",
+    "markdown_url": "https://www.openagent.bot/skills/hugging-face-skills.md"
+  },
+  "seo": {
+    "title": "Hugging Face Skills: Skill System — Open-source skill collection that gives agents reusable access to Hugging Fac...",
+    "description": "Hugging Face Skills is an open-source skill system. Open-source skill collection that gives agents reusable access to Hugging Face ecosystem capabilities.. 了解 Hugging Face Skills 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "featured_reason": "A concrete open-source example of reusable skills as the capability layer for AI agents.",
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Reusable skill packaging",
+        "description": "The repository organizes agent capabilities as skills instead of leaving them as loose prompts.",
+        "why_it_matters": "Reusable skills make agent behavior easier to share, inspect, and improve."
+      },
+      {
+        "title": "Connection to a major open AI ecosystem",
+        "description": "The project sits near Hugging Face models, datasets, and developer tooling.",
+        "why_it_matters": "Agents become more useful when they can operate over real model and data workflows."
+      },
+      {
+        "title": "Good reference for skill design",
+        "description": "Builders can study how skills are described, scoped, and wired into agent behavior.",
+        "why_it_matters": "A skill library is only valuable when each skill has clear boundaries and repeatable use."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Model hub workflows",
+        "description": "Use the project as a starting point for skills that search, inspect, or operate with Hugging Face resources."
+      },
+      {
+        "title": "Agent capability libraries",
+        "description": "Study it when designing a reusable skill layer for your own agent platform."
+      },
+      {
+        "title": "Open skill ecosystem research",
+        "description": "Compare it with GStack, GBrain, and other skill-style repositories to understand what belongs in a skill."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose Hugging Face Skills when your agent works near models and datasets",
+        "summary": "General skill repositories can cover broader workflows. Hugging Face Skills is strongest when the agent needs to interact with the Hugging Face ecosystem.",
+        "against": "general skill packs"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/huggingface/skills",
+        "type": "github"
+      },
+      {
+        "label": "Visit Hugging Face",
+        "url": "https://huggingface.co",
+        "type": "homepage"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Clone the skills repository",
+        "command": "git clone https://github.com/huggingface/skills.git",
+        "description": "Use the repository as the official starting point for inspecting available skills and setup instructions."
+      }
+    ],
+    "seo_article": {
+      "intro": "Hugging Face Skills is a useful example of where agent development is heading: away from single prompts and toward reusable capabilities. It packages agent behavior around the Hugging Face ecosystem, where models, datasets, and AI tooling already live.",
+      "what_it_is": "Hugging Face Skills is an open agent skill resource: a reusable procedure, instruction pack, or capability layer that should make an agent better at a repeatable task than one-off prompting.",
+      "why_it_matters": "Skills are one way to make agents less fragile. Instead of asking a model to improvise every workflow, a skill gives it a named, inspectable capability with a clearer boundary.",
+      "how_it_works": "Evaluate Hugging Face Skills by reading its official source, then running one workflow end to end. Check when the skill should be invoked, what inputs it expects, what evidence it collects, and how easy it is to edit or version.",
+      "use_cases": [
+        {
+          "title": "Hugging Face workflow automation",
+          "description": "Use skills to expose common model and dataset operations to agents."
+        },
+        {
+          "title": "Skill library design",
+          "description": "Study the repository when designing your own agent skill packaging conventions."
+        },
+        {
+          "title": "Agent ecosystem integration",
+          "description": "Use it as a reference for connecting an agent to a major open AI platform."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use GStack for broader browser and shipping workflows",
+          "summary": "Hugging Face Skills is ecosystem-specific. GStack is broader as an agent skill stack for browser QA, planning, and shipping workflows.",
+          "against": "GStack"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Inspect the repository",
+          "url": "https://github.com/huggingface/skills",
+          "type": "github"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using Hugging Face Skills?",
+          "answer": "Evaluate Hugging Face Skills by reading its official source, then running one workflow end to end. Check when the skill should be invoked, what inputs it expects, what evidence it collects, and how easy it is to edit or version."
+        },
+        {
+          "question": "Is Hugging Face Skills open source?",
+          "answer": "Hugging Face Skills is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate Hugging Face Skills?",
+          "answer": "Hugging Face Skills is most worth evaluating for agent builders who want reusable skills around Hugging Face workflows."
+        },
+        {
+          "question": "Is this a complete agent platform?",
+          "answer": "No. It is better understood as a skill collection or capability layer."
+        },
+        {
+          "question": "Who should try it?",
+          "answer": "Agent builders who already use Hugging Face or want to study reusable skill design should evaluate it."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-04-19T00:00:00.000Z",
+    "updated_at": "2026-04-19T00:00:00.000Z",
+    "published_at": "2026-04-19T00:00:00.000Z"
+  }
+}

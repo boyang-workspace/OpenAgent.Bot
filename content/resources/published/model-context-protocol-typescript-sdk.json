@@ -1,0 +1,197 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_model_context_protocol_typescript_sdk",
+  "slug": "model-context-protocol-typescript-sdk",
+  "status": "published",
+  "identity": {
+    "name": "Model Context Protocol TypeScript SDK",
+    "one_liner": "Official TypeScript SDK for MCP servers and clients.",
+    "short_description": "The Model Context Protocol TypeScript SDK is the official SDK for building MCP servers and clients in TypeScript."
+  },
+  "classification": {
+    "resource_type": "plugin",
+    "primary_category": "plugins",
+    "subcategories": [
+      "mcp",
+      "typescript",
+      "sdk",
+      "connectors",
+      "protocol"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Many agent products are built in JavaScript or TypeScript. The official TypeScript SDK gives those teams a direct path to MCP-compatible tools and connectors.",
+    "best_for": [
+      "TypeScript teams building MCP servers",
+      "Developers exposing tools and resources to agents",
+      "Agent builders comparing official MCP SDKs"
+    ],
+    "not_for": [
+      "Python-first teams that want the Python SDK",
+      "Teams not adopting MCP as a connector layer"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": false,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": true,
+    "has_gui": false,
+    "supports_mcp": true,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "See repository",
+    "pricing_model": "unknown",
+    "github_stars": 12581,
+    "github_forks": 1890,
+    "github_repo_full_name": "modelcontextprotocol/typescript-sdk",
+    "last_verified_at": "2026-06-02"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "plugin",
+      "mcp",
+      "connectors",
+      "protocol"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/modelcontextprotocol/typescript-sdk",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/modelcontextprotocol/typescript-sdk"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://modelcontextprotocol.io"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_brief": {
+      "resource_type": "plugin",
+      "visual_motif": "connectors, ports, and structured modules",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "Model Context Protocol TypeScript SDK",
+      "subtitle": "Official TypeScript SDK for MCP servers and clients.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "plugin"
+    ],
+    "capability": [
+      "plugin",
+      "mcp",
+      "connectors",
+      "protocol"
+    ],
+    "constraint": [
+      "mcp-compatible"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/plugins/model-context-protocol-typescript-sdk",
+    "json_url": "https://www.openagent.bot/plugins/model-context-protocol-typescript-sdk.json",
+    "markdown_url": "https://www.openagent.bot/plugins/model-context-protocol-typescript-sdk.md"
+  },
+  "seo": {
+    "title": "Model Context Protocol TypeScript SDK: Plugin/Extension — Official TypeScript SDK for MCP servers and clients.",
+    "description": "Model Context Protocol TypeScript SDK is an open-source plugin. Official TypeScript SDK for MCP servers and clients.. 了解 Model Context Protocol TypeScript SDK 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Plugin",
+        "description": "Model Context Protocol TypeScript SDK surfaces plugin as a core capability in its published project metadata and source links.",
+        "why_it_matters": "This gives readers a starting point for evaluating whether the project fits their workflow before visiting the source repository or docs."
+      },
+      {
+        "title": "Mcp",
+        "description": "Model Context Protocol TypeScript SDK surfaces mcp as a core capability in its published project metadata and source links.",
+        "why_it_matters": "This gives readers a starting point for evaluating whether the project fits their workflow before visiting the source repository or docs."
+      },
+      {
+        "title": "Connectors",
+        "description": "Model Context Protocol TypeScript SDK surfaces connectors as a core capability in its published project metadata and source links.",
+        "why_it_matters": "This gives readers a starting point for evaluating whether the project fits their workflow before visiting the source repository or docs."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Developer workflow",
+        "description": "Use it as a candidate for developer workflow when the project facts, license, and official links match your deployment requirements."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose Model Context Protocol TypeScript SDK",
+        "summary": "Compare it with nearby plugins by looking at hosting model, integration surface, license, and whether the official docs show the workflow you need."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/modelcontextprotocol/typescript-sdk",
+        "type": "github"
+      },
+      {
+        "label": "Homepage",
+        "url": "https://modelcontextprotocol.io",
+        "type": "homepage"
+      }
+    ],
+    "seo_article": {
+      "intro": "The Model Context Protocol TypeScript SDK is the official SDK for building MCP servers and clients in TypeScript.",
+      "what_it_is": "Model Context Protocol TypeScript SDK is listed on OpenAgent.bot as a plugins resource for open AI builders.",
+      "why_it_matters": "Many agent products are built in JavaScript or TypeScript. The official TypeScript SDK gives those teams a direct path to MCP-compatible tools and connectors.",
+      "how_it_works": "Start from the official source links, then validate the project against your deployment needs, license requirements, and maintenance expectations.",
+      "getting_started": [
+        {
+          "label": "Review the repository",
+          "url": "https://github.com/modelcontextprotocol/typescript-sdk",
+          "type": "github"
+        },
+        {
+          "label": "Homepage",
+          "url": "https://modelcontextprotocol.io",
+          "type": "homepage"
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-02T00:00:00.000Z",
+    "updated_at": "2026-06-02T00:00:00.000Z",
+    "published_at": "2026-06-02T00:00:00.000Z"
+  }
+}

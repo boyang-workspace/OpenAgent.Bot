@@ -4,7 +4,7 @@ OpenAgent.bot admin uses Cloudflare Access, Cloudflare D1, and GitHub pull reque
 
 ## What Goes Where
 
-- Public site source of truth: `content/projects/published/*.json`
+- Public site source of truth: `content/resources/published/*.json`
 - Admin working queue: Cloudflare D1
 - Login protection: Cloudflare Access
 - Publishing: admin can create a review PR or one-click create and merge a GitHub PR
@@ -116,7 +116,7 @@ For a blog request, such as "write a blog about OpenClaw", Codex can prepare a b
 npm run blog:prepare -- --title "OpenClaw: open-source browser agent infrastructure" --topic "How OpenClaw fits into open AI agent workflows" --tags openclaw,agents,open-source
 ```
 
-Resource drafts live in `content/projects/drafts`. Blog drafts live in `content/blog/drafts`. The current lightweight blog flow is GitHub-backed: review the draft, move it to `content/blog/published`, then publish through the normal GitHub/Cloudflare flow.
+Resource drafts live in `content/projects/drafts`; publishing converts them to ResourceV1 files under `content/resources/published`. Blog drafts live in `content/blog/drafts`. The current lightweight blog flow is GitHub-backed: review the draft, move it to `content/blog/published`, then publish through the normal GitHub/Cloudflare flow.
 
 ## Blog Automation
 

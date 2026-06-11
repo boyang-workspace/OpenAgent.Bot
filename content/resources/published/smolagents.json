@@ -1,0 +1,243 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_smolagents",
+  "slug": "smolagents",
+  "status": "published",
+  "identity": {
+    "name": "smolagents",
+    "one_liner": "Lightweight Hugging Face library for agents that reason and act through code.",
+    "short_description": "smolagents is a lightweight open-source agent library from Hugging Face, focused on simple code-agent patterns and practical integrations without a heavy framework surface."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "agent-framework",
+      "coding-agent",
+      "tool-calling",
+      "workflow-orchestration",
+      "api"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "smolagents matters because not every agent project needs a large orchestration stack. It gives builders a smaller surface for trying tool use, code actions, and model-driven reasoning.",
+    "best_for": [
+      "Developers who want a small agent library before adopting a larger framework",
+      "Hugging Face users testing model-driven tool use",
+      "Teams building prototypes where code execution is part of the agent loop"
+    ],
+    "not_for": [
+      "Users who want a fully managed consumer product with no setup work",
+      "Teams that cannot review the linked source, license, and operational requirements before adoption"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": true,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_repo_full_name": "huggingface/smolagents",
+    "last_verified_at": "2026-04-19"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "tool-calling",
+      "workflow-orchestration"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/huggingface/smolagents",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/huggingface/smolagents"
+      },
+      {
+        "type": "huggingface",
+        "label": "Docs",
+        "url": "https://huggingface.co/docs/smolagents"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/huggingface.png",
+    "og_image_url": "https://github.com/huggingface.png",
+    "thumbnail_brief": {
+      "resource_type": "agent",
+      "visual_motif": "clean technical blocks with a small source-link motif",
+      "background_style": "minimal App Store editorial card using restrained open-source accents",
+      "title_overlay": "smolagents",
+      "subtitle": "Lightweight Hugging Face library for agents that reason and act through code.",
+      "avoid": [
+        "busy benchmark poster",
+        "unverified logos",
+        "marketing-heavy screenshots"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "agent",
+      "open-source"
+    ],
+    "capability": [
+      "tool-calling",
+      "workflow-orchestration"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/smolagents",
+    "json_url": "https://www.openagent.bot/agents/smolagents.json",
+    "markdown_url": "https://www.openagent.bot/agents/smolagents.md"
+  },
+  "seo": {
+    "title": "smolagents: AI Agent — Lightweight Hugging Face library for agents that reason and act through code.",
+    "description": "smolagents is an open-source AI agent. Lightweight Hugging Face library for agents that reason and act through code.. 了解 smolagents 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Small framework surface",
+        "description": "smolagents is intentionally lightweight compared with larger orchestration frameworks.",
+        "why_it_matters": "A smaller surface helps teams learn agent patterns without overbuilding."
+      },
+      {
+        "title": "Code-agent orientation",
+        "description": "The project emphasizes agents that think and act through code.",
+        "why_it_matters": "Code is a flexible interface for tools, data, and repeatable actions."
+      },
+      {
+        "title": "Hugging Face ecosystem fit",
+        "description": "It connects naturally to models and tools around Hugging Face.",
+        "why_it_matters": "That makes it a useful starting point for open model builders."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Agent prototypes",
+        "description": "Build small demos that use tools and code without adopting a full workflow engine."
+      },
+      {
+        "title": "Model behavior testing",
+        "description": "Compare how different models handle code-agent loops."
+      },
+      {
+        "title": "Open model applications",
+        "description": "Pair Hugging Face-hosted models with tool execution patterns."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose smolagents for lightweight experiments",
+        "summary": "LangGraph is better for durable workflow control; smolagents is better when you want a small agent library to prototype quickly.",
+        "against": "LangGraph"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/huggingface/smolagents",
+        "type": "github"
+      },
+      {
+        "label": "Open the Hugging Face page",
+        "url": "https://huggingface.co/docs/smolagents",
+        "type": "huggingface"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install smolagents",
+        "command": "pip install smolagents",
+        "description": "Use the official docs for extras and model provider setup."
+      }
+    ],
+    "seo_article": {
+      "intro": "smolagents is a lightweight open-source agent library from Hugging Face, focused on simple code-agent patterns and practical integrations without a heavy framework surface.",
+      "what_it_is": "smolagents is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
+      "why_it_matters": "smolagents matters because not every agent project needs a large orchestration stack. It gives builders a smaller surface for trying tool use, code actions, and model-driven reasoning.",
+      "how_it_works": "Start with one safe workflow for smolagents. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
+      "use_cases": [
+        {
+          "title": "Agent prototypes",
+          "description": "Build small demos that use tools and code without adopting a full workflow engine."
+        },
+        {
+          "title": "Model behavior testing",
+          "description": "Compare how different models handle code-agent loops."
+        },
+        {
+          "title": "Open model applications",
+          "description": "Pair Hugging Face-hosted models with tool execution patterns."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Choose smolagents for lightweight experiments",
+          "summary": "LangGraph is better for durable workflow control; smolagents is better when you want a small agent library to prototype quickly.",
+          "against": "LangGraph"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Review the GitHub repository",
+          "url": "https://github.com/huggingface/smolagents",
+          "type": "github"
+        },
+        {
+          "label": "Open the Hugging Face page",
+          "url": "https://huggingface.co/docs/smolagents",
+          "type": "huggingface"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using smolagents?",
+          "answer": "Start with one safe workflow for smolagents. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+        },
+        {
+          "question": "Is smolagents open source?",
+          "answer": "smolagents is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate smolagents?",
+          "answer": "smolagents is most worth evaluating for developers who want a small agent library before adopting a larger framework."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-04-19T00:00:00.000Z",
+    "updated_at": "2026-04-19T00:00:00.000Z",
+    "published_at": "2026-04-19T00:00:00.000Z"
+  }
+}

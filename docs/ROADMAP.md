@@ -17,7 +17,7 @@ Status: implemented.
 
 ## PR #2: Unified Content Schema
 
-Status: implemented (legacy `OpenProject` JSON in `content/projects/published/` is adapted to `ResourceV1` at build time via `openProjectToResourceV1`).
+Status: implemented. Published resources now live directly as ResourceV1 JSON in `content/resources/published/`. Admin and discovery drafts can still use the lighter project-draft input shape, but public pages no longer adapt legacy published content at build time.
 
 ## PR #3: Lightweight Admin
 
@@ -43,6 +43,7 @@ Status: implemented.
 - `/llms.txt` and `/index.json`
 - Per-resource `.json` and `.md` outputs
 - Canonical HTML / JSON / Markdown share the same slug
+- `/recommendations/index.json`, `/capabilities/index.json`, and `/api/recommend.json` expose resolver-oriented outputs for agents.
 
 ## PR #6: Automated Blog Drafts
 
@@ -67,3 +68,4 @@ Implemented incrementally after PR #1-#6:
 - **Light-theme audit cleanup (2026-06-02)** — removed the unused `--dark-*` token system, deleted `AgentCard.astro` / `SectionHeading.astro` / `src/lib/content/projects.ts` / `src/data/posts.ts` / `src/pages/design-samples/`, added `output/` and `samples/` to `.gitignore` and removed the previously-tracked build artifacts.
 - **SEO and metadata (2026-06-02)** — default `/og-default.svg` for every page, JSON-LD moved into `<head>` via `<slot name="head">`, `preconnect` and `dns-prefetch` for `github.com`, `robots.txt` now disallows `/admin/` and `/api/`.
 - **CI workflow (2026-06-02)** — `.github/workflows/ci.yml` runs `npm run check`, `npm test`, `npm run build` on every PR.
+- **Capability resolver pivot (2026-06-11)** — homepage repositioned around Stack Finder, public resources migrated to ResourceV1, decision panels added to resource pages, and resolver JSON endpoints added for agent-readable stack recommendations.

@@ -1,0 +1,227 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_glm_ocr",
+  "slug": "glm-ocr",
+  "status": "published",
+  "identity": {
+    "name": "GLM-OCR",
+    "one_liner": "Open OCR model and pipeline for turning complex document images into usable text.",
+    "short_description": "GLM-OCR is an open OCR model and document pipeline from Z.ai, focused on accurate, fast, and comprehensive image-to-text extraction for documents, tables, formulas, and complex layouts."
+  },
+  "classification": {
+    "resource_type": "model",
+    "primary_category": "models",
+    "subcategories": [
+      "open-weights",
+      "research",
+      "local-inference",
+      "tool-calling"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "GLM-OCR matters because many real AI workflows begin with messy documents, not clean chat messages. A strong open OCR layer can become the front door for PDF analysis, retrieval systems, research workflows, and agent tools that need reliable document ingestion.",
+    "best_for": [
+      "Builders working on document AI, PDF processing, or knowledge ingestion",
+      "Teams that need an open OCR component before RAG or agent workflows",
+      "Researchers comparing modern OCR pipelines beyond generic vision-language models"
+    ],
+    "not_for": [
+      "Users who want a fully managed consumer product with no setup work",
+      "Teams that cannot review the linked source, license, and operational requirements before adoption"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "researcher"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT model / Apache-2.0 code",
+    "pricing_model": "open_source",
+    "github_repo_full_name": "zai-org/GLM-OCR",
+    "last_verified_at": "2026-04-19"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "local-inference",
+      "tool-calling"
+    ],
+    "interfaces": [
+      "repo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/zai-org/GLM-OCR",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/zai-org/GLM-OCR"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/zai-org.png",
+    "og_image_url": "https://github.com/zai-org.png",
+    "thumbnail_brief": {
+      "resource_type": "model",
+      "visual_motif": "clean technical blocks with a small source-link motif",
+      "background_style": "minimal App Store editorial card using restrained open-source accents",
+      "title_overlay": "GLM-OCR",
+      "subtitle": "Open OCR model and pipeline for turning complex document images into usable text.",
+      "avoid": [
+        "busy benchmark poster",
+        "unverified logos",
+        "marketing-heavy screenshots"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "model",
+      "open-source"
+    ],
+    "capability": [
+      "local-inference",
+      "tool-calling"
+    ],
+    "constraint": [
+      "open-source",
+      "open-weights"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/models/glm-ocr",
+    "json_url": "https://www.openagent.bot/models/glm-ocr.json",
+    "markdown_url": "https://www.openagent.bot/models/glm-ocr.md"
+  },
+  "seo": {
+    "title": "GLM-OCR: AI Model — Open OCR model and pipeline for turning complex document images into usable t...",
+    "description": "GLM-OCR is an open-source open-source model. Open OCR model and pipeline for turning complex document images into usable text.. 了解 GLM-OCR 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Document-first model focus",
+        "description": "GLM-OCR targets OCR and image-to-text extraction rather than general chat.",
+        "why_it_matters": "Specialization is valuable when a workflow depends on layout, tables, equations, and structured document text."
+      },
+      {
+        "title": "Open model and pipeline licensing",
+        "description": "The repository states MIT licensing for the model and Apache-2.0 licensing for code components.",
+        "why_it_matters": "Clear licensing makes it easier to evaluate for production document workflows."
+      },
+      {
+        "title": "Useful for agent intake",
+        "description": "OCR output can feed downstream agents, search indexes, and retrieval systems.",
+        "why_it_matters": "Agents are only as useful as the documents and screens they can accurately read."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "PDF and document ingestion",
+        "description": "Convert scans and visual documents into text before indexing or summarization."
+      },
+      {
+        "title": "Research workflow automation",
+        "description": "Extract usable text from papers, reports, forms, and tables for downstream analysis."
+      },
+      {
+        "title": "RAG preprocessing",
+        "description": "Use OCR as the first stage before chunking, embedding, and retrieval."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose GLM-OCR for document pipelines",
+        "summary": "A general multimodal model may describe an image, but GLM-OCR is the better starting point when the job is faithful document extraction.",
+        "against": "general VLMs"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/zai-org/GLM-OCR",
+        "type": "github"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Clone GLM-OCR",
+        "command": "git clone https://github.com/zai-org/GLM-OCR.git",
+        "description": "Use the official repository examples for the current vLLM or local inference setup."
+      }
+    ],
+    "seo_article": {
+      "intro": "GLM-OCR is an open OCR model and document pipeline from Z.ai, focused on accurate, fast, and comprehensive image-to-text extraction for documents, tables, formulas, and complex layouts.",
+      "what_it_is": "GLM-OCR is an open model resource to evaluate by workload, serving path, context behavior, license terms, and how reliably it supports the agent or local AI tasks you actually plan to run.",
+      "why_it_matters": "GLM-OCR matters because many real AI workflows begin with messy documents, not clean chat messages. A strong open OCR layer can become the front door for PDF analysis, retrieval systems, research workflows, and agent tools that need reliable document ingestion.",
+      "how_it_works": "Run GLM-OCR on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it.",
+      "use_cases": [
+        {
+          "title": "PDF and document ingestion",
+          "description": "Convert scans and visual documents into text before indexing or summarization."
+        },
+        {
+          "title": "Research workflow automation",
+          "description": "Extract usable text from papers, reports, forms, and tables for downstream analysis."
+        },
+        {
+          "title": "RAG preprocessing",
+          "description": "Use OCR as the first stage before chunking, embedding, and retrieval."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Choose GLM-OCR for document pipelines",
+          "summary": "A general multimodal model may describe an image, but GLM-OCR is the better starting point when the job is faithful document extraction.",
+          "against": "general VLMs"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Review the GitHub repository",
+          "url": "https://github.com/zai-org/GLM-OCR",
+          "type": "github"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using GLM-OCR?",
+          "answer": "Run GLM-OCR on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it."
+        },
+        {
+          "question": "Is GLM-OCR open source?",
+          "answer": "GLM-OCR is listed with MIT model / Apache-2.0 code based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate GLM-OCR?",
+          "answer": "GLM-OCR is most worth evaluating for builders working on document AI, PDF processing, or knowledge ingestion."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-04-19T00:00:00.000Z",
+    "updated_at": "2026-04-19T00:00:00.000Z",
+    "published_at": "2026-04-19T00:00:00.000Z"
+  }
+}

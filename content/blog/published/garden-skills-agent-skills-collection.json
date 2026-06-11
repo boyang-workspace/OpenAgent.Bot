@@ -1,0 +1,29 @@
+{
+  "slug": "garden-skills-agent-skills-collection",
+  "title": "Garden Skills: What an Open Agent Skills Collection Can Teach Teams",
+  "summary": "Garden Skills is a useful reference for teams turning repeated AI workflows into reusable agent skills.",
+  "publishedAt": "2026-06-09",
+  "tags": [
+    "agent-skills",
+    "creative-workflows",
+    "design"
+  ],
+  "author": "OpenAgent.bot Editors",
+  "seoTitle": "Garden Skills: Open-Source Agent Skills Collection",
+  "seoDescription": "A practical look at Garden Skills and how teams can use open agent skills collections to standardize AI workflows.",
+  "body": [
+    "[Garden Skills](/skills/garden-skills) is worth studying even if you do not use the exact skills. Its bigger lesson is structural: agent know-how should live in files that teams can inspect, review, and improve.",
+    "A good skill is not just a longer prompt. It captures constraints, quality bars, workflow steps, and examples that help an agent behave more consistently.",
+    "## What teams can copy",
+    "- Use clear skill names tied to real jobs.",
+    "- Keep instructions specific enough to guide output quality.",
+    "- Separate reusable process from one-off task context.",
+    "- Review skill changes the same way you review code or documentation.",
+    "## Where skills help most",
+    "Skills work best for recurring tasks: design critique, report generation, repository onboarding, research synthesis, image prompts, and launch asset production.",
+    "## Watch-outs",
+    "A large skill library can become noisy. Retire unused skills, document ownership, and keep each skill scoped to one recognizable workflow.",
+    "## Official source",
+    "- [Garden Skills GitHub](https://github.com/ConardLi/garden-skills)"
+  ]
+}

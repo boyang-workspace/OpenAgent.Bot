@@ -1,0 +1,269 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_continue",
+  "slug": "continue",
+  "status": "published",
+  "identity": {
+    "name": "Continue",
+    "one_liner": "Open-source AI code agent for VS Code and JetBrains that combines chat, edit, agent, and autocomplete modes with source-controlled AI checks enforceable in CI.",
+    "short_description": "Continue is an open-source AI code agent that runs as a VS Code and JetBrains extension with four modes: Chat for questions, Edit for targeted changes, Agent for autonomous task execution, and Autocomplete for inline suggestions. It recently pivoted to focus on source-controlled AI checks that run as GitHub status checks, enforceable in CI pipelines."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "coding-agent",
+      "vs-code",
+      "jetbrains",
+      "ide",
+      "ci"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Continue is the only open-source coding tool with full VS Code and JetBrains support across chat, edit, agent, and autocomplete modes. Its new direction toward AI checks in CI represents an innovative approach to making AI-assisted development auditable and governed by version control.",
+    "best_for": [
+      "Developers who need both VS Code and JetBrains support",
+      "Teams that want AI checks enforced in CI pipelines alongside agentic coding",
+      "Engineers who want a single tool covering chat, edit, agent, and autocomplete workflows"
+    ],
+    "not_for": [
+      "Users who prefer terminal-native agents over IDE extensions",
+      "Teams looking for a standalone coding agent without IDE integration"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 31800,
+    "github_forks": 1600,
+    "github_repo_full_name": "continuedev/continue",
+    "last_verified_at": "2026-06-04"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "workflow-orchestration"
+    ],
+    "integrations": [
+      "agents",
+      "models"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/continuedev/continue",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/continuedev/continue"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://continue.dev"
+      },
+      {
+        "type": "docs",
+        "label": "Docs",
+        "url": "https://docs.continue.dev"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/continuedev.png",
+    "og_image_url": "https://github.com/continuedev.png",
+    "thumbnail_brief": {
+      "resource_type": "agent",
+      "visual_motif": "IDE panel with multiple mode selectors and CI check status indicators",
+      "background_style": "minimal editorial surface with restrained purple accent color",
+      "title_overlay": "Continue",
+      "subtitle": "AI code agent with CI checks",
+      "avoid": [
+        "busy poster layout",
+        "unverified logos",
+        "marketing-heavy screenshots"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "agent",
+      "open-source"
+    ],
+    "capability": [
+      "workflow-orchestration"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/continue",
+    "json_url": "https://www.openagent.bot/agents/continue.json",
+    "markdown_url": "https://www.openagent.bot/agents/continue.md"
+  },
+  "seo": {
+    "title": "Continue: AI Agent — Open-source AI code agent for VS Code and JetBrains with chat, edit, agent, autocomplete, and CI checks.",
+    "description": "Continue is an open-source AI agent. Open-source AI code agent for VS Code and JetBrains that combines chat, edit, agent, and autocomplete modes with source-controlled AI checks enforceable in CI."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Multi-mode workflow",
+        "description": "Four integrated modes: Chat for questions, Edit for targeted changes, Agent for autonomous tasks, and Autocomplete for inline suggestions.",
+        "why_it_matters": "One extension covers the full spectrum of AI-assisted development, from quick completions to complex multi-file agentic tasks."
+      },
+      {
+        "title": "VS Code + JetBrains support",
+        "description": "The only open-source coding agent with full feature parity across both VS Code and JetBrains IDEs.",
+        "why_it_matters": "Teams using different IDEs can standardize on one tool, and developers switching editors don't lose functionality."
+      },
+      {
+        "title": "CI-enforceable AI checks",
+        "description": "Source-controlled AI checks defined as markdown files in your repository, running as GitHub status checks on every PR.",
+        "why_it_matters": "Makes AI-assisted development auditable and governed by version control — the same workflow as traditional CI/CD checks."
+      },
+      {
+        "title": "Model-agnostic architecture",
+        "description": "Supports any LLM provider through an extensible model system, including local models via Ollama.",
+        "why_it_matters": "Teams can choose the best model for each task without being locked into a single provider."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Automated code review in CI",
+        "description": "Define AI review checks as markdown files in .continue/checks/ — every PR gets automated security, style, and correctness review."
+      },
+      {
+        "title": "Mixed-mode development",
+        "description": "Use Autocomplete for quick suggestions, switch to Agent for complex tasks, and use Chat for architectural questions — all in one session."
+      },
+      {
+        "title": "Cross-IDE team workflows",
+        "description": "Some team members use VS Code, others use JetBrains — Continue provides the same AI coding capabilities in both editors."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose Continue for multi-IDE support and CI checks",
+        "summary": "Continue supports both VS Code and JetBrains with CI-enforceable AI checks. Cline has deeper autonomous agent capabilities but is VS Code-focused.",
+        "against": "Cline"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/continuedev/continue",
+        "type": "github"
+      },
+      {
+        "label": "Read the documentation",
+        "url": "https://docs.continue.dev",
+        "type": "docs"
+      },
+      {
+        "label": "Visit the project website",
+        "url": "https://continue.dev",
+        "type": "homepage"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install Continue CLI",
+        "command": "npm i -g @continuedev/cli",
+        "description": "Install the Continue CLI globally via npm, then run 'cn' in any project directory."
+      }
+    ],
+    "seo_article": {
+      "intro": "Continue started as the leading open-source AI coding extension for VS Code and JetBrains, and has since evolved into a platform for source-controlled AI checks that run in CI. This unique combination of IDE agent and CI enforcement makes it stand out in the crowded coding agent space.",
+      "what_it_is": "Continue is an open-source AI code agent for VS Code and JetBrains with four modes — Chat, Edit, Agent, and Autocomplete — plus source-controlled AI checks that run as GitHub status checks in CI pipelines.",
+      "why_it_matters": "Most coding agents operate only in the development environment. Continue's CI check system extends AI assistance into the pull request workflow, making it auditable, version-controlled, and enforceable — bridging the gap between AI-assisted development and traditional software engineering governance.",
+      "how_it_works": "Start with one safe workflow for Continue. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
+      "use_cases": [
+        {
+          "title": "PR automation with AI checks",
+          "description": "Define security, style, and correctness checks as markdown files. Every PR gets automated AI review as a GitHub status check."
+        },
+        {
+          "title": "Multi-IDE agentic coding",
+          "description": "Use Continue's Agent mode across VS Code and JetBrains for multi-file refactoring, testing, and documentation tasks."
+        },
+        {
+          "title": "Gradual AI adoption for teams",
+          "description": "Start with Autocomplete for quick wins, add Chat for questions, then graduate to Agent mode and CI checks as the team becomes comfortable."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use Cline for more advanced autonomous agent capabilities",
+          "summary": "Continue offers broader IDE support and CI checks. Cline has more advanced autonomous agent features and browser automation.",
+          "against": "Cline"
+        },
+        {
+          "title": "Use OpenCode for terminal-native workflows",
+          "summary": "Continue is IDE-native with CI integration. OpenCode is terminal-native with 75+ provider support.",
+          "against": "OpenCode"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Read the documentation",
+          "url": "https://docs.continue.dev",
+          "type": "docs"
+        },
+        {
+          "label": "Inspect the repository",
+          "url": "https://github.com/continuedev/continue",
+          "type": "github"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using Continue?",
+          "answer": "Start with one safe workflow for Continue. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+        },
+        {
+          "question": "Is Continue open source?",
+          "answer": "Continue is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "What IDEs does Continue support?",
+          "answer": "Continue supports both VS Code and JetBrains IDEs with full feature parity across chat, edit, agent, and autocomplete modes."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-04T00:00:00.000Z",
+    "updated_at": "2026-06-04T00:00:00.000Z",
+    "published_at": "2026-06-04T00:00:00.000Z"
+  }
+}

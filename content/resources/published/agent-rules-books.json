@@ -1,0 +1,194 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_agent_rules_books",
+  "slug": "agent-rules-books",
+  "status": "published",
+  "identity": {
+    "name": "Agent Rules Books",
+    "one_liner": "AGENTS.md rules and skills distilled from classic engineering books such as Clean Code, DDD, and DDIA.",
+    "short_description": "Agent Rules Books is an open-source agent skill resource focused on agents.md rules and skills distilled from classic engineering books such as clean code, ddd, and ddia."
+  },
+  "classification": {
+    "resource_type": "skill",
+    "primary_category": "skills",
+    "subcategories": [
+      "agent-skill",
+      "coding-agent",
+      "developer-workflow",
+      "software-engineering"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Agent Rules Books matters because the agent ecosystem is moving from one-off prompts to reusable skills, instructions, and workflow packs. It gives builders a source-backed way to inspect, adapt, and compare task-specific agent capability instead of reinventing the same prompt structure every time.",
+    "best_for": [
+      "Builders looking for reusable coding-agent skills",
+      "Teams standardizing repeated AI workflows",
+      "Researchers comparing skill-based agent architectures"
+    ],
+    "not_for": [
+      "Teams that need a fully managed closed product with no repository review",
+      "Workflows that cannot tolerate experimental community-maintained skill packs"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "github_stars": 1743,
+    "github_repo_full_name": "ciembor/agent-rules-books",
+    "last_verified_at": "2026-06-05"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "agent-skill"
+    ],
+    "integrations": [
+      "Claude Code",
+      "Codex CLI",
+      "Cursor",
+      "Gemini CLI",
+      "OpenCode"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/ciembor/agent-rules-books",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/ciembor/agent-rules-books"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://opengraph.githubassets.com/openagentbot/ciembor/agent-rules-books",
+    "og_image_url": "https://opengraph.githubassets.com/openagentbot/ciembor/agent-rules-books",
+    "thumbnail_brief": {
+      "resource_type": "skill",
+      "visual_motif": "modular command blocks and action steps",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "Agent Rules Books",
+      "subtitle": "AGENTS.md rules and skills distilled from classic engineering books such as Clean Code, DDD, and DDIA.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "skill",
+      "open-source"
+    ],
+    "capability": [
+      "agent-skill"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/skills/agent-rules-books",
+    "json_url": "https://www.openagent.bot/skills/agent-rules-books.json",
+    "markdown_url": "https://www.openagent.bot/skills/agent-rules-books.md"
+  },
+  "seo": {
+    "title": "Agent Rules Books: Open-source agent skill for builders",
+    "description": "Agent Rules Books is an open-source agent skill listed on OpenAgent.bot with official GitHub links, license details, use cases, and evaluation notes."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Reusable skill packaging",
+        "description": "Agent Rules Books treats repeated agent behavior as reusable files or workflows rather than one-off prompts.",
+        "why_it_matters": "Reusable packaging is the difference between a clever demo and an operational agent workflow."
+      },
+      {
+        "title": "Source-backed adaptation",
+        "description": "The public repository gives teams a concrete starting point for forking, pruning, and adapting skills to their own standards.",
+        "why_it_matters": "Agent skills often need local conventions, so editable source is more valuable than a static prompt."
+      },
+      {
+        "title": "Useful for capability mapping",
+        "description": "The project helps OpenAgent readers see which skill categories are emerging around coding, security, design, marketing, research, and operations.",
+        "why_it_matters": "A good skill directory should help builders understand the shape of the ecosystem, not only collect links."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Build an internal skill library",
+        "description": "Use Agent Rules Books as a reference when deciding how to organize reusable agent instructions and procedures."
+      },
+      {
+        "title": "Compare agent capability coverage",
+        "description": "Check whether the repository covers the task areas your agents repeatedly perform."
+      },
+      {
+        "title": "Fork and localize workflows",
+        "description": "Adapt the skills to your engineering standards, tools, terminology, and review process before using them on private work."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose Agent Rules Books",
+        "summary": "Choose it when its official repository shows the workflow, license, and integration model you need more directly than a broad framework."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/ciembor/agent-rules-books",
+        "type": "github"
+      }
+    ],
+    "seo_article": {
+      "what_it_is": "Agent Rules Books is an open-source agent skill project tracked by OpenAgent.bot. Agent Rules Books is an open-source agent skill resource focused on agents.md rules and skills distilled from classic engineering books such as clean code, ddd, and ddia.",
+      "why_it_matters": "Agent Rules Books matters because the agent ecosystem is moving from one-off prompts to reusable skills, instructions, and workflow packs. It gives builders a source-backed way to inspect, adapt, and compare task-specific agent capability instead of reinventing the same prompt structure every time.",
+      "how_it_works": "Open the official repository first, review setup instructions, verify the license, then test the project with non-sensitive data before connecting real accounts or production workflows.",
+      "faq": [
+        {
+          "question": "Is Agent Rules Books open source?",
+          "answer": "Yes. The linked GitHub repository lists MIT licensing information; verify the current license before production use."
+        },
+        {
+          "question": "Who should evaluate Agent Rules Books?",
+          "answer": "Builders looking for reusable coding-agent skills"
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-05T00:00:00.000Z",
+    "updated_at": "2026-06-05T00:00:00.000Z",
+    "published_at": "2026-06-05T00:00:00.000Z"
+  }
+}

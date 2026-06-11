@@ -1,12 +1,12 @@
 # OpenAgent.bot
 
-OpenAgent.bot is a static-first editorial directory for open-source AI models, agents, skills, memory systems, plugins, and tools.
+OpenAgent.bot is a static-first agent capability resolver and open registry for open-source AI models, agents, skills, MCP connectors, memory systems, bots, and tools.
 
 The project is designed for:
 
-- SEO and GEO acquisition
-- Human-readable directory and editorial pages
-- Agent-readable Markdown and JSON outputs
+- Workflow-based stack recommendations
+- Human-readable registry and editorial decision pages
+- Agent-readable Markdown, JSON, capability, and recommendation outputs
 - GitHub as the source of truth
 - Cloudflare Pages as the default deployment target
 
@@ -22,6 +22,16 @@ This repository started as an empty folder and was not a git repository. There w
 - GitHub Actions discovery pipeline
 - Cloudflare Pages via `wrangler.toml`
 - Cloudflare D1 for submissions and admin drafts
+
+## Product Direction
+
+OpenAgent.bot is moving from a plain directory toward an agent-era capability selection layer:
+
+- `/stack-finder` helps humans choose a tool stack by workflow, environment, and safety constraints.
+- `/recommendations/index.json` exposes resolver output for agents.
+- `/capabilities/index.json` maps capabilities to resources.
+- `/api/recommend.json` provides static API-shaped recommendation output for agent clients.
+- Published resources are stored as ResourceV1 JSON under `content/resources/published/`.
 
 ## Local Development
 
@@ -102,8 +112,8 @@ src/
   styles/          global styling
 public/            static assets (favicon, fallback covers, og-default.svg)
 content/
-  projects/        legacy project JSON profiles, adapted to ResourceV1 at build
-  resources/       ResourceV1 JSON profiles
+  projects/        admin/editorial draft inputs
+  resources/       ResourceV1 published profiles
   blog/            published blog posts
   discovery/       raw daily discovery outputs
   topics/          daily topic candidates

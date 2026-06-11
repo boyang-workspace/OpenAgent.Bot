@@ -1,5 +1,7 @@
 import { assertPublishable } from "./validation";
 import type { Env, ProjectDraft, ProjectDraftContent, PublishedProject, PublishNowResult, PublishPrResult } from "./types";
+import { openProjectToResourceV1, resourceV1ToOpenProject } from "../../src/lib/content/resource-converters";
+import { parseResourceV1 } from "../../src/lib/content/resource-schema";
 
 type GitHubRef = {
   object: {
@@ -88,8 +90,9 @@ export async function createPublishPr(env: Env, draft: ProjectDraft): Promise<Pu
   const repo = repoName(env);
   const base = baseBranch(env);
   const branch = `admin/publish-project-${draft.slug}-${Date.now()}`;
-  const filePath = draft.sourceFilePath ?? `content/projects/published/${draft.slug}.json`;
-  const content = `${JSON.stringify(draft.content, null, 2)}\n`;
+  const preview = publishPreview(draft);
+  const filePath = preview.filePath;
+  const content = preview.content;
 
   const baseRef = await github<GitHubRef>(env, `/repos/${repo}/git/ref/heads/${base}`);
   await github(env, `/repos/${repo}/git/refs`, {
@@ -139,11 +142,12 @@ export async function createPublishPr(env: Env, draft: ProjectDraft): Promise<Pu
 
 export function publishPreview(draft: ProjectDraft): { operation: string; filePath: string; content: string; publicPath: string } {
   assertPublishable(draft.content);
+  const resource = openProjectToResourceV1(draft.content, { lastVerifiedAt: draft.content.reviewedAt });
   return {
     operation: draft.operation,
-    filePath: draft.sourceFilePath ?? `content/projects/published/${draft.slug}.json`,
-    content: `${JSON.stringify(draft.content, null, 2)}\n`,
-    publicPath: `/${draft.category}/${draft.slug}`
+    filePath: draft.sourceFilePath ?? `content/resources/published/${draft.slug}.json`,
+    content: `${JSON.stringify(resource, null, 2)}\n`,
+    publicPath: `/${resource.classification.primary_category}/${resource.slug}`
   };
 }
 
@@ -194,19 +198,20 @@ async function deleteProjectFile(env: Env, draft: ProjectDraft, branch: string):
 export async function listPublishedProjects(env: Env): Promise<PublishedProject[]> {
   const repo = repoName(env);
   const base = baseBranch(env);
-  const files = await github<GitHubContentFile[]>(env, `/repos/${repo}/contents/content/projects/published?ref=${encodeURIComponent(base)}`);
+  const files = await github<GitHubContentFile[]>(env, `/repos/${repo}/contents/content/resources/published?ref=${encodeURIComponent(base)}`);
   const projects = await Promise.all(
     files
       .filter((file) => file.type === "file" && file.name.endsWith(".json"))
       .map(async (file) => {
         const detail = await github<GitHubContentFile>(env, `/repos/${repo}/contents/${file.path}?ref=${encodeURIComponent(base)}`);
         const raw = decodeBase64(detail.content ?? "");
-        const content = JSON.parse(raw) as ProjectDraftContent;
+        const resource = parseResourceV1(JSON.parse(raw));
+        const content = resourceV1ToOpenProject(resource) as ProjectDraftContent;
         return {
           ...content,
           filePath: file.path,
           sha: detail.sha,
-          liveUrl: `${env.PUBLIC_SITE_URL ?? "https://www.openagent.bot"}/${content.category}/${content.slug}`
+          liveUrl: `${env.PUBLIC_SITE_URL ?? "https://www.openagent.bot"}/${resource.classification.primary_category}/${resource.slug}`
         };
       })
   );

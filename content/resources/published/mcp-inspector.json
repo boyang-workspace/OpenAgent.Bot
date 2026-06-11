@@ -1,0 +1,181 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_mcp_inspector",
+  "slug": "mcp-inspector",
+  "status": "published",
+  "identity": {
+    "name": "MCP Inspector",
+    "one_liner": "Visual testing tool for Model Context Protocol servers.",
+    "short_description": "MCP Inspector is a developer tool from the Model Context Protocol project for testing MCP servers visually while building or debugging agent integrations."
+  },
+  "classification": {
+    "resource_type": "tool",
+    "primary_category": "tools",
+    "subcategories": [
+      "mcp",
+      "debugging",
+      "developer-tool",
+      "agent-builder"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "As MCP adoption grows, builders need a fast way to inspect tools, resources, prompts, and server behavior before connecting an agent to production systems.",
+    "best_for": [
+      "Developers building MCP servers",
+      "Teams debugging agent tool integrations",
+      "Builders validating MCP capabilities before exposing them to an agent"
+    ],
+    "not_for": [
+      "Users who only need a hosted plugin marketplace",
+      "Teams that are not using Model Context Protocol"
+    ],
+    "use_cases": [
+      "self-hosted-ai"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": false,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": true,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "See repository",
+    "pricing_model": "unknown",
+    "github_stars": 9954,
+    "github_forks": 1345,
+    "github_repo_full_name": "modelcontextprotocol/inspector",
+    "last_verified_at": "2026-06-02"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "mcp"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/modelcontextprotocol/inspector",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/modelcontextprotocol/inspector"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://modelcontextprotocol.io"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_brief": {
+      "resource_type": "tool",
+      "visual_motif": "clean utility panel and geometric control surface",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "MCP Inspector",
+      "subtitle": "Visual testing tool for Model Context Protocol servers.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "tool"
+    ],
+    "capability": [
+      "mcp"
+    ],
+    "constraint": [
+      "mcp-compatible"
+    ],
+    "scenario": [
+      "self-hosted-ai"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/tools/mcp-inspector",
+    "json_url": "https://www.openagent.bot/tools/mcp-inspector.json",
+    "markdown_url": "https://www.openagent.bot/tools/mcp-inspector.md"
+  },
+  "seo": {
+    "title": "MCP Inspector: Tool/Utility — Visual testing tool for Model Context Protocol servers.",
+    "description": "MCP Inspector is an open-source tool. Visual testing tool for Model Context Protocol servers.. 了解 MCP Inspector 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Mcp",
+        "description": "MCP Inspector surfaces mcp as a core capability in its published project metadata and source links.",
+        "why_it_matters": "This gives readers a starting point for evaluating whether the project fits their workflow before visiting the source repository or docs."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Self hosted ai",
+        "description": "Use it as a candidate for self hosted ai when the project facts, license, and official links match your deployment requirements."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose MCP Inspector",
+        "summary": "Compare it with nearby tools by looking at hosting model, integration surface, license, and whether the official docs show the workflow you need."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/modelcontextprotocol/inspector",
+        "type": "github"
+      },
+      {
+        "label": "Homepage",
+        "url": "https://modelcontextprotocol.io",
+        "type": "homepage"
+      }
+    ],
+    "seo_article": {
+      "intro": "MCP Inspector is a developer tool from the Model Context Protocol project for testing MCP servers visually while building or debugging agent integrations.",
+      "what_it_is": "MCP Inspector is listed on OpenAgent.bot as a tools resource for open AI builders.",
+      "why_it_matters": "As MCP adoption grows, builders need a fast way to inspect tools, resources, prompts, and server behavior before connecting an agent to production systems.",
+      "how_it_works": "Start from the official source links, then validate the project against your deployment needs, license requirements, and maintenance expectations.",
+      "getting_started": [
+        {
+          "label": "Review the repository",
+          "url": "https://github.com/modelcontextprotocol/inspector",
+          "type": "github"
+        },
+        {
+          "label": "Homepage",
+          "url": "https://modelcontextprotocol.io",
+          "type": "homepage"
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-02T00:00:00.000Z",
+    "updated_at": "2026-06-02T00:00:00.000Z",
+    "published_at": "2026-06-02T00:00:00.000Z"
+  }
+}

@@ -1,0 +1,247 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_lottie",
+  "slug": "lottie",
+  "status": "published",
+  "identity": {
+    "name": "Text-To-Lottie",
+    "one_liner": "Open-source agent skill and preview harness for generating production-ready Lottie animations with Codex or Claude Code.",
+    "short_description": "Text-To-Lottie is an open-source skill and harness from Diffusion Studio for generating Lottie animations with AI coding agents. The project includes a Skia CanvasKit / Skottie player, React + TypeScript controls, and a workflow where the agent writes `public/lottie.json` while the dev server hot-reloads the animation."
+  },
+  "classification": {
+    "resource_type": "skill",
+    "primary_category": "skills",
+    "subcategories": [
+      "agent-skill",
+      "workflow",
+      "automation",
+      "lottie",
+      "animation"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Lottie generation is a good example of agent skills moving beyond text output into production creative assets. Text-To-Lottie gives agents a tight loop: generate structured animation JSON, preview it live, and iterate toward something shippable.",
+    "best_for": [
+      "Design and product teams generating lightweight motion assets",
+      "Developers using Codex, Claude Code, or other skill-aware coding agents",
+      "Teams experimenting with agent-generated Lottie animations and live preview workflows"
+    ],
+    "not_for": [
+      "Users looking for a traditional timeline animation editor",
+      "Teams that need After Effects plugin workflows rather than agent-authored JSON",
+      "Projects that cannot run a local development preview harness"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "github_stars": 844,
+    "github_forks": 53,
+    "github_repo_full_name": "diffusionstudio/lottie",
+    "last_verified_at": "2026-06-09"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "agent-skill",
+      "workflow",
+      "automation"
+    ],
+    "interfaces": [
+      "repo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/diffusionstudio/lottie",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/diffusionstudio/lottie"
+      },
+      {
+        "type": "homepage",
+        "label": "Source",
+        "url": "https://x.com/konstipaulus/status/2064011863889788972?s=46"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/diffusionstudio.png",
+    "og_image_url": "https://github.com/diffusionstudio.png",
+    "thumbnail_brief": {
+      "resource_type": "skill",
+      "visual_motif": "motion keyframes, Lottie JSON blocks, and a live preview canvas",
+      "background_style": "clean editorial surface with crisp motion-design accents",
+      "title_overlay": "Text-To-Lottie",
+      "subtitle": "Agent skill for Lottie animation",
+      "avoid": [
+        "static generic code screenshot",
+        "busy animation timeline",
+        "unverified product logo lockups"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "skill",
+      "open-source"
+    ],
+    "capability": [
+      "agent-skill",
+      "workflow",
+      "automation"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/skills/lottie",
+    "json_url": "https://www.openagent.bot/skills/lottie.json",
+    "markdown_url": "https://www.openagent.bot/skills/lottie.md"
+  },
+  "seo": {
+    "title": "Text-To-Lottie: Open-Source Agent Skill for Lottie Animation",
+    "description": "Text-To-Lottie is an open-source agent skill and preview harness for generating production-ready Lottie animations with Codex, Claude Code, and skill-aware agents."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Agent-ready skill install",
+        "description": "The project can be added with `npx skills add diffusionstudio/lottie` and used through the `text-to-lottie` skill.",
+        "why_it_matters": "A skill install path makes it easier for Codex, Claude Code, and similar agents to reuse the workflow without manual prompt setup."
+      },
+      {
+        "title": "Live Lottie preview loop",
+        "description": "The harness watches `public/lottie.json` and hot-reloads the generated animation in a local player.",
+        "why_it_matters": "Motion assets need visual feedback. A live loop lets the agent and human reviewer iterate quickly."
+      },
+      {
+        "title": "Skottie-based rendering",
+        "description": "The preview player uses Skia CanvasKit / Skottie to render Lottie animations in the browser.",
+        "why_it_matters": "Using a real Lottie renderer helps catch animation JSON issues before assets move into product."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Product motion assets",
+        "description": "Generate lightweight onboarding, empty-state, loading, or feature-highlight animations for web and app interfaces."
+      },
+      {
+        "title": "Agent creative production",
+        "description": "Give a coding agent a repeatable workflow for creating structured Lottie JSON rather than static prompts."
+      },
+      {
+        "title": "Animation prototyping",
+        "description": "Use the local preview harness to rapidly test and refine Lottie concepts before handing them to design or engineering."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose Text-To-Lottie for agent-authored motion",
+        "summary": "Manual editors are better for precise timeline work. Text-To-Lottie is better when a coding agent should generate and revise animation JSON inside a local preview loop.",
+        "against": "Manual Lottie editing"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/diffusionstudio/lottie",
+        "type": "github"
+      },
+      {
+        "label": "Read the launch post",
+        "url": "https://x.com/konstipaulus/status/2064011863889788972?s=46",
+        "type": "x"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install the skill",
+        "command": "npx skills add diffusionstudio/lottie",
+        "description": "Add the Text-To-Lottie skill to a compatible agent environment."
+      },
+      {
+        "label": "Run the local harness manually",
+        "command": "npm install && npm run dev",
+        "description": "Install dependencies and start the local Lottie preview app."
+      }
+    ],
+    "seo_article": {
+      "intro": "Text-To-Lottie is an open-source agent skill and local preview harness for generating production-ready Lottie animations.",
+      "what_it_is": "It packages a `text-to-lottie` skill with a React + TypeScript preview app that renders the generated `public/lottie.json` through Skia CanvasKit / Skottie.",
+      "why_it_matters": "Agent skills are becoming a practical way to turn expert creative workflows into repeatable files. Text-To-Lottie applies that pattern to motion design, where live visual feedback is essential.",
+      "how_it_works": "Install the skill, ask a compatible agent to generate a Lottie animation with `text-to-lottie`, and use the local harness to preview and iterate on the resulting JSON.",
+      "use_cases": [
+        {
+          "title": "Interface animation",
+          "description": "Create lightweight Lottie animations for empty states, loading moments, feature callouts, and onboarding flows."
+        },
+        {
+          "title": "Creative agent workflows",
+          "description": "Use a skill-aware coding agent to generate structured animation assets with a repeatable preview loop."
+        },
+        {
+          "title": "Rapid motion prototyping",
+          "description": "Prototype Lottie ideas before deciding whether they need hand refinement in a specialist animation tool."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use a manual editor for exact timeline control",
+          "summary": "Text-To-Lottie is strongest for AI-assisted generation and iteration. Manual tools remain better for fine-grained timeline polish.",
+          "against": "Lottie editor workflows"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Open the GitHub repository",
+          "url": "https://github.com/diffusionstudio/lottie",
+          "type": "github"
+        }
+      ],
+      "faq": [
+        {
+          "question": "Is Text-To-Lottie open source?",
+          "answer": "Yes. The GitHub repository is listed under the MIT license."
+        },
+        {
+          "question": "What does the skill generate?",
+          "answer": "The workflow is designed around generating Lottie JSON, especially `public/lottie.json`, and previewing it live in the included local harness."
+        },
+        {
+          "question": "Who should evaluate Text-To-Lottie?",
+          "answer": "Teams using Codex, Claude Code, or similar coding agents to produce product motion assets should evaluate it."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-09T00:00:00.000Z",
+    "updated_at": "2026-06-09T00:00:00.000Z",
+    "published_at": "2026-06-09T00:00:00.000Z"
+  }
+}

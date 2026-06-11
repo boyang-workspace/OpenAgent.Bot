@@ -1,0 +1,261 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_last30days_skill",
+  "slug": "last30days-skill",
+  "status": "published",
+  "identity": {
+    "name": "last30days",
+    "one_liner": "Open-source agent skill for researching what people said about any topic across Reddit, X, YouTube, HN, Polymarket, GitHub, and the web in the last 30 days.",
+    "short_description": "last30days is an open-source AI agent skill that searches recent public signals across social, developer, prediction-market, and web sources, then synthesizes a grounded brief. It is designed for recency-sensitive research where upvotes, likes, comments, transcripts, odds, commits, and discussions matter more than static search results."
+  },
+  "classification": {
+    "resource_type": "skill",
+    "primary_category": "skills",
+    "subcategories": [
+      "agent-skill",
+      "workflow",
+      "automation",
+      "research",
+      "deep-research"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Most agent research fails when the question depends on what changed this month. last30days gives agents a reusable workflow for recent, multi-source, engagement-weighted research instead of relying only on generic web search.",
+    "best_for": [
+      "Researchers who need recent community signal across multiple platforms",
+      "AI builders tracking fast-moving tools, prompts, repositories, and product sentiment",
+      "Operators preparing for meetings, launches, sales calls, or market scans with fresh context"
+    ],
+    "not_for": [
+      "Users who only need evergreen facts from official documentation",
+      "Teams that cannot use public social or web signals in their research workflow",
+      "Projects that require a fully offline research process"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "github_stars": 37233,
+    "github_forks": 3025,
+    "github_repo_full_name": "mvanhorn/last30days-skill",
+    "last_verified_at": "2026-06-10"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "agent-skill",
+      "workflow",
+      "automation"
+    ],
+    "integrations": [
+      "Claude Code",
+      "Codex",
+      "Cursor",
+      "Copilot",
+      "Gemini CLI",
+      "OpenClaw"
+    ],
+    "interfaces": [
+      "repo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/mvanhorn/last30days-skill",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/mvanhorn/last30days-skill"
+      },
+      {
+        "type": "github",
+        "label": "Source",
+        "url": "https://github.com/mvanhorn/last30days-skill/blob/main/skills/last30days/SKILL.md"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/mvanhorn.png",
+    "og_image_url": "https://github.com/mvanhorn.png",
+    "thumbnail_brief": {
+      "resource_type": "skill",
+      "visual_motif": "30-day timeline with social signal cards, source badges, and synthesis notes",
+      "background_style": "clean editorial research surface with signal-ranking accents",
+      "title_overlay": "last30days",
+      "subtitle": "Recent social and web research skill",
+      "avoid": [
+        "generic search engine screenshot",
+        "fake social media logos",
+        "busy dashboard collage"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "skill",
+      "open-source"
+    ],
+    "capability": [
+      "agent-skill",
+      "workflow",
+      "automation"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/skills/last30days-skill",
+    "json_url": "https://www.openagent.bot/skills/last30days-skill.json",
+    "markdown_url": "https://www.openagent.bot/skills/last30days-skill.md"
+  },
+  "seo": {
+    "title": "last30days: Open-Source Agent Skill for Recent Social and Web Research",
+    "description": "last30days is an open-source AI agent skill for researching the last 30 days across Reddit, X, YouTube, HN, Polymarket, GitHub, and the web."
+  },
+  "editorial": {
+    "featured_reason": "A fast-growing agent skill that turns recency-sensitive social and web research into a reusable agent workflow.",
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Multi-source recent research",
+        "description": "last30days searches across Reddit, X, YouTube, TikTok, Hacker News, Polymarket, GitHub, and the web depending on available configuration.",
+        "why_it_matters": "Fast-moving topics rarely live in one source. Multi-source coverage helps agents find what communities, markets, and developers are saying now."
+      },
+      {
+        "title": "Engagement-weighted signal",
+        "description": "The skill emphasizes upvotes, likes, comments, transcripts, prediction-market odds, and repository activity as signals.",
+        "why_it_matters": "Engagement is imperfect, but it gives agents a useful way to prioritize what real people recently reacted to."
+      },
+      {
+        "title": "Skill-native install path",
+        "description": "The repository supports Claude plugin installation and Agent Skills hosts through `npx skills add mvanhorn/last30days-skill -g`.",
+        "why_it_matters": "A skill-native workflow makes recent research reusable across coding agents and agent hosts instead of living as a one-off prompt."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Trend research",
+        "description": "Ask for recent reactions to a product, market, model release, open-source project, or community topic."
+      },
+      {
+        "title": "Meeting preparation",
+        "description": "Research what a person, company, or project has been doing and discussing in the last month before a call."
+      },
+      {
+        "title": "Product discovery",
+        "description": "Find recent complaints, praise, workflows, and buying signals from communities before building or launching."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose last30days when recency is the product",
+        "summary": "General web search is better for stable canonical facts. last30days is more useful when recent social, developer, creator, and market signals matter.",
+        "against": "General web search"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/mvanhorn/last30days-skill",
+        "type": "github"
+      },
+      {
+        "label": "Read the skill spec",
+        "url": "https://github.com/mvanhorn/last30days-skill/blob/main/skills/last30days/SKILL.md",
+        "type": "docs"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install globally for Agent Skills hosts",
+        "command": "npx skills add mvanhorn/last30days-skill -g",
+        "description": "Install the last30days skill globally for compatible hosts such as Codex, Cursor, Copilot, Gemini CLI, and other Agent Skills environments."
+      },
+      {
+        "label": "Install in Claude Code",
+        "command": "/plugin marketplace add mvanhorn/last30days-skill && /plugin install last30days",
+        "description": "Use the Claude Code plugin marketplace install path described in the project README."
+      }
+    ],
+    "seo_article": {
+      "intro": "last30days is an open-source agent skill for researching what people have said about a topic over the last 30 days.",
+      "what_it_is": "It is a reusable skill that searches recent public sources such as Reddit, X, YouTube, Hacker News, Polymarket, GitHub, and the web, then synthesizes a grounded brief.",
+      "why_it_matters": "Recency-sensitive research is hard for agents because the useful signals are scattered across walled gardens and fast-moving communities. last30days packages that workflow into a skill.",
+      "how_it_works": "Install the skill, ask for a topic with `/last30days`, and review the synthesized brief. Reddit, Hacker News, Polymarket, and GitHub are designed to work immediately; additional sources can be unlocked with optional keys or auth.",
+      "use_cases": [
+        {
+          "title": "AI tool research",
+          "description": "Track recent reactions, repository movement, and community pain points around AI tools and frameworks."
+        },
+        {
+          "title": "Market and product discovery",
+          "description": "Use social and prediction-market signals to understand what people are discussing before a launch or investment of time."
+        },
+        {
+          "title": "People and company briefs",
+          "description": "Prepare for meetings with recent public context instead of relying on stale profile pages."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use ordinary web search for canonical facts",
+          "summary": "For stable documentation or evergreen facts, regular web search is simpler. For recent community signal, last30days is more targeted.",
+          "against": "Web search"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Open the GitHub repository",
+          "url": "https://github.com/mvanhorn/last30days-skill",
+          "type": "github"
+        },
+        {
+          "label": "Read the skill spec",
+          "url": "https://github.com/mvanhorn/last30days-skill/blob/main/skills/last30days/SKILL.md",
+          "type": "docs"
+        }
+      ],
+      "faq": [
+        {
+          "question": "Is last30days open source?",
+          "answer": "Yes. The GitHub repository is listed under the MIT license."
+        },
+        {
+          "question": "Does last30days require API keys?",
+          "answer": "The README says Reddit, Hacker News, Polymarket, and GitHub work immediately. Optional keys or auth can unlock sources such as X, YouTube, TikTok, and more."
+        },
+        {
+          "question": "Who should evaluate last30days?",
+          "answer": "Anyone doing recency-sensitive research for products, sales, markets, open-source projects, or fast-moving AI topics should evaluate it."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-10T00:00:00.000Z",
+    "updated_at": "2026-06-10T00:00:00.000Z",
+    "published_at": "2026-06-10T00:00:00.000Z"
+  }
+}

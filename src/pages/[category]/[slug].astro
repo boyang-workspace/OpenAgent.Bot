@@ -4,6 +4,7 @@ import ShowcaseVariantPlatform from "@/components/ShowcaseVariantPlatform.astro"
 import ShowcaseVariantDevtool from "@/components/ShowcaseVariantDevtool.astro";
 import ShowcaseVariantTerminal from "@/components/ShowcaseVariantTerminal.astro";
 import ShowcaseVariantStats from "@/components/ShowcaseVariantStats.astro";
+import ResourceDecisionPanel from "@/components/ResourceDecisionPanel.astro";
 import { buildShowcaseProfile } from "@/lib/content/showcase";
 import { getPublishedBlogPosts } from "@/lib/content/blog";
 import { getPublishedResources, getRelatedResources, resourcePath } from "@/lib/content/resources";
@@ -146,6 +147,7 @@ const faqJsonLd =
           ) : (
             <ShowcaseVariantStats resource={resource} profile={profile} />
           )}
+          <ResourceDecisionPanel resource={resource} />
           {
             relatedPosts.length > 0 && (
               <section class="related-guides-section">

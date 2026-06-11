@@ -52,6 +52,12 @@ const homeOrg = {
 };
 const evaluationCards = [
   {
+    title: "Stack Finder",
+    label: "Resolver",
+    href: "/stack-finder",
+    summary: "Select a workflow, environment, and safety constraints to get an agent stack with scores and risk notes."
+  },
+  {
     title: "The open-source AI agent stack",
     label: "Pillar guide",
     href: "/open-source-ai-agent-stack",
@@ -79,8 +85,8 @@ const evaluationCards = [
 ---
 
   <BaseLayout
-    title="Open-source AI agents, models & tools directory"
-    description="Curated directory of open-source AI agents, models, skills, and memory systems. Find self-hostable, local-first AI tools with source-backed evaluations."
+    title="Find the right tools for your AI agent"
+    description="OpenAgent.bot recommends open-source agents, skills, MCP connectors, memory systems, models, and evaluation tools by workflow, environment, and safety constraints."
   >
   <Fragment slot="head">
     <script is:inline type="application/ld+json" set:html={JSON.stringify(homeWebSite)} />
@@ -88,15 +94,22 @@ const evaluationCards = [
   </Fragment>
   <EditorialShell active="agents">
     <section class="home-intro" aria-labelledby="home-title">
-      <p class="eyebrow">OpenAgent.bot</p>
-      <h1 id="home-title">Open-source AI agents, models, skills, and memory systems directory.</h1>
+      <h1 id="home-title">Find the right tools for your agent.</h1>
       <p>
-        Find, compare, and evaluate self-hostable AI tools. Browse <a href="/agents">open-source AI agents</a>,
-        <a href="/models">open models</a>, <a href="/skills">reusable skills</a>,
-        <a href="/memory-systems">memory systems</a>, <a href="/plugins">plugins</a>,
-        <a href="/bots">bots</a>, and <a href="/tools">developer tools</a> with official sources,
-        license info, and practical evaluations — all in one place.
+        OpenAgent.bot helps humans and agents choose open-source agents, skills, MCP connectors,
+        memory systems, models, bots, and evaluation tools by task, environment, permissions, and safety constraints.
       </p>
+      <div class="home-actions">
+        <a class="primary-action" href="/stack-finder">Open Stack Finder</a>
+        <a class="secondary-action" href="/recommendations/index.json">Agent-readable recommendations</a>
+      </div>
+      <div class="resolver-strip" aria-label="Resolver inputs">
+        <span>Workflow</span>
+        <span>Environment</span>
+        <span>Permissions</span>
+        <span>Risk</span>
+        <span>Stack</span>
+      </div>
     </section>
 
     <div class="directory-floors">
@@ -121,7 +134,7 @@ const evaluationCards = [
         <div>
           <span class="eyebrow">Evaluations</span>
           <h2>Evaluations</h2>
-          <p>Decision guides for choosing tools by workflow, license, and operational risk.</p>
+      <p>Resolver outputs and decision guides for choosing tools by workflow, license, and operational risk.</p>
         </div>
       </div>
       <div class="traffic-grid">
@@ -140,7 +153,7 @@ const evaluationCards = [
         <div>
           <span class="eyebrow">Guides</span>
           <h2>Guides</h2>
-          <p>Practical comparisons and explainers around the open agent stack.</p>
+          <p>Practical comparisons and explainers that feed the OpenAgent recommendation layer.</p>
         </div>
       </div>
       <div class="traffic-grid">
@@ -176,6 +189,64 @@ const evaluationCards = [
     font-size: 0.9rem;
     margin: 14px 0 0;
     max-width: 700px;
+  }
+
+  .home-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .primary-action,
+  .secondary-action {
+    align-items: center;
+    border-radius: 8px;
+    display: inline-flex;
+    font-size: 0.84rem;
+    font-weight: 560;
+    min-height: 40px;
+    padding: 0 14px;
+  }
+
+  .primary-action {
+    background: var(--ink);
+    color: #fff;
+  }
+
+  .primary-action:hover {
+    opacity: 0.88;
+  }
+
+  .secondary-action {
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+  }
+
+  .secondary-action:hover {
+    background: var(--surface);
+  }
+
+  .resolver-strip {
+    border-bottom: 1px solid var(--line);
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin-top: 22px;
+    max-width: 820px;
+  }
+
+  .resolver-strip span {
+    border-left: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.74rem;
+    line-height: 1;
+    padding: 12px 10px;
+    text-align: center;
+  }
+
+  .resolver-strip span:first-child {
+    border-left: 0;
   }
 
   .directory-floors {
@@ -286,6 +357,20 @@ const evaluationCards = [
   }
 
   @media (max-width: 640px) {
+    .resolver-strip {
+      grid-template-columns: 1fr;
+    }
+
+    .resolver-strip span {
+      border-left: 0;
+      border-top: 1px solid var(--line);
+      text-align: left;
+    }
+
+    .resolver-strip span:first-child {
+      border-top: 0;
+    }
+
     .card-grid,
     .traffic-grid {
       grid-template-columns: 1fr;

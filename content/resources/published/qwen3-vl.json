@@ -1,0 +1,244 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_qwen3_vl",
+  "slug": "qwen3-vl",
+  "status": "published",
+  "identity": {
+    "name": "Qwen3-VL",
+    "one_liner": "Open vision-language model family for images, screens, documents, and multimodal workflows.",
+    "short_description": "Qwen3-VL is Qwen's open vision-language model line for multimodal tasks such as image understanding, document interpretation, screen context, and visual reasoning."
+  },
+  "classification": {
+    "resource_type": "model",
+    "primary_category": "models",
+    "subcategories": [
+      "open-weights",
+      "local-inference",
+      "research",
+      "tool-calling"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Qwen3-VL matters because agents increasingly need to understand interfaces, screenshots, images, and documents. A strong open VLM expands what builders can do without relying only on closed multimodal APIs.",
+    "best_for": [
+      "Builders testing multimodal assistants with screenshots or documents",
+      "Teams comparing open VLMs for visual reasoning and UI understanding",
+      "Researchers exploring model behavior across text and image inputs"
+    ],
+    "not_for": [
+      "Users who want a fully managed consumer product with no setup work",
+      "Teams that cannot review the linked source, license, and operational requirements before adoption"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "researcher"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_repo_full_name": "QwenLM/Qwen3-VL",
+    "last_verified_at": "2026-04-19"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "local-inference",
+      "tool-calling"
+    ],
+    "interfaces": [
+      "repo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/QwenLM/Qwen3-VL",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/QwenLM/Qwen3-VL"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://qwen.ai/"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/QwenLM.png",
+    "og_image_url": "https://github.com/QwenLM.png",
+    "thumbnail_brief": {
+      "resource_type": "model",
+      "visual_motif": "clean technical blocks with a small source-link motif",
+      "background_style": "minimal App Store editorial card using restrained open-source accents",
+      "title_overlay": "Qwen3-VL",
+      "subtitle": "Open vision-language model family for images, screens, documents, and multimodal workflows.",
+      "avoid": [
+        "busy benchmark poster",
+        "unverified logos",
+        "marketing-heavy screenshots"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "model",
+      "open-source"
+    ],
+    "capability": [
+      "local-inference",
+      "tool-calling"
+    ],
+    "constraint": [
+      "open-source",
+      "open-weights"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/models/qwen3-vl",
+    "json_url": "https://www.openagent.bot/models/qwen3-vl.json",
+    "markdown_url": "https://www.openagent.bot/models/qwen3-vl.md"
+  },
+  "seo": {
+    "title": "Qwen3-VL: AI Model — Open vision-language model family for images, screens, documents, and multimo...",
+    "description": "Qwen3-VL is an open-source open-source model. Open vision-language model family for images, screens, documents, and multimodal workflows.. 了解 Qwen3-VL 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Vision-language focus",
+        "description": "Qwen3-VL is built for multimodal tasks rather than text-only prompting.",
+        "why_it_matters": "That is essential for agents that must inspect screens, images, or visual documents."
+      },
+      {
+        "title": "Qwen ecosystem compatibility",
+        "description": "It sits inside the broader Qwen open model ecosystem.",
+        "why_it_matters": "Shared tooling and documentation make evaluation easier for teams already testing Qwen models."
+      },
+      {
+        "title": "Useful for screen and document tasks",
+        "description": "Vision-language models can bridge UI screenshots, document pages, and text instructions.",
+        "why_it_matters": "That unlocks automation workflows that plain LLMs cannot reliably handle."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Screen understanding",
+        "description": "Use it when an agent needs to interpret screenshots, interface state, or visual UI context."
+      },
+      {
+        "title": "Document image workflows",
+        "description": "Evaluate it for forms, scanned pages, visual reports, and image-heavy documents."
+      },
+      {
+        "title": "Multimodal retrieval and QA",
+        "description": "Use it as part of a pipeline that combines visual context with searchable text."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Use Qwen3-VL when visuals are central",
+        "summary": "Qwen3.6 is the better text and coding candidate; Qwen3-VL is the better fit when the workflow depends on image or screen context.",
+        "against": "Qwen3.6 text models"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the GitHub repository",
+        "url": "https://github.com/QwenLM/Qwen3-VL",
+        "type": "github"
+      },
+      {
+        "label": "Official source",
+        "url": "https://qwen.ai/",
+        "type": "homepage"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Clone the Qwen3-VL repository",
+        "command": "git clone https://github.com/QwenLM/Qwen3-VL.git",
+        "description": "Use the official repository to check model cards and current inference examples."
+      }
+    ],
+    "seo_article": {
+      "intro": "Qwen3-VL is Qwen's open vision-language model line for multimodal tasks such as image understanding, document interpretation, screen context, and visual reasoning.",
+      "what_it_is": "Qwen3-VL is an open model resource to evaluate by workload, serving path, context behavior, license terms, and how reliably it supports the agent or local AI tasks you actually plan to run.",
+      "why_it_matters": "Qwen3-VL matters because agents increasingly need to understand interfaces, screenshots, images, and documents. A strong open VLM expands what builders can do without relying only on closed multimodal APIs.",
+      "how_it_works": "Run Qwen3-VL on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it.",
+      "use_cases": [
+        {
+          "title": "Screen understanding",
+          "description": "Use it when an agent needs to interpret screenshots, interface state, or visual UI context."
+        },
+        {
+          "title": "Document image workflows",
+          "description": "Evaluate it for forms, scanned pages, visual reports, and image-heavy documents."
+        },
+        {
+          "title": "Multimodal retrieval and QA",
+          "description": "Use it as part of a pipeline that combines visual context with searchable text."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use Qwen3-VL when visuals are central",
+          "summary": "Qwen3.6 is the better text and coding candidate; Qwen3-VL is the better fit when the workflow depends on image or screen context.",
+          "against": "Qwen3.6 text models"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Review the GitHub repository",
+          "url": "https://github.com/QwenLM/Qwen3-VL",
+          "type": "github"
+        },
+        {
+          "label": "Official source",
+          "url": "https://qwen.ai/",
+          "type": "homepage"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using Qwen3-VL?",
+          "answer": "Run Qwen3-VL on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it."
+        },
+        {
+          "question": "Is Qwen3-VL open source?",
+          "answer": "Qwen3-VL is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate Qwen3-VL?",
+          "answer": "Qwen3-VL is most worth evaluating for builders testing multimodal assistants with screenshots or documents."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-04-19T00:00:00.000Z",
+    "updated_at": "2026-04-19T00:00:00.000Z",
+    "published_at": "2026-04-19T00:00:00.000Z"
+  }
+}

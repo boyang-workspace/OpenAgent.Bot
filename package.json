@@ -20,7 +20,7 @@
     "app:macos": "tsx scripts/create-macos-app.ts",
     "package:local": "tsx scripts/package-local.ts",
     "resource:prepare": "tsx scripts/content/prepare-resource.ts",
-    "resources:migrate": "tsx scripts/resources/migrate-projects-to-resources.ts"
+    "registry:export-sql": "tsx scripts/registry/export-seed-sql.ts"
   },
   "dependencies": {
     "astro": "^6.1.6"

@@ -1,0 +1,199 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_crawl4ai",
+  "slug": "crawl4ai",
+  "status": "published",
+  "identity": {
+    "name": "crawl4ai",
+    "one_liner": "Open-source LLM-friendly web crawler and scraper for extracting clean, structured content from any website.",
+    "short_description": "crawl4ai is an open-source web crawling and scraping framework designed specifically for LLM data pipelines. It extracts clean, structured content from websites — handling JavaScript rendering, pagination, and complex selectors — and outputs data ready for RAG systems, AI training datasets, and agent research workflows."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "agents",
+      "web-scraping",
+      "crawler",
+      "data-pipeline"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Quality web data is the bottleneck for many AI pipelines. crawl4ai solves this with an LLM-friendly approach that produces clean, structured output instead of raw HTML. With 67K+ GitHub stars and Apache-2.0 licensing, it is the most popular open-source crawler purpose-built for AI workloads.",
+    "best_for": [
+      "AI engineers building RAG pipelines that need clean web content extraction",
+      "Researchers collecting structured datasets from websites for LLM training or evaluation",
+      "Agent developers who need reliable web scraping as a tool capability"
+    ],
+    "not_for": [
+      "Users who need a general-purpose browser automation framework (use Playwright or Puppeteer instead)",
+      "Teams looking for a managed, cloud-hosted scraping API"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 67682,
+    "github_forks": 6913,
+    "github_repo_full_name": "unclecode/crawl4ai",
+    "last_verified_at": "2026-06-03"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "workflow-orchestration"
+    ],
+    "integrations": [
+      "agents"
+    ],
+    "interfaces": [
+      "repo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/unclecode/crawl4ai",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/unclecode/crawl4ai"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://crawl4ai.com"
+      },
+      {
+        "type": "github",
+        "label": "Source",
+        "url": "https://github.com/unclecode/crawl4ai/blob/main/README.md"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://opengraph.githubassets.com/openagentbot/unclecode/crawl4ai",
+    "og_image_url": "https://opengraph.githubassets.com/openagentbot/unclecode/crawl4ai",
+    "thumbnail_brief": {
+      "resource_type": "agent",
+      "visual_motif": "flow graph, branching path, or node network",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "crawl4ai",
+      "subtitle": "Open-source LLM-friendly web crawler and scraper for extracting clean, structured content from any website.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "agent",
+      "open-source"
+    ],
+    "capability": [
+      "workflow-orchestration"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/crawl4ai",
+    "json_url": "https://www.openagent.bot/agents/crawl4ai.json",
+    "markdown_url": "https://www.openagent.bot/agents/crawl4ai.md"
+  },
+  "seo": {
+    "title": "crawl4ai: LLM-Friendly Web Crawler & Scraper — Open Source",
+    "description": "crawl4ai is an open-source web crawler and scraper optimized for LLM data pipelines. Extract clean, structured content for AI training and RAG workflows."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Workflow orchestration",
+        "description": "crawl4ai surfaces workflow orchestration as a core capability in its published project metadata and source links.",
+        "why_it_matters": "This gives readers a starting point for evaluating whether the project fits their workflow before visiting the source repository or docs."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Developer workflow",
+        "description": "Use it as a candidate for developer workflow when the project facts, license, and official links match your deployment requirements."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose crawl4ai",
+        "summary": "Compare it with nearby agents by looking at hosting model, integration surface, license, and whether the official docs show the workflow you need."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/unclecode/crawl4ai",
+        "type": "github"
+      },
+      {
+        "label": "Homepage",
+        "url": "https://crawl4ai.com",
+        "type": "homepage"
+      },
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/unclecode/crawl4ai/blob/main/README.md",
+        "type": "github"
+      }
+    ],
+    "seo_article": {
+      "what_it_is": "crawl4ai is an open-source web crawler and scraper optimized for LLM pipelines. It handles JavaScript rendering, pagination, and complex content extraction, outputting clean structured data ready for AI consumption.",
+      "why_it_matters": "As more AI applications depend on fresh web data, having a reliable, open-source crawling tool purpose-built for LLM pipelines is essential. crawl4ai fills this gap with a developer-friendly approach.",
+      "faq": [
+        {
+          "question": "What makes crawl4ai different from traditional web scrapers?",
+          "answer": "crawl4ai is designed specifically for LLM pipelines — it produces clean, structured output ready for RAG systems and AI training, unlike traditional scrapers that output raw HTML."
+        },
+        {
+          "question": "Does crawl4ai handle JavaScript-rendered pages?",
+          "answer": "Yes, crawl4ai supports JavaScript rendering for modern single-page applications and dynamic websites."
+        },
+        {
+          "question": "Is crawl4ai open source?",
+          "answer": "Yes, it is open source under the Apache-2.0 license with 67K+ GitHub stars."
+        },
+        {
+          "question": "Can I use crawl4ai for commercial projects?",
+          "answer": "Yes, the Apache-2.0 license permits commercial use. Always verify the license terms for your specific use case."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-03T00:00:00.000Z",
+    "updated_at": "2026-06-03T00:00:00.000Z",
+    "published_at": "2026-06-03T00:00:00.000Z"
+  }
+}

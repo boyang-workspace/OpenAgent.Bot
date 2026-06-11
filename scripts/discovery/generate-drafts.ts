@@ -2,6 +2,8 @@ import { readdir } from "node:fs/promises";
 import path from "node:path";
 import type { OpenProjectDraft, OpenProjectPublished } from "../../src/lib/content/schema";
 import { parseOpenProject } from "../../src/lib/content/schema";
+import { openProjectToResourceV1 } from "../../src/lib/content/resource-converters";
+import { parseResourceV1 } from "../../src/lib/content/resource-schema";
 import { discoveryDirs, discoveryThresholds } from "./constants";
 import { writeJson } from "./io";
 import type { ScoredCandidate } from "./utils";
@@ -135,9 +137,10 @@ export async function generateDrafts(candidates: ScoredCandidate[], options: { d
 
     if (raw.status === "published") {
       const filePath = path.join(discoveryDirs.published, `${project.slug}.json`);
+      const resource = parseResourceV1(openProjectToResourceV1(project, { lastVerifiedAt: project.reviewedAt }));
       published.push({ slug: project.slug, title: project.title });
       if (!options.dryRun) {
-        await writeJson(filePath, project);
+        await writeJson(filePath, resource);
       }
       continue;
     }

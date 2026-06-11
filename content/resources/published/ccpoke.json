@@ -1,0 +1,199 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_ccpoke",
+  "slug": "ccpoke",
+  "status": "published",
+  "identity": {
+    "name": "ccpoke",
+    "one_liner": "Bridge between AI coding agents and your phone with notifications, two-way chat, and permission handling.",
+    "short_description": "ccpoke is an open-source AI bot project focused on bridge between ai coding agents and your phone with notifications, two-way chat, and permission handling."
+  },
+  "classification": {
+    "resource_type": "bot",
+    "primary_category": "bots",
+    "subcategories": [
+      "telegram",
+      "coding-agent",
+      "workflow",
+      "self-hosted"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "ccpoke matters because many useful agents will not live only inside an IDE or web app. They need to work inside the communication channels people already use, with source code that can be inspected, self-hosted, and adapted around privacy, permissions, memory, and operational controls.",
+    "best_for": [
+      "Builders evaluating self-hosted AI bots for real messaging channels",
+      "Teams comparing Discord, Telegram, Slack, WhatsApp, Matrix, or WeChat AI assistant options",
+      "Developers who want open-source bot infrastructure instead of closed chatbot SaaS"
+    ],
+    "not_for": [
+      "Teams unwilling to review bot permissions, channel credentials, and data retention policies",
+      "Users who only need a hosted consumer chatbot with no deployment work"
+    ],
+    "use_cases": [
+      "self-hosted-ai",
+      "chatbot"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": true,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "github_stars": 102,
+    "github_forks": 42,
+    "github_repo_full_name": "kaida-palooza/ccpoke",
+    "last_verified_at": "2026-06-05"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "messaging",
+      "workflow"
+    ],
+    "integrations": [
+      "Telegram",
+      "Claude Code",
+      "Codex"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/kaida-palooza/ccpoke",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/kaida-palooza/ccpoke"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://opengraph.githubassets.com/openagentbot/kaida-palooza/ccpoke",
+    "og_image_url": "https://opengraph.githubassets.com/openagentbot/kaida-palooza/ccpoke",
+    "thumbnail_brief": {
+      "resource_type": "bot",
+      "visual_motif": "chat bubbles, channel connectors, and agent status indicators",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "ccpoke",
+      "subtitle": "Bridge between AI coding agents and your phone with notifications, two-way chat, and permission handling.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "bot",
+      "open-source"
+    ],
+    "capability": [
+      "messaging",
+      "workflow"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted"
+    ],
+    "scenario": [
+      "self-hosted-ai",
+      "chatbot"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/bots/ccpoke",
+    "json_url": "https://www.openagent.bot/bots/ccpoke.json",
+    "markdown_url": "https://www.openagent.bot/bots/ccpoke.md"
+  },
+  "seo": {
+    "title": "ccpoke: Open-source AI bot for builders",
+    "description": "ccpoke is an open-source AI bot listed on OpenAgent.bot with official GitHub links, license details, use cases, and evaluation notes."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Lives in existing communication channels",
+        "description": "ccpoke brings AI assistance into messaging surfaces rather than forcing users into a separate app.",
+        "why_it_matters": "Bots become useful when they meet users where coordination already happens."
+      },
+      {
+        "title": "Self-hostable source path",
+        "description": "The public repository lets teams inspect runtime behavior, credentials handling, and integration choices before deployment.",
+        "why_it_matters": "AI bots can see sensitive conversations, so source review and controlled hosting matter."
+      },
+      {
+        "title": "Good comparison target for agent gateways",
+        "description": "The project shows how open bots connect LLMs, permissions, plugins, memory, or channel adapters.",
+        "why_it_matters": "These patterns are likely to become a core part of practical open-agent infrastructure."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Team chat AI assistant",
+        "description": "Deploy or study ccpoke as a starting point for AI help inside messaging channels."
+      },
+      {
+        "title": "Personal always-on bot",
+        "description": "Evaluate whether its channel support, model support, and hosting model fit a private personal assistant workflow."
+      },
+      {
+        "title": "Agent gateway prototype",
+        "description": "Use the project to compare how bots handle message routing, model calls, plugins, and long-running tasks."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose ccpoke",
+        "summary": "Choose it when its official repository shows the workflow, license, and integration model you need more directly than a broad framework."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/kaida-palooza/ccpoke",
+        "type": "github"
+      }
+    ],
+    "seo_article": {
+      "what_it_is": "ccpoke is an open-source AI bot project tracked by OpenAgent.bot. ccpoke is an open-source AI bot project focused on bridge between ai coding agents and your phone with notifications, two-way chat, and permission handling.",
+      "why_it_matters": "ccpoke matters because many useful agents will not live only inside an IDE or web app. They need to work inside the communication channels people already use, with source code that can be inspected, self-hosted, and adapted around privacy, permissions, memory, and operational controls.",
+      "how_it_works": "Open the official repository first, review setup instructions, verify the license, then test the project with non-sensitive data before connecting real accounts or production workflows.",
+      "faq": [
+        {
+          "question": "Is ccpoke open source?",
+          "answer": "Yes. The linked GitHub repository lists MIT licensing information; verify the current license before production use."
+        },
+        {
+          "question": "Who should evaluate ccpoke?",
+          "answer": "Builders evaluating self-hosted AI bots for real messaging channels"
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-05T00:00:00.000Z",
+    "updated_at": "2026-06-05T00:00:00.000Z",
+    "published_at": "2026-06-05T00:00:00.000Z"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "slug": "tiledesk-open-source-ai-agent-builder",
+  "title": "Tiledesk Guide: Open-Source AI Agents for Customer Support",
+  "summary": "Tiledesk combines AI agents, chat, and human escalation for support workflows that cannot be fully automated.",
+  "publishedAt": "2026-06-09",
+  "tags": [
+    "chatbot",
+    "customer-support",
+    "bots"
+  ],
+  "author": "OpenAgent.bot Editors",
+  "seoTitle": "Tiledesk Guide: Open-Source AI Agent Builder for Support",
+  "seoDescription": "Learn how Tiledesk fits customer support workflows with AI agents, live chat, and human-in-the-loop escalation.",
+  "body": [
+    "[Tiledesk](/bots/tiledesk) is a practical reminder that many useful agents are not autonomous workers. They are support teammates with a clear handoff path.",
+    "For customer support, the best agent is often the one that knows when to stop. Human-in-the-loop escalation is not a fallback feature; it is the product boundary that keeps automation trustworthy.",
+    "## Best first use cases",
+    "- Answer high-volume FAQ questions.",
+    "- Triage support requests by topic and urgency.",
+    "- Draft replies for human review.",
+    "- Route conversations to the right team.",
+    "## What to test before launch",
+    "Measure escalation accuracy, failed answer detection, knowledge-base freshness, and transcript quality. Do not only test whether the bot can produce fluent text.",
+    "## When Tiledesk fits",
+    "Tiledesk is worth evaluating when you want an open-source support platform rather than a low-level agent library. It is especially relevant for teams that need live chat and bot automation in the same system.",
+    "## Official sources",
+    "- [Tiledesk server GitHub](https://github.com/Tiledesk/tiledesk-server)",
+    "- [Tiledesk dashboard GitHub](https://github.com/Tiledesk/tiledesk-dashboard)"
+  ]
+}

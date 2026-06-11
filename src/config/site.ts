@@ -3,8 +3,9 @@ export const site = {
   url: "https://www.openagent.bot",
   title: "OpenAgent.bot - Open-source AI resources for humans and agents",
   description:
-    "Discover open-source AI models, agents, skills, memory systems, plugins, and tools through an editorial directory built for humans and agent-readable workflows.",
+    "Find the right open-source agents, skills, MCP connectors, memory systems, models, and tools for agent workflows.",
   nav: [
+    { label: "Stack Finder", href: "/stack-finder" },
     { label: "Evaluations", href: "/evaluations" },
     { label: "Models", href: "/models" },
     { label: "Agents", href: "/agents" },

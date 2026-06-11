@@ -1,0 +1,270 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_crewai",
+  "slug": "crewai",
+  "status": "published",
+  "identity": {
+    "name": "CrewAI",
+    "one_liner": "Multi-agent orchestration framework where role-playing autonomous AI agents collaborate to execute complex workflows.",
+    "short_description": "CrewAI is an open-source Python framework for building multi-agent systems where role-playing AI agents collaborate to complete complex tasks. It provides a structured approach to agent orchestration with roles, goals, backstories, and tools, making it one of the most accessible frameworks for multi-agent workflow design."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "multi-agent",
+      "orchestration",
+      "workflow",
+      "framework"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "CrewAI matters because many real-world tasks are too complex for a single agent. By decomposing problems into roles and letting specialized agents collaborate, CrewAI makes multi-agent systems practical for developers who don't have deep expertise in agent architecture.",
+    "best_for": [
+      "Developers building multi-agent workflows with specialized roles",
+      "Teams prototyping agent collaboration patterns before production deployment",
+      "Engineers who want a Pythonic framework for orchestrating AI agent teams"
+    ],
+    "not_for": [
+      "Developers who only need a single coding agent for terminal tasks",
+      "Teams that require real-time streaming or low-latency agent responses"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "github_stars": 52300,
+    "github_forks": 7100,
+    "github_repo_full_name": "crewAIInc/crewAI",
+    "last_verified_at": "2026-05-27"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "workflow",
+      "workflow-orchestration"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/crewAIInc/crewAI",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/crewAIInc/crewAI"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://crewai.com"
+      },
+      {
+        "type": "docs",
+        "label": "Docs",
+        "url": "https://docs.crewai.com"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/crewAIInc.png",
+    "og_image_url": "https://github.com/crewAIInc.png",
+    "thumbnail_brief": {
+      "resource_type": "agent",
+      "visual_motif": "connected agent nodes with role labels and collaboration arrows",
+      "background_style": "minimal editorial surface with restrained purple accent color",
+      "title_overlay": "CrewAI",
+      "subtitle": "Multi-agent orchestration framework",
+      "avoid": [
+        "busy poster layout",
+        "unverified logos",
+        "marketing-heavy screenshots"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "agent",
+      "open-source"
+    ],
+    "capability": [
+      "workflow",
+      "workflow-orchestration"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/crewai",
+    "json_url": "https://www.openagent.bot/agents/crewai.json",
+    "markdown_url": "https://www.openagent.bot/agents/crewai.md"
+  },
+  "seo": {
+    "title": "CrewAI: AI Agent — Multi-agent orchestration framework where role-playing autonomous AI agents c...",
+    "description": "CrewAI is an open-source AI agent. Multi-agent orchestration framework where role-playing autonomous AI agents collaborate to execute complex workflows.. 了解 CrewAI 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "featured_reason": "The most accessible multi-agent orchestration framework, making agent collaboration patterns practical for everyday developers.",
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Role-based agent design",
+        "description": "CrewAI lets you define agents with roles, goals, and backstories, making it intuitive to design multi-agent systems.",
+        "why_it_matters": "Role-based design maps naturally to how teams work, making it easier to reason about which agent should handle which task."
+      },
+      {
+        "title": "Structured workflow orchestration",
+        "description": "Supports sequential, parallel, and hierarchical agent workflows with built-in task delegation and result aggregation.",
+        "why_it_matters": "Different problems require different collaboration patterns. CrewAI gives you the flexibility to choose the right one."
+      },
+      {
+        "title": "Tool and API integration",
+        "description": "Agents can use custom tools, APIs, and external services, making them useful for real-world tasks beyond text generation.",
+        "why_it_matters": "Multi-agent systems are only useful if agents can actually take actions. CrewAI's tool system makes that practical."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Research and analysis workflows",
+        "description": "Define a researcher agent, an analyst agent, and a writer agent that collaborate to produce comprehensive reports."
+      },
+      {
+        "title": "Content production pipelines",
+        "description": "Build agent teams for content creation: one agent researches, another drafts, another edits, and another formats."
+      },
+      {
+        "title": "Customer support automation",
+        "description": "Create specialized agents for different support domains — billing, technical, general — and route queries to the right team."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose CrewAI for accessible multi-agent design",
+        "summary": "CrewAI's role-based API is more intuitive for most developers. AutoGen offers lower-level control but has a steeper learning curve.",
+        "against": "AutoGen"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/crewAIInc/crewAI",
+        "type": "github"
+      },
+      {
+        "label": "Read the documentation",
+        "url": "https://docs.crewai.com",
+        "type": "docs"
+      },
+      {
+        "label": "Visit the project website",
+        "url": "https://crewai.com",
+        "type": "homepage"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install CrewAI",
+        "command": "pip install crewai",
+        "description": "Install via pip, then define your agents, tasks, and crew in Python to start multi-agent workflows."
+      }
+    ],
+    "seo_article": {
+      "intro": "CrewAI is one of the most popular frameworks for building multi-agent AI systems. Instead of relying on a single agent to handle everything, CrewAI lets you define specialized agents that work together like a team.",
+      "what_it_is": "CrewAI is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
+      "why_it_matters": "Most AI agent frameworks focus on single-agent tasks. But many real-world problems — research, analysis, content production, customer support — require multiple specialized agents working together. CrewAI makes this pattern accessible with a clean API and intuitive role-based design.",
+      "how_it_works": "Start with one safe workflow for CrewAI. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
+      "use_cases": [
+        {
+          "title": "Automated research reports",
+          "description": "Build a crew where one agent gathers sources, another extracts key findings, and a third synthesizes a report with citations."
+        },
+        {
+          "title": "Code review pipelines",
+          "description": "Create agents for security review, performance analysis, and style checking that each review code from their specialized perspective."
+        },
+        {
+          "title": "Customer inquiry routing",
+          "description": "Deploy a triage agent that classifies incoming queries and routes them to specialized support agents for billing, technical, or general questions."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use AutoGen for lower-level multi-agent control",
+          "summary": "CrewAI is more accessible and intuitive. AutoGen offers more granular control over agent conversations and state management.",
+          "against": "AutoGen"
+        },
+        {
+          "title": "Use a single coding agent for terminal tasks",
+          "summary": "CrewAI is for multi-agent orchestration. If you just need one agent to edit code in a terminal, a tool like Claude Code or Aider is simpler.",
+          "against": "Claude Code"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Read the documentation",
+          "url": "https://docs.crewai.com",
+          "type": "docs"
+        },
+        {
+          "label": "Inspect the repository",
+          "url": "https://github.com/crewAIInc/crewAI",
+          "type": "github"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using CrewAI?",
+          "answer": "Start with one safe workflow for CrewAI. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+        },
+        {
+          "question": "Is CrewAI open source?",
+          "answer": "CrewAI is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate CrewAI?",
+          "answer": "CrewAI is most worth evaluating for developers building multi-agent workflows with specialized roles."
+        },
+        {
+          "question": "Who should use CrewAI?",
+          "answer": "Developers building multi-agent systems where specialized AI agents need to collaborate on complex tasks. It's especially useful for research, analysis, content production, and support workflows."
+        },
+        {
+          "question": "How does CrewAI compare to other multi-agent frameworks?",
+          "answer": "CrewAI's main advantage is its accessible role-based API. It's easier to get started with than AutoGen but may offer less fine-grained control for advanced use cases."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-05-27T00:00:00.000Z",
+    "updated_at": "2026-05-27T00:00:00.000Z",
+    "published_at": "2026-05-27T00:00:00.000Z"
+  }
+}

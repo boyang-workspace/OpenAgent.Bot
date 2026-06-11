@@ -1,0 +1,209 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_langbot",
+  "slug": "langbot",
+  "status": "published",
+  "identity": {
+    "name": "LangBot",
+    "one_liner": "Production-grade platform for building agentic IM bots across Discord, Slack, Telegram, LINE, WeChat, Feishu, DingTalk, and more.",
+    "short_description": "LangBot is an open-source AI bot project focused on production-grade platform for building agentic im bots across discord, slack, telegram, line, wechat, feishu, dingtalk, and more."
+  },
+  "classification": {
+    "resource_type": "bot",
+    "primary_category": "bots",
+    "subcategories": [
+      "messaging",
+      "agent-framework",
+      "knowledge-base",
+      "self-hosted",
+      "workflow-orchestration"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "LangBot matters because many useful agents will not live only inside an IDE or web app. They need to work inside the communication channels people already use, with source code that can be inspected, self-hosted, and adapted around privacy, permissions, memory, and operational controls.",
+    "best_for": [
+      "Builders evaluating self-hosted AI bots for real messaging channels",
+      "Teams comparing Discord, Telegram, Slack, WhatsApp, Matrix, or WeChat AI assistant options",
+      "Developers who want open-source bot infrastructure instead of closed chatbot SaaS"
+    ],
+    "not_for": [
+      "Teams unwilling to review bot permissions, channel credentials, and data retention policies",
+      "Users who only need a hosted consumer chatbot with no deployment work"
+    ],
+    "use_cases": [
+      "self-hosted-ai",
+      "chatbot"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": true,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 16210,
+    "github_forks": 1432,
+    "github_repo_full_name": "langbot-app/LangBot",
+    "last_verified_at": "2026-06-05"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "messaging",
+      "workflow-orchestration"
+    ],
+    "integrations": [
+      "Discord",
+      "Slack",
+      "LINE",
+      "Telegram",
+      "WeChat",
+      "Feishu",
+      "DingTalk",
+      "QQ",
+      "DeepSeek",
+      "Claude",
+      "Gemini",
+      "Ollama"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/langbot-app/LangBot",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/langbot-app/LangBot"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://opengraph.githubassets.com/openagentbot/langbot-app/LangBot",
+    "og_image_url": "https://opengraph.githubassets.com/openagentbot/langbot-app/LangBot",
+    "thumbnail_brief": {
+      "resource_type": "bot",
+      "visual_motif": "chat bubbles, channel connectors, and agent status indicators",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "LangBot",
+      "subtitle": "Production-grade platform for building agentic IM bots across Discord, Slack, Telegram, LINE, WeChat, Feishu, DingTalk, and more.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "bot",
+      "open-source"
+    ],
+    "capability": [
+      "messaging",
+      "workflow-orchestration"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted"
+    ],
+    "scenario": [
+      "self-hosted-ai",
+      "chatbot"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/bots/langbot",
+    "json_url": "https://www.openagent.bot/bots/langbot.json",
+    "markdown_url": "https://www.openagent.bot/bots/langbot.md"
+  },
+  "seo": {
+    "title": "LangBot: Open-source AI bot for builders",
+    "description": "LangBot is an open-source AI bot listed on OpenAgent.bot with official GitHub links, license details, use cases, and evaluation notes."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Lives in existing communication channels",
+        "description": "LangBot brings AI assistance into messaging surfaces rather than forcing users into a separate app.",
+        "why_it_matters": "Bots become useful when they meet users where coordination already happens."
+      },
+      {
+        "title": "Self-hostable source path",
+        "description": "The public repository lets teams inspect runtime behavior, credentials handling, and integration choices before deployment.",
+        "why_it_matters": "AI bots can see sensitive conversations, so source review and controlled hosting matter."
+      },
+      {
+        "title": "Good comparison target for agent gateways",
+        "description": "The project shows how open bots connect LLMs, permissions, plugins, memory, or channel adapters.",
+        "why_it_matters": "These patterns are likely to become a core part of practical open-agent infrastructure."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Team chat AI assistant",
+        "description": "Deploy or study LangBot as a starting point for AI help inside messaging channels."
+      },
+      {
+        "title": "Personal always-on bot",
+        "description": "Evaluate whether its channel support, model support, and hosting model fit a private personal assistant workflow."
+      },
+      {
+        "title": "Agent gateway prototype",
+        "description": "Use the project to compare how bots handle message routing, model calls, plugins, and long-running tasks."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose LangBot",
+        "summary": "Choose it when its official repository shows the workflow, license, and integration model you need more directly than a broad framework."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/langbot-app/LangBot",
+        "type": "github"
+      }
+    ],
+    "seo_article": {
+      "what_it_is": "LangBot is an open-source AI bot project tracked by OpenAgent.bot. LangBot is an open-source AI bot project focused on production-grade platform for building agentic im bots across discord, slack, telegram, line, wechat, feishu, dingtalk, and more.",
+      "why_it_matters": "LangBot matters because many useful agents will not live only inside an IDE or web app. They need to work inside the communication channels people already use, with source code that can be inspected, self-hosted, and adapted around privacy, permissions, memory, and operational controls.",
+      "how_it_works": "Open the official repository first, review setup instructions, verify the license, then test the project with non-sensitive data before connecting real accounts or production workflows.",
+      "faq": [
+        {
+          "question": "Is LangBot open source?",
+          "answer": "Yes. The linked GitHub repository lists Apache-2.0 licensing information; verify the current license before production use."
+        },
+        {
+          "question": "Who should evaluate LangBot?",
+          "answer": "Builders evaluating self-hosted AI bots for real messaging channels"
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-05T00:00:00.000Z",
+    "updated_at": "2026-06-05T00:00:00.000Z",
+    "published_at": "2026-06-05T00:00:00.000Z"
+  }
+}

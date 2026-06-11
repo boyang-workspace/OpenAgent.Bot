@@ -1,0 +1,339 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_gemma_4",
+  "slug": "gemma-4",
+  "status": "published",
+  "identity": {
+    "name": "Gemma 4",
+    "one_liner": "Google DeepMind's open model family for local, multimodal, and agentic AI workflows.",
+    "short_description": "Gemma 4 is a family of Apache 2.0 open models from Google DeepMind, designed for reasoning, multimodal inputs, edge deployments, and developer workflows that need more control than hosted-only APIs."
+  },
+  "classification": {
+    "resource_type": "model",
+    "primary_category": "models",
+    "subcategories": [
+      "open-weights",
+      "local-ai",
+      "local-inference",
+      "self-hosted",
+      "api"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Gemma 4 matters because it moves Google's open model line closer to practical agent and on-device use. The family spans smaller edge-oriented models and larger workstation-class models, making it useful for teams that want to test local inference, multimodal understanding, and structured tool workflows without starting from a closed hosted model.",
+    "best_for": [
+      "Developers evaluating open models for local or self-hosted AI apps",
+      "Teams that need multimodal reasoning without depending only on hosted APIs",
+      "Builders comparing small edge models against larger workstation-grade open models",
+      "Researchers and product teams that want Apache 2.0 model weights from a major lab"
+    ],
+    "not_for": [
+      "Users who want a fully managed consumer assistant",
+      "Teams that do not want to handle model serving, safety testing, or deployment details",
+      "Workflows that require guaranteed hosted SLA support from the model provider"
+    ],
+    "use_cases": [
+      "local-ai",
+      "self-hosted-ai"
+    ],
+    "target_audience": [
+      "developer",
+      "researcher"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "local",
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": true,
+    "self_hostable": true,
+    "has_api": true,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "last_verified_at": "2026-06-04"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "local-inference"
+    ],
+    "integrations": [
+      "Google AI Studio",
+      "Google AI Edge Gallery",
+      "Hugging Face",
+      "Vertex AI",
+      "llama.cpp",
+      "Ollama",
+      "vLLM",
+      "MLX"
+    ],
+    "interfaces": [
+      "docs",
+      "demo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://deepmind.google/models/gemma/gemma-4/",
+    "items": [
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://deepmind.google/models/gemma/gemma-4/"
+      },
+      {
+        "type": "docs",
+        "label": "Docs",
+        "url": "https://ai.google.dev/gemma"
+      },
+      {
+        "type": "demo",
+        "label": "Demo",
+        "url": "https://aistudio.google.com/"
+      },
+      {
+        "type": "homepage",
+        "label": "Source",
+        "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemma-4-12b/"
+      },
+      {
+        "type": "homepage",
+        "label": "Source",
+        "url": "https://developers.googleblog.com/bring-state-of-the-art-agentic-skills-to-the-edge-with-gemma-4/"
+      },
+      {
+        "type": "huggingface",
+        "label": "Source",
+        "url": "https://huggingface.co/collections/google/gemma-4"
+      },
+      {
+        "type": "homepage",
+        "label": "Source",
+        "url": "https://ollama.com/library/gemma4"
+      },
+      {
+        "type": "homepage",
+        "label": "Source",
+        "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Social_Image_G4_12B.width-1300.png",
+    "og_image_url": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Social_Image_G4_12B.width-1300.png",
+    "thumbnail_brief": {
+      "resource_type": "model",
+      "visual_motif": "clean model-family grid with four scale blocks and a small multimodal node pattern",
+      "background_style": "minimal editorial surface with restrained Google-inspired accent strips",
+      "title_overlay": "Gemma 4",
+      "subtitle": "Open models for local and agentic AI workflows",
+      "avoid": [
+        "busy benchmark poster",
+        "unofficial Gemma 4 fan-site branding",
+        "large chatbot screenshot"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "model",
+      "open-source"
+    ],
+    "capability": [
+      "local-inference"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted",
+      "local-first",
+      "open-weights"
+    ],
+    "scenario": [
+      "local-ai",
+      "self-hosted-ai"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/models/gemma-4",
+    "json_url": "https://www.openagent.bot/models/gemma-4.json",
+    "markdown_url": "https://www.openagent.bot/models/gemma-4.md"
+  },
+  "seo": {
+    "title": "Gemma 4: AI Model — Google DeepMind's open model family for local, multimodal, and agentic AI wor...",
+    "description": "Gemma 4 is an open-source open-source model. Google DeepMind's open model family for local, multimodal, and agentic AI workflows.. 了解 Gemma 4 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "featured_reason": "A major open model release from Google DeepMind with local, multimodal, and agentic workflow relevance.",
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Open model family with practical size range",
+        "description": "Gemma 4 includes multiple model sizes, from edge-oriented variants to larger models for more demanding workloads.",
+        "why_it_matters": "That range lets builders choose between local responsiveness, hardware cost, and model capability instead of treating open AI as one deployment pattern."
+      },
+      {
+        "title": "Multimodal and agentic workflow focus",
+        "description": "Google positions Gemma 4 for more than simple chat, including multimodal inputs and structured workflows where models need to reason across steps.",
+        "why_it_matters": "This makes it more relevant to builders working on assistants, tool-using agents, document workflows, and visual understanding tasks."
+      },
+      {
+        "title": "Broad ecosystem support",
+        "description": "The launch connects Gemma 4 to Google AI Studio, AI Edge Gallery, Hugging Face, and common local inference tools.",
+        "why_it_matters": "A model family is easier to evaluate when developers can try it through familiar runtimes rather than waiting for a single official serving path."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Local AI product experiments",
+        "description": "Use Gemma 4 to test whether a feature can run on local hardware or self-hosted infrastructure before committing to a hosted-only architecture."
+      },
+      {
+        "title": "Multimodal document and image workflows",
+        "description": "The family is relevant for apps that combine text with image understanding, such as visual review, document triage, and assistant-style analysis."
+      },
+      {
+        "title": "Agentic tool workflows",
+        "description": "Gemma 4 is worth evaluating when a workflow needs reasoning across steps, structured outputs, or tool-oriented behavior."
+      },
+      {
+        "title": "Edge and mobile AI prototypes",
+        "description": "The smaller variants are aimed at low-latency and edge use cases where sending every request to a remote model is not ideal."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose Gemma 4 when open weights and local control matter",
+        "summary": "Gemini remains Google's flagship hosted model stack, while Gemma 4 is the better fit when you want downloadable weights, local experimentation, and more deployment control.",
+        "against": "Gemini"
+      },
+      {
+        "title": "Compare carefully against other open model families",
+        "summary": "Gemma 4's appeal is its Google research lineage, Apache 2.0 license, and multimodal direction, but teams should still benchmark it against nearby open models on their own tasks.",
+        "against": "Llama, Qwen, Mistral"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Read the Gemma 4 family overview",
+        "url": "https://deepmind.google/models/gemma/gemma-4/",
+        "type": "homepage"
+      },
+      {
+        "label": "Read the Gemma 4 12B launch post",
+        "url": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemma-4-12b/",
+        "type": "docs"
+      },
+      {
+        "label": "Open the Hugging Face collection",
+        "url": "https://huggingface.co/collections/google/gemma-4",
+        "type": "huggingface"
+      },
+      {
+        "label": "Try Gemma in Google AI Studio",
+        "url": "https://aistudio.google.com/",
+        "type": "demo"
+      },
+      {
+        "label": "Run Gemma models with Ollama",
+        "url": "https://ollama.com/library/gemma4",
+        "type": "install"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Run a workstation model with Ollama",
+        "command": "ollama run gemma4:26b",
+        "description": "Use this after installing Ollama and confirming your machine has enough memory for the 26B variant."
+      },
+      {
+        "label": "Run the smaller edge-oriented variant",
+        "command": "ollama run gemma4:e2b",
+        "description": "Use the smaller variant when you want a lighter local test before trying larger Gemma 4 models."
+      }
+    ],
+    "seo_article": {
+      "intro": "Gemma 4 is Google DeepMind's latest open model family for developers who want more deployment control than a purely hosted model API can provide. It sits in the growing middle ground between frontier proprietary models and smaller local models: capable enough to test real product workflows, but available in forms that can be evaluated outside a closed chat product.",
+      "what_it_is": "Gemma 4 is an open model resource to evaluate by workload, serving path, context behavior, license terms, and how reliably it supports the agent or local AI tasks you actually plan to run.",
+      "why_it_matters": "Open model adoption depends on two things: strong base capability and practical deployment paths. Gemma 4 is important because it pushes both at once. For builders, that means the same project can start with a hosted experiment, move into local testing, and later compare edge or self-hosted deployment without changing the overall model family.",
+      "how_it_works": "Run Gemma 4 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it.",
+      "use_cases": [
+        {
+          "title": "Local assistant prototypes",
+          "description": "Gemma 4 is useful when you want to test an assistant experience on local machines or controlled infrastructure before relying on a remote model service."
+        },
+        {
+          "title": "Image-aware workflows",
+          "description": "Because the family is positioned around multimodal capability, it is a candidate for workflows that combine text prompts with images, screenshots, documents, or visual inspection."
+        },
+        {
+          "title": "Agent and tool experiments",
+          "description": "Gemma 4 is relevant for teams exploring multi-step workflows, structured responses, and model behavior inside agent-style systems."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use Gemini when you want Google's managed frontier model experience",
+          "summary": "Gemini is stronger when you want a hosted model with managed product surfaces. Gemma 4 is stronger when open weights, local testing, and deployment control are the main criteria.",
+          "against": "Gemini"
+        },
+        {
+          "title": "Benchmark against Llama, Qwen, and Mistral before choosing",
+          "summary": "The right open model depends on your task, hardware, tooling, license expectations, and inference budget. Gemma 4 deserves evaluation, but it should not be selected only because it is new.",
+          "against": "other open model families"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Start with the Google DeepMind overview",
+          "url": "https://deepmind.google/models/gemma/gemma-4/",
+          "type": "homepage"
+        },
+        {
+          "label": "Review official launch details",
+          "url": "https://blog.google/innovation-and-ai/technology/developers-tools/gemma-4/",
+          "type": "docs"
+        },
+        {
+          "label": "Inspect the Hugging Face models",
+          "url": "https://huggingface.co/collections/google/gemma-4",
+          "type": "huggingface"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using Gemma 4?",
+          "answer": "Run Gemma 4 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it."
+        },
+        {
+          "question": "Is Gemma 4 open source?",
+          "answer": "Gemma 4 is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate Gemma 4?",
+          "answer": "Gemma 4 is most worth evaluating for developers evaluating open models for local or self-hosted AI apps."
+        },
+        {
+          "question": "Is Gemma 4 a replacement for Gemini?",
+          "answer": "No. Gemma 4 is better understood as Google's open model family for developers who need more control, while Gemini remains Google's hosted flagship model line."
+        },
+        {
+          "question": "Should I use Gemma 4 for agent workflows?",
+          "answer": "It is worth testing for agent-style workflows, especially where local control or open weights matter, but you should benchmark structured output, tool behavior, latency, and failure modes on your own tasks."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-04-18T00:00:00.000Z",
+    "updated_at": "2026-06-04T00:00:00.000Z",
+    "published_at": "2026-04-18T00:00:00.000Z"
+  }
+}

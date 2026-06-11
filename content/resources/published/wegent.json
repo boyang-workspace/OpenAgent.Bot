@@ -1,0 +1,204 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_wegent",
+  "slug": "wegent",
+  "status": "published",
+  "identity": {
+    "name": "Wegent",
+    "one_liner": "Open-source AI-native operating system for defining, organizing, and running intelligent agent teams.",
+    "short_description": "Wegent is an open-source AI-native operating system for defining, organizing, and running intelligent agent teams. It is relevant to bot and agent-team workflows where multiple assistants, roles, or chat-oriented agents need structure."
+  },
+  "classification": {
+    "resource_type": "bot",
+    "primary_category": "bots",
+    "subcategories": [
+      "messaging",
+      "chat-ui",
+      "workflow",
+      "agent-team",
+      "chatbot"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Many bot workflows are becoming teams of agents rather than one chatbot. Wegent matters because it focuses on organizing and running agent teams as an operating system layer.",
+    "best_for": [
+      "Teams experimenting with multi-agent assistants",
+      "Users organizing AI teammates for chat and work coordination",
+      "Builders comparing agent-team operating systems"
+    ],
+    "not_for": [
+      "Users who only need a single chat widget",
+      "Teams looking for a narrow Telegram or Discord bot"
+    ],
+    "use_cases": [
+      "chatbot"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": true,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 580,
+    "github_forks": 102,
+    "github_repo_full_name": "wecode-ai/Wegent",
+    "last_verified_at": "2026-06-11"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "messaging",
+      "chat-ui",
+      "workflow"
+    ],
+    "interfaces": [
+      "repo",
+      "ui"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/wecode-ai/Wegent",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/wecode-ai/Wegent"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://wecode-ai.github.io/wegent-docs"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/wecode-ai.png",
+    "og_image_url": "https://github.com/wecode-ai.png",
+    "thumbnail_brief": {
+      "resource_type": "bot",
+      "visual_motif": "chat bubbles, channel connectors, and agent status indicators",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "Wegent",
+      "subtitle": "Open-source AI-native operating system for defining, organizing, and running intelligent agent teams.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "bot",
+      "open-source"
+    ],
+    "capability": [
+      "messaging",
+      "chat-ui",
+      "workflow"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "chatbot"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/bots/wegent",
+    "json_url": "https://www.openagent.bot/bots/wegent.json",
+    "markdown_url": "https://www.openagent.bot/bots/wegent.md"
+  },
+  "seo": {
+    "title": "Wegent: Open-Source AI-Native OS for Agent Teams",
+    "description": "Wegent is an open-source AI-native operating system for defining, organizing, and running intelligent agent teams."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Agent-team organization",
+        "description": "Wegent focuses on defining and organizing intelligent agent teams.",
+        "why_it_matters": "Complex assistant workflows often need roles and coordination rather than one generic bot."
+      },
+      {
+        "title": "AI-native OS framing",
+        "description": "The project describes itself as an AI-native operating system.",
+        "why_it_matters": "An OS-style layer can give agent teams a shared structure for work and interaction."
+      },
+      {
+        "title": "Chat and agent ecosystem fit",
+        "description": "Repository topics include chatbot, ChatGPT, Claude Code, Gemini, and NotebookLM.",
+        "why_it_matters": "Wegent sits near the boundary between chatbots, agent teams, and work assistants."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Agent team workspace",
+        "description": "Define roles and organize multiple agents for recurring workflows."
+      },
+      {
+        "title": "AI assistant operations",
+        "description": "Run assistants as a structured team rather than isolated chat sessions."
+      },
+      {
+        "title": "Bot platform evaluation",
+        "description": "Compare Wegent with chatbot frameworks and agent OS projects."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose Wegent",
+        "summary": "Compare it with nearby bots by looking at hosting model, integration surface, license, and whether the official docs show the workflow you need."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/wecode-ai/Wegent",
+        "type": "github"
+      },
+      {
+        "label": "Read the docs",
+        "url": "https://wecode-ai.github.io/wegent-docs",
+        "type": "docs"
+      }
+    ],
+    "seo_article": {
+      "intro": "Wegent is an open-source AI-native operating system for agent teams.",
+      "what_it_is": "It helps define, organize, and run intelligent agents in a team structure.",
+      "why_it_matters": "The next wave of bots often looks like coordinated agent teams rather than one chatbot.",
+      "how_it_works": "Start with one small team of agents, define roles clearly, and test whether the system improves coordination over a single assistant.",
+      "faq": [
+        {
+          "question": "Is Wegent open source?",
+          "answer": "Yes. The GitHub repository is listed under the Apache-2.0 license."
+        },
+        {
+          "question": "Why is Wegent listed under bots?",
+          "answer": "It is not a narrow chatbot; it belongs near bots because it organizes chat-oriented intelligent agent teams."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-11T00:00:00.000Z",
+    "updated_at": "2026-06-11T00:00:00.000Z",
+    "published_at": "2026-06-11T00:00:00.000Z"
+  }
+}

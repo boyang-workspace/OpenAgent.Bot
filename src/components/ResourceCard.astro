@@ -1,7 +1,7 @@
 ---
 import type { ResourceV1 } from "@/lib/content/resource-schema";
 import { resourcePath } from "@/lib/content/resources";
-import { resourceCategoryLabel, resourceImage, resourceSummary } from "@/lib/content/resource-display";
+import { resourceCategoryLabel, resourceImage, resourceSignals, resourceSummary } from "@/lib/content/resource-display";
 
 type Props = {
   resource: ResourceV1;
@@ -19,6 +19,7 @@ const compactStars =
     ? `${Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(resource.facts.github_stars)} stars`
     : undefined;
 const licenseLabel = resource.facts.license ?? "Source";
+const signals = resourceSignals(resource, 4);
 const trackPayload = JSON.stringify({
   name: resource.identity.name,
   slug: resource.slug,
@@ -44,6 +45,11 @@ const trackPayload = JSON.stringify({
       </div>
       <h3>{resource.identity.name}</h3>
       <p>{summary}</p>
+      {signals.length > 0 && (
+        <div class="signals">
+          {signals.map((signal) => <span>{signal}</span>)}
+        </div>
+      )}
     </div>
   </a>
 </article>
@@ -160,6 +166,22 @@ const trackPayload = JSON.stringify({
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+  }
+
+  .signals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 3px;
+  }
+
+  .signals span {
+    background: var(--surface-tint);
+    border-radius: 7px;
+    color: var(--muted);
+    font-size: 0.66rem;
+    line-height: 1;
+    padding: 4px 6px;
   }
 
   .large a {

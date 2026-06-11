@@ -1,0 +1,200 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_nanobot",
+  "slug": "nanobot",
+  "status": "published",
+  "identity": {
+    "name": "nanobot",
+    "one_liner": "Lightweight open-source AI agent that connects to your tools, chats, and workflows for automation.",
+    "short_description": "nanobot is a lightweight open-source AI agent from the University of Hong Kong (HKU) designed for tool orchestration and workflow automation. It provides a minimal surface area for connecting AI to everyday tools, chats, and processes — with support for extensible tool integrations."
+  },
+  "classification": {
+    "resource_type": "tool",
+    "primary_category": "tools",
+    "subcategories": [
+      "tools",
+      "lightweight",
+      "automation",
+      "agent"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "nanobot represents a growing trend toward minimal, focused AI agents that do one thing well. With 43K+ GitHub stars and a lightweight architecture, it is a practical choice for developers who want to add AI automation to their existing tools without adopting a heavy framework.",
+    "best_for": [
+      "Developers adding AI automation to existing tools and workflows without heavy framework dependencies",
+      "Teams evaluating lightweight agent architectures for tool orchestration",
+      "Builders who prefer minimal, focused agents over full-stack agent platforms"
+    ],
+    "not_for": [
+      "Complex multi-agent workflows requiring conversation orchestration and role management",
+      "Production systems requiring enterprise-grade monitoring and observability"
+    ],
+    "use_cases": [
+      "self-hosted-ai"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "github_stars": 43570,
+    "github_forks": 7711,
+    "github_repo_full_name": "HKUDS/nanobot",
+    "last_verified_at": "2026-06-03"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "automation"
+    ],
+    "integrations": [
+      "tools"
+    ],
+    "interfaces": [
+      "repo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/HKUDS/nanobot",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/HKUDS/nanobot"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://nanobot.wiki"
+      },
+      {
+        "type": "github",
+        "label": "Source",
+        "url": "https://github.com/HKUDS/nanobot/blob/main/README.md"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://opengraph.githubassets.com/openagentbot/HKUDS/nanobot",
+    "og_image_url": "https://opengraph.githubassets.com/openagentbot/HKUDS/nanobot",
+    "thumbnail_brief": {
+      "resource_type": "tool",
+      "visual_motif": "clean utility panel and geometric control surface",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "nanobot",
+      "subtitle": "Lightweight open-source AI agent that connects to your tools, chats, and workflows for automation.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "tool",
+      "open-source"
+    ],
+    "capability": [
+      "automation"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "self-hosted-ai"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/tools/nanobot",
+    "json_url": "https://www.openagent.bot/tools/nanobot.json",
+    "markdown_url": "https://www.openagent.bot/tools/nanobot.md"
+  },
+  "seo": {
+    "title": "nanobot: Lightweight Open-Source AI Agent for Tools & Workflows",
+    "description": "nanobot is a lightweight open-source AI agent from HKU that integrates with your tools, chats, and workflows for automation and task execution."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Automation",
+        "description": "nanobot surfaces automation as a core capability in its published project metadata and source links.",
+        "why_it_matters": "This gives readers a starting point for evaluating whether the project fits their workflow before visiting the source repository or docs."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Self hosted ai",
+        "description": "Use it as a candidate for self hosted ai when the project facts, license, and official links match your deployment requirements."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose nanobot",
+        "summary": "Compare it with nearby tools by looking at hosting model, integration surface, license, and whether the official docs show the workflow you need."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/HKUDS/nanobot",
+        "type": "github"
+      },
+      {
+        "label": "Homepage",
+        "url": "https://nanobot.wiki",
+        "type": "homepage"
+      },
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/HKUDS/nanobot/blob/main/README.md",
+        "type": "github"
+      }
+    ],
+    "seo_article": {
+      "what_it_is": "nanobot is a lightweight open-source AI agent from HKU for connecting AI to tools, chats, and workflows. It focuses on minimal architecture and extensible tool integrations.",
+      "why_it_matters": "nanobot demonstrates that effective AI agents don't need complex frameworks. Its lightweight design makes it approachable for developers new to agent development.",
+      "faq": [
+        {
+          "question": "What makes nanobot different from other AI agents?",
+          "answer": "nanobot focuses on minimalism and extensibility — it is designed to be lightweight while providing a clean interface for tool integration."
+        },
+        {
+          "question": "Can I extend nanobot with custom tools?",
+          "answer": "Yes, nanobot supports extensible tool integrations through its plugin-like architecture."
+        },
+        {
+          "question": "Is nanobot open source?",
+          "answer": "Yes, it is open source under the MIT license with 43K+ GitHub stars."
+        },
+        {
+          "question": "Does nanobot require cloud infrastructure?",
+          "answer": "No, nanobot is designed to be lightweight and can run locally or on minimal infrastructure."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-03T00:00:00.000Z",
+    "updated_at": "2026-06-03T00:00:00.000Z",
+    "published_at": "2026-06-03T00:00:00.000Z"
+  }
+}

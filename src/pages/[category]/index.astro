@@ -242,31 +242,37 @@ const extendedProfiles: Record<string, CategoryProfile> = {
   },
   bots: {
     eyebrow: "Bots directory",
-    title: "Open-source bots and robotics tooling",
-    description: "Browse open-source bots, robotics frameworks, and physical AI agent tools with practical adoption cues.",
+    title: "Open-source bots by channel and embodiment",
+    description: "Browse chat bots, software bots, agent runtimes, and low-key embodied agent resources without mixing every automation project into one bucket.",
     guide: [
-      { title: "Define the physical surface", body: "LeRobot, hardware SDKs, and simulation toolkits serve different robotics entry points." },
-      { title: "Check the sim-to-real gap", body: "Bots that test well in simulation may need significant work to deploy on physical hardware." },
-      { title: "Look for active communities", body: "Robotics tooling benefits from active maintenance, hardware compatibility lists, and real-world demos." }
+      { title: "Start with the channel", body: "Discord, Telegram, Slack, WhatsApp, Matrix, and support bots have different permission and logging needs." },
+      { title: "Separate software from hardware", body: "Embodied agents and robotics SDKs are future-facing, but they need simulation and safety checks before hardware use." },
+      { title: "Review conversation access", body: "Bots can read private messages, so token scope, retention, moderation, and handoff behavior matter." }
     ],
     floors: [
       {
-        id: "robotics-frameworks",
-        title: "Robotics frameworks and SDKs",
-        description: "Frameworks, SDKs, and toolkits for building, training, and deploying robotic AI agents.",
-        match: (resource) => matches(resource, ["robot", "lerobot", "robotics", "sdk", "hardware"])
+        id: "chat-bots",
+        title: "Chat bots",
+        description: "Open-source bots for Discord, Telegram, Slack, WhatsApp, Matrix, WeChat, Zulip, and team chat surfaces.",
+        match: (resource) => matches(resource, ["chatbot", "messaging", "team-chat", "discord", "telegram", "slack", "whatsapp", "matrix", "zulip", "support-bot"])
       },
       {
-        id: "simulation-tools",
-        title: "Simulation and training environments",
-        description: "Simulation platforms for training and testing AI agents in virtual environments before physical deployment.",
-        match: (resource) => matches(resource, ["simulation", "simulator", "training", "environment"])
+        id: "software-bots",
+        title: "Software bots and agent runtimes",
+        description: "Bots that automate software channels, route tasks, or behave more like long-running agent runtimes than simple chat interfaces.",
+        match: (resource) => matches(resource, ["agent", "workflow", "automation", "runtime", "bot"])
       },
       {
-        id: "physical-agent-platforms",
-        title: "Physical agent platforms",
-        description: "End-to-end platforms for building and operating physical AI agents in real-world settings.",
-        match: (resource) => matches(resource, ["physical-agent", "embedded", "iot", "edge"])
+        id: "embodied-agents",
+        title: "Embodied agents",
+        description: "Physical-agent, simulation, robot skill, and motion-control resources kept as a future category, not the main OpenAgent story.",
+        match: (resource) => matches(resource, ["robot", "robotics", "robotics-agent", "physical-agent", "simulation", "simulator", "embedded", "hardware"])
+      },
+      {
+        id: "robotics-sdks",
+        title: "Robotics SDKs and training tools",
+        description: "SDKs, training frameworks, and model resources for embodied AI experiments.",
+        match: (resource) => matches(resource, ["sdk", "training", "environment", "vision", "motion", "lerobot"])
       }
     ]
   },

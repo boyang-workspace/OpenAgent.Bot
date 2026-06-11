@@ -1,10 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
-import { openProjectToResourceV1 } from "../src/lib/content/resource-adapter";
 import { getPublishedResources, resourceMarkdown } from "../src/lib/content/resources";
 import { parseResourceV1, type ResourceV1 } from "../src/lib/content/resource-schema";
-import { parseOpenProject } from "../src/lib/content/schema";
 
 const validResource: ResourceV1 = {
   schema_version: "openagent.resource.v1",
@@ -167,16 +165,15 @@ describe("resource schema v1", () => {
     expect(() => parseResourceV1(invalid)).toThrow(/unknown field/);
   });
 
-  it("converts all legacy published projects to ResourceV1", () => {
-    const projectsDir = path.join(process.cwd(), "content/projects/published");
-    const files = readdirSync(projectsDir).filter((file) => file.endsWith(".json"));
+  it("validates every published ResourceV1 file", () => {
+    const resourcesDir = path.join(process.cwd(), "content/resources/published");
+    const files = readdirSync(resourcesDir).filter((file) => file.endsWith(".json"));
 
     expect(files.length).toBeGreaterThan(0);
 
     for (const file of files) {
-      const raw = JSON.parse(readFileSync(path.join(projectsDir, file), "utf8"));
-      const project = parseOpenProject(raw);
-      const resource = parseResourceV1(openProjectToResourceV1(project, raw));
+      const raw = JSON.parse(readFileSync(path.join(resourcesDir, file), "utf8"));
+      const resource = parseResourceV1(raw);
 
       expect(resource.schema_version).toBe("openagent.resource.v1");
       expect(resource.status).toBe("published");

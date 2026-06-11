@@ -1,0 +1,284 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_tabby",
+  "slug": "tabby",
+  "status": "published",
+  "identity": {
+    "name": "Tabby",
+    "one_liner": "Self-hosted AI coding assistant with code completion, chat, and agent capabilities that runs entirely on your infrastructure.",
+    "short_description": "Tabby is an open-source, self-hosted AI coding assistant that provides code completion, chat, and agent capabilities without any external dependencies or data leaving your infrastructure. It supports VS Code, JetBrains, Vim, Emacs, and other editors, and works with self-hosted models for fully air-gapped operation."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "coding-agent",
+      "self-hosted",
+      "vs-code",
+      "jetbrains",
+      "autocomplete"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Tabby is the leading self-hosted alternative to GitHub Copilot and Cursor. For teams with strict data sovereignty requirements, air-gapped environments, or enterprise compliance needs, Tabby provides a complete AI coding assistant that runs entirely on their own infrastructure.",
+    "best_for": [
+      "Enterprise teams with strict data sovereignty and compliance requirements",
+      "Developers working in air-gapped or offline environments",
+      "Teams that want full control over their AI coding infrastructure and model selection"
+    ],
+    "not_for": [
+      "Individual developers who prefer cloud-hosted coding assistants",
+      "Users who want frontier models without managing local GPU infrastructure"
+    ],
+    "use_cases": [
+      "local-ai",
+      "self-hosted-ai",
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "local",
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": true,
+    "self_hostable": true,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 32200,
+    "github_forks": 1600,
+    "github_repo_full_name": "TabbyML/tabby",
+    "last_verified_at": "2026-06-04"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "local-inference",
+      "workflow-orchestration"
+    ],
+    "integrations": [
+      "agents",
+      "models",
+      "plugins"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/TabbyML/tabby",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/TabbyML/tabby"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://tabby.tabbyml.com"
+      },
+      {
+        "type": "docs",
+        "label": "Docs",
+        "url": "https://tabby.tabbyml.com/docs"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/TabbyML.png",
+    "og_image_url": "https://github.com/TabbyML.png",
+    "thumbnail_brief": {
+      "resource_type": "agent",
+      "visual_motif": "server rack with editor panels showing local AI code completion",
+      "background_style": "minimal editorial surface with restrained teal accent color",
+      "title_overlay": "Tabby",
+      "subtitle": "Self-hosted AI coding assistant",
+      "avoid": [
+        "busy poster layout",
+        "unverified logos",
+        "marketing-heavy screenshots"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "agent",
+      "open-source"
+    ],
+    "capability": [
+      "local-inference",
+      "workflow-orchestration"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted",
+      "local-first"
+    ],
+    "scenario": [
+      "local-ai",
+      "self-hosted-ai",
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/tabby",
+    "json_url": "https://www.openagent.bot/agents/tabby.json",
+    "markdown_url": "https://www.openagent.bot/agents/tabby.md"
+  },
+  "seo": {
+    "title": "Tabby: AI Agent — Self-hosted AI coding assistant with code completion, chat, and agent capabilities.",
+    "description": "Tabby is an open-source AI agent. Self-hosted AI coding assistant with code completion, chat, and agent capabilities that runs entirely on your infrastructure."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Fully self-hosted",
+        "description": "Runs entirely on your infrastructure with no external API calls or data leaving your network.",
+        "why_it_matters": "For regulated industries (healthcare, finance, government), Tabby is one of the few viable AI coding assistants because no code ever leaves the organization."
+      },
+      {
+        "title": "Multi-editor support",
+        "description": "Works with VS Code, JetBrains, Vim, Emacs, and other editors through standardized plugins.",
+        "why_it_matters": "Teams with diverse editor preferences can standardize on one self-hosted AI backend."
+      },
+      {
+        "title": "Code completion + chat + agent",
+        "description": "Provides inline code completion, conversational chat, and agentic task execution from a single self-hosted service.",
+        "why_it_matters": "One deployment covers the full spectrum of AI-assisted development without relying on external services."
+      },
+      {
+        "title": "Open model support",
+        "description": "Works with any open-source model including Llama, DeepSeek, Qwen, and fine-tuned custom models.",
+        "why_it_matters": "Teams can choose, fine-tune, or build custom models for their specific codebase and domain."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Air-gapped development",
+        "description": "Deploy Tabby in an air-gapped environment with no internet access, running entirely on local GPU infrastructure."
+      },
+      {
+        "title": "Enterprise compliance",
+        "description": "Meet SOC 2, HIPAA, or GDPR requirements by keeping all code and AI processing within your controlled infrastructure."
+      },
+      {
+        "title": "Custom model fine-tuning",
+        "description": "Fine-tune open models on your codebase for better completion quality, then serve them through Tabby."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose Tabby for self-hosted data sovereignty",
+        "summary": "Tabby runs entirely on your infrastructure with no data leaving your network. Copilot sends code snippets to GitHub's servers for processing.",
+        "against": "GitHub Copilot"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/TabbyML/tabby",
+        "type": "github"
+      },
+      {
+        "label": "Read the documentation",
+        "url": "https://tabby.tabbyml.com/docs",
+        "type": "docs"
+      },
+      {
+        "label": "Visit the project website",
+        "url": "https://tabby.tabbyml.com",
+        "type": "homepage"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Deploy Tabby",
+        "command": "docker run -it --gpus all -p 8080:8080 tabbyml/tabby serve --model StarCoder-15B",
+        "description": "Deploy Tabby via Docker with GPU support. Once running, install the editor extension and connect to your self-hosted instance."
+      }
+    ],
+    "seo_article": {
+      "intro": "Tabby is the leading self-hosted alternative to cloud-based AI coding assistants. For teams that cannot send code to external services due to compliance, security, or infrastructure constraints, Tabby provides a complete AI coding assistant that runs entirely on their own hardware.",
+      "what_it_is": "Tabby is an open-source, self-hosted AI coding assistant that provides code completion, chat, and agent capabilities. It runs entirely on your infrastructure with no external dependencies.",
+      "why_it_matters": "Most AI coding tools require sending code to external APIs. Tabby is designed for teams that cannot or will not let code leave their network. Combined with support for any open-source model, Tabby is the most practical option for enterprise, government, and regulated industry deployments.",
+      "how_it_works": "Start with one safe workflow for Tabby. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
+      "use_cases": [
+        {
+          "title": "Regulated industry deployment",
+          "description": "Deploy Tabby behind your firewall for healthcare, financial services, or government work where data cannot leave controlled infrastructure."
+        },
+        {
+          "title": "Offline development environments",
+          "description": "Run Tabby in fully air-gapped environments with no internet connectivity, using locally hosted open-source models."
+        },
+        {
+          "title": "Custom model serving",
+          "description": "Fine-tune and serve custom models optimized for your codebase, domain-specific languages, or internal frameworks."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use Continue for a lighter self-hosted option",
+          "summary": "Tabby provides a full self-hosted backend with completion, chat, and agent capabilities. Continue offers IDE-native agents with optional CI checks.",
+          "against": "Continue"
+        },
+        {
+          "title": "Use Cline for cloud-connected agent capabilities",
+          "summary": "Tabby is designed for self-hosted, offline-first deployments. Cline offers richer autonomous agent features but requires cloud API access.",
+          "against": "Cline"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Read the documentation",
+          "url": "https://tabby.tabbyml.com/docs",
+          "type": "docs"
+        },
+        {
+          "label": "Inspect the repository",
+          "url": "https://github.com/TabbyML/tabby",
+          "type": "github"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using Tabby?",
+          "answer": "Start with one safe workflow for Tabby. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+        },
+        {
+          "question": "Is Tabby open source?",
+          "answer": "Tabby is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "What hardware does Tabby need?",
+          "answer": "Tabby requires a machine with a GPU for good performance. It supports NVIDIA GPUs and Apple Silicon, and can run CPU-only with reduced speed."
+        },
+        {
+          "question": "Can Tabby work fully offline?",
+          "answer": "Yes. Tabby is designed for fully offline operation with no internet access required once deployed."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-04T00:00:00.000Z",
+    "updated_at": "2026-06-04T00:00:00.000Z",
+    "published_at": "2026-06-04T00:00:00.000Z"
+  }
+}

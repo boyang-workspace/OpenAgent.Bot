@@ -1,0 +1,280 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_mistral_small_3_2",
+  "slug": "mistral-small-3-2",
+  "status": "published",
+  "identity": {
+    "name": "Mistral Small 3.2",
+    "one_liner": "Apache-licensed small open model for practical instruction following, local inference, and agent experiments.",
+    "short_description": "Mistral Small 3.2 is a compact open model release from Mistral AI, useful for teams that want a practical model candidate for local inference, instruction-following tests, and cost-sensitive AI workflows."
+  },
+  "classification": {
+    "resource_type": "model",
+    "primary_category": "models",
+    "subcategories": [
+      "open-weights",
+      "local-ai",
+      "local-inference",
+      "self-hosted",
+      "api"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Mistral Small 3.2 matters because small open models often decide whether an AI feature can be cheap, fast, and self-hosted. It gives builders a model to evaluate before jumping to larger and more expensive inference stacks.",
+    "best_for": [
+      "Developers comparing compact open models for local or self-hosted inference",
+      "Teams that need a lower-cost model for tool workflows and assistant prototypes",
+      "Builders who want Mistral ecosystem compatibility with permissive licensing"
+    ],
+    "not_for": [
+      "Teams that need the strongest frontier reasoning model available",
+      "Users who want a finished consumer assistant rather than a model to integrate"
+    ],
+    "use_cases": [
+      "local-ai",
+      "self-hosted-ai"
+    ],
+    "target_audience": [
+      "developer",
+      "researcher"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "local",
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": true,
+    "self_hostable": true,
+    "has_api": true,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_repo_full_name": "mistralai/mistral-inference",
+    "last_verified_at": "2026-04-19"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "local-inference"
+    ],
+    "integrations": [
+      "Hugging Face",
+      "mistral-inference",
+      "vLLM",
+      "llama.cpp"
+    ],
+    "interfaces": [
+      "repo",
+      "docs",
+      "demo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/mistralai/mistral-inference",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/mistralai/mistral-inference"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://mistral.ai/"
+      },
+      {
+        "type": "docs",
+        "label": "Docs",
+        "url": "https://docs.mistral.ai/"
+      },
+      {
+        "type": "huggingface",
+        "label": "Demo",
+        "url": "https://huggingface.co/mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/mistralai.png",
+    "og_image_url": "https://github.com/mistralai.png",
+    "thumbnail_brief": {
+      "resource_type": "model",
+      "visual_motif": "compact inference tile with small model blocks and a speed/cost axis",
+      "background_style": "minimal editorial card with restrained red and green accents",
+      "title_overlay": "Mistral Small 3.2",
+      "subtitle": "Compact open model for practical inference",
+      "avoid": [
+        "large cloud dashboard screenshot",
+        "noisy benchmark collage",
+        "unofficial Mistral logo recreation"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "model",
+      "open-source"
+    ],
+    "capability": [
+      "local-inference"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted",
+      "local-first",
+      "open-weights"
+    ],
+    "scenario": [
+      "local-ai",
+      "self-hosted-ai"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/models/mistral-small-3-2",
+    "json_url": "https://www.openagent.bot/models/mistral-small-3-2.json",
+    "markdown_url": "https://www.openagent.bot/models/mistral-small-3-2.md"
+  },
+  "seo": {
+    "title": "Mistral Small 3.2: AI Model — Apache-licensed small open model for practical instruction following, local i...",
+    "description": "Mistral Small 3.2 is an open-source open-source model. Apache-licensed small open model for practical instruction following, local inference, and agent experiments.. 了解 Mistral Small 3.2 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Compact model for practical evaluation",
+        "description": "Mistral Small 3.2 is positioned as a smaller model that can fit more cost-sensitive inference plans.",
+        "why_it_matters": "Many AI products need reliable enough models, not the largest possible model."
+      },
+      {
+        "title": "Permissive open model path",
+        "description": "The release is associated with Apache-2.0 licensing and Mistral's open model ecosystem.",
+        "why_it_matters": "License clarity is one of the first filters for teams evaluating open model adoption."
+      },
+      {
+        "title": "Good candidate for agent and assistant prototypes",
+        "description": "Compact instruction-following models are useful for early tool workflows, routing, and assistant behavior tests.",
+        "why_it_matters": "A small model can reduce iteration cost while a team is still proving the workflow."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Local assistant experiments",
+        "description": "Use it to test whether a smaller open model is enough for a product feature before paying for larger inference."
+      },
+      {
+        "title": "Routing and lightweight agent tasks",
+        "description": "Evaluate it for classification, summarization, tool selection, and other tasks that do not always require a frontier model."
+      },
+      {
+        "title": "Self-hosted inference planning",
+        "description": "Use the model as part of a benchmark set when deciding what can run on your own infrastructure."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose Mistral Small 3.2 when size and cost matter",
+        "summary": "Larger models may win on difficult reasoning, but Mistral Small 3.2 is worth testing when local cost, latency, and integration simplicity are more important.",
+        "against": "larger open model families"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the Hugging Face model page",
+        "url": "https://huggingface.co/mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+        "type": "huggingface"
+      },
+      {
+        "label": "Read Mistral documentation",
+        "url": "https://docs.mistral.ai/",
+        "type": "docs"
+      },
+      {
+        "label": "Open the official inference repository",
+        "url": "https://github.com/mistralai/mistral-inference",
+        "type": "github"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install Mistral inference tooling",
+        "command": "pip install mistral-inference",
+        "description": "Use the official inference package as a starting point, then follow the model-specific instructions from the official model card."
+      }
+    ],
+    "seo_article": {
+      "intro": "Mistral Small 3.2 is worth tracking because small open models are often the difference between a prototype that is interesting and a product feature that is affordable. It is a candidate for teams evaluating local or self-hosted inference without starting from the largest model available.",
+      "what_it_is": "Mistral Small 3.2 is an open model resource to evaluate by workload, serving path, context behavior, license terms, and how reliably it supports the agent or local AI tasks you actually plan to run.",
+      "why_it_matters": "Open model selection is not only about top benchmark scores. Many teams need a model that is small enough to run cheaply, permissive enough to adopt, and capable enough for real workflow tasks. Mistral Small 3.2 fits that evaluation slot.",
+      "how_it_works": "Run Mistral Small 3.2 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it.",
+      "use_cases": [
+        {
+          "title": "Cost-sensitive assistant features",
+          "description": "Use it when the workload does not justify a larger model on every request."
+        },
+        {
+          "title": "Local model comparison",
+          "description": "Benchmark it against Gemma, Qwen, DeepSeek, and OLMo variants on your own hardware."
+        },
+        {
+          "title": "Agent routing and support tasks",
+          "description": "Test it for smaller agent subtasks such as routing, summarizing context, and creating structured outputs."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use larger models for harder reasoning",
+          "summary": "Mistral Small 3.2 is not automatically the strongest reasoning model; it is strongest when the deployment tradeoff favors compactness and cost.",
+          "against": "DeepSeek-R1, Qwen3.6, GLM-5"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Read the model card",
+          "url": "https://huggingface.co/mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+          "type": "huggingface"
+        },
+        {
+          "label": "Review Mistral docs",
+          "url": "https://docs.mistral.ai/",
+          "type": "docs"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using Mistral Small 3.2?",
+          "answer": "Run Mistral Small 3.2 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it."
+        },
+        {
+          "question": "Is Mistral Small 3.2 open source?",
+          "answer": "Mistral Small 3.2 is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate Mistral Small 3.2?",
+          "answer": "Mistral Small 3.2 is most worth evaluating for developers comparing compact open models for local or self-hosted inference."
+        },
+        {
+          "question": "Why use a smaller model?",
+          "answer": "Smaller models can be cheaper, faster, and easier to self-host, especially for workflows that do not need frontier reasoning on every request."
+        },
+        {
+          "question": "Should I use Mistral Small 3.2 for agents?",
+          "answer": "It is worth testing for lightweight agent subtasks, but teams should benchmark tool use and structured output behavior before relying on it."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-04-19T00:00:00.000Z",
+    "updated_at": "2026-04-19T00:00:00.000Z",
+    "published_at": "2026-04-19T00:00:00.000Z"
+  }
+}

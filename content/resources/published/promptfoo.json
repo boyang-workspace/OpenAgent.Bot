@@ -1,0 +1,203 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_promptfoo",
+  "slug": "promptfoo",
+  "status": "published",
+  "identity": {
+    "name": "promptfoo",
+    "one_liner": "Open-source tool for testing prompts, agents, RAG systems, and AI security behavior.",
+    "short_description": "promptfoo is an MIT-licensed testing and red-teaming tool for prompts, agents, RAG pipelines, and AI application behavior, with declarative configs and CI/CD-friendly workflows."
+  },
+  "classification": {
+    "resource_type": "tool",
+    "primary_category": "tools",
+    "subcategories": [
+      "automation",
+      "workflow",
+      "evals",
+      "red-teaming",
+      "prompt-testing"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Agent teams need repeatable tests before shipping changes. promptfoo gives builders a practical way to compare prompts, models, providers, and safety behavior without relying only on manual review.",
+    "best_for": [
+      "Teams testing prompts, agents, and RAG systems",
+      "Developers adding AI evaluations to CI/CD",
+      "Builders doing red-team or vulnerability checks on AI workflows"
+    ],
+    "not_for": [
+      "Teams that need only production tracing",
+      "Users who want a benchmark score without writing test cases"
+    ],
+    "use_cases": [
+      "self-hosted-ai"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "github_stars": 21787,
+    "github_forks": 1923,
+    "github_repo_full_name": "promptfoo/promptfoo",
+    "last_verified_at": "2026-06-02"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "automation",
+      "workflow",
+      "rag"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/promptfoo/promptfoo",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/promptfoo/promptfoo"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://promptfoo.dev"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_brief": {
+      "resource_type": "tool",
+      "visual_motif": "clean utility panel and geometric control surface",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "promptfoo",
+      "subtitle": "Open-source tool for testing prompts, agents, RAG systems, and AI security behavior.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "tool",
+      "open-source"
+    ],
+    "capability": [
+      "automation",
+      "workflow",
+      "rag"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "self-hosted-ai"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/tools/promptfoo",
+    "json_url": "https://www.openagent.bot/tools/promptfoo.json",
+    "markdown_url": "https://www.openagent.bot/tools/promptfoo.md"
+  },
+  "seo": {
+    "title": "promptfoo: Tool/Utility — Open-source tool for testing prompts, agents, RAG systems, and AI security be...",
+    "description": "promptfoo is an open-source tool. Open-source tool for testing prompts, agents, RAG systems, and AI security behavior.. 了解 promptfoo 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Automation",
+        "description": "promptfoo surfaces automation as a core capability in its published project metadata and source links.",
+        "why_it_matters": "This gives readers a starting point for evaluating whether the project fits their workflow before visiting the source repository or docs."
+      },
+      {
+        "title": "Workflow",
+        "description": "promptfoo surfaces workflow as a core capability in its published project metadata and source links.",
+        "why_it_matters": "This gives readers a starting point for evaluating whether the project fits their workflow before visiting the source repository or docs."
+      },
+      {
+        "title": "Rag",
+        "description": "promptfoo surfaces rag as a core capability in its published project metadata and source links.",
+        "why_it_matters": "This gives readers a starting point for evaluating whether the project fits their workflow before visiting the source repository or docs."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Self hosted ai",
+        "description": "Use it as a candidate for self hosted ai when the project facts, license, and official links match your deployment requirements."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose promptfoo",
+        "summary": "Compare it with nearby tools by looking at hosting model, integration surface, license, and whether the official docs show the workflow you need."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/promptfoo/promptfoo",
+        "type": "github"
+      },
+      {
+        "label": "Homepage",
+        "url": "https://promptfoo.dev",
+        "type": "homepage"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install or run",
+        "command": "npx promptfoo@latest init"
+      }
+    ],
+    "seo_article": {
+      "intro": "promptfoo is an MIT-licensed testing and red-teaming tool for prompts, agents, RAG pipelines, and AI application behavior, with declarative configs and CI/CD-friendly workflows.",
+      "what_it_is": "promptfoo is listed on OpenAgent.bot as a tools resource for open AI builders.",
+      "why_it_matters": "Agent teams need repeatable tests before shipping changes. promptfoo gives builders a practical way to compare prompts, models, providers, and safety behavior without relying only on manual review.",
+      "how_it_works": "Start from the official source links, then validate the project against your deployment needs, license requirements, and maintenance expectations.",
+      "getting_started": [
+        {
+          "label": "Review the repository",
+          "url": "https://github.com/promptfoo/promptfoo",
+          "type": "github"
+        },
+        {
+          "label": "Homepage",
+          "url": "https://promptfoo.dev",
+          "type": "homepage"
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-02T00:00:00.000Z",
+    "updated_at": "2026-06-02T00:00:00.000Z",
+    "published_at": "2026-06-02T00:00:00.000Z"
+  }
+}

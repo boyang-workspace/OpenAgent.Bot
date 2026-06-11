@@ -1,0 +1,30 @@
+{
+  "slug": "social-signal-research-stack-for-ai-builders",
+  "title": "A Social Signal Research Stack for AI Builders",
+  "summary": "How to combine last30days, official docs, GitHub activity, and evaluation notes before building on a trend.",
+  "publishedAt": "2026-06-10",
+  "tags": [
+    "research",
+    "ai-builders",
+    "social-signal"
+  ],
+  "author": "OpenAgent.bot Editors",
+  "seoTitle": "Social Signal Research Stack for AI Builders",
+  "seoDescription": "A practical stack for AI builders researching recent market, community, GitHub, and social signals before building.",
+  "body": [
+    "AI builders move fast, but the market moves faster. A useful research stack should tell you what people are actually trying, where they are stuck, and which projects are gaining real attention.",
+    "Start with [last30days](/skills/last30days-skill) for recent social and developer signal. Then check official repositories, docs, and evaluation artifacts before making a product decision.",
+    "## A simple stack",
+    "- Recent signal: last30days.",
+    "- Source of truth: official docs and GitHub repositories.",
+    "- Project comparison: OpenAgent category pages.",
+    "- Evaluation notes: write down task, source, evidence, and uncertainty.",
+    "- Follow-up: rerun the same query after a week if the topic is moving quickly.",
+    "## What counts as signal",
+    "Upvotes, likes, transcripts, comments, issues, pull requests, release notes, and prediction-market odds all say different things. Treat them as evidence, not verdicts.",
+    "## Where this helps",
+    "Use this stack before writing a comparison blog, adding a project to a directory, deciding which open-source tool to try, or choosing what to build next.",
+    "## Related project",
+    "- [last30days](/skills/last30days-skill)"
+  ]
+}

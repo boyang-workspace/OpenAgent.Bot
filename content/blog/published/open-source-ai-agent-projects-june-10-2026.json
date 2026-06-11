@@ -1,0 +1,39 @@
+{
+  "slug": "open-source-ai-agent-projects-june-10-2026",
+  "title": "Open-Source AI Agent Projects Found Today: June 10, 2026",
+  "summary": "Today's OpenAgent discovery pass found new or newly active projects across models, agents, memory systems, skills, plugins, tools, and bots.",
+  "publishedAt": "2026-06-10",
+  "tags": [
+    "open-source",
+    "ai-agents",
+    "daily-discovery"
+  ],
+  "author": "OpenAgent.bot Editors",
+  "seoTitle": "Open-Source AI Agent Projects Found Today: June 10, 2026",
+  "seoDescription": "A daily discovery roundup of open-source AI agent projects across models, agents, memory, skills, plugins, tools, and bots.",
+  "body": [
+    "Today's discovery pass found one useful addition in every OpenAgent category. The theme is clear: agent infrastructure is spreading outward from frameworks into browsers, memory, skills governance, MCP data connectors, observability, edge inference, and voice bots.",
+    "## Today's additions",
+    "| Category | Project | Why it matters |",
+    "|---|---|---|",
+    "| Models | [LiteRT-LM](/models/litert-lm) | Google's open-source edge LLM inference framework |",
+    "| Agents | [BrowserOS](/agents/browseros) | Open-source agentic browser for AI-native browsing workflows |",
+    "| Memory systems | [OpenLore](/memory-systems/openlore) | Persistent architectural memory for AI coding agents |",
+    "| Skills | [SkillHub](/skills/skillhub) | Self-hosted enterprise registry for agent skills |",
+    "| Plugins | [MongoDB MCP Server](/plugins/mongodb-mcp-server) | MCP connector for MongoDB databases and Atlas clusters |",
+    "| Tools | [OpenLIT](/tools/openlit) | OpenTelemetry-native AI observability and evaluation platform |",
+    "| Bots | [Dograh](/bots/dograh) | Self-hosted voice AI platform with visual workflows and telephony |",
+    "## What stood out",
+    "The most interesting projects are not trying to replace the whole stack. They each own one layer: model runtime, browser surface, architectural memory, skill governance, database tools, observability, or voice workflow execution.",
+    "## How to evaluate this batch",
+    "Start by matching each project to one workflow. For BrowserOS, test a real browsing task. For OpenLore, index one repository and inspect whether the memory is useful. For MongoDB MCP Server, use a development database first. For OpenLIT, instrument one agent path before adding dashboards. For Dograh, test handoff and telephony behavior before production calls.",
+    "## Official sources",
+    "- [LiteRT-LM GitHub](https://github.com/google-ai-edge/LiteRT-LM)",
+    "- [BrowserOS GitHub](https://github.com/browseros-ai/BrowserOS)",
+    "- [OpenLore GitHub](https://github.com/clay-good/OpenLore)",
+    "- [SkillHub GitHub](https://github.com/iflytek/skillhub)",
+    "- [MongoDB MCP Server GitHub](https://github.com/mongodb-js/mongodb-mcp-server)",
+    "- [OpenLIT GitHub](https://github.com/openlit/openlit)",
+    "- [Dograh GitHub](https://github.com/dograh-hq/dograh)"
+  ]
+}

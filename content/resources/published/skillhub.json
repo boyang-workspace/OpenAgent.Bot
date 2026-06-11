@@ -1,0 +1,206 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_skillhub",
+  "slug": "skillhub",
+  "status": "published",
+  "identity": {
+    "name": "SkillHub",
+    "one_liner": "Self-hosted open-source registry for publishing, versioning, and governing enterprise agent skills.",
+    "short_description": "SkillHub is an open-source agent skill registry for enterprises. It focuses on publishing and versioning skill packages, governance with RBAC and audit logs, and self-hosted deployment with Docker or Kubernetes."
+  },
+  "classification": {
+    "resource_type": "skill",
+    "primary_category": "skills",
+    "subcategories": [
+      "agent-skill",
+      "workflow",
+      "self-hosted",
+      "openclaw",
+      "rbac"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "As teams create more agent skills, they need registries, ownership, versioning, and governance. SkillHub treats skills as managed artifacts rather than loose prompt files.",
+    "best_for": [
+      "Enterprise teams building shared agent skill libraries",
+      "Platform teams that need RBAC and audit logs for skills",
+      "Organizations deploying skills on-premise or in controlled environments"
+    ],
+    "not_for": [
+      "Solo users with only a few local skills",
+      "Teams looking for a single-purpose skill rather than a registry"
+    ],
+    "use_cases": [
+      "self-hosted-ai",
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": true,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": true
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 3421,
+    "github_forks": 481,
+    "github_repo_full_name": "iflytek/skillhub",
+    "last_verified_at": "2026-06-10"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "agent-skill",
+      "workflow"
+    ],
+    "interfaces": [
+      "repo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/iflytek/skillhub",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/iflytek/skillhub"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://skill.xfyun.cn"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/iflytek.png",
+    "og_image_url": "https://github.com/iflytek.png",
+    "thumbnail_brief": {
+      "resource_type": "skill",
+      "visual_motif": "modular command blocks and action steps",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "SkillHub",
+      "subtitle": "Self-hosted open-source registry for publishing, versioning, and governing enterprise agent skills.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "skill",
+      "open-source"
+    ],
+    "capability": [
+      "agent-skill",
+      "workflow"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted",
+      "docker"
+    ],
+    "scenario": [
+      "self-hosted-ai",
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/skills/skillhub",
+    "json_url": "https://www.openagent.bot/skills/skillhub.json",
+    "markdown_url": "https://www.openagent.bot/skills/skillhub.md"
+  },
+  "seo": {
+    "title": "SkillHub: Open-Source Enterprise Agent Skill Registry",
+    "description": "SkillHub is a self-hosted open-source registry for publishing, versioning, and governing enterprise agent skills."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Skill registry",
+        "description": "SkillHub provides a place to publish and version agent skill packages.",
+        "why_it_matters": "Shared skills become easier to discover, review, and maintain when they live in a registry."
+      },
+      {
+        "title": "Governance controls",
+        "description": "The project emphasizes RBAC and audit logs.",
+        "why_it_matters": "Enterprise agent skills need ownership, permissions, and traceability."
+      },
+      {
+        "title": "Self-hosted deployment",
+        "description": "SkillHub is designed for on-premise deployment with Docker or Kubernetes.",
+        "why_it_matters": "Teams can manage skills without handing internal workflow definitions to a hosted platform."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Enterprise skill catalog",
+        "description": "Publish approved skills for agent users across teams."
+      },
+      {
+        "title": "Skill version governance",
+        "description": "Track versions and audit changes before skills are used in production workflows."
+      },
+      {
+        "title": "OpenClaw skill operations",
+        "description": "Manage OpenClaw-oriented skills in a controlled registry."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose SkillHub",
+        "summary": "Compare it with nearby skills by looking at hosting model, integration surface, license, and whether the official docs show the workflow you need."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/iflytek/skillhub",
+        "type": "github"
+      },
+      {
+        "label": "Visit the project site",
+        "url": "https://skill.xfyun.cn",
+        "type": "homepage"
+      }
+    ],
+    "seo_article": {
+      "intro": "SkillHub is a self-hosted registry for enterprise agent skills.",
+      "what_it_is": "It helps teams publish, version, govern, and deploy reusable skill packages.",
+      "why_it_matters": "Agent skills are becoming shared software artifacts, and shared artifacts need governance.",
+      "how_it_works": "Evaluate it by publishing a small skill library, assigning ownership, and testing update and audit workflows.",
+      "faq": [
+        {
+          "question": "Is SkillHub open source?",
+          "answer": "Yes. The GitHub repository is listed under the Apache-2.0 license."
+        },
+        {
+          "question": "Who should evaluate SkillHub?",
+          "answer": "Teams managing shared agent skills across departments or controlled environments should evaluate it."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-10T00:00:00.000Z",
+    "updated_at": "2026-06-10T00:00:00.000Z",
+    "published_at": "2026-06-10T00:00:00.000Z"
+  }
+}

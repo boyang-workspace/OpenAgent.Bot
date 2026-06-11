@@ -1,9 +1,9 @@
 import type { CategorySlug, ProjectDraftContent } from "./types";
 import { isControlledTag } from "../../src/lib/content/taxonomy";
-import { openProjectToResourceV1 } from "../../src/lib/content/resource-adapter";
+import { openProjectToResourceV1 } from "../../src/lib/content/resource-converters";
 import { linkTypes, parseResourceV1 } from "../../src/lib/content/resource-schema";
 
-export const categories = ["models", "agents", "memory-systems", "skills", "plugins", "tools"] as const;
+export const categories = ["models", "agents", "memory-systems", "skills", "plugins", "tools", "bots"] as const;
 
 export function isCategory(value: unknown): value is CategorySlug {
   return typeof value === "string" && (categories as readonly string[]).includes(value);

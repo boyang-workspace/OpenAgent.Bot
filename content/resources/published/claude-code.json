@@ -1,0 +1,266 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_claude_code",
+  "slug": "claude-code",
+  "status": "published",
+  "identity": {
+    "name": "Claude Code",
+    "one_liner": "Agentic coding tool from Anthropic that lives in your terminal, understands codebases, and handles complex development tasks through natural language.",
+    "short_description": "Claude Code is an agentic coding tool from Anthropic that runs in the terminal, reads your entire codebase, and executes multi-step development tasks through natural language instructions. It supports MCP integrations, git workflows, and works directly against your local files without requiring a cloud IDE."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "coding-agent",
+      "terminal",
+      "cli",
+      "mcp",
+      "git"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Claude Code represents a shift in how developers interact with AI: instead of copy-pasting snippets into a chat window, the agent operates directly on your codebase with full context. Its terminal-native design means it fits into existing developer workflows without requiring new infrastructure, and its deep codebase understanding makes it one of the most capable coding agents available.",
+    "best_for": [
+      "Developers who want an AI coding partner that understands entire repositories",
+      "Teams that need agentic code editing, refactoring, and debugging in the terminal",
+      "Engineers building complex features that require multi-file changes and architectural understanding"
+    ],
+    "not_for": [
+      "Users who prefer GUI-based IDE experiences over terminal workflows",
+      "Teams that require fully self-hosted or on-premise AI infrastructure due to Anthropic API dependency"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": false,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": true,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Proprietary",
+    "pricing_model": "free",
+    "github_stars": 127000,
+    "github_forks": 7200,
+    "github_repo_full_name": "anthropics/claude-code",
+    "last_verified_at": "2026-05-27"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "mcp",
+      "workflow-orchestration"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/anthropics/claude-code",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/anthropics/claude-code"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://docs.anthropic.com/en/docs/claude-code"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/anthropics.png",
+    "og_image_url": "https://github.com/anthropics.png",
+    "thumbnail_brief": {
+      "resource_type": "agent",
+      "visual_motif": "terminal window with code diff and a subtle Anthropic coral accent",
+      "background_style": "minimal editorial surface with restrained warm accent color",
+      "title_overlay": "Claude Code",
+      "subtitle": "Terminal-native coding agent",
+      "avoid": [
+        "busy poster layout",
+        "unverified logos",
+        "marketing-heavy screenshots"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "agent"
+    ],
+    "capability": [
+      "mcp",
+      "workflow-orchestration"
+    ],
+    "constraint": [
+      "source-available",
+      "mcp-compatible"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/claude-code",
+    "json_url": "https://www.openagent.bot/agents/claude-code.json",
+    "markdown_url": "https://www.openagent.bot/agents/claude-code.md"
+  },
+  "seo": {
+    "title": "Claude Code: AI Agent — Agentic coding tool from Anthropic that lives in your terminal, understands c...",
+    "description": "Claude Code is an open-source AI agent. Agentic coding tool from Anthropic that lives in your terminal, understands codebases, and handles complex development tasks through natural language.. 了解 Claude Code 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "featured_reason": "One of the most capable terminal-native coding agents available, backed by Anthropic's Claude models with deep codebase understanding.",
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Full codebase context",
+        "description": "Claude Code reads and understands your entire repository, not just the open file, enabling multi-file edits and architectural reasoning.",
+        "why_it_matters": "Most coding assistants work on isolated snippets. Claude Code can refactor across dozens of files because it understands project structure."
+      },
+      {
+        "title": "Terminal-native workflow",
+        "description": "Runs directly in your terminal alongside your existing tools, git, and shell commands without requiring a new IDE or cloud environment.",
+        "why_it_matters": "Developers keep their existing setup and muscle memory while gaining agentic capabilities."
+      },
+      {
+        "title": "MCP and extensibility",
+        "description": "Supports Model Context Protocol for connecting to external tools, databases, APIs, and custom integrations.",
+        "why_it_matters": "The agent can interact with your full development stack, not just the filesystem."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Large-scale refactoring",
+        "description": "Use Claude Code when you need to rename interfaces, migrate APIs, or restructure code across many files with consistent changes."
+      },
+      {
+        "title": "Bug investigation and fixing",
+        "description": "Let the agent trace through stack traces, read relevant source files, and propose fixes with full context of the surrounding code."
+      },
+      {
+        "title": "Feature implementation from specs",
+        "description": "Give Claude Code a design doc or issue description and have it scaffold the implementation across multiple files."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose Claude Code for deep codebase reasoning",
+        "summary": "Claude Code tends to handle complex multi-file refactors and architectural decisions more reliably due to its large context window and codebase indexing.",
+        "against": "lighter CLI agents like Codex CLI"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/anthropics/claude-code",
+        "type": "github"
+      },
+      {
+        "label": "Read the documentation",
+        "url": "https://docs.anthropic.com/en/docs/claude-code",
+        "type": "docs"
+      },
+      {
+        "label": "Visit the project website",
+        "url": "https://docs.anthropic.com/en/docs/claude-code",
+        "type": "homepage"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install Claude Code",
+        "command": "npm install -g @anthropic-ai/claude-code",
+        "description": "Install globally via npm, then run 'claude' in any project directory to start an agentic coding session."
+      }
+    ],
+    "seo_article": {
+      "intro": "Claude Code is Anthropic's answer to the agentic coding problem: how do you give an AI agent enough context to actually help with real software engineering? Instead of building another IDE plugin, Anthropic went terminal-native.",
+      "what_it_is": "Claude Code is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
+      "why_it_matters": "The gap between AI chatbots and AI engineers is context. Claude Code closes that gap by reading entire repositories, understanding dependencies, and reasoning about architecture. For developers, this means less time translating between what the AI sees and what actually exists in the codebase.",
+      "how_it_works": "Start with one safe workflow for Claude Code. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
+      "use_cases": [
+        {
+          "title": "Refactoring legacy code",
+          "description": "Claude Code can analyze a legacy module, understand its public API, and refactor the internals while preserving behavior across dozens of files."
+        },
+        {
+          "title": "Implementing features from issues",
+          "description": "Paste a GitHub issue or design spec, and Claude Code will plan the implementation, create branches, write code, and open a PR."
+        },
+        {
+          "title": "Debugging complex failures",
+          "description": "Feed Claude Code a stack trace or failing test, and it will trace through the codebase, identify the root cause, and propose a fix."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use Codex CLI for a lighter, open-source option",
+          "summary": "Codex CLI is fully open source and lighter weight, but Claude Code generally handles larger context windows and more complex reasoning tasks.",
+          "against": "Codex CLI"
+        },
+        {
+          "title": "Use Aider for multi-LLM flexibility",
+          "summary": "Aider supports 100+ LLM providers and has a more flexible model-agnostic approach. Claude Code is Anthropic-only but benefits from deep Claude model integration.",
+          "against": "Aider"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Read the documentation",
+          "url": "https://docs.anthropic.com/en/docs/claude-code",
+          "type": "docs"
+        },
+        {
+          "label": "Inspect the repository",
+          "url": "https://github.com/anthropics/claude-code",
+          "type": "github"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using Claude Code?",
+          "answer": "Start with one safe workflow for Claude Code. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+        },
+        {
+          "question": "Is Claude Code open source?",
+          "answer": "Claude Code is listed with Proprietary based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate Claude Code?",
+          "answer": "Claude Code is most worth evaluating for developers who want an AI coding partner that understands entire repositories."
+        },
+        {
+          "question": "Who should use Claude Code?",
+          "answer": "Developers who work in terminal-based workflows and want an AI agent that can understand and edit entire codebases, not just isolated files."
+        },
+        {
+          "question": "How does Claude Code compare to other coding agents?",
+          "answer": "Claude Code's main advantage is its deep codebase context and Claude's reasoning capability. It tends to perform better on complex multi-file tasks, though lighter tools like Codex CLI may be faster for simple edits."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-05-27T00:00:00.000Z",
+    "updated_at": "2026-05-27T00:00:00.000Z",
+    "published_at": "2026-05-27T00:00:00.000Z"
+  }
+}

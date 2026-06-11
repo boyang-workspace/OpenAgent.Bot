@@ -1,0 +1,29 @@
+{
+  "slug": "agent-browser-protocol-mcp-browser-automation",
+  "title": "Agent Browser Protocol: Why Browser Control Needs a Tool Boundary",
+  "summary": "Agent Browser Protocol turns browser automation into a more deterministic interface for coding agents and MCP-style workflows.",
+  "publishedAt": "2026-06-09",
+  "tags": [
+    "mcp",
+    "browser-automation",
+    "plugins"
+  ],
+  "author": "OpenAgent.bot Editors",
+  "seoTitle": "Agent Browser Protocol for MCP-Style Browser Automation",
+  "seoDescription": "How Agent Browser Protocol fits into browser automation stacks for Claude, Codex, OpenCode, and MCP-style agents.",
+  "body": [
+    "[Agent Browser Protocol](/plugins/agent-browser-protocol) is useful because it treats browser control as an interface, not a side effect.",
+    "That distinction matters. When an agent can click, type, inspect, and navigate, teams need boundaries: which browser actions are allowed, how actions are logged, and how failures can be replayed.",
+    "## Why protocol layers help",
+    "- They make browser capabilities reusable across agents.",
+    "- They make actions easier to inspect after failure.",
+    "- They support stricter allowlists and approvals.",
+    "- They reduce custom glue code for each agent environment.",
+    "## Best fit",
+    "Use a browser protocol when multiple agents or tools need the same browser surface. It is especially relevant for local app QA, authenticated workflow testing, and coding agents that need to verify UI changes.",
+    "## Compare before adopting",
+    "If you only need one script for one workflow, a protocol may be unnecessary. If browser access will become shared infrastructure, a deterministic control surface is worth the extra setup.",
+    "## Official source",
+    "- [Agent Browser Protocol GitHub](https://github.com/theredsix/agent-browser-protocol)"
+  ]
+}

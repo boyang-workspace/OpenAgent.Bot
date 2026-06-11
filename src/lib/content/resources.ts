@@ -1,8 +1,6 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { openProjectToResourceV1 } from "./resource-adapter";
-import { parseOpenProject } from "./schema";
 import { parseResourceV1, type PrimaryCategory, type ResourceV1 } from "./resource-schema";
 
 function fileSystemRootDir(): string | undefined {
@@ -13,11 +11,6 @@ function fileSystemRootDir(): string | undefined {
 
 const rootDir = fileSystemRootDir();
 const publishedResourcesDir = rootDir ? path.join(rootDir, "content/resources/published") : undefined;
-const legacyPublishedProjectsDir = rootDir ? path.join(rootDir, "content/projects/published") : undefined;
-
-type LegacyRawProject = {
-  lastVerifiedAt?: string;
-};
 
 async function readResourceDir(dir: string): Promise<ResourceV1[]> {
   const files = await readdir(dir, { withFileTypes: true }).catch(() => []);
@@ -36,27 +29,8 @@ async function readResourceDir(dir: string): Promise<ResourceV1[]> {
 }
 
 export async function getPublishedResources(): Promise<ResourceV1[]> {
-  const legacyResources = await readLegacyProjectResources();
-  const resources = legacyResources.length > 0 ? legacyResources : publishedResourcesDir ? await readResourceDir(publishedResourcesDir) : [];
+  const resources = publishedResourcesDir ? await readResourceDir(publishedResourcesDir) : [];
   return resources.filter((resource) => resource.status === "published");
-}
-
-async function readLegacyProjectResources(): Promise<ResourceV1[]> {
-  if (!legacyPublishedProjectsDir) return [];
-  const files = await readdir(legacyPublishedProjectsDir, { withFileTypes: true }).catch(() => []);
-  const resources = await Promise.all(
-    files
-      .filter((file) => file.isFile() && file.name.endsWith(".json"))
-      .map(async (file) => {
-        const raw = await readFile(path.join(legacyPublishedProjectsDir, file.name), "utf8");
-        const parsedJson = JSON.parse(raw) as LegacyRawProject;
-        return parseResourceV1(openProjectToResourceV1(parseOpenProject(parsedJson), parsedJson));
-      })
-  );
-
-  return resources.sort(
-    (a, b) => b.timestamps.updated_at.localeCompare(a.timestamps.updated_at) || a.identity.name.localeCompare(b.identity.name)
-  );
 }
 
 export async function getResourcesByCategory(category: PrimaryCategory): Promise<ResourceV1[]> {

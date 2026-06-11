@@ -1,0 +1,189 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_langfuse",
+  "slug": "langfuse",
+  "status": "published",
+  "identity": {
+    "name": "Langfuse",
+    "one_liner": "LLM engineering platform for observability, evals, prompt management, datasets, and traces.",
+    "short_description": "Langfuse is a source-available LLM engineering platform that helps teams observe, evaluate, and improve LLM and agent applications with traces, metrics, prompts, datasets, and integrations."
+  },
+  "classification": {
+    "resource_type": "tool",
+    "primary_category": "tools",
+    "subcategories": [
+      "workflow",
+      "state",
+      "observability",
+      "evals",
+      "prompt-management"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Agent products need more than a model call. They need traces, evaluations, prompt versions, and production feedback loops. Langfuse is one of the most visible open LLM observability stacks for that layer.",
+    "best_for": [
+      "Teams operating LLM or agent applications",
+      "Builders who need traces, prompt management, and datasets",
+      "Developers comparing open observability options for AI products"
+    ],
+    "not_for": [
+      "Tiny prototypes that do not need observability yet",
+      "Teams that want a purely local CLI-only evaluation workflow"
+    ],
+    "use_cases": [
+      "self-hosted-ai"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": false,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "See repository",
+    "pricing_model": "free",
+    "github_stars": 28327,
+    "github_forks": 2919,
+    "github_repo_full_name": "langfuse/langfuse",
+    "last_verified_at": "2026-06-02"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "workflow",
+      "state"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/langfuse/langfuse",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/langfuse/langfuse"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://langfuse.com/docs"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_brief": {
+      "resource_type": "tool",
+      "visual_motif": "clean utility panel and geometric control surface",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "Langfuse",
+      "subtitle": "LLM engineering platform for observability, evals, prompt management, datasets, and traces.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "tool"
+    ],
+    "capability": [
+      "workflow",
+      "state"
+    ],
+    "constraint": [
+      "source-available"
+    ],
+    "scenario": [
+      "self-hosted-ai"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/tools/langfuse",
+    "json_url": "https://www.openagent.bot/tools/langfuse.json",
+    "markdown_url": "https://www.openagent.bot/tools/langfuse.md"
+  },
+  "seo": {
+    "title": "Langfuse: Tool/Utility — LLM engineering platform for observability, evals, prompt management, dataset...",
+    "description": "Langfuse is an open-source tool. LLM engineering platform for observability, evals, prompt management, datasets, and traces.. 了解 Langfuse 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Workflow",
+        "description": "Langfuse surfaces workflow as a core capability in its published project metadata and source links.",
+        "why_it_matters": "This gives readers a starting point for evaluating whether the project fits their workflow before visiting the source repository or docs."
+      },
+      {
+        "title": "State",
+        "description": "Langfuse surfaces state as a core capability in its published project metadata and source links.",
+        "why_it_matters": "This gives readers a starting point for evaluating whether the project fits their workflow before visiting the source repository or docs."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Self hosted ai",
+        "description": "Use it as a candidate for self hosted ai when the project facts, license, and official links match your deployment requirements."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose Langfuse",
+        "summary": "Compare it with nearby tools by looking at hosting model, integration surface, license, and whether the official docs show the workflow you need."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/langfuse/langfuse",
+        "type": "github"
+      },
+      {
+        "label": "Homepage",
+        "url": "https://langfuse.com/docs",
+        "type": "homepage"
+      }
+    ],
+    "seo_article": {
+      "intro": "Langfuse is a source-available LLM engineering platform that helps teams observe, evaluate, and improve LLM and agent applications with traces, metrics, prompts, datasets, and integrations.",
+      "what_it_is": "Langfuse is listed on OpenAgent.bot as a tools resource for open AI builders.",
+      "why_it_matters": "Agent products need more than a model call. They need traces, evaluations, prompt versions, and production feedback loops. Langfuse is one of the most visible open LLM observability stacks for that layer.",
+      "how_it_works": "Start from the official source links, then validate the project against your deployment needs, license requirements, and maintenance expectations.",
+      "getting_started": [
+        {
+          "label": "Review the repository",
+          "url": "https://github.com/langfuse/langfuse",
+          "type": "github"
+        },
+        {
+          "label": "Homepage",
+          "url": "https://langfuse.com/docs",
+          "type": "homepage"
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-02T00:00:00.000Z",
+    "updated_at": "2026-06-02T00:00:00.000Z",
+    "published_at": "2026-06-02T00:00:00.000Z"
+  }
+}

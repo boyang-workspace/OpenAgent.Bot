@@ -15,6 +15,20 @@ export async function GET() {
 
   const searchIndex = [
     {
+      type: "resolver",
+      title: "Stack Finder",
+      summary:
+        "Choose open-source agents, skills, MCP connectors, memory systems, models, and evaluation tools by workflow, environment, and safety constraints.",
+      href: "/stack-finder",
+      category: "Resolver",
+      meta: ["Stack Finder", "Agent capability resolver"],
+      signals: ["Workflow fit", "Risk notes", "JSON"],
+      tags: ["agents", "skills", "mcp", "memory", "evaluation", "local-first"],
+      updatedAt: new Date().toISOString().slice(0, 10),
+      searchable:
+        "stack finder agent capability resolver recommend tools agent workflow browser automation coding agent local desktop mcp memory evaluation risk safety constraints"
+    },
+    {
       type: "guide",
       title: "The Open-Source AI Agent Stack",
       summary:

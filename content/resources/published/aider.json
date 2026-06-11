@@ -1,0 +1,268 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_aider",
+  "slug": "aider",
+  "status": "published",
+  "identity": {
+    "name": "Aider",
+    "one_liner": "AI pair programming in your terminal that maps your codebase, auto-commits to git, and works with 100+ languages and any LLM provider.",
+    "short_description": "Aider is an open-source terminal tool for AI pair programming that works with any LLM provider, maps your codebase with a repository map, and automatically commits changes to git. It supports over 100 programming languages and integrates with local and cloud models through a flexible provider system."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "coding-agent",
+      "terminal",
+      "pair-programming",
+      "git"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Aider is one of the most established terminal coding agents, with a large community and a proven track record of handling real-world codebases. Its model-agnostic design means developers aren't locked into any single AI provider, and its git integration makes it one of the few agents that treats version control as a first-class concern.",
+    "best_for": [
+      "Developers who want model-agnostic AI pair programming in the terminal",
+      "Engineers who value automatic git integration and clean commit history",
+      "Teams experimenting with different LLM providers for coding tasks"
+    ],
+    "not_for": [
+      "Users who prefer GUI-based coding environments",
+      "Developers who want a fully autonomous agent that plans and executes multi-step workflows without interaction"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 45400,
+    "github_forks": 3200,
+    "github_repo_full_name": "Aider-AI/aider",
+    "last_verified_at": "2026-05-27"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "workflow-orchestration"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/Aider-AI/aider",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/Aider-AI/aider"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://aider.chat"
+      },
+      {
+        "type": "docs",
+        "label": "Docs",
+        "url": "https://aider.chat/docs"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/Aider-AI.png",
+    "og_image_url": "https://github.com/Aider-AI.png",
+    "thumbnail_brief": {
+      "resource_type": "agent",
+      "visual_motif": "terminal with git branch visualization and pair-programming indicator",
+      "background_style": "minimal editorial surface with restrained green accent color",
+      "title_overlay": "Aider",
+      "subtitle": "AI pair programming with git",
+      "avoid": [
+        "busy poster layout",
+        "unverified logos",
+        "marketing-heavy screenshots"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "agent",
+      "open-source"
+    ],
+    "capability": [
+      "workflow-orchestration"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/aider",
+    "json_url": "https://www.openagent.bot/agents/aider.json",
+    "markdown_url": "https://www.openagent.bot/agents/aider.md"
+  },
+  "seo": {
+    "title": "Aider: AI Agent — AI pair programming in your terminal that maps your codebase, auto-commits to...",
+    "description": "Aider is an open-source AI agent. AI pair programming in your terminal that maps your codebase, auto-commits to git, and works with 100+ languages and any LLM provider.. 了解 Aider 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "featured_reason": "One of the most mature and widely-used terminal coding agents, with model-agnostic design and deep git integration.",
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Model-agnostic architecture",
+        "description": "Aider works with any LLM provider — OpenAI, Anthropic, Google, local models, and more — through a flexible configuration system.",
+        "why_it_matters": "Developers can switch models based on task, cost, or speed requirements without changing their workflow."
+      },
+      {
+        "title": "Automatic git integration",
+        "description": "Aider automatically commits changes with meaningful commit messages, creating a clean audit trail of AI-assisted edits.",
+        "why_it_matters": "Git integration means every AI edit is tracked, reviewable, and reversible — critical for production use."
+      },
+      {
+        "title": "Repository map for context",
+        "description": "Aider builds a map of your codebase structure, helping the model understand relationships between files and modules.",
+        "why_it_matters": "Better context leads to more accurate edits, especially in large codebases where understanding architecture matters."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Iterative feature development",
+        "description": "Work with Aider in a conversational loop: describe the feature, review edits, request changes, and commit when satisfied."
+      },
+      {
+        "title": "Multi-file refactoring",
+        "description": "Use Aider's repository map to refactor across multiple files while maintaining consistency and auto-committing changes."
+      },
+      {
+        "title": "Learning and exploration",
+        "description": "Ask Aider to explain code, suggest improvements, or walk through unfamiliar modules while it tracks all changes in git."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose Aider for model flexibility and git integration",
+        "summary": "Aider supports 100+ LLM providers and has deeper git integration. Claude Code may handle complex reasoning better but locks you into Anthropic's models.",
+        "against": "Claude Code"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/Aider-AI/aider",
+        "type": "github"
+      },
+      {
+        "label": "Read the documentation",
+        "url": "https://aider.chat/docs",
+        "type": "docs"
+      },
+      {
+        "label": "Visit the project website",
+        "url": "https://aider.chat",
+        "type": "homepage"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install Aider",
+        "command": "pip install aider-chat",
+        "description": "Install via pip, then run 'aider' in any git repository. Configure your preferred LLM provider in the settings."
+      }
+    ],
+    "seo_article": {
+      "intro": "Aider is one of the original terminal coding agents, and it remains one of the most popular. Its model-agnostic design and automatic git integration make it a practical choice for developers who want AI pair programming without vendor lock-in.",
+      "what_it_is": "Aider is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
+      "why_it_matters": "Most coding agents lock you into a specific model provider. Aider's model-agnostic design means you can use the best model for each task — GPT-4 for complex reasoning, Claude for writing, or a local model for privacy-sensitive code. Combined with automatic git integration, it's one of the most production-ready coding agents available.",
+      "how_it_works": "Start with one safe workflow for Aider. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
+      "use_cases": [
+        {
+          "title": "Adding tests to existing code",
+          "description": "Point Aider at a module and ask it to generate unit tests. It reads the code, understands the API, and creates tests that match the existing patterns."
+        },
+        {
+          "title": "Refactoring with confidence",
+          "description": "Describe the refactoring you want, review Aider's diffs, and commit only when you're satisfied. Every step is tracked in git."
+        },
+        {
+          "title": "Cross-language development",
+          "description": "Aider supports 100+ languages, so you can use the same workflow for Python backend code, TypeScript frontend, and infrastructure scripts."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use Claude Code for deeper codebase reasoning",
+          "summary": "Aider offers model flexibility and git integration. Claude Code may handle complex multi-file reasoning better but is limited to Anthropic models.",
+          "against": "Claude Code"
+        },
+        {
+          "title": "Use Codex CLI for faster, lighter-weight tasks",
+          "summary": "Codex CLI is faster for quick edits. Aider is more feature-complete with better git integration and multi-model support.",
+          "against": "Codex CLI"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Read the documentation",
+          "url": "https://aider.chat/docs",
+          "type": "docs"
+        },
+        {
+          "label": "Inspect the repository",
+          "url": "https://github.com/Aider-AI/aider",
+          "type": "github"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using Aider?",
+          "answer": "Start with one safe workflow for Aider. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+        },
+        {
+          "question": "Is Aider open source?",
+          "answer": "Aider is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate Aider?",
+          "answer": "Aider is most worth evaluating for developers who want model-agnostic AI pair programming in the terminal."
+        },
+        {
+          "question": "Who should use Aider?",
+          "answer": "Developers who want AI pair programming with the flexibility to use any LLM provider, especially those who value automatic git integration and clean commit history."
+        },
+        {
+          "question": "How does Aider compare to other coding agents?",
+          "answer": "Aider's main differentiators are its model-agnostic design and deep git integration. It's more interactive than fully autonomous agents but offers more control and flexibility."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-05-27T00:00:00.000Z",
+    "updated_at": "2026-05-27T00:00:00.000Z",
+    "published_at": "2026-05-27T00:00:00.000Z"
+  }
+}

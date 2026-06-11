@@ -1,0 +1,30 @@
+{
+  "slug": "fingpt-open-source-finance-llm-stack",
+  "title": "FinGPT and the Case for Domain-Specific Open LLMs",
+  "summary": "FinGPT shows why finance teams should evaluate domain-specific open-source LLM projects with strict task-level tests.",
+  "publishedAt": "2026-06-09",
+  "tags": [
+    "models",
+    "finance",
+    "llm"
+  ],
+  "author": "OpenAgent.bot Editors",
+  "seoTitle": "FinGPT: Open-Source Financial LLM Project Guide",
+  "seoDescription": "A practical guide to evaluating FinGPT and finance-specific open-source LLM workflows.",
+  "body": [
+    "[FinGPT](/models/fingpt) belongs in the models category because it answers a recurring question: when should a team reach for a domain-specific model instead of a general LLM?",
+    "Finance is a strong test case. The language is specialized, the cost of mistakes is high, and evaluation should be tied to concrete tasks rather than broad claims.",
+    "## Where FinGPT can help",
+    "- Financial sentiment analysis.",
+    "- Domain adaptation research.",
+    "- Market text classification experiments.",
+    "- Finance assistant prototypes that need transparent model choices.",
+    "## Evaluation standard",
+    "Do not evaluate a finance model with generic vibes. Use task-specific datasets, human expert review, audit trails, and clear compliance constraints.",
+    "## What to compare",
+    "Compare FinGPT with a strong general model on the same finance examples. Track accuracy, hallucination rate, uncertainty handling, and whether the model cites or preserves source context correctly.",
+    "## Official sources",
+    "- [FinGPT GitHub](https://github.com/AI4Finance-Foundation/FinGPT)",
+    "- [FinGPT website](https://fingpt.io)"
+  ]
+}

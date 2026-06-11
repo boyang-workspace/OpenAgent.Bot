@@ -1,0 +1,199 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_cowagent",
+  "slug": "cowagent",
+  "status": "published",
+  "identity": {
+    "name": "CowAgent",
+    "one_liner": "Open-source AI assistant with multi-model support, task planning, tool execution, and persistent memory.",
+    "short_description": "CowAgent (formerly chatgpt-on-wechat) is an open-source AI assistant harness that connects multiple LLM backends across chat channels. It features task planning, tool execution, skill management, and autonomous memory growth — all in a lightweight, extensible package with a one-line install."
+  },
+  "classification": {
+    "resource_type": "memory_system",
+    "primary_category": "memory-systems",
+    "subcategories": [
+      "memory-systems",
+      "multi-agent",
+      "chat",
+      "memory"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "CowAgent bridges the gap between chatbot frontends and full agent harnesses. With 45K+ GitHub stars and support for multiple models and channels, it is one of the most widely deployed open-source solutions for bringing agent capabilities into everyday chat interfaces.",
+    "best_for": [
+      "Developers who want a multi-model AI assistant with persistent memory and skill execution",
+      "Teams building chat-based agent interfaces across WeChat, Discord, and other messaging platforms",
+      "Builders evaluating open-source memory systems for agent applications"
+    ],
+    "not_for": [
+      "Users who need a terminal-based coding agent rather than a chat-oriented assistant",
+      "Teams that require cloud-hosted, managed AI infrastructure"
+    ],
+    "use_cases": [
+      "personal-memory"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "github_stars": 45035,
+    "github_forks": 10166,
+    "github_repo_full_name": "zhayujie/CowAgent",
+    "last_verified_at": "2026-06-03"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "memory"
+    ],
+    "integrations": [
+      "memory systems"
+    ],
+    "interfaces": [
+      "repo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/zhayujie/CowAgent",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/zhayujie/CowAgent"
+      },
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://cowagent.ai"
+      },
+      {
+        "type": "github",
+        "label": "Source",
+        "url": "https://github.com/zhayujie/CowAgent/blob/master/README.md"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://opengraph.githubassets.com/openagentbot/zhayujie/CowAgent",
+    "og_image_url": "https://opengraph.githubassets.com/openagentbot/zhayujie/CowAgent",
+    "thumbnail_brief": {
+      "resource_type": "memory_system",
+      "visual_motif": "layered cards, archive grid, or stacked memory tiles",
+      "background_style": "minimal editorial surface with restrained open-source accent color",
+      "title_overlay": "CowAgent",
+      "subtitle": "Open-source AI assistant with multi-model support, task planning, tool execution, and persistent memory.",
+      "avoid": [
+        "noisy poster layout",
+        "large marketing slogans",
+        "random gradient blobs"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "memory-system",
+      "open-source"
+    ],
+    "capability": [
+      "memory"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "personal-memory"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/memory-systems/cowagent",
+    "json_url": "https://www.openagent.bot/memory-systems/cowagent.json",
+    "markdown_url": "https://www.openagent.bot/memory-systems/cowagent.md"
+  },
+  "seo": {
+    "title": "CowAgent: Open-Source AI Assistant with Memory & Multi-Model Support",
+    "description": "CowAgent (formerly chatgpt-on-wechat) is an open-source super AI assistant with task planning, tool execution, memory, and multi-channel support."
+  },
+  "editorial": {
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Memory",
+        "description": "CowAgent surfaces memory as a core capability in its published project metadata and source links.",
+        "why_it_matters": "This gives readers a starting point for evaluating whether the project fits their workflow before visiting the source repository or docs."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Personal memory",
+        "description": "Use it as a candidate for personal memory when the project facts, license, and official links match your deployment requirements."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "When to choose CowAgent",
+        "summary": "Compare it with nearby memory systems by looking at hosting model, integration surface, license, and whether the official docs show the workflow you need."
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/zhayujie/CowAgent",
+        "type": "github"
+      },
+      {
+        "label": "Homepage",
+        "url": "https://cowagent.ai",
+        "type": "homepage"
+      },
+      {
+        "label": "Review the repository",
+        "url": "https://github.com/zhayujie/CowAgent/blob/master/README.md",
+        "type": "github"
+      }
+    ],
+    "seo_article": {
+      "what_it_is": "CowAgent is an open-source AI assistant harness that supports multiple large language models, task planning, tool execution, skill management, and autonomous memory growth. It was originally developed as chatgpt-on-wechat and has grown into a general-purpose agent platform.",
+      "why_it_matters": "With support for multiple model providers and messaging channels, CowAgent is one of the most practical open-source solutions for deploying AI assistants in real chat environments.",
+      "faq": [
+        {
+          "question": "What makes CowAgent different from other AI assistants?",
+          "answer": "CowAgent combines multi-model support, tool execution, skill management, and persistent memory in a single lightweight package designed for chat channels."
+        },
+        {
+          "question": "What messaging platforms does CowAgent support?",
+          "answer": "CowAgent supports multiple channels including WeChat, Discord, and other messaging platforms through its extensible channel architecture."
+        },
+        {
+          "question": "Is CowAgent open source?",
+          "answer": "Yes, CowAgent is open source under the MIT license with 45K+ GitHub stars."
+        },
+        {
+          "question": "Can I use my own LLM with CowAgent?",
+          "answer": "Yes, CowAgent supports multiple LLM backends including OpenAI, local models, and other providers through its multi-model architecture."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-03T00:00:00.000Z",
+    "updated_at": "2026-06-03T00:00:00.000Z",
+    "published_at": "2026-06-03T00:00:00.000Z"
+  }
+}

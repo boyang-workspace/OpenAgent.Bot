@@ -29,6 +29,7 @@ Without `--dry-run`, the pipeline writes:
 - `content/discovery/YYYY-MM-DD.json`
 - `content/topics/YYYY-MM-DD.json`
 - `content/projects/drafts/<slug>.json`
+- high-confidence auto-published resources to `content/resources/published/<slug>.json`
 
 The blog automation writes:
 
@@ -37,7 +38,7 @@ The blog automation writes:
 
 Published project pages only read from:
 
-- `content/projects/published/*.json`
+- `content/resources/published/*.json`
 
 ## Manual Editorial Run
 

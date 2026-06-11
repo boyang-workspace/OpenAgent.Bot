@@ -1,0 +1,330 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_deepseek_v4",
+  "slug": "deepseek-v4",
+  "status": "published",
+  "identity": {
+    "name": "DeepSeek V4",
+    "one_liner": "Open DeepSeek V4 model family for million-token context, coding, reasoning, and agent workflows.",
+    "short_description": "DeepSeek V4 is DeepSeek's current open model family, with V4-Pro and V4-Flash variants surfaced through DeepSeek's official API docs and DeepSeek AI's Hugging Face release pages."
+  },
+  "classification": {
+    "resource_type": "model",
+    "primary_category": "models",
+    "subcategories": [
+      "open-weights",
+      "local-ai",
+      "local-inference",
+      "self-hosted",
+      "tool-calling"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "DeepSeek V4 matters because open model evaluation has moved beyond older reasoning baselines. Builders now need to compare newer long-context, tool-friendly, and agent-oriented DeepSeek models against Qwen, Kimi, GLM, Mistral, and closed hosted models on their own workloads.",
+    "best_for": [
+      "Developers testing open models for coding, reasoning, and agent workflows",
+      "Teams comparing V4-Pro quality against lower-cost V4-Flash throughput",
+      "Builders who need long-context model options with official API and open-weight reference links"
+    ],
+    "not_for": [
+      "Teams that need a simple consumer chatbot with no model or provider evaluation",
+      "Builders who cannot review model cards, license terms, safety behavior, and serving cost before adoption",
+      "Use cases that require verified image input support rather than text, tool calls, JSON output, and long-context reasoning"
+    ],
+    "use_cases": [
+      "local-ai",
+      "self-hosted-ai"
+    ],
+    "target_audience": [
+      "developer",
+      "researcher"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "local",
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": true,
+    "self_hostable": true,
+    "has_api": true,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "last_verified_at": "2026-06-02"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "local-inference",
+      "tool-calling"
+    ],
+    "integrations": [
+      "DeepSeek API",
+      "Hugging Face",
+      "OpenAI-compatible Chat Completions",
+      "Anthropic-compatible API"
+    ],
+    "interfaces": [
+      "docs",
+      "demo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://www.deepseek.com/",
+    "items": [
+      {
+        "type": "homepage",
+        "label": "Homepage",
+        "url": "https://www.deepseek.com/"
+      },
+      {
+        "type": "docs",
+        "label": "Docs",
+        "url": "https://api-docs.deepseek.com/news/news260424"
+      },
+      {
+        "type": "huggingface",
+        "label": "Demo",
+        "url": "https://huggingface.co/collections/deepseek-ai/deepseek-v4"
+      },
+      {
+        "type": "homepage",
+        "label": "Source",
+        "url": "https://api-docs.deepseek.com/quick_start/pricing"
+      },
+      {
+        "type": "homepage",
+        "label": "Source",
+        "url": "https://api-docs.deepseek.com/updates/"
+      },
+      {
+        "type": "huggingface",
+        "label": "Source",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash"
+      },
+      {
+        "type": "huggingface",
+        "label": "Source",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/main/LICENSE"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://api-docs.deepseek.com/img/deepseek-social-card.jpeg",
+    "og_image_url": "https://api-docs.deepseek.com/img/deepseek-social-card.jpeg",
+    "thumbnail_brief": {
+      "resource_type": "model",
+      "visual_motif": "DeepSeek official social card with long-context model routing labels",
+      "background_style": "clean official-source editorial surface",
+      "title_overlay": "DeepSeek V4",
+      "subtitle": "V4-Pro and V4-Flash for long-context agent workflows",
+      "priority_assets": [
+        "DeepSeek API docs social card",
+        "DeepSeek Hugging Face V4 collection"
+      ],
+      "avoid": [
+        "third-party benchmark poster",
+        "unverified logo variants",
+        "generic robot illustration"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "model",
+      "open-source"
+    ],
+    "capability": [
+      "local-inference",
+      "tool-calling"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted",
+      "local-first",
+      "open-weights"
+    ],
+    "scenario": [
+      "local-ai",
+      "self-hosted-ai"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/models/deepseek-v4",
+    "json_url": "https://www.openagent.bot/models/deepseek-v4.json",
+    "markdown_url": "https://www.openagent.bot/models/deepseek-v4.md"
+  },
+  "seo": {
+    "title": "DeepSeek V4: AI Model — Open DeepSeek V4 model family for million-token context, coding, reasoning, a...",
+    "description": "DeepSeek V4 is an open-source open-source model. Open DeepSeek V4 model family for million-token context, coding, reasoning, and agent workflows.. 了解 DeepSeek V4 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "featured_reason": "DeepSeek V4 keeps the Models directory current beyond the older DeepSeek-R1 reasoning baseline.",
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Two-model V4 family",
+        "description": "DeepSeek's official V4 preview describes V4-Pro as the stronger variant and V4-Flash as the faster, more economical option.",
+        "why_it_matters": "Agent builders can route easier executor tasks to Flash and reserve Pro for higher-value reasoning or coding work."
+      },
+      {
+        "title": "Million-token context direction",
+        "description": "The official V4 release and pricing pages position V4 around very long context, thinking and non-thinking modes, JSON output, and tool calls.",
+        "why_it_matters": "Long-context reliability matters for agents that read large repositories, documents, logs, or task histories."
+      },
+      {
+        "title": "Official API plus open-weight references",
+        "description": "DeepSeek points readers to official API model IDs and a Hugging Face collection for the V4 open-weight release path.",
+        "why_it_matters": "Teams can compare hosted API behavior with model-card and open-weight constraints before building production routing."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Coding agent model routing",
+        "description": "Test V4-Flash for cheaper planning and executor steps, then escalate to V4-Pro when deeper reasoning or code review quality is required."
+      },
+      {
+        "title": "Long-context research and analysis",
+        "description": "Evaluate how V4 handles large documents, repository context, meeting archives, or task traces before trusting million-token claims."
+      },
+      {
+        "title": "Open-model comparison baseline",
+        "description": "Compare DeepSeek V4 against Qwen, Kimi, GLM, Mistral, Gemma, and DeepSeek-R1 with the same prompts, latency budget, and license review."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose DeepSeek V4 when you need the current DeepSeek family",
+        "summary": "R1 remains useful as a reasoning baseline, but V4 is the newer DeepSeek family to test for long context, coding, tool calls, and current API behavior.",
+        "against": "DeepSeek-R1"
+      },
+      {
+        "title": "Use V4-Flash before V4-Pro when cost and throughput matter",
+        "summary": "Flash should be evaluated first for simpler agent steps; Pro is more appropriate when quality gains justify the higher-cost path.",
+        "against": "V4-Pro-only routing"
+      },
+      {
+        "title": "Do not rank it from benchmark headlines alone",
+        "summary": "Run your own coding traces, tool-call prompts, retrieval context, and safety checks before putting V4 into a product loop.",
+        "against": "generic leaderboard selection"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Read the DeepSeek V4 preview release",
+        "url": "https://api-docs.deepseek.com/news/news260424",
+        "type": "docs"
+      },
+      {
+        "label": "Check official models and pricing",
+        "url": "https://api-docs.deepseek.com/quick_start/pricing",
+        "type": "api_reference"
+      },
+      {
+        "label": "Open the Hugging Face V4 collection",
+        "url": "https://huggingface.co/collections/deepseek-ai/deepseek-v4",
+        "type": "huggingface"
+      },
+      {
+        "label": "Verify the license page before deployment",
+        "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro-Base/blob/main/LICENSE",
+        "type": "huggingface"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Use the official API model IDs",
+        "command": "model=\"deepseek-v4-flash\" # or \"deepseek-v4-pro\"",
+        "description": "Keep your existing DeepSeek API base URL and change the model ID for a controlled V4 evaluation."
+      }
+    ],
+    "seo_article": {
+      "intro": "DeepSeek V4 is the current DeepSeek family to evaluate after DeepSeek-R1. For OpenAgent readers, the important question is not whether V4 is new; it is whether V4-Pro or V4-Flash improves the specific coding, tool, long-context, or agent workload you plan to run.",
+      "what_it_is": "DeepSeek V4 is an open model resource to evaluate by workload, serving path, context behavior, license terms, and how reliably it supports the agent or local AI tasks you actually plan to run.",
+      "why_it_matters": "Model pages get stale quickly. DeepSeek-R1 was a major open reasoning baseline, but teams choosing models in mid-2026 should also test V4 because it targets long context, coding, tool calls, JSON output, and agentic workflows that sit closer to real production use.",
+      "how_it_works": "Run DeepSeek V4 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it.",
+      "use_cases": [
+        {
+          "title": "Agent executor model",
+          "description": "Use V4-Flash as a candidate for cheaper high-volume agent steps such as extraction, summarization, and simple tool planning."
+        },
+        {
+          "title": "Coding and reasoning escalation",
+          "description": "Use V4-Pro as a candidate when the workflow needs deeper reasoning, code review, planning, or complex technical analysis."
+        },
+        {
+          "title": "Long-context evaluation",
+          "description": "Use V4 to test whether million-token context improves repository, document, or memory-heavy workflows without creating new failure modes."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "DeepSeek-R1 remains a reasoning baseline",
+          "summary": "Keep R1 in comparisons when you want a known reasoning reference, but add V4 when evaluating current DeepSeek model behavior.",
+          "against": "DeepSeek-R1"
+        },
+        {
+          "title": "Compare against Qwen, Kimi, GLM, Gemma, and Mistral",
+          "summary": "V4 should earn adoption through workload tests, not release momentum alone.",
+          "against": "other open model families"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Read DeepSeek's V4 preview release",
+          "url": "https://api-docs.deepseek.com/news/news260424",
+          "type": "docs"
+        },
+        {
+          "label": "Review DeepSeek API model pricing",
+          "url": "https://api-docs.deepseek.com/quick_start/pricing",
+          "type": "api_reference"
+        },
+        {
+          "label": "Inspect the official Hugging Face collection",
+          "url": "https://huggingface.co/collections/deepseek-ai/deepseek-v4",
+          "type": "huggingface"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using DeepSeek V4?",
+          "answer": "Run DeepSeek V4 on a fixed prompt set from your own workflow. Compare quality, latency, context handling, retry behavior, deployment path, and license fit against nearby open models before adopting it."
+        },
+        {
+          "question": "Is DeepSeek V4 open source?",
+          "answer": "DeepSeek V4 is listed with MIT based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate DeepSeek V4?",
+          "answer": "DeepSeek V4 is most worth evaluating for developers testing open models for coding, reasoning, and agent workflows."
+        },
+        {
+          "question": "Is DeepSeek V4 newer than DeepSeek-R1?",
+          "answer": "Yes. This page treats DeepSeek-R1 as an older reasoning baseline and DeepSeek V4 as the current DeepSeek model family to evaluate for coding, long context, tool calls, and agent workflows."
+        },
+        {
+          "question": "Should I use V4-Pro or V4-Flash first?",
+          "answer": "Start with V4-Flash for cost-sensitive or high-throughput tasks, then test V4-Pro on harder coding and reasoning prompts where quality gains might justify the cost."
+        },
+        {
+          "question": "Is DeepSeek V4 suitable for image input?",
+          "answer": "Verify the current official docs before relying on image input. This profile focuses on the official text, long-context, JSON output, and tool-call signals surfaced in DeepSeek's V4 docs."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-06-02T00:00:00.000Z",
+    "updated_at": "2026-06-02T00:00:00.000Z",
+    "published_at": "2026-06-02T00:00:00.000Z"
+  }
+}

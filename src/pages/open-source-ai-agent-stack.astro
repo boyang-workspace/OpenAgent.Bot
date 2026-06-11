@@ -4,7 +4,7 @@ import ResourceCard from "@/components/ResourceCard.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { site } from "@/config/site";
 import { getPublishedBlogPosts } from "@/lib/content/blog";
-import { getPublishedResources, resourcePath } from "@/lib/content/resources";
+import { getPublishedResources } from "@/lib/content/resources";
 
 const resources = await getPublishedResources();
 const posts = await getPublishedBlogPosts();
@@ -15,10 +15,11 @@ const pageDescription =
   "A practical map of open-source AI agents, models, skills, memory systems, plugins, tools, and bots for builders choosing an agent stack.";
 const canonicalPath = "/open-source-ai-agent-stack";
 
+const isDefined = <T,>(value: T | undefined): value is T => Boolean(value);
 const resourceBySlug = new Map(resources.map((resource) => [resource.slug, resource]));
-const pickResources = (slugs: string[]) => slugs.map((slug) => resourceBySlug.get(slug)).filter(Boolean).slice(0, 3);
+const pickResources = (slugs: string[]) => slugs.map((slug) => resourceBySlug.get(slug)).filter(isDefined).slice(0, 3);
 const guideBySlug = new Map(posts.map((post) => [post.slug, post]));
-const pickGuides = (slugs: string[]) => slugs.map((slug) => guideBySlug.get(slug)).filter(Boolean);
+const pickGuides = (slugs: string[]) => slugs.map((slug) => guideBySlug.get(slug)).filter(isDefined);
 
 const stackLayers = [
   {

@@ -1,4 +1,4 @@
-export type CategorySlug = "models" | "agents" | "memory-systems" | "skills" | "plugins" | "tools";
+export type CategorySlug = "models" | "agents" | "memory-systems" | "skills" | "plugins" | "tools" | "bots";
 
 export type Env = {
   DB: D1Database;

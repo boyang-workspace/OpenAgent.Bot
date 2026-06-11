@@ -1,0 +1,267 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_gemini_cli",
+  "slug": "gemini-cli",
+  "status": "published",
+  "identity": {
+    "name": "Gemini CLI",
+    "one_liner": "Open-source AI agent from Google that brings Gemini models into the terminal with file operations, shell commands, and Google Search grounding.",
+    "short_description": "Gemini CLI is an open-source terminal agent from Google that runs Gemini models locally with file editing, shell execution, and built-in Google Search grounding. It supports MCP servers, works with large codebases, and offers a generous free tier through Gemini API access."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "coding-agent",
+      "terminal",
+      "cli",
+      "mcp",
+      "google"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Gemini CLI is significant because it brings Google's frontier models into the terminal-agent category as a fully open-source project under Apache-2.0. Combined with free-tier Gemini API access and Google Search grounding, it lowers the barrier for developers to experiment with agentic coding workflows.",
+    "best_for": [
+      "Developers who want free or low-cost access to frontier models in a terminal agent",
+      "Teams building agentic workflows that benefit from Google Search grounding",
+      "Engineers who prefer open-source tools they can inspect, modify, and self-host"
+    ],
+    "not_for": [
+      "Developers who need deep integration with non-Google model providers",
+      "Teams that require mature plugin ecosystems or extensive community tooling"
+    ],
+    "use_cases": [
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": false,
+    "self_hostable": false,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": true,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 105000,
+    "github_forks": 10800,
+    "github_repo_full_name": "google-gemini/gemini-cli",
+    "last_verified_at": "2026-05-27"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "mcp",
+      "workflow-orchestration"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/google-gemini/gemini-cli",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/google-gemini/gemini-cli"
+      },
+      {
+        "type": "github",
+        "label": "Docs",
+        "url": "https://github.com/google-gemini/gemini-cli#readme"
+      }
+    ]
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/google-gemini.png",
+    "og_image_url": "https://github.com/google-gemini.png",
+    "thumbnail_brief": {
+      "resource_type": "agent",
+      "visual_motif": "terminal window with a search icon and Google-blue accent",
+      "background_style": "minimal editorial surface with restrained blue accent color",
+      "title_overlay": "Gemini CLI",
+      "subtitle": "Open-source terminal agent with search grounding",
+      "avoid": [
+        "busy poster layout",
+        "unverified logos",
+        "marketing-heavy screenshots"
+      ]
+    }
+  },
+  "tags": {
+    "category": [
+      "agent",
+      "open-source"
+    ],
+    "capability": [
+      "mcp",
+      "workflow-orchestration"
+    ],
+    "constraint": [
+      "open-source",
+      "mcp-compatible"
+    ],
+    "scenario": [
+      "developer-workflow"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/gemini-cli",
+    "json_url": "https://www.openagent.bot/agents/gemini-cli.json",
+    "markdown_url": "https://www.openagent.bot/agents/gemini-cli.md"
+  },
+  "seo": {
+    "title": "Gemini CLI: AI Agent — Open-source AI agent from Google that brings Gemini models into the terminal ...",
+    "description": "Gemini CLI is an open-source AI agent. Open-source AI agent from Google that brings Gemini models into the terminal with file operations, shell commands, and Google Search grounding.. 了解 Gemini CLI 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "editorial": {
+    "featured_reason": "A fully open-source terminal agent backed by Google's Gemini models, with free-tier access and unique Google Search grounding capabilities.",
+    "trust_note": "Verified from source links and project metadata.",
+    "core_strengths": [
+      {
+        "title": "Google Search grounding",
+        "description": "Gemini CLI can ground its responses in live Google Search results, giving it access to up-to-date information beyond its training data.",
+        "why_it_matters": "Most terminal agents are limited to their training data. Search grounding lets Gemini CLI answer questions about recent APIs, library versions, and current best practices."
+      },
+      {
+        "title": "Fully open source under Apache-2.0",
+        "description": "The entire codebase is open for inspection, modification, and redistribution under a permissive license.",
+        "why_it_matters": "Teams can fork, customize, and embed Gemini CLI in their own toolchains without licensing concerns."
+      },
+      {
+        "title": "Generous free tier",
+        "description": "Google offers substantial free Gemini API access, making Gemini CLI one of the most cost-effective terminal agents available.",
+        "why_it_matters": "Developers can experiment with agentic coding workflows without committing to expensive API subscriptions."
+      }
+    ],
+    "use_case_notes": [
+      {
+        "title": "Code exploration and understanding",
+        "description": "Use Gemini CLI to navigate unfamiliar codebases, ask questions about architecture, and get explanations grounded in actual source code."
+      },
+      {
+        "title": "Research-backed development",
+        "description": "Leverage Google Search grounding to research APIs, compare libraries, and verify best practices before implementing features."
+      },
+      {
+        "title": "Rapid prototyping",
+        "description": "Scaffold new projects, generate boilerplate, and iterate on implementations with an agent that can run commands and edit files."
+      }
+    ],
+    "compare_notes": [
+      {
+        "title": "Choose Gemini CLI for search-grounded agentic coding",
+        "summary": "Gemini CLI offers Google Search grounding and a generous free tier. Claude Code may have an edge on complex multi-file reasoning tasks but requires a paid API.",
+        "against": "Claude Code"
+      }
+    ],
+    "getting_started": [
+      {
+        "label": "Open the GitHub repository",
+        "url": "https://github.com/google-gemini/gemini-cli",
+        "type": "github"
+      },
+      {
+        "label": "Read the documentation",
+        "url": "https://github.com/google-gemini/gemini-cli#readme",
+        "type": "docs"
+      },
+      {
+        "label": "Visit the project website",
+        "url": "https://github.com/google-gemini/gemini-cli",
+        "type": "homepage"
+      }
+    ],
+    "command_line": [
+      {
+        "label": "Install Gemini CLI",
+        "command": "npm install -g @anthropic-ai/gemini-cli",
+        "description": "Install globally via npm, then run 'gemini' in any project directory. You'll need a Google API key or can use the free tier."
+      }
+    ],
+    "seo_article": {
+      "intro": "Gemini CLI is Google's open-source entry into the terminal coding agent space. It brings Gemini models directly into the developer's terminal with file editing, shell commands, and a unique capability: Google Search grounding.",
+      "what_it_is": "Gemini CLI is an open agent resource to evaluate by action surface: what software it can operate, which tools or browser steps it touches, and how much supervision it needs before it can run real work.",
+      "why_it_matters": "The terminal agent space has been dominated by proprietary tools. Gemini CLI changes that by being fully open source while leveraging Google's frontier models. The addition of Google Search grounding means the agent isn't limited to its training data — it can look up current documentation, recent API changes, and live examples.",
+      "how_it_works": "Start with one safe workflow for Gemini CLI. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation.",
+      "use_cases": [
+        {
+          "title": "Learning unfamiliar codebases",
+          "description": "Ask Gemini CLI to explain architecture, trace data flows, and summarize how different modules interact in a project you just joined."
+        },
+        {
+          "title": "API integration research",
+          "description": "Use Google Search grounding to research third-party APIs, find current documentation, and generate integration code in one workflow."
+        },
+        {
+          "title": "Automated code generation",
+          "description": "Describe features in natural language and let Gemini CLI scaffold implementations, write tests, and iterate based on test results."
+        }
+      ],
+      "alternatives": [
+        {
+          "title": "Use Claude Code for deeper reasoning on complex tasks",
+          "summary": "Claude Code may handle complex multi-file refactors better, but Gemini CLI offers search grounding and a free tier that Claude Code does not.",
+          "against": "Claude Code"
+        },
+        {
+          "title": "Use Codex CLI for a lighter Rust-based option",
+          "summary": "Codex CLI is built in Rust for speed and supports multiple model providers. Gemini CLI is Node.js-based but offers unique Google Search integration.",
+          "against": "Codex CLI"
+        }
+      ],
+      "getting_started": [
+        {
+          "label": "Read the documentation",
+          "url": "https://github.com/google-gemini/gemini-cli#readme",
+          "type": "docs"
+        },
+        {
+          "label": "Inspect the repository",
+          "url": "https://github.com/google-gemini/gemini-cli",
+          "type": "github"
+        }
+      ],
+      "faq": [
+        {
+          "question": "What should I check before using Gemini CLI?",
+          "answer": "Start with one safe workflow for Gemini CLI. Inspect official setup instructions, required credentials, execution logs, approval points, and failure recovery before expanding from a sandbox task into production automation."
+        },
+        {
+          "question": "Is Gemini CLI open source?",
+          "answer": "Gemini CLI is listed with Apache-2.0 based on the official source links in this profile. Re-check the repository, model card, or docs before production use."
+        },
+        {
+          "question": "Who should evaluate Gemini CLI?",
+          "answer": "Gemini CLI is most worth evaluating for developers who want free or low-cost access to frontier models in a terminal agent."
+        },
+        {
+          "question": "Who should use Gemini CLI?",
+          "answer": "Developers who want a free or low-cost terminal coding agent with access to Google's Gemini models and unique Google Search grounding capabilities."
+        },
+        {
+          "question": "How does Gemini CLI compare to other coding agents?",
+          "answer": "Gemini CLI's main differentiators are its open-source license, Google Search grounding, and free tier. It may not match Claude Code on complex multi-file reasoning but offers capabilities that other terminal agents lack."
+        }
+      ]
+    }
+  },
+  "timestamps": {
+    "created_at": "2026-05-27T00:00:00.000Z",
+    "updated_at": "2026-05-27T00:00:00.000Z",
+    "published_at": "2026-05-27T00:00:00.000Z"
+  }
+}

@@ -95,6 +95,21 @@ const workflowOptions = workflowProfiles.map((profile) => ({
         };
       }
 
+      function track(eventName, payload) {
+        window.openAgentTrack?.(eventName, payload);
+      }
+
+      function trackFinderChange() {
+        const request = requestState();
+        track("stack_finder_change", {
+          workflow: request.workflow,
+          environment: request.environment,
+          stage: request.stage,
+          constraint_count: request.constraints.length,
+          constraints: request.constraints.join(",")
+        });
+      }
+
       function scoreFor(item, request) {
         let score = item.score.total;
         if (request.constraints.includes("mcp") && item.signals.includes("MCP")) score += 8;
@@ -123,14 +138,14 @@ const workflowOptions = workflowProfiles.map((profile) => ({
               <span>${escapeHtml(stack.title)}</span>
               <h2>${escapeHtml(stack.summary)}</h2>
             </div>
-            <a href="/recommendations/index.json">JSON</a>
+            <a href="/recommendations/index.json" data-analytics="recommendation_json" data-analytics-event="recommendation_json_click" data-analytics-payload='${escapeHtml(JSON.stringify({ workflow: request.workflow, environment: request.environment, stage: request.stage, constraint_count: request.constraints.length }))}'>JSON</a>
           </div>
           <div class="capability-row">
             ${stack.required_capabilities.slice(0, 6).map((item) => `<small class="capability-chip">${escapeHtml(item.replaceAll("_", " "))}</small>`).join("")}
           </div>
           <div class="tool-list">
-            ${tools.map((tool) => `
-              <a class="tool-row" href="${escapeHtml(tool.href)}">
+            ${tools.map((tool, index) => `
+              <a class="tool-row" href="${escapeHtml(tool.href)}" data-analytics="recommendation" data-analytics-event="recommendation_click" data-analytics-payload='${escapeHtml(JSON.stringify({ workflow: request.workflow, environment: request.environment, stage: request.stage, constraint_count: request.constraints.length, resource_slug: tool.slug, resource_category: tool.category, rank: index + 1, score: tool.adjusted, risk_level: tool.risk_level }))}'>
                 <div>
                   <span class="tool-meta">${escapeHtml(tool.role)} · ${escapeHtml(tool.category)}</span>
                   <strong>${escapeHtml(tool.name)}</strong>
@@ -175,7 +190,10 @@ const workflowOptions = workflowProfiles.map((profile) => ({
         }
       }
 
-      form?.addEventListener("change", render);
+      form?.addEventListener("change", () => {
+        render();
+        trackFinderChange();
+      });
       init();
     </script>
   </EditorialShell>

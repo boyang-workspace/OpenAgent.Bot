@@ -4,6 +4,9 @@ export const site = {
   title: "OpenAgent.bot - Open-source AI resources for humans and agents",
   description:
     "Find the right open-source agents, skills, MCP connectors, memory systems, models, and tools for agent workflows.",
+  analytics: {
+    ga4MeasurementId: "G-92BLS0VYN1"
+  },
   nav: [
     { label: "Stack Finder", href: "/stack-finder" },
     { label: "Evaluations", href: "/evaluations" },

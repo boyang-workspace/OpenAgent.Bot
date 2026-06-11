@@ -24,15 +24,27 @@ const decisionSignals = [
   resource.decision_signals.has_cli ? "CLI" : undefined,
   resource.decision_signals.has_gui ? "GUI" : undefined
 ].filter((value): value is string => Boolean(value));
+const analyticsPayload = JSON.stringify({
+  resource_slug: resource.slug,
+  resource_category: resource.classification.primary_category,
+  resource_type: resource.classification.resource_type
+});
 ---
 
-<section class="decision-panel" aria-labelledby="decision-title">
+<section class="decision-panel" aria-labelledby="decision-title" data-analytics-view="decision_panel_view" data-analytics-payload={analyticsPayload}>
   <div class="decision-head">
     <div>
       <span>Decision brief</span>
       <h2 id="decision-title">Should you use {resource.identity.name}?</h2>
     </div>
-    <a href={resource.machine_readable.json_url}>JSON</a>
+    <a
+      href={resource.machine_readable.json_url}
+      data-analytics="resource_json"
+      data-analytics-event="resource_json_click"
+      data-analytics-payload={analyticsPayload}
+    >
+      JSON
+    </a>
   </div>
 
   <div class="decision-grid">

@@ -5,8 +5,10 @@ import ShowcaseVariantDevtool from "@/components/ShowcaseVariantDevtool.astro";
 import ShowcaseVariantTerminal from "@/components/ShowcaseVariantTerminal.astro";
 import ShowcaseVariantStats from "@/components/ShowcaseVariantStats.astro";
 import ResourceDecisionPanel from "@/components/ResourceDecisionPanel.astro";
+import ResourceDetailSections from "@/components/ResourceDetailSections.astro";
 import { buildShowcaseProfile } from "@/lib/content/showcase";
 import { getPublishedBlogPosts } from "@/lib/content/blog";
+import { buildResourceDetailProfile } from "@/lib/content/resource-detail";
 import { getPublishedResources, getRelatedResources, resourcePath } from "@/lib/content/resources";
 import { resourceCategoryLabel, resourceMeta } from "@/lib/content/resource-display";
 import type { ResourceV1 } from "@/lib/content/resource-schema";
@@ -29,6 +31,7 @@ const { resource } = Astro.props as Props;
 const allResources = await getPublishedResources();
 const related = await getRelatedResources(resource);
 const profile = buildShowcaseProfile(resource, { allResources, related });
+const detail = buildResourceDetailProfile(resource, { related });
 const allPosts = await getPublishedBlogPosts();
 const resourceName = resource.identity.name.toLowerCase();
 const relatedPosts = allPosts.filter((post) =>
@@ -101,20 +104,45 @@ const breadcrumbJsonLd = {
 };
 
 const faqJsonLd =
-  profile.faq.length > 0
+  detail.faq.length > 0
     ? {
         "@context": "https://schema.org",
         "@type": "FAQPage",
-        mainEntity: profile.faq.map((item) => ({
+        mainEntity: detail.faq.map((item) => ({
           "@type": "Question",
-          name: item.title,
+          name: item.question,
           acceptedAnswer: {
             "@type": "Answer",
-            text: item.body
+            text: item.answer
           }
         }))
       }
     : undefined;
+
+const agentPacketJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  name: `${resource.identity.name} agent decision packet`,
+  description: `Machine-readable decision packet for agents evaluating ${resource.identity.name}.`,
+  url: detail.agentPacket.machine_readable.agent_json_url,
+  license: resource.facts.license,
+  creator: {
+    "@type": "Organization",
+    name: "OpenAgent.bot"
+  },
+  distribution: [
+    {
+      "@type": "DataDownload",
+      encodingFormat: "application/json",
+      contentUrl: detail.agentPacket.machine_readable.agent_json_url
+    },
+    {
+      "@type": "DataDownload",
+      encodingFormat: "text/markdown",
+      contentUrl: resource.machine_readable.markdown_url
+    }
+  ]
+};
 ---
 
 <BaseLayout
@@ -126,7 +154,7 @@ const faqJsonLd =
 >
   <Fragment slot="head">
     <link rel="preload" as="image" href={profile.image} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify([softwareJsonLd, webpageJsonLd, breadcrumbJsonLd, faqJsonLd].filter(Boolean))} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify([softwareJsonLd, webpageJsonLd, breadcrumbJsonLd, faqJsonLd, agentPacketJsonLd].filter(Boolean))} />
   </Fragment>
 
   {
@@ -148,6 +176,7 @@ const faqJsonLd =
             <ShowcaseVariantStats resource={resource} profile={profile} />
           )}
           <ResourceDecisionPanel resource={resource} />
+          <ResourceDetailSections resource={resource} detail={detail} />
           {
             relatedPosts.length > 0 && (
               <section class="related-guides-section">

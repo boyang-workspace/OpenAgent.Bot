@@ -1,6 +1,7 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildResourceDetailProfile } from "./resource-detail";
 import { parseResourceV1, type PrimaryCategory, type ResourceV1 } from "./resource-schema";
 
 function fileSystemRootDir(): string | undefined {
@@ -116,6 +117,7 @@ function commandLineBlock(resource: ResourceV1): string[] {
 }
 
 export function resourceMarkdown(resource: ResourceV1): string {
+  const detail = buildResourceDetailProfile(resource);
   const facts = [
     `- Category: ${resource.classification.primary_category}`,
     `- Resource type: ${resource.classification.resource_type}`,
@@ -125,20 +127,44 @@ export function resourceMarkdown(resource: ResourceV1): string {
     ...(resource.facts.github_repo_full_name ? [`- GitHub repo: ${resource.facts.github_repo_full_name}`] : []),
     ...(resource.facts.github_stars !== undefined ? [`- GitHub stars: ${resource.facts.github_stars}`] : [])
   ];
+  const packet = detail.agentPacket;
 
   const lines = [
     `# ${resource.identity.name}`,
     "",
     resource.identity.one_liner,
     "",
+    "## Agent Decision Summary",
+    `- Risk level: ${packet.risk_level}`,
+    `- Source confidence: ${packet.source_confidence}`,
+    `- Recommended workflows: ${packet.recommended_workflows.length ? packet.recommended_workflows.join(", ") : "verify with first workflow"}`,
+    `- Permission surface: ${packet.permission_surface.length ? packet.permission_surface.join(", ") : "low explicit permission surface in metadata"}`,
+    `- Agent JSON: ${packet.machine_readable.agent_json_url}`,
+    "",
     ...(resource.identity.short_description ? ["## Summary", resource.identity.short_description, ""] : []),
     ...seoArticleBlock(resource),
+    "## What It Does",
+    detail.whatItIs,
+    "",
+    "## How To Evaluate",
+    detail.howItWorks,
+    "",
     ...(resource.positioning.why_it_matters ? ["## Why It Matters", resource.positioning.why_it_matters, ""] : []),
     ...listBlock("Best For", resource.positioning.best_for),
     ...listBlock("Not For", resource.positioning.not_for),
     ...titledListBlock("What It Actually Does", resource.editorial?.core_strengths),
     ...titledListBlock("Typical Use Cases", resource.editorial?.use_case_notes),
     ...titledListBlock("How It Compares", resource.editorial?.compare_notes),
+    "",
+    "## Fit Matrix",
+    ...detail.fitMatrix.map((row) => `- ${row.workflow}: ${row.fit}. ${row.reason} Required check: ${row.required_checks[0]}`),
+    "",
+    "## Evidence",
+    ...detail.evidenceClaims.map((claim) => `- ${claim.status}: ${claim.claim} Source: ${claim.source}`),
+    ...(detail.missingChecks.length ? ["", "## Missing Checks", ...detail.missingChecks.map((check) => `- ${check}`)] : []),
+    "",
+    "## Next Actions",
+    ...detail.nextActions.map((action) => `- ${action.label}: ${action.url ?? action.command ?? action.note}`),
     ...commandLineBlock(resource),
     "",
     "## Facts",
@@ -155,6 +181,7 @@ export function resourceMarkdown(resource: ResourceV1): string {
     "## Structured Outputs",
     `- JSON: ${resource.machine_readable.json_url}`,
     `- Markdown: ${resource.machine_readable.markdown_url}`,
+    `- Agent JSON: ${packet.machine_readable.agent_json_url}`,
     `- Canonical: ${resource.machine_readable.canonical_url}`
   ];
 

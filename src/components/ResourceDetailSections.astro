@@ -1,0 +1,541 @@
+---
+import { site } from "@/config/site";
+import type { ResourceDetailProfile } from "@/lib/content/resource-detail";
+import { formatResourceLabel, resourceCategoryLabel } from "@/lib/content/resource-display";
+import { resourcePath } from "@/lib/content/resources";
+import type { ResourceV1 } from "@/lib/content/resource-schema";
+
+type Props = {
+  resource: ResourceV1;
+  detail: ResourceDetailProfile;
+};
+
+const { resource, detail } = Astro.props;
+const analyticsPayload = JSON.stringify({
+  resource_slug: resource.slug,
+  resource_category: resource.classification.primary_category,
+  resource_type: resource.classification.resource_type
+});
+const packetJson = JSON.stringify(detail.agentPacket, null, 2);
+const facts = [
+  ["Resource type", formatResourceLabel(resource.classification.resource_type)],
+  ["Category", resourceCategoryLabel(resource)],
+  ["Maturity", resource.positioning.maturity ? formatResourceLabel(resource.positioning.maturity) : "Unknown"],
+  ["Difficulty", resource.positioning.difficulty ? formatResourceLabel(resource.positioning.difficulty) : "Unknown"],
+  ["License", resource.facts.license ?? "Check source"],
+  ["Pricing", resource.facts.pricing_model ? formatResourceLabel(resource.facts.pricing_model) : "Unknown"],
+  ["Verified", resource.facts.last_verified_at?.slice(0, 10) ?? "Needs check"],
+  ["Source confidence", detail.sourceConfidence],
+  ["Risk level", detail.riskLevel]
+];
+const setupLinks = [
+  { label: "Full JSON", href: resource.machine_readable.json_url, output_type: "full_json" },
+  { label: "Agent packet", href: detail.agentPacket.machine_readable.agent_json_url, output_type: "agent_json" },
+  { label: "Markdown brief", href: resource.machine_readable.markdown_url, output_type: "markdown" }
+];
+---
+
+<script is:inline type="application/json" data-openagent-agent-packet set:html={packetJson} />
+
+<div class="resource-detail" data-analytics-payload={analyticsPayload}>
+  <section class="detail-section detail-grid-section" aria-labelledby="agent-packet-title">
+    <div class="section-copy">
+      <span>Agent packet</span>
+      <h2 id="agent-packet-title">Structured decision data for {resource.identity.name}</h2>
+      <p>
+        This packet is the compact machine-readable view agents should use before following source links or taking action.
+      </p>
+      <div class="machine-links">
+        {setupLinks.map((link) => (
+          <a
+            href={link.href}
+            data-analytics="resource_json"
+            data-analytics-event="resource_json_click"
+            data-analytics-payload={JSON.stringify({
+              resource_slug: resource.slug,
+              resource_category: resource.classification.primary_category,
+              resource_type: resource.classification.resource_type,
+              output_type: link.output_type
+            })}
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="packet-table" role="table" aria-label={`${resource.identity.name} agent decision packet`}>
+      <div role="row">
+        <strong role="cell">Capabilities</strong>
+        <p role="cell">{detail.agentPacket.capabilities.slice(0, 8).map(formatResourceLabel).join(", ") || "No capabilities recorded"}</p>
+      </div>
+      <div role="row">
+        <strong role="cell">Constraints</strong>
+        <p role="cell">{detail.agentPacket.constraints.slice(0, 8).map(formatResourceLabel).join(", ") || "No constraints recorded"}</p>
+      </div>
+      <div role="row">
+        <strong role="cell">Deployment</strong>
+        <p role="cell">{detail.agentPacket.deployment_modes.map(formatResourceLabel).join(", ") || "Check source"}</p>
+      </div>
+      <div role="row">
+        <strong role="cell">Permission surface</strong>
+        <p role="cell">{detail.agentPacket.permission_surface.map(formatResourceLabel).join(", ") || "Low explicit permission surface in metadata"}</p>
+      </div>
+      <div role="row">
+        <strong role="cell">Recommended workflows</strong>
+        <p role="cell">{detail.agentPacket.recommended_workflows.join(", ") || "Use a small first workflow to verify fit"}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="detail-section narrative-section" aria-labelledby="overview-title">
+    <div class="section-copy wide">
+      <span>Overview</span>
+      <h2 id="overview-title">What {resource.identity.name} does</h2>
+    </div>
+    <div class="narrative-grid">
+      <article>
+        <h3>What it is</h3>
+        <p>{detail.whatItIs}</p>
+      </article>
+      <article>
+        <h3>Why it matters</h3>
+        <p>{detail.whyItMatters}</p>
+      </article>
+      <article>
+        <h3>How to evaluate it</h3>
+        <p>{detail.howItWorks}</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="detail-section facts-section" aria-labelledby="facts-title">
+    <div class="section-copy">
+      <span>Facts</span>
+      <h2 id="facts-title">Known metadata and operating surface</h2>
+      <p>These fields are separated from editorial interpretation so agents can reason over facts and missing checks.</p>
+    </div>
+    <div class="facts-grid">
+      {facts.map(([label, value]) => (
+        <div>
+          <span>{label}</span>
+          <strong>{value}</strong>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="detail-section fit-section" aria-labelledby="fit-title">
+    <div class="section-copy wide">
+      <span>Fit matrix</span>
+      <h2 id="fit-title">Where {resource.identity.name} fits in an agent stack</h2>
+    </div>
+    <div class="fit-table">
+      {detail.fitMatrix.map((row) => (
+        <article class={`fit-row fit-${row.fit}`}>
+          <div>
+            <span>{row.fit}</span>
+            <h3>{row.workflow}</h3>
+          </div>
+          <p>{row.reason}</p>
+          <ul>
+            {row.required_checks.slice(0, 2).map((check) => <li>{check}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="detail-section io-section" aria-labelledby="io-title">
+    <div class="section-copy">
+      <span>Inputs and outputs</span>
+      <h2 id="io-title">What an agent should inspect</h2>
+    </div>
+    <div class="io-grid">
+      <article>
+        <h3>Likely inputs</h3>
+        <ul>
+          {detail.inputsOutputs.inputs.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+      <article>
+        <h3>Likely outputs</h3>
+        <ul>
+          {detail.inputsOutputs.outputs.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="detail-section evidence-section" aria-labelledby="evidence-title">
+    <div class="section-copy">
+      <span>Evidence</span>
+      <h2 id="evidence-title">Sources, claims, and missing checks</h2>
+      <p>Claims are marked separately from source links so future crawlers and reviewers can update them without rewriting the page.</p>
+    </div>
+    <div class="evidence-layout">
+      <div class="source-list">
+        {detail.evidenceSources.map((source) => (
+          <a href={source.url} data-analytics="source" data-analytics-payload={analyticsPayload}>
+            <strong>{source.label}</strong>
+            <span>{formatResourceLabel(source.type)}</span>
+            <p>{source.note}</p>
+          </a>
+        ))}
+      </div>
+      <div class="claim-list">
+        {detail.evidenceClaims.map((claim) => (
+          <article>
+            <span>{formatResourceLabel(claim.status)}</span>
+            <p>{claim.claim}</p>
+            <small>{claim.source}</small>
+          </article>
+        ))}
+        {detail.missingChecks.length > 0 && (
+          <article class="missing-checks">
+            <span>Missing checks</span>
+            <ul>
+              {detail.missingChecks.map((check) => <li>{check}</li>)}
+            </ul>
+          </article>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="detail-section action-section" aria-labelledby="action-title">
+    <div class="section-copy">
+      <span>Next action</span>
+      <h2 id="action-title">How to start evaluating {resource.identity.name}</h2>
+    </div>
+    <div class="action-list">
+      {detail.nextActions.map((action) => (
+        <article>
+          <h3>{action.label}</h3>
+          <p>{action.note}</p>
+          {action.url && <a href={action.url} data-analytics="source" data-analytics-payload={analyticsPayload}>Open source</a>}
+          {action.command && (
+            <pre><code>{action.command}</code></pre>
+          )}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="detail-section compare-section" aria-labelledby="compare-title">
+    <div class="section-copy">
+      <span>Compare</span>
+      <h2 id="compare-title">Alternatives and nearby resources</h2>
+      <p>Use related resources to compare category fit, license, deployment model, and first-workflow behavior.</p>
+    </div>
+    <div class="related-resource-grid">
+      {detail.related.length > 0 ? (
+        detail.related.map((item) => (
+          <a href={resourcePath(item)} data-analytics="resource" data-analytics-payload={JSON.stringify({ resource_slug: item.slug, resource_category: item.classification.primary_category, source_resource_slug: resource.slug })}>
+            <strong>{item.identity.name}</strong>
+            <p>{item.identity.one_liner}</p>
+            <span>{resourceCategoryLabel(item)}</span>
+          </a>
+        ))
+      ) : (
+        <a href={`${site.url}/${resource.classification.primary_category}`}>
+          <strong>Browse more {resourceCategoryLabel(resource)}</strong>
+          <p>Compare resources in the same category before making a stack decision.</p>
+          <span>Category</span>
+        </a>
+      )}
+    </div>
+  </section>
+
+  <section class="detail-section faq-section" aria-labelledby="faq-title">
+    <div class="section-copy">
+      <span>FAQ</span>
+      <h2 id="faq-title">Common questions about {resource.identity.name}</h2>
+    </div>
+    <div class="faq-list">
+      {detail.faq.map((item) => (
+        <article>
+          <h3>{item.question}</h3>
+          <p>{item.answer}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</div>
+
+<style>
+  .resource-detail {
+    margin: 28px auto 0;
+    max-width: 1100px;
+  }
+
+  .detail-section {
+    border-top: 1px solid var(--line);
+    padding: 30px 0;
+  }
+
+  .detail-grid-section,
+  .facts-section,
+  .evidence-section,
+  .action-section,
+  .compare-section,
+  .faq-section,
+  .io-section {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: minmax(220px, 0.38fr) minmax(0, 1fr);
+  }
+
+  .section-copy span {
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .section-copy h2 {
+    color: var(--ink);
+    font-size: clamp(1.3rem, 2vw, 2rem);
+    font-weight: 620;
+    letter-spacing: 0;
+    line-height: 1.12;
+    margin: 8px 0 0;
+  }
+
+  .section-copy p {
+    font-size: 0.94rem;
+    margin: 12px 0 0;
+  }
+
+  .section-copy.wide {
+    margin-bottom: 18px;
+  }
+
+  .machine-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .machine-links a,
+  .action-list a {
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    color: var(--ink);
+    display: inline-flex;
+    font-size: 0.78rem;
+    font-weight: 560;
+    padding: 8px 10px;
+  }
+
+  .packet-table,
+  .facts-grid,
+  .narrative-grid,
+  .io-grid,
+  .fit-table,
+  .action-list,
+  .related-resource-grid,
+  .faq-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .packet-table {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .packet-table div {
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 12px;
+    grid-template-columns: 180px minmax(0, 1fr);
+    padding: 12px 14px;
+  }
+
+  .packet-table div:first-child {
+    border-top: 0;
+  }
+
+  .packet-table strong,
+  .facts-grid span,
+  .fit-row span,
+  .source-list span,
+  .claim-list span,
+  .related-resource-grid span {
+    color: var(--subtle);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .packet-table p,
+  .fit-row p,
+  .claim-list p,
+  .source-list p,
+  .related-resource-grid p,
+  .action-list p,
+  .faq-list p,
+  .narrative-grid p {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  .narrative-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .narrative-grid article,
+  .io-grid article,
+  .action-list article,
+  .faq-list article,
+  .fit-row,
+  .claim-list article,
+  .source-list a,
+  .related-resource-grid a {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 15px;
+  }
+
+  h3 {
+    color: var(--ink);
+    font-size: 0.98rem;
+    font-weight: 620;
+    letter-spacing: 0;
+    line-height: 1.25;
+    margin: 0 0 8px;
+  }
+
+  .facts-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .facts-grid div {
+    border-bottom: 1px solid var(--line);
+    min-height: 72px;
+    padding: 0 0 12px;
+  }
+
+  .facts-grid strong {
+    color: var(--ink);
+    display: block;
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  .fit-table {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .fit-row {
+    display: grid;
+    gap: 10px;
+  }
+
+  .fit-row ul,
+  .io-grid ul,
+  .missing-checks ul {
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  .fit-strong {
+    border-color: rgba(37, 99, 235, 0.32);
+  }
+
+  .fit-partial {
+    border-color: rgba(15, 126, 168, 0.3);
+  }
+
+  .io-grid,
+  .action-list,
+  .related-resource-grid,
+  .faq-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .evidence-layout {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+
+  .source-list,
+  .claim-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .source-list strong,
+  .related-resource-grid strong,
+  .action-list h3,
+  .faq-list h3 {
+    color: var(--ink);
+    display: block;
+    font-size: 0.94rem;
+    font-weight: 620;
+    margin: 0 0 7px;
+  }
+
+  .claim-list small {
+    color: var(--subtle);
+    display: block;
+    font-size: 0.76rem;
+    line-height: 1.4;
+    margin-top: 7px;
+  }
+
+  pre {
+    background: var(--surface-soft);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    color: var(--ink);
+    font-size: 0.78rem;
+    margin: 12px 0 0;
+    overflow-x: auto;
+    padding: 10px;
+  }
+
+  @media (max-width: 920px) {
+    .detail-grid-section,
+    .facts-section,
+    .evidence-section,
+    .action-section,
+    .compare-section,
+    .faq-section,
+    .io-section {
+      grid-template-columns: 1fr;
+    }
+
+    .narrative-grid,
+    .facts-grid,
+    .fit-table,
+    .io-grid,
+    .evidence-layout,
+    .action-list,
+    .related-resource-grid,
+    .faq-list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .resource-detail {
+      margin-top: 20px;
+    }
+
+    .packet-table div {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { permissionSurface, resolveStack } from "../src/lib/recommendations/stack-resolver";
+import { parseStackSearchParams, permissionSurface, resolveStack } from "../src/lib/recommendations/stack-resolver";
 import type { ResourceV1 } from "../src/lib/content/resource-schema";
 
 function resource(overrides: Partial<ResourceV1>): ResourceV1 {
@@ -92,5 +92,16 @@ describe("stack resolver", () => {
     expect(surface).toContain("browser");
     expect(surface).toContain("shell/files");
     expect(surface).toContain("memory");
+  });
+
+  it("parses recommendation API search parameters", () => {
+    const request = parseStackSearchParams(new URLSearchParams("workflow=coding-agent&environment=team&stage=production&constraint=local-first,mcp&constraint=team-safe&constraint=unknown"));
+
+    expect(request).toEqual({
+      workflow: "coding-agent",
+      environment: "team",
+      stage: "production",
+      constraints: ["local-first", "mcp", "team-safe"]
+    });
   });
 });

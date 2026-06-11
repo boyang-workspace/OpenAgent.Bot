@@ -16,6 +16,10 @@ export type EnvironmentId = "local-macos" | "self-hosted-server" | "cloud" | "te
 export type StageId = "prototype" | "production";
 export type ConstraintId = "open-source" | "local-first" | "self-hostable" | "mcp" | "human-approval" | "no-shell" | "team-safe";
 
+export const environmentIds = ["local-macos", "self-hosted-server", "cloud", "team"] as const satisfies EnvironmentId[];
+export const stageIds = ["prototype", "production"] as const satisfies StageId[];
+export const constraintIds = ["open-source", "local-first", "self-hostable", "mcp", "human-approval", "no-shell", "team-safe"] as const satisfies ConstraintId[];
+
 export type StackRequest = {
   workflow: WorkflowId;
   environment?: EnvironmentId;
@@ -178,6 +182,10 @@ export const workflowProfiles: WorkflowProfile[] = [
 ];
 
 const workflowById = new Map(workflowProfiles.map((profile) => [profile.id, profile]));
+const workflowIdSet = new Set<string>(workflowProfiles.map((profile) => profile.id));
+const environmentIdSet = new Set<string>(environmentIds);
+const stageIdSet = new Set<string>(stageIds);
+const constraintIdSet = new Set<string>(constraintIds);
 
 export function normalizeStackRequest(input: Partial<StackRequest> = {}): Required<StackRequest> {
   const workflow = workflowById.has(input.workflow as WorkflowId) ? (input.workflow as WorkflowId) : "browser-automation";
@@ -187,6 +195,24 @@ export function normalizeStackRequest(input: Partial<StackRequest> = {}): Requir
     environment: input.environment ?? "local-macos",
     stage: input.stage ?? "prototype",
     constraints: input.constraints?.length ? input.constraints : profile.defaultConstraints
+  };
+}
+
+export function parseStackSearchParams(params: URLSearchParams): Partial<StackRequest> {
+  const workflow = params.get("workflow") ?? undefined;
+  const environment = params.get("environment") ?? undefined;
+  const stage = params.get("stage") ?? undefined;
+  const rawConstraints = [
+    ...params.getAll("constraint"),
+    ...params.getAll("constraints")
+  ].flatMap((value) => value.split(",").map((item) => item.trim()).filter(Boolean));
+  const constraints = rawConstraints.filter((value): value is ConstraintId => constraintIdSet.has(value));
+
+  return {
+    workflow: workflowIdSet.has(workflow ?? "") ? (workflow as WorkflowId) : undefined,
+    environment: environmentIdSet.has(environment ?? "") ? (environment as EnvironmentId) : undefined,
+    stage: stageIdSet.has(stage ?? "") ? (stage as StageId) : undefined,
+    constraints: constraints.length ? Array.from(new Set(constraints)) : undefined
   };
 }
 

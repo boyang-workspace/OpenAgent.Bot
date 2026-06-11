@@ -1,5 +1,6 @@
 ---
 import { buildSeo } from "@/lib/seo";
+import { site } from "@/config/site";
 import "@/styles/global.css";
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
 };
 
 const seo = buildSeo(Astro.props);
+const ga4MeasurementId = site.analytics.ga4MeasurementId;
 ---
 
 <!doctype html>
@@ -38,9 +40,12 @@ const seo = buildSeo(Astro.props);
     <link rel="preconnect" href="https://github.com" crossorigin />
     <link rel="dns-prefetch" href="https://github.com" />
     <slot name="head" />
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-92BLS0VYN1"></script>
-    <script is:inline>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","G-92BLS0VYN1");</script>
-    <script is:inline>document.addEventListener("click",function(e){var t=e.target.closest("[data-analytics]");if(!t)return;var a=t.getAttribute("data-analytics"),p=t.getAttribute("data-analytics-payload");if(p)try{p=JSON.parse(p)}catch(a){p={}}p=p||{};var ev={resource:"click_resource",category:"click_category",blog:"click_blog",evaluation:"click_evaluation",signal:"click_signal",nav:"click_nav",cta:"click_cta"};var eventName=ev[a]||"click_custom";gtag("event",eventName,p)});document.addEventListener("submit",function(e){var t=e.target.closest("[data-analytics=search]");if(!t)return;var q=new FormData(t).get("q");if(!q||!q.toString().trim())return;gtag("event","search",{search_term:q.toString().trim()})});</script>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4MeasurementId}`}></script>
+    <script is:inline define:vars={{ ga4MeasurementId }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;gtag("js",new Date());gtag("config",ga4MeasurementId);</script>
+    <script>
+      import { setupOpenAgentAnalytics } from "@/lib/analytics/browser";
+      setupOpenAgentAnalytics();
+    </script>
   </head>
   <body>
     <main>

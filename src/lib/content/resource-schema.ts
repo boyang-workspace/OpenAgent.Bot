@@ -7,6 +7,9 @@ export const maturities = ["experimental", "active", "stable", "legacy"] as cons
 export const deploymentModes = ["local", "self_hosted", "cloud", "hybrid"] as const;
 export const audiences = ["developer", "agent_builder", "researcher", "operator", "creator", "general_user", "team"] as const;
 export const pricingModels = ["open_source", "free", "freemium", "paid", "enterprise", "unknown"] as const;
+export const riskLevels = ["low", "moderate", "elevated", "unknown"] as const;
+export const sourceConfidences = ["high", "medium", "low"] as const;
+export const fitLevels = ["strong", "partial", "weak", "unknown"] as const;
 export const linkTypes = [
   "homepage",
   "github",
@@ -40,6 +43,11 @@ const allowedTopLevelKeys = [
   "media",
   "tags",
   "relationships",
+  "decision",
+  "evidence",
+  "fit_matrix",
+  "setup",
+  "faq",
   "machine_readable",
   "seo",
   "editorial",
@@ -53,6 +61,9 @@ export type Maturity = (typeof maturities)[number];
 export type DeploymentMode = (typeof deploymentModes)[number];
 export type Audience = (typeof audiences)[number];
 export type PricingModel = (typeof pricingModels)[number];
+export type RiskLevel = (typeof riskLevels)[number];
+export type SourceConfidence = (typeof sourceConfidences)[number];
+export type FitLevel = (typeof fitLevels)[number];
 export type LinkType = (typeof linkTypes)[number];
 export type PrimaryCategory = (typeof primaryCategories)[number];
 export type TagGroup = TaxonomyTagGroup;
@@ -95,6 +106,50 @@ export type EditorialCommandLine = {
 export type EditorialFaqItem = {
   question: string;
   answer: string;
+};
+
+export type ResourceDecisionExtension = {
+  risk_level?: RiskLevel;
+  source_confidence?: SourceConfidence;
+  permission_surface?: string[];
+  recommended_workflows?: string[];
+  avoid_workflows?: string[];
+  primary_actions?: string[];
+};
+
+export type ResourceEvidenceSource = {
+  label: string;
+  url: string;
+  type?: LinkType;
+  note?: string;
+};
+
+export type ResourceEvidenceClaim = {
+  claim: string;
+  status: "verified" | "inferred" | "needs_review";
+  source?: string;
+};
+
+export type ResourceEvidence = {
+  claims?: ResourceEvidenceClaim[];
+  sources?: ResourceEvidenceSource[];
+  missing_checks?: string[];
+  verified_at?: string;
+};
+
+export type ResourceFitMatrixItem = {
+  workflow: string;
+  fit: FitLevel;
+  reason: string;
+  required_checks?: string[];
+};
+
+export type ResourceSetup = {
+  commands?: EditorialCommandLine[];
+  links?: EditorialGettingStarted[];
+  environment_assumptions?: string[];
+  credential_requirements?: string[];
+  first_workflow?: string;
 };
 
 export type EditorialSeoArticle = {
@@ -196,6 +251,11 @@ export type ResourceV1 = {
     integrates_with?: string[];
     compare_with?: string[];
   };
+  decision?: ResourceDecisionExtension;
+  evidence?: ResourceEvidence;
+  fit_matrix?: ResourceFitMatrixItem[];
+  setup?: ResourceSetup;
+  faq?: EditorialFaqItem[];
   machine_readable: {
     canonical_url: string;
     json_url: string;
@@ -546,6 +606,122 @@ function parseRelationships(input: unknown): ResourceV1["relationships"] {
   };
 }
 
+function parseDecisionExtension(input: unknown): ResourceV1["decision"] {
+  if (input === undefined) return undefined;
+  if (!isRecord(input)) throw new Error("resource.decision must be an object when present.");
+  assertNoUnknownKeys(
+    input,
+    ["risk_level", "source_confidence", "permission_surface", "recommended_workflows", "avoid_workflows", "primary_actions"],
+    "resource.decision"
+  );
+  return {
+    risk_level: optionalEnum(input, "risk_level", riskLevels, "resource.decision"),
+    source_confidence: optionalEnum(input, "source_confidence", sourceConfidences, "resource.decision"),
+    permission_surface: optionalStringArray(input, "permission_surface", "resource.decision"),
+    recommended_workflows: optionalStringArray(input, "recommended_workflows", "resource.decision"),
+    avoid_workflows: optionalStringArray(input, "avoid_workflows", "resource.decision"),
+    primary_actions: optionalStringArray(input, "primary_actions", "resource.decision")
+  };
+}
+
+function parseEvidence(input: unknown): ResourceV1["evidence"] {
+  if (input === undefined) return undefined;
+  if (!isRecord(input)) throw new Error("resource.evidence must be an object when present.");
+  assertNoUnknownKeys(input, ["claims", "sources", "missing_checks", "verified_at"], "resource.evidence");
+  const claims = optionalRecordArray(input, "claims", "resource.evidence")?.map((item, index) => {
+    const context = `resource.evidence.claims[${index}]`;
+    assertNoUnknownKeys(item, ["claim", "status", "source"], context);
+    return {
+      claim: requireString(item, "claim", context),
+      status: requireEnum(item, "status", ["verified", "inferred", "needs_review"] as const, context),
+      source: optionalString(item, "source", context)
+    };
+  });
+  const sources = optionalRecordArray(input, "sources", "resource.evidence")?.map((item, index) => {
+    const context = `resource.evidence.sources[${index}]`;
+    assertNoUnknownKeys(item, ["label", "url", "type", "note"], context);
+    const url = requireString(item, "url", context);
+    assertUrl(url, `${context}.url`);
+    return {
+      label: requireString(item, "label", context),
+      url,
+      type: optionalEnum(item, "type", linkTypes, context),
+      note: optionalString(item, "note", context)
+    };
+  });
+  return {
+    claims,
+    sources,
+    missing_checks: optionalStringArray(input, "missing_checks", "resource.evidence"),
+    verified_at: optionalString(input, "verified_at", "resource.evidence")
+  };
+}
+
+function parseFitMatrix(input: unknown): ResourceV1["fit_matrix"] {
+  if (input === undefined) return undefined;
+  if (!Array.isArray(input) || input.some((item) => !isRecord(item))) {
+    throw new Error("resource.fit_matrix must be an object array when present.");
+  }
+  return input.map((item, index) => {
+    const context = `resource.fit_matrix[${index}]`;
+    assertNoUnknownKeys(item, ["workflow", "fit", "reason", "required_checks"], context);
+    return {
+      workflow: requireString(item, "workflow", context),
+      fit: requireEnum(item, "fit", fitLevels, context),
+      reason: requireString(item, "reason", context),
+      required_checks: optionalStringArray(item, "required_checks", context)
+    };
+  });
+}
+
+function parseSetup(input: unknown): ResourceV1["setup"] {
+  if (input === undefined) return undefined;
+  if (!isRecord(input)) throw new Error("resource.setup must be an object when present.");
+  assertNoUnknownKeys(input, ["commands", "links", "environment_assumptions", "credential_requirements", "first_workflow"], "resource.setup");
+  const commands = optionalRecordArray(input, "commands", "resource.setup")?.map((item, index) => {
+    const context = `resource.setup.commands[${index}]`;
+    assertNoUnknownKeys(item, ["label", "command", "description"], context);
+    return {
+      label: requireString(item, "label", context),
+      command: requireString(item, "command", context),
+      description: optionalString(item, "description", context)
+    };
+  });
+  const links = optionalRecordArray(input, "links", "resource.setup")?.map((item, index) => {
+    const context = `resource.setup.links[${index}]`;
+    assertNoUnknownKeys(item, ["label", "url", "type"], context);
+    const url = requireString(item, "url", context);
+    assertUrl(url, `${context}.url`);
+    return {
+      label: requireString(item, "label", context),
+      url,
+      type: requireEnum(item, "type", linkTypes, context)
+    };
+  });
+  return {
+    commands,
+    links,
+    environment_assumptions: optionalStringArray(input, "environment_assumptions", "resource.setup"),
+    credential_requirements: optionalStringArray(input, "credential_requirements", "resource.setup"),
+    first_workflow: optionalString(input, "first_workflow", "resource.setup")
+  };
+}
+
+function parseResourceFaq(input: unknown): ResourceV1["faq"] {
+  if (input === undefined) return undefined;
+  if (!Array.isArray(input) || input.some((item) => !isRecord(item))) {
+    throw new Error("resource.faq must be an object array when present.");
+  }
+  return input.map((item, index) => {
+    const context = `resource.faq[${index}]`;
+    assertNoUnknownKeys(item, ["question", "answer"], context);
+    return {
+      question: requireString(item, "question", context),
+      answer: requireString(item, "answer", context)
+    };
+  });
+}
+
 function parseMachineReadable(input: unknown, status: ResourceStatus): ResourceV1["machine_readable"] {
   if (!isRecord(input)) {
     if (status === "published") throw new Error("resource.machine_readable must be an object.");
@@ -729,6 +905,11 @@ export function parseResourceV1(input: unknown): ResourceV1 {
     media: parseMedia(input.media),
     tags: parseTags(input.tags, status),
     relationships: parseRelationships(input.relationships),
+    decision: parseDecisionExtension(input.decision),
+    evidence: parseEvidence(input.evidence),
+    fit_matrix: parseFitMatrix(input.fit_matrix),
+    setup: parseSetup(input.setup),
+    faq: parseResourceFaq(input.faq),
     machine_readable: parseMachineReadable(input.machine_readable, status),
     seo: parseSeo(input.seo),
     editorial: parseEditorial(input.editorial),

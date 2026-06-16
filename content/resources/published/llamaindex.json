@@ -1,0 +1,79 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_llamaindex",
+  "slug": "llamaindex",
+  "status": "published",
+  "identity": {
+    "name": "LlamaIndex",
+    "one_liner": "Data framework for connecting LLMs to external data with RAG, agents, and structured retrieval."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "rag",
+      "agent-framework",
+      "data-retrieval"
+    ]
+  },
+  "positioning": {
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "open_source": true,
+    "local_first": true,
+    "has_api": true,
+    "has_cli": true
+  },
+  "facts": {
+    "license": "MIT",
+    "github_stars": 46000,
+    "github_repo_full_name": "run-llama/llama_index",
+    "pricing_model": "open_source",
+    "last_verified_at": "2026-06-16"
+  },
+  "links": {
+    "primary_url": "https://github.com/run-llama/llama_index",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/run-llama/llama_index"
+      }
+    ]
+  },
+  "tags": {
+    "category": [
+      "agent-framework",
+      "open-source"
+    ],
+    "capability": [
+      "rag",
+      "tool-calling",
+      "connectors",
+      "context-retrieval"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "developer-workflow",
+      "production-agent"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/llamaindex",
+    "json_url": "https://www.openagent.bot/agents/llamaindex.json",
+    "markdown_url": "https://www.openagent.bot/agents/llamaindex.md"
+  },
+  "seo": {
+    "title": "LlamaIndex: AI Agent — Data framework for connecting LLMs to external data with RAG, agents, and structured retrieval.",
+    "description": "LlamaIndex is an open-source AI agent. Data framework for connecting LLMs to external data with RAG, agents, and structured retrieval."
+  },
+  "timestamps": {
+    "created_at": "2026-06-16T00:00:00.000Z",
+    "updated_at": "2026-06-16T00:00:00.000Z",
+    "published_at": "2026-06-16T00:00:00.000Z"
+  }
+}

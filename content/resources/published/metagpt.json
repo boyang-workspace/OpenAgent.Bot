@@ -1,0 +1,76 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_metagpt",
+  "slug": "metagpt",
+  "status": "published",
+  "identity": {
+    "name": "MetaGPT",
+    "one_liner": "Multi-agent framework that simulates a software company with PM, architect, engineer, and QA roles."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "multi-agent",
+      "agent-framework",
+      "software-development"
+    ]
+  },
+  "positioning": {
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "open_source": true,
+    "local_first": true,
+    "has_cli": true
+  },
+  "facts": {
+    "license": "MIT",
+    "github_stars": 50000,
+    "github_repo_full_name": "geekan/MetaGPT",
+    "pricing_model": "open_source",
+    "last_verified_at": "2026-06-16"
+  },
+  "links": {
+    "primary_url": "https://github.com/geekan/MetaGPT",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/geekan/MetaGPT"
+      }
+    ]
+  },
+  "tags": {
+    "category": [
+      "agent-framework",
+      "open-source"
+    ],
+    "capability": [
+      "workflow-orchestration",
+      "automation"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "developer-workflow",
+      "production-agent"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/metagpt",
+    "json_url": "https://www.openagent.bot/agents/metagpt.json",
+    "markdown_url": "https://www.openagent.bot/agents/metagpt.md"
+  },
+  "seo": {
+    "title": "MetaGPT: AI Agent — Multi-agent framework that simulates a software company with PM, architect, engineer, and QA roles.",
+    "description": "MetaGPT is an open-source AI agent. Multi-agent framework that simulates a software company with PM, architect, engineer, and QA roles."
+  },
+  "timestamps": {
+    "created_at": "2026-06-16T00:00:00.000Z",
+    "updated_at": "2026-06-16T00:00:00.000Z",
+    "published_at": "2026-06-16T00:00:00.000Z"
+  }
+}

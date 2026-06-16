@@ -1,0 +1,124 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_mistral_large_3",
+  "slug": "mistral-large-3",
+  "status": "published",
+  "identity": {
+    "name": "Mistral Large 3",
+    "one_liner": "Europe's most powerful open model, 675B MoE (41B active), agentic-tuned, strong multilingual performance.",
+    "short_description": "Europe's most powerful open model, 675B MoE (41B active), agentic-tuned, strong multilingual performance."
+  },
+  "classification": {
+    "resource_type": "model",
+    "primary_category": "models",
+    "subcategories": [
+      "open-weights",
+      "local-ai",
+      "local-inference",
+      "self-hosted",
+      "tool-calling"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Mistral Large 3 is Europe's most powerful open model with a 675B MoE architecture (41B active parameters), offering strong multilingual performance and agentic tuning that makes it a leading choice for European AI builders.",
+    "best_for": [
+      "Teams needing strong multilingual open model performance across European languages",
+      "Developers evaluating agentic-tuned models for production agent workflows",
+      "Builders looking for Apache-2.0 licensed alternatives to US-based open model families"
+    ],
+    "not_for": [
+      "Use cases requiring a small dense model rather than a large MoE architecture",
+      "Teams that cannot independently verify model behavior for their specific language and domain"
+    ],
+    "use_cases": [
+      "local-ai",
+      "self-hosted-ai"
+    ],
+    "target_audience": [
+      "developer",
+      "researcher"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "local",
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": true,
+    "self_hostable": true,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "pricing_model": "open_source",
+    "github_stars": 10000,
+    "github_repo_full_name": "mistralai/mistral-large",
+    "last_verified_at": "2026-06-16"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "local-inference",
+      "inference"
+    ],
+    "integrations": [
+      "GitHub",
+      "Hugging Face"
+    ],
+    "interfaces": [
+      "docs",
+      "demo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/mistralai/mistral-large",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/mistralai/mistral-large"
+      }
+    ]
+  },
+  "media": {},
+  "tags": {
+    "category": [
+      "model",
+      "open-source"
+    ],
+    "capability": [
+      "local-inference",
+      "inference"
+    ],
+    "constraint": [
+      "open-source",
+      "open-weights",
+      "self-hosted",
+      "local-first"
+    ],
+    "scenario": [
+      "local-ai",
+      "self-hosted-ai"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/models/mistral-large-3",
+    "json_url": "https://www.openagent.bot/models/mistral-large-3.json",
+    "markdown_url": "https://www.openagent.bot/models/mistral-large-3.md"
+  },
+  "seo": {
+    "title": "Mistral Large 3: AI Model — Europe's most powerful open model, 675B MoE (41B active), agentic-tuned, strong multilingual performance.",
+    "description": "Mistral Large 3 is an open-source open-source model. Europe's most powerful open model, 675B MoE (41B active), agentic-tuned, strong multilingual performance.. 了解 Mistral Large 3 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "timestamps": {
+    "created_at": "2026-06-16T00:00:00.000Z",
+    "updated_at": "2026-06-16T00:00:00.000Z",
+    "published_at": "2026-06-16T00:00:00.000Z"
+  }
+}

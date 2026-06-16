@@ -1,0 +1,78 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_google_adk",
+  "slug": "google-adk",
+  "status": "published",
+  "identity": {
+    "name": "Google ADK",
+    "one_liner": "Google's open-source Agent Development Kit for building multi-agent systems with Python, TypeScript, Go, and Java."
+  },
+  "classification": {
+    "resource_type": "agent",
+    "primary_category": "agents",
+    "subcategories": [
+      "multi-agent",
+      "agent-framework",
+      "google-ecosystem"
+    ]
+  },
+  "positioning": {
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "open_source": true,
+    "local_first": true,
+    "has_api": true,
+    "has_cli": true
+  },
+  "facts": {
+    "license": "Apache-2.0",
+    "github_stars": 20000,
+    "github_repo_full_name": "google/adk-python",
+    "pricing_model": "open_source",
+    "last_verified_at": "2026-06-16"
+  },
+  "links": {
+    "primary_url": "https://github.com/google/adk-python",
+    "items": [
+      {
+        "type": "github",
+        "label": "GitHub",
+        "url": "https://github.com/google/adk-python"
+      }
+    ]
+  },
+  "tags": {
+    "category": [
+      "agent-framework",
+      "open-source"
+    ],
+    "capability": [
+      "workflow-orchestration",
+      "tool-calling",
+      "automation"
+    ],
+    "constraint": [
+      "open-source"
+    ],
+    "scenario": [
+      "developer-workflow",
+      "production-agent"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/agents/google-adk",
+    "json_url": "https://www.openagent.bot/agents/google-adk.json",
+    "markdown_url": "https://www.openagent.bot/agents/google-adk.md"
+  },
+  "seo": {
+    "title": "Google ADK: AI Agent — Google's open-source Agent Development Kit for building multi-agent systems with Python, TypeScript, Go, and Java.",
+    "description": "Google ADK is an open-source AI agent. Google's open-source Agent Development Kit for building multi-agent systems with Python, TypeScript, Go, and Java."
+  },
+  "timestamps": {
+    "created_at": "2026-06-16T00:00:00.000Z",
+    "updated_at": "2026-06-16T00:00:00.000Z",
+    "published_at": "2026-06-16T00:00:00.000Z"
+  }
+}

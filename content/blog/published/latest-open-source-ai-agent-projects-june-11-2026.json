@@ -1,0 +1,39 @@
+{
+  "slug": "latest-open-source-ai-agent-projects-june-11-2026",
+  "title": "Latest Open-Source AI Agent Projects to Watch in Mid-June 2026",
+  "summary": "LangChain, LlamaIndex, MetaGPT, and Google ADK join the directory alongside emerging agent frameworks.",
+  "publishedAt": "2026-06-11",
+  "tags": [
+    "open-source",
+    "ai-agents",
+    "agent-frameworks"
+  ],
+  "author": "OpenAgent.bot Editors",
+  "seoTitle": "Latest Open-Source AI Agent Projects to Watch in Mid-June 2026 | OpenAgent.bot",
+  "seoDescription": "New additions to OpenAgent.bot — LangChain, LlamaIndex, MetaGPT, and Google ADK join our agent directory.",
+  "body": [
+    "Mid-June 2026 brings four significant additions to the open-source agent ecosystem: LangChain completes the framework layer, LlamaIndex bridges agents to external data, MetaGPT provides a role-based multi-agent simulation, and Google ADK adds a major vendor-backed open SDK.",
+    "## Quick shortlist",
+    "| Project | Stars | Category | Why it matters |",
+    "|---|---|---|---|",
+    "| [LangChain](/agents/langchain) | 122K | Agent framework | The most widely adopted LLM application framework with 100+ integrations |",
+    "| [LlamaIndex](/agents/llamaindex) | 46K | Agent + data framework | Connecting LLMs to external data through RAG and structured retrieval |",
+    "| [MetaGPT](/agents/metagpt) | 50K+ | Multi-agent framework | Role-based software company simulation with PM/architect/engineer agents |",
+    "| [Google ADK](/agents/google-adk) | 20K | Agent dev kit | Google's open-source multi-agent SDK with Python, TypeScript, Go, Java |",
+    "## LangChain",
+    "[LangChain](/agents/langchain) has grown from a simple LLM chaining library into the de facto framework for building production agent applications. With 122K stars and MIT licensing, it provides chains, agents, tools, memory systems, and integrations with every major LLM provider. Its ecosystem includes LangGraph for stateful graphs, LangSmith for observability, and LangServe for deployment.",
+    "## LlamaIndex",
+    "[LlamaIndex](/agents/llamaindex) fills a critical gap in the agent stack: connecting agents to external data. It provides RAG pipelines, structured retrieval over databases and APIs, and agent-powered data workflows. With 46K stars, it is the standard choice for builders whose agents need to query, index, and reason over real data sources.",
+    "## MetaGPT",
+    "[MetaGPT](/agents/metagpt) takes a unique approach to multi-agent systems by simulating a software company. Different LLM agents扮演 product manager, architect, engineer, and QA roles, collaborating on software development tasks. With 50K+ stars, it is the leading demonstration of role-based agent collaboration.",
+    "## Google ADK",
+    "[Google ADK](/agents/google-adk) is Google's officially open-sourced Agent Development Kit. Unlike most agent frameworks, ADK supports four languages natively (Python, TypeScript, Go, Java), implements the A2A agent-to-agent protocol, and provides first-class Google Cloud integration. Its multi-language support and vendor backing make it a serious option for teams building production agent systems.",
+    "## What this means for the agent stack",
+    "These four additions complete the agent framework layer of the open-source stack. Teams now have clear choices: LangChain for general-purpose agent orchestration, LangGraph for stateful graphs, LlamaIndex for data-aware agents, MetaGPT for role-based simulations, CrewAI for role-based task crews, and Google ADK for multi-language vendor-backed development.",
+    "## Official sources",
+    "- [LangChain GitHub](https://github.com/langchain-ai/langchain)",
+    "- [LlamaIndex GitHub](https://github.com/run-llama/llama_index)",
+    "- [MetaGPT GitHub](https://github.com/geekan/MetaGPT)",
+    "- [Google ADK GitHub](https://github.com/google/adk-python)"
+  ]
+}

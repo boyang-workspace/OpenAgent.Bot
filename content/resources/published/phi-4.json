@@ -1,0 +1,123 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_phi_4",
+  "slug": "phi-4",
+  "status": "published",
+  "identity": {
+    "name": "Phi-4",
+    "one_liner": "Microsoft's compact 14B dense reasoning model, MIT-licensed, tops MMLU in its size class with 16K context.",
+    "short_description": "Microsoft's compact 14B dense reasoning model, MIT-licensed, tops MMLU in its size class with 16K context."
+  },
+  "classification": {
+    "resource_type": "model",
+    "primary_category": "models",
+    "subcategories": [
+      "open-weights",
+      "local-ai",
+      "local-inference",
+      "self-hosted",
+      "tool-calling"
+    ]
+  },
+  "positioning": {
+    "why_it_matters": "Phi-4 delivers state-of-the-art reasoning performance in the 14B parameter class with a permissive MIT license, making it the go-to compact model for developers who need strong reasoning on modest hardware.",
+    "best_for": [
+      "Developers seeking a compact, MIT-licensed reasoning model for local deployment",
+      "Teams that need top MMLU performance in the sub-20B parameter range",
+      "Builders looking for a lightweight open model that runs efficiently on consumer hardware"
+    ],
+    "not_for": [
+      "Use cases requiring very long context beyond 16K tokens",
+      "Workloads that need a large MoE architecture with hundreds of billions of parameters"
+    ],
+    "use_cases": [
+      "local-ai",
+      "self-hosted-ai"
+    ],
+    "target_audience": [
+      "developer",
+      "researcher"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "local",
+      "self_hosted",
+      "cloud"
+    ],
+    "open_source": true,
+    "local_first": true,
+    "self_hostable": true,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "github_stars": 12000,
+    "last_verified_at": "2026-06-16"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "local-inference",
+      "inference"
+    ],
+    "integrations": [
+      "GitHub",
+      "Hugging Face"
+    ],
+    "interfaces": [
+      "docs",
+      "demo"
+    ]
+  },
+  "links": {
+    "primary_url": "https://huggingface.co/microsoft/phi-4",
+    "items": [
+      {
+        "type": "huggingface",
+        "label": "Hugging Face",
+        "url": "https://huggingface.co/microsoft/phi-4"
+      }
+    ]
+  },
+  "media": {},
+  "tags": {
+    "category": [
+      "model",
+      "open-source"
+    ],
+    "capability": [
+      "local-inference",
+      "inference"
+    ],
+    "constraint": [
+      "open-source",
+      "open-weights",
+      "self-hosted",
+      "local-first"
+    ],
+    "scenario": [
+      "local-ai",
+      "self-hosted-ai"
+    ]
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/models/phi-4",
+    "json_url": "https://www.openagent.bot/models/phi-4.json",
+    "markdown_url": "https://www.openagent.bot/models/phi-4.md"
+  },
+  "seo": {
+    "title": "Phi-4: AI Model — Microsoft's compact 14B dense reasoning model, MIT-licensed, tops MMLU in its size class with 16K context.",
+    "description": "Phi-4 is an open-source open-source model. Microsoft's compact 14B dense reasoning model, MIT-licensed, tops MMLU in its size class with 16K context.. 了解 Phi-4 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+  },
+  "timestamps": {
+    "created_at": "2026-06-16T00:00:00.000Z",
+    "updated_at": "2026-06-16T00:00:00.000Z",
+    "published_at": "2026-06-16T00:00:00.000Z"
+  }
+}

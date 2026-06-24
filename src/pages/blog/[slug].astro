@@ -145,10 +145,25 @@ function linkLabel(link: string): string {
   }
 }
 
+function extractFaq(body: string): { question: string; answer: string }[] {
+  const faqMatch = body.match(/## FAQ\n([\s\S]*?)(?=\n## |\n---|$)/);
+  if (!faqMatch) return [];
+  const faqSection = faqMatch[1];
+  const results: { question: string; answer: string }[] = [];
+  const questionBlocks = [...faqSection.matchAll(/### (.+)\n([\s\S]*?)(?=\n### |\n$)/g)];
+  for (const block of questionBlocks) {
+    const question = block[1].trim();
+    const answer = block[2].trim().replace(/\n{2,}/g, " ");
+    if (question && answer) results.push({ question, answer });
+  }
+  return results;
+}
+
 const bodyHtml = renderBlogBody(post.body);
 const sourceLinks = extractLinks(post.body, "external").slice(0, 8);
 const internalLinks = extractLinks(post.body, "internal").slice(0, 8);
 const relatedPosts = allPosts.filter((item) => item.slug !== post.slug).slice(0, 3);
+const faqItems = extractFaq(post.body);
 ---
 
 <BaseLayout
@@ -266,6 +281,17 @@ const relatedPosts = allPosts.filter((item) => item.slug !== post.slug).slice(0,
         name: post.title,
         description: post.summary,
         numberOfItems: (post.body.match(/\*\*([^*]+)\*\*.*?https?:\/\/[^\s)]+/g)?.length ?? 0) || 3
+      }]
+    : []),
+  ...(faqItems.length > 0
+    ? [{
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqItems.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer }
+        }))
       }]
     : [])
 ].filter(Boolean))} />

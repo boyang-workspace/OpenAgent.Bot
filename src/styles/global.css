@@ -39,6 +39,12 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   background: var(--paper);
   margin: 0;
@@ -156,5 +162,11 @@ p {
 
   .shell {
     padding: 0 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
   }
 }

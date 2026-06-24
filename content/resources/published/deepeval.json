@@ -1,0 +1,170 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_deepeval",
+  "slug": "deepeval",
+  "status": "published",
+  "identity": {
+    "name": "DeepEval",
+    "one_liner": "Open-source LLM evaluation framework for testing RAG pipelines, agent workflows, and LLM outputs with metrics and CI/CD integration.",
+    "short_description": "DeepEval is an MIT-licensed LLM evaluation framework that provides over 15 built-in metrics for testing RAG pipelines, agentic workflows, retrieval quality, hallucination detection, and conversation safety with Pytest integration for CI/CD."
+  },
+  "classification": {
+    "resource_type": "tool",
+    "primary_category": "tools",
+    "subcategories": [
+      "evals",
+      "testing",
+      "automation"
+    ]
+  },
+  "seo": {
+    "title": "DeepEval: Open-Source LLM Evaluation and Testing Framework for AI Agents",
+    "description": "DeepEval is an MIT-licensed LLM evaluation framework with 15+ metrics for testing RAG, agents, and LLM outputs. Pytest integration, CI/CD ready. Compare with alternatives."
+  },
+  "positioning": {
+    "why_it_matters": "Teams shipping agent applications need systematic evaluation pipelines, not ad-hoc testing. DeepEval gives builders a practical way to test LLM outputs, RAG retrieval quality, and agent behavior with familiar Pytest workflows.",
+    "best_for": [
+      "Teams evaluating RAG pipeline quality",
+      "Developers adding LLM evaluation to CI/CD",
+      "Builders testing agent behavior and conversation safety"
+    ],
+    "not_for": [
+      "Teams that need only production monitoring",
+      "Users who want a single benchmark score without custom test cases"
+    ],
+    "use_cases": [
+      "self-hosted-ai",
+      "developer-workflow"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted"
+    ],
+    "open_source": true,
+    "local_first": true,
+    "self_hostable": true,
+    "has_api": false,
+    "has_gui": false,
+    "supports_mcp": false,
+    "supports_docker": false
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "github_stars": 42000,
+    "github_forks": 2200,
+    "github_repo_full_name": "confident-ai/deepeval",
+    "last_verified_at": "2026-06-24"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "tool",
+      "evals",
+      "testing",
+      "automation"
+    ],
+    "interfaces": [
+      "repo",
+      "docs"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/confident-ai/deepeval",
+    "items": [
+      {
+        "type": "github",
+        "url": "https://github.com/confident-ai/deepeval",
+        "label": "GitHub"
+      },
+      {
+        "type": "docs",
+        "url": "https://docs.confident-ai.com",
+        "label": "Documentation"
+      },
+      {
+        "type": "homepage",
+        "url": "https://www.confident-ai.com",
+        "label": "Homepage"
+      }
+    ]
+  },
+  "tags": {
+    "category": [
+      "tool",
+      "workflow"
+    ],
+    "capability": [
+      "automation",
+      "workflow-orchestration",
+      "tool-calling"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted",
+      "local-first"
+    ],
+    "scenario": [
+      "developer-workflow",
+      "self-hosted-ai"
+    ]
+  },
+  "editorial": {
+    "seo_article": {
+      "faq": [
+        {
+          "question": "What is DeepEval?",
+          "answer": "DeepEval is an open-source LLM evaluation framework that provides over 15 built-in metrics for testing RAG pipelines, agent workflows, and LLM outputs, with native Pytest integration for CI/CD."
+        },
+        {
+          "question": "Is DeepEval free?",
+          "answer": "Yes, DeepEval is MIT-licensed and completely free to use. There is also a managed platform for team collaboration and test result visualization."
+        },
+        {
+          "question": "What metrics does DeepEval support?",
+          "answer": "DeepEval includes metrics for faithfulness, relevancy, hallucination, bias, toxicity, G-Eval, summarization, answer relevancy, precision, recall, and more than 15 total evaluation metrics."
+        },
+        {
+          "question": "How does DeepEval compare to promptfoo?",
+          "answer": "Both are evaluation tools with different approaches. DeepEval focuses on Pytest-integrated metric-based evaluation for RAG and agents, while promptfoo emphasizes prompt testing and red-teaming with a declarative config approach."
+        },
+        {
+          "question": "Can DeepEval be used in CI/CD?",
+          "answer": "Yes. DeepEval integrates natively with Pytest, so tests run as standard Pytest suites in any CI/CD pipeline. It also integrates with GitHub Actions, Jenkins, and CircleCI."
+        }
+      ]
+    }
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/confident-ai.png",
+    "og_image_url": "https://github.com/confident-ai.png",
+    "thumbnail_brief": {
+      "resource_type": "tool",
+      "visual_motif": "evaluation dashboard with passing and failing test indicators",
+      "background_style": "quiet developer editorial card with light surface and green accent",
+      "title_overlay": "DeepEval",
+      "subtitle": "LLM evaluation framework",
+      "avoid": [
+        "generic robot",
+        "dark coding terminal",
+        "benchmark scoreboards"
+      ]
+    }
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/tools/deepeval",
+    "json_url": "https://www.openagent.bot/tools/deepeval.json",
+    "markdown_url": "https://www.openagent.bot/tools/deepeval.md"
+  },
+  "timestamps": {
+    "created_at": "2026-06-24T00:00:00.000Z",
+    "updated_at": "2026-06-24T00:00:00.000Z",
+    "published_at": "2026-06-24T00:00:00.000Z"
+  }
+}

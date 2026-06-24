@@ -1,0 +1,168 @@
+{
+  "schema_version": "openagent.resource.v1",
+  "id": "res_github_mcp_server",
+  "slug": "github-mcp-server",
+  "status": "published",
+  "identity": {
+    "name": "GitHub MCP Server",
+    "one_liner": "Official GitHub Model Context Protocol server that connects AI agents to GitHub repositories, issues, pull requests, and code.",
+    "short_description": "GitHub MCP Server is the official Model Context Protocol server from GitHub that lets AI agents browse repositories, create and manage issues, review pull requests, search code, and interact with GitHub's API through standardized MCP tool calls."
+  },
+  "classification": {
+    "resource_type": "plugin",
+    "primary_category": "plugins",
+    "subcategories": [
+      "mcp",
+      "connectors",
+      "protocol"
+    ]
+  },
+  "seo": {
+    "title": "GitHub MCP Server: Official GitHub Model Context Protocol for AI Agents",
+    "description": "GitHub MCP Server connects AI agents to GitHub repositories, issues, PRs, and code. MIT-licensed, MCP-compatible, self-hostable. Official docs and setup guide."
+  },
+  "positioning": {
+    "why_it_matters": "Agents that need to interact with GitHub currently must parse web UI or use the REST API directly. GitHub MCP Server gives agents a structured MCP interface to browse code, manage issues, and review PRs without scraping.",
+    "best_for": [
+      "Developers building coding agents that interact with GitHub",
+      "Teams using MCP-compatible agent hosts like Claude, OpenClaw, and Cline",
+      "Builders who need agent-driven code review and issue triage"
+    ],
+    "not_for": [
+      "Teams without MCP-compatible agent infrastructure",
+      "Workflows that already use the GitHub CLI or REST API directly"
+    ],
+    "use_cases": [
+      "developer-workflow",
+      "self-hosted-ai"
+    ],
+    "target_audience": [
+      "developer",
+      "agent_builder"
+    ],
+    "maturity": "active"
+  },
+  "decision_signals": {
+    "deployment_modes": [
+      "self_hosted"
+    ],
+    "open_source": true,
+    "local_first": true,
+    "self_hostable": true,
+    "has_api": true,
+    "has_gui": false,
+    "supports_mcp": true,
+    "supports_docker": true
+  },
+  "facts": {
+    "license": "MIT",
+    "pricing_model": "open_source",
+    "github_stars": 32000,
+    "github_forks": 1200,
+    "github_repo_full_name": "modelcontextprotocol/servers/tree/main/src/github",
+    "last_verified_at": "2026-06-24"
+  },
+  "capabilities": {
+    "core_capabilities": [
+      "plugin",
+      "mcp",
+      "protocol",
+      "connectors"
+    ],
+    "interfaces": [
+      "repo",
+      "docs",
+      "mcp"
+    ]
+  },
+  "links": {
+    "primary_url": "https://github.com/modelcontextprotocol/servers/tree/main/src/github",
+    "items": [
+      {
+        "type": "github",
+        "url": "https://github.com/modelcontextprotocol/servers/tree/main/src/github",
+        "label": "GitHub"
+      },
+      {
+        "type": "docs",
+        "url": "https://github.com/modelcontextprotocol/servers?tab=readme-ov-file#github",
+        "label": "Documentation"
+      }
+    ]
+  },
+  "tags": {
+    "category": [
+      "plugin",
+      "protocol"
+    ],
+    "capability": [
+      "mcp",
+      "connectors",
+      "workflow-orchestration",
+      "tool-calling"
+    ],
+    "constraint": [
+      "open-source",
+      "self-hosted",
+      "mcp-compatible"
+    ],
+    "scenario": [
+      "developer-workflow",
+      "self-hosted-ai",
+      "production-agent"
+    ]
+  },
+  "editorial": {
+    "seo_article": {
+      "faq": [
+        {
+          "question": "What is GitHub MCP Server?",
+          "answer": "GitHub MCP Server is the official Model Context Protocol server from GitHub that provides AI agents with structured access to GitHub repositories, issues, pull requests, and code search through standardized MCP tool calls."
+        },
+        {
+          "question": "Is GitHub MCP Server free?",
+          "answer": "Yes, GitHub MCP Server is open-source under the MIT license. It is part of the official modelcontextprotocol/servers repository and can be self-hosted."
+        },
+        {
+          "question": "Which agents support GitHub MCP Server?",
+          "answer": "Any MCP-compatible agent host can use GitHub MCP Server, including Claude Desktop, OpenClaw, Cline, Continue.dev, and other MCP-enabled coding tools."
+        },
+        {
+          "question": "How do I install GitHub MCP Server?",
+          "answer": "Install via npx: npx @anthropic-ai/mcp-github. You must provide a GitHub personal access token. The server can also run via Docker or as a Node.js process."
+        },
+        {
+          "question": "Can GitHub MCP Server write to repositories?",
+          "answer": "Yes. The server supports creating issues, reviewing pull requests, and managing repository content. Permission level depends on the GitHub token scope you provide."
+        }
+      ]
+    }
+  },
+  "media": {
+    "thumbnail_url": "https://github.com/modelcontextprotocol.png",
+    "og_image_url": "https://github.com/modelcontextprotocol.png",
+    "thumbnail_brief": {
+      "resource_type": "plugin",
+      "visual_motif": "GitHub logo and MCP protocol connection diagram",
+      "background_style": "quiet developer editorial card with light surface and blue accent",
+      "title_overlay": "GitHub MCP Server",
+      "subtitle": "Official GitHub MCP server for AI agents",
+      "avoid": [
+        "generic robot",
+        "code screenshot",
+        "dark dashboard"
+      ]
+    }
+  },
+  "relationships": {},
+  "machine_readable": {
+    "canonical_url": "https://www.openagent.bot/plugins/github-mcp-server",
+    "json_url": "https://www.openagent.bot/plugins/github-mcp-server.json",
+    "markdown_url": "https://www.openagent.bot/plugins/github-mcp-server.md"
+  },
+  "timestamps": {
+    "created_at": "2026-06-24T00:00:00.000Z",
+    "updated_at": "2026-06-24T00:00:00.000Z",
+    "published_at": "2026-06-24T00:00:00.000Z"
+  }
+}

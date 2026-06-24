@@ -133,8 +133,8 @@
     "markdown_url": "https://www.openagent.bot/agents/openhands.md"
   },
   "seo": {
-    "title": "OpenHands: AI Agent — Open-source AI software development agent for coding tasks, repositories, and...",
-    "description": "OpenHands is an open-source AI agent. Open-source AI software development agent for coding tasks, repositories, and developer workflows.. 了解 OpenHands 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+    "title": "OpenHands vs OpenClaw vs Aider: Which Open-Source Coding Agent Fits Your Workflow?",
+    "description": "Compare OpenHands (71K stars, MIT) with top open-source coding agents. Self-hosted AI software development agent with Docker sandboxing, repository-level automation, and SWE-bench results. Official docs, GitHub, and alternatives."
   },
   "editorial": {
     "trust_note": "Verified from source links and project metadata.",

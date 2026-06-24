@@ -138,8 +138,8 @@
     "markdown_url": "https://www.openagent.bot/agents/browser-use.md"
   },
   "seo": {
-    "title": "browser-use: AI Agent — Open-source browser automation agent framework that makes websites accessible...",
-    "description": "browser-use is an open-source AI agent. Open-source browser automation agent framework that makes websites accessible to AI agents.. 了解 browser-use 是什么、适合谁、怎么用。包含官方链接、开源状态和替代方案。"
+    "title": "browser-use vs Playwright vs Puppeteer: Open-Source Browser Automation for AI Agents",
+    "description": "Compare browser-use with Playwright and Puppeteer for AI agent browser automation. Open-source framework that makes websites accessible to LLM agents. Features, GitHub stats, and integration guides."
   },
   "editorial": {
     "featured_reason": "A focused open-source browser agent framework that pairs well with OpenClaw-style action-agent workflows.",

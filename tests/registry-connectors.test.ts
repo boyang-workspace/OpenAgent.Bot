@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { githubConnector, rssConnector } from "../src/lib/registry/connectors";
+import { githubConnector, huggingFaceConnector, rssConnector } from "../src/lib/registry/connectors";
 
 describe("registry connectors", () => {
   it("normalizes a GitHub repository response", async () => {
@@ -30,5 +30,18 @@ describe("registry connectors", () => {
     expect(items).toHaveLength(1);
     expect(items[0]?.title).toBe("Open robot");
     expect(items[0]?.url).toBe("https://example.com/robot");
+  });
+
+  it("normalizes common Hugging Face license identifiers to SPDX casing", async () => {
+    const fetcher = async () => new Response(JSON.stringify({
+      id: "open/model",
+      modelId: "open/model",
+      cardData: { license: "mit" },
+      downloads: 12,
+      likes: 3
+    }), { status: 200, headers: { "content-type": "application/json" } });
+
+    const snapshot = await huggingFaceConnector.fetchEntity("open/model", { fetcher });
+    expect(snapshot.facts.license_spdx).toBe("MIT");
   });
 });

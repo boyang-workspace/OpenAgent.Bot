@@ -297,30 +297,52 @@ export class RegistrySyncService {
     const connector = feedConnectors[source.connector];
     const feedUrl = source.feed_url ?? source.url;
     if (!connector) throw new Error(`No feed connector for ${source.connector}`);
-    const items = await connector.fetchItems(feedUrl);
-    const now = sqlDate();
-    const statements = items.map((item) => this.db.prepare(`
-      INSERT INTO source_items (
-        id, source_id, external_id, title, summary, url, published_at,
-        discovered_at, updated_at, topics_json, raw_hash
-      ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?8, ?9, ?10)
-      ON CONFLICT(source_id, url) DO UPDATE SET
-        title = excluded.title, summary = excluded.summary,
-        published_at = excluded.published_at, updated_at = excluded.updated_at,
-        topics_json = excluded.topics_json, raw_hash = excluded.raw_hash
-    `).bind(
-      id("item"),
-      source.id,
-      item.externalId ?? null,
-      item.title,
-      item.summary ?? null,
-      item.url,
-      item.publishedAt ?? null,
-      now,
-      JSON.stringify(item.topics),
-      item.rawHash
-    ));
-    if (statements.length) await this.db.batch(statements);
-    return { sourceId: source.id, processed: items.length, observed: items.length, changed: 0, errors: [] };
+    const runId = id("run");
+    const startedAt = sqlDate();
+    await this.db.prepare(`
+      INSERT INTO sync_runs (id, source_id, trigger_type, status, started_at)
+      VALUES (?1, ?2, 'schedule', 'running', ?3)
+    `).bind(runId, source.id, startedAt).run();
+
+    try {
+      const items = await connector.fetchItems(feedUrl);
+      const now = sqlDate();
+      const statements = items.map((item) => this.db.prepare(`
+        INSERT INTO source_items (
+          id, source_id, external_id, title, summary, url, published_at,
+          discovered_at, updated_at, topics_json, raw_hash
+        ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?8, ?9, ?10)
+        ON CONFLICT(source_id, url) DO UPDATE SET
+          title = excluded.title, summary = excluded.summary,
+          published_at = excluded.published_at, updated_at = excluded.updated_at,
+          topics_json = excluded.topics_json, raw_hash = excluded.raw_hash
+      `).bind(
+        id("item"),
+        source.id,
+        item.externalId ?? null,
+        item.title,
+        item.summary ?? null,
+        item.url,
+        item.publishedAt ?? null,
+        now,
+        JSON.stringify(item.topics),
+        item.rawHash
+      ));
+      if (statements.length) await this.db.batch(statements);
+      await this.db.prepare(`
+        UPDATE sync_runs SET status = 'succeeded', finished_at = ?2,
+          discovered_count = ?3, observed_count = ?3
+        WHERE id = ?1
+      `).bind(runId, sqlDate(), items.length).run();
+      return { sourceId: source.id, processed: items.length, observed: items.length, changed: 0, errors: [] };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      await this.db.prepare(`
+        UPDATE sync_runs SET status = 'failed', finished_at = ?2,
+          error_count = 1, error_summary = ?3
+        WHERE id = ?1
+      `).bind(runId, sqlDate(), JSON.stringify([{ locator: feedUrl, message }])).run();
+      throw error;
+    }
   }
 }

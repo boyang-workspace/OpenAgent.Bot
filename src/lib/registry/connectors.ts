@@ -42,6 +42,20 @@ function requestHeaders(token?: string): HeadersInit {
   };
 }
 
+function normalizeSpdx(value: unknown): unknown {
+  if (typeof value !== "string") return value;
+  const canonical = new Map([
+    ["mit", "MIT"],
+    ["apache-2.0", "Apache-2.0"],
+    ["bsd-3-clause", "BSD-3-Clause"],
+    ["bsd-2-clause", "BSD-2-Clause"],
+    ["mpl-2.0", "MPL-2.0"],
+    ["gpl-3.0", "GPL-3.0"],
+    ["agpl-3.0", "AGPL-3.0"]
+  ]);
+  return canonical.get(value.trim().toLowerCase()) ?? value;
+}
+
 export const githubConnector: EntityConnector = {
   id: "github",
   async fetchEntity(locator, context = {}) {
@@ -109,7 +123,7 @@ export const huggingFaceConnector: EntityConnector = {
         library_name: data.library_name,
         tags: data.tags,
         gated: data.gated,
-        license_spdx: cardData.license
+        license_spdx: normalizeSpdx(cardData.license)
       },
       metrics: {
         downloads_30d: Number(data.downloads ?? 0),

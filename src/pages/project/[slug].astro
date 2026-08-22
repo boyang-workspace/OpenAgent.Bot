@@ -1,57 +1,375 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getRegistry } from "@/lib/registry/runtime";
-import { calendarDate, compactNumber, label } from "@/lib/registry/format";
-import type { RegistryEntity } from "@/lib/registry/types";
+import { calendarDate, compactNumber, label, relativeDate } from "@/lib/registry/format";
+import type { RegistryDossier } from "@/lib/registry/types";
 
 const slug = Astro.params.slug ?? "";
-let entity: RegistryEntity | undefined;
-try { entity = await getRegistry().getEntity(slug); } catch {}
-if (!entity) return Astro.redirect("/database", 302);
+let dossier: RegistryDossier | undefined;
+try { dossier = await getRegistry().getEntityDossier(slug); } catch {}
+if (!dossier) return Astro.redirect("/database", 302);
+
+const { entity } = dossier;
+const facts = new Map(dossier.facts.map((fact) => [fact.key, fact]));
+const language = facts.get("language")?.value;
+const defaultBranch = facts.get("default_branch")?.value;
+const topics = facts.get("topics")?.value;
+const archived = facts.get("archived")?.value === true;
+const isPhysical = ["robot", "hardware"].includes(entity.kind);
+const schemaType = isPhysical ? "Product" : "SoftwareSourceCode";
+
+const metricCards = [
+  entity.stars !== undefined && { label: "GitHub stars", value: compactNumber(entity.stars), note: "Current repository count" },
+  entity.forks !== undefined && { label: "Forks", value: compactNumber(entity.forks), note: "Current repository count" },
+  entity.watchers !== undefined && { label: "Watchers", value: compactNumber(entity.watchers), note: "Current repository count" },
+  entity.downloads30d !== undefined && { label: "30d downloads", value: compactNumber(entity.downloads30d), note: "Current model count" },
+  entity.openIssues !== undefined && { label: "Open issues", value: compactNumber(entity.openIssues), note: "Current repository count" },
+  entity.lastCommitAt && { label: "Last commit", value: relativeDate(entity.lastCommitAt), note: calendarDate(entity.lastCommitAt) }
+].filter(Boolean) as Array<{ label: string; value: string; note: string }>;
+
+const passport = dossier.opennessFacets.length > 0
+  ? dossier.opennessFacets
+  : [{
+      facet: "overall" as const,
+      status: entity.opennessStatus === "open-source" || entity.opennessStatus === "open-weights" ? "open" as const : entity.opennessStatus === "unknown" ? "unknown" as const : "partial" as const,
+      licenseOrTerms: entity.licenseSpdx,
+      sourceName: "Registry classification",
+      sourceUrl: entity.repositoryUrl,
+      observedAt: entity.lastVerifiedAt ?? entity.updatedAt
+    }];
+
+const visibleFactKeys = ["full_name", "language", "default_branch", "license_spdx", "homepage", "archived", "disabled", "topics"];
+const visibleFacts = visibleFactKeys.map((key) => facts.get(key)).filter(Boolean) as RegistryDossier["facts"];
+const hasFacts = visibleFacts.length > 0;
+const factsNumber = String(5 + (dossier.relationships.length > 0 ? 1 : 0)).padStart(2, "0");
+const recordNumber = String(5 + (dossier.relationships.length > 0 ? 1 : 0) + (hasFacts ? 1 : 0)).padStart(2, "0");
+
+const formatValue = (value: unknown) => {
+  if (Array.isArray(value)) return value.length ? value.join(", ") : "None declared";
+  if (typeof value === "boolean") return value ? "Yes" : "No";
+  if (value === null || value === undefined || value === "") return "Not declared";
+  return String(value);
+};
+const fieldLabel = (value: string) => value === "license_spdx" ? "GitHub API license" : label(value.replaceAll("_", "-"));
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": schemaType,
+  name: entity.name,
+  description: entity.description ?? entity.summary,
+  url: `https://www.openagent.bot/project/${entity.slug}`,
+  category: label(entity.kind),
+  ...(entity.organization ? { author: { "@type": "Organization", name: entity.organization } } : {}),
+  ...(entity.repositoryUrl ? { codeRepository: entity.repositoryUrl } : {}),
+  ...(entity.licenseSpdx ? { license: entity.licenseSpdx } : {}),
+  ...(typeof language === "string" ? { programmingLanguage: language } : {}),
+  sameAs: [entity.canonicalUrl, entity.repositoryUrl, entity.documentationUrl].filter(Boolean)
+};
+
+const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLowerCase()} ${label(entity.kind).toLowerCase()}. See license, repository activity, openness details and attributed evidence.`;
 ---
 
-<BaseLayout title={entity.name} description={entity.summary} path={`/project/${entity.slug}`} image={entity.logoUrl}>
-  <div class="page-shell"><div class="page-grid">
-    <section class="page-section detail-hero">
-      <span class="kicker">{label(entity.kind)} / {entity.lifecycle}</span>
-      <h1 class="page-title">{entity.name}</h1>
-      <p class="lede">{entity.summary}</p>
-      <div class="button-row">
-        {entity.repositoryUrl && <a class="button primary" href={entity.repositoryUrl} rel="noreferrer">Source repository ↗</a>}
-        {entity.documentationUrl && <a class="button secondary" href={entity.documentationUrl} rel="noreferrer">Documentation ↗</a>}
-        {entity.canonicalUrl && entity.canonicalUrl !== entity.repositoryUrl && <a class="button secondary" href={entity.canonicalUrl} rel="noreferrer">Official site ↗</a>}
-      </div>
-    </section>
-    <section class="stat-grid">
-      <div class="stat"><span class="data-label">Openness</span><strong class="word-stat">{label(entity.opennessStatus)}</strong></div>
-      <div class="stat"><span class="data-label">License</span><strong class="word-stat">{entity.licenseSpdx ?? "Unknown"}</strong></div>
-      <div class="stat"><span class="data-label">Stars</span><strong>{compactNumber(entity.stars)}</strong></div>
-      <div class="stat"><span class="data-label">Forks</span><strong>{compactNumber(entity.forks)}</strong></div>
-      <div class="stat"><span class="data-label">Organization</span><strong class="word-stat">{entity.organization ?? "Unverified"}</strong></div>
-      <div class="stat"><span class="data-label">Verified</span><strong class="word-stat">{calendarDate(entity.lastVerifiedAt)}</strong></div>
-    </section>
-    <section class="split">
-      <div><span class="eyebrow">Registry note</span><h2 class="section-title">A fact sheet,<br />not a verdict.</h2></div>
-      <article class="prose"><p>{entity.description ?? entity.summary}</p><p>The openness label summarizes currently observed evidence. Check the linked repository and license before production use; upstream terms can change after our last verification.</p></article>
-    </section>
-    <section class="page-section evidence">
-      <span class="eyebrow">Evidence anchors</span>
-      <div class="evidence-grid">
-        <div><span class="data-label">First seen</span><strong>{calendarDate(entity.firstSeenAt)}</strong></div>
-        <div><span class="data-label">Last seen</span><strong>{calendarDate(entity.lastSeenAt)}</strong></div>
-        <div><span class="data-label">Last commit</span><strong>{calendarDate(entity.lastCommitAt)}</strong></div>
-        <div><span class="data-label">Country</span><strong>{entity.country ?? "Not established"}</strong></div>
-      </div>
-    </section>
-  </div></div>
+<BaseLayout title={`${entity.name} — ${label(entity.kind)} dossier`} description={seoDescription} path={`/project/${entity.slug}`} image={entity.logoUrl}>
+  <script slot="head" is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <div class="page-shell">
+    <article class="page-grid dossier">
+      <header class="identity-header">
+        <div class="identity-main">
+          <div class="identity-tags">
+            <span>{label(entity.kind)}</span>
+            <span>{entity.lifecycle}</span>
+            <span class:list={["open-tag", entity.opennessStatus]}>{label(entity.opennessStatus)}</span>
+          </div>
+          <h1>{entity.name}</h1>
+          <p class="identity-summary">{entity.summary}</p>
+          <div class="identity-meta">
+            {entity.organization && <span>By <strong>{entity.organization}</strong></span>}
+            {entity.country && <span>Based in <strong>{entity.country}</strong></span>}
+            {entity.licenseSpdx && <span>License <strong>{entity.licenseSpdx}</strong></span>}
+          </div>
+        </div>
+        <div class="identity-actions">
+          <span class="record-id">OA / {entity.id}</span>
+          {entity.repositoryUrl && <a class="action-primary" href={entity.repositoryUrl} rel="noreferrer">View source repository <span>↗</span></a>}
+          {entity.documentationUrl && <a href={entity.documentationUrl} rel="noreferrer">Read documentation <span>↗</span></a>}
+          {entity.canonicalUrl && entity.canonicalUrl !== entity.documentationUrl && entity.canonicalUrl !== entity.repositoryUrl && <a href={entity.canonicalUrl} rel="noreferrer">Visit official site <span>↗</span></a>}
+        </div>
+      </header>
+
+      <nav class="dossier-nav" aria-label="On this page">
+        <span>Jump to</span>
+        <a href="#state">Current state</a>
+        <a href="#passport">Open passport</a>
+        <a href="#activity">Activity</a>
+        {hasFacts && <a href="#facts">Facts & evidence</a>}
+        <a href="#record">Registry record</a>
+      </nav>
+
+      <section id="state" class="state-section section-block">
+        <header class="section-intro">
+          <span class="eyebrow">01 / Current state</span>
+          <h2>What is true now.</h2>
+          <p>Latest repository and registry state. Counts are snapshots, not lifetime claims.</p>
+        </header>
+        <div class="metric-board">
+          {metricCards.map((metric) => (
+            <div class="metric-card"><span>{metric.label}</span><strong>{metric.value}</strong><small>{metric.note}</small></div>
+          ))}
+        </div>
+        <div class="state-line">
+          <div><span class="state-light"></span><strong>{archived ? "Archived upstream" : label(entity.lifecycle)}</strong><small>Project lifecycle</small></div>
+          {typeof defaultBranch === "string" && <div><strong>{defaultBranch}</strong><small>Default branch</small></div>}
+          {typeof language === "string" && <div><strong>{language}</strong><small>Primary language</small></div>}
+          <div><strong>{calendarDate(entity.lastVerifiedAt)}</strong><small>Repository last checked</small></div>
+        </div>
+      </section>
+
+      <section class="overview-grid section-block">
+        <div class="what-it-is">
+          <span class="eyebrow">02 / What it is</span>
+          <h2>{entity.name} in one page.</h2>
+          <div class="body-copy">
+            <p>{entity.description ?? entity.summary}</p>
+            <dl>
+              <div><dt>Category</dt><dd>{label(entity.kind)}</dd></div>
+              {entity.organization && <div><dt>Maintainer</dt><dd>{entity.organization}</dd></div>}
+              {entity.country && <div><dt>Origin</dt><dd>{entity.country}</dd></div>}
+              {typeof language === "string" && <div><dt>Primary language</dt><dd>{language}</dd></div>}
+              {Array.isArray(topics) && topics.length > 0 && <div class="topic-row"><dt>Topics</dt><dd>{topics.slice(0, 8).map((topic) => <span>{String(topic)}</span>)}</dd></div>}
+            </dl>
+          </div>
+        </div>
+
+        <div id="passport" class="passport-panel">
+          <span class="eyebrow">03 / Open passport</span>
+          <h2>Open, facet by facet.</h2>
+          <p class="panel-note">Software, weights and hardware can have different terms. Each asserted facet links back to its evidence.</p>
+          <div class="passport-list">
+            {passport.map((facet) => (
+              <div class="passport-row">
+                <span class:list={["facet-status", facet.status]}>{facet.status}</span>
+                <div><strong>{fieldLabel(facet.facet)}</strong><small>{facet.licenseOrTerms ?? "Terms not established"}</small></div>
+                {facet.sourceUrl ? <a href={facet.sourceUrl} rel="noreferrer" aria-label={`${fieldLabel(facet.facet)} evidence`}>Evidence ↗</a> : <span class="no-link">No source URL</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="activity" class="activity-section section-block">
+        <header class="section-intro compact-intro">
+          <span class="eyebrow">04 / Recent activity</span>
+          <h2>A project in motion.</h2>
+        </header>
+        <div class="activity-grid">
+          {entity.lastCommitAt && <div class="activity-event featured-event"><span>Repository</span><strong>Latest commit observed</strong><time datetime={entity.lastCommitAt}>{calendarDate(entity.lastCommitAt)} · {relativeDate(entity.lastCommitAt)}</time></div>}
+          {dossier.changes.map((change) => (
+            <div class="activity-event"><span>{change.changeType}</span><strong>{fieldLabel(change.factKey)} changed</strong><time datetime={change.detectedAt}>{calendarDate(change.detectedAt)}</time></div>
+          ))}
+          <div class="activity-event baseline-event">
+            <span>Registry</span>
+            <strong>{dossier.changes.length ? `${dossier.changes.length} verified changes recorded` : "Baseline established; no verified changes yet"}</strong>
+            <time datetime={dossier.record.lastObservationAt}>{calendarDate(dossier.record.lastObservationAt)}</time>
+          </div>
+        </div>
+        {dossier.metricSnapshots.length < 2 && <p class="history-note">Trend lines will appear after multiple daily snapshots. The current value is shown without implying movement.</p>}
+      </section>
+
+      {dossier.relationships.length > 0 && (
+        <section class="ecosystem-section section-block">
+          <header class="section-intro compact-intro"><span class="eyebrow">05 / Ecosystem</span><h2>What it connects to.</h2></header>
+          <div class="relationship-grid">
+            {dossier.relationships.map((relationship) => (
+              <a href={`/project/${relationship.entity.slug}`}>
+                <span>{relationship.direction === "outbound" ? fieldLabel(relationship.type) : `${fieldLabel(relationship.type)} this`}</span>
+                <strong>{relationship.entity.name}</strong>
+                <small>{label(relationship.entity.kind)} · {Math.round(relationship.confidence * 100)}% confidence</small>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {hasFacts && <section id="facts" class="facts-section section-block">
+        <header class="section-intro">
+          <span class="eyebrow">{factsNumber} / Facts & evidence</span>
+          <h2>Every field has a trail.</h2>
+          <p>Machine-observed repository facts remain attached to their source and observation time.</p>
+        </header>
+        <div class="fact-table">
+          <div class="fact-row fact-head"><span>Field</span><span>Current value</span><span>Source</span><span>Observed</span></div>
+          {visibleFacts.map((fact) => (
+            <div class="fact-row">
+              <span>{fieldLabel(fact.key)}</span>
+              <strong>{formatValue(fact.value)}</strong>
+              <span>{fact.sourceUrl ? <a href={fact.sourceUrl} rel="noreferrer">{fact.sourceName} ↗</a> : fact.sourceName}</span>
+              <time datetime={fact.observedAt}>{calendarDate(fact.observedAt)}</time>
+            </div>
+          ))}
+        </div>
+      </section>}
+
+      <section id="record" class="record-section section-block">
+        <div class="record-heading"><span class="eyebrow">{recordNumber} / Registry record</span><h2>Coverage, not decoration.</h2></div>
+        <div class="record-grid">
+          <div><span>Observations</span><strong>{compactNumber(dossier.record.observationCount)}</strong><small>Attributed field records</small></div>
+          <div><span>Metric snapshots</span><strong>{compactNumber(dossier.record.metricSnapshotCount)}</strong><small>Time-series records</small></div>
+          <div><span>First indexed</span><strong>{calendarDate(entity.firstSeenAt)}</strong><small>Registry discovery date</small></div>
+          <div><span>Last observed</span><strong>{calendarDate(dossier.record.lastObservationAt)}</strong><small>Latest source observation</small></div>
+        </div>
+        {dossier.subscriptions.length > 0 && (
+          <div class="source-ledger">
+            <span class="data-label">Monitored sources</span>
+            {dossier.subscriptions.map((source) => (
+              <div><span class="source-tier">{source.sourceTrustTier}</span><strong>{source.sourceName}</strong><code>{source.locator}</code><time datetime={source.lastSyncedAt}>checked {relativeDate(source.lastSyncedAt)}</time></div>
+            ))}
+          </div>
+        )}
+      </section>
+    </article>
+  </div>
 </BaseLayout>
 
 <style>
-  .detail-hero { min-height: 460px; padding-top: 78px; }
-  .word-stat { font-family: var(--sans) !important; font-size: 1.05rem !important; font-weight: 600 !important; line-height: 1.15 !important; }
-  .evidence-grid { border-top: 1px solid var(--ink); display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 22px; }
-  .evidence-grid > div { border-right: 1px solid var(--line); padding: 24px 18px; }
-  .evidence-grid > div:last-child { border-right: 0; }
-  .evidence-grid strong { display: block; font-family: var(--mono); font-size: .75rem; margin-top: 12px; }
-  @media (max-width: 760px) { .evidence-grid { grid-template-columns: 1fr 1fr; } .evidence-grid > div:nth-child(2) { border-right: 0; } }
+  .dossier { overflow: hidden; }
+  .identity-header { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 1fr) 320px; min-height: 480px; }
+  .identity-main { display: flex; flex-direction: column; justify-content: center; padding: 56px 48px; }
+  .identity-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+  .identity-tags span { border: 1px solid var(--ink); font-family: var(--mono); font-size: .59rem; padding: 6px 8px; text-transform: uppercase; }
+  .identity-tags .open-tag { background: var(--acid); }
+  .identity-tags .open-core, .identity-tags .source-available { background: #dce6ff; color: var(--blue); }
+  .identity-main h1 { font-family: var(--display); font-size: clamp(4.8rem, 9vw, 9.5rem); letter-spacing: -.05em; line-height: .78; margin: 54px 0 36px; }
+  .identity-summary { font-size: 1.15rem; line-height: 1.6; max-width: 760px; }
+  .identity-meta { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 26px; }
+  .identity-meta span { color: var(--muted); font-family: var(--mono); font-size: .66rem; }
+  .identity-meta strong { color: var(--ink); }
+  .identity-actions { background: var(--acid); border-left: 1px solid var(--ink); display: flex; flex-direction: column; justify-content: flex-end; padding: 28px; }
+  .identity-actions > a { align-items: center; border: 1px solid var(--ink); border-bottom: 0; display: flex; font-family: var(--mono); font-size: .68rem; justify-content: space-between; min-height: 50px; padding: 0 14px; text-transform: uppercase; }
+  .identity-actions > a:last-child { border-bottom: 1px solid var(--ink); }
+  .identity-actions > a:hover, .identity-actions .action-primary { background: var(--ink); color: var(--acid); }
+  .record-id { font-family: var(--mono); font-size: .58rem; margin-bottom: auto; overflow-wrap: anywhere; text-transform: uppercase; }
+  .dossier-nav { background: var(--paper-raised); border-bottom: 1px solid var(--ink); display: flex; overflow-x: auto; }
+  .dossier-nav > * { border-right: 1px solid var(--line); flex: 0 0 auto; font-family: var(--mono); font-size: .6rem; padding: 14px 18px; text-transform: uppercase; }
+  .dossier-nav span { background: var(--ink); color: var(--paper); }
+  .dossier-nav a:hover { background: var(--acid); }
+
+  .section-block { border-bottom: 1px solid var(--ink); scroll-margin-top: 110px; }
+  .section-intro { padding: 44px 48px 30px; }
+  .section-intro h2, .overview-grid h2, .record-heading h2 { font-family: var(--display); font-size: clamp(2.8rem, 5vw, 5.2rem); line-height: .9; margin: 12px 0 16px; }
+  .section-intro p, .panel-note { color: var(--muted); line-height: 1.55; max-width: 620px; }
+  .compact-intro { padding-bottom: 24px; }
+  .metric-board { border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+  .metric-card { border-right: 1px solid var(--line); min-height: 150px; padding: 24px; }
+  .metric-card:last-child { border-right: 0; }
+  .metric-card span, .metric-card small { color: var(--muted); display: block; font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
+  .metric-card strong { display: block; font-family: var(--display); font-size: 2.75rem; font-weight: 400; line-height: 1; margin: 22px 0 14px; }
+  .state-line { background: var(--ink); color: var(--paper); display: grid; grid-template-columns: repeat(4, 1fr); }
+  .state-line > div { border-right: 1px solid #45463f; padding: 20px 24px; }
+  .state-line > div:last-child { border-right: 0; }
+  .state-line strong, .state-line small { display: block; }
+  .state-line strong { font-size: .86rem; }
+  .state-line small { color: #a9aa9f; font-family: var(--mono); font-size: .55rem; margin-top: 7px; text-transform: uppercase; }
+  .state-light { background: var(--acid); display: inline-block; height: 8px; margin-right: 8px; width: 8px; }
+
+  .overview-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .what-it-is, .passport-panel { padding: 48px; }
+  .passport-panel { background: var(--blue); border-left: 1px solid var(--ink); color: white; }
+  .passport-panel .eyebrow, .passport-panel .panel-note { color: #cbd6ff; }
+  .body-copy > p { font-family: var(--display); font-size: 1.7rem; line-height: 1.35; max-width: 720px; }
+  .body-copy dl { border-top: 1px solid var(--ink); margin-top: 36px; }
+  .body-copy dl > div { border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 150px 1fr; padding: 14px 0; }
+  .body-copy dt { color: var(--muted); font-family: var(--mono); font-size: .6rem; text-transform: uppercase; }
+  .body-copy dd { margin: 0; }
+  .topic-row dd { display: flex; flex-wrap: wrap; gap: 6px; }
+  .topic-row dd span { background: var(--paper-raised); border: 1px solid var(--line); font-family: var(--mono); font-size: .58rem; padding: 4px 6px; }
+  .passport-list { border-top: 1px solid rgba(255,255,255,.55); margin-top: 32px; }
+  .passport-row { align-items: center; border-bottom: 1px solid rgba(255,255,255,.3); display: grid; gap: 12px; grid-template-columns: 70px 1fr auto; min-height: 72px; }
+  .facet-status { border: 1px solid currentColor; font-family: var(--mono); font-size: .55rem; padding: 5px 6px; text-align: center; text-transform: uppercase; }
+  .facet-status.open { background: var(--acid); color: var(--ink); }
+  .facet-status.partial { background: var(--orange); color: var(--ink); }
+  .passport-row strong, .passport-row small { display: block; }
+  .passport-row small { color: #cbd6ff; font-family: var(--mono); font-size: .57rem; margin-top: 5px; }
+  .passport-row a, .no-link { font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
+  .no-link { color: #aebbea; }
+
+  .activity-grid { border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); }
+  .activity-event { border-right: 1px solid var(--line); min-height: 180px; padding: 26px; }
+  .activity-event:last-child { border-right: 0; }
+  .activity-event > span, .activity-event time { color: var(--muted); display: block; font-family: var(--mono); font-size: .59rem; text-transform: uppercase; }
+  .activity-event strong { display: block; font-family: var(--display); font-size: 1.8rem; font-weight: 400; line-height: 1.15; margin: 38px 0 18px; }
+  .featured-event { background: var(--acid); }
+  .baseline-event { background: var(--paper-raised); }
+  .history-note { color: var(--muted); font-family: var(--mono); font-size: .62rem; margin: 0; padding: 18px 26px; }
+
+  .relationship-grid { border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); }
+  .relationship-grid a { border-right: 1px solid var(--line); min-height: 170px; padding: 26px; }
+  .relationship-grid a:hover { background: var(--acid); }
+  .relationship-grid span, .relationship-grid small { color: var(--muted); display: block; font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
+  .relationship-grid strong { display: block; font-family: var(--display); font-size: 2rem; font-weight: 400; margin: 35px 0 12px; }
+
+  .fact-table { border-top: 1px solid var(--ink); }
+  .fact-row { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 18px; grid-template-columns: 150px minmax(260px, 1fr) 190px 110px; min-height: 64px; padding: 10px 24px; }
+  .fact-row > span:first-child, .fact-row > span:nth-child(3), .fact-row time { color: var(--muted); font-family: var(--mono); font-size: .6rem; text-transform: uppercase; }
+  .fact-row strong { font-family: var(--mono); font-size: .7rem; overflow-wrap: anywhere; }
+  .fact-head { background: var(--ink); color: var(--paper); min-height: 38px; }
+  .fact-head span { color: var(--paper) !important; }
+  .fact-row:not(.fact-head):hover { background: var(--paper-raised); }
+  .fact-row a { text-decoration: underline; text-underline-offset: 3px; }
+
+  .record-section { background: var(--ink); color: var(--paper); }
+  .record-heading { padding: 44px 48px; }
+  .record-heading .eyebrow { color: #a9aa9f; }
+  .record-grid { border-top: 1px solid #45463f; display: grid; grid-template-columns: repeat(4, 1fr); }
+  .record-grid > div { border-right: 1px solid #45463f; padding: 24px; }
+  .record-grid > div:last-child { border-right: 0; }
+  .record-grid span, .record-grid small { color: #a9aa9f; display: block; font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
+  .record-grid strong { display: block; font-family: var(--display); font-size: 2.1rem; font-weight: 400; margin: 16px 0 9px; }
+  .source-ledger { border-top: 1px solid #45463f; padding: 30px 48px 44px; }
+  .source-ledger > .data-label { color: #a9aa9f; display: block; margin-bottom: 16px; }
+  .source-ledger > div { align-items: center; border-top: 1px solid #45463f; display: grid; gap: 15px; grid-template-columns: 90px 190px 1fr auto; min-height: 58px; }
+  .source-tier { color: var(--acid); font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
+  .source-ledger code, .source-ledger time { color: #a9aa9f; font-family: var(--mono); font-size: .61rem; }
+
+  @media (max-width: 1050px) {
+    .identity-header { grid-template-columns: 1fr 280px; }
+    .metric-board { grid-template-columns: repeat(3, 1fr); }
+    .metric-card:nth-child(3n) { border-right: 0; }
+    .metric-card:nth-child(-n+3) { border-bottom: 1px solid var(--line); }
+    .fact-row { grid-template-columns: 130px minmax(220px, 1fr) 160px; }
+    .fact-row > :last-child { display: none; }
+    .source-ledger > div { grid-template-columns: 80px 160px 1fr; }
+    .source-ledger time { display: none; }
+  }
+
+  @media (max-width: 760px) {
+    .identity-header, .overview-grid { grid-template-columns: 1fr; }
+    .identity-main { min-height: 430px; padding: 42px 20px; }
+    .identity-main h1 { font-size: clamp(4.4rem, 23vw, 7rem); margin: 44px 0 28px; }
+    .identity-actions { border-left: 0; border-top: 1px solid var(--ink); min-height: 230px; padding: 20px; }
+    .record-id { margin-bottom: 34px; }
+    .section-intro, .what-it-is, .passport-panel, .record-heading { padding: 36px 20px 26px; }
+    .passport-panel { border-left: 0; border-top: 1px solid var(--ink); }
+    .metric-board { grid-template-columns: 1fr 1fr; }
+    .metric-card:nth-child(n) { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); min-height: 135px; padding: 20px; }
+    .metric-card:nth-child(2n) { border-right: 0; }
+    .metric-card strong { font-size: 2.25rem; }
+    .state-line { grid-template-columns: 1fr 1fr; }
+    .state-line > div:nth-child(2n) { border-right: 0; }
+    .state-line > div { border-bottom: 1px solid #45463f; }
+    .body-copy > p { font-size: 1.4rem; }
+    .body-copy dl > div { grid-template-columns: 110px 1fr; }
+    .passport-row { grid-template-columns: 58px 1fr; padding: 12px 0; }
+    .passport-row a, .passport-row .no-link { grid-column: 2; }
+    .activity-grid, .relationship-grid { grid-template-columns: 1fr; }
+    .activity-event, .relationship-grid a { border-bottom: 1px solid var(--line); border-right: 0; min-height: 150px; }
+    .fact-row { align-items: start; grid-template-columns: 100px 1fr; padding: 15px 20px; }
+    .fact-row > :nth-child(3) { grid-column: 2; }
+    .fact-row > :last-child, .fact-head { display: none; }
+    .record-grid { grid-template-columns: 1fr 1fr; }
+    .record-grid > div { border-bottom: 1px solid #45463f; }
+    .record-grid > div:nth-child(2n) { border-right: 0; }
+    .source-ledger { padding: 26px 20px 38px; }
+    .source-ledger > div { align-items: start; grid-template-columns: 70px 1fr; padding: 14px 0; }
+    .source-ledger code { grid-column: 2; overflow-wrap: anywhere; }
+  }
 </style>

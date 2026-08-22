@@ -4,6 +4,7 @@ import type {
   EntityQueryResult,
   OpennessStatus,
   RegistryChange,
+  RegistryDossier,
   RegistryEntity,
   RegistryStats
 } from "./types";
@@ -41,6 +42,8 @@ type EntityRow = {
   stars: number | null;
   forks: number | null;
   watchers: number | null;
+  downloads_30d: number | null;
+  open_issues: number | null;
   last_release_at: string | null;
   last_commit_at: string | null;
   first_seen_at: string;
@@ -70,6 +73,8 @@ function entityFromRow(row: EntityRow): RegistryEntity {
     stars: row.stars ?? undefined,
     forks: row.forks ?? undefined,
     watchers: row.watchers ?? undefined,
+    downloads30d: row.downloads_30d ?? undefined,
+    openIssues: row.open_issues ?? undefined,
     lastReleaseAt: row.last_release_at ?? undefined,
     lastCommitAt: row.last_commit_at ?? undefined,
     firstSeenAt: row.first_seen_at,
@@ -81,10 +86,33 @@ function entityFromRow(row: EntityRow): RegistryEntity {
 }
 
 const selectEntity = `
-  SELECT e.*, m.stars, m.forks, m.watchers, m.last_release_at, m.last_commit_at
+  SELECT e.*, m.stars, m.forks, m.watchers, m.downloads_30d, m.open_issues,
+         m.last_release_at, m.last_commit_at
   FROM entities e
   LEFT JOIN entity_metrics_current m ON m.entity_id = e.id
 `;
+
+function jsonValue(value: string | null): unknown {
+  if (value === null) return undefined;
+  try { return JSON.parse(value); } catch { return value; }
+}
+
+function changeFromRow(row: Record<string, string | null>): RegistryChange {
+  return {
+    id: String(row.id),
+    entityId: String(row.entity_id),
+    entitySlug: String(row.entity_slug),
+    entityName: String(row.entity_name),
+    entityKind: row.entity_kind as EntityKind,
+    factKey: String(row.fact_key),
+    changeType: row.change_type as RegistryChange["changeType"],
+    previousValue: jsonValue(row.previous_value_json),
+    nextValue: jsonValue(row.next_value_json),
+    sourceName: String(row.source_name),
+    sourceUrl: row.source_url ?? undefined,
+    detectedAt: String(row.detected_at)
+  };
+}
 
 export class RegistryRepository {
   constructor(private readonly db: RegistryDatabase) {}
@@ -154,6 +182,155 @@ export class RegistryRepository {
     return row ? entityFromRow(row) : undefined;
   }
 
+  async getEntityDossier(slug: string): Promise<RegistryDossier | undefined> {
+    const entity = await this.getEntity(slug);
+    if (!entity) return undefined;
+
+    const [facts, facets, changes, relationships, relationshipEvidence, subscriptions, metricSnapshots, record] = await Promise.all([
+      this.db.prepare(`
+        SELECT f.fact_key, f.value_json, f.confidence, f.observed_at,
+               s.name AS source_name, s.trust_tier, o.source_url
+        FROM current_facts f
+        JOIN sources s ON s.id = f.source_id
+        LEFT JOIN observations o ON o.id = f.observation_id
+        WHERE f.entity_id = ?1
+        ORDER BY f.fact_key
+      `).bind(entity.id).all<Record<string, string | number | null>>(),
+      this.db.prepare(`
+        SELECT o.facet, o.status, o.license_or_terms, o.source_url, o.observed_at,
+               s.name AS source_name
+        FROM openness_facets o
+        JOIN sources s ON s.id = o.source_id
+        WHERE o.entity_id = ?1
+        ORDER BY o.facet
+      `).bind(entity.id).all<Record<string, string | null>>(),
+      this.db.prepare(`
+        SELECT c.id, c.entity_id, e.slug AS entity_slug, e.name AS entity_name,
+               e.kind AS entity_kind, c.fact_key, c.change_type,
+               c.previous_value_json, c.next_value_json, s.name AS source_name,
+               c.source_url, c.detected_at
+        FROM change_events c
+        JOIN entities e ON e.id = c.entity_id
+        JOIN sources s ON s.id = c.source_id
+        WHERE c.entity_id = ?1
+        ORDER BY c.detected_at DESC
+        LIMIT 20
+      `).bind(entity.id).all<Record<string, string | null>>(),
+      this.db.prepare(`
+        SELECT r.id, r.relationship_type, r.status, r.confidence,
+               CASE WHEN r.source_entity_id = ?1 THEN 'outbound' ELSE 'inbound' END AS direction,
+               e.id AS related_id, e.slug AS related_slug, e.name AS related_name,
+               e.kind AS related_kind, e.summary AS related_summary
+        FROM relationships r
+        JOIN entities e ON e.id = CASE
+          WHEN r.source_entity_id = ?1 THEN r.target_entity_id ELSE r.source_entity_id END
+        WHERE (r.source_entity_id = ?1 OR r.target_entity_id = ?1)
+          AND r.status != 'rejected' AND e.visibility = 'public'
+        ORDER BY r.confidence DESC, e.name
+      `).bind(entity.id).all<Record<string, string | number>>(),
+      this.db.prepare(`
+        SELECT re.relationship_id, re.source_url, re.excerpt, re.observed_at,
+               s.name AS source_name
+        FROM relationship_evidence re
+        JOIN sources s ON s.id = re.source_id
+        WHERE re.relationship_id IN (
+          SELECT id FROM relationships
+          WHERE source_entity_id = ?1 OR target_entity_id = ?1
+        )
+        ORDER BY re.observed_at DESC
+      `).bind(entity.id).all<Record<string, string | null>>(),
+      this.db.prepare(`
+        SELECT s.name AS source_name, s.trust_tier, ss.locator,
+               ss.last_synced_at, ss.next_sync_at
+        FROM source_subscriptions ss
+        JOIN sources s ON s.id = ss.source_id
+        WHERE ss.entity_id = ?1 AND ss.enabled = 1
+        ORDER BY s.trust_tier, s.name
+      `).bind(entity.id).all<Record<string, string | null>>(),
+      this.db.prepare(`
+        SELECT metric_key, metric_value, observed_at
+        FROM metric_snapshots
+        WHERE entity_id = ?1
+        ORDER BY observed_at DESC
+        LIMIT 60
+      `).bind(entity.id).all<Record<string, string | number>>(),
+      this.db.prepare(`
+        SELECT COUNT(*) AS observation_count, MIN(observed_at) AS first_observation_at,
+               MAX(observed_at) AS last_observation_at,
+               (SELECT COUNT(*) FROM metric_snapshots WHERE entity_id = ?1) AS metric_snapshot_count
+        FROM observations WHERE entity_id = ?1
+      `).bind(entity.id).first<Record<string, string | number | null>>()
+    ]);
+
+    const evidenceByRelationship = new Map<string, RegistryDossier["relationships"][number]["evidence"]>();
+    for (const row of relationshipEvidence.results ?? []) {
+      const relationshipId = String(row.relationship_id);
+      const evidence = evidenceByRelationship.get(relationshipId) ?? [];
+      evidence.push({
+        sourceName: String(row.source_name),
+        sourceUrl: String(row.source_url),
+        excerpt: row.excerpt ?? undefined,
+        observedAt: String(row.observed_at)
+      });
+      evidenceByRelationship.set(relationshipId, evidence);
+    }
+
+    return {
+      entity,
+      facts: (facts.results ?? []).map((row) => ({
+        key: String(row.fact_key),
+        value: jsonValue(typeof row.value_json === "string" ? row.value_json : null),
+        confidence: Number(row.confidence),
+        observedAt: String(row.observed_at),
+        sourceName: String(row.source_name),
+        sourceTrustTier: String(row.trust_tier) as RegistryDossier["facts"][number]["sourceTrustTier"],
+        sourceUrl: typeof row.source_url === "string" ? row.source_url : undefined
+      })),
+      opennessFacets: (facets.results ?? []).map((row) => ({
+        facet: String(row.facet) as RegistryDossier["opennessFacets"][number]["facet"],
+        status: String(row.status) as RegistryDossier["opennessFacets"][number]["status"],
+        licenseOrTerms: row.license_or_terms ?? undefined,
+        sourceName: String(row.source_name),
+        sourceUrl: row.source_url ?? undefined,
+        observedAt: String(row.observed_at)
+      })),
+      changes: (changes.results ?? []).map(changeFromRow),
+      relationships: (relationships.results ?? []).map((row) => ({
+        id: String(row.id),
+        direction: String(row.direction) as "outbound" | "inbound",
+        type: String(row.relationship_type),
+        status: String(row.status) as "candidate" | "verified",
+        confidence: Number(row.confidence),
+        entity: {
+          id: String(row.related_id),
+          slug: String(row.related_slug),
+          name: String(row.related_name),
+          kind: String(row.related_kind) as EntityKind,
+          summary: String(row.related_summary)
+        },
+        evidence: evidenceByRelationship.get(String(row.id)) ?? []
+      })),
+      subscriptions: (subscriptions.results ?? []).map((row) => ({
+        sourceName: String(row.source_name),
+        sourceTrustTier: String(row.trust_tier) as RegistryDossier["subscriptions"][number]["sourceTrustTier"],
+        locator: String(row.locator),
+        lastSyncedAt: row.last_synced_at ?? undefined,
+        nextSyncAt: row.next_sync_at ?? undefined
+      })),
+      metricSnapshots: (metricSnapshots.results ?? []).map((row) => ({
+        key: String(row.metric_key),
+        value: Number(row.metric_value),
+        observedAt: String(row.observed_at)
+      })),
+      record: {
+        observationCount: Number(record?.observation_count ?? 0),
+        metricSnapshotCount: Number(record?.metric_snapshot_count ?? 0),
+        firstObservationAt: typeof record?.first_observation_at === "string" ? record.first_observation_at : undefined,
+        lastObservationAt: typeof record?.last_observation_at === "string" ? record.last_observation_at : undefined
+      }
+    };
+  }
+
   async getStats(): Promise<RegistryStats> {
     const row = await this.db.prepare(`
       SELECT
@@ -192,19 +369,6 @@ export class RegistryRepository {
       LIMIT ?1
     `).bind(Math.min(Math.max(limit, 1), 100)).all<Record<string, string | null>>();
 
-    return (result.results ?? []).map((row) => ({
-      id: String(row.id),
-      entityId: String(row.entity_id),
-      entitySlug: String(row.entity_slug),
-      entityName: String(row.entity_name),
-      entityKind: row.entity_kind as EntityKind,
-      factKey: String(row.fact_key),
-      changeType: row.change_type as RegistryChange["changeType"],
-      previousValue: row.previous_value_json ? JSON.parse(row.previous_value_json) : undefined,
-      nextValue: row.next_value_json ? JSON.parse(row.next_value_json) : undefined,
-      sourceName: String(row.source_name),
-      sourceUrl: row.source_url ?? undefined,
-      detectedAt: String(row.detected_at)
-    }));
+    return (result.results ?? []).map(changeFromRow);
   }
 }

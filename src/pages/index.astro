@@ -1,116 +1,227 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import EntityTable from "@/components/EntityTable.astro";
-import ChangeList from "@/components/ChangeList.astro";
 import { getRegistry } from "@/lib/registry/runtime";
 import { officialSources } from "@/lib/registry/official-sources";
-import { compactNumber, relativeDate } from "@/lib/registry/format";
-import type { RegistryChange, RegistryEntity, RegistryStats } from "@/lib/registry/types";
+import { compactNumber, label, relativeDate } from "@/lib/registry/format";
+import type { RegistryEntity, RegistryStats } from "@/lib/registry/types";
 
-let entities: RegistryEntity[] = [];
-let changes: RegistryChange[] = [];
+let agents: RegistryEntity[] = [];
+let bots: RegistryEntity[] = [];
+let agentCount = 0;
+let botCount = 0;
 let stats: RegistryStats = { entities: 0, agents: 0, robots: 0, models: 0, sources: officialSources.length, observations: 0, changes30d: 0 };
 let databaseReady = true;
 
 try {
   const registry = getRegistry();
-  const [entityResult, changeResult, statResult] = await Promise.all([
-    registry.listEntities({ sort: "updated", limit: 8 }),
-    registry.listChanges(6),
+  const [agentResult, botResult, statResult] = await Promise.all([
+    registry.listEntities({ kinds: ["agent", "agent-framework"], openness: ["open-source", "open-core", "source-available"], sort: "stars", limit: 4 }),
+    registry.listEntities({ kinds: ["robot", "robotics-framework", "hardware", "simulator"], openness: ["open-source", "open-core", "source-available"], sort: "stars", limit: 4 }),
     registry.getStats()
   ]);
-  entities = entityResult.items;
-  changes = changeResult;
+  agents = agentResult.items;
+  bots = botResult.items;
+  agentCount = agentResult.total;
+  botCount = botResult.total;
   stats = statResult;
 } catch {
   databaseReady = false;
 }
+
+const paths = [
+  { index: "01", title: "AI agents", copy: "Autonomous software that plans, uses tools and completes work.", href: "/open-source-ai-agents" },
+  { index: "02", title: "Agent frameworks", copy: "Open runtimes and orchestration layers for building agents.", href: "/open-source-agent-frameworks" },
+  { index: "03", title: "Open robots", copy: "Physical platforms with inspectable software, hardware or both.", href: "/open-source-robots" },
+  { index: "04", title: "Humanoid robots", copy: "General-purpose embodied systems and their open development stacks.", href: "/open-source-humanoid-robots" }
+];
 ---
 
-<BaseLayout title="Open(Source) × Agent(s) × (Ro)Bot" description="The database of open-source agents, robots, and everything that makes them work." path="/">
+<BaseLayout title="Open(Source) × Agent(s) × (Ro)Bot" description="Explore and compare open-source AI agents, robots, frameworks, models and the evidence behind them." path="/">
   <div class="page-shell">
-    <div class="page-grid">
-      <section class="page-section hero">
-        <div class="kicker">Registry / Evidence / Change history</div>
-        <h1 class="page-title">Open(Source) ×<br />Agent(s) × (Ro)Bot</h1>
-        <p class="lede">The database of open-source agents, robots, and everything that makes them work.</p>
-        <div class="button-row">
-          <a class="button primary" href="/database">Explore database <span>→</span></a>
-          <a class="button secondary" href="/methodology">How facts are verified</a>
+    <div class="page-grid home-grid">
+      <section class="home-hero">
+        <div class="hero-copy">
+          <span class="kicker">Open intelligence, from software to machines</span>
+          <h1 class="page-title">Open(Source)<br /><em>Agent(s)</em> × <em>(Ro)Bot</em></h1>
+          <p class="lede">Find the open software that acts—and the open machines that move. Compare projects, inspect their licenses and follow what changes.</p>
         </div>
-        {!databaseReady && <p class="setup-note">LOCAL STATUS · D1 migrations have not been applied in this runtime yet.</p>}
+        <aside class="hero-action" aria-label="Search the registry">
+          <span class="data-label">Know what you need?</span>
+          <form action="/database" method="get">
+            <label class="sr-only" for="registry-search">Search projects</label>
+            <input id="registry-search" name="q" type="search" placeholder="Search agents, robots, frameworks…" />
+            <button type="submit">Search <span aria-hidden="true">→</span></button>
+          </form>
+          <p><strong>{compactNumber(stats.entities)}</strong> projects · <strong>{compactNumber(stats.observations)}</strong> attributed observations</p>
+          {!databaseReady && <p class="setup-note">The live database is initializing.</p>}
+        </aside>
       </section>
 
-      <section class="stat-grid" aria-label="Registry statistics">
-        <div class="stat"><span class="data-label">Entities</span><strong>{compactNumber(stats.entities)}</strong></div>
-        <div class="stat"><span class="data-label">Agents</span><strong>{compactNumber(stats.agents)}</strong></div>
-        <div class="stat"><span class="data-label">Robotics</span><strong>{compactNumber(stats.robots)}</strong></div>
-        <div class="stat"><span class="data-label">Models</span><strong>{compactNumber(stats.models)}</strong></div>
-        <div class="stat"><span class="data-label">Sources</span><strong>{compactNumber(stats.sources || officialSources.length)}</strong></div>
-        <div class="stat"><span class="data-label">30d changes</span><strong>{compactNumber(stats.changes30d)}</strong></div>
+      <section class="choose-layer" aria-labelledby="choose-heading">
+        <header class="choice-heading">
+          <span class="eyebrow">Choose your layer</span>
+          <h2 id="choose-heading">What do you want to explore?</h2>
+        </header>
+        <div class="world-grid">
+          <article class="world agent-world">
+            <div class="world-number">A</div>
+            <div class="world-intro">
+              <span class="world-tag">Software layer</span>
+              <h3>Agent</h3>
+              <p>Systems that reason, call tools, browse, code and coordinate work.</p>
+              <a class="world-cta" href="/database?kind=agent-side">Explore {agentCount} open agent projects <span>→</span></a>
+            </div>
+            <div class="world-projects">
+              {agents.map((entity, index) => (
+                <a href={`/project/${entity.slug}`}>
+                  <span class="rank">{String(index + 1).padStart(2, "0")}</span>
+                  <span><strong>{entity.name}</strong><small>{label(entity.kind)} · {label(entity.opennessStatus)}</small></span>
+                  <span class="project-metric">★ {compactNumber(entity.stars)}</span>
+                </a>
+              ))}
+            </div>
+          </article>
+
+          <article class="world bot-world">
+            <div class="world-number">B</div>
+            <div class="world-intro">
+              <span class="world-tag">Physical layer</span>
+              <h3>Bot</h3>
+              <p>Robots, hardware, simulators and learning stacks that act in the physical world.</p>
+              <a class="world-cta" href="/database?kind=bot-side">Explore {botCount} open robotics projects <span>→</span></a>
+            </div>
+            <div class="world-projects">
+              {bots.map((entity, index) => (
+                <a href={`/project/${entity.slug}`}>
+                  <span class="rank">{String(index + 1).padStart(2, "0")}</span>
+                  <span><strong>{entity.name}</strong><small>{label(entity.kind)} · {label(entity.opennessStatus)}</small></span>
+                  <span class="project-metric">★ {compactNumber(entity.stars)}</span>
+                </a>
+              ))}
+            </div>
+          </article>
+        </div>
       </section>
 
-      <section class="split philosophy">
-        <div>
-          <span class="eyebrow">01 / The thesis</span>
-          <h2 class="section-title">Intelligence should be inspectable. Machines should be accountable.</h2>
+      <section class="start-section">
+        <div class="section-headline">
+          <span class="eyebrow">Start with a collection</span>
+          <h2>Browse a useful slice,<br />not a blank database.</h2>
         </div>
-        <div class="thesis-copy">
-          <p>Agents are the software layer. Robots are the physical layer. Open source—code, weights, hardware, documentation and governance—is the trust layer that lets both collaborate with people.</p>
-          <a class="mono-link" href="/methodology">Read the openness framework →</a>
-        </div>
-      </section>
-
-      <section class="page-section">
-        <div class="section-head">
-          <div><span class="eyebrow">02 / Recently verified</span><h2 class="section-title">The living registry</h2></div>
-          <a class="button secondary" href="/database">View all {stats.entities || ""}</a>
-        </div>
-        <EntityTable entities={entities} />
-      </section>
-
-      <section class="split">
-        <div>
-          <span class="eyebrow">03 / Change log</span>
-          <h2 class="section-title">What moved?</h2>
-          <p class="lede">License changes, releases, repository activity, new model weights and robotics announcements become timestamped events—not disposable posts.</p>
-          <a class="button secondary" href="/changes">Open change log</a>
-        </div>
-        <div>
-          <ChangeList changes={changes} />
+        <div class="path-grid">
+          {paths.map((path) => (
+            <a class="path-card" href={path.href}>
+              <span>{path.index}</span>
+              <h3>{path.title}</h3>
+              <p>{path.copy}</p>
+              <strong aria-hidden="true">↗</strong>
+            </a>
+          ))}
         </div>
       </section>
 
-      <section class="page-section source-ribbon">
-        <span class="eyebrow">04 / Source coverage</span>
-        <div class="source-names">
-          {officialSources.slice(0, 12).map((source) => <span>{source.publisher}</span>)}
-        </div>
-        <p class="mono">{officialSources.filter((source) => source.automationStatus === "active").length} active connectors · {officialSources.length} registered sources · last sync {relativeDate(stats.lastSyncAt)}</p>
+      <section class="live-strip" aria-label="Live registry status">
+        <div><span class="data-label">Live index</span><strong>{compactNumber(stats.entities)}</strong><small>public entities</small></div>
+        <div><span class="data-label">Agent side</span><strong>{compactNumber(agentCount)}</strong><small>agents + frameworks</small></div>
+        <div><span class="data-label">Bot side</span><strong>{compactNumber(botCount)}</strong><small>robots + physical stack</small></div>
+        <div><span class="data-label">Evidence</span><strong>{compactNumber(stats.observations)}</strong><small>source observations</small></div>
+        <div class="sync-cell"><span class="status-dot"></span><span>Updated {relativeDate(stats.lastSyncAt)} from {stats.sources || officialSources.length} registered sources.</span><a href="/sources">Inspect sources →</a></div>
       </section>
     </div>
   </div>
 </BaseLayout>
 
 <style>
-  .hero { min-height: 600px; padding-top: 78px; position: relative; }
-  .hero::after { border: 1px solid var(--ink); content: "DB / 0002"; font-family: var(--mono); font-size: .62rem; padding: 8px; position: absolute; right: 48px; top: 48px; }
-  .setup-note { background: var(--orange); color: var(--ink); display: inline-block; font-family: var(--mono); font-size: .64rem; margin-top: 28px; padding: 8px 10px; }
-  .philosophy { background: var(--ink); color: var(--paper); }
-  .philosophy .eyebrow, .philosophy p { color: #aaaca1; }
-  .thesis-copy { display: flex; flex-direction: column; justify-content: flex-end; }
-  .thesis-copy p { font-size: 1.08rem; line-height: 1.65; }
-  .mono-link { color: var(--acid); font-family: var(--mono); font-size: .7rem; margin-top: 20px; text-transform: uppercase; }
-  .section-head { align-items: end; display: flex; justify-content: space-between; margin-bottom: 28px; }
-  .section-head .section-title { margin-bottom: 0; }
-  .source-ribbon { background: var(--acid); }
-  .source-names { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0; }
-  .source-names span { background: var(--paper); border: 1px solid var(--ink); font-family: var(--mono); font-size: .66rem; padding: 8px 10px; text-transform: uppercase; }
-  .source-ribbon p { margin-bottom: 0; }
+  .home-grid { overflow: hidden; }
+  .home-hero { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(330px, .45fr); min-height: 560px; }
+  .hero-copy { display: flex; flex-direction: column; justify-content: center; padding: 64px 48px; }
+  .hero-copy .page-title { font-size: clamp(4rem, 7.7vw, 8rem); max-width: 1050px; }
+  .hero-copy .page-title em { font-weight: 400; }
+  .hero-action { background: var(--acid); border-left: 1px solid var(--ink); display: flex; flex-direction: column; justify-content: flex-end; padding: 38px; }
+  .hero-action form { border: 1px solid var(--ink); display: grid; grid-template-columns: 1fr auto; margin: 16px 0 18px; }
+  .hero-action input { background: var(--paper-raised); border: 0; border-radius: 0; min-width: 0; padding: 15px; }
+  .hero-action button { background: var(--ink); border: 0; color: var(--acid); cursor: pointer; font-family: var(--mono); font-size: .68rem; padding: 0 16px; text-transform: uppercase; }
+  .hero-action p { font-family: var(--mono); font-size: .68rem; line-height: 1.55; margin: 0; }
+  .hero-action p strong { font-size: .8rem; }
+  .setup-note { margin-top: 12px !important; }
+  .sr-only { height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+
+  .choose-layer { border-bottom: 1px solid var(--ink); padding: 48px; }
+  .choice-heading { align-items: end; display: flex; justify-content: space-between; margin-bottom: 30px; }
+  .choice-heading h2, .section-headline h2 { font-family: var(--display); font-size: clamp(2.6rem, 4.5vw, 5rem); line-height: .92; margin: 8px 0 0; }
+  .world-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .world { border: 1px solid var(--ink); display: grid; grid-template-columns: 70px 1fr; min-width: 0; }
+  .world + .world { border-left: 0; }
+  .world-number { align-items: center; border-right: 1px solid currentColor; display: flex; font-family: var(--display); font-size: 3.5rem; justify-content: center; }
+  .agent-world { background: var(--ink); color: var(--paper); }
+  .bot-world { background: var(--orange); }
+  .world-intro { min-height: 310px; padding: 34px; }
+  .world-tag { border: 1px solid currentColor; display: inline-flex; font-family: var(--mono); font-size: .59rem; padding: 6px 8px; text-transform: uppercase; }
+  .world h3 { font-family: var(--display); font-size: clamp(4.4rem, 7vw, 7.2rem); line-height: .8; margin: 36px 0 24px; }
+  .world p { font-size: 1rem; line-height: 1.55; max-width: 480px; }
+  .agent-world p { color: #c7c8be; }
+  .world-cta { align-items: center; border-bottom: 1px solid currentColor; display: flex; font-family: var(--mono); font-size: .7rem; justify-content: space-between; margin-top: 30px; padding-bottom: 10px; text-transform: uppercase; }
+  .agent-world .world-cta { color: var(--acid); }
+  .world-projects { border-top: 1px solid currentColor; grid-column: 1 / -1; }
+  .world-projects a { align-items: center; display: grid; gap: 14px; grid-template-columns: 35px 1fr auto; min-height: 66px; padding: 10px 18px; }
+  .world-projects a + a { border-top: 1px solid currentColor; }
+  .world-projects a:hover { background: var(--acid); color: var(--ink); }
+  .rank, .project-metric, .world-projects small { font-family: var(--mono); font-size: .62rem; }
+  .world-projects strong, .world-projects small { display: block; }
+  .world-projects small { margin-top: 4px; opacity: .65; text-transform: uppercase; }
+
+  .start-section { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: .75fr 1.25fr; }
+  .section-headline { padding: 48px; }
+  .path-grid { border-left: 1px solid var(--ink); display: grid; grid-template-columns: 1fr 1fr; }
+  .path-card { min-height: 220px; padding: 28px; position: relative; }
+  .path-card:nth-child(odd) { border-right: 1px solid var(--line); }
+  .path-card:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .path-card > span { color: var(--muted); font-family: var(--mono); font-size: .62rem; }
+  .path-card h3 { font-family: var(--display); font-size: 2rem; margin: 38px 0 10px; }
+  .path-card p { color: var(--muted); font-size: .82rem; line-height: 1.5; max-width: 290px; }
+  .path-card > strong { position: absolute; right: 24px; top: 24px; }
+  .path-card:hover { background: var(--acid); }
+
+  .live-strip { display: grid; grid-template-columns: repeat(4, 1fr) 1.5fr; }
+  .live-strip > div { border-right: 1px solid var(--line); min-height: 140px; padding: 24px; }
+  .live-strip > div:last-child { border-right: 0; }
+  .live-strip strong, .live-strip small { display: block; }
+  .live-strip strong { font-family: var(--display); font-size: 2.8rem; font-weight: 400; margin: 15px 0 8px; }
+  .live-strip small { color: var(--muted); font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
+  .sync-cell { background: var(--blue); color: white; display: flex; flex-direction: column; font-family: var(--mono); font-size: .67rem; justify-content: space-between; line-height: 1.55; }
+  .sync-cell .status-dot { background: var(--acid); }
+  .sync-cell a { border-top: 1px solid rgba(255,255,255,.5); padding-top: 12px; text-transform: uppercase; }
+
+  @media (max-width: 1050px) {
+    .home-hero { grid-template-columns: 1fr; }
+    .hero-action { border-left: 0; border-top: 1px solid var(--ink); }
+    .world-grid, .start-section { grid-template-columns: 1fr; }
+    .world + .world { border-left: 1px solid var(--ink); border-top: 0; }
+    .path-grid { border-left: 0; border-top: 1px solid var(--ink); }
+    .live-strip { grid-template-columns: repeat(4, 1fr); }
+    .sync-cell { grid-column: 1 / -1; min-height: 120px !important; }
+  }
+
   @media (max-width: 760px) {
-    .hero { min-height: 520px; padding-top: 60px; }
-    .hero .page-title { font-size: 14vw; line-height: .92; }
-    .hero::after { display: none; }
-    .section-head { align-items: flex-start; flex-direction: column; gap: 20px; }
+    .home-hero { min-height: 0; }
+    .hero-copy { padding: 48px 20px; }
+    .hero-copy .page-title { font-size: clamp(3.5rem, 17vw, 5rem); }
+    .hero-action { padding: 26px 20px; }
+    .choose-layer { padding: 34px 20px; }
+    .choice-heading { align-items: flex-start; flex-direction: column; }
+    .world { grid-template-columns: 48px 1fr; }
+    .world-number { font-size: 2.5rem; }
+    .world-intro { min-height: 280px; padding: 26px 20px; }
+    .world h3 { font-size: 5rem; }
+    .world-projects a { grid-template-columns: 26px 1fr; }
+    .project-metric { display: none; }
+    .section-headline { padding: 34px 20px; }
+    .path-grid { grid-template-columns: 1fr; }
+    .path-card:nth-child(n) { border-bottom: 1px solid var(--line); border-right: 0; min-height: 185px; padding: 24px 20px; }
+    .path-card:last-child { border-bottom: 0; }
+    .live-strip { grid-template-columns: 1fr 1fr; }
+    .live-strip > div:nth-child(2n) { border-right: 0; }
+    .live-strip > div { border-bottom: 1px solid var(--line); }
+    .sync-cell { grid-column: 1 / -1; }
   }
 </style>

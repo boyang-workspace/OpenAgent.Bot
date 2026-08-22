@@ -13,12 +13,17 @@ const page = Number.isFinite(requestedPage) ? Math.max(Math.floor(requestedPage)
 const pageSize = 50;
 const sort = Astro.url.searchParams.get("sort") === "stars" ? "stars" : Astro.url.searchParams.get("sort") === "name" ? "name" : "updated";
 const kind = entityKinds.includes(requestedKind as EntityKind) ? requestedKind as EntityKind : undefined;
+const sideKinds: EntityKind[] | undefined = requestedKind === "agent-side"
+  ? ["agent", "agent-framework"]
+  : requestedKind === "bot-side"
+    ? ["robot", "robotics-framework", "hardware", "simulator"]
+    : undefined;
 const openness = opennessStatuses.includes(requestedOpenness as OpennessStatus) ? requestedOpenness as OpennessStatus : undefined;
 let entities: RegistryEntity[] = [];
 let total = 0;
 
 try {
-  const result = await getRegistry().listEntities({ q, kinds: kind ? [kind] : undefined, openness: openness ? [openness] : undefined, sort, limit: pageSize, offset: (page - 1) * pageSize });
+  const result = await getRegistry().listEntities({ q, kinds: sideKinds ?? (kind ? [kind] : undefined), openness: openness ? [openness] : undefined, sort, limit: pageSize, offset: (page - 1) * pageSize });
   entities = result.items;
   total = result.total;
 } catch {}
@@ -40,7 +45,7 @@ function pageHref(nextPage: number): string {
     </section>
     <form class="filter-bar" method="get">
       <div class="field"><label for="q">Search</label><input id="q" name="q" type="search" value={q} placeholder="Name, organization, summary" /></div>
-      <div class="field"><label for="kind">Entity type</label><select id="kind" name="kind"><option value="">All types</option>{entityKinds.map((item) => <option value={item} selected={kind === item}>{label(item)}</option>)}</select></div>
+      <div class="field"><label for="kind">Entity type</label><select id="kind" name="kind"><option value="">All types</option><option value="agent-side" selected={requestedKind === "agent-side"}>Agent side</option><option value="bot-side" selected={requestedKind === "bot-side"}>Bot side</option>{entityKinds.map((item) => <option value={item} selected={kind === item}>{label(item)}</option>)}</select></div>
       <div class="field"><label for="openness">Openness</label><select id="openness" name="openness"><option value="">All states</option>{opennessStatuses.map((item) => <option value={item} selected={openness === item}>{label(item)}</option>)}</select></div>
       <div class="field"><label for="sort">Sort</label><select id="sort" name="sort"><option value="updated" selected={sort === "updated"}>Recently verified</option><option value="stars" selected={sort === "stars"}>GitHub stars</option><option value="name" selected={sort === "name"}>Name</option></select></div>
       <button class="button primary" type="submit">Apply</button>

@@ -46,6 +46,8 @@ export type RegistryEntity = {
   stars?: number;
   forks?: number;
   watchers?: number;
+  downloads30d?: number;
+  openIssues?: number;
   lastReleaseAt?: string;
   lastCommitAt?: string;
   firstSeenAt: string;
@@ -85,6 +87,70 @@ export type RegistryChange = {
   sourceName: string;
   sourceUrl?: string;
   detectedAt: string;
+};
+
+export type RegistryFact = {
+  key: string;
+  value: unknown;
+  confidence: number;
+  observedAt: string;
+  sourceName: string;
+  sourceTrustTier: SourceTrustTier;
+  sourceUrl?: string;
+};
+
+export type RegistryOpennessFacet = {
+  facet: "code" | "weights" | "data" | "hardware" | "documentation" | "governance";
+  status: "open" | "partial" | "closed" | "unknown";
+  licenseOrTerms?: string;
+  sourceName: string;
+  sourceUrl?: string;
+  observedAt: string;
+};
+
+export type RegistryRelationship = {
+  id: string;
+  direction: "outbound" | "inbound";
+  type: string;
+  status: "candidate" | "verified" | "rejected";
+  confidence: number;
+  entity: Pick<RegistryEntity, "id" | "slug" | "name" | "kind" | "summary">;
+  evidence: Array<{
+    sourceName: string;
+    sourceUrl: string;
+    excerpt?: string;
+    observedAt: string;
+  }>;
+};
+
+export type RegistrySubscription = {
+  sourceName: string;
+  sourceTrustTier: SourceTrustTier;
+  locator: string;
+  lastSyncedAt?: string;
+  nextSyncAt?: string;
+};
+
+export type RegistryMetricSnapshot = {
+  key: string;
+  value: number;
+  observedAt: string;
+};
+
+export type RegistryDossier = {
+  entity: RegistryEntity;
+  facts: RegistryFact[];
+  opennessFacets: RegistryOpennessFacet[];
+  changes: RegistryChange[];
+  relationships: RegistryRelationship[];
+  subscriptions: RegistrySubscription[];
+  metricSnapshots: RegistryMetricSnapshot[];
+  record: {
+    observationCount: number;
+    metricSnapshotCount: number;
+    firstObservationAt?: string;
+    lastObservationAt?: string;
+  };
 };
 
 export type RegistryStats = {

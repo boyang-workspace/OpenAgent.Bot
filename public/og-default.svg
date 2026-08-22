@@ -1,7 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-label="OpenAgent default thumbnail">
-  <rect width="1200" height="675" fill="#eef4ef"/>
-  <rect x="88" y="88" width="1024" height="499" rx="8" fill="#fafaf7" stroke="#dce2d8" stroke-width="2"/>
-  <rect x="180" y="180" width="240" height="240" rx="8" fill="#171914"/>
-  <rect x="246" y="246" width="240" height="240" rx="8" fill="#16745a"/>
-  <path d="M600 235h320M600 323h240M600 411h285" stroke="#336f9f" stroke-width="18" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="OpenAgent.bot registry">
+  <rect width="1200" height="630" fill="#f2f0e8"/>
+  <path d="M0 90h1200M0 180h1200M0 270h1200M0 360h1200M0 450h1200M0 540h1200M120 0v630M240 0v630M360 0v630M480 0v630M600 0v630M720 0v630M840 0v630M960 0v630M1080 0v630" stroke="#141510" stroke-opacity=".08"/>
+  <rect x="58" y="58" width="88" height="88" fill="#141510"/>
+  <text x="78" y="114" fill="#d9ff3f" font-family="monospace" font-size="30" font-weight="700">OA</text>
+  <rect x="58" y="508" width="1084" height="64" fill="#d9ff3f" stroke="#141510" stroke-width="2"/>
+  <text x="62" y="250" fill="#141510" font-family="serif" font-size="74">Open(Source) ×</text>
+  <text x="62" y="335" fill="#141510" font-family="serif" font-size="74">Agent(s) × (Ro)Bot</text>
+  <text x="82" y="548" fill="#141510" font-family="monospace" font-size="22">DATABASE / EVIDENCE / CHANGE HISTORY</text>
 </svg>

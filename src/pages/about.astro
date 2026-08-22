@@ -1,41 +1,13 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import EditorialShell from "@/components/EditorialShell.astro";
 ---
-
-<BaseLayout title="About" description="OpenAgent.bot is an editorial directory for open-source AI resources." path="/about">
-  <EditorialShell>
-  <section class="text-page">
-    <span class="eyebrow">About</span>
-    <h1>A directory for the open AI stack.</h1>
-    <p>
-      OpenAgent.bot collects open-source AI models, agents, skills, memory systems,
-      plugins, and tools into a stable discovery layer. The public site starts with
-      curated pages and grows toward structured outputs that agents can read directly.
-    </p>
-  </section>
-  </EditorialShell>
+<BaseLayout title="About" description="Why OpenAgent.bot is building an open database for agents and robots." path="/about">
+  <div class="page-shell"><div class="page-grid">
+    <section class="page-section"><span class="kicker">About OpenAgent.bot</span><h1 class="page-title">The trust layer<br />needs a ledger.</h1><p class="lede">OpenAgent.bot tracks the software and physical systems that will increasingly work beside people—and the evidence needed to understand whether they are truly open.</p></section>
+    <section class="page-section"><article class="prose">
+      <h2>The premise</h2><p>Agents are becoming the software interface to work. Robots are becoming the physical interface to the world. Their ability to collaborate with people depends on more than capability: it depends on inspectability, attribution and accountable change.</p>
+      <h2>The product</h2><p>This is a database, not a publication calendar. Official sources and canonical registries produce observations. Observations produce current facts and an append-only change log. Over time, that history supports comparisons and transparent rankings.</p>
+      <h2>The scope</h2><p>We begin with open-source agents, models, robotics frameworks, robots and the infrastructure that connects them. We record uncertainty instead of filling gaps with marketing language.</p>
+    </article></section>
+  </div></div>
 </BaseLayout>
-
-<style>
-  .text-page {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    max-width: 820px;
-    padding: 32px;
-  }
-
-  h1 {
-    font-size: 4rem;
-    letter-spacing: 0;
-    line-height: 1;
-    margin: 12px 0 0;
-  }
-
-  @media (max-width: 720px) {
-    h1 {
-      font-size: 2.4rem;
-    }
-  }
-</style>

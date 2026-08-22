@@ -1,0 +1,38 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import EntityTable from "@/components/EntityTable.astro";
+import type { RegistryEntity } from "@/lib/registry/types";
+
+type Props = {
+  title: string;
+  eyebrow: string;
+  description: string;
+  path: string;
+  entities: RegistryEntity[];
+  total: number;
+  databaseHref: string;
+};
+
+const { title, eyebrow, description, path, entities, total, databaseHref } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} path={path}>
+  <div class="page-shell"><div class="page-grid">
+    <section class="page-section">
+      <span class="kicker">{eyebrow}</span>
+      <h1 class="page-title">{title}</h1>
+      <p class="lede">{description}</p>
+      <p class="mono landing-count">{total} matching entities · evidence-backed registry data</p>
+    </section>
+    <section class="page-section landing-results">
+      <EntityTable entities={entities} />
+      <a class="button secondary" href={databaseHref}>Continue in the database →</a>
+    </section>
+  </div></div>
+</BaseLayout>
+
+<style>
+  .landing-count { margin-top: 24px; }
+  .landing-results { padding-top: 28px; }
+  .landing-results .button { margin-top: 28px; }
+</style>

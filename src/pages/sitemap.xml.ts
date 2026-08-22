@@ -1,37 +1,44 @@
 import type { APIRoute } from "astro";
-import { categories, site } from "@/config/site";
-import { getPublishedBlogPosts } from "@/lib/content/blog";
-import { getPublishedResources, resourcePath } from "@/lib/content/resources";
+import { site } from "@/config/site";
+import { getRegistry } from "@/lib/registry/runtime";
 
-const staticPaths = ["/", "/blog", "/evaluations", "/open-source-ai-agent-stack", "/about", "/manifesto", "/submit"];
+const staticPaths = [
+  "/",
+  "/database",
+  "/changes",
+  "/rankings",
+  "/sources",
+  "/methodology",
+  "/api",
+  "/about",
+  "/open-source-ai-agents",
+  "/open-source-robots",
+  "/open-source-humanoid-robots",
+  "/open-source-agent-frameworks",
+  "/open-source-vla-models"
+];
 
 export const GET: APIRoute = async () => {
-  const resources = await getPublishedResources();
-  const posts = await getPublishedBlogPosts();
+  let projects: Array<{ slug: string; updatedAt: string }> = [];
+  try {
+    const registry = getRegistry();
+    let offset = 0;
+    let total = 1;
+    while (offset < total) {
+      const result = await registry.listEntities({ limit: 100, offset });
+      projects.push(...result.items.map(({ slug, updatedAt }) => ({ slug, updatedAt })));
+      total = result.total;
+      offset += result.items.length;
+      if (result.items.length === 0) break;
+    }
+  } catch {}
   const today = new Date().toISOString().slice(0, 10);
   const urls = [
     ...staticPaths.map((path) => ({ path, lastmod: today })),
-    ...categories.map((category) => ({ path: `/${category.slug}`, lastmod: today })),
-    ...resources.map((resource) => ({
-      path: resourcePath(resource),
-      lastmod: resource.timestamps.updated_at.slice(0, 10)
-    })),
-    ...posts.map((post) => ({
-      path: `/blog/${post.slug}`,
-      lastmod: post.publishedAt.slice(0, 10)
-    }))
+    ...projects.map((project) => ({ path: `/project/${project.slug}`, lastmod: project.updatedAt.slice(0, 10) }))
   ];
-
-  const xml = urls
-    .map(({ path, lastmod }) => {
-      const loc = new URL(path, site.url).toString();
-      return `<url><loc>${loc}</loc><lastmod>${lastmod}</lastmod></url>`;
-    })
-    .join("");
-
+  const xml = urls.map(({ path, lastmod }) => `<url><loc>${new URL(path, site.url)}</loc><lastmod>${lastmod}</lastmod></url>`).join("");
   return new Response(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${xml}</urlset>`, {
-    headers: {
-      "Content-Type": "application/xml; charset=utf-8"
-    }
+    headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=3600" }
   });
 };

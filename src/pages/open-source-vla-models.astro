@@ -1,0 +1,15 @@
+---
+import RegistryLanding from "@/components/RegistryLanding.astro";
+import { getRegistryLanding } from "@/lib/registry/landings";
+
+const data = await getRegistryLanding({ q: "VLA", sort: "stars" });
+---
+<RegistryLanding
+  title="Open-source VLA models"
+  eyebrow="Supporting entities / Vision-language-action"
+  description="Explore vision-language-action projects identified from registry descriptions, with openness claims kept separate from repository licenses."
+  path="/open-source-vla-models"
+  entities={data.entities}
+  total={data.total}
+  databaseHref="/database?q=VLA"
+/>

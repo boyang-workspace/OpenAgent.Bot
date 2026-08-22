@@ -1,0 +1,15 @@
+---
+import RegistryLanding from "@/components/RegistryLanding.astro";
+import { getRegistryLanding } from "@/lib/registry/landings";
+
+const data = await getRegistryLanding({ q: "humanoid", kinds: ["robot"], sort: "stars" });
+---
+<RegistryLanding
+  title="Open-source humanoid robots"
+  eyebrow="Robotics / Humanoid"
+  description="Humanoid robot projects whose registry records explicitly mention humanoid form factors; unknown hardware facets remain unknown."
+  path="/open-source-humanoid-robots"
+  entities={data.entities}
+  total={data.total}
+  databaseHref="/database?q=humanoid&kind=robot"
+/>

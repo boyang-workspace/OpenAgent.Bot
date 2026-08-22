@@ -1,385 +1,116 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import EditorialShell from "@/components/EditorialShell.astro";
-import ResourceCard from "@/components/ResourceCard.astro";
-import { categories } from "@/config/site";
-import { getPublishedBlogPosts } from "@/lib/content/blog";
-import { getPublishedResources } from "@/lib/content/resources";
+import EntityTable from "@/components/EntityTable.astro";
+import ChangeList from "@/components/ChangeList.astro";
+import { getRegistry } from "@/lib/registry/runtime";
+import { officialSources } from "@/lib/registry/official-sources";
+import { compactNumber, relativeDate } from "@/lib/registry/format";
+import type { RegistryChange, RegistryEntity, RegistryStats } from "@/lib/registry/types";
 
-const resources = await getPublishedResources();
-const posts = await getPublishedBlogPosts();
+let entities: RegistryEntity[] = [];
+let changes: RegistryChange[] = [];
+let stats: RegistryStats = { entities: 0, agents: 0, robots: 0, models: 0, sources: officialSources.length, observations: 0, changes30d: 0 };
+let databaseReady = true;
 
-const floorOrder = ["agents", "models", "skills", "bots", "memory-systems"];
-const floorId = (slug: string) => (slug === "memory-systems" ? "memory" : slug);
-const resourceRank = (resource: (typeof resources)[number]) => (resource.decision_signals.open_source ? 1 : 0);
-const floorDescriptions: Record<string, string> = {
-  agents: "Open-source agents for browser, coding, terminal, and workflow automation.",
-  models: "Open models that can power private, local, and self-hosted AI workflows.",
-  skills: "Reusable capability packs that make agents useful in real tasks.",
-  "memory-systems": "Open memory systems for retrieval, long-term context, and user-owned knowledge.",
-  bots: "Open-source AI bots for Discord, Telegram, Slack, WhatsApp, Matrix, WeChat, and self-hosted agent channels."
-};
-const orderedFloors = [...categories]
-  .filter((category) => floorOrder.includes(category.slug))
-  .sort((a, b) => floorOrder.indexOf(a.slug) - floorOrder.indexOf(b.slug))
-  .map((category) => ({
-    ...category,
-    id: floorId(category.slug),
-    items: resources
-      .filter((resource) => resource.classification.primary_category === category.slug)
-      .sort((a, b) => resourceRank(b) - resourceRank(a) || (b.facts.github_stars ?? 0) - (a.facts.github_stars ?? 0) || a.identity.name.localeCompare(b.identity.name))
-  }))
-  .filter((floor) => floor.items.length > 0);
-
-const homeWebSite = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "OpenAgent.bot",
-  url: "https://www.openagent.bot",
-  description: "Open-source AI resources, curated for humans and structured for agents.",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "https://www.openagent.bot/search?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-};
-const homeOrg = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "OpenAgent.bot",
-  url: "https://www.openagent.bot",
-  logo: "https://www.openagent.bot/favicon.svg"
-};
-const evaluationCards = [
-  {
-    title: "Stack Finder",
-    label: "Resolver",
-    href: "/stack-finder",
-    summary: "Select a workflow, environment, and safety constraints to get an agent stack with scores and risk notes."
-  },
-  {
-    title: "The open-source AI agent stack",
-    label: "Pillar guide",
-    href: "/open-source-ai-agent-stack",
-    summary: "Map models, agents, skills, memory, plugins, and evaluation tools before choosing a stack."
-  },
-  {
-    title: "Choose an open-source AI agent by workflow",
-    label: "Decision matrix",
-    href: "/evaluations/agent-decision-matrix",
-    summary: "Start with the work surface: browser, repository, local desktop, orchestration, or memory-heavy workflows."
-  },
-  {
-    title: "OpenClaw vs browser-use vs OpenHands",
-    label: "Comparison",
-    href: "/blog/openclaw-vs-browser-use-vs-openhands",
-    summary: "Compare action-agent platforms, browser automation primitives, and coding agents by practical adoption risk."
-  },
-  {
-    title: "Best open-source browser agents",
-    label: "Buyer guide",
-    href: "/blog/best-open-source-browser-agents-workflow-automation",
-    summary: "A search-friendly shortlist for teams testing agents that operate real websites."
-  }
-];
+try {
+  const registry = getRegistry();
+  const [entityResult, changeResult, statResult] = await Promise.all([
+    registry.listEntities({ sort: "updated", limit: 8 }),
+    registry.listChanges(6),
+    registry.getStats()
+  ]);
+  entities = entityResult.items;
+  changes = changeResult;
+  stats = statResult;
+} catch {
+  databaseReady = false;
+}
 ---
 
-  <BaseLayout
-    title="Find the right tools for your AI agent"
-    description="OpenAgent.bot recommends open-source agents, skills, MCP connectors, memory systems, models, and evaluation tools by workflow, environment, and safety constraints."
-  >
-  <Fragment slot="head">
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(homeWebSite)} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(homeOrg)} />
-  </Fragment>
-  <EditorialShell active="agents">
-    <section class="home-intro" aria-labelledby="home-title">
-      <h1 id="home-title">Find the right tools for your agent.</h1>
-      <p>
-        OpenAgent.bot helps humans and agents choose open-source agents, skills, MCP connectors,
-        memory systems, models, bots, and evaluation tools by task, environment, permissions, and safety constraints.
-      </p>
-      <div class="home-actions">
-        <a class="primary-action" href="/stack-finder">Open Stack Finder</a>
-        <a class="secondary-action" href="/recommendations/index.json">Agent-readable recommendations</a>
-      </div>
-      <div class="resolver-strip" aria-label="Resolver inputs">
-        <span>Workflow</span>
-        <span>Environment</span>
-        <span>Permissions</span>
-        <span>Risk</span>
-        <span>Stack</span>
-      </div>
-    </section>
+<BaseLayout title="Open(Source) × Agent(s) × (Ro)Bot" description="The database of open-source agents, robots, and everything that makes them work." path="/">
+  <div class="page-shell">
+    <div class="page-grid">
+      <section class="page-section hero">
+        <div class="kicker">Registry / Evidence / Change history</div>
+        <h1 class="page-title">Open(Source) ×<br />Agent(s) × (Ro)Bot</h1>
+        <p class="lede">The database of open-source agents, robots, and everything that makes them work.</p>
+        <div class="button-row">
+          <a class="button primary" href="/database">Explore database <span>→</span></a>
+          <a class="button secondary" href="/methodology">How facts are verified</a>
+        </div>
+        {!databaseReady && <p class="setup-note">LOCAL STATUS · D1 migrations have not been applied in this runtime yet.</p>}
+      </section>
 
-    <div class="directory-floors">
-      {orderedFloors.map((floor) => (
-        <section class="floor" id={floor.id}>
-          <div class="floor-head">
-            <div>
-              <h2>{floor.label}</h2>
-              <p>{floorDescriptions[floor.slug] ?? floor.description}</p>
-            </div>
-          </div>
-          <div class="card-grid">
-            {floor.items.map((resource) => <ResourceCard resource={resource} />)}
-          </div>
-          <a href={`/${floor.slug}`} class="floor-link">Browse all {floor.label.toLowerCase()} →</a>
-        </section>
-      ))}
+      <section class="stat-grid" aria-label="Registry statistics">
+        <div class="stat"><span class="data-label">Entities</span><strong>{compactNumber(stats.entities)}</strong></div>
+        <div class="stat"><span class="data-label">Agents</span><strong>{compactNumber(stats.agents)}</strong></div>
+        <div class="stat"><span class="data-label">Robotics</span><strong>{compactNumber(stats.robots)}</strong></div>
+        <div class="stat"><span class="data-label">Models</span><strong>{compactNumber(stats.models)}</strong></div>
+        <div class="stat"><span class="data-label">Sources</span><strong>{compactNumber(stats.sources || officialSources.length)}</strong></div>
+        <div class="stat"><span class="data-label">30d changes</span><strong>{compactNumber(stats.changes30d)}</strong></div>
+      </section>
+
+      <section class="split philosophy">
+        <div>
+          <span class="eyebrow">01 / The thesis</span>
+          <h2 class="section-title">Intelligence should be inspectable. Machines should be accountable.</h2>
+        </div>
+        <div class="thesis-copy">
+          <p>Agents are the software layer. Robots are the physical layer. Open source—code, weights, hardware, documentation and governance—is the trust layer that lets both collaborate with people.</p>
+          <a class="mono-link" href="/methodology">Read the openness framework →</a>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <div class="section-head">
+          <div><span class="eyebrow">02 / Recently verified</span><h2 class="section-title">The living registry</h2></div>
+          <a class="button secondary" href="/database">View all {stats.entities || ""}</a>
+        </div>
+        <EntityTable entities={entities} />
+      </section>
+
+      <section class="split">
+        <div>
+          <span class="eyebrow">03 / Change log</span>
+          <h2 class="section-title">What moved?</h2>
+          <p class="lede">License changes, releases, repository activity, new model weights and robotics announcements become timestamped events—not disposable posts.</p>
+          <a class="button secondary" href="/changes">Open change log</a>
+        </div>
+        <div>
+          <ChangeList changes={changes} />
+        </div>
+      </section>
+
+      <section class="page-section source-ribbon">
+        <span class="eyebrow">04 / Source coverage</span>
+        <div class="source-names">
+          {officialSources.slice(0, 12).map((source) => <span>{source.publisher}</span>)}
+        </div>
+        <p class="mono">{officialSources.filter((source) => source.automationStatus === "active").length} active connectors · {officialSources.length} registered sources · last sync {relativeDate(stats.lastSyncAt)}</p>
+      </section>
     </div>
-
-    <section class="traffic-floor" id="evaluations">
-      <div class="floor-head">
-        <div>
-          <span class="eyebrow">Evaluations</span>
-          <h2>Evaluations</h2>
-      <p>Resolver outputs and decision guides for choosing tools by workflow, license, and operational risk.</p>
-        </div>
-      </div>
-      <div class="traffic-grid">
-        {evaluationCards.map((card) => (
-          <a href={card.href} data-analytics="evaluation" data-analytics-payload={JSON.stringify({title: card.title, label: card.label})}>
-            <span>{card.label}</span>
-            <strong>{card.title}</strong>
-            <p>{card.summary}</p>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <section class="traffic-floor" id="guides">
-      <div class="floor-head">
-        <div>
-          <span class="eyebrow">Guides</span>
-          <h2>Guides</h2>
-          <p>Practical comparisons and explainers that feed the OpenAgent recommendation layer.</p>
-        </div>
-      </div>
-      <div class="traffic-grid">
-        {posts.slice(0, 6).map((post) => (
-          <a href={`/blog/${post.slug}`} data-analytics="blog" data-analytics-payload={JSON.stringify({title: post.title, slug: post.slug})}>
-            <span>{post.publishedAt}</span>
-            <strong>{post.title}</strong>
-            <p>{post.summary}</p>
-          </a>
-        ))}
-      </div>
-    </section>
-  </EditorialShell>
+  </div>
 </BaseLayout>
 
 <style>
-  .home-intro {
-    border-bottom: 1px solid var(--line);
-    padding: 6px 0 24px;
-  }
-
-  .home-intro h1 {
-    color: var(--ink);
-    font-size: clamp(1.65rem, 3vw, 2.25rem);
-    font-weight: 560;
-    letter-spacing: 0;
-    line-height: 1.04;
-    margin: 8px 0 0;
-    max-width: 880px;
-  }
-
-  .home-intro p {
-    font-size: 0.9rem;
-    margin: 14px 0 0;
-    max-width: 700px;
-  }
-
-  .home-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 18px;
-  }
-
-  .primary-action,
-  .secondary-action {
-    align-items: center;
-    border-radius: 8px;
-    display: inline-flex;
-    font-size: 0.84rem;
-    font-weight: 560;
-    min-height: 40px;
-    padding: 0 14px;
-  }
-
-  .primary-action {
-    background: var(--ink);
-    color: #fff;
-  }
-
-  .primary-action:hover {
-    opacity: 0.88;
-  }
-
-  .secondary-action {
-    border: 1px solid var(--line-strong);
-    color: var(--ink);
-  }
-
-  .secondary-action:hover {
-    background: var(--surface);
-  }
-
-  .resolver-strip {
-    border-bottom: 1px solid var(--line);
-    border-top: 1px solid var(--line);
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    margin-top: 22px;
-    max-width: 820px;
-  }
-
-  .resolver-strip span {
-    border-left: 1px solid var(--line);
-    color: var(--muted);
-    font-size: 0.74rem;
-    line-height: 1;
-    padding: 12px 10px;
-    text-align: center;
-  }
-
-  .resolver-strip span:first-child {
-    border-left: 0;
-  }
-
-  .directory-floors {
-    display: grid;
-    gap: 0;
-  }
-
-  .floor,
-  .traffic-floor {
-    border-bottom: 1px solid var(--line);
-    padding: 30px 0;
-  }
-
-  .traffic-floor:last-of-type {
-    border-bottom: 0;
-    padding-bottom: 12px;
-  }
-
-  .floor-head {
-    align-items: end;
-    display: flex;
-    gap: 18px;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-
-  .floor-head h2 {
-    color: var(--ink);
-    font-size: 1.44rem;
-    font-weight: 560;
-    letter-spacing: 0;
-    line-height: 1.25;
-    margin: 5px 0 0;
-    max-width: 720px;
-  }
-
-  .floor-head p {
-    color: var(--muted);
-    font-size: 0.84rem;
-    line-height: 1.48;
-    margin: 6px 0 0;
-    max-width: 680px;
-  }
-
-  .floor-link {
-    color: var(--green);
-    display: inline-block;
-    font-size: 0.82rem;
-    font-weight: 540;
-    margin-top: 14px;
-  }
-
-  .floor-link:hover {
-    opacity: 0.8;
-  }
-
-  .card-grid,
-  .traffic-grid {
-    display: grid;
-    gap: 14px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .traffic-grid a {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    display: grid;
-    gap: 9px;
-    min-height: 154px;
-    padding: 16px;
-    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
-  }
-
-  .traffic-grid a:hover {
-    border-color: var(--line-strong);
-    box-shadow: var(--shadow-soft);
-    transform: translateY(-2px);
-  }
-
-  .traffic-grid span {
-    color: var(--muted);
-    font-size: 0.72rem;
-  }
-
-  .traffic-grid strong {
-    color: var(--ink);
-    font-size: 0.98rem;
-    font-weight: 560;
-    line-height: 1.28;
-  }
-
-  .traffic-grid p {
-    display: -webkit-box;
-    font-size: 0.82rem;
-    line-height: 1.5;
-    margin: 0;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-  }
-
-  @media (max-width: 980px) {
-    .card-grid,
-    .traffic-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (max-width: 640px) {
-    .resolver-strip {
-      grid-template-columns: 1fr;
-    }
-
-    .resolver-strip span {
-      border-left: 0;
-      border-top: 1px solid var(--line);
-      text-align: left;
-    }
-
-    .resolver-strip span:first-child {
-      border-top: 0;
-    }
-
-    .card-grid,
-    .traffic-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .floor-head {
-      align-items: start;
-      flex-direction: column;
-      gap: 8px;
-    }
+  .hero { min-height: 600px; padding-top: 78px; position: relative; }
+  .hero::after { border: 1px solid var(--ink); content: "DB / 0002"; font-family: var(--mono); font-size: .62rem; padding: 8px; position: absolute; right: 48px; top: 48px; }
+  .setup-note { background: var(--orange); color: var(--ink); display: inline-block; font-family: var(--mono); font-size: .64rem; margin-top: 28px; padding: 8px 10px; }
+  .philosophy { background: var(--ink); color: var(--paper); }
+  .philosophy .eyebrow, .philosophy p { color: #aaaca1; }
+  .thesis-copy { display: flex; flex-direction: column; justify-content: flex-end; }
+  .thesis-copy p { font-size: 1.08rem; line-height: 1.65; }
+  .mono-link { color: var(--acid); font-family: var(--mono); font-size: .7rem; margin-top: 20px; text-transform: uppercase; }
+  .section-head { align-items: end; display: flex; justify-content: space-between; margin-bottom: 28px; }
+  .section-head .section-title { margin-bottom: 0; }
+  .source-ribbon { background: var(--acid); }
+  .source-names { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0; }
+  .source-names span { background: var(--paper); border: 1px solid var(--ink); font-family: var(--mono); font-size: .66rem; padding: 8px 10px; text-transform: uppercase; }
+  .source-ribbon p { margin-bottom: 0; }
+  @media (max-width: 760px) {
+    .hero { min-height: 520px; padding-top: 60px; }
+    .hero .page-title { font-size: 14vw; line-height: .92; }
+    .hero::after { display: none; }
+    .section-head { align-items: flex-start; flex-direction: column; gap: 20px; }
   }
 </style>

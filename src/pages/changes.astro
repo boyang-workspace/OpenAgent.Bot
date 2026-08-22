@@ -1,0 +1,14 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ChangeList from "@/components/ChangeList.astro";
+import { getRegistry } from "@/lib/registry/runtime";
+import type { RegistryChange } from "@/lib/registry/types";
+let changes: RegistryChange[] = [];
+try { changes = await getRegistry().listChanges(100); } catch {}
+---
+<BaseLayout title="Changes" description="A timestamped change log for open agents, models, robotics projects and their source facts." path="/changes">
+  <div class="page-shell"><div class="page-grid">
+    <section class="page-section"><span class="kicker">Evidence over headlines</span><h1 class="page-title">Changes</h1><p class="lede">A durable log of what changed, when it changed, and which source reported it.</p></section>
+    <section class="page-section"><ChangeList changes={changes} /></section>
+  </div></div>
+</BaseLayout>

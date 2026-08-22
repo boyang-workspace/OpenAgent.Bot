@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+<BaseLayout title="Rankings — collecting history" description="Transparent, reproducible rankings for open-source agents and robotics projects." path="/rankings">
+  <div class="page-shell"><div class="page-grid">
+    <section class="page-section"><span class="kicker">Open Momentum / v0.1</span><h1 class="page-title">Rankings need<br />memory.</h1><p class="lede">We are collecting the first 30 days of comparable history before publishing a leaderboard. A snapshot on launch day is popularity theatre, not evidence.</p><div class="button-row"><a class="button primary" href="/methodology#rankings">Read ranking methodology</a><a class="button secondary" href="/changes">Watch collection progress</a></div></section>
+    <section class="split">
+      <div><span class="eyebrow">Publication gates</span><h2 class="section-title">No score before its inputs can be audited.</h2></div>
+      <div class="prose"><p>The first ranking will publish only after all of these are true:</p><ul><li>At least 30 days of metric snapshots.</li><li>At least 80% source coverage for every ranked entity.</li><li>A versioned formula and score-component export.</li><li>Separate cohorts for agents, models and robotics.</li></ul></div>
+    </section>
+  </div></div>
+</BaseLayout>

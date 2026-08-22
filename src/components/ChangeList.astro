@@ -1,0 +1,28 @@
+---
+import { label, relativeDate } from "@/lib/registry/format";
+import type { RegistryChange } from "@/lib/registry/types";
+
+type Props = { changes: RegistryChange[] };
+const { changes } = Astro.props;
+
+function displayValue(value: unknown): string {
+  if (value === undefined) return "∅";
+  const text = typeof value === "string" ? value : JSON.stringify(value);
+  return text.length > 90 ? `${text.slice(0, 87)}…` : text;
+}
+---
+
+{changes.length > 0 ? (
+  <div class="change-list">
+    {changes.map((change) => (
+      <article class="change-item">
+        <span class="change-type">{change.changeType}</span>
+        <div>
+          <a href={`/project/${change.entitySlug}`}><strong>{change.entityName}</strong></a>
+          <p>{label(change.factKey)}: {displayValue(change.previousValue)} → {displayValue(change.nextValue)}</p>
+        </div>
+        <span class="mono">{relativeDate(change.detectedAt)}</span>
+      </article>
+    ))}
+  </div>
+) : <div class="empty-state">No changes recorded yet. The first source sync will establish the baseline.</div>}

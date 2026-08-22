@@ -1,0 +1,24 @@
+---
+import { compactNumber, label, relativeDate } from "@/lib/registry/format";
+import type { RegistryEntity } from "@/lib/registry/types";
+
+type Props = { entities: RegistryEntity[] };
+const { entities } = Astro.props;
+---
+
+{entities.length > 0 ? (
+  <div class="entity-table">
+    <div class="entity-row header" aria-hidden="true">
+      <span>Entity</span><span>Type</span><span>Openness</span><span>Stars</span><span>Verified</span>
+    </div>
+    {entities.map((entity) => (
+      <a class="entity-row" href={`/project/${entity.slug}`}>
+        <span class="entity-name">{entity.name}<small>{entity.summary}</small></span>
+        <span class="mono">{label(entity.kind)}</span>
+        <span class:list={["badge", entity.opennessStatus]}>{label(entity.opennessStatus)}</span>
+        <span class="mono">{compactNumber(entity.stars)}</span>
+        <span class="mono">{relativeDate(entity.lastVerifiedAt)}</span>
+      </a>
+    ))}
+  </div>
+) : <div class="empty-state">No matching registry entities. The database may still be initializing.</div>}

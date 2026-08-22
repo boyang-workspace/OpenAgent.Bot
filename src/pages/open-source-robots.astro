@@ -1,0 +1,15 @@
+---
+import RegistryLanding from "@/components/RegistryLanding.astro";
+import { getRegistryLanding } from "@/lib/registry/landings";
+
+const data = await getRegistryLanding({ kinds: ["robot"], sort: "stars" });
+---
+<RegistryLanding
+  title="Open-source robots"
+  eyebrow="Primary entities / Robots"
+  description="Inspect robot platforms with separately attributed software, documentation and hardware openness evidence."
+  path="/open-source-robots"
+  entities={data.entities}
+  total={data.total}
+  databaseHref="/database?kind=robot"
+/>

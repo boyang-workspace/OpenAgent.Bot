@@ -1,16 +1,22 @@
 name = "openagent-bot"
-compatibility_date = "2026-04-15"
-compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = "dist"
+compatibility_date = "2026-08-20"
+compatibility_flags = [ "nodejs_compat" ]
+routes = [
+  { pattern = "www.openagent.bot/*", zone_name = "openagent.bot" },
+  { pattern = "openagent.bot/*", zone_name = "openagent.bot" }
+]
+
+[assets]
+binding = "ASSETS"
+directory = "./dist"
+
+[observability]
+enabled = true
 
 [vars]
 PUBLIC_SITE_URL = "https://www.openagent.bot"
-# Set this in Cloudflare Pages production variables after Access is enabled.
-# ADMIN_EMAIL = "boyangxie.work@gmail.com"
-# GITHUB_REPO = "boyang-workspace/OpenAgent.Bot"
-# GITHUB_BASE_BRANCH = "main"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "openagent_bot"
-database_id = "1c75275d-bb5a-45ec-9c32-fc10854f35a2"
+database_name = "openagent_registry_v2"
+database_id = "b7aa61ee-1325-499c-80e5-e61f94f3f70f"

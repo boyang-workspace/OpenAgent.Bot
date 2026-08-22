@@ -3,7 +3,7 @@ import { site } from "@/config/site";
 
 export const GET: APIRoute = () =>
   new Response(
-    `User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\n\nSitemap: ${site.url}/sitemap.xml\n`,
+    `User-agent: *\nAllow: /\nDisallow: /api/internal/\n\nSitemap: ${site.url}/sitemap.xml\n`,
     {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",

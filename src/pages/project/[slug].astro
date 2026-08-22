@@ -1,0 +1,57 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getRegistry } from "@/lib/registry/runtime";
+import { calendarDate, compactNumber, label } from "@/lib/registry/format";
+import type { RegistryEntity } from "@/lib/registry/types";
+
+const slug = Astro.params.slug ?? "";
+let entity: RegistryEntity | undefined;
+try { entity = await getRegistry().getEntity(slug); } catch {}
+if (!entity) return Astro.redirect("/database", 302);
+---
+
+<BaseLayout title={entity.name} description={entity.summary} path={`/project/${entity.slug}`} image={entity.logoUrl}>
+  <div class="page-shell"><div class="page-grid">
+    <section class="page-section detail-hero">
+      <span class="kicker">{label(entity.kind)} / {entity.lifecycle}</span>
+      <h1 class="page-title">{entity.name}</h1>
+      <p class="lede">{entity.summary}</p>
+      <div class="button-row">
+        {entity.repositoryUrl && <a class="button primary" href={entity.repositoryUrl} rel="noreferrer">Source repository ↗</a>}
+        {entity.documentationUrl && <a class="button secondary" href={entity.documentationUrl} rel="noreferrer">Documentation ↗</a>}
+        {entity.canonicalUrl && entity.canonicalUrl !== entity.repositoryUrl && <a class="button secondary" href={entity.canonicalUrl} rel="noreferrer">Official site ↗</a>}
+      </div>
+    </section>
+    <section class="stat-grid">
+      <div class="stat"><span class="data-label">Openness</span><strong class="word-stat">{label(entity.opennessStatus)}</strong></div>
+      <div class="stat"><span class="data-label">License</span><strong class="word-stat">{entity.licenseSpdx ?? "Unknown"}</strong></div>
+      <div class="stat"><span class="data-label">Stars</span><strong>{compactNumber(entity.stars)}</strong></div>
+      <div class="stat"><span class="data-label">Forks</span><strong>{compactNumber(entity.forks)}</strong></div>
+      <div class="stat"><span class="data-label">Organization</span><strong class="word-stat">{entity.organization ?? "Unverified"}</strong></div>
+      <div class="stat"><span class="data-label">Verified</span><strong class="word-stat">{calendarDate(entity.lastVerifiedAt)}</strong></div>
+    </section>
+    <section class="split">
+      <div><span class="eyebrow">Registry note</span><h2 class="section-title">A fact sheet,<br />not a verdict.</h2></div>
+      <article class="prose"><p>{entity.description ?? entity.summary}</p><p>The openness label summarizes currently observed evidence. Check the linked repository and license before production use; upstream terms can change after our last verification.</p></article>
+    </section>
+    <section class="page-section evidence">
+      <span class="eyebrow">Evidence anchors</span>
+      <div class="evidence-grid">
+        <div><span class="data-label">First seen</span><strong>{calendarDate(entity.firstSeenAt)}</strong></div>
+        <div><span class="data-label">Last seen</span><strong>{calendarDate(entity.lastSeenAt)}</strong></div>
+        <div><span class="data-label">Last commit</span><strong>{calendarDate(entity.lastCommitAt)}</strong></div>
+        <div><span class="data-label">Country</span><strong>{entity.country ?? "Not established"}</strong></div>
+      </div>
+    </section>
+  </div></div>
+</BaseLayout>
+
+<style>
+  .detail-hero { min-height: 460px; padding-top: 78px; }
+  .word-stat { font-family: var(--sans) !important; font-size: 1.05rem !important; font-weight: 600 !important; line-height: 1.15 !important; }
+  .evidence-grid { border-top: 1px solid var(--ink); display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 22px; }
+  .evidence-grid > div { border-right: 1px solid var(--line); padding: 24px 18px; }
+  .evidence-grid > div:last-child { border-right: 0; }
+  .evidence-grid strong { display: block; font-family: var(--mono); font-size: .75rem; margin-top: 12px; }
+  @media (max-width: 760px) { .evidence-grid { grid-template-columns: 1fr 1fr; } .evidence-grid > div:nth-child(2) { border-right: 0; } }
+</style>

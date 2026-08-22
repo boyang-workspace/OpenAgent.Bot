@@ -5,30 +5,22 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "dev:admin": "npm run build && wrangler pages dev dist --port ${OPENAGENT_PORT:-8788}",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "npm run build && wrangler dev --port ${OPENAGENT_PORT:-8788}",
+    "deploy": "npm run build && wrangler deploy",
     "check": "astro check",
     "test": "vitest run",
-    "d1:migrations:local": "wrangler d1 migrations apply openagent_bot --local",
-    "d1:migrations:remote": "wrangler d1 migrations apply openagent_bot --remote",
-    "discovery:daily": "tsx scripts/discovery/run-daily.ts",
-    "editorial:run": "tsx scripts/editorial/run.ts",
-    "blog:daily": "tsx scripts/blog/run-daily.ts",
-    "blog:import": "tsx scripts/blog/import-draft.ts",
-    "blog:prepare": "tsx scripts/content/prepare-blog.ts",
-    "app:macos": "tsx scripts/create-macos-app.ts",
-    "package:local": "tsx scripts/package-local.ts",
-    "resource:prepare": "tsx scripts/content/prepare-resource.ts",
-    "registry:export-sql": "tsx scripts/registry/export-seed-sql.ts"
+    "typegen": "wrangler types",
+    "d1:migrations:local": "wrangler d1 migrations apply openagent_registry_v2 --local",
+    "d1:migrations:remote": "wrangler d1 migrations apply openagent_registry_v2 --remote"
   },
   "dependencies": {
-    "astro": "^6.1.6"
+    "@astrojs/cloudflare": "^13.7.0",
+    "astro": "^6.4.8"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
     "@types/node": "^25.6.0",
-    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.17",
     "wrangler": "^4.83.0"

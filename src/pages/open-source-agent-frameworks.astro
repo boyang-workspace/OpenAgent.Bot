@@ -1,0 +1,15 @@
+---
+import RegistryLanding from "@/components/RegistryLanding.astro";
+import { getRegistryLanding } from "@/lib/registry/landings";
+
+const data = await getRegistryLanding({ kinds: ["agent-framework"], sort: "stars" });
+---
+<RegistryLanding
+  title="Open-source agent frameworks"
+  eyebrow="Supporting entities / Frameworks"
+  description="Compare the open frameworks that agents build on, using current repository facts and attributed evidence."
+  path="/open-source-agent-frameworks"
+  entities={data.entities}
+  total={data.total}
+  databaseHref="/database?kind=agent-framework"
+/>

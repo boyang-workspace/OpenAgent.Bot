@@ -1,0 +1,28 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { officialSources } from "@/lib/registry/official-sources";
+import { label } from "@/lib/registry/format";
+---
+<BaseLayout title="Sources" description="The official, canonical and discovery sources registered in OpenAgent.bot." path="/sources">
+  <div class="page-shell"><div class="page-grid">
+    <section class="page-section"><span class="kicker">Source ledger</span><h1 class="page-title">Official signals,<br />with receipts.</h1><p class="lede">A registered source is not automatically an active connector. We publish that distinction so coverage is measurable rather than implied.</p></section>
+    <section class="stat-grid">
+      <div class="stat"><span class="data-label">Registered</span><strong>{officialSources.length}</strong></div>
+      <div class="stat"><span class="data-label">Active</span><strong>{officialSources.filter((s) => s.automationStatus === "active").length}</strong></div>
+      <div class="stat"><span class="data-label">China</span><strong>{officialSources.filter((s) => s.region === "cn").length}</strong></div>
+      <div class="stat"><span class="data-label">United States</span><strong>{officialSources.filter((s) => s.region === "us").length}</strong></div>
+      <div class="stat"><span class="data-label">Robotics</span><strong>{officialSources.filter((s) => s.scope.includes("robots")).length}</strong></div>
+      <div class="stat"><span class="data-label">Canonical</span><strong>{officialSources.filter((s) => s.trustTier === "canonical").length}</strong></div>
+    </section>
+    <section class="source-grid">
+      {officialSources.map((source) => (
+        <a class="source-card" href={source.url} rel="noreferrer">
+          <span class:list={["eyebrow", `status-${source.automationStatus}`]}>{source.automationStatus} / {source.region}</span>
+          <h3>{source.name}</h3>
+          <p>{source.publisher} · {label(source.kind)} · {source.cadence} collection</p>
+          <div class="source-meta"><span class="badge">{source.trustTier}</span><span class="badge">{source.connector}</span>{source.scope.slice(0, 2).map((scope) => <span class="badge">{scope}</span>)}</div>
+        </a>
+      ))}
+    </section>
+  </div></div>
+</BaseLayout>

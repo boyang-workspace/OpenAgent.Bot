@@ -1,6 +1,7 @@
 ---
 import { buildSeo } from "@/lib/seo";
-import { site } from "@/config/site";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
 import "@/styles/global.css";
 
 type Props = {
@@ -12,7 +13,22 @@ type Props = {
 };
 
 const seo = buildSeo(Astro.props);
-const ga4MeasurementId = site.analytics.ga4MeasurementId;
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "OpenAgent.bot",
+    url: "https://www.openagent.bot",
+    description: "An evidence-first living registry of open-source agents, robots and their supporting infrastructure."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "OpenAgent.bot",
+    url: "https://www.openagent.bot",
+    logo: "https://www.openagent.bot/favicon.svg"
+  }
+];
 ---
 
 <!doctype html>
@@ -36,20 +52,18 @@ const ga4MeasurementId = site.analytics.ga4MeasurementId;
     <meta name="twitter:title" content={seo.title} />
     <meta name="twitter:description" content={seo.description} />
     <meta name="twitter:image" content={seo.image} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://github.com" crossorigin />
-    <link rel="dns-prefetch" href="https://github.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
     <slot name="head" />
-    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4MeasurementId}`}></script>
-    <script is:inline define:vars={{ ga4MeasurementId }}>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;gtag("js",new Date());gtag("config",ga4MeasurementId);</script>
-    <script>
-      import { setupOpenAgentAnalytics } from "@/lib/analytics/browser";
-      setupOpenAgentAnalytics();
-    </script>
   </head>
   <body>
+    <Header />
     <main>
       <slot />
     </main>
+    <Footer />
   </body>
 </html>

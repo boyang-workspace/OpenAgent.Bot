@@ -1,78 +1,9 @@
----
-const year = new Date().getFullYear();
----
-
-<footer>
-  <div class="footer-grid">
-    <div>
-      <strong>OpenAgent.bot</strong>
-      <p>Open-source AI resources, curated for humans and structured for agents.</p>
-    </div>
-    <div class="footer-links">
-      <a href="/open-source-ai-agent-stack">Agent Stack</a>
-      <a href="/manifesto">Manifesto</a>
-      <a href="/about">About</a>
-      <a href="/submit">Submit</a>
-      <a href="/sitemap.xml">Sitemap</a>
-    </div>
+<footer class="site-footer">
+  <div><span class="status-dot"></span><span>Registry V2 · evidence-first</span></div>
+  <p>Open data about open agents and robots. Sources remain attributed.</p>
+  <div class="footer-links">
+    <a href="/about">About</a>
+    <a href="/methodology">Methodology</a>
+    <a href="https://github.com/boyang-workspace/OpenAgent.Bot" rel="noreferrer">GitHub ↗</a>
   </div>
-  <div class="small">&copy; {year} OpenAgent.bot. Built for the open AI stack.</div>
 </footer>
-
-<style>
-footer {
-    border-top: 1px solid var(--line);
-    margin: 56px auto 0;
-    max-width: 1120px;
-    padding: 22px 32px 0;
-  }
-
-  .footer-grid {
-    display: grid;
-    gap: 18px;
-    grid-template-columns: 1fr auto;
-  }
-
-  strong {
-    color: var(--ink);
-    font-size: 0.86rem;
-    font-weight: 620;
-    letter-spacing: 0;
-  }
-
-  p {
-    font-size: 0.78rem;
-    line-height: 1.45;
-    margin: 6px 0 0;
-    max-width: 420px;
-  }
-
-  .footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .footer-links a {
-    color: var(--muted);
-    font-size: 0.78rem;
-    font-weight: 500;
-  }
-
-  .footer-links a:hover {
-    color: var(--ink);
-  }
-
-  .small {
-    color: var(--subtle);
-    font-size: 0.74rem;
-    font-weight: 400;
-    margin-top: 16px;
-  }
-
-  @media (max-width: 720px) {
-    .footer-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

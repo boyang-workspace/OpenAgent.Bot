@@ -1,153 +1,80 @@
 # OpenAgent.bot
 
-OpenAgent.bot is a static-first agent capability resolver and open registry for open-source AI models, agents, skills, MCP connectors, memory systems, bots, and tools.
+**Open(Source) × Agent(s) × (Ro)Bot**
 
-The project is designed for:
+An evidence-first living registry of open-source agents, robots, models, frameworks, hardware, datasets and infrastructure.
 
-- Workflow-based stack recommendations
-- Human-readable registry and editorial decision pages
-- Agent-readable Markdown, JSON, capability, and recommendation outputs
-- GitHub as the source of truth
-- Cloudflare Pages as the default deployment target
+OpenAgent tracks:
 
-## Current Audit
+- what projects are
+- how open they really are
+- what changed
+- how they evolve over time
 
-This repository started as an empty folder and was not a git repository. There was no existing stack, route structure, SEO layer, deployment configuration, or content model to preserve.
+## Product surfaces
 
-## Tech Stack
+- `/database` — query the entity registry
+- `/project/:slug` — inspect an entity fact sheet and its attributed sources
+- `/changes` — read append-only fact changes
+- `/sources` — inspect canonical and official source coverage
+- `/api/v1/entities.json` and `/api/v1/stats.json` — query the registry from software and agents
 
-- Astro with static output
-- TypeScript
-- File-based JSON content under `content/`
-- GitHub Actions discovery pipeline
-- Cloudflare Pages via `wrangler.toml`
-- Cloudflare D1 for submissions and admin drafts
+## Data pipeline
 
-## Product Direction
+Cloudflare Workers runs the Astro application and Cloudflare D1 is the canonical datastore. Bounded connectors fetch GitHub, Hugging Face and official feeds. Each source run records its status, stores timestamped observations, updates the current fact projection and emits a change only when a previously observed value moves.
 
-OpenAgent.bot is moving from a plain directory toward an agent-era capability selection layer:
+```text
+Source → Sync run → Observation → Current fact → Change event
+```
 
-- `/stack-finder` helps humans choose a tool stack by workflow, environment, and safety constraints.
-- `/recommendations/index.json` exposes resolver output for agents.
-- `/capabilities/index.json` maps capabilities to resources.
-- `/api/recommend.json` provides static API-shaped recommendation output for agent clients.
-- Published resources are stored as ResourceV1 JSON under `content/resources/published/`.
+The first observation establishes a baseline. Source timestamps and OpenAgent observation timestamps remain separate.
 
-## Local Development
+## Evidence model
+
+Facts retain their source, source URL, observation time and confidence. OpenAgent follows four rules:
+
+1. Evidence over inference.
+2. Unknown over guessing.
+3. History over snapshots.
+4. A public repository license is not proof that an entire product is open.
+
+## Openness methodology
+
+Openness is evaluated by facet: code, weights, data, hardware, documentation and governance. A facet may be open, partial, closed or unknown. Confirmed claims require attributed evidence; missing evidence remains unknown.
+
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) and the public `/methodology` page for the current model.
+
+## Local development
 
 ```bash
 npm install
+npm run d1:migrations:local
 npm run dev
 ```
 
-Build and preview:
+Quality gate:
 
 ```bash
-npm run build
-npm run preview
-```
-
-Quality checks:
-
-```bash
-npm run test
 npm run check
+npm test
 npm run build
 ```
 
-Local admin runtime with Pages Functions and D1:
+## Deployment
+
+The production Worker binds to the independent `openagent_registry_v2` D1 database configured in `wrangler.toml`.
 
 ```bash
-npm run d1:migrations:local
-npm run dev:admin
-```
-
-Run the discovery pipeline locally:
-
-```bash
-npm run discovery:daily -- --dry-run
-```
-
-See [docs/DISCOVERY.md](docs/DISCOVERY.md) for the daily GitHub/Hacker News discovery workflow.
-See [docs/LOCAL_BLOG_WORKBENCH.md](docs/LOCAL_BLOG_WORKBENCH.md) for local Prompt Lab, Ollama, and packaging instructions.
-
-## Admin CMS
-
-Admin V1 uses Cloudflare Access for login, D1 for the working queue, and GitHub PRs for publishing.
-
-```bash
-npx wrangler d1 create openagent_bot
 npm run d1:migrations:remote
+npm run deploy
 ```
 
-See [docs/ADMIN.md](docs/ADMIN.md) for the full setup.
+Set Worker secrets with `wrangler secret put SYNC_TOKEN` and, when available, `wrangler secret put GITHUB_TOKEN`. The GitHub Actions secret `REGISTRY_SYNC_TOKEN` must match the Worker sync token.
 
-## Cloudflare Pages
+## Contributing data
 
-Recommended Pages settings:
+Open an issue or pull request with the project URL, canonical repository, entity kind and primary evidence links. Do not infer openness facets from marketing copy or a repository license alone. Schema migrations belong in `migrations/`; connector behavior must include Vitest coverage.
 
-- Build command: `npm run build`
-- Build output directory: `dist`
-- Root directory: repository root
-- Environment variable: `PUBLIC_SITE_URL=https://www.openagent.bot`
+## Development status
 
-Manual deploy after Cloudflare login:
-
-```bash
-npx wrangler whoami
-npx wrangler pages deploy dist --project-name openagent-bot
-```
-
-Admin routes require the D1 binding and Cloudflare Access setup described in [docs/ADMIN.md](docs/ADMIN.md).
-
-## Target Structure
-
-```text
-src/
-  components/      reusable UI components (EditorialShell, Header, Footer, ResourceCard)
-  config/          site metadata and category config
-  layouts/         page shells and SEO defaults
-  lib/             shared helpers (content loaders, SEO, display helpers)
-  pages/           Astro routes
-  styles/          global styling
-public/            static assets (favicon, fallback covers, og-default.svg)
-content/
-  projects/        admin/editorial draft inputs
-  resources/       ResourceV1 published profiles
-  blog/            published blog posts
-  discovery/       raw daily discovery outputs
-  topics/          daily topic candidates
-scripts/
-  discovery/       collectors, scoring, enrichment, draft generation
-  blog/            daily blog pipeline
-  content/         resource and blog preparation helpers
-functions/
-  api/             Cloudflare Pages Functions for submit and admin CMS
-migrations/        Cloudflare D1 schema migrations
-```
-
-## Design System
-
-Light, editorial, source-backed. The directory uses a left sidebar (App Store-style) with a single column of resource cards on the right. Colors, spacing, and component rhythm live in `src/styles/global.css` (light theme tokens) and individual component `<style>` blocks. Keep `--paper`, `--surface`, `--line`, `--ink`, `--muted` as the only allowed color tokens for new work.
-
-## SEO and Social
-
-Every page renders:
-
-- `<title>` and `<meta name="description">`
-- `<link rel="canonical">`
-- Open Graph and Twitter card meta tags (image defaults to `/og-default.svg` if a page does not pass one)
-- `<link rel="preconnect" href="https://github.com">` for avatar performance
-- `robots.txt` (disallows `/admin/` and `/api/`)
-- `sitemap.xml` covering all published content
-- Resource detail pages also emit `SoftwareSourceCode` JSON-LD inside `<head>`
-
-## Quality Gate
-
-CI runs on every PR and push to `main` (`.github/workflows/ci.yml`):
-
-1. `npm run check` — Astro type check
-2. `npm test` — vitest suite
-3. `npm run build` — full static build
-
-The site also ships with an agent-readable layer (`/llms.txt`, `/index.json`, per-resource `.json` and `.md` outputs) and a `Blog` workbench for local drafting. See `docs/` for details.
+Registry V2 is live at `https://www.openagent.bot`. The current work hardens canonical URL migration and the Observation → ChangeEvent history pipeline before publishing momentum rankings or user-facing watch features.

@@ -16,6 +16,7 @@ jobs:
       - name: Sync GitHub subscriptions in bounded batches
         env:
           SYNC_TOKEN: ${{ secrets.REGISTRY_SYNC_TOKEN }}
+          GITHUB_API_TOKEN: ${{ github.token }}
           SYNC_URL: https://www.openagent.bot/api/internal/sync.json
         run: |
           set -euo pipefail
@@ -23,6 +24,7 @@ jobs:
             response=$(curl --fail-with-body --silent --show-error \
               --request POST \
               --header "Authorization: Bearer ${SYNC_TOKEN}" \
+              --header "X-GitHub-Token: ${GITHUB_API_TOKEN}" \
               --header "Origin: https://www.openagent.bot" \
               "${SYNC_URL}?source=github&offset=0&limit=20")
             processed=$(jq -r '.processed' <<<"${response}")

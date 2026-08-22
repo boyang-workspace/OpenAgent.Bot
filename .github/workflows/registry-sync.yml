@@ -49,7 +49,8 @@ jobs:
             processed=$(jq -r '.processed' <<<"${response}")
             errors=$(jq -r '.errors | length' <<<"${response}")
             echo "Hugging Face batch ${batch}: ${processed} processed, ${errors} errors"
-            if [ "${processed}" -lt 20 ]; then break; fi
+            attempted=$((processed + errors))
+            if [ "${attempted}" -lt 20 ]; then break; fi
           done
 
       - name: Sync NVIDIA official feed

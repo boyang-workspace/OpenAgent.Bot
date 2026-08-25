@@ -1,0 +1,357 @@
+---
+import PrototypeLayout from "@/layouts/PrototypeLayout.astro";
+import { compactNumber, label, relativeDate } from "@/lib/registry/format";
+import { getHomepagePrototypeData } from "@/lib/prototype-data";
+
+const data = await getHomepagePrototypeData();
+const sparkPaths = [
+  "M1 27 L14 23 L27 24 L40 16 L53 18 L66 10 L79 12 L92 4",
+  "M1 25 L14 25 L27 18 L40 20 L53 13 L66 15 L79 7 L92 8",
+  "M1 26 L14 19 L27 22 L40 14 L53 17 L66 12 L79 13 L92 5",
+  "M1 22 L14 24 L27 21 L40 13 L53 15 L66 9 L79 10 L92 7"
+];
+const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit", year: "numeric", timeZone: "UTC" }).format(new Date());
+---
+
+<PrototypeLayout
+  title="Live Open Index — OpenAgent.bot prototype"
+  description="A live-index homepage direction for OpenAgent.bot."
+  path="/prototypes/live-index"
+  themeColor="#0b0d0c"
+>
+  <div class="index-app">
+    <div class="prototype-notice">
+      <span><b>Prototype 01</b> · Live Open Index</span>
+      <nav aria-label="Prototype switcher">
+        <a class="active" href="/prototypes/live-index">01 Index</a>
+        <a href="/prototypes/systems-atlas">02 Atlas</a>
+        <a href="/prototypes">Compare</a>
+      </nav>
+    </div>
+
+    <header class="index-header">
+      <a class="wordmark" href="/prototypes/live-index" aria-label="OpenAgent.bot prototype home">
+        <span class="wordmark-icon">OA</span>
+        <span>OPENAGENT<small>.BOT</small></span>
+      </a>
+      <nav class="primary-nav" aria-label="Prototype navigation">
+        <a href="#rankings">Rankings</a>
+        <a href="/database?kind=agent-side">Agents</a>
+        <a href="/database?kind=bot-side">Robots</a>
+        <a href="#signals">Signals</a>
+        <a href="/database">Database</a>
+      </nav>
+      <a class="support-link" href="#support">Support the index <span>↗</span></a>
+    </header>
+
+    <main>
+      <section class="index-hero">
+        <div class="hero-copy">
+          <div class="live-label"><span></span> Registry online · visual prototype</div>
+          <h1><span class="title-open">Open(Source) ×</span><br /><span class="title-agent"><em>Agent(s)</em> ×</span> <span class="title-bot"><em>(Ro)Bot</em></span></h1>
+          <p>Live rankings and open data for agents and robots. Track what is rising, what changed, and how open it really is.</p>
+          <form action="/database" method="get">
+            <label for="index-search">Search the open ecosystem</label>
+            <div>
+              <input id="index-search" name="q" type="search" placeholder="Search agents, robots, frameworks…" />
+              <button type="submit">Search <span>↗</span></button>
+            </div>
+          </form>
+        </div>
+
+        <aside class="pulse-panel" aria-label="Registry pulse">
+          <div class="pulse-top">
+            <span>Open ecosystem pulse</span>
+            <span>{dateLabel} · UTC</span>
+          </div>
+          <div class="pulse-number"><strong>{compactNumber(data.stats.entities)}</strong><span>tracked<br />entities</span></div>
+          <div class="pulse-bars" aria-hidden="true">
+            {Array.from({ length: 24 }, (_, index) => <i style={`--h:${24 + ((index * 17) % 62)}%;--d:${index * 22}ms`}></i>)}
+          </div>
+          <dl>
+            <div><dt>Agent side</dt><dd>{compactNumber(data.agentCount)}</dd></div>
+            <div><dt>Robot side</dt><dd>{compactNumber(data.robotCount)}</dd></div>
+            <div><dt>Evidence</dt><dd>{compactNumber(data.stats.observations)}</dd></div>
+            <div><dt>Last sync</dt><dd>{relativeDate(data.stats.lastSyncAt)}</dd></div>
+          </dl>
+        </aside>
+      </section>
+
+      <div class="signal-tape" aria-label="Prototype status">
+        <span class="tape-title">OPEN SIGNAL</span>
+        <div class="tape-track">
+          <span>RISING 7D · COLLECTING HISTORY</span>
+          <span>AGENTS · {data.agentCount} INDEXED</span>
+          <span>ROBOTS · {data.robotCount} INDEXED</span>
+          <span>RANKINGS NEVER ACCEPT PAYMENT</span>
+          <span>SPONSOR DATA REMAINS SEPARATE</span>
+        </div>
+      </div>
+
+      <section class="rankings" id="rankings">
+        <header class="section-head">
+          <div><span class="section-index">01 / LIVE BOARDS</span><h2>What is moving?</h2></div>
+          <div class="window-control" aria-label="Ranking window preview"><span>7D</span><span class="selected">30D</span><span>90D</span></div>
+        </header>
+
+        <div class="board-grid">
+          <article class="rank-board agent-board">
+            <header>
+              <div><span class="board-dot"></span><span>Software layer</span></div>
+              <h3>Agent Index</h3>
+              <p>Current adoption baseline while 30-day history is collected.</p>
+            </header>
+            <div class="table-head"><span>Rank / Project</span><span>Signal preview</span><span>Current stars</span></div>
+            <div class="rank-list">
+              {data.agents.slice(0, 6).map((entity, index) => (
+                <a class="rank-row" href={`/project/${entity.slug}`} style={`--i:${index}`}>
+                  <span class="rank-no">{String(index + 1).padStart(2, "0")}</span>
+                  <span class="project"><strong>{entity.name}</strong><small>{label(entity.kind)} · {label(entity.opennessStatus)}</small></span>
+                  <svg class="spark" viewBox="0 0 94 31" aria-hidden="true"><path d={sparkPaths[index % sparkPaths.length]} /></svg>
+                  <span class="metric"><strong>{compactNumber(entity.stars)}</strong><small>baseline</small></span>
+                  <span class="row-arrow">↗</span>
+                </a>
+              ))}
+            </div>
+            <a class="board-cta" href="/database?kind=agent-side"><span>Explore all {data.agentCount} agent projects</span><b>→</b></a>
+          </article>
+
+          <article class="rank-board robot-board">
+            <header>
+              <div><span class="board-dot"></span><span>Physical layer</span></div>
+              <h3>Robot Index</h3>
+              <p>Discovery board until the robotics cohort reaches ranking eligibility.</p>
+            </header>
+            <div class="table-head"><span>Rank / Project</span><span>Signal preview</span><span>Current stars</span></div>
+            <div class="rank-list">
+              {data.robots.slice(0, 6).map((entity, index) => (
+                <a class="rank-row" href={`/project/${entity.slug}`} style={`--i:${index}`}>
+                  <span class="rank-no">{String(index + 1).padStart(2, "0")}</span>
+                  <span class="project"><strong>{entity.name}</strong><small>{label(entity.kind)} · {label(entity.opennessStatus)}</small></span>
+                  <svg class="spark" viewBox="0 0 94 31" aria-hidden="true"><path d={sparkPaths[(index + 2) % sparkPaths.length]} /></svg>
+                  <span class="metric"><strong>{compactNumber(entity.stars)}</strong><small>baseline</small></span>
+                  <span class="row-arrow">↗</span>
+                </a>
+              ))}
+            </div>
+            <a class="board-cta" href="/database?kind=bot-side"><span>Explore all {data.robotCount} robotics projects</span><b>→</b></a>
+          </article>
+        </div>
+      </section>
+
+      <section class="signals" id="signals">
+        <header class="section-head light-head">
+          <div><span class="section-index">02 / VERIFIED SIGNALS</span><h2>What changed?</h2></div>
+          <a href="/changes">Open the full change log →</a>
+        </header>
+        <div class="signal-grid">
+          <article class="signal-feature">
+            <span class="signal-kicker">Latest evidence event</span>
+            {data.changes[0] ? (
+              <>
+                <a href={`/project/${data.changes[0].entitySlug}`}><h3>{data.changes[0].entityName}</h3></a>
+                <p><b>{label(data.changes[0].changeType)}</b> · {label(data.changes[0].factKey)}</p>
+                <footer><span>{data.changes[0].sourceName}</span><time datetime={data.changes[0].detectedAt}>{relativeDate(data.changes[0].detectedAt)}</time></footer>
+              </>
+            ) : <><h3>History is collecting.</h3><p>New verified changes will appear here.</p></>}
+          </article>
+          <div class="signal-list">
+            {data.changes.slice(1, 7).map((change, index) => (
+              <a href={`/project/${change.entitySlug}`}>
+                <span class="signal-count">{String(index + 2).padStart(2, "0")}</span>
+                <span><strong>{change.entityName}</strong><small>{label(change.factKey)} · {change.sourceName}</small></span>
+                <time datetime={change.detectedAt}>{relativeDate(change.detectedAt)}</time>
+                <b>↗</b>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="support" id="support">
+        <div class="support-label"><span>03 / SUPPORT</span><small>Commercial layer · isolated from rankings</small></div>
+        <div class="support-copy">
+          <span>AVAILABLE · WEEK 01</span>
+          <h2>Support the open index.</h2>
+          <p>Sponsor public data, fund a robotics connector, or reserve a clearly labeled placement. Money never changes an organic rank.</p>
+        </div>
+        <div class="support-actions">
+          <a href="mailto:hello@openagent.bot?subject=Support%20OpenAgent.bot">Become a founding supporter <b>↗</b></a>
+          <a href="/methodology#rankings">Read the separation rule <b>→</b></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="index-footer">
+      <a href="/">OPENAGENT.BOT</a>
+      <p>Prototype 01 · Live Open Index · No ranking claims are made from incomplete history.</p>
+      <a href="/prototypes/systems-atlas">Next prototype: Systems Atlas →</a>
+    </footer>
+  </div>
+</PrototypeLayout>
+
+<style>
+  :global(body) { background: #e8e9e4; color: #101310; font-family: "Spline Sans", sans-serif; }
+  :global(::selection) { background: #b9ff38; color: #0b0d0c; }
+  .index-app { --acid: #b9ff38; --agent: #43a5ff; --robot: #ff653c; --ink: #0b0d0c; --paper: #f3f4ef; background: var(--paper); margin: 0 auto; max-width: 1600px; min-height: 100vh; overflow: hidden; }
+  .prototype-notice { align-items: center; background: var(--acid); border-bottom: 1px solid var(--ink); display: flex; font-family: "Azeret Mono", monospace; font-size: .62rem; justify-content: space-between; letter-spacing: .04em; min-height: 34px; padding: 0 22px; text-transform: uppercase; }
+  .prototype-notice nav { align-self: stretch; display: flex; }
+  .prototype-notice nav a { align-items: center; border-left: 1px solid var(--ink); display: flex; padding: 0 14px; }
+  .prototype-notice nav a:hover, .prototype-notice nav a.active { background: var(--ink); color: var(--acid); }
+  .index-header { align-items: stretch; border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: 250px 1fr 250px; min-height: 74px; }
+  .wordmark { align-items: center; border-right: 1px solid var(--ink); display: flex; font-family: "Azeret Mono", monospace; font-size: .78rem; font-weight: 700; gap: 12px; padding: 14px 22px; }
+  .wordmark small { color: #687067; }
+  .wordmark-icon { align-items: center; background: var(--ink); color: var(--acid); display: flex; height: 38px; justify-content: center; width: 38px; }
+  .primary-nav { display: flex; overflow: auto; }
+  .primary-nav a { align-items: center; border-right: 1px solid #c8ccc5; color: #60685f; display: flex; font-family: "Azeret Mono", monospace; font-size: .62rem; padding: 0 20px; text-transform: uppercase; }
+  .primary-nav a:hover { background: #e4e6df; color: var(--ink); }
+  .support-link { align-items: center; background: var(--ink); color: var(--paper); display: flex; font-family: "Azeret Mono", monospace; font-size: .64rem; justify-content: space-between; padding: 0 20px; text-transform: uppercase; }
+  .support-link:hover { background: var(--acid); color: var(--ink); }
+  .index-hero { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(360px, .6fr); }
+  .hero-copy { min-height: 600px; min-width: 0; padding: 70px 4vw 46px; }
+  .live-label { align-items: center; color: #596159; display: flex; font-family: "Azeret Mono", monospace; font-size: .63rem; gap: 9px; letter-spacing: .04em; text-transform: uppercase; }
+  .live-label span { animation: pulse 1.8s infinite; background: var(--acid); border: 1px solid var(--ink); border-radius: 50%; height: 9px; width: 9px; }
+  .hero-copy h1 { font-size: clamp(4rem, 7.4vw, 8.1rem); letter-spacing: -.075em; line-height: .82; margin: 70px 0 35px; max-width: 1050px; }
+  .hero-copy h1 em { font-style: normal; }
+  .hero-copy h1 .title-agent em { color: var(--agent); }
+  .hero-copy h1 .title-bot em { color: var(--robot); }
+  .hero-copy > p { color: #4d544d; font-size: clamp(1rem, 1.4vw, 1.3rem); line-height: 1.55; max-width: 720px; }
+  .hero-copy form { margin-top: 55px; max-width: 700px; }
+  .hero-copy form label { display: block; font-family: "Azeret Mono", monospace; font-size: .59rem; margin-bottom: 9px; text-transform: uppercase; }
+  .hero-copy form > div { border: 1px solid var(--ink); display: grid; grid-template-columns: 1fr auto; }
+  .hero-copy input { background: #fff; border: 0; min-width: 0; padding: 17px; }
+  .hero-copy button { background: var(--ink); border: 0; color: var(--paper); cursor: pointer; font-family: "Azeret Mono", monospace; font-size: .62rem; padding: 0 22px; text-transform: uppercase; }
+  .hero-copy button:hover { background: var(--acid); color: var(--ink); }
+  .pulse-panel { background: var(--ink); color: var(--paper); display: flex; flex-direction: column; min-width: 0; padding: 28px; }
+  .pulse-top { color: #8d968c; display: flex; font-family: "Azeret Mono", monospace; font-size: .57rem; justify-content: space-between; text-transform: uppercase; }
+  .pulse-number { align-items: end; display: flex; gap: 18px; margin-top: auto; }
+  .pulse-number strong { color: var(--acid); font-size: clamp(5.5rem, 9vw, 9rem); letter-spacing: -.09em; line-height: .72; }
+  .pulse-number span { color: #a7afa6; font-family: "Azeret Mono", monospace; font-size: .6rem; line-height: 1.5; text-transform: uppercase; }
+  .pulse-bars { align-items: end; border-bottom: 1px solid #4d554c; display: flex; gap: 4px; height: 105px; margin: 50px 0 38px; }
+  .pulse-bars i { animation: grow .7s var(--d) both; background: var(--acid); flex: 1; height: var(--h); opacity: .8; transform-origin: bottom; }
+  .pulse-panel dl { border-top: 1px solid #3c423b; display: grid; grid-template-columns: 1fr 1fr; margin: 0; }
+  .pulse-panel dl div { border-bottom: 1px solid #3c423b; padding: 18px 0; }
+  .pulse-panel dl div:nth-child(odd) { border-right: 1px solid #3c423b; }
+  .pulse-panel dl div:nth-child(even) { padding-left: 18px; }
+  .pulse-panel dt { color: #889087; font-family: "Azeret Mono", monospace; font-size: .56rem; text-transform: uppercase; }
+  .pulse-panel dd { font-size: 1.2rem; margin: 8px 0 0; }
+  .signal-tape { background: var(--acid); border-bottom: 1px solid var(--ink); display: grid; font-family: "Azeret Mono", monospace; font-size: .59rem; grid-template-columns: 150px 1fr; min-height: 42px; overflow: hidden; text-transform: uppercase; }
+  .tape-title { align-items: center; background: var(--ink); color: var(--acid); display: flex; padding: 0 22px; }
+  .tape-track { align-items: center; display: flex; gap: 46px; overflow: hidden; padding: 0 24px; white-space: nowrap; }
+  .tape-track span::before { content: "◆"; margin-right: 10px; }
+  .rankings, .signals { padding: 72px 3vw; }
+  .rankings { background: #dfe1da; border-bottom: 1px solid var(--ink); }
+  .section-head { align-items: end; display: flex; justify-content: space-between; margin-bottom: 34px; }
+  .section-index { color: #687067; font-family: "Azeret Mono", monospace; font-size: .6rem; letter-spacing: .05em; text-transform: uppercase; }
+  .section-head h2 { font-size: clamp(2.8rem, 5vw, 5.7rem); letter-spacing: -.06em; line-height: .9; margin: 12px 0 0; }
+  .window-control { border: 1px solid var(--ink); display: flex; font-family: "Azeret Mono", monospace; font-size: .6rem; }
+  .window-control span { padding: 12px 14px; }
+  .window-control span + span { border-left: 1px solid var(--ink); }
+  .window-control .selected { background: var(--ink); color: var(--acid); }
+  .board-grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+  .rank-board { background: var(--paper); border: 1px solid var(--ink); min-width: 0; }
+  .rank-board > header { border-bottom: 1px solid var(--ink); min-height: 255px; padding: 28px; }
+  .rank-board > header > div { align-items: center; display: flex; font-family: "Azeret Mono", monospace; font-size: .58rem; gap: 8px; text-transform: uppercase; }
+  .board-dot { background: var(--agent); height: 9px; width: 9px; }
+  .robot-board .board-dot { background: var(--robot); }
+  .rank-board h3 { font-size: clamp(3rem, 5vw, 5.3rem); letter-spacing: -.06em; line-height: .9; margin: 62px 0 12px; }
+  .rank-board header p { color: #656c64; margin-bottom: 0; }
+  .table-head { background: var(--ink); color: #aeb5ad; display: grid; font-family: "Azeret Mono", monospace; font-size: .5rem; grid-template-columns: 1fr 100px 90px; padding: 10px 18px; text-transform: uppercase; }
+  .rank-row { align-items: center; animation: rowIn .45s calc(var(--i) * 60ms) both; border-bottom: 1px solid #c7cac3; display: grid; gap: 14px; grid-template-columns: 34px minmax(130px, 1fr) 94px 76px 18px; min-height: 76px; padding: 9px 16px; transition: background .18s, color .18s; }
+  .agent-board .rank-row:hover { background: var(--agent); color: var(--ink); }
+  .robot-board .rank-row:hover { background: var(--robot); color: var(--ink); }
+  .rank-no, .project small, .metric small { color: #737a72; font-family: "Azeret Mono", monospace; font-size: .52rem; text-transform: uppercase; }
+  .project strong, .project small, .metric strong, .metric small { display: block; }
+  .project strong { font-size: .93rem; }
+  .project small { margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .metric { text-align: right; }
+  .metric strong { font-family: "Azeret Mono", monospace; font-size: .7rem; }
+  .metric small { margin-top: 5px; }
+  .spark { height: 31px; width: 94px; }
+  .spark path { fill: none; stroke: var(--agent); stroke-width: 2; }
+  .robot-board .spark path { stroke: var(--robot); }
+  .row-arrow { opacity: 0; transform: translate(-5px, 5px); transition: opacity .18s, transform .18s; }
+  .rank-row:hover .row-arrow { opacity: 1; transform: translate(0); }
+  .rank-row:hover small, .rank-row:hover .rank-no { color: #202720; }
+  .board-cta { align-items: center; display: flex; font-family: "Azeret Mono", monospace; font-size: .58rem; justify-content: space-between; min-height: 56px; padding: 0 18px; text-transform: uppercase; }
+  .board-cta:hover { background: var(--ink); color: var(--acid); }
+  .signals { background: var(--paper); border-bottom: 1px solid var(--ink); }
+  .light-head > a { border-bottom: 1px solid var(--ink); font-family: "Azeret Mono", monospace; font-size: .58rem; padding-bottom: 8px; text-transform: uppercase; }
+  .signal-grid { border: 1px solid var(--ink); display: grid; grid-template-columns: .85fr 1.15fr; }
+  .signal-feature { background: var(--agent); display: flex; flex-direction: column; min-height: 430px; padding: 32px; }
+  .signal-kicker { font-family: "Azeret Mono", monospace; font-size: .58rem; text-transform: uppercase; }
+  .signal-feature h3 { font-size: clamp(3.5rem, 6vw, 6.6rem); letter-spacing: -.07em; line-height: .82; margin: auto 0 25px; }
+  .signal-feature p { font-family: "Azeret Mono", monospace; font-size: .65rem; text-transform: uppercase; }
+  .signal-feature footer { border-top: 1px solid var(--ink); display: flex; font-family: "Azeret Mono", monospace; font-size: .55rem; justify-content: space-between; padding-top: 14px; text-transform: uppercase; }
+  .signal-list a { align-items: center; border-bottom: 1px solid #c7cac3; display: grid; gap: 16px; grid-template-columns: 35px 1fr auto 20px; min-height: 71px; padding: 10px 20px; }
+  .signal-list a:last-child { border-bottom: 0; }
+  .signal-list a:hover { background: var(--acid); }
+  .signal-list strong, .signal-list small { display: block; }
+  .signal-list small, .signal-list time, .signal-count { color: #6b726a; font-family: "Azeret Mono", monospace; font-size: .52rem; margin-top: 5px; text-transform: uppercase; }
+  .support { background: var(--ink); color: var(--paper); display: grid; grid-template-columns: .55fr 1fr .8fr; min-height: 390px; }
+  .support > div { padding: 38px; }
+  .support > div + div { border-left: 1px solid #383e37; }
+  .support-label { display: flex; flex-direction: column; font-family: "Azeret Mono", monospace; font-size: .58rem; justify-content: space-between; text-transform: uppercase; }
+  .support-label small { color: #7f897e; line-height: 1.6; }
+  .support-copy { display: flex; flex-direction: column; justify-content: center; }
+  .support-copy > span { color: var(--acid); font-family: "Azeret Mono", monospace; font-size: .58rem; }
+  .support-copy h2 { font-size: clamp(3.6rem, 6vw, 6.2rem); letter-spacing: -.07em; line-height: .83; margin: 32px 0 24px; }
+  .support-copy p { color: #aab2a9; line-height: 1.6; max-width: 540px; }
+  .support-actions { display: flex; flex-direction: column; justify-content: flex-end; }
+  .support-actions a { border-top: 1px solid #4c534b; display: flex; font-family: "Azeret Mono", monospace; font-size: .58rem; justify-content: space-between; padding: 18px 0; text-transform: uppercase; }
+  .support-actions a:hover { color: var(--acid); }
+  .index-footer { align-items: center; background: var(--acid); display: grid; font-family: "Azeret Mono", monospace; font-size: .57rem; gap: 20px; grid-template-columns: .5fr 1fr auto; min-height: 82px; padding: 20px 28px; text-transform: uppercase; }
+  .index-footer p { margin: 0; text-align: center; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(185,255,56,.15); } }
+  @keyframes grow { from { transform: scaleY(0); } }
+  @keyframes rowIn { from { opacity: 0; transform: translateY(10px); } }
+  @media (max-width: 1100px) {
+    .index-header { grid-template-columns: 220px 1fr; }
+    .support-link { display: none; }
+    .index-hero { grid-template-columns: 1fr; }
+    .hero-copy { min-height: auto; }
+    .pulse-panel { min-height: 440px; }
+    .board-grid { grid-template-columns: 1fr; }
+    .support { grid-template-columns: 1fr 1fr; }
+    .support-label { grid-column: 1 / -1; min-height: 100px; }
+    .support > div + div { border-left: 0; border-top: 1px solid #383e37; }
+    .support-actions { border-left: 1px solid #383e37 !important; }
+  }
+  @media (max-width: 760px) {
+    .prototype-notice { align-items: stretch; flex-direction: column; padding: 0; }
+    .prototype-notice > span { padding: 10px 14px; }
+    .prototype-notice nav { border-top: 1px solid var(--ink); }
+    .prototype-notice nav a { border-left: 0; border-right: 1px solid var(--ink); min-height: 36px; }
+    .index-app, .index-header, .index-hero { max-width: 100vw; min-width: 0; width: 100%; }
+    .index-header { grid-template-columns: minmax(0, 1fr); }
+    .wordmark { border-bottom: 1px solid var(--ink); border-right: 0; }
+    .primary-nav { max-width: 100vw; min-width: 0; }
+    .primary-nav a { min-height: 42px; padding: 0 14px; white-space: nowrap; }
+    .hero-copy { max-width: 100vw; padding: 48px 20px 32px; width: 100vw; }
+    .hero-copy h1 { font-size: clamp(2.8rem, 13vw, 3.5rem); letter-spacing: -.09em; margin-top: 48px; }
+    .hero-copy h1 .title-open, .hero-copy h1 .title-agent, .hero-copy h1 .title-bot { display: block; width: max-content; }
+    .hero-copy h1 br { display: none; }
+    .hero-copy > p, .hero-copy form { max-width: calc(100vw - 40px); width: calc(100vw - 40px); }
+    .hero-copy form { margin-top: 36px; }
+    .pulse-panel { max-width: 100vw; min-height: 430px; padding: 22px 20px; width: 100vw; }
+    .pulse-number strong { font-size: 6rem; }
+    .signal-tape { grid-template-columns: 105px 1fr; }
+    .rankings, .signals { padding: 48px 14px; }
+    .section-head { align-items: flex-start; flex-direction: column; gap: 24px; }
+    .rank-board > header { min-height: 230px; padding: 22px 18px; }
+    .rank-row { grid-template-columns: 28px 1fr 65px 15px; }
+    .spark { display: none; }
+    .table-head { grid-template-columns: 1fr 75px; }
+    .table-head span:nth-child(2) { display: none; }
+    .signal-grid { grid-template-columns: 1fr; }
+    .signal-feature { min-height: 360px; }
+    .signal-list a { grid-template-columns: 28px 1fr 16px; }
+    .signal-list time { display: none; }
+    .support { grid-template-columns: 1fr; }
+    .support > div { padding: 30px 20px; }
+    .support-label { min-height: 100px; }
+    .support-actions { border-left: 0 !important; }
+    .index-footer { grid-template-columns: 1fr; text-align: left; }
+    .index-footer p { text-align: left; }
+  }
+</style>

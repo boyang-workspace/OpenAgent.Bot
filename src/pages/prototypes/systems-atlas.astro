@@ -1,0 +1,371 @@
+---
+import PrototypeLayout from "@/layouts/PrototypeLayout.astro";
+import { compactNumber, label, relativeDate } from "@/lib/registry/format";
+import { getHomepagePrototypeData } from "@/lib/prototype-data";
+
+const data = await getHomepagePrototypeData();
+const atlasAgents = data.agents.slice(0, 4);
+const atlasRobots = data.robots.slice(0, 4);
+---
+
+<PrototypeLayout
+  title="Open Systems Atlas — OpenAgent.bot prototype"
+  description="A systems-atlas homepage direction for OpenAgent.bot."
+  path="/prototypes/systems-atlas"
+  themeColor="#f3efe3"
+>
+  <div class="atlas-app">
+    <div class="prototype-bar">
+      <span><b>Prototype 02</b> · Open Systems Atlas</span>
+      <nav aria-label="Prototype switcher">
+        <a href="/prototypes/live-index">01 Index</a>
+        <a class="active" href="/prototypes/systems-atlas">02 Atlas</a>
+        <a href="/prototypes">Compare</a>
+      </nav>
+    </div>
+
+    <header class="atlas-header">
+      <a class="atlas-brand" href="/prototypes/systems-atlas">
+        <svg viewBox="0 0 44 44" aria-hidden="true">
+          <circle cx="22" cy="22" r="19"></circle><circle cx="22" cy="22" r="6"></circle>
+          <path d="M22 3v13M22 28v13M3 22h13M28 22h13"></path>
+        </svg>
+        <span>OPENAGENT<small>BOT / OPEN SYSTEMS ATLAS</small></span>
+      </a>
+      <nav class="atlas-nav" aria-label="Prototype navigation">
+        <a href="#atlas">Explore atlas</a>
+        <a href="#indexes">Indexes</a>
+        <a href="#activity">Activity</a>
+        <a href="/database">Database</a>
+      </nav>
+      <a class="atlas-search" href="/database"><span>Search the registry</span><b>⌕</b></a>
+    </header>
+
+    <main>
+      <section class="atlas-intro">
+        <div class="intro-index"><span>OA / MAP 001</span><span>UPDATED {relativeDate(data.stats.lastSyncAt).toUpperCase()}</span></div>
+        <div class="intro-main">
+          <h1>Open(Source)<br /><span>Agent(s)</span> × <span>(Ro)Bot</span></h1>
+          <div class="intro-copy">
+            <p>The living map of open intelligence—from software that acts to machines that move.</p>
+            <p class="intro-note">Follow projects, trace their open components and inspect every source behind the map.</p>
+            <a href="#atlas">Enter the atlas <b>↓</b></a>
+          </div>
+        </div>
+        <div class="coordinate-strip">
+          <span>LAT 31.2304° N</span><span>GLOBAL INDEX</span><span>AGENT FIELD {data.agentCount}</span><span>ROBOT FIELD {data.robotCount}</span><span>EVIDENCE {compactNumber(data.stats.observations)}</span>
+        </div>
+      </section>
+
+      <section class="system-map" id="atlas">
+        <header class="map-header">
+          <div><span class="map-no">01</span><h2>The open systems map</h2></div>
+          <p>Selected entities from the live registry. Relationship lines are a visual prototype; project facts remain source-backed.</p>
+          <div class="map-key"><span><i class="agent-key"></i>Software layer</span><span><i class="open-key"></i>Open layer</span><span><i class="robot-key"></i>Physical layer</span></div>
+        </header>
+
+        <div class="map-canvas">
+          <svg class="connection-map" viewBox="0 0 1200 590" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M205 95 C390 95 415 295 590 295"></path>
+            <path d="M205 220 C385 220 420 295 590 295"></path>
+            <path d="M205 370 C385 370 420 295 590 295"></path>
+            <path d="M205 495 C390 495 415 295 590 295"></path>
+            <path d="M610 295 C785 295 810 95 995 95"></path>
+            <path d="M610 295 C780 295 815 220 995 220"></path>
+            <path d="M610 295 C780 295 815 370 995 370"></path>
+            <path d="M610 295 C785 295 810 495 995 495"></path>
+          </svg>
+
+          <div class="map-column agent-column">
+            <div class="column-title"><span>A</span><p>Agent field<small>Software systems that reason, browse, code and coordinate.</small></p></div>
+            <div class="map-nodes">
+              {atlasAgents.map((entity, index) => (
+                <a class="map-node" href={`/project/${entity.slug}`} style={`--i:${index}`}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <div><strong>{entity.name}</strong><small>{label(entity.kind)} · ★ {compactNumber(entity.stars)}</small></div>
+                  <b>↗</b>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div class="open-core">
+            <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+            <div class="core-mark"><span>OPEN</span><strong>∞</strong><small>Evidence<br />layer</small></div>
+            <div class="core-labels"><span>CODE</span><span>WEIGHTS</span><span>DATA</span><span>HARDWARE</span><span>DOCS</span><span>GOVERNANCE</span></div>
+          </div>
+
+          <div class="map-column robot-column">
+            <div class="column-title"><span>R</span><p>Robot field<small>Physical platforms, simulators, hardware and learning stacks.</small></p></div>
+            <div class="map-nodes">
+              {atlasRobots.map((entity, index) => (
+                <a class="map-node" href={`/project/${entity.slug}`} style={`--i:${index}`}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <div><strong>{entity.name}</strong><small>{label(entity.kind)} · ★ {compactNumber(entity.stars)}</small></div>
+                  <b>↗</b>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <footer class="map-footer">
+          <a href="/database?kind=agent-side">Open the Agent field <b>↗</b></a>
+          <span>Visual relationship preview · not a claim of integration</span>
+          <a href="/database?kind=bot-side">Open the Robot field <b>↗</b></a>
+        </footer>
+      </section>
+
+      <section class="atlas-indexes" id="indexes">
+        <header class="section-title">
+          <span class="map-no">02</span>
+          <div><span>Observed ecosystems</span><h2>Two fields.<br />Different signals.</h2></div>
+          <p>Agent and Robot projects are never forced into one score. Each field gets its own evidence model and eligibility rules.</p>
+        </header>
+
+        <div class="index-cards">
+          <article class="field-card agent-field-card">
+            <header><span>FIELD / A</span><span>{data.agentCount} PROJECTS</span></header>
+            <div class="field-top"><h3>Agent<br />Index</h3><div><strong>{data.agentCount >= 20 ? "Cohort ready" : "Expanding"}</strong><small>30-day ranking history collecting</small></div></div>
+            <ol>
+              {data.agents.slice(0, 5).map((entity, index) => (
+                <li><a href={`/project/${entity.slug}`}><span>{String(index + 1).padStart(2, "0")}</span><strong>{entity.name}</strong><small>★ {compactNumber(entity.stars)}</small><b>→</b></a></li>
+              ))}
+            </ol>
+            <a class="field-cta" href="/database?kind=agent-side">Browse the complete field <b>↗</b></a>
+          </article>
+
+          <article class="field-card robot-field-card">
+            <header><span>FIELD / R</span><span>{data.robotCount} PROJECTS</span></header>
+            <div class="field-top"><h3>Robot<br />Index</h3><div><strong>{data.robotCount >= 20 ? "Cohort ready" : "Cohort expanding"}</strong><small>Minimum 20 projects before ranking</small></div></div>
+            <ol>
+              {data.robots.slice(0, 5).map((entity, index) => (
+                <li><a href={`/project/${entity.slug}`}><span>{String(index + 1).padStart(2, "0")}</span><strong>{entity.name}</strong><small>★ {compactNumber(entity.stars)}</small><b>→</b></a></li>
+              ))}
+            </ol>
+            <a class="field-cta" href="/database?kind=bot-side">Browse the complete field <b>↗</b></a>
+          </article>
+        </div>
+      </section>
+
+      <section class="activity" id="activity">
+        <header class="section-title activity-title">
+          <span class="map-no">03</span>
+          <div><span>Live observations</span><h2>The map moves<br />when evidence moves.</h2></div>
+          <a href="/changes">View all changes →</a>
+        </header>
+        <div class="activity-track">
+          {data.changes.slice(0, 5).map((change, index) => (
+            <a href={`/project/${change.entitySlug}`} class:list={["activity-stop", { featured: index === 0 }]}>
+              <span class="stop-no">{String(index + 1).padStart(2, "0")}</span>
+              <time datetime={change.detectedAt}>{relativeDate(change.detectedAt)}</time>
+              <h3>{change.entityName}</h3>
+              <p>{label(change.factKey)} · {label(change.changeType)}</p>
+              <footer><span>{change.sourceName}</span><b>↗</b></footer>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="atlas-support" id="support">
+        <div class="support-map" aria-hidden="true"><span></span><span></span><span></span><span></span><i></i></div>
+        <div class="support-content">
+          <span>SUPPORT / PUBLIC DATA BOUNTY</span>
+          <h2>Help map what<br />is still unknown.</h2>
+          <p>Fund a connector, expand the open robotics field, or support the public registry. Sponsorship is disclosed and never changes a project’s natural rank.</p>
+          <div><a href="mailto:hello@openagent.bot?subject=Open%20data%20bounty">Fund a data bounty <b>↗</b></a><a href="/methodology#rankings">Read the ranking boundary <b>→</b></a></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="atlas-footer">
+      <a href="/">OpenAgent.bot</a><p>Prototype 02 · Open Systems Atlas · Source-backed data, visible unknowns.</p><a href="/prototypes/live-index">Previous prototype: Live Index →</a>
+    </footer>
+  </div>
+</PrototypeLayout>
+
+<style>
+  :global(body) { background: #d9ddd7; color: #102b45; font-family: "Syne", sans-serif; }
+  :global(::selection) { background: #00c4d6; color: #082238; }
+  .atlas-app { --paper: #f3efe3; --navy: #102b45; --cyan: #00bfd3; --orange: #ff6c3b; --line: rgba(16,43,69,.28); background-color: var(--paper); background-image: linear-gradient(rgba(16,43,69,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(16,43,69,.055) 1px, transparent 1px); background-size: 32px 32px; margin: 0 auto; max-width: 1600px; min-height: 100vh; overflow: hidden; }
+  .prototype-bar { align-items: center; background: var(--navy); color: #e9ede9; display: flex; font-family: "Martian Mono", monospace; font-size: .57rem; justify-content: space-between; letter-spacing: .04em; min-height: 34px; padding: 0 22px; text-transform: uppercase; }
+  .prototype-bar nav { align-self: stretch; display: flex; }
+  .prototype-bar nav a { align-items: center; border-left: 1px solid rgba(255,255,255,.25); display: flex; padding: 0 14px; }
+  .prototype-bar nav a:hover, .prototype-bar nav a.active { background: var(--cyan); color: var(--navy); }
+  .atlas-header { background: rgba(243,239,227,.92); border-bottom: 1px solid var(--navy); display: grid; grid-template-columns: 330px 1fr 230px; min-height: 86px; }
+  .atlas-brand { align-items: center; border-right: 1px solid var(--navy); display: flex; font-family: "Martian Mono", monospace; font-size: .72rem; font-weight: 600; gap: 14px; padding: 13px 24px; }
+  .atlas-brand svg { fill: none; height: 44px; stroke: var(--navy); stroke-width: 1.5; width: 44px; }
+  .atlas-brand small { color: #5f7180; display: block; font-size: .5rem; margin-top: 5px; }
+  .atlas-nav { display: flex; overflow: auto; }
+  .atlas-nav a { align-items: center; border-right: 1px solid var(--line); display: flex; font-family: "Martian Mono", monospace; font-size: .56rem; padding: 0 18px; text-transform: uppercase; }
+  .atlas-nav a:hover { background: var(--cyan); }
+  .atlas-search { align-items: center; background: var(--orange); border-left: 1px solid var(--navy); display: flex; font-family: "Martian Mono", monospace; font-size: .55rem; justify-content: space-between; padding: 0 20px; text-transform: uppercase; }
+  .atlas-search:hover { background: var(--navy); color: #fff; }
+  .atlas-search b { font-size: 1.6rem; font-weight: 400; }
+  .atlas-intro { border-bottom: 1px solid var(--navy); padding: 26px 3.5vw 0; }
+  .intro-index { display: flex; font-family: "Martian Mono", monospace; font-size: .52rem; justify-content: space-between; text-transform: uppercase; }
+  .intro-main { align-items: end; display: grid; gap: 5vw; grid-template-columns: 1.4fr .6fr; min-height: 500px; padding: 58px 0 46px; }
+  .intro-main h1 { font-size: clamp(4rem, 8.2vw, 9.2rem); letter-spacing: -.075em; line-height: .8; margin: 0; }
+  .intro-main h1 span:nth-of-type(1) { color: var(--cyan); }
+  .intro-main h1 span:last-child { color: var(--orange); }
+  .intro-copy { border-left: 1px solid var(--navy); padding-left: 28px; }
+  .intro-copy > p:first-child { font-size: clamp(1.2rem, 2vw, 1.75rem); line-height: 1.35; }
+  .intro-note { color: #536a7b; font-size: .85rem; line-height: 1.6; }
+  .intro-copy a { align-items: center; border-bottom: 1px solid var(--navy); display: flex; font-family: "Martian Mono", monospace; font-size: .56rem; justify-content: space-between; margin-top: 34px; padding-bottom: 12px; text-transform: uppercase; }
+  .intro-copy a:hover { color: var(--orange); }
+  .coordinate-strip { border-top: 1px solid var(--navy); display: grid; font-family: "Martian Mono", monospace; font-size: .48rem; grid-template-columns: repeat(5, 1fr); text-transform: uppercase; }
+  .coordinate-strip span { border-right: 1px solid var(--line); padding: 13px 12px; }
+  .coordinate-strip span:last-child { border-right: 0; text-align: right; }
+  .system-map { border-bottom: 1px solid var(--navy); padding: 72px 3.5vw; }
+  .map-header { align-items: end; display: grid; gap: 30px; grid-template-columns: 1fr .8fr auto; margin-bottom: 36px; }
+  .map-header > div:first-child { align-items: center; display: flex; gap: 18px; }
+  .map-no { align-items: center; background: var(--navy); color: var(--paper); display: inline-flex; flex: 0 0 auto; font-family: "Martian Mono", monospace; font-size: .56rem; height: 34px; justify-content: center; width: 34px; }
+  .map-header h2 { font-size: clamp(2.6rem, 4vw, 4.6rem); letter-spacing: -.055em; line-height: .9; margin: 0; }
+  .map-header > p { color: #536a7b; font-size: .78rem; line-height: 1.55; margin: 0; }
+  .map-key { display: flex; font-family: "Martian Mono", monospace; font-size: .48rem; gap: 14px; text-transform: uppercase; }
+  .map-key span { align-items: center; display: flex; gap: 6px; }
+  .map-key i { height: 8px; width: 8px; }
+  .agent-key { background: var(--cyan); }.open-key { background: var(--navy); }.robot-key { background: var(--orange); }
+  .map-canvas { background: rgba(255,255,255,.28); border: 1px solid var(--navy); display: grid; grid-template-columns: 1fr 300px 1fr; min-height: 620px; overflow: hidden; position: relative; }
+  .connection-map { height: calc(100% - 30px); left: 0; position: absolute; top: 30px; width: 100%; z-index: 0; }
+  .connection-map path { fill: none; stroke: rgba(16,43,69,.25); stroke-dasharray: 4 6; stroke-width: 1.5; }
+  .map-column, .open-core { position: relative; z-index: 1; }
+  .map-column { padding: 26px; }
+  .column-title { align-items: flex-start; display: flex; gap: 14px; }
+  .column-title > span { align-items: center; border: 1px solid var(--navy); display: flex; font-family: "Martian Mono", monospace; height: 34px; justify-content: center; width: 34px; }
+  .column-title p { font-size: 1rem; margin: 0; }
+  .column-title small { color: #586d7d; display: block; font-size: .66rem; line-height: 1.45; margin-top: 5px; max-width: 300px; }
+  .map-nodes { display: flex; flex-direction: column; gap: 54px; margin-top: 54px; }
+  .map-node { align-items: center; animation: nodeIn .5s calc(var(--i) * 80ms) both; background: var(--paper); border: 1px solid var(--navy); box-shadow: 5px 5px 0 rgba(16,43,69,.12); display: grid; gap: 12px; grid-template-columns: 28px 1fr 18px; min-height: 68px; padding: 10px 14px; transition: box-shadow .18s, transform .18s; }
+  .map-node:hover { box-shadow: 8px 8px 0 var(--cyan); transform: translate(-2px, -2px); }
+  .robot-column .map-node:hover { box-shadow: 8px 8px 0 var(--orange); }
+  .map-node > span, .map-node small { color: #657988; font-family: "Martian Mono", monospace; font-size: .48rem; text-transform: uppercase; }
+  .map-node strong, .map-node small { display: block; }
+  .map-node small { margin-top: 5px; }
+  .open-core { align-items: center; display: flex; justify-content: center; }
+  .orbit { border: 1px solid rgba(16,43,69,.28); border-radius: 50%; position: absolute; }
+  .orbit-one { animation: rotate 26s linear infinite; border-style: dashed; height: 250px; width: 250px; }
+  .orbit-two { animation: rotate 18s linear infinite reverse; height: 190px; width: 190px; }
+  .orbit-one::after, .orbit-two::after { background: var(--orange); border: 2px solid var(--paper); border-radius: 50%; content: ""; height: 12px; left: 50%; position: absolute; top: -7px; width: 12px; }
+  .orbit-two::after { background: var(--cyan); }
+  .core-mark { align-items: center; background: var(--navy); border-radius: 50%; color: var(--paper); display: flex; flex-direction: column; height: 140px; justify-content: center; position: relative; text-align: center; width: 140px; z-index: 2; }
+  .core-mark span, .core-mark small { font-family: "Martian Mono", monospace; font-size: .46rem; text-transform: uppercase; }
+  .core-mark strong { color: var(--cyan); font-size: 3.2rem; font-weight: 500; line-height: .8; }
+  .core-labels { align-items: center; display: flex; flex-direction: column; font-family: "Martian Mono", monospace; font-size: .42rem; gap: 18px; left: 50%; position: absolute; top: 30px; transform: translateX(-50%); }
+  .core-labels span:nth-child(2n) { transform: translateX(105px); }
+  .core-labels span:nth-child(2n+1) { transform: translateX(-105px); }
+  .map-footer { border: 1px solid var(--navy); border-top: 0; display: grid; font-family: "Martian Mono", monospace; font-size: .5rem; grid-template-columns: 1fr 1fr 1fr; text-transform: uppercase; }
+  .map-footer > * { padding: 16px 18px; }
+  .map-footer > * + * { border-left: 1px solid var(--line); }
+  .map-footer span { color: #687b89; text-align: center; }
+  .map-footer a { display: flex; justify-content: space-between; }
+  .map-footer a:last-child { text-align: right; }
+  .map-footer a:hover { background: var(--navy); color: white; }
+  .atlas-indexes, .activity { border-bottom: 1px solid var(--navy); padding: 72px 3.5vw; }
+  .section-title { align-items: start; display: grid; gap: 22px; grid-template-columns: 40px 1fr .7fr; margin-bottom: 42px; }
+  .section-title > div > span { font-family: "Martian Mono", monospace; font-size: .5rem; text-transform: uppercase; }
+  .section-title h2 { font-size: clamp(3.4rem, 6vw, 6.7rem); letter-spacing: -.065em; line-height: .82; margin: 18px 0 0; }
+  .section-title > p { color: #536a7b; font-size: .85rem; line-height: 1.65; margin: 30px 0 0; }
+  .index-cards { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; }
+  .field-card { background: var(--paper); border: 1px solid var(--navy); }
+  .field-card > header { display: flex; font-family: "Martian Mono", monospace; font-size: .48rem; justify-content: space-between; padding: 14px 18px; text-transform: uppercase; }
+  .agent-field-card > header { background: var(--cyan); }.robot-field-card > header { background: var(--orange); }
+  .field-top { align-items: end; border-bottom: 1px solid var(--navy); display: flex; justify-content: space-between; min-height: 250px; padding: 28px; }
+  .field-top h3 { font-size: clamp(3.8rem, 6vw, 6.5rem); letter-spacing: -.07em; line-height: .76; margin: 0; }
+  .field-top > div { max-width: 170px; text-align: right; }
+  .field-top strong, .field-top small { display: block; }
+  .field-top strong { font-size: .85rem; }
+  .field-top small { color: #617584; font-family: "Martian Mono", monospace; font-size: .48rem; line-height: 1.5; margin-top: 7px; text-transform: uppercase; }
+  .field-card ol { list-style: none; margin: 0; padding: 0; }
+  .field-card li { border-bottom: 1px solid var(--line); }
+  .field-card li a { align-items: center; display: grid; gap: 14px; grid-template-columns: 30px 1fr auto 18px; min-height: 66px; padding: 8px 18px; }
+  .field-card li a:hover { background: rgba(0,191,211,.17); }
+  .robot-field-card li a:hover { background: rgba(255,108,59,.16); }
+  .field-card li span, .field-card li small { font-family: "Martian Mono", monospace; font-size: .48rem; }
+  .field-card li small { color: #607482; }
+  .field-cta { display: flex; font-family: "Martian Mono", monospace; font-size: .52rem; justify-content: space-between; min-height: 58px; padding: 20px 18px; text-transform: uppercase; }
+  .field-cta:hover { background: var(--navy); color: white; }
+  .activity { background: var(--navy); color: var(--paper); }
+  .activity .map-no { background: var(--paper); color: var(--navy); }
+  .activity-title > a { border-bottom: 1px solid rgba(255,255,255,.5); font-family: "Martian Mono", monospace; font-size: .5rem; justify-self: end; margin-top: 32px; padding-bottom: 9px; text-transform: uppercase; }
+  .activity-track { border: 1px solid rgba(255,255,255,.35); display: grid; grid-template-columns: repeat(5, 1fr); }
+  .activity-stop { display: flex; flex-direction: column; min-height: 315px; padding: 24px; }
+  .activity-stop + .activity-stop { border-left: 1px solid rgba(255,255,255,.25); }
+  .activity-stop:hover, .activity-stop.featured { background: var(--cyan); color: var(--navy); }
+  .activity-stop:nth-child(3n):hover { background: var(--orange); }
+  .stop-no, .activity-stop time, .activity-stop p, .activity-stop footer { font-family: "Martian Mono", monospace; font-size: .47rem; text-transform: uppercase; }
+  .activity-stop time { margin: 16px 0 auto; opacity: .65; }
+  .activity-stop h3 { font-size: 1.7rem; letter-spacing: -.04em; margin-bottom: 12px; }
+  .activity-stop p { opacity: .7; }
+  .activity-stop footer { border-top: 1px solid currentColor; display: flex; justify-content: space-between; margin-top: 22px; padding-top: 12px; }
+  .atlas-support { background: var(--orange); border-bottom: 1px solid var(--navy); display: grid; grid-template-columns: .75fr 1.25fr; min-height: 520px; }
+  .support-map { border-right: 1px solid var(--navy); overflow: hidden; position: relative; }
+  .support-map span { border: 1px solid var(--navy); border-radius: 50%; height: 90px; position: absolute; width: 90px; }
+  .support-map span:nth-child(1) { left: 15%; top: 17%; }.support-map span:nth-child(2) { right: 18%; top: 30%; }.support-map span:nth-child(3) { bottom: 13%; left: 33%; }.support-map span:nth-child(4) { bottom: 20%; right: 8%; }
+  .support-map::before, .support-map::after { background: var(--navy); content: ""; height: 1px; left: 20%; position: absolute; top: 38%; transform: rotate(19deg); transform-origin: left; width: 70%; }
+  .support-map::after { top: 68%; transform: rotate(-16deg); }
+  .support-map i { background: var(--cyan); border: 1px solid var(--navy); border-radius: 50%; height: 150px; left: 50%; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 150px; }
+  .support-map i::after { align-items: center; content: "OPEN\A DATA"; display: flex; font-family: "Martian Mono", monospace; font-size: .55rem; height: 100%; justify-content: center; text-align: center; white-space: pre; }
+  .support-content { display: flex; flex-direction: column; justify-content: center; padding: 55px 5vw; }
+  .support-content > span { font-family: "Martian Mono", monospace; font-size: .52rem; text-transform: uppercase; }
+  .support-content h2 { font-size: clamp(4rem, 7vw, 7.4rem); letter-spacing: -.07em; line-height: .78; margin: 48px 0 30px; }
+  .support-content p { font-size: .95rem; line-height: 1.65; max-width: 650px; }
+  .support-content > div { display: flex; gap: 12px; margin-top: 25px; }
+  .support-content a { border: 1px solid var(--navy); display: flex; font-family: "Martian Mono", monospace; font-size: .49rem; gap: 38px; padding: 16px; text-transform: uppercase; }
+  .support-content a:first-child { background: var(--navy); color: var(--paper); }
+  .support-content a:hover { background: var(--cyan); color: var(--navy); }
+  .atlas-footer { align-items: center; display: grid; font-family: "Martian Mono", monospace; font-size: .5rem; gap: 18px; grid-template-columns: .5fr 1fr auto; min-height: 90px; padding: 20px 3.5vw; text-transform: uppercase; }
+  .atlas-footer p { margin: 0; text-align: center; }
+  @keyframes nodeIn { from { opacity: 0; transform: translateY(12px); } }
+  @keyframes rotate { to { transform: rotate(360deg); } }
+  @media (max-width: 1150px) {
+    .atlas-header { grid-template-columns: 300px 1fr; }
+    .atlas-search { display: none; }
+    .intro-main { grid-template-columns: 1fr; }
+    .map-header { grid-template-columns: 1fr 1fr; }
+    .map-key { grid-column: 1 / -1; }
+    .map-canvas { grid-template-columns: 1fr 220px 1fr; }
+    .map-column { padding: 18px; }
+    .activity-track { grid-template-columns: repeat(3, 1fr); }
+    .activity-stop:nth-child(4), .activity-stop:nth-child(5) { border-top: 1px solid rgba(255,255,255,.25); }
+  }
+  @media (max-width: 800px) {
+    .prototype-bar { align-items: stretch; flex-direction: column; padding: 0; }
+    .prototype-bar > span { padding: 10px 14px; }
+    .prototype-bar nav { border-top: 1px solid rgba(255,255,255,.25); }
+    .prototype-bar nav a { border-left: 0; border-right: 1px solid rgba(255,255,255,.25); min-height: 36px; }
+    .atlas-header { grid-template-columns: 1fr; }
+    .atlas-brand { border-bottom: 1px solid var(--navy); border-right: 0; }
+    .atlas-nav a { min-height: 42px; padding: 0 13px; white-space: nowrap; }
+    .atlas-intro { padding-left: 18px; padding-right: 18px; }
+    .intro-main { min-height: 470px; padding-top: 42px; }
+    .intro-main h1 { font-size: clamp(3.3rem, 16vw, 5.1rem); }
+    .intro-copy { margin-top: 30px; }
+    .coordinate-strip { grid-template-columns: 1fr 1fr; }
+    .coordinate-strip span:nth-child(n) { border-bottom: 1px solid var(--line); }
+    .system-map, .atlas-indexes, .activity { padding: 48px 14px; }
+    .map-header, .section-title { grid-template-columns: 1fr; }
+    .map-header > p { max-width: 520px; }
+    .map-canvas { display: block; }
+    .connection-map, .open-core { display: none; }
+    .map-column + .map-column { border-top: 1px solid var(--navy); }
+    .map-nodes { gap: 12px; margin-top: 28px; }
+    .map-footer { grid-template-columns: 1fr; }
+    .map-footer > * + * { border-left: 0; border-top: 1px solid var(--line); }
+    .map-footer span { text-align: left; }
+    .index-cards { grid-template-columns: 1fr; }
+    .section-title > p { margin-top: 0; }
+    .activity-title > a { justify-self: start; margin-top: 0; }
+    .activity-track { grid-template-columns: 1fr 1fr; }
+    .activity-stop { min-height: 260px; }
+    .activity-stop:nth-child(n) { border-bottom: 1px solid rgba(255,255,255,.25); border-left: 0; }
+    .activity-stop:nth-child(even) { border-left: 1px solid rgba(255,255,255,.25); }
+    .atlas-support { grid-template-columns: 1fr; }
+    .support-map { border-bottom: 1px solid var(--navy); border-right: 0; min-height: 330px; }
+    .support-content { padding: 48px 20px; }
+    .support-content > div { align-items: stretch; flex-direction: column; }
+    .support-content a { justify-content: space-between; }
+    .atlas-footer { grid-template-columns: 1fr; }
+    .atlas-footer p { text-align: left; }
+  }
+</style>

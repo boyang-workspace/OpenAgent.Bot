@@ -44,7 +44,8 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
       <a class="support-link" href="#support">Support the index <span>↗</span></a>
     </header>
 
-    <main>
+    <main class="index-main">
+      <div class="index-content">
       <section class="index-hero">
         <div class="hero-copy">
           <div class="live-label"><span></span> Registry online · visual prototype</div>
@@ -59,22 +60,6 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
           </form>
         </div>
 
-        <aside class="pulse-panel" aria-label="Registry pulse">
-          <div class="pulse-top">
-            <span>Open ecosystem pulse</span>
-            <span>{dateLabel} · UTC</span>
-          </div>
-          <div class="pulse-number"><strong>{compactNumber(data.stats.entities)}</strong><span>tracked<br />entities</span></div>
-          <div class="pulse-bars" aria-hidden="true">
-            {Array.from({ length: 24 }, (_, index) => <i style={`--h:${24 + ((index * 17) % 62)}%;--d:${index * 22}ms`}></i>)}
-          </div>
-          <dl>
-            <div><dt>Agent side</dt><dd>{compactNumber(data.agentCount)}</dd></div>
-            <div><dt>Robot side</dt><dd>{compactNumber(data.robotCount)}</dd></div>
-            <div><dt>Evidence</dt><dd>{compactNumber(data.stats.observations)}</dd></div>
-            <div><dt>Last sync</dt><dd>{relativeDate(data.stats.lastSyncAt)}</dd></div>
-          </dl>
-        </aside>
       </section>
 
       <div class="signal-tape" aria-label="Prototype status">
@@ -168,18 +153,57 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
         </div>
       </section>
 
-      <section class="support" id="support">
-        <div class="support-label"><span>03 / SUPPORT</span><small>Commercial layer · isolated from rankings</small></div>
-        <div class="support-copy">
-          <span>AVAILABLE · WEEK 01</span>
-          <h2>Support the open index.</h2>
-          <p>Sponsor public data, fund a robotics connector, or reserve a clearly labeled placement. Money never changes an organic rank.</p>
+      </div>
+
+      <aside class="support-rail" id="support" aria-label="Support OpenAgent.bot">
+        <div class="support-rail-inner">
+          <section class="pulse-panel" aria-label="Registry pulse">
+            <div class="pulse-top">
+              <span>Open ecosystem pulse</span>
+              <span>{dateLabel} · UTC</span>
+            </div>
+            <div class="pulse-number"><strong>{compactNumber(data.stats.entities)}</strong><span>tracked<br />entities</span></div>
+            <div class="pulse-bars" aria-hidden="true">
+              {Array.from({ length: 18 }, (_, index) => <i style={`--h:${24 + ((index * 17) % 62)}%;--d:${index * 22}ms`}></i>)}
+            </div>
+            <dl>
+              <div><dt>Agent side</dt><dd>{compactNumber(data.agentCount)}</dd></div>
+              <div><dt>Robot side</dt><dd>{compactNumber(data.robotCount)}</dd></div>
+              <div><dt>Evidence</dt><dd>{compactNumber(data.stats.observations)}</dd></div>
+              <div><dt>Last sync</dt><dd>{relativeDate(data.stats.lastSyncAt)}</dd></div>
+            </dl>
+          </section>
+
+          <section class="support-intro">
+            <div class="rail-heading"><span>SUPPORT / 01</span><small>Commercial layer</small></div>
+            <span class="slot-state"><i></i> Founding slot available</span>
+            <h2>Support the<br />open&nbsp;index.</h2>
+            <p>Fund public data and reach builders across the open Agent and Robot ecosystem.</p>
+            <a href="mailto:hello@openagent.bot?subject=Founding%20supporter%20slot">Reserve this weekly slot <b>↗</b></a>
+          </section>
+
+          <section class="support-board">
+            <div class="rail-heading"><span>SUPPORT BOARD</span><small>Preview</small></div>
+            <ol>
+              <li><span>01</span><div><strong>Weekly index sponsor</strong><small>Available · 7 days</small></div><b>OPEN</b></li>
+              <li><span>02</span><div><strong>Agent field supporter</strong><small>Available · 7 days</small></div><b>OPEN</b></li>
+              <li><span>03</span><div><strong>Robot field supporter</strong><small>Available · 7 days</small></div><b>OPEN</b></li>
+            </ol>
+          </section>
+
+          <section class="bounty-panel">
+            <div class="rail-heading"><span>DATA BOUNTIES</span><small>Public goods</small></div>
+            <a href="mailto:hello@openagent.bot?subject=Robotics%20data%20bounty"><span class="bounty-color robot-bounty"></span><div><strong>Expand the Robot field</strong><small>Fund verified robotics coverage</small></div><b>↗</b></a>
+            <a href="mailto:hello@openagent.bot?subject=Connector%20data%20bounty"><span class="bounty-color agent-bounty"></span><div><strong>Fund a source connector</strong><small>Turn an official source live</small></div><b>↗</b></a>
+          </section>
+
+          <section class="boundary-card">
+            <span>THE BOUNDARY</span>
+            <p>Money can buy a disclosed placement. It can never buy an organic rank.</p>
+            <a href="/methodology#rankings">Read the rule →</a>
+          </section>
         </div>
-        <div class="support-actions">
-          <a href="mailto:hello@openagent.bot?subject=Support%20OpenAgent.bot">Become a founding supporter <b>↗</b></a>
-          <a href="/methodology#rankings">Read the separation rule <b>→</b></a>
-        </div>
-      </section>
+      </aside>
     </main>
 
     <footer class="index-footer">
@@ -207,7 +231,9 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
   .primary-nav a:hover { background: #e4e6df; color: var(--ink); }
   .support-link { align-items: center; background: var(--ink); color: var(--paper); display: flex; font-family: "Azeret Mono", monospace; font-size: .64rem; justify-content: space-between; padding: 0 20px; text-transform: uppercase; }
   .support-link:hover { background: var(--acid); color: var(--ink); }
-  .index-hero { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(360px, .6fr); }
+  .index-main { display: grid; grid-template-columns: minmax(0, 3fr) minmax(310px, 1fr); }
+  .index-content { min-width: 0; }
+  .index-hero { border-bottom: 1px solid var(--ink); }
   .hero-copy { min-height: 600px; min-width: 0; padding: 70px 4vw 46px; }
   .live-label { align-items: center; color: #596159; display: flex; font-family: "Azeret Mono", monospace; font-size: .63rem; gap: 9px; letter-spacing: .04em; text-transform: uppercase; }
   .live-label span { animation: pulse 1.8s infinite; background: var(--acid); border: 1px solid var(--ink); border-radius: 50%; height: 9px; width: 9px; }
@@ -222,10 +248,10 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
   .hero-copy input { background: #fff; border: 0; min-width: 0; padding: 17px; }
   .hero-copy button { background: var(--ink); border: 0; color: var(--paper); cursor: pointer; font-family: "Azeret Mono", monospace; font-size: .62rem; padding: 0 22px; text-transform: uppercase; }
   .hero-copy button:hover { background: var(--acid); color: var(--ink); }
-  .pulse-panel { background: var(--ink); color: var(--paper); display: flex; flex-direction: column; min-width: 0; padding: 28px; }
+  .pulse-panel { background: var(--ink); color: var(--paper); display: flex; flex-direction: column; min-height: 500px; min-width: 0; padding: 28px; }
   .pulse-top { color: #8d968c; display: flex; font-family: "Azeret Mono", monospace; font-size: .57rem; justify-content: space-between; text-transform: uppercase; }
   .pulse-number { align-items: end; display: flex; gap: 18px; margin-top: auto; }
-  .pulse-number strong { color: var(--acid); font-size: clamp(5.5rem, 9vw, 9rem); letter-spacing: -.09em; line-height: .72; }
+  .pulse-number strong { color: var(--acid); font-size: clamp(4.8rem, 7vw, 7.5rem); letter-spacing: -.09em; line-height: .72; }
   .pulse-number span { color: #a7afa6; font-family: "Azeret Mono", monospace; font-size: .6rem; line-height: 1.5; text-transform: uppercase; }
   .pulse-bars { align-items: end; border-bottom: 1px solid #4d554c; display: flex; gap: 4px; height: 105px; margin: 50px 0 38px; }
   .pulse-bars i { animation: grow .7s var(--d) both; background: var(--acid); flex: 1; height: var(--h); opacity: .8; transform-origin: bottom; }
@@ -288,18 +314,39 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
   .signal-list a:hover { background: var(--acid); }
   .signal-list strong, .signal-list small { display: block; }
   .signal-list small, .signal-list time, .signal-count { color: #6b726a; font-family: "Azeret Mono", monospace; font-size: .52rem; margin-top: 5px; text-transform: uppercase; }
-  .support { background: var(--ink); color: var(--paper); display: grid; grid-template-columns: .55fr 1fr .8fr; min-height: 390px; }
-  .support > div { padding: 38px; }
-  .support > div + div { border-left: 1px solid #383e37; }
-  .support-label { display: flex; flex-direction: column; font-family: "Azeret Mono", monospace; font-size: .58rem; justify-content: space-between; text-transform: uppercase; }
-  .support-label small { color: #7f897e; line-height: 1.6; }
-  .support-copy { display: flex; flex-direction: column; justify-content: center; }
-  .support-copy > span { color: var(--acid); font-family: "Azeret Mono", monospace; font-size: .58rem; }
-  .support-copy h2 { font-size: clamp(3.6rem, 6vw, 6.2rem); letter-spacing: -.07em; line-height: .83; margin: 32px 0 24px; }
-  .support-copy p { color: #aab2a9; line-height: 1.6; max-width: 540px; }
-  .support-actions { display: flex; flex-direction: column; justify-content: flex-end; }
-  .support-actions a { border-top: 1px solid #4c534b; display: flex; font-family: "Azeret Mono", monospace; font-size: .58rem; justify-content: space-between; padding: 18px 0; text-transform: uppercase; }
-  .support-actions a:hover { color: var(--acid); }
+  .support-rail { background: var(--ink); border-left: 1px solid var(--ink); color: var(--paper); min-width: 0; }
+  .support-rail-inner { position: sticky; top: 0; }
+  .support-rail section { border-bottom: 1px solid #424941; }
+  .rail-heading { display: flex; font-family: "Azeret Mono", monospace; font-size: .53rem; justify-content: space-between; letter-spacing: .03em; text-transform: uppercase; }
+  .rail-heading small { opacity: .58; }
+  .support-intro { background: var(--acid); color: var(--ink); padding: 28px; }
+  .slot-state { align-items: center; display: flex; font-family: "Azeret Mono", monospace; font-size: .52rem; gap: 8px; margin-top: 56px; text-transform: uppercase; }
+  .slot-state i { animation: pulse 1.8s infinite; background: var(--ink); border-radius: 50%; height: 8px; width: 8px; }
+  .support-intro h2 { font-size: clamp(3.2rem, 4.4vw, 5rem); letter-spacing: -.07em; line-height: .8; margin: 28px 0 24px; }
+  .support-intro p { font-size: .88rem; line-height: 1.55; }
+  .support-intro > a { border: 1px solid var(--ink); display: flex; font-family: "Azeret Mono", monospace; font-size: .52rem; justify-content: space-between; margin-top: 30px; padding: 15px; text-transform: uppercase; }
+  .support-intro > a:hover { background: var(--ink); color: var(--acid); }
+  .support-board { background: var(--paper); color: var(--ink); padding-top: 24px; }
+  .support-board > .rail-heading, .bounty-panel > .rail-heading { padding: 0 24px 18px; }
+  .support-board ol { border-top: 1px solid var(--ink); list-style: none; margin: 0; padding: 0; }
+  .support-board li { align-items: center; border-bottom: 1px solid #c7cac3; display: grid; gap: 10px; grid-template-columns: 24px 1fr auto; min-height: 70px; padding: 10px 18px; }
+  .support-board li:last-child { border-bottom: 0; }
+  .support-board li > span, .support-board li small, .support-board li > b { font-family: "Azeret Mono", monospace; font-size: .46rem; text-transform: uppercase; }
+  .support-board li strong, .support-board li small { display: block; }
+  .support-board li small { color: #687067; margin-top: 5px; }
+  .support-board li > b { color: #537b00; }
+  .bounty-panel { padding-top: 24px; }
+  .bounty-panel > a { align-items: center; border-top: 1px solid #424941; display: grid; gap: 12px; grid-template-columns: 9px 1fr 18px; min-height: 82px; padding: 12px 20px; }
+  .bounty-panel > a:hover { background: #1b1f1b; }
+  .bounty-color { height: 44px; width: 9px; }
+  .robot-bounty { background: var(--robot); }.agent-bounty { background: var(--agent); }
+  .bounty-panel strong, .bounty-panel small { display: block; }
+  .bounty-panel strong { font-size: .82rem; }
+  .bounty-panel small { color: #8c958b; font-family: "Azeret Mono", monospace; font-size: .45rem; margin-top: 6px; text-transform: uppercase; }
+  .boundary-card { background: var(--agent); color: var(--ink); padding: 28px; }
+  .boundary-card > span { font-family: "Azeret Mono", monospace; font-size: .5rem; text-transform: uppercase; }
+  .boundary-card p { font-size: 1.35rem; letter-spacing: -.025em; line-height: 1.25; margin: 48px 0 28px; }
+  .boundary-card a { border-bottom: 1px solid var(--ink); font-family: "Azeret Mono", monospace; font-size: .5rem; padding-bottom: 7px; text-transform: uppercase; }
   .index-footer { align-items: center; background: var(--acid); display: grid; font-family: "Azeret Mono", monospace; font-size: .57rem; gap: 20px; grid-template-columns: .5fr 1fr auto; min-height: 82px; padding: 20px 28px; text-transform: uppercase; }
   .index-footer p { margin: 0; text-align: center; }
   @keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(185,255,56,.15); } }
@@ -308,21 +355,26 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
   @media (max-width: 1100px) {
     .index-header { grid-template-columns: 220px 1fr; }
     .support-link { display: none; }
-    .index-hero { grid-template-columns: 1fr; }
+    .index-main { grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr); }
     .hero-copy { min-height: auto; }
+    .hero-copy h1 { font-size: clamp(4rem, 7.8vw, 6rem); }
     .pulse-panel { min-height: 440px; }
     .board-grid { grid-template-columns: 1fr; }
-    .support { grid-template-columns: 1fr 1fr; }
-    .support-label { grid-column: 1 / -1; min-height: 100px; }
-    .support > div + div { border-left: 0; border-top: 1px solid #383e37; }
-    .support-actions { border-left: 1px solid #383e37 !important; }
+  }
+  @media (max-width: 900px) {
+    .index-main { grid-template-columns: 1fr; }
+    .support-rail { border-left: 0; border-top: 1px solid var(--ink); }
+    .support-rail-inner { display: grid; grid-template-columns: 1fr 1fr; position: static; }
+    .support-rail section { min-width: 0; }
+    .pulse-panel, .support-intro { min-height: 500px; }
+    .support-board, .bounty-panel { border-right: 1px solid #424941; }
   }
   @media (max-width: 760px) {
     .prototype-notice { align-items: stretch; flex-direction: column; padding: 0; }
     .prototype-notice > span { padding: 10px 14px; }
     .prototype-notice nav { border-top: 1px solid var(--ink); }
     .prototype-notice nav a { border-left: 0; border-right: 1px solid var(--ink); min-height: 36px; }
-    .index-app, .index-header, .index-hero { max-width: 100vw; min-width: 0; width: 100%; }
+    .index-app, .index-header, .index-hero, .index-main { max-width: 100vw; min-width: 0; width: 100%; }
     .index-header { grid-template-columns: minmax(0, 1fr); }
     .wordmark { border-bottom: 1px solid var(--ink); border-right: 0; }
     .primary-nav { max-width: 100vw; min-width: 0; }
@@ -333,6 +385,7 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
     .hero-copy h1 br { display: none; }
     .hero-copy > p, .hero-copy form { max-width: calc(100vw - 40px); width: calc(100vw - 40px); }
     .hero-copy form { margin-top: 36px; }
+    .support-rail-inner { display: block; }
     .pulse-panel { max-width: 100vw; min-height: 430px; padding: 22px 20px; width: 100vw; }
     .pulse-number strong { font-size: 6rem; }
     .signal-tape { grid-template-columns: 105px 1fr; }
@@ -347,10 +400,8 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
     .signal-feature { min-height: 360px; }
     .signal-list a { grid-template-columns: 28px 1fr 16px; }
     .signal-list time { display: none; }
-    .support { grid-template-columns: 1fr; }
-    .support > div { padding: 30px 20px; }
-    .support-label { min-height: 100px; }
-    .support-actions { border-left: 0 !important; }
+    .support-intro, .boundary-card { padding: 30px 20px; }
+    .support-intro { min-height: auto; }
     .index-footer { grid-template-columns: 1fr; text-align: left; }
     .index-footer p { text-align: left; }
   }

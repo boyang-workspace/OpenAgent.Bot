@@ -32,8 +32,8 @@ const historyDays = data.stats.historyStartedAt
       </a>
       <nav class="primary-nav" aria-label="Prototype navigation">
         <a href="#rankings">Rankings</a>
-        <a href="/database?kind=agent-side">Agents</a>
-        <a href="/database?kind=bot-side">Robots</a>
+        <a href="/database?domain=agent">Agents</a>
+        <a href="/database?domain=robotics">Robots</a>
         <a href="#signals">Signals</a>
         <a href="/database">Database</a>
       </nav>
@@ -61,10 +61,10 @@ const historyDays = data.stats.historyStartedAt
 
       <section class="registry-summary" aria-label="Registry coverage by layer">
         <a href="/database"><span>All entities</span><strong>{compactNumber(data.stats.entities)}</strong><small>public records</small></a>
-        <a href="/database?kind=agent-side"><span>Agent field</span><strong>{compactNumber(data.stats.agents)}</strong><small>systems + frameworks</small></a>
-        <a href="/database?kind=tool"><span>Agent tools</span><strong>{compactNumber(data.stats.tools)}</strong><small>skills + infrastructure</small></a>
+        <a href="/database?domain=agent"><span>Agent field</span><strong>{compactNumber(data.stats.agents)}</strong><small>software ecosystem</small></a>
+        <a href="/database?domain=robotics"><span>Robot field</span><strong>{compactNumber(data.stats.robots)}</strong><small>physical ecosystem</small></a>
         <a href="/database?kind=model"><span>Open models</span><strong>{compactNumber(data.stats.models)}</strong><small>weights + policies</small></a>
-        <a href="/database?kind=bot-side"><span>Robot field</span><strong>{compactNumber(data.robotCount)}</strong><small>physical stack</small></a>
+        <a href="/database?kind=tool"><span>Tools</span><strong>{compactNumber(data.stats.tools)}</strong><small>skills + infrastructure</small></a>
       </section>
 
       <div class="signal-tape" aria-label="Data collection status">
@@ -102,7 +102,7 @@ const historyDays = data.stats.historyStartedAt
                 </a>
               ))}
             </div>
-            <a class="board-cta" href="/database?kind=agent-side"><span>Explore all {data.agentCount} agent projects</span><b>→</b></a>
+            <a class="board-cta" href="/database?domain=agent"><span>Explore all {data.stats.agents} agent-field records</span><b>→</b></a>
           </article>
 
           <article class="rank-board robot-board">
@@ -123,7 +123,7 @@ const historyDays = data.stats.historyStartedAt
                 </a>
               ))}
             </div>
-            <a class="board-cta" href="/database?kind=bot-side"><span>Explore all {data.robotCount} robotics projects</span><b>→</b></a>
+            <a class="board-cta" href="/database?domain=robotics"><span>Explore all {data.stats.robots} robotics records</span><b>→</b></a>
           </article>
         </div>
       </section>

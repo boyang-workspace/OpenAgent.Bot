@@ -1,6 +1,6 @@
-/agents /database?kind=agent 301
+/agents /database?domain=agent 301
 /models /database?kind=model 301
-/bots /database?kind=agent 301
+/bots /database?domain=robotics 301
 /tools /database?kind=tool 301
 /skills /database?kind=tool 301
 /plugins /database?kind=tool 301
@@ -25,3 +25,4 @@
 /skills/:slug /project/:slug 301
 /plugins/:slug /project/:slug 301
 /memory-systems/:slug /project/:slug 301
+/project/genesis-world /project/genesis 301

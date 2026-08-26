@@ -61,7 +61,7 @@ h1, h2, h3 { font-weight: 400; }
 .split > * + * { border-left: 1px solid var(--ink); }
 
 .entity-table { border-top: 1px solid var(--ink); width: 100%; }
-.entity-row { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 12px; grid-template-columns: minmax(220px, 1.5fr) 150px 150px 110px 100px; min-height: 68px; padding: 10px 14px; }
+.entity-row { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 12px; grid-template-columns: minmax(220px, 1.5fr) 150px 140px 140px 90px 100px; min-height: 68px; padding: 10px 14px; }
 .entity-row:hover { background: var(--acid); }
 .entity-row.header { background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: .61rem; min-height: 36px; text-transform: uppercase; }
 .entity-name { font-size: 1rem; font-weight: 600; }
@@ -110,8 +110,8 @@ h1, h2, h3 { font-weight: 400; }
   .stat-grid { grid-template-columns: repeat(3, 1fr); }
   .stat:nth-child(3) { border-right: 0; }
   .stat:nth-child(-n+3) { border-bottom: 1px solid var(--line); }
-  .entity-row { grid-template-columns: minmax(200px, 1.5fr) 130px 130px 90px; }
-  .entity-row > :nth-child(5) { display: none; }
+  .entity-row { grid-template-columns: minmax(200px, 1.5fr) 130px 120px 130px 90px; }
+  .entity-row > :nth-child(6) { display: none; }
   .source-grid { grid-template-columns: repeat(2, 1fr); }
   .source-card:nth-child(3n) { border-right: 1px solid var(--line); }
   .source-card:nth-child(2n) { border-right: 0; }
@@ -135,7 +135,7 @@ h1, h2, h3 { font-weight: 400; }
   .stat:nth-child(n) { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); }
   .stat:nth-child(2n) { border-right: 0; }
   .entity-row { grid-template-columns: 1fr 90px; }
-  .entity-row > :nth-child(3), .entity-row > :nth-child(4), .entity-row > :nth-child(5) { display: none; }
+  .entity-row > :nth-child(3), .entity-row > :nth-child(4), .entity-row > :nth-child(5), .entity-row > :nth-child(6) { display: none; }
   .source-grid { grid-template-columns: 1fr; }
   .source-card:nth-child(n) { border-right: 0; }
   .filter-bar { grid-template-columns: 1fr; }

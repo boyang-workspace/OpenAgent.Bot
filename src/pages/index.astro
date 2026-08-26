@@ -7,22 +7,18 @@ import type { RegistryEntity, RegistryStats } from "@/lib/registry/types";
 
 let agents: RegistryEntity[] = [];
 let bots: RegistryEntity[] = [];
-let agentCount = 0;
-let botCount = 0;
-let stats: RegistryStats = { entities: 0, agents: 0, robots: 0, models: 0, tools: 0, sources: officialSources.length, liveSources: 0, observations: 0, metricEntities: 0, changes30d: 0 };
+let stats: RegistryStats = { entities: 0, agents: 0, robots: 0, infrastructure: 0, models: 0, tools: 0, sources: officialSources.length, liveSources: 0, observations: 0, metricEntities: 0, changes30d: 0 };
 let databaseReady = true;
 
 try {
   const registry = getRegistry();
   const [agentResult, botResult, statResult] = await Promise.all([
-    registry.listEntities({ kinds: ["agent", "agent-framework"], openness: ["open-source", "open-core", "source-available"], sort: "stars", limit: 4 }),
-    registry.listEntities({ kinds: ["robot", "robotics-framework", "hardware", "simulator"], openness: ["open-source", "open-core", "source-available"], sort: "stars", limit: 4 }),
+    registry.listEntities({ domains: ["agent"], kinds: ["agent", "agent-framework"], openness: ["open-source", "open-core", "source-available"], sort: "stars", limit: 4 }),
+    registry.listEntities({ domains: ["robotics"], kinds: ["robot", "robotics-framework", "hardware", "simulator"], openness: ["open-source", "open-core", "source-available"], sort: "stars", limit: 4 }),
     registry.getStats()
   ]);
   agents = agentResult.items;
   bots = botResult.items;
-  agentCount = agentResult.total;
-  botCount = botResult.total;
   stats = statResult;
 } catch {
   databaseReady = false;
@@ -69,7 +65,7 @@ const paths = [
               <span class="world-tag">Software layer</span>
               <h3>Agent</h3>
               <p>Systems that reason, call tools, browse, code and coordinate work.</p>
-              <a class="world-cta" href="/database?kind=agent-side">Explore {agentCount} open agent projects <span>→</span></a>
+              <a class="world-cta" href="/database?domain=agent">Explore {stats.agents} agent-field records <span>→</span></a>
             </div>
             <div class="world-projects">
               {agents.map((entity, index) => (
@@ -88,7 +84,7 @@ const paths = [
               <span class="world-tag">Physical layer</span>
               <h3>Bot</h3>
               <p>Robots, hardware, simulators and learning stacks that act in the physical world.</p>
-              <a class="world-cta" href="/database?kind=bot-side">Explore {botCount} open robotics projects <span>→</span></a>
+              <a class="world-cta" href="/database?domain=robotics">Explore {stats.robots} robotics records <span>→</span></a>
             </div>
             <div class="world-projects">
               {bots.map((entity, index) => (
@@ -122,8 +118,8 @@ const paths = [
 
       <section class="live-strip" aria-label="Live registry status">
         <div><span class="data-label">Live index</span><strong>{compactNumber(stats.entities)}</strong><small>public entities</small></div>
-        <div><span class="data-label">Agent side</span><strong>{compactNumber(agentCount)}</strong><small>agents + frameworks</small></div>
-        <div><span class="data-label">Bot side</span><strong>{compactNumber(botCount)}</strong><small>robots + physical stack</small></div>
+        <div><span class="data-label">Agent field</span><strong>{compactNumber(stats.agents)}</strong><small>software ecosystem</small></div>
+        <div><span class="data-label">Robot field</span><strong>{compactNumber(stats.robots)}</strong><small>physical ecosystem</small></div>
         <div><span class="data-label">Evidence</span><strong>{compactNumber(stats.observations)}</strong><small>source observations</small></div>
         <div class="sync-cell"><span class="status-dot"></span><span>Updated {relativeDate(stats.lastSyncAt)} from {stats.sources || officialSources.length} registered sources.</span><a href="/sources">Inspect sources →</a></div>
       </section>
@@ -133,9 +129,9 @@ const paths = [
 
 <style>
   .home-grid { overflow: hidden; }
-  .home-hero { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(330px, .45fr); min-height: 560px; }
-  .hero-copy { display: flex; flex-direction: column; justify-content: center; padding: 64px 48px; }
-  .hero-copy .page-title { font-size: clamp(4rem, 7.7vw, 8rem); max-width: 1050px; }
+  .home-hero { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(330px, .45fr); min-height: 380px; }
+  .hero-copy { display: flex; flex-direction: column; justify-content: center; padding: 44px 48px; }
+  .hero-copy .page-title { font-size: clamp(3.6rem, 6.2vw, 6.4rem); max-width: 1050px; }
   .hero-copy .page-title em { font-weight: 400; }
   .hero-action { background: var(--acid); border-left: 1px solid var(--ink); display: flex; flex-direction: column; justify-content: flex-end; padding: 38px; }
   .hero-action form { border: 1px solid var(--ink); display: grid; grid-template-columns: 1fr auto; margin: 16px 0 18px; }

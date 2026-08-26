@@ -13,6 +13,9 @@ export const entityKinds = [
 
 export type EntityKind = (typeof entityKinds)[number];
 
+export const entityDomains = ["agent", "robotics", "shared-infrastructure"] as const;
+export type EntityDomain = (typeof entityDomains)[number];
+
 export const opennessStatuses = [
   "open-source",
   "open-weights",
@@ -31,6 +34,8 @@ export type RegistryEntity = {
   id: string;
   slug: string;
   kind: EntityKind;
+  domains: EntityDomain[];
+  primaryDomain?: EntityDomain;
   name: string;
   summary: string;
   description?: string;
@@ -54,6 +59,16 @@ export type RegistryEntity = {
   lastSeenAt: string;
   lastVerifiedAt?: string;
   createdAt: string;
+  updatedAt: string;
+};
+
+export type RegistryDomainAssignment = {
+  domain: EntityDomain;
+  isPrimary: boolean;
+  confidence: number;
+  classificationMethod: "rule" | "manual" | "source" | "inferred";
+  reviewStatus: "provisional" | "verified";
+  sourceUrl?: string;
   updatedAt: string;
 };
 
@@ -139,6 +154,7 @@ export type RegistryMetricSnapshot = {
 
 export type RegistryDossier = {
   entity: RegistryEntity;
+  domainAssignments: RegistryDomainAssignment[];
   facts: RegistryFact[];
   opennessFacets: RegistryOpennessFacet[];
   changes: RegistryChange[];
@@ -157,6 +173,7 @@ export type RegistryStats = {
   entities: number;
   agents: number;
   robots: number;
+  infrastructure: number;
   models: number;
   tools: number;
   sources: number;
@@ -170,6 +187,7 @@ export type RegistryStats = {
 
 export type EntityQuery = {
   q?: string;
+  domains?: EntityDomain[];
   kinds?: EntityKind[];
   openness?: OpennessStatus[];
   country?: string;

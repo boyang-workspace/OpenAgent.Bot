@@ -1,4 +1,5 @@
 import type {
+  EntityDomain,
   EntityKind,
   EntityQuery,
   EntityQueryResult,
@@ -8,6 +9,7 @@ import type {
   RegistryEntity,
   RegistryStats
 } from "./types";
+import { parseEntityDomains } from "./domains";
 
 export type D1Result<T> = { results?: T[]; success: boolean; meta?: Record<string, unknown> };
 
@@ -27,6 +29,8 @@ type EntityRow = {
   id: string;
   slug: string;
   kind: EntityKind;
+  domains_csv: string | null;
+  primary_domain: EntityDomain | null;
   name: string;
   summary: string;
   description: string | null;
@@ -58,6 +62,8 @@ function entityFromRow(row: EntityRow): RegistryEntity {
     id: row.id,
     slug: row.slug,
     kind: row.kind,
+    domains: parseEntityDomains(row.domains_csv),
+    primaryDomain: row.primary_domain ?? undefined,
     name: row.name,
     summary: row.summary,
     description: row.description ?? undefined,
@@ -87,7 +93,9 @@ function entityFromRow(row: EntityRow): RegistryEntity {
 
 const selectEntity = `
   SELECT e.*, m.stars, m.forks, m.watchers, m.downloads_30d, m.open_issues,
-         m.last_release_at, m.last_commit_at
+         m.last_release_at, m.last_commit_at,
+         (SELECT group_concat(ed.domain, '|') FROM entity_domains ed WHERE ed.entity_id = e.id) AS domains_csv,
+         (SELECT ed.domain FROM entity_domains ed WHERE ed.entity_id = e.id AND ed.is_primary = 1 LIMIT 1) AS primary_domain
   FROM entities e
   LEFT JOIN entity_metrics_current m ON m.entity_id = e.id
 `;
@@ -133,6 +141,16 @@ export class RegistryRepository {
       });
       filters.push(`e.kind IN (${placeholders.join(", ")})`);
     }
+    if (query.domains?.length) {
+      const placeholders = query.domains.map((domain) => {
+        values.push(domain);
+        return `?${values.length}`;
+      });
+      filters.push(`EXISTS (
+        SELECT 1 FROM entity_domains ed
+        WHERE ed.entity_id = e.id AND ed.domain IN (${placeholders.join(", ")})
+      )`);
+    }
     if (query.openness?.length) {
       const placeholders = query.openness.map((status) => {
         values.push(status);
@@ -150,7 +168,7 @@ export class RegistryRepository {
         ? "COALESCE(m.stars, 0) DESC, e.name ASC"
         : query.sort === "name"
           ? "e.name ASC"
-          : "e.updated_at DESC, e.name ASC";
+          : "COALESCE(e.last_verified_at, e.updated_at) DESC, e.name ASC";
     const limit = Math.min(Math.max(query.limit ?? 40, 1), 100);
     const offset = Math.max(query.offset ?? 0, 0);
     const where = filters.join(" AND ");
@@ -186,7 +204,14 @@ export class RegistryRepository {
     const entity = await this.getEntity(slug);
     if (!entity) return undefined;
 
-    const [facts, facets, changes, relationships, relationshipEvidence, subscriptions, metricSnapshots, record] = await Promise.all([
+    const [domainAssignments, facts, facets, changes, relationships, relationshipEvidence, subscriptions, metricSnapshots, record] = await Promise.all([
+      this.db.prepare(`
+        SELECT domain, is_primary, confidence, classification_method, review_status,
+               source_url, updated_at
+        FROM entity_domains
+        WHERE entity_id = ?1
+        ORDER BY is_primary DESC, domain
+      `).bind(entity.id).all<Record<string, string | number | null>>(),
       this.db.prepare(`
         SELECT f.fact_key, f.value_json, f.confidence, f.observed_at,
                s.name AS source_name, s.trust_tier, o.source_url
@@ -277,6 +302,15 @@ export class RegistryRepository {
 
     return {
       entity,
+      domainAssignments: (domainAssignments.results ?? []).map((row) => ({
+        domain: String(row.domain) as EntityDomain,
+        isPrimary: Number(row.is_primary) === 1,
+        confidence: Number(row.confidence),
+        classificationMethod: String(row.classification_method) as RegistryDossier["domainAssignments"][number]["classificationMethod"],
+        reviewStatus: String(row.review_status) as RegistryDossier["domainAssignments"][number]["reviewStatus"],
+        sourceUrl: typeof row.source_url === "string" ? row.source_url : undefined,
+        updatedAt: String(row.updated_at)
+      })),
       facts: (facts.results ?? []).map((row) => ({
         key: String(row.fact_key),
         value: jsonValue(typeof row.value_json === "string" ? row.value_json : null),
@@ -335,8 +369,9 @@ export class RegistryRepository {
     const row = await this.db.prepare(`
       SELECT
         (SELECT COUNT(*) FROM entities WHERE visibility = 'public') AS entities,
-        (SELECT COUNT(*) FROM entities WHERE visibility = 'public' AND kind IN ('agent', 'agent-framework')) AS agents,
-        (SELECT COUNT(*) FROM entities WHERE visibility = 'public' AND kind IN ('robot', 'robotics-framework', 'hardware', 'simulator')) AS robots,
+        (SELECT COUNT(*) FROM entity_domains ed JOIN entities e ON e.id = ed.entity_id WHERE e.visibility = 'public' AND ed.domain = 'agent') AS agents,
+        (SELECT COUNT(*) FROM entity_domains ed JOIN entities e ON e.id = ed.entity_id WHERE e.visibility = 'public' AND ed.domain = 'robotics') AS robots,
+        (SELECT COUNT(*) FROM entity_domains ed JOIN entities e ON e.id = ed.entity_id WHERE e.visibility = 'public' AND ed.domain = 'shared-infrastructure') AS infrastructure,
         (SELECT COUNT(*) FROM entities WHERE visibility = 'public' AND kind = 'model') AS models,
         (SELECT COUNT(*) FROM entities WHERE visibility = 'public' AND kind = 'tool') AS tools,
         (SELECT COUNT(*) FROM sources WHERE enabled = 1) AS sources,
@@ -352,6 +387,7 @@ export class RegistryRepository {
       entities: Number(row?.entities ?? 0),
       agents: Number(row?.agents ?? 0),
       robots: Number(row?.robots ?? 0),
+      infrastructure: Number(row?.infrastructure ?? 0),
       models: Number(row?.models ?? 0),
       tools: Number(row?.tools ?? 0),
       sources: Number(row?.sources ?? 0),

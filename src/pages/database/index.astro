@@ -2,28 +2,27 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import EntityTable from "@/components/EntityTable.astro";
 import { getRegistry } from "@/lib/registry/runtime";
-import { entityKinds, opennessStatuses, type EntityKind, type OpennessStatus, type RegistryEntity } from "@/lib/registry/types";
+import { entityDomains, entityKinds, opennessStatuses, type EntityDomain, type EntityKind, type OpennessStatus, type RegistryEntity } from "@/lib/registry/types";
 import { label } from "@/lib/registry/format";
+import { domainLabel } from "@/lib/registry/domains";
 
 const q = Astro.url.searchParams.get("q") ?? "";
 const requestedKind = Astro.url.searchParams.get("kind") ?? "";
+const legacyDomain = requestedKind === "agent-side" ? "agent" : requestedKind === "bot-side" ? "robotics" : "";
+const requestedDomain = Astro.url.searchParams.get("domain") ?? legacyDomain;
 const requestedOpenness = Astro.url.searchParams.get("openness") ?? "";
 const requestedPage = Number(Astro.url.searchParams.get("page") ?? 1);
 const page = Number.isFinite(requestedPage) ? Math.max(Math.floor(requestedPage), 1) : 1;
 const pageSize = 50;
 const sort = Astro.url.searchParams.get("sort") === "stars" ? "stars" : Astro.url.searchParams.get("sort") === "name" ? "name" : "updated";
 const kind = entityKinds.includes(requestedKind as EntityKind) ? requestedKind as EntityKind : undefined;
-const sideKinds: EntityKind[] | undefined = requestedKind === "agent-side"
-  ? ["agent", "agent-framework"]
-  : requestedKind === "bot-side"
-    ? ["robot", "robotics-framework", "hardware", "simulator"]
-    : undefined;
+const domain = entityDomains.includes(requestedDomain as EntityDomain) ? requestedDomain as EntityDomain : undefined;
 const openness = opennessStatuses.includes(requestedOpenness as OpennessStatus) ? requestedOpenness as OpennessStatus : undefined;
 let entities: RegistryEntity[] = [];
 let total = 0;
 
 try {
-  const result = await getRegistry().listEntities({ q, kinds: sideKinds ?? (kind ? [kind] : undefined), openness: openness ? [openness] : undefined, sort, limit: pageSize, offset: (page - 1) * pageSize });
+  const result = await getRegistry().listEntities({ q, domains: domain ? [domain] : undefined, kinds: kind ? [kind] : undefined, openness: openness ? [openness] : undefined, sort, limit: pageSize, offset: (page - 1) * pageSize });
   entities = result.items;
   total = result.total;
 } catch {}
@@ -45,7 +44,8 @@ function pageHref(nextPage: number): string {
     </section>
     <form class="filter-bar" method="get">
       <div class="field"><label for="q">Search</label><input id="q" name="q" type="search" value={q} placeholder="Name, organization, summary" /></div>
-      <div class="field"><label for="kind">Entity type</label><select id="kind" name="kind"><option value="">All types</option><option value="agent-side" selected={requestedKind === "agent-side"}>Agent side</option><option value="bot-side" selected={requestedKind === "bot-side"}>Bot side</option>{entityKinds.map((item) => <option value={item} selected={kind === item}>{label(item)}</option>)}</select></div>
+      <div class="field"><label for="domain">Field</label><select id="domain" name="domain"><option value="">All fields</option>{entityDomains.map((item) => <option value={item} selected={domain === item}>{domainLabel(item)}</option>)}</select></div>
+      <div class="field"><label for="kind">Artifact type</label><select id="kind" name="kind"><option value="">All types</option>{entityKinds.map((item) => <option value={item} selected={kind === item}>{label(item)}</option>)}</select></div>
       <div class="field"><label for="openness">Openness</label><select id="openness" name="openness"><option value="">All states</option>{opennessStatuses.map((item) => <option value={item} selected={openness === item}>{label(item)}</option>)}</select></div>
       <div class="field"><label for="sort">Sort</label><select id="sort" name="sort"><option value="updated" selected={sort === "updated"}>Recently verified</option><option value="stars" selected={sort === "stars"}>GitHub stars</option><option value="name" selected={sort === "name"}>Name</option></select></div>
       <button class="button primary" type="submit">Apply</button>
@@ -64,7 +64,10 @@ function pageHref(nextPage: number): string {
 </BaseLayout>
 
 <style>
+  .filter-bar { grid-template-columns: minmax(200px, 1fr) repeat(4, minmax(130px, 160px)) auto; }
   .results { padding-top: 26px; }
   .pagination { align-items: center; display: grid; grid-template-columns: 1fr auto 1fr; margin-top: 28px; }
   .pagination > :last-child { justify-self: end; }
+  @media (max-width: 1100px) { .filter-bar { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .filter-bar { grid-template-columns: 1fr; } }
 </style>

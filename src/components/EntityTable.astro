@@ -1,6 +1,7 @@
 ---
 import { compactNumber, label, relativeDate } from "@/lib/registry/format";
 import type { RegistryEntity } from "@/lib/registry/types";
+import { domainLabel } from "@/lib/registry/domains";
 
 type Props = { entities: RegistryEntity[] };
 const { entities } = Astro.props;
@@ -9,11 +10,12 @@ const { entities } = Astro.props;
 {entities.length > 0 ? (
   <div class="entity-table">
     <div class="entity-row header" aria-hidden="true">
-      <span>Entity</span><span>Type</span><span>Openness</span><span>Stars</span><span>Verified</span>
+      <span>Entity</span><span>Field</span><span>Type</span><span>Openness</span><span>Stars</span><span>Verified</span>
     </div>
     {entities.map((entity) => (
       <a class="entity-row" href={`/project/${entity.slug}`}>
         <span class="entity-name">{entity.name}<small>{entity.summary}</small></span>
+        <span class="mono">{entity.primaryDomain ? domainLabel(entity.primaryDomain) : "Unclassified"}</span>
         <span class="mono">{label(entity.kind)}</span>
         <span class:list={["badge", entity.opennessStatus]}>{label(entity.opennessStatus)}</span>
         <span class="mono">{compactNumber(entity.stars)}</span>

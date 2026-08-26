@@ -28,6 +28,18 @@
 
 ## Findings
 
+## Remediation status
+
+The first taxonomy remediation was implemented after this snapshot:
+
+- Added a many-to-many `entity_domains` dimension with one primary field, confidence, method, review status, and evidence URL.
+- Preserved `kind` as artifact form and added `domain` filtering to the repository, API, Database, homepage, and detail dossiers.
+- Corrected high-confidence records including AIRA, Genesis, GR00T, LeLab, OpenEAI, RLinf, Crawl4AI, CowAgent, and nanobot.
+- Removed the duplicate `genesis-world` row from public results while preserving its historical records and redirecting its public URL.
+- Added a database trigger so future entity imports receive a provisional primary domain automatically.
+
+After the migration the public registry contains 157 unique records, with 62 Agent-field memberships, 15 Robotics-field memberships, and no public record missing a primary domain. Membership totals may overlap because cross-layer projects can belong to more than one domain.
+
 ### High — taxonomy conflates artifact type and ecosystem domain
 
 `kind` currently has to answer two different questions: what an artifact is (`model`, `tool`, `simulator`) and which field it belongs to (`agent` or `robot`). This produces obvious classification conflicts such as a simulator, robotics foundation model, and robotic arm appearing in the Agent cohort.

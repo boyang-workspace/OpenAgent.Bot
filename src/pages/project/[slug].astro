@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getRegistry } from "@/lib/registry/runtime";
 import { calendarDate, compactNumber, label, relativeDate } from "@/lib/registry/format";
+import { domainLabel } from "@/lib/registry/domains";
 import type { RegistryDossier } from "@/lib/registry/types";
 
 const slug = Astro.params.slug ?? "";
@@ -16,6 +17,7 @@ const defaultBranch = facts.get("default_branch")?.value;
 const topics = facts.get("topics")?.value;
 const archived = facts.get("archived")?.value === true;
 const isPhysical = ["robot", "hardware"].includes(entity.kind);
+const primaryDomain = dossier.domainAssignments.find((assignment) => assignment.isPrimary);
 const schemaType = isPhysical ? "Product" : "SoftwareSourceCode";
 
 const metricCards = [
@@ -58,7 +60,7 @@ const schema = {
   name: entity.name,
   description: entity.description ?? entity.summary,
   url: `https://www.openagent.bot/project/${entity.slug}`,
-  category: label(entity.kind),
+  category: [entity.primaryDomain ? domainLabel(entity.primaryDomain) : undefined, label(entity.kind)].filter(Boolean).join(" / "),
   ...(entity.organization ? { author: { "@type": "Organization", name: entity.organization } } : {}),
   ...(entity.repositoryUrl ? { codeRepository: entity.repositoryUrl } : {}),
   ...(entity.licenseSpdx ? { license: entity.licenseSpdx } : {}),
@@ -66,7 +68,7 @@ const schema = {
   sameAs: [entity.canonicalUrl, entity.repositoryUrl, entity.documentationUrl].filter(Boolean)
 };
 
-const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLowerCase()} ${label(entity.kind).toLowerCase()}. See license, repository activity, openness details and attributed evidence.`;
+const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLowerCase()} ${label(entity.kind).toLowerCase()} in the ${entity.primaryDomain ? domainLabel(entity.primaryDomain) : "open-source AI"} field. See license, activity, openness details and attributed evidence.`;
 ---
 
 <BaseLayout title={`${entity.name} — ${label(entity.kind)} dossier`} description={seoDescription} path={`/project/${entity.slug}`} image={entity.logoUrl}>
@@ -76,6 +78,7 @@ const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLo
       <header class="identity-header">
         <div class="identity-main">
           <div class="identity-tags">
+            {entity.primaryDomain && <span class="domain-tag">{domainLabel(entity.primaryDomain)} field</span>}
             <span>{label(entity.kind)}</span>
             <span>{entity.lifecycle}</span>
             <span class:list={["open-tag", entity.opennessStatus]}>{label(entity.opennessStatus)}</span>
@@ -131,7 +134,9 @@ const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLo
           <div class="body-copy">
             <p>{entity.description ?? entity.summary}</p>
             <dl>
-              <div><dt>Category</dt><dd>{label(entity.kind)}</dd></div>
+              <div><dt>Field</dt><dd>{dossier.domainAssignments.map((assignment) => domainLabel(assignment.domain)).join(" · ") || "Unclassified"}</dd></div>
+              <div><dt>Artifact type</dt><dd>{label(entity.kind)}</dd></div>
+              {primaryDomain && <div><dt>Classification</dt><dd>{label(primaryDomain.reviewStatus)} · {Math.round(primaryDomain.confidence * 100)}% confidence</dd></div>}
               {entity.organization && <div><dt>Maintainer</dt><dd>{entity.organization}</dd></div>}
               {entity.country && <div><dt>Origin</dt><dd>{entity.country}</dd></div>}
               {typeof language === "string" && <div><dt>Primary language</dt><dd>{language}</dd></div>}
@@ -237,6 +242,7 @@ const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLo
   .identity-tags { display: flex; flex-wrap: wrap; gap: 7px; }
   .identity-tags span { border: 1px solid var(--ink); font-family: var(--mono); font-size: .59rem; padding: 6px 8px; text-transform: uppercase; }
   .identity-tags .open-tag { background: var(--acid); }
+  .identity-tags .domain-tag { background: var(--ink); color: var(--paper); }
   .identity-tags .open-core, .identity-tags .source-available { background: #dce6ff; color: var(--blue); }
   .identity-main h1 { font-family: var(--display); font-size: clamp(4.8rem, 9vw, 9.5rem); letter-spacing: -.05em; line-height: .78; margin: 54px 0 36px; }
   .identity-summary { font-size: 1.15rem; line-height: 1.6; max-width: 760px; }

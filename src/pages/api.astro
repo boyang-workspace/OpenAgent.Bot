@@ -5,7 +5,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
   <div class="page-shell"><div class="page-grid">
     <section class="page-section"><span class="kicker">Public API / v1</span><h1 class="page-title">Built for agents,<br />readable by people.</h1><p class="lede">The first public endpoints expose entities and registry statistics. Change history and bulk dumps follow after the initial observation window.</p></section>
     <section class="page-section"><article class="prose">
-      <h2>List entities</h2><p><code>GET /api/v1/entities.json</code></p><p>Query parameters: <code>q</code>, <code>kind</code>, <code>openness</code>, <code>sort</code>, <code>limit</code>, <code>offset</code>.</p>
+      <h2>List entities</h2><p><code>GET /api/v1/entities.json</code></p><p>Query parameters: <code>q</code>, <code>domain</code>, <code>kind</code>, <code>openness</code>, <code>sort</code>, <code>limit</code>, <code>offset</code>. Domain describes the ecosystem field; kind describes the artifact form.</p>
       <h2>Registry statistics</h2><p><code>GET /api/v1/stats.json</code></p>
       <h2>Response policy</h2><p>Responses include cache headers and canonical project URLs. Public facts remain attributed in the web interface; observation-level provenance will be added to the API before its stable release.</p>
     </article></section>

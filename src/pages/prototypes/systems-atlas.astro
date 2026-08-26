@@ -53,7 +53,7 @@ const atlasRobots = data.robots.slice(0, 4);
           </div>
         </div>
         <div class="coordinate-strip">
-          <span>LAT 31.2304° N</span><span>GLOBAL INDEX</span><span>AGENT FIELD {data.agentCount}</span><span>ROBOT FIELD {data.robotCount}</span><span>EVIDENCE {compactNumber(data.stats.observations)}</span>
+          <span>LAT 31.2304° N</span><span>GLOBAL INDEX</span><span>AGENT FIELD {data.stats.agents}</span><span>ROBOT FIELD {data.stats.robots}</span><span>EVIDENCE {compactNumber(data.stats.observations)}</span>
         </div>
       </section>
 
@@ -110,9 +110,9 @@ const atlasRobots = data.robots.slice(0, 4);
         </div>
 
         <footer class="map-footer">
-          <a href="/database?kind=agent-side">Open the Agent field <b>↗</b></a>
+          <a href="/database?domain=agent">Open the Agent field <b>↗</b></a>
           <span>Visual relationship preview · not a claim of integration</span>
-          <a href="/database?kind=bot-side">Open the Robot field <b>↗</b></a>
+          <a href="/database?domain=robotics">Open the Robot field <b>↗</b></a>
         </footer>
       </section>
 
@@ -125,25 +125,25 @@ const atlasRobots = data.robots.slice(0, 4);
 
         <div class="index-cards">
           <article class="field-card agent-field-card">
-            <header><span>FIELD / A</span><span>{data.agentCount} PROJECTS</span></header>
+            <header><span>FIELD / A</span><span>{data.stats.agents} RECORDS</span></header>
             <div class="field-top"><h3>Agent<br />Index</h3><div><strong>{data.agentCount >= 20 ? "Cohort ready" : "Expanding"}</strong><small>30-day ranking history collecting</small></div></div>
             <ol>
               {data.agents.slice(0, 5).map((entity, index) => (
                 <li><a href={`/project/${entity.slug}`}><span>{String(index + 1).padStart(2, "0")}</span><strong>{entity.name}</strong><small>★ {compactNumber(entity.stars)}</small><b>→</b></a></li>
               ))}
             </ol>
-            <a class="field-cta" href="/database?kind=agent-side">Browse the complete field <b>↗</b></a>
+            <a class="field-cta" href="/database?domain=agent">Browse the complete field <b>↗</b></a>
           </article>
 
           <article class="field-card robot-field-card">
-            <header><span>FIELD / R</span><span>{data.robotCount} PROJECTS</span></header>
+            <header><span>FIELD / R</span><span>{data.stats.robots} RECORDS</span></header>
             <div class="field-top"><h3>Robot<br />Index</h3><div><strong>{data.robotCount >= 20 ? "Cohort ready" : "Cohort expanding"}</strong><small>Minimum 20 projects before ranking</small></div></div>
             <ol>
               {data.robots.slice(0, 5).map((entity, index) => (
                 <li><a href={`/project/${entity.slug}`}><span>{String(index + 1).padStart(2, "0")}</span><strong>{entity.name}</strong><small>★ {compactNumber(entity.stars)}</small><b>→</b></a></li>
               ))}
             </ol>
-            <a class="field-cta" href="/database?kind=bot-side">Browse the complete field <b>↗</b></a>
+            <a class="field-cta" href="/database?domain=robotics">Browse the complete field <b>↗</b></a>
           </article>
         </div>
       </section>

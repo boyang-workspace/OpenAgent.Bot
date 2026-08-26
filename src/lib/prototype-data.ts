@@ -15,6 +15,7 @@ const emptyStats: RegistryStats = {
   entities: 0,
   agents: 0,
   robots: 0,
+  infrastructure: 0,
   models: 0,
   tools: 0,
   sources: 0,
@@ -29,12 +30,14 @@ export async function getHomepagePrototypeData(): Promise<HomepagePrototypeData>
     const registry = getRegistry();
     const [agentResult, robotResult, changes, stats] = await Promise.all([
       registry.listEntities({
+        domains: ["agent"],
         kinds: ["agent", "agent-framework"],
         openness: ["open-source", "open-core", "source-available"],
         sort: "stars",
         limit: 8
       }),
       registry.listEntities({
+        domains: ["robotics"],
         kinds: ["robot", "robotics-framework", "hardware", "simulator"],
         openness: ["open-source", "open-core", "source-available"],
         sort: "stars",

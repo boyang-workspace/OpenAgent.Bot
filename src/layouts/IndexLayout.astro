@@ -1,0 +1,65 @@
+---
+import { buildSeo } from "@/lib/seo";
+
+type Props = {
+  title: string;
+  description: string;
+  path: string;
+  themeColor: string;
+};
+
+const { title, description, path, themeColor } = Astro.props;
+const seo = buildSeo({ title, description, path });
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "OpenAgent.bot",
+  url: "https://www.openagent.bot",
+  description
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{seo.title}</title>
+    <meta name="description" content={seo.description} />
+    <meta name="theme-color" content={themeColor} />
+    <link rel="canonical" href={seo.canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OpenAgent.bot" />
+    <meta property="og:title" content={seo.title} />
+    <meta property="og:description" content={seo.description} />
+    <meta property="og:url" content={seo.canonical} />
+    <meta property="og:image" content={seo.image} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@OpenAgentBot" />
+    <meta name="twitter:title" content={seo.title} />
+    <meta name="twitter:description" content={seo.description} />
+    <meta name="twitter:image" content={seo.image} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  * { box-sizing: border-box; }
+  html { min-width: 320px; scroll-behavior: smooth; }
+  body { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  button, input { font: inherit; }
+  svg { display: block; }
+  h1, h2, h3, p { margin-top: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  }
+</style>

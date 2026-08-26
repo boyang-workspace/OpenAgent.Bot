@@ -1,14 +1,11 @@
 import { getRegistry } from "@/lib/registry/runtime";
 import type { RegistryChange, RegistryEntity, RegistryStats } from "@/lib/registry/types";
 
-export type HomepagePrototypeData = {
+export type HomepageData = {
   agents: RegistryEntity[];
   robots: RegistryEntity[];
   changes: RegistryChange[];
   stats: RegistryStats;
-  agentCount: number;
-  robotCount: number;
-  ready: boolean;
 };
 
 const emptyStats: RegistryStats = {
@@ -25,7 +22,7 @@ const emptyStats: RegistryStats = {
   changes30d: 0
 };
 
-export async function getHomepagePrototypeData(): Promise<HomepagePrototypeData> {
+export async function getHomepageData(): Promise<HomepageData> {
   try {
     const registry = getRegistry();
     const [agentResult, robotResult, changes, stats] = await Promise.all([
@@ -51,20 +48,14 @@ export async function getHomepagePrototypeData(): Promise<HomepagePrototypeData>
       agents: agentResult.items,
       robots: robotResult.items,
       changes,
-      stats,
-      agentCount: agentResult.total,
-      robotCount: robotResult.total,
-      ready: true
+      stats
     };
   } catch {
     return {
       agents: [],
       robots: [],
       changes: [],
-      stats: emptyStats,
-      agentCount: 0,
-      robotCount: 0,
-      ready: false
+      stats: emptyStats
     };
   }
 }

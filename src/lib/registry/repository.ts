@@ -336,11 +336,15 @@ export class RegistryRepository {
       SELECT
         (SELECT COUNT(*) FROM entities WHERE visibility = 'public') AS entities,
         (SELECT COUNT(*) FROM entities WHERE visibility = 'public' AND kind IN ('agent', 'agent-framework')) AS agents,
-        (SELECT COUNT(*) FROM entities WHERE visibility = 'public' AND kind IN ('robot', 'robotics-framework', 'hardware')) AS robots,
+        (SELECT COUNT(*) FROM entities WHERE visibility = 'public' AND kind IN ('robot', 'robotics-framework', 'hardware', 'simulator')) AS robots,
         (SELECT COUNT(*) FROM entities WHERE visibility = 'public' AND kind = 'model') AS models,
+        (SELECT COUNT(*) FROM entities WHERE visibility = 'public' AND kind = 'tool') AS tools,
         (SELECT COUNT(*) FROM sources WHERE enabled = 1) AS sources,
+        (SELECT COUNT(DISTINCT source_id) FROM sync_runs WHERE status = 'succeeded') AS live_sources,
         (SELECT COUNT(*) FROM observations) AS observations,
+        (SELECT COUNT(DISTINCT entity_id) FROM metric_snapshots) AS metric_entities,
         (SELECT COUNT(*) FROM change_events WHERE detected_at >= datetime('now', '-30 days')) AS changes_30d,
+        (SELECT MIN(observed_at) FROM metric_snapshots) AS history_started_at,
         (SELECT MAX(finished_at) FROM sync_runs WHERE status = 'succeeded') AS last_sync_at
     `).first<Record<string, number | string | null>>();
 
@@ -349,9 +353,13 @@ export class RegistryRepository {
       agents: Number(row?.agents ?? 0),
       robots: Number(row?.robots ?? 0),
       models: Number(row?.models ?? 0),
+      tools: Number(row?.tools ?? 0),
       sources: Number(row?.sources ?? 0),
+      liveSources: Number(row?.live_sources ?? 0),
       observations: Number(row?.observations ?? 0),
+      metricEntities: Number(row?.metric_entities ?? 0),
       changes30d: Number(row?.changes_30d ?? 0),
+      historyStartedAt: typeof row?.history_started_at === "string" ? row.history_started_at : undefined,
       lastSyncAt: typeof row?.last_sync_at === "string" ? row.last_sync_at : undefined
     };
   }

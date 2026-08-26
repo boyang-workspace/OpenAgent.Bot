@@ -16,8 +16,11 @@ const emptyStats: RegistryStats = {
   agents: 0,
   robots: 0,
   models: 0,
+  tools: 0,
   sources: 0,
+  liveSources: 0,
   observations: 0,
+  metricEntities: 0,
   changes30d: 0
 };
 

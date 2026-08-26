@@ -4,7 +4,9 @@ import { compactNumber, label, relativeDate } from "@/lib/registry/format";
 import { getHomepagePrototypeData } from "@/lib/prototype-data";
 
 const data = await getHomepagePrototypeData();
-const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit", year: "numeric", timeZone: "UTC" }).format(new Date());
+const historyDays = data.stats.historyStartedAt
+  ? Math.max(1, Math.ceil((Date.now() - new Date(data.stats.historyStartedAt).getTime()) / 86_400_000))
+  : 0;
 ---
 
 <PrototypeLayout
@@ -44,35 +46,41 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
         <div class="hero-copy">
           <div class="live-label"><span></span> Registry online · visual prototype</div>
           <h1><span class="title-open">Open(Source) ×</span><br /><span class="title-agent"><em>Agent(s)</em> ×</span> <span class="title-bot"><em>(Ro)Bot</em></span></h1>
-          <p>Live rankings and open data for agents and robots. Track what is rising, what changed, and how open it really is.</p>
-          <form action="/database" method="get">
-            <label for="index-search">Search the open ecosystem</label>
-            <div>
-              <input id="index-search" name="q" type="search" placeholder="Search projects…" />
-              <button type="submit">Search <span>↗</span></button>
-            </div>
-          </form>
+          <div class="hero-lower">
+            <p>Open data for software agents and physical robots—plus the models and tools that connect them.</p>
+            <form action="/database" method="get">
+              <label for="index-search">Search the open ecosystem</label>
+              <div>
+                <input id="index-search" name="q" type="search" placeholder="Search projects…" />
+                <button type="submit">Search <span>↗</span></button>
+              </div>
+            </form>
+          </div>
         </div>
-
       </section>
 
-      <div class="signal-tape" aria-label="Prototype status">
-        <span class="tape-title">OPEN SIGNAL</span>
+      <section class="registry-summary" aria-label="Registry coverage by layer">
+        <a href="/database"><span>All entities</span><strong>{compactNumber(data.stats.entities)}</strong><small>public records</small></a>
+        <a href="/database?kind=agent-side"><span>Agent field</span><strong>{compactNumber(data.stats.agents)}</strong><small>systems + frameworks</small></a>
+        <a href="/database?kind=tool"><span>Agent tools</span><strong>{compactNumber(data.stats.tools)}</strong><small>skills + infrastructure</small></a>
+        <a href="/database?kind=model"><span>Open models</span><strong>{compactNumber(data.stats.models)}</strong><small>weights + policies</small></a>
+        <a href="/database?kind=bot-side"><span>Robot field</span><strong>{compactNumber(data.robotCount)}</strong><small>physical stack</small></a>
+      </section>
+
+      <div class="signal-tape" aria-label="Data collection status">
+        <span class="tape-title">DATA STATUS</span>
         <div class="tape-track">
-          <span>RISING 7D · COLLECTING HISTORY</span>
-          <span>AGENTS · {data.agentCount} INDEXED</span>
-          <span>ROBOTS · {data.robotCount} INDEXED</span>
+          <span>{data.stats.metricEntities}/{data.stats.entities} PROJECTS WITH METRICS</span>
+          <span>{historyDays}/30 DAYS OF RANKING HISTORY</span>
+          <span>{data.stats.liveSources}/{data.stats.sources} SOURCE CONNECTORS LIVE</span>
           <span>RANKINGS NEVER ACCEPT PAYMENT</span>
-          <span>SPONSOR DATA REMAINS SEPARATE</span>
         </div>
       </div>
 
       <section class="rankings" id="rankings">
         <header class="section-head">
-          <div><span class="section-index">01 / LIVE BOARDS</span><h2>What is moving?</h2></div>
-          <div class="window-control" aria-label="Ranking history is still collecting">
-            <button type="button" disabled>7D</button><button type="button" class="selected" disabled>30D</button><button type="button" disabled>90D</button>
-          </div>
+          <div><span class="section-index">01 / ADOPTION BASELINE</span><h2>Current leaders</h2></div>
+          <span class="collection-state"><i></i> 30D history collecting</span>
         </header>
 
         <div class="board-grid">
@@ -122,12 +130,12 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
 
       <section class="signals" id="signals">
         <header class="section-head light-head">
-          <div><span class="section-index">02 / VERIFIED SIGNALS</span><h2>What changed?</h2></div>
-          <a href="/changes">Open the full change log →</a>
+          <div><span class="section-index">02 / DATA STATUS</span><h2>How complete is it?</h2></div>
+          <a href="/sources">Inspect every source →</a>
         </header>
         <div class="signal-grid">
           <article class="signal-feature">
-            <span class="signal-kicker">Latest evidence event</span>
+            <span class="signal-kicker">Latest verified change</span>
             {data.changes[0] ? (
               <>
                 <a href={`/project/${data.changes[0].entitySlug}`}><h3>{data.changes[0].entityName}</h3></a>
@@ -136,16 +144,17 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
               </>
             ) : <><h3>History is collecting.</h3><p>New verified changes will appear here.</p></>}
           </article>
-          <div class="signal-list">
-            {data.changes.slice(1, 7).map((change, index) => (
-              <a href={`/project/${change.entitySlug}`}>
-                <span class="signal-count">{String(index + 2).padStart(2, "0")}</span>
-                <span><strong>{change.entityName}</strong><small>{label(change.factKey)} · {change.sourceName}</small></span>
-                <time datetime={change.detectedAt}>{relativeDate(change.detectedAt)}</time>
-                <b>↗</b>
-              </a>
-            ))}
-          </div>
+          <article class="coverage-panel">
+            <header><span>Coverage / live</span><small>Honest by default</small></header>
+            <div class="coverage-primary"><strong>{data.stats.metricEntities}<i>/ {data.stats.entities}</i></strong><span>projects with<br />tracked metrics</span></div>
+            <dl>
+              <div><dt>Evidence records</dt><dd>{compactNumber(data.stats.observations)}</dd></div>
+              <div><dt>Verified changes</dt><dd>{compactNumber(data.stats.changes30d)}</dd></div>
+              <div><dt>Live connectors</dt><dd>{data.stats.liveSources} / {data.stats.sources}</dd></div>
+              <div><dt>History window</dt><dd>{historyDays} / 30d</dd></div>
+            </dl>
+            <footer><span>Rank movement publishes only after the 30-day gate.</span><a href="/methodology#rankings">Read methodology →</a></footer>
+          </article>
         </div>
       </section>
 
@@ -153,23 +162,6 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
 
       <aside class="support-rail" id="support" aria-label="Support OpenAgent.bot">
         <div class="support-rail-inner">
-          <section class="pulse-panel" aria-label="Registry pulse">
-            <div class="pulse-top">
-              <span>Open ecosystem pulse</span>
-              <span>{dateLabel} · UTC</span>
-            </div>
-            <div class="pulse-number"><strong>{compactNumber(data.stats.entities)}</strong><span>tracked<br />entities</span></div>
-            <div class="pulse-bars" aria-hidden="true">
-              {Array.from({ length: 18 }, (_, index) => <i style={`--h:${24 + ((index * 17) % 62)}%;--d:${index * 22}ms`}></i>)}
-            </div>
-            <dl>
-              <div><dt>Agent side</dt><dd>{compactNumber(data.agentCount)}</dd></div>
-              <div><dt>Robot side</dt><dd>{compactNumber(data.robotCount)}</dd></div>
-              <div><dt>Evidence</dt><dd>{compactNumber(data.stats.observations)}</dd></div>
-              <div><dt>Last sync</dt><dd>{relativeDate(data.stats.lastSyncAt)}</dd></div>
-            </dl>
-          </section>
-
           <section class="support-intro">
             <div class="rail-heading"><span>SUPPORT / 01</span><small>Disclosed sponsorship</small></div>
             <span class="slot-state"><i></i> Founding slot available</span>
@@ -188,9 +180,9 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
           </section>
 
           <section class="bounty-panel">
-            <div class="rail-heading"><span>DATA BOUNTIES</span><small>Public goods</small></div>
-            <a href="mailto:hello@openagent.bot?subject=Robotics%20data%20bounty"><span class="bounty-color robot-bounty"></span><div><strong>Expand the Robot field</strong><small>Fund verified robotics coverage</small></div><b>↗</b></a>
-            <a href="mailto:hello@openagent.bot?subject=Connector%20data%20bounty"><span class="bounty-color agent-bounty"></span><div><strong>Fund a source connector</strong><small>Turn an official source live</small></div><b>↗</b></a>
+            <div class="rail-heading"><span>SPONSOR FORMATS</span><small>Disclosed</small></div>
+            <a href="mailto:hello@openagent.bot?subject=Robot%20field%20sponsor"><span class="bounty-color robot-bounty"></span><div><strong>Robot field sponsor</strong><small>Support physical-stack coverage</small></div><b>↗</b></a>
+            <a href="mailto:hello@openagent.bot?subject=Agent%20field%20sponsor"><span class="bounty-color agent-bounty"></span><div><strong>Agent field sponsor</strong><small>Support software-stack coverage</small></div><b>↗</b></a>
           </section>
 
           <section class="boundary-card">
@@ -231,33 +223,27 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
   .index-main { display: grid; grid-template-columns: minmax(0, 3fr) minmax(310px, 1fr); }
   .index-content { min-width: 0; }
   .index-hero { border-bottom: 1px solid var(--ink); }
-  .hero-copy { min-height: 560px; min-width: 0; padding: 62px 4vw 42px; }
+  .hero-copy { min-height: 360px; min-width: 0; padding: 42px 3.2vw 34px; }
   .live-label { align-items: center; color: #505a50; display: flex; font-family: "Azeret Mono", monospace; font-size: .66rem; gap: 9px; letter-spacing: .04em; text-transform: uppercase; }
   .live-label span { animation: pulse 1.8s infinite; background: var(--acid); border: 1px solid var(--ink); border-radius: 50%; height: 9px; width: 9px; }
-  .hero-copy h1 { font-size: clamp(4rem, 6.9vw, 7.3rem); letter-spacing: -.065em; line-height: .87; margin: 54px 0 30px; max-width: 1050px; }
+  .hero-copy h1 { font-size: clamp(3.5rem, 5.5vw, 5.9rem); letter-spacing: -.06em; line-height: .9; margin: 34px 0 28px; max-width: 900px; }
   .hero-copy h1 em { font-style: normal; }
   .hero-copy h1 .title-agent em { color: var(--agent); }
   .hero-copy h1 .title-bot em { color: var(--robot); }
-  .hero-copy > p { color: #424a42; font-size: clamp(1rem, 1.35vw, 1.2rem); line-height: 1.55; max-width: 680px; }
-  .hero-copy form { margin-top: 40px; max-width: 660px; }
+  .hero-lower { align-items: end; display: grid; gap: 34px; grid-template-columns: minmax(0, 1fr) minmax(300px, .9fr); }
+  .hero-lower > p { color: #424a42; font-size: clamp(.98rem, 1.2vw, 1.12rem); line-height: 1.5; margin: 0; max-width: 520px; }
+  .hero-copy form { margin: 0; max-width: 480px; }
   .hero-copy form label { display: block; font-family: "Azeret Mono", monospace; font-size: .66rem; margin-bottom: 10px; text-transform: uppercase; }
   .hero-copy form > div { border: 1px solid var(--ink); display: grid; grid-template-columns: 1fr auto; }
-  .hero-copy input { background: #fff; border: 0; font-size: 1rem; min-height: 54px; min-width: 0; padding: 16px 18px; }
+  .hero-copy input { background: #fff; border: 0; font-size: .95rem; min-height: 50px; min-width: 0; padding: 14px 16px; }
   .hero-copy button { background: var(--ink); border: 0; color: var(--paper); cursor: pointer; font-family: "Azeret Mono", monospace; font-size: .68rem; padding: 0 22px; text-transform: uppercase; }
   .hero-copy button:hover { background: var(--acid); color: var(--ink); }
-  .pulse-panel { background: var(--ink); color: var(--paper); display: flex; flex-direction: column; min-height: 390px; min-width: 0; padding: 24px; }
-  .pulse-top { color: #a6afa4; display: flex; font-family: "Azeret Mono", monospace; font-size: .62rem; justify-content: space-between; text-transform: uppercase; }
-  .pulse-number { align-items: end; display: flex; gap: 18px; margin-top: auto; }
-  .pulse-number strong { color: var(--acid); font-size: clamp(4.5rem, 6.1vw, 6.6rem); letter-spacing: -.085em; line-height: .76; }
-  .pulse-number span { color: #b5bdb4; font-family: "Azeret Mono", monospace; font-size: .64rem; line-height: 1.5; text-transform: uppercase; }
-  .pulse-bars { align-items: end; border-bottom: 1px solid #4d554c; display: flex; gap: 4px; height: 72px; margin: 28px 0 24px; }
-  .pulse-bars i { animation: grow .7s var(--d) both; background: var(--acid); flex: 1; height: var(--h); opacity: .8; transform-origin: bottom; }
-  .pulse-panel dl { border-top: 1px solid #3c423b; display: grid; grid-template-columns: 1fr 1fr; margin: 0; }
-  .pulse-panel dl div { border-bottom: 1px solid #3c423b; padding: 13px 0; }
-  .pulse-panel dl div:nth-child(odd) { border-right: 1px solid #3c423b; }
-  .pulse-panel dl div:nth-child(even) { padding-left: 18px; }
-  .pulse-panel dt { color: #a6afa4; font-family: "Azeret Mono", monospace; font-size: .62rem; text-transform: uppercase; }
-  .pulse-panel dd { font-size: 1.05rem; margin: 6px 0 0; }
+  .registry-summary { background: var(--paper); border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: repeat(5, 1fr); }
+  .registry-summary a { display: flex; flex-direction: column; min-height: 108px; padding: 18px; }
+  .registry-summary a + a { border-left: 1px solid #c4c8c0; }
+  .registry-summary a:hover { background: #e4e6df; }
+  .registry-summary span, .registry-summary small { color: #596159; font-family: "Azeret Mono", monospace; font-size: .6rem; text-transform: uppercase; }
+  .registry-summary strong { font-size: 2rem; letter-spacing: -.05em; line-height: 1; margin: auto 0 5px; }
   .signal-tape { background: var(--acid); border-bottom: 1px solid var(--ink); display: grid; font-family: "Azeret Mono", monospace; font-size: .64rem; grid-template-columns: 150px 1fr; min-height: 44px; overflow: hidden; text-transform: uppercase; }
   .tape-title { align-items: center; background: var(--ink); color: var(--acid); display: flex; padding: 0 22px; }
   .tape-track { align-items: center; display: flex; gap: 46px; overflow: hidden; padding: 0 24px; white-space: nowrap; }
@@ -267,10 +253,8 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
   .section-head { align-items: end; display: flex; justify-content: space-between; margin-bottom: 28px; }
   .section-index { color: #596159; font-family: "Azeret Mono", monospace; font-size: .65rem; letter-spacing: .05em; text-transform: uppercase; }
   .section-head h2 { font-size: clamp(2.75rem, 4.4vw, 4.9rem); letter-spacing: -.055em; line-height: .94; margin: 12px 0 0; }
-  .window-control { border: 1px solid var(--ink); display: flex; font-family: "Azeret Mono", monospace; font-size: .64rem; }
-  .window-control button { background: transparent; border: 0; color: #666e65; font: inherit; padding: 12px 14px; }
-  .window-control button + button { border-left: 1px solid var(--ink); }
-  .window-control .selected { background: var(--ink); color: var(--acid); }
+  .collection-state { align-items: center; border: 1px solid var(--ink); display: flex; font-family: "Azeret Mono", monospace; font-size: .64rem; gap: 8px; padding: 12px 14px; text-transform: uppercase; }
+  .collection-state i { animation: pulse 1.8s infinite; background: var(--acid); border: 1px solid var(--ink); border-radius: 50%; height: 8px; width: 8px; }
   .board-grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
   .rank-board { background: var(--paper); border: 1px solid var(--ink); min-width: 0; }
   .rank-board > header { border-bottom: 1px solid var(--ink); min-height: 220px; padding: 26px; }
@@ -299,28 +283,38 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
   .board-cta:hover { background: var(--ink); color: var(--acid); }
   .signals { background: var(--paper); border-bottom: 1px solid var(--ink); }
   .light-head > a { border-bottom: 1px solid var(--ink); font-family: "Azeret Mono", monospace; font-size: .64rem; padding-bottom: 8px; text-transform: uppercase; }
-  .signal-grid { border: 1px solid var(--ink); display: grid; grid-template-columns: .85fr 1.15fr; }
-  .signal-feature { background: var(--agent); display: flex; flex-direction: column; min-height: 400px; padding: 30px; }
+  .signal-grid { border: 1px solid var(--ink); display: grid; grid-template-columns: .9fr 1.1fr; }
+  .signal-feature { background: var(--agent); display: flex; flex-direction: column; min-height: 390px; padding: 30px; }
   .signal-kicker { font-family: "Azeret Mono", monospace; font-size: .64rem; text-transform: uppercase; }
   .signal-feature h3 { font-size: clamp(3.5rem, 6vw, 6.6rem); letter-spacing: -.07em; line-height: .82; margin: auto 0 25px; }
   .signal-feature p { font-family: "Azeret Mono", monospace; font-size: .68rem; text-transform: uppercase; }
   .signal-feature footer { border-top: 1px solid var(--ink); display: flex; font-family: "Azeret Mono", monospace; font-size: .61rem; justify-content: space-between; padding-top: 14px; text-transform: uppercase; }
-  .signal-list a { align-items: center; border-bottom: 1px solid #c7cac3; display: grid; gap: 16px; grid-template-columns: 35px 1fr auto 20px; min-height: 71px; padding: 10px 20px; }
-  .signal-list a:last-child { border-bottom: 0; }
-  .signal-list a:hover { background: var(--acid); }
-  .signal-list strong, .signal-list small { display: block; }
-  .signal-list small, .signal-list time, .signal-count { color: #5d655c; font-family: "Azeret Mono", monospace; font-size: .625rem; margin-top: 5px; text-transform: uppercase; }
+  .coverage-panel { background: var(--ink); color: var(--paper); display: flex; flex-direction: column; min-width: 0; padding: 30px; }
+  .coverage-panel > header { color: #a8b0a6; display: flex; font-family: "Azeret Mono", monospace; font-size: .62rem; justify-content: space-between; text-transform: uppercase; }
+  .coverage-primary { align-items: end; display: flex; gap: 18px; margin: 48px 0 34px; }
+  .coverage-primary strong { color: var(--acid); font-size: clamp(3.7rem, 6vw, 6.2rem); letter-spacing: -.08em; line-height: .75; }
+  .coverage-primary strong i { color: #899188; font-size: .34em; font-style: normal; letter-spacing: -.04em; }
+  .coverage-primary span { color: #b7beb5; font-family: "Azeret Mono", monospace; font-size: .62rem; line-height: 1.5; text-transform: uppercase; }
+  .coverage-panel dl { border-top: 1px solid #454c44; display: grid; grid-template-columns: 1fr 1fr; margin: 0; }
+  .coverage-panel dl div { border-bottom: 1px solid #454c44; padding: 15px 0; }
+  .coverage-panel dl div:nth-child(odd) { border-right: 1px solid #454c44; }
+  .coverage-panel dl div:nth-child(even) { padding-left: 16px; }
+  .coverage-panel dt { color: #9fa79e; font-family: "Azeret Mono", monospace; font-size: .58rem; text-transform: uppercase; }
+  .coverage-panel dd { font-size: 1.05rem; margin: 7px 0 0; }
+  .coverage-panel footer { align-items: end; display: flex; font-family: "Azeret Mono", monospace; font-size: .58rem; gap: 20px; justify-content: space-between; line-height: 1.45; margin-top: auto; padding-top: 20px; text-transform: uppercase; }
+  .coverage-panel footer span { color: #a8b0a6; max-width: 260px; }
+  .coverage-panel footer a { border-bottom: 1px solid var(--acid); color: var(--acid); flex: 0 0 auto; padding-bottom: 5px; }
   .support-rail { background: var(--ink); border-left: 1px solid var(--ink); color: var(--paper); min-width: 0; }
-  .support-rail-inner { position: static; }
+  .support-rail-inner { min-height: 100%; position: static; }
   .support-rail section { border-bottom: 1px solid #424941; }
   .rail-heading { display: flex; font-family: "Azeret Mono", monospace; font-size: .61rem; justify-content: space-between; letter-spacing: .03em; text-transform: uppercase; }
   .rail-heading small { opacity: .58; }
-  .support-intro { background: var(--support); color: var(--ink); padding: 24px; position: sticky; top: 0; z-index: 4; }
+  .support-intro { background: var(--support); color: var(--ink); display: flex; flex-direction: column; min-height: 360px; padding: 24px; position: sticky; top: 0; z-index: 4; }
   .slot-state { align-items: center; display: flex; font-family: "Azeret Mono", monospace; font-size: .6rem; gap: 8px; margin-top: 34px; text-transform: uppercase; }
   .slot-state i { animation: pulse 1.8s infinite; background: var(--ink); border-radius: 50%; height: 8px; width: 8px; }
   .support-intro h2 { font-size: clamp(2.65rem, 3.8vw, 4.1rem); letter-spacing: -.055em; line-height: .88; margin: 22px 0 18px; }
   .support-intro p { font-size: .9rem; line-height: 1.55; }
-  .support-intro > a { border: 1px solid var(--ink); display: flex; font-family: "Azeret Mono", monospace; font-size: .6rem; justify-content: space-between; margin-top: 24px; padding: 14px; text-transform: uppercase; }
+  .support-intro > a { border: 1px solid var(--ink); display: flex; font-family: "Azeret Mono", monospace; font-size: .6rem; justify-content: space-between; margin-top: auto; padding: 14px; text-transform: uppercase; }
   .support-intro > a:hover { background: var(--ink); color: var(--acid); }
   .support-board { background: var(--paper); color: var(--ink); padding-top: 24px; }
   .support-board > .rail-heading, .bounty-panel > .rail-heading { padding: 0 24px 18px; }
@@ -346,15 +340,14 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
   .index-footer { align-items: center; background: var(--acid); display: grid; font-family: "Azeret Mono", monospace; font-size: .62rem; gap: 20px; grid-template-columns: .5fr 1fr auto; min-height: 82px; padding: 20px 28px; text-transform: uppercase; }
   .index-footer p { margin: 0; text-align: center; }
   @keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(185,255,56,.15); } }
-  @keyframes grow { from { transform: scaleY(0); } }
   @keyframes rowIn { from { opacity: 0; transform: translateY(10px); } }
   @media (max-width: 1100px) {
     .index-header { grid-template-columns: 220px 1fr; }
     .support-link { display: none; }
     .index-main { grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr); }
     .hero-copy { min-height: auto; }
-    .hero-copy h1 { font-size: clamp(4rem, 7.8vw, 6rem); }
-    .pulse-panel { min-height: 390px; }
+    .hero-copy h1 { font-size: clamp(3.3rem, 6.8vw, 5rem); }
+    .hero-lower { grid-template-columns: 1fr; }
     .board-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 900px) {
@@ -363,7 +356,7 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
     .support-rail-inner { display: grid; grid-template-columns: 1fr 1fr; position: static; }
     .support-intro { position: static; }
     .support-rail section { min-width: 0; }
-    .pulse-panel, .support-intro { min-height: 440px; }
+    .support-intro { min-height: 420px; }
     .support-board, .bounty-panel { border-right: 1px solid #424941; }
   }
   @media (max-width: 760px) {
@@ -376,15 +369,18 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
     .wordmark { border-bottom: 1px solid var(--ink); border-right: 0; }
     .primary-nav { max-width: 100vw; min-width: 0; }
     .primary-nav a { min-height: 42px; padding: 0 14px; white-space: nowrap; }
-    .hero-copy { max-width: 100vw; padding: 40px 20px 30px; width: 100vw; }
-    .hero-copy h1 { font-size: clamp(2.8rem, 13vw, 3.5rem); letter-spacing: -.075em; line-height: .9; margin: 36px 0 24px; }
+    .hero-copy { max-width: 100vw; min-height: auto; padding: 34px 20px 28px; width: 100vw; }
+    .hero-copy h1 { font-size: clamp(2.6rem, 11.5vw, 3.2rem); letter-spacing: -.065em; line-height: .93; margin: 30px 0 24px; }
     .hero-copy h1 .title-open, .hero-copy h1 .title-agent, .hero-copy h1 .title-bot { display: block; width: max-content; }
     .hero-copy h1 br { display: none; }
-    .hero-copy > p, .hero-copy form { max-width: calc(100vw - 40px); width: calc(100vw - 40px); }
-    .hero-copy form { margin-top: 28px; }
+    .hero-lower, .hero-lower > p, .hero-copy form { max-width: calc(100vw - 40px); width: calc(100vw - 40px); }
+    .registry-summary { grid-template-columns: 1fr 1fr; }
+    .registry-summary a { min-height: 98px; }
+    .registry-summary a + a { border-left: 0; }
+    .registry-summary a:nth-child(even) { border-left: 1px solid #c4c8c0; }
+    .registry-summary a:nth-child(n+3) { border-top: 1px solid #c4c8c0; }
+    .registry-summary a:last-child { grid-column: 1 / -1; }
     .support-rail-inner { display: block; }
-    .pulse-panel { max-width: 100vw; min-height: 390px; padding: 22px 20px; width: 100vw; }
-    .pulse-number strong { font-size: 6rem; }
     .signal-tape { grid-template-columns: 105px 1fr; }
     .rankings, .signals { padding: 44px 14px; }
     .section-head { align-items: flex-start; flex-direction: column; gap: 24px; }
@@ -395,8 +391,7 @@ const dateLabel = new Intl.DateTimeFormat("en", { month: "short", day: "2-digit"
     .table-head span:nth-child(2) { display: none; }
     .signal-grid { grid-template-columns: 1fr; }
     .signal-feature { min-height: 360px; }
-    .signal-list a { grid-template-columns: 28px 1fr 16px; }
-    .signal-list time { display: none; }
+    .coverage-panel { min-height: 390px; padding: 24px 20px; }
     .support-intro, .boundary-card { padding: 30px 20px; }
     .support-intro { min-height: auto; }
     .index-footer { grid-template-columns: 1fr; text-align: left; }

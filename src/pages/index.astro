@@ -9,7 +9,7 @@ let agents: RegistryEntity[] = [];
 let bots: RegistryEntity[] = [];
 let agentCount = 0;
 let botCount = 0;
-let stats: RegistryStats = { entities: 0, agents: 0, robots: 0, models: 0, sources: officialSources.length, observations: 0, changes30d: 0 };
+let stats: RegistryStats = { entities: 0, agents: 0, robots: 0, models: 0, tools: 0, sources: officialSources.length, liveSources: 0, observations: 0, metricEntities: 0, changes30d: 0 };
 let databaseReady = true;
 
 try {

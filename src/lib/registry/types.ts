@@ -158,9 +158,13 @@ export type RegistryStats = {
   agents: number;
   robots: number;
   models: number;
+  tools: number;
   sources: number;
+  liveSources: number;
   observations: number;
+  metricEntities: number;
   changes30d: number;
+  historyStartedAt?: string;
   lastSyncAt?: string;
 };
 

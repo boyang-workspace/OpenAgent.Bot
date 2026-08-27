@@ -3,7 +3,9 @@ import type { RegistryChange, RegistryEntity, RegistryStats } from "@/lib/regist
 
 export type HomepageData = {
   agents: RegistryEntity[];
-  robots: RegistryEntity[];
+  robotPlatforms: RegistryEntity[];
+  robotIntelligence: RegistryEntity[];
+  roboticsStack: RegistryEntity[];
   changes: RegistryChange[];
   stats: RegistryStats;
 };
@@ -13,6 +15,9 @@ const emptyStats: RegistryStats = {
   agents: 0,
   robots: 0,
   infrastructure: 0,
+  robotPlatforms: 0,
+  robotIntelligence: 0,
+  roboticsStack: 0,
   models: 0,
   tools: 0,
   sources: 0,
@@ -25,7 +30,7 @@ const emptyStats: RegistryStats = {
 export async function getHomepageData(): Promise<HomepageData> {
   try {
     const registry = getRegistry();
-    const [agentResult, robotResult, changes, stats] = await Promise.all([
+    const [agentResult, platformResult, intelligenceResult, stackResult, changes, stats] = await Promise.all([
       registry.listEntities({
         domains: ["agent"],
         kinds: ["agent", "agent-framework"],
@@ -35,10 +40,24 @@ export async function getHomepageData(): Promise<HomepageData> {
       }),
       registry.listEntities({
         domains: ["robotics"],
-        kinds: ["robot", "robotics-framework", "hardware", "simulator"],
+        roboticsLayers: ["platform"],
         openness: ["open-source", "open-core", "source-available"],
         sort: "stars",
-        limit: 8
+        limit: 6
+      }),
+      registry.listEntities({
+        domains: ["robotics"],
+        roboticsLayers: ["intelligence"],
+        openness: ["open-source", "open-weights", "open-core", "source-available"],
+        sort: "stars",
+        limit: 6
+      }),
+      registry.listEntities({
+        domains: ["robotics"],
+        roboticsLayers: ["stack"],
+        openness: ["open-source", "open-core", "source-available"],
+        sort: "stars",
+        limit: 6
       }),
       registry.listChanges(10),
       registry.getStats()
@@ -46,14 +65,18 @@ export async function getHomepageData(): Promise<HomepageData> {
 
     return {
       agents: agentResult.items,
-      robots: robotResult.items,
+      robotPlatforms: platformResult.items,
+      robotIntelligence: intelligenceResult.items,
+      roboticsStack: stackResult.items,
       changes,
       stats
     };
   } catch {
     return {
       agents: [],
-      robots: [],
+      robotPlatforms: [],
+      robotIntelligence: [],
+      roboticsStack: [],
       changes: [],
       stats: emptyStats
     };

@@ -13,8 +13,42 @@ export const entityKinds = [
 
 export type EntityKind = (typeof entityKinds)[number];
 
-export const entityDomains = ["agent", "robotics", "shared-infrastructure"] as const;
+export const entityDomains = ["agent", "robotics", "shared"] as const;
 export type EntityDomain = (typeof entityDomains)[number];
+
+export const roboticsLayers = ["platform", "intelligence", "stack"] as const;
+export type RoboticsLayer = (typeof roboticsLayers)[number];
+
+export const robotModelTypes = [
+  "vla", "policy-model", "foundation-model", "world-model", "navigation-model",
+  "perception-model", "manipulation-model", "vision-language-model", "other"
+] as const;
+export type RobotModelType = (typeof robotModelTypes)[number];
+
+export const robotFormFactors = [
+  "humanoid", "mobile-manipulator", "manipulator", "dual-arm", "robot-arm",
+  "quadruped", "mobile-base", "drone", "hand", "gripper", "sensor-platform", "other"
+] as const;
+export type RobotFormFactor = (typeof robotFormFactors)[number];
+
+export const roboticsStackTypes = [
+  "framework", "simulator", "dataset", "runtime", "sdk", "driver", "teleoperation",
+  "data-collection", "training-infrastructure", "evaluation", "tool", "other"
+] as const;
+export type RoboticsStackType = (typeof roboticsStackTypes)[number];
+
+export type RegistryRoboticsProfile = {
+  layer: RoboticsLayer;
+  modelType?: RobotModelType;
+  formFactor?: RobotFormFactor;
+  stackType?: RoboticsStackType;
+  metadata: Record<string, unknown>;
+  confidence: number;
+  classificationMethod: "rule" | "manual" | "source" | "inferred";
+  reviewStatus: "provisional" | "verified";
+  sourceUrl?: string;
+  updatedAt: string;
+};
 
 export const opennessStatuses = [
   "open-source",
@@ -36,6 +70,7 @@ export type RegistryEntity = {
   kind: EntityKind;
   domains: EntityDomain[];
   primaryDomain?: EntityDomain;
+  robotics?: RegistryRoboticsProfile;
   name: string;
   summary: string;
   description?: string;
@@ -174,6 +209,9 @@ export type RegistryStats = {
   agents: number;
   robots: number;
   infrastructure: number;
+  robotPlatforms: number;
+  robotIntelligence: number;
+  roboticsStack: number;
   models: number;
   tools: number;
   sources: number;
@@ -188,6 +226,7 @@ export type RegistryStats = {
 export type EntityQuery = {
   q?: string;
   domains?: EntityDomain[];
+  roboticsLayers?: RoboticsLayer[];
   kinds?: EntityKind[];
   openness?: OpennessStatus[];
   country?: string;

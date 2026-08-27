@@ -10,6 +10,12 @@ export function parseEntityDomains(value?: string | null): EntityDomain[] {
 
 export function domainLabel(domain: EntityDomain): string {
   if (domain === "robotics") return "Robotics";
-  if (domain === "shared-infrastructure") return "Shared infrastructure";
+  if (domain === "shared") return "Shared";
   return "Agent";
+}
+
+export function roboticsLayerLabel(layer: import("./types").RoboticsLayer): string {
+  if (layer === "platform") return "Robot Platform";
+  if (layer === "intelligence") return "Robot Intelligence";
+  return "Robotics Stack";
 }

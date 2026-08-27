@@ -9,6 +9,6 @@ describe("entity domains", () => {
   it("uses product-facing labels", () => {
     expect(domainLabel("agent")).toBe("Agent");
     expect(domainLabel("robotics")).toBe("Robotics");
-    expect(domainLabel("shared-infrastructure")).toBe("Shared infrastructure");
+    expect(domainLabel("shared")).toBe("Shared");
   });
 });

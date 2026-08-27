@@ -2,7 +2,7 @@
 
 **Open(Source) × Agent(s) × (Ro)Bot**
 
-An evidence-first living registry of open-source agents, robots, models, frameworks, hardware, datasets and infrastructure.
+An evidence-backed living registry of open-source agents and robotics, with typed robot platforms, intelligence and stack records.
 
 OpenAgent tracks:
 
@@ -21,7 +21,8 @@ OpenAgent tracks:
 
 Entity classification has two independent axes:
 
-- `domain` — `agent`, `robotics`, or `shared-infrastructure`
+- `domain` — `agent`, `robotics`, or `shared`
+- `robotics_profiles` — typed Robotics classification: `platform`, `intelligence`, or `stack`
 - `kind` — the artifact form, such as `agent`, `model`, `tool`, `robot`, or `simulator`
 
 This allows records such as a robotics model or an agent-oriented tool to remain accurately typed. Domain assignments retain confidence, classification method, review state, and source URL.

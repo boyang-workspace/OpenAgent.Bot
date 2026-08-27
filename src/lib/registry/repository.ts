@@ -7,6 +7,7 @@ import type {
   RegistryChange,
   RegistryDossier,
   RegistryEntity,
+  RegistryRoboticsProfile,
   RegistryStats
 } from "./types";
 import { parseEntityDomains } from "./domains";
@@ -31,6 +32,16 @@ type EntityRow = {
   kind: EntityKind;
   domains_csv: string | null;
   primary_domain: EntityDomain | null;
+  robotics_layer: RegistryRoboticsProfile["layer"] | null;
+  robotics_model_type: RegistryRoboticsProfile["modelType"] | null;
+  robotics_form_factor: RegistryRoboticsProfile["formFactor"] | null;
+  robotics_stack_type: RegistryRoboticsProfile["stackType"] | null;
+  robotics_metadata_json: string | null;
+  robotics_confidence: number | null;
+  robotics_classification_method: RegistryRoboticsProfile["classificationMethod"] | null;
+  robotics_review_status: RegistryRoboticsProfile["reviewStatus"] | null;
+  robotics_source_url: string | null;
+  robotics_updated_at: string | null;
   name: string;
   summary: string;
   description: string | null;
@@ -58,12 +69,25 @@ type EntityRow = {
 };
 
 function entityFromRow(row: EntityRow): RegistryEntity {
+  const robotics = row.robotics_layer ? {
+    layer: row.robotics_layer,
+    modelType: row.robotics_model_type ?? undefined,
+    formFactor: row.robotics_form_factor ?? undefined,
+    stackType: row.robotics_stack_type ?? undefined,
+    metadata: (jsonValue(row.robotics_metadata_json) ?? {}) as Record<string, unknown>,
+    confidence: Number(row.robotics_confidence ?? 0),
+    classificationMethod: row.robotics_classification_method ?? "rule",
+    reviewStatus: row.robotics_review_status ?? "provisional",
+    sourceUrl: row.robotics_source_url ?? undefined,
+    updatedAt: row.robotics_updated_at ?? row.updated_at
+  } satisfies RegistryRoboticsProfile : undefined;
   return {
     id: row.id,
     slug: row.slug,
     kind: row.kind,
     domains: parseEntityDomains(row.domains_csv),
     primaryDomain: row.primary_domain ?? undefined,
+    robotics,
     name: row.name,
     summary: row.summary,
     description: row.description ?? undefined,
@@ -95,9 +119,16 @@ const selectEntity = `
   SELECT e.*, m.stars, m.forks, m.watchers, m.downloads_30d, m.open_issues,
          m.last_release_at, m.last_commit_at,
          (SELECT group_concat(ed.domain, '|') FROM entity_domains ed WHERE ed.entity_id = e.id) AS domains_csv,
-         (SELECT ed.domain FROM entity_domains ed WHERE ed.entity_id = e.id AND ed.is_primary = 1 LIMIT 1) AS primary_domain
+         (SELECT ed.domain FROM entity_domains ed WHERE ed.entity_id = e.id AND ed.is_primary = 1 LIMIT 1) AS primary_domain,
+         rp.layer AS robotics_layer, rp.model_type AS robotics_model_type,
+         rp.form_factor AS robotics_form_factor, rp.stack_type AS robotics_stack_type,
+         rp.metadata_json AS robotics_metadata_json, rp.confidence AS robotics_confidence,
+         rp.classification_method AS robotics_classification_method,
+         rp.review_status AS robotics_review_status, rp.source_url AS robotics_source_url,
+         rp.updated_at AS robotics_updated_at
   FROM entities e
   LEFT JOIN entity_metrics_current m ON m.entity_id = e.id
+  LEFT JOIN robotics_profiles rp ON rp.entity_id = e.id
 `;
 
 function jsonValue(value: string | null): unknown {
@@ -149,6 +180,16 @@ export class RegistryRepository {
       filters.push(`EXISTS (
         SELECT 1 FROM entity_domains ed
         WHERE ed.entity_id = e.id AND ed.domain IN (${placeholders.join(", ")})
+      )`);
+    }
+    if (query.roboticsLayers?.length) {
+      const placeholders = query.roboticsLayers.map((layer) => {
+        values.push(layer);
+        return `?${values.length}`;
+      });
+      filters.push(`EXISTS (
+        SELECT 1 FROM robotics_profiles rp_filter
+        WHERE rp_filter.entity_id = e.id AND rp_filter.layer IN (${placeholders.join(", ")})
       )`);
     }
     if (query.openness?.length) {
@@ -371,7 +412,10 @@ export class RegistryRepository {
         (SELECT COUNT(*) FROM entities WHERE visibility = 'public') AS entities,
         (SELECT COUNT(*) FROM entity_domains ed JOIN entities e ON e.id = ed.entity_id WHERE e.visibility = 'public' AND ed.domain = 'agent') AS agents,
         (SELECT COUNT(*) FROM entity_domains ed JOIN entities e ON e.id = ed.entity_id WHERE e.visibility = 'public' AND ed.domain = 'robotics') AS robots,
-        (SELECT COUNT(*) FROM entity_domains ed JOIN entities e ON e.id = ed.entity_id WHERE e.visibility = 'public' AND ed.domain = 'shared-infrastructure') AS infrastructure,
+        (SELECT COUNT(*) FROM entity_domains ed JOIN entities e ON e.id = ed.entity_id WHERE e.visibility = 'public' AND ed.domain = 'shared') AS infrastructure,
+        (SELECT COUNT(*) FROM robotics_profiles rp JOIN entities e ON e.id = rp.entity_id WHERE e.visibility = 'public' AND rp.layer = 'platform') AS robot_platforms,
+        (SELECT COUNT(*) FROM robotics_profiles rp JOIN entities e ON e.id = rp.entity_id WHERE e.visibility = 'public' AND rp.layer = 'intelligence') AS robot_intelligence,
+        (SELECT COUNT(*) FROM robotics_profiles rp JOIN entities e ON e.id = rp.entity_id WHERE e.visibility = 'public' AND rp.layer = 'stack') AS robotics_stack,
         (SELECT COUNT(*) FROM entities WHERE visibility = 'public' AND kind = 'model') AS models,
         (SELECT COUNT(*) FROM entities WHERE visibility = 'public' AND kind = 'tool') AS tools,
         (SELECT COUNT(*) FROM sources WHERE enabled = 1) AS sources,
@@ -388,6 +432,9 @@ export class RegistryRepository {
       agents: Number(row?.agents ?? 0),
       robots: Number(row?.robots ?? 0),
       infrastructure: Number(row?.infrastructure ?? 0),
+      robotPlatforms: Number(row?.robot_platforms ?? 0),
+      robotIntelligence: Number(row?.robot_intelligence ?? 0),
+      roboticsStack: Number(row?.robotics_stack ?? 0),
       models: Number(row?.models ?? 0),
       tools: Number(row?.tools ?? 0),
       sources: Number(row?.sources ?? 0),

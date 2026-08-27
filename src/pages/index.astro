@@ -24,7 +24,7 @@ const historyDays = data.stats.historyStartedAt
       <nav class="primary-nav" aria-label="Primary navigation">
         <a href="#rankings">Rankings</a>
         <a href="/database?domain=agent">Agents</a>
-        <a href="/database?domain=robotics">Robots</a>
+        <a href="/database?domain=robotics">Robotics</a>
         <a href="#signals">Signals</a>
         <a href="/database">Database</a>
       </nav>
@@ -38,7 +38,7 @@ const historyDays = data.stats.historyStartedAt
           <div class="live-label"><span></span> Registry online · independently tracked</div>
           <h1><span class="title-open">Open(Source) ×</span><br /><span class="title-agent"><em>Agent(s)</em> ×</span> <span class="title-bot"><em>(Ro)Bot</em></span></h1>
           <div class="hero-lower">
-            <p>Open data for software agents and physical robots—plus the models and tools that connect them.</p>
+            <p>Open data for software agents, robot intelligence and physical machines—plus the evidence connecting them.</p>
             <form action="/database" method="get">
               <label for="index-search">Search the open ecosystem</label>
               <div>
@@ -52,10 +52,10 @@ const historyDays = data.stats.historyStartedAt
 
       <section class="registry-summary" aria-label="Registry coverage by layer">
         <a href="/database"><span>All entities</span><strong>{compactNumber(data.stats.entities)}</strong><small>public records</small></a>
-        <a href="/database?domain=agent"><span>Agent field</span><strong>{compactNumber(data.stats.agents)}</strong><small>software ecosystem</small></a>
-        <a href="/database?domain=robotics"><span>Robot field</span><strong>{compactNumber(data.stats.robots)}</strong><small>physical ecosystem</small></a>
-        <a href="/database?kind=model"><span>Open models</span><strong>{compactNumber(data.stats.models)}</strong><small>weights + policies</small></a>
-        <a href="/database?kind=tool"><span>Tools</span><strong>{compactNumber(data.stats.tools)}</strong><small>skills + infrastructure</small></a>
+        <a href="/database?domain=agent"><span>Agents</span><strong>{compactNumber(data.stats.agents)}</strong><small>software systems</small></a>
+        <a href="/database?domain=robotics&layer=platform"><span>Robot platforms</span><strong>{compactNumber(data.stats.robotPlatforms)}</strong><small>physical machines</small></a>
+        <a href="/database?domain=robotics&layer=intelligence"><span>Robot intelligence</span><strong>{compactNumber(data.stats.robotIntelligence)}</strong><small>models + policies</small></a>
+        <a href="/database?domain=robotics&layer=stack"><span>Robotics stack</span><strong>{compactNumber(data.stats.roboticsStack)}</strong><small>frameworks + tools</small></a>
       </section>
 
       <div class="signal-tape" aria-label="Data collection status">
@@ -70,7 +70,7 @@ const historyDays = data.stats.historyStartedAt
 
       <section class="rankings" id="rankings">
         <header class="section-head">
-          <div><span class="section-index">01 / ADOPTION BASELINE</span><h2>Current leaders</h2></div>
+          <div><span class="section-index">01 / ECOSYSTEM INDEX</span><h2>Explore the ecosystem</h2></div>
           <span class="collection-state"><i></i> 30D history collecting</span>
         </header>
 
@@ -96,22 +96,33 @@ const historyDays = data.stats.historyStartedAt
             <a class="board-cta" href="/database?domain=agent"><span>Explore all {data.stats.agents} agent-field records</span><b>→</b></a>
           </article>
 
-          <article class="rank-board robot-board">
+          <article class="rank-board robotics-board">
             <header>
-              <div><span class="board-dot"></span><span>Physical layer</span></div>
-              <h3>Robot Index</h3>
-              <p>Discovery board until the robotics cohort reaches ranking eligibility.</p>
+              <div><span class="board-dot"></span><span>Physical intelligence</span></div>
+              <h3>Robotics map</h3>
+              <p>Platforms, intelligence and enabling stack are separated before any category is ranked.</p>
             </header>
-            <div class="table-head"><span>Position / Project</span><span>History</span><span>Current stars</span></div>
-            <div class="rank-list">
-              {data.robots.slice(0, 6).map((entity, index) => (
-                <a class="rank-row" href={`/project/${entity.slug}`} style={`--i:${index}`}>
-                  <span class="rank-no">{String(index + 1).padStart(2, "0")}</span>
-                  <span class="project"><strong>{entity.name}</strong><small>{label(entity.kind)} · {label(entity.opennessStatus)}</small></span>
-                  <span class="history-state"><i></i>Collecting</span>
-                  <span class="metric"><strong>{compactNumber(entity.stars)}</strong><small>baseline</small></span>
-                  <span class="row-arrow">↗</span>
-                </a>
+            <div class="robotics-groups">
+              {[
+                { key: "platform", title: "Robot Platforms", description: "Physical machines", count: data.stats.robotPlatforms, entities: data.robotPlatforms },
+                { key: "intelligence", title: "Robot Intelligence", description: "Models and policies", count: data.stats.robotIntelligence, entities: data.robotIntelligence },
+                { key: "stack", title: "Robotics Stack", description: "Frameworks, simulators and tools", count: data.stats.roboticsStack, entities: data.roboticsStack }
+              ].map((group, groupIndex) => (
+                <section class="robotics-group">
+                  <a class="group-head" href={`/database?domain=robotics&layer=${group.key}`}>
+                    <span>{String(groupIndex + 1).padStart(2, "0")}</span>
+                    <div><strong>{group.title}</strong><small>{group.description}</small></div>
+                    <b>{group.count} ↗</b>
+                  </a>
+                  <div class="group-entities">
+                    {group.entities.slice(0, 2).map((entity) => (
+                      <a href={`/project/${entity.slug}`}>
+                        <span><strong>{entity.name}</strong><small>{label(entity.robotics?.formFactor ?? entity.robotics?.modelType ?? entity.robotics?.stackType ?? entity.kind)}</small></span>
+                        <span class="group-metric">{compactNumber(entity.stars)} <small>stars</small></span>
+                      </a>
+                    ))}
+                  </div>
+                </section>
               ))}
             </div>
             <a class="board-cta" href="/database?domain=robotics"><span>Explore all {data.stats.robots} robotics records</span><b>→</b></a>
@@ -156,8 +167,8 @@ const historyDays = data.stats.historyStartedAt
           <section class="support-intro">
             <div class="rail-heading"><span>SUPPORT / 01</span><small>Disclosed sponsorship</small></div>
             <span class="slot-state"><i></i> Founding slot available</span>
-            <h2>Support the<br />open&nbsp;index.</h2>
-            <p>Fund public data and reach builders across the open Agent and Robot ecosystem.</p>
+            <h2>Support the<br />open index.</h2>
+            <p>Fund public data and reach builders across the open Agent and Robotics ecosystem.</p>
             <a href="mailto:hello@openagent.bot?subject=Founding%20supporter%20slot">Reserve this weekly slot <b>↗</b></a>
           </section>
 
@@ -166,13 +177,13 @@ const historyDays = data.stats.historyStartedAt
             <ol>
               <li><span>01</span><div><strong>Weekly index sponsor</strong><small>Available · 7 days</small></div><b>OPEN</b></li>
               <li><span>02</span><div><strong>Agent field supporter</strong><small>Available · 7 days</small></div><b>OPEN</b></li>
-              <li><span>03</span><div><strong>Robot field supporter</strong><small>Available · 7 days</small></div><b>OPEN</b></li>
+              <li><span>03</span><div><strong>Robotics supporter</strong><small>Available · 7 days</small></div><b>OPEN</b></li>
             </ol>
           </section>
 
           <section class="bounty-panel">
             <div class="rail-heading"><span>SPONSOR FORMATS</span><small>Disclosed</small></div>
-            <a href="mailto:hello@openagent.bot?subject=Robot%20field%20sponsor"><span class="bounty-color robot-bounty"></span><div><strong>Robot field sponsor</strong><small>Support physical-stack coverage</small></div><b>↗</b></a>
+            <a href="mailto:hello@openagent.bot?subject=Robotics%20field%20sponsor"><span class="bounty-color robot-bounty"></span><div><strong>Robotics sponsor</strong><small>Support platform, model and stack coverage</small></div><b>↗</b></a>
             <a href="mailto:hello@openagent.bot?subject=Agent%20field%20sponsor"><span class="bounty-color agent-bounty"></span><div><strong>Agent field sponsor</strong><small>Support software-stack coverage</small></div><b>↗</b></a>
           </section>
 
@@ -187,7 +198,7 @@ const historyDays = data.stats.historyStartedAt
 
     <footer class="index-footer">
       <a href="/">OPENAGENT.BOT</a>
-      <p>Open data for software agents and physical robots.</p>
+      <p>Open data for software agents and robotics.</p>
       <a href="/about">About the index →</a>
     </footer>
   </div>
@@ -247,13 +258,12 @@ const historyDays = data.stats.historyStartedAt
   .rank-board > header { border-bottom: 1px solid var(--ink); min-height: 220px; padding: 26px; }
   .rank-board > header > div { align-items: center; display: flex; font-family: "Azeret Mono", monospace; font-size: .64rem; gap: 8px; text-transform: uppercase; }
   .board-dot { background: var(--agent); height: 9px; width: 9px; }
-  .robot-board .board-dot { background: var(--robot); }
+  .robotics-board .board-dot { background: var(--robot); }
   .rank-board h3 { font-size: clamp(2.8rem, 4.2vw, 4.7rem); letter-spacing: -.055em; line-height: .94; margin: 42px 0 12px; }
   .rank-board header p { color: #586058; line-height: 1.45; margin-bottom: 0; }
   .table-head { background: var(--ink); color: #c1c8c0; display: grid; font-family: "Azeret Mono", monospace; font-size: .625rem; grid-template-columns: 1fr 100px 90px; padding: 11px 18px; text-transform: uppercase; }
   .rank-row { align-items: center; animation: rowIn .45s calc(var(--i) * 60ms) both; border-bottom: 1px solid #c7cac3; display: grid; gap: 14px; grid-template-columns: 34px minmax(130px, 1fr) 94px 76px 18px; min-height: 72px; padding: 9px 16px; transition: background .18s, color .18s; }
   .agent-board .rank-row:hover { background: var(--agent); color: var(--ink); }
-  .robot-board .rank-row:hover { background: var(--robot); color: var(--ink); }
   .rank-no, .project small, .metric small { color: #626a61; font-family: "Azeret Mono", monospace; font-size: .625rem; text-transform: uppercase; }
   .project strong, .project small, .metric strong, .metric small { display: block; }
   .project strong { font-size: .95rem; }
@@ -268,6 +278,21 @@ const historyDays = data.stats.historyStartedAt
   .rank-row:hover small, .rank-row:hover .rank-no { color: #202720; }
   .board-cta { align-items: center; display: flex; font-family: "Azeret Mono", monospace; font-size: .64rem; justify-content: space-between; min-height: 58px; padding: 0 18px; text-transform: uppercase; }
   .board-cta:hover { background: var(--ink); color: var(--acid); }
+  .robotics-groups { border-top: 1px solid var(--ink); }
+  .robotics-group + .robotics-group { border-top: 1px solid var(--ink); }
+  .group-head { align-items: center; background: #e9ebe5; display: grid; gap: 12px; grid-template-columns: 28px 1fr auto; min-height: 68px; padding: 10px 16px; }
+  .group-head:hover { background: var(--robot); }
+  .group-head > span, .group-head small, .group-head > b { font-family: "Azeret Mono", monospace; font-size: .6rem; text-transform: uppercase; }
+  .group-head strong, .group-head small { display: block; }
+  .group-head small { color: #626a61; margin-top: 4px; }
+  .group-head > b { font-weight: 500; }
+  .group-entities > a { align-items: center; border-top: 1px solid #c7cac3; display: flex; justify-content: space-between; min-height: 55px; padding: 8px 18px 8px 56px; }
+  .group-entities > a:hover { background: #fff; }
+  .group-entities strong, .group-entities small { display: block; }
+  .group-entities strong { font-size: .84rem; }
+  .group-entities small { color: #626a61; font-family: "Azeret Mono", monospace; font-size: .58rem; margin-top: 3px; text-transform: uppercase; }
+  .group-metric { font-family: "Azeret Mono", monospace; font-size: .67rem; text-align: right; }
+  .group-metric small { display: inline; margin-left: 3px; }
   .signals { background: var(--paper); border-bottom: 1px solid var(--ink); }
   .light-head > a { border-bottom: 1px solid var(--ink); font-family: "Azeret Mono", monospace; font-size: .64rem; padding-bottom: 8px; text-transform: uppercase; }
   .signal-grid { border: 1px solid var(--ink); display: grid; grid-template-columns: .9fr 1.1fr; }

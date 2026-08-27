@@ -3,22 +3,15 @@ import { site } from "@/config/site";
 
 const path = Astro.url.pathname;
 const isHome = path === "/";
-const nav = isHome ? [
-  { label: "Rankings", href: "#rankings", active: false },
-  { label: "Agents", href: "/database?domain=agent", active: false },
-  { label: "Robotics", href: "/database?domain=robotics", active: false },
-  { label: "Signals", href: "#signals", active: false },
-  { label: "Database", href: "/database", active: false }
-] : site.nav.map((item) => {
+const domain = Astro.url.searchParams.get("domain");
+const nav = site.nav.map((item) => {
   const active = item.label === "Database"
-    ? path === "/database" || path.startsWith("/project/") || path.startsWith("/compare")
+    ? (path === "/database" && domain !== "agent" && domain !== "robotics") || path.startsWith("/project/") || path.startsWith("/compare")
     : item.label === "Agents"
-      ? path === "/open-source-ai-agents" || path === "/open-source-agent-frameworks"
+      ? (path === "/database" && domain === "agent") || path === "/open-source-ai-agents" || path === "/open-source-agent-frameworks"
       : item.label === "Robotics"
-        ? path === "/open-source-robots" || path === "/open-source-humanoid-robots" || path === "/open-source-vla-models"
-        : item.label === "Signals"
-          ? path === "/changes" || path === "/sources"
-          : path === item.href || path.startsWith(`${item.href}/`);
+        ? (path === "/database" && domain === "robotics") || path === "/open-source-robots" || path === "/open-source-humanoid-robots" || path === "/open-source-vla-models"
+        : false;
   return { ...item, active };
 });
 ---

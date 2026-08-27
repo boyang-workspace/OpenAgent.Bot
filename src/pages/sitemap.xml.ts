@@ -5,8 +5,6 @@ import { getRegistry } from "@/lib/registry/runtime";
 const staticPaths = [
   "/",
   "/database",
-  "/changes",
-  "/rankings",
   "/sources",
   "/methodology",
   "/api",

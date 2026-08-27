@@ -87,7 +87,7 @@ function removeFilterHref(key: string): string {
   <div class="page-shell ledger-shell">
     <div class="page-grid ledger-grid">
       <section class="registry-masthead">
-        <div class="masthead-title"><strong>Database</strong><span>Registry explorer</span><span>{compactNumber(stats.entities)} entities</span></div>
+        <div class="masthead-title"><strong>Database</strong><span>{compactNumber(stats.entities)} entities</span></div>
         <dl>
           <div><dt>Models + policies</dt><dd>{compactNumber(stats.models)}</dd></div>
           <div><dt>Robotics stack</dt><dd>{compactNumber(stats.roboticsStack)}</dd></div>
@@ -146,16 +146,16 @@ function removeFilterHref(key: string): string {
   :global(body) { overflow: hidden; }
   :global(.site-footer) { display: none; }
   .ledger-grid { display: grid; grid-template-rows: auto auto minmax(0, 1fr); height: calc(100dvh - var(--header-height)); min-height: 0; }
-  .registry-masthead { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(350px, 1fr) minmax(600px, 1.8fr); min-height: 84px; }
-  .masthead-title { align-items: center; display: flex; gap: 24px; padding: 0 28px; }
-  .masthead-title strong { font-family: var(--sans); font-size: 1.05rem; }
-  .masthead-title span { align-items: center; display: flex; font-family: var(--mono); font-size: .62rem; gap: 8px; text-transform: uppercase; }
+  .registry-masthead { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(260px, .8fr) minmax(720px, 2.5fr); min-height: 56px; }
+  .masthead-title { align-items: center; display: flex; gap: 16px; padding: 0 18px; }
+  .masthead-title strong { font-family: var(--sans); font-size: .98rem; }
+  .masthead-title span { align-items: center; display: flex; font-family: var(--mono); font-size: .58rem; gap: 7px; text-transform: uppercase; }
   .masthead-title span::before { background: var(--acid); border: 1px solid var(--ink); content: ""; height: 7px; width: 7px; }
   .registry-masthead dl { display: grid; grid-template-columns: repeat(5, 1fr); margin: 0; }
-  .registry-masthead dl > div { border-left: 1px solid var(--line); display: flex; flex-direction: column; justify-content: center; padding: 12px 18px; }
-  .registry-masthead dt { color: var(--muted); font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
-  .registry-masthead dd { font-family: var(--sans); font-size: 1.35rem; font-variant-numeric: tabular-nums; margin: 8px 0 0; }
-  .registry-masthead dd small { color: var(--muted); display: block; font-family: var(--mono); font-size: .54rem; margin-top: 3px; text-transform: uppercase; }
+  .registry-masthead dl > div { align-items: center; border-left: 1px solid var(--line); display: flex; gap: 10px; justify-content: space-between; min-width: 0; padding: 8px 14px; }
+  .registry-masthead dt { color: var(--muted); font-family: var(--mono); font-size: .53rem; line-height: 1.25; text-transform: uppercase; }
+  .registry-masthead dd { font-family: var(--sans); font-size: 1rem; font-variant-numeric: tabular-nums; line-height: 1; margin: 0; white-space: nowrap; }
+  .registry-masthead dd small { color: var(--muted); display: block; font-family: var(--mono); font-size: .48rem; margin-top: 3px; text-transform: uppercase; }
   .filter-panel { background: rgba(243, 244, 239, .98); border-bottom: 1px solid var(--ink); min-width: 0; z-index: 6; }
   .filter-panel summary { align-items: center; cursor: pointer; display: none; font-family: var(--mono); font-size: .65rem; justify-content: space-between; min-height: 50px; padding: 0 16px; text-transform: uppercase; }
   .filter-panel summary strong { color: var(--muted); font-weight: 500; }
@@ -178,7 +178,7 @@ function removeFilterHref(key: string): string {
   .load-error a { font-family: var(--mono); font-size: .58rem; margin-left: auto; text-decoration: underline; text-transform: uppercase; }
 
   @media (max-width: 1280px) {
-    .registry-masthead { grid-template-columns: 330px 1fr; }
+    .registry-masthead { grid-template-columns: 270px 1fr; }
     .registry-masthead dl > div:nth-child(4) { display: none; }
     .registry-masthead dl { grid-template-columns: repeat(4, 1fr); }
     .filter-panel summary { display: flex; }
@@ -190,7 +190,7 @@ function removeFilterHref(key: string): string {
     :global(.site-footer) { display: grid; }
     .ledger-grid { display: block; height: auto; min-height: calc(100dvh - var(--header-height)); }
     .registry-masthead { grid-template-columns: 1fr; }
-    .masthead-title { min-height: 70px; }
+    .masthead-title { min-height: 48px; }
     .registry-masthead dl { border-top: 1px solid var(--line); }
     .registry-workspace { display: block; overflow: visible; }
     .results-panel { display: block; overflow: visible; }
@@ -201,12 +201,9 @@ function removeFilterHref(key: string): string {
   }
   @media (max-width: 760px) {
     .registry-masthead { min-height: 0; }
-    .masthead-title { align-items: flex-start; flex-direction: column; gap: 8px; min-height: 108px; padding: 19px 16px; }
-    .masthead-title strong { font-size: 1.25rem; }
-    .registry-masthead dl { grid-template-columns: repeat(3, 1fr); }
-    .registry-masthead dl > div { min-height: 70px; padding: 10px; }
-    .registry-masthead dl > div:nth-child(4), .registry-masthead dl > div:nth-child(5) { display: none; }
-    .registry-masthead dd { font-size: 1.05rem; }
+    .masthead-title { gap: 14px; min-height: 48px; padding: 0 14px; }
+    .masthead-title strong { font-size: 1.05rem; }
+    .registry-masthead dl { display: none; }
     .filter-panel summary { display: flex; }
     .ledger-filters { grid-template-columns: 1fr; padding: 14px; }
     .search-field { grid-column: auto; }

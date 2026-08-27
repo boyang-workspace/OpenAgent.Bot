@@ -15,7 +15,6 @@ OpenAgent tracks:
 
 - `/database` — query the entity registry
 - `/project/:slug` — inspect an entity fact sheet and its attributed sources
-- `/changes` — read append-only fact changes
 - `/sources` — inspect canonical and official source coverage
 - `/api/v1/entities.json` and `/api/v1/stats.json` — query the registry from software and agents
 

@@ -5,7 +5,9 @@
 /skills /database?kind=tool 301
 /plugins /database?kind=tool 301
 /memory-systems /database?kind=tool 301
-/blog /changes 301
+/blog /#signals 301
+/changes /#signals 301
+/rankings /#rankings 301
 /stack-finder /database 301
 /open-source-ai-agent-stack /database 301
 /manifesto /about 301

@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const read = (path: string) => readFileSync(new URL(path, import.meta.url), "utf8");
@@ -20,6 +20,26 @@ describe("shared product design system", () => {
     expect(homepage).not.toContain("index-footer");
   });
 
+  it("uses one product navigation on every route", () => {
+    const header = read("../src/components/Header.astro");
+    const site = read("../src/config/site.ts");
+    expect(header).not.toContain("isHome ? [");
+    expect(site).toContain('{ label: "Agents", href: "/database?domain=agent" }');
+    expect(site).toContain('{ label: "Robotics", href: "/database?domain=robotics" }');
+    expect(site).toContain('{ label: "Database", href: "/database" }');
+    expect(site).not.toMatch(/Rankings|Signals|\/rankings|\/changes/);
+  });
+
+  it("retires redundant ranking and change-ledger routes", () => {
+    expect(existsSync(new URL("../src/pages/rankings.astro", import.meta.url))).toBe(false);
+    expect(existsSync(new URL("../src/pages/changes.astro", import.meta.url))).toBe(false);
+    const sitemap = read("../src/pages/sitemap.xml.ts");
+    const redirects = read("../public/_redirects");
+    expect(sitemap).not.toMatch(/"\/(rankings|changes)"/);
+    expect(redirects).toContain("/rankings /#rankings 301");
+    expect(redirects).toContain("/changes /#signals 301");
+  });
+
   it("uses the homepage type system globally", () => {
     const baseLayout = read("../src/layouts/BaseLayout.astro");
     const globalCss = read("../src/styles/global.css");
@@ -37,5 +57,12 @@ describe("database workspace", () => {
     expect(database).toContain("height: calc(100dvh - var(--header-height))");
     expect(table).toContain("overscroll-behavior: contain");
     expect(inspector).toContain("overflow-y: auto");
+  });
+
+  it("keeps the Database status strip compact", () => {
+    const database = read("../src/pages/database/index.astro");
+    expect(database).toContain("min-height: 56px");
+    expect(database).toContain(".registry-masthead dl { display: none; }");
+    expect(database).not.toContain("Registry explorer");
   });
 });

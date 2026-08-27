@@ -5,10 +5,8 @@ export const site = {
   description:
     "The database of open-source agents, robots, and everything that makes them work.",
   nav: [
-    { label: "Rankings", href: "/rankings" },
-    { label: "Agents", href: "/open-source-ai-agents" },
-    { label: "Robotics", href: "/open-source-robots" },
-    { label: "Signals", href: "/changes" },
+    { label: "Agents", href: "/database?domain=agent" },
+    { label: "Robotics", href: "/database?domain=robotics" },
     { label: "Database", href: "/database" }
   ]
 };

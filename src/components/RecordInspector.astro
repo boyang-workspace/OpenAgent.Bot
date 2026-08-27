@@ -1,5 +1,5 @@
 ---
-import { calendarDate, compactNumber, label, relativeDate } from "@/lib/registry/format";
+import { compactNumber, label, relativeDate } from "@/lib/registry/format";
 import { domainLabel, roboticsLayerLabel } from "@/lib/registry/domains";
 import type { RegistryDossier } from "@/lib/registry/types";
 
@@ -7,139 +7,69 @@ type Props = { dossier?: RegistryDossier };
 const { dossier } = Astro.props;
 const entity = dossier?.entity;
 const primaryDomain = dossier?.domainAssignments.find((assignment) => assignment.isPrimary)?.domain ?? entity?.primaryDomain;
-const snapshots = (dossier?.metricSnapshots ?? [])
-  .filter((snapshot) => snapshot.key === "stars")
-  .sort((a, b) => new Date(a.observedAt).getTime() - new Date(b.observedAt).getTime())
-  .slice(-30);
-const chartValues = snapshots.map((snapshot) => snapshot.value);
-const passport = dossier?.opennessFacets.length
-  ? dossier.opennessFacets
-  : entity ? [{ facet: "overall", status: entity.opennessStatus === "open-source" || entity.opennessStatus === "open-weights" ? "open" : entity.opennessStatus === "unknown" ? "unknown" : "partial", licenseOrTerms: entity.licenseSpdx }] : [];
+const lastActivity = entity?.lastCommitAt ?? entity?.lastReleaseAt ?? entity?.lastVerifiedAt;
 ---
 
 <aside class="record-inspector" aria-label="Selected registry record">
   {entity && dossier ? (
     <>
       <header class="inspector-head">
-        <span class="data-label">Selected record</span>
+        <span class="data-label">Record preview</span>
         <h2>{entity.name}</h2>
         <div class="record-tags">
           {primaryDomain && <span class:list={["domain", primaryDomain]}>{domainLabel(primaryDomain)}</span>}
           {entity.robotics && <span class="robotics">{roboticsLayerLabel(entity.robotics.layer)}</span>}
           <span>{label(entity.kind)}</span>
-          <span class="verified">Verified</span>
         </div>
         <p>{entity.summary}</p>
       </header>
 
       <dl class="inspector-facts">
+        <div><dt>Openness</dt><dd>{label(entity.opennessStatus)}</dd></div>
         <div><dt>License</dt><dd>{entity.licenseSpdx ?? "Not declared"}</dd></div>
+        <div><dt>Last activity</dt><dd>{relativeDate(lastActivity)}</dd></div>
         <div><dt>Stars</dt><dd>{compactNumber(entity.stars)}</dd></div>
-        <div><dt>Forks</dt><dd>{compactNumber(entity.forks)}</dd></div>
-        <div><dt>Open issues</dt><dd>{compactNumber(entity.openIssues)}</dd></div>
-        <div><dt>Last commit</dt><dd>{relativeDate(entity.lastCommitAt)}</dd></div>
-        <div><dt>Evidence freshness</dt><dd>{relativeDate(dossier.record.lastObservationAt)}</dd></div>
-        <div><dt>Evidence records</dt><dd>{compactNumber(dossier.record.observationCount)}</dd></div>
-        <div><dt>Monitored sources</dt><dd>{dossier.subscriptions.length}</dd></div>
+        <div><dt>Evidence</dt><dd>{compactNumber(dossier.record.observationCount)} records</dd></div>
+        <div><dt>Last verified</dt><dd>{relativeDate(dossier.record.lastObservationAt)}</dd></div>
       </dl>
 
-      <section class="inspector-section">
-        <header><span class="data-label">Open passport</span><span>{passport.length} facets</span></header>
-        <div class="passport-mini">
-          {passport.map((facet) => (
-            <div><span class:list={["facet-state", facet.status]}>{facet.status}</span><strong>{label(facet.facet)}</strong><small>{facet.licenseOrTerms ?? "Terms unknown"}</small></div>
-          ))}
-        </div>
-      </section>
-
-      <section class="inspector-section activity-mini">
-        <header><span class="data-label">Observed star history</span><span>{entity.metricHistoryDays ?? 0}/30 days</span></header>
-        {chartValues.length > 1 ? <canvas data-activity-chart data-values={JSON.stringify(chartValues)} height="88" aria-label="Observed GitHub star history"></canvas> : <p>Trend appears after multiple comparable snapshots.</p>}
-      </section>
-
-      <section class="inspector-section source-mini">
-        <header><span class="data-label">Provenance / sources</span><span>{calendarDate(dossier.record.lastObservationAt)}</span></header>
-        {dossier.subscriptions.slice(0, 4).map((source) => (
-          <div><span>{source.sourceTrustTier}</span><strong>{source.sourceName}</strong><small>{relativeDate(source.lastSyncedAt)}</small></div>
-        ))}
+      <section class="preview-note">
+        <span class="data-label">What is in the dossier</span>
+        <p>Activity history, facet-level openness, recent changes and attributed evidence.</p>
       </section>
 
       <footer class="inspector-actions">
-        {entity.repositoryUrl && <a class="primary" href={entity.repositoryUrl} rel="noreferrer">Repository</a>}
-        <a href={`/project/${entity.slug}`}>Full dossier</a>
-        <a href={`/project/${entity.slug}.json`}>JSON</a>
+        <a class="primary" href={`/project/${entity.slug}`}>Open dossier →</a>
+        <a href={`/database?compare=${entity.slug}`}>Compare +</a>
       </footer>
     </>
-  ) : <div class="inspector-empty"><span class="data-label">Selected record</span><p>Select a row to inspect its evidence and current state.</p></div>}
+  ) : <div class="inspector-empty"><span class="data-label">Record preview</span><p>Select a row to inspect its current state. Nothing is selected by default.</p></div>}
 </aside>
-
-<script>
-  const chart = document.querySelector<HTMLCanvasElement>("[data-activity-chart]");
-  if (chart) {
-    const values = JSON.parse(chart.dataset.values ?? "[]") as number[];
-    const ratio = window.devicePixelRatio || 1;
-    const width = chart.clientWidth;
-    const height = Number(chart.getAttribute("height") ?? 88);
-    chart.width = width * ratio;
-    chart.height = height * ratio;
-    const context = chart.getContext("2d");
-    if (context && values.length > 1) {
-      context.scale(ratio, ratio);
-      context.clearRect(0, 0, width, height);
-      const min = Math.min(...values);
-      const max = Math.max(...values);
-      const range = Math.max(max - min, 1);
-      context.strokeStyle = "#0b0d0c";
-      context.lineWidth = 1.5;
-      context.beginPath();
-      values.forEach((value, index) => {
-        const x = (index / (values.length - 1)) * width;
-        const y = height - 8 - ((value - min) / range) * (height - 18);
-        if (index === 0) context.moveTo(x, y); else context.lineTo(x, y);
-      });
-      context.stroke();
-    }
-  }
-</script>
 
 <style>
   .record-inspector { background: var(--paper-raised); border-left: 1px solid var(--ink); height: 100%; min-height: 0; min-width: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
   .inspector-head { border-bottom: 1px solid var(--line); padding: 24px 20px 20px; }
   .inspector-head h2 { font-family: var(--sans); font-size: 1.7rem; font-weight: 600; letter-spacing: -.035em; margin: 18px 0 12px; }
-  .inspector-head p { color: var(--muted); font-size: .78rem; line-height: 1.5; margin: 18px 0 0; }
+  .inspector-head p { color: var(--muted); font-size: .78rem; line-height: 1.55; margin: 18px 0 0; }
   .record-tags { display: flex; flex-wrap: wrap; gap: 5px; }
   .record-tags span { border: 1px solid var(--ink); font-family: var(--mono); font-size: .58rem; padding: 5px 6px; text-transform: uppercase; }
   .record-tags .agent { color: var(--blue); }
   .record-tags .robotics { color: var(--orange); }
-  .record-tags .verified { background: var(--acid); color: var(--ink); }
   .inspector-facts { margin: 0; padding: 0 20px; }
-  .inspector-facts div { align-items: center; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; min-height: 43px; }
-  .inspector-facts dt { color: var(--muted); font-family: var(--mono); font-size: .6rem; text-transform: uppercase; }
-  .inspector-facts dd { font-family: var(--mono); font-size: .7rem; font-variant-numeric: tabular-nums; margin: 0; }
-  .inspector-section { border-bottom: 1px solid var(--line); padding: 19px 20px; }
-  .inspector-section > header { align-items: center; display: flex; justify-content: space-between; }
-  .inspector-section > header > span:last-child { color: var(--muted); font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
-  .passport-mini { margin-top: 13px; }
-  .passport-mini > div { align-items: center; display: grid; gap: 8px; grid-template-columns: 53px 1fr; padding: 6px 0; }
-  .passport-mini strong { font-size: .72rem; }
-  .passport-mini small { color: var(--muted); font-family: var(--mono); font-size: .58rem; grid-column: 2; }
-  .facet-state { border: 1px solid currentColor; font-family: var(--mono); font-size: .56rem; padding: 4px; text-align: center; text-transform: uppercase; }
-  .facet-state.open { background: var(--acid); color: var(--ink); }
-  .facet-state.partial { color: var(--orange); }
-  .activity-mini canvas { display: block; margin-top: 15px; max-width: 100%; width: 100%; }
-  .activity-mini p { color: var(--muted); font-family: var(--mono); font-size: .62rem; line-height: 1.5; margin: 16px 0 2px; }
-  .source-mini > div { align-items: center; border-top: 1px solid var(--line); display: grid; gap: 7px; grid-template-columns: 58px 1fr auto; min-height: 42px; }
-  .source-mini > div:first-of-type { margin-top: 13px; }
-  .source-mini > div span, .source-mini > div small { color: var(--muted); font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
-  .source-mini > div strong { font-size: .68rem; }
-  .inspector-actions { background: rgba(248, 249, 245, .97); bottom: 0; display: grid; gap: 7px; grid-template-columns: 1fr 1fr 58px; padding: 20px; position: sticky; }
-  .inspector-actions a { align-items: center; border: 1px solid var(--ink); display: flex; font-family: var(--mono); font-size: .59rem; justify-content: center; min-height: 38px; text-transform: uppercase; }
+  .inspector-facts div { align-items: center; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; min-height: 46px; }
+  .inspector-facts dt { color: var(--muted); font-family: var(--mono); font-size: .59rem; text-transform: uppercase; }
+  .inspector-facts dd { font-family: var(--mono); font-size: .67rem; font-variant-numeric: tabular-nums; margin: 0; text-align: right; }
+  .preview-note { border-bottom: 1px solid var(--line); padding: 20px; }
+  .preview-note p { color: var(--muted); font-size: .73rem; line-height: 1.55; margin: 12px 0 0; }
+  .inspector-actions { background: rgba(248, 249, 245, .97); bottom: 0; display: grid; gap: 7px; grid-template-columns: 1.35fr 1fr; padding: 20px; position: sticky; }
+  .inspector-actions a { align-items: center; border: 1px solid var(--ink); display: flex; font-family: var(--mono); font-size: .59rem; justify-content: center; min-height: 40px; text-transform: uppercase; }
   .inspector-actions .primary { background: var(--ink); color: var(--acid); }
   .inspector-empty { padding: 30px 20px; }
-  .inspector-empty p { color: var(--muted); line-height: 1.5; margin-top: 22px; }
+  .inspector-empty p { color: var(--muted); font-size: .76rem; line-height: 1.55; margin-top: 22px; }
 
   @media (max-width: 1040px) {
     .record-inspector { border-left: 0; border-top: 1px solid var(--ink); height: auto; overflow: visible; }
     .inspector-actions { position: static; }
   }
+  @media (max-width: 760px) { .record-inspector { display: none; } }
 </style>

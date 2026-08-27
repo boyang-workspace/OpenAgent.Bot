@@ -1,25 +1,29 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { officialSources } from "@/lib/registry/official-sources";
-import { label } from "@/lib/registry/format";
+import { compactNumber, label, relativeDate } from "@/lib/registry/format";
+import { getRegistry } from "@/lib/registry/runtime";
+import type { RegistryStats } from "@/lib/registry/types";
+let stats: RegistryStats = { entities: 0, agents: 0, robots: 0, infrastructure: 0, robotPlatforms: 0, robotIntelligence: 0, roboticsStack: 0, models: 0, tools: 0, sources: 0, liveSources: 0, observations: 0, metricEntities: 0, changes30d: 0 };
+try { stats = await getRegistry().getStats(); } catch {}
 ---
 <BaseLayout title="Sources" description="The official, canonical and discovery sources registered in OpenAgent.bot." path="/sources">
   <div class="page-shell"><div class="page-grid">
     <section class="page-section"><span class="kicker">Source ledger</span><h1 class="page-title">Official signals,<br />with receipts.</h1><p class="lede">A registered source is not automatically an active connector. We publish that distinction so coverage is measurable rather than implied.</p></section>
     <section class="stat-grid">
-      <div class="stat"><span class="data-label">Registered</span><strong>{officialSources.length}</strong></div>
-      <div class="stat"><span class="data-label">Active</span><strong>{officialSources.filter((s) => s.automationStatus === "active").length}</strong></div>
-      <div class="stat"><span class="data-label">China</span><strong>{officialSources.filter((s) => s.region === "cn").length}</strong></div>
-      <div class="stat"><span class="data-label">United States</span><strong>{officialSources.filter((s) => s.region === "us").length}</strong></div>
-      <div class="stat"><span class="data-label">Robotics</span><strong>{officialSources.filter((s) => s.scope.includes("robots")).length}</strong></div>
-      <div class="stat"><span class="data-label">Canonical</span><strong>{officialSources.filter((s) => s.trustTier === "canonical").length}</strong></div>
+      <div class="stat"><span class="data-label">Registered sources</span><strong>{officialSources.length}</strong></div>
+      <div class="stat"><span class="data-label">Live connectors</span><strong>{stats.liveSources}</strong></div>
+      <div class="stat"><span class="data-label">Entities covered</span><strong>{compactNumber(stats.entities)}</strong></div>
+      <div class="stat"><span class="data-label">Evidence records</span><strong>{compactNumber(stats.observations)}</strong></div>
+      <div class="stat"><span class="data-label">Canonical entries</span><strong>{officialSources.filter((s) => s.trustTier === "canonical").length}</strong></div>
+      <div class="stat"><span class="data-label">Last successful sync</span><strong>{relativeDate(stats.lastSyncAt)}</strong></div>
     </section>
     <section class="source-grid">
       {officialSources.map((source) => (
         <a class="source-card" href={source.url} rel="noreferrer">
           <span class:list={["eyebrow", `status-${source.automationStatus}`]}>{source.automationStatus} / {source.region}</span>
           <h3>{source.name}</h3>
-          <p>{source.publisher} · {label(source.kind)} · {source.cadence} collection</p>
+          <p>{source.publisher} · {label(source.kind)} · {source.automationStatus === "active" ? `${source.cadence} collection` : `planned ${source.cadence} cadence`}</p>
           <div class="source-meta"><span class="badge">{source.trustTier}</span><span class="badge">{source.connector}</span>{source.scope.slice(0, 2).map((scope) => <span class="badge">{scope}</span>)}</div>
         </a>
       ))}

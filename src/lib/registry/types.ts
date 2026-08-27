@@ -83,6 +83,10 @@ export type RegistryEntity = {
   repositoryUrl?: string;
   documentationUrl?: string;
   logoUrl?: string;
+  heroImageUrl?: string;
+  imageSource?: string;
+  imageSourceUrl?: string;
+  imageUsageNote?: string;
   stars?: number;
   forks?: number;
   watchers?: number;

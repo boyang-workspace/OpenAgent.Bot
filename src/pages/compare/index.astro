@@ -3,7 +3,7 @@ import ComparisonView from "@/components/ComparisonView.astro";
 import { getRegistry } from "@/lib/registry/runtime";
 import type { RegistryDossier } from "@/lib/registry/types";
 
-const rawItems = Astro.url.searchParams.get("items") ?? "";
+const rawItems = Astro.url.searchParams.get("projects") ?? Astro.url.searchParams.get("items") ?? "";
 const slugs = Array.from(new Set(rawItems.split(",").map((item) => item.trim()).filter(Boolean))).slice(0, 3);
 let dossiers: RegistryDossier[] = [];
 try {

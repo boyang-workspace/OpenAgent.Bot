@@ -1,16 +1,18 @@
 ---
 import { compactNumber, label, relativeDate } from "@/lib/registry/format";
-import { domainLabel, roboticsLayerLabel } from "@/lib/registry/domains";
 import type { RegistryEntity } from "@/lib/registry/types";
 
 type Props = {
   entities: RegistryEntity[];
   total: number;
   selectedSlug?: string;
+  initialCompareSlugs?: string[];
+  initialCompareProjects?: Array<{ slug: string; name: string }>;
   queryString?: string;
+  robotPlatformMode?: boolean;
 };
 
-const { entities, total, selectedSlug, queryString = "" } = Astro.props;
+const { entities, total, selectedSlug, initialCompareSlugs = [], initialCompareProjects = [], queryString = "", robotPlatformMode = false } = Astro.props;
 
 function selectHref(slug: string): string {
   const params = new URLSearchParams(queryString);
@@ -18,14 +20,29 @@ function selectHref(slug: string): string {
   return `/database?${params.toString()}`;
 }
 
-function classification(entity: RegistryEntity): string {
-  if (entity.robotics) return roboticsLayerLabel(entity.robotics.layer);
-  if (entity.primaryDomain) return domainLabel(entity.primaryDomain);
-  return "Unclassified";
-}
-
 function activityDate(entity: RegistryEntity): string | undefined {
   return entity.lastCommitAt ?? entity.lastReleaseAt ?? entity.lastVerifiedAt;
+}
+
+function metadataValue(entity: RegistryEntity, keys: string[]): string | undefined {
+  const metadata = entity.robotics?.metadata ?? {};
+  for (const key of keys) {
+    const value = metadata[key];
+    if (typeof value === "string" && value.trim()) return value;
+    if (typeof value === "boolean") return value ? "Supported" : "Not listed";
+    if (typeof value === "number") return String(value);
+    if (Array.isArray(value) && value.length) return value.map(String).join(", ");
+  }
+}
+
+function opennessLabel(entity: RegistryEntity, facet: "hardware" | "software"): string {
+  const explicit = metadataValue(entity, facet === "hardware" ? ["hardware_openness", "hardwareOpen", "hardware"] : ["software_openness", "softwareOpen", "software"]);
+  if (explicit) return explicit;
+  if (facet === "hardware") return "Collecting";
+  if (entity.opennessStatus === "open-source") return "Open source";
+  if (entity.opennessStatus === "open-core") return "Open core";
+  if (entity.opennessStatus === "source-available") return "Source available";
+  return "Collecting";
 }
 ---
 
@@ -40,41 +57,64 @@ function activityDate(entity: RegistryEntity): string | undefined {
       <span class="result-count">{total} results</span>
     </div>
     <div class="table-scroll">
-      <table class="registry-table">
+      <table class:list={["registry-table", { "robot-mode": robotPlatformMode }]}>
         <thead>
-          <tr>
+          {robotPlatformMode ? <tr>
             <th class="select-column"><span class="sr-only">Compare</span></th>
             <th>Entity</th>
-            <th>Field / layer</th>
-            <th>Artifact</th>
+            <th>Type</th>
+            <th>Hardware</th>
+            <th>Software</th>
+            <th>Availability</th>
+            <th>Activity</th>
+            <th class="numeric">Evidence</th>
+          </tr> : <tr>
+            <th class="select-column"><span class="sr-only">Compare</span></th>
+            <th>Entity</th>
+            <th>Type</th>
+            <th>Openness</th>
             <th>License</th>
             <th class="numeric">Stars</th>
             <th class="numeric">30d Δ</th>
             <th>Last activity</th>
             <th class="numeric">Evidence</th>
-          </tr>
+          </tr>}
         </thead>
         <tbody>
           {entities.map((entity) => (
             <tr class:list={[{ selected: entity.slug === selectedSlug }]}>
-              <td class="select-column"><input data-compare-item type="checkbox" value={entity.slug} aria-label={`Compare ${entity.name}`} /></td>
+              <td class="select-column"><input data-compare-item data-name={entity.name} type="checkbox" value={entity.slug} aria-label={`Compare ${entity.name}`} /></td>
               <td class="entity-cell">
                 <a data-inspect-record data-slug={entity.slug} href={selectHref(entity.slug)} aria-current={entity.slug === selectedSlug ? "true" : undefined}>{entity.name}</a>
                 <small>{entity.organization ?? entity.summary}</small>
                 <a class="mobile-dossier-link" href={`/project/${entity.slug}`}>Full dossier ↗</a>
               </td>
-              <td><span class:list={["domain-value", entity.primaryDomain ?? "shared"]}>{classification(entity)}</span></td>
               <td>{label(entity.kind)}</td>
-              <td>{entity.licenseSpdx ?? "Not declared"}</td>
-              <td class="numeric metric-value">{compactNumber(entity.stars)}</td>
-              <td class="numeric delta-value">{entity.starsDelta30d === undefined ? <span title={`${entity.metricHistoryDays ?? 0}/30 history days collected`}>Collecting</span> : `${entity.starsDelta30d >= 0 ? "+" : ""}${compactNumber(entity.starsDelta30d)}`}</td>
-              <td>{relativeDate(activityDate(entity))}</td>
-              <td class="numeric"><span class="evidence-count">{entity.evidenceRecords ?? 0}</span></td>
+              {robotPlatformMode ? <>
+                <td>{opennessLabel(entity, "hardware")}</td>
+                <td>{opennessLabel(entity, "software")}</td>
+                <td>{metadataValue(entity, ["availability", "commercial_availability", "status"]) ?? "Collecting"}</td>
+                <td>{relativeDate(activityDate(entity))}<small class="secondary-metric">{compactNumber(entity.stars)} stars</small></td>
+                <td class="numeric"><span class="evidence-count">{entity.evidenceRecords ?? 0}</span></td>
+              </> : <>
+                <td><span class:list={["domain-value", entity.opennessStatus]}>{label(entity.opennessStatus)}</span></td>
+                <td>{entity.licenseSpdx ?? "Not declared"}</td>
+                <td class="numeric metric-value">{compactNumber(entity.stars)}</td>
+                <td class="numeric delta-value">{entity.starsDelta30d === undefined ? <span title={`${entity.metricHistoryDays ?? 0}/30 history days collected`}>Collecting</span> : `${entity.starsDelta30d >= 0 ? "+" : ""}${compactNumber(entity.starsDelta30d)}`}</td>
+                <td>{relativeDate(activityDate(entity))}</td>
+                <td class="numeric"><span class="evidence-count">{entity.evidenceRecords ?? 0}</span></td>
+              </>}
             </tr>
           ))}
         </tbody>
       </table>
     </div>
+    <aside class="compare-tray" data-compare-tray data-initial={JSON.stringify(initialCompareProjects.length ? initialCompareProjects : initialCompareSlugs)} aria-label="Selected projects for comparison" hidden>
+      <span class="tray-label">Compare</span>
+      <div class="tray-projects" data-compare-projects></div>
+      <a class="tray-add" href="/database">+ Add project</a>
+      <a class="tray-action" data-tray-compare href="/compare" aria-disabled="true">Select 2 to compare</a>
+    </aside>
   </div>
 ) : <div class="empty-state">No matching records. Clear one or more filters and try again.</div>}
 
@@ -82,27 +122,69 @@ function activityDate(entity: RegistryEntity): string | undefined {
   const compareBoxes = Array.from(document.querySelectorAll<HTMLInputElement>("[data-compare-item]"));
   const compareCount = document.querySelector<HTMLElement>("[data-compare-count]");
   const compareLink = document.querySelector<HTMLAnchorElement>("[data-compare-link]");
+  const compareTray = document.querySelector<HTMLElement>("[data-compare-tray]");
+  const trayProjects = document.querySelector<HTMLElement>("[data-compare-projects]");
+  const trayCompare = document.querySelector<HTMLAnchorElement>("[data-tray-compare]");
   const tableScroll = document.querySelector<HTMLElement>(".table-scroll");
   const filterParams = new URLSearchParams(window.location.search);
   filterParams.delete("selected");
+  filterParams.delete("compare");
   const scrollKey = `openagent:database-scroll:${filterParams.toString()}`;
-  const compareKey = `openagent:database-compare:${filterParams.toString()}`;
+  const compareKey = "openagent:compare-selection";
+  const selectedProjects = new Map<string, string>();
+  const initialSlugs = (() => {
+    try { return JSON.parse(compareTray?.dataset.initial ?? "[]") as Array<string | { slug: string; name: string }>; } catch { return []; }
+  })();
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(compareKey) ?? "[]") as Array<string | { slug: string; name: string }>;
+    for (const item of saved) typeof item === "string" ? selectedProjects.set(item, item) : selectedProjects.set(item.slug, item.name);
+  } catch {}
+  for (const item of initialSlugs) {
+    const slug = typeof item === "string" ? item : item.slug;
+    const name = typeof item === "string" ? compareBoxes.find((box) => box.value === item)?.dataset.name ?? item : item.name;
+    selectedProjects.set(slug, name);
+  }
+
   const updateCompare = () => {
-    const selected = compareBoxes.filter((box) => box.checked).map((box) => box.value);
+    const selected = Array.from(selectedProjects.entries()).slice(0, 4);
     if (compareCount) compareCount.textContent = `${selected.length} selected`;
     if (compareLink) {
       compareLink.hidden = selected.length < 2;
-      compareLink.href = `/compare?items=${encodeURIComponent(selected.join(","))}`;
+      compareLink.href = `/compare?projects=${encodeURIComponent(selected.map(([slug]) => slug).join(","))}`;
     }
-    for (const box of compareBoxes) box.disabled = selected.length >= 3 && !box.checked;
-    sessionStorage.setItem(compareKey, JSON.stringify(selected));
+    for (const box of compareBoxes) {
+      box.checked = selectedProjects.has(box.value);
+      box.disabled = selected.length >= 4 && !box.checked;
+    }
+    if (compareTray) compareTray.hidden = selected.length === 0;
+    if (trayCompare) {
+      const ready = selected.length >= 2;
+      trayCompare.textContent = ready ? `Compare ${selected.length} →` : "Select 2 to compare";
+      trayCompare.href = ready ? `/compare?projects=${encodeURIComponent(selected.map(([slug]) => slug).join(","))}` : "/compare";
+      trayCompare.setAttribute("aria-disabled", String(!ready));
+    }
+    if (trayProjects) {
+      trayProjects.replaceChildren();
+      for (const [slug, name] of selected) {
+        const item = document.createElement("span");
+        item.textContent = name;
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.textContent = "×";
+        remove.setAttribute("aria-label", `Remove ${name} from comparison`);
+        remove.addEventListener("click", () => { selectedProjects.delete(slug); updateCompare(); });
+        item.append(remove);
+        trayProjects.append(item);
+      }
+    }
+    sessionStorage.setItem(compareKey, JSON.stringify(selected.map(([slug, name]) => ({ slug, name }))));
   };
-  for (const box of compareBoxes) box.addEventListener("change", updateCompare);
-  try {
-    const saved = JSON.parse(sessionStorage.getItem(compareKey) ?? "[]") as string[];
-    for (const box of compareBoxes) box.checked = saved.includes(box.value);
+  for (const box of compareBoxes) box.addEventListener("change", () => {
+    if (box.checked) selectedProjects.set(box.value, box.dataset.name ?? box.value);
+    else selectedProjects.delete(box.value);
     updateCompare();
-  } catch {}
+  });
+  updateCompare();
   if (tableScroll) {
     const savedScroll = Number(sessionStorage.getItem(scrollKey) ?? 0);
     requestAnimationFrame(() => { tableScroll.scrollTop = savedScroll; });
@@ -144,11 +226,31 @@ function activityDate(entity: RegistryEntity): string | undefined {
   .domain-value.agent { color: var(--blue); }
   .domain-value.robotics { color: var(--orange); }
   .domain-value.shared { color: var(--muted); }
+  .domain-value.open-source, .domain-value.open-weights { color: #426300; }
+  .domain-value.closed { color: var(--orange); }
+  .secondary-metric { color: var(--muted); display: block; font-size: .54rem; margin-top: 5px; text-transform: uppercase; }
+  .robot-mode { min-width: 900px; }
+  .robot-mode th:nth-child(2) { width: 26%; }
+  .robot-mode th:nth-child(3) { width: 12%; }
+  .robot-mode th:nth-child(4), .robot-mode th:nth-child(5) { width: 13%; }
+  .robot-mode th:nth-child(6) { width: 14%; }
+  .robot-mode th:nth-child(7) { width: 14%; }
+  .robot-mode th:nth-child(8) { width: 8%; }
   .numeric { font-variant-numeric: tabular-nums; text-align: right; }
   .metric-value { color: var(--ink); font-size: .78rem; }
   .delta-value { color: #426300; }
   .delta-value span { color: var(--muted); font-size: .56rem; text-transform: uppercase; }
   .evidence-count { background: var(--acid); border: 1px solid var(--ink); color: var(--ink); display: inline-block; min-width: 28px; padding: 4px 5px; text-align: center; }
+  .compare-tray { align-items: center; background: var(--ink); bottom: 18px; color: var(--paper); display: flex; gap: 10px; left: 50%; max-width: min(920px, calc(100vw - 36px)); min-height: 58px; padding: 9px 10px 9px 16px; position: fixed; transform: translateX(-50%); width: max-content; z-index: 90; }
+  .compare-tray[hidden] { display: none; }
+  .tray-label { color: var(--acid); font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
+  .tray-projects { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tray-projects span { align-items: center; border: 1px solid #555b53; display: inline-flex; font-family: var(--mono); font-size: .6rem; gap: 8px; min-height: 34px; padding-left: 10px; text-transform: uppercase; }
+  .tray-projects button { align-self: stretch; background: transparent; border: 0; border-left: 1px solid #555b53; color: var(--paper); cursor: pointer; min-width: 30px; }
+  .tray-projects button:hover { background: var(--orange); color: var(--ink); }
+  .tray-add, .tray-action { align-items: center; border: 1px solid #555b53; display: flex; font-family: var(--mono); font-size: .58rem; min-height: 36px; padding: 0 11px; text-transform: uppercase; }
+  .tray-action { background: var(--acid); border-color: var(--acid); color: var(--ink); }
+  .tray-action[aria-disabled="true"] { background: transparent; color: #8c938a; pointer-events: none; }
   .sr-only { height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; clip: rect(0,0,0,0); }
 
   @media (max-width: 1040px) {
@@ -178,7 +280,19 @@ function activityDate(entity: RegistryEntity): string | undefined {
     .registry-table td:nth-child(7) { display: none; }
     .registry-table td:nth-child(8) { grid-column: 3; grid-row: 3; text-align: right; }
     .registry-table td:nth-child(9) { grid-column: 3; grid-row: 4; text-align: right; }
+    .registry-table.robot-mode td:nth-child(4) { grid-column: 2; grid-row: 2; }
+    .registry-table.robot-mode td:nth-child(4)::before { content: "Hardware · "; color: var(--muted); }
+    .registry-table.robot-mode td:nth-child(5) { grid-column: 2; grid-row: 3; }
+    .registry-table.robot-mode td:nth-child(5)::before { content: "Software · "; }
+    .registry-table.robot-mode td:nth-child(6) { grid-column: 3; grid-row: 2; }
+    .registry-table.robot-mode td:nth-child(6)::before { content: "Availability · "; color: var(--muted); font-size: .54rem; }
+    .registry-table.robot-mode td:nth-child(6)::after { content: none; }
+    .registry-table.robot-mode td:nth-child(7) { display: block; grid-column: 3; grid-row: 3; text-align: right; }
+    .registry-table.robot-mode td:nth-child(8) { grid-column: 3; grid-row: 4; text-align: right; }
     .entity-cell small { max-width: 230px; }
     .mobile-dossier-link { color: var(--muted) !important; display: inline-block !important; font-family: var(--mono) !important; font-size: .54rem !important; font-weight: 500 !important; margin-top: 8px; text-transform: uppercase; }
+    .compare-tray { bottom: 0; left: 0; max-width: none; padding: 9px 12px; transform: none; width: 100%; }
+    .tray-label, .tray-projects, .tray-add { display: none; }
+    .tray-action { margin-left: auto; }
   }
 </style>

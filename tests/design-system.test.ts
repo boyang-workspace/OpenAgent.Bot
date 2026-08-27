@@ -24,20 +24,22 @@ describe("shared product design system", () => {
     const header = read("../src/components/Header.astro");
     const site = read("../src/config/site.ts");
     expect(header).not.toContain("isHome ? [");
-    expect(site).toContain('{ label: "Agents", href: "/database?domain=agent" }');
-    expect(site).toContain('{ label: "Robotics", href: "/database?domain=robotics" }');
+    expect(site).toContain('{ label: "Agents", href: "/agents" }');
+    expect(site).toContain('{ label: "Robotics", href: "/robotics" }');
+    expect(site).toContain('{ label: "Rankings", href: "/rankings" }');
+    expect(site).toContain('{ label: "Changes", href: "/changes" }');
     expect(site).toContain('{ label: "Database", href: "/database" }');
-    expect(site).not.toMatch(/Rankings|Signals|\/rankings|\/changes/);
   });
 
-  it("retires redundant ranking and change-ledger routes", () => {
-    expect(existsSync(new URL("../src/pages/rankings.astro", import.meta.url))).toBe(false);
-    expect(existsSync(new URL("../src/pages/changes.astro", import.meta.url))).toBe(false);
+  it("publishes canonical ranking and change-feed routes", () => {
+    expect(existsSync(new URL("../src/pages/rankings.astro", import.meta.url))).toBe(true);
+    expect(existsSync(new URL("../src/pages/changes.astro", import.meta.url))).toBe(true);
     const sitemap = read("../src/pages/sitemap.xml.ts");
     const redirects = read("../public/_redirects");
-    expect(sitemap).not.toMatch(/"\/(rankings|changes)"/);
-    expect(redirects).toContain("/rankings /#rankings 301");
-    expect(redirects).toContain("/changes /#signals 301");
+    expect(sitemap).toMatch(/"\/rankings"/);
+    expect(sitemap).toMatch(/"\/changes"/);
+    expect(redirects).not.toMatch(/^\/rankings /m);
+    expect(redirects).not.toMatch(/^\/changes /m);
   });
 
   it("uses the homepage type system globally", () => {
@@ -61,8 +63,9 @@ describe("database workspace", () => {
 
   it("keeps the Database status strip compact", () => {
     const database = read("../src/pages/database/index.astro");
-    expect(database).toContain("min-height: 56px");
-    expect(database).toContain(".registry-masthead dl { display: none; }");
+    expect(database).toContain("min-height: 44px");
+    expect(database).toContain("aria-label=\"Database domains\"");
+    expect(database).not.toContain("<dl>");
     expect(database).not.toContain("Registry explorer");
   });
 });

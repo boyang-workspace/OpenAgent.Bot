@@ -4,7 +4,7 @@ import RecordInspector from "@/components/RecordInspector.astro";
 import RegistryTable from "@/components/RegistryTable.astro";
 import { getRegistry } from "@/lib/registry/runtime";
 import { entityDomains, entityKinds, opennessStatuses, roboticsLayers, type EntityDomain, type EntityKind, type OpennessStatus, type RegistryDossier, type RegistryEntity, type RegistryStats, type RoboticsLayer } from "@/lib/registry/types";
-import { calendarDate, compactNumber, label, relativeDate } from "@/lib/registry/format";
+import { compactNumber, label, relativeDate } from "@/lib/registry/format";
 import { domainLabel, roboticsLayerLabel } from "@/lib/registry/domains";
 
 const q = Astro.url.searchParams.get("q") ?? "";
@@ -19,7 +19,7 @@ const requestedPage = Number(Astro.url.searchParams.get("page") ?? 1);
 const page = Number.isFinite(requestedPage) ? Math.max(Math.floor(requestedPage), 1) : 1;
 const pageSize = 50;
 const sortParam = Astro.url.searchParams.get("sort");
-const sort = sortParam === "stars" || sortParam === "name" || sortParam === "activity" ? sortParam : "updated";
+const sort = sortParam === "stars" || sortParam === "name" || sortParam === "updated" ? sortParam : "activity";
 const kind = entityKinds.includes(requestedKind as EntityKind) ? requestedKind as EntityKind : undefined;
 const domain = entityDomains.includes(requestedDomain as EntityDomain) ? requestedDomain as EntityDomain : undefined;
 const openness = opennessStatuses.includes(requestedOpenness as OpennessStatus) ? requestedOpenness as OpennessStatus : undefined;
@@ -43,13 +43,20 @@ try {
   total = result.total;
   stats = registryStats;
   const requestedSelected = Astro.url.searchParams.get("selected");
-  const selectedSlug = requestedSelected && entities.some((entity) => entity.slug === requestedSelected) ? requestedSelected : entities[0]?.slug;
+  const selectedSlug = requestedSelected && entities.some((entity) => entity.slug === requestedSelected) ? requestedSelected : undefined;
   if (selectedSlug) selectedDossier = await registry.getEntityDossier(selectedSlug);
 } catch {
   loadError = true;
 }
 
 const selectedSlug = selectedDossier?.entity.slug;
+const initialCompareSlugs = Array.from(new Set((Astro.url.searchParams.get("compare") ?? "").split(",").map((item) => item.trim()).filter(Boolean))).slice(0, 4);
+let initialCompareProjects: Array<{ slug: string; name: string }> = [];
+try {
+  initialCompareProjects = (await Promise.all(initialCompareSlugs.map((slug) => registry.getEntity(slug))))
+    .filter(Boolean)
+    .map((entity) => ({ slug: entity!.slug, name: entity!.name }));
+} catch {}
 const pageCount = Math.max(Math.ceil(total / pageSize), 1);
 function pageHref(nextPage: number): string {
   const params = new URLSearchParams(Astro.url.searchParams);
@@ -67,6 +74,14 @@ const activeFilters = [
   license && { key: "license", label: `License: ${license}` },
   freshness && { key: "freshness", label: `Verified: ${freshness}d` }
 ].filter(Boolean) as Array<{ key: string; label: string }>;
+
+const domainTabs = [
+  { label: "All", href: "/database", active: !domain },
+  { label: "Agents", href: "/database?domain=agent", active: domain === "agent" },
+  { label: "Robotics", href: "/database?domain=robotics", active: domain === "robotics" },
+  { label: "Infrastructure", href: "/database?domain=shared", active: domain === "shared" }
+];
+const robotPlatformMode = domain === "robotics" && roboticsLayer === "platform";
 
 function removeFilterHref(key: string): string {
   const params = new URLSearchParams(Astro.url.searchParams);
@@ -88,26 +103,24 @@ function removeFilterHref(key: string): string {
     <div class="page-grid ledger-grid">
       <section class="registry-masthead">
         <div class="masthead-title"><strong>Database</strong><span>{compactNumber(stats.entities)} entities</span></div>
-        <dl>
-          <div><dt>Models + policies</dt><dd>{compactNumber(stats.models)}</dd></div>
-          <div><dt>Robotics stack</dt><dd>{compactNumber(stats.roboticsStack)}</dd></div>
-          <div><dt>Platforms</dt><dd>{compactNumber(stats.robotPlatforms)}</dd></div>
-          <div><dt>Evidence records</dt><dd>{compactNumber(stats.observations)}</dd></div>
-          <div><dt>Last update</dt><dd>{relativeDate(stats.lastSyncAt)}<small>{calendarDate(stats.lastSyncAt)}</small></dd></div>
-        </dl>
+        <p><span>{compactNumber(stats.observations)} evidence records</span><span>Updated {relativeDate(stats.lastSyncAt)}</span></p>
       </section>
+
+      <nav class="domain-tabs" aria-label="Database domains">
+        {domainTabs.map((item) => <a href={item.href} aria-current={item.active ? "page" : undefined}>{item.label}</a>)}
+      </nav>
 
       <details class="filter-panel" open>
         <summary><span>Search and filters</span><strong>{activeFilters.length ? `${activeFilters.length} active` : "All records"}</strong></summary>
         <form class="ledger-filters" method="get">
           <div class="field search-field"><label for="q">Search</label><input id="q" name="q" type="search" value={q} placeholder="Name, organization, summary…" /></div>
-          <div class="field"><label for="domain">Field</label><select id="domain" name="domain"><option value="">All fields</option>{entityDomains.map((item) => <option value={item} selected={domain === item}>{domainLabel(item)}</option>)}</select></div>
-          <div class="field"><label for="layer">Robotics layer</label><select id="layer" name="layer"><option value="">All layers</option>{roboticsLayers.map((item) => <option value={item} selected={roboticsLayer === item}>{roboticsLayerLabel(item)}</option>)}</select></div>
-          <div class="field"><label for="kind">Artifact</label><select id="kind" name="kind"><option value="">All types</option>{entityKinds.map((item) => <option value={item} selected={kind === item}>{label(item)}</option>)}</select></div>
+          {domain && <input type="hidden" name="domain" value={domain} />}
+          {domain === "robotics" && <div class="field"><label for="layer">Layer</label><select id="layer" name="layer"><option value="">All layers</option>{roboticsLayers.map((item) => <option value={item} selected={roboticsLayer === item}>{roboticsLayerLabel(item)}</option>)}</select></div>}
+          <div class="field"><label for="kind">Type</label><select id="kind" name="kind"><option value="">All types</option>{entityKinds.map((item) => <option value={item} selected={kind === item}>{label(item)}</option>)}</select></div>
           <div class="field"><label for="openness">Openness</label><select id="openness" name="openness"><option value="">All states</option>{opennessStatuses.map((item) => <option value={item} selected={openness === item}>{label(item)}</option>)}</select></div>
           <div class="field"><label for="license">License</label><select id="license" name="license"><option value="">All licenses</option>{licenses.map((item) => <option value={item} selected={license === item}>{item}</option>)}</select></div>
           <div class="field"><label for="freshness">Freshness</label><select id="freshness" name="freshness"><option value="">Any time</option><option value="7" selected={freshness === 7}>Verified ≤ 7d</option><option value="30" selected={freshness === 30}>Verified ≤ 30d</option><option value="90" selected={freshness === 90}>Verified ≤ 90d</option></select></div>
-          <div class="field"><label for="sort">Sort</label><select id="sort" name="sort"><option value="updated" selected={sort === "updated"}>Recently verified</option><option value="activity" selected={sort === "activity"}>Last activity</option><option value="stars" selected={sort === "stars"}>GitHub stars</option><option value="name" selected={sort === "name"}>Name</option></select></div>
+          <div class="field"><label for="sort">Sort</label><select id="sort" name="sort"><option value="activity" selected={sort === "activity"}>Recent activity ↓</option><option value="updated" selected={sort === "updated"}>Recently verified</option><option value="stars" selected={sort === "stars"}>Most followed</option><option value="name" selected={sort === "name"}>Name</option></select></div>
           <button class="button primary" type="submit">Apply</button>
         </form>
         <div class="active-filter-row">
@@ -121,7 +134,7 @@ function removeFilterHref(key: string): string {
 
       <div class="registry-workspace">
         <section class="results-panel" aria-label="Registry results">
-          <RegistryTable entities={entities} total={total} selectedSlug={selectedSlug} queryString={Astro.url.searchParams.toString()} />
+          <RegistryTable entities={entities} total={total} selectedSlug={selectedSlug} initialCompareSlugs={initialCompareSlugs} initialCompareProjects={initialCompareProjects} queryString={Astro.url.searchParams.toString()} robotPlatformMode={robotPlatformMode} />
           {pageCount > 1 && (
             <nav class="pagination" aria-label="Database pages">
               {page > 1 ? <a class="button secondary" href={pageHref(page - 1)}>Previous</a> : <span></span>}
@@ -145,21 +158,23 @@ function removeFilterHref(key: string): string {
   .ledger-shell { max-width: 1600px; padding: 0; }
   :global(body) { overflow: hidden; }
   :global(.site-footer) { display: none; }
-  .ledger-grid { display: grid; grid-template-rows: auto auto minmax(0, 1fr); height: calc(100dvh - var(--header-height)); min-height: 0; }
-  .registry-masthead { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(260px, .8fr) minmax(720px, 2.5fr); min-height: 56px; }
+  .ledger-grid { display: grid; grid-template-rows: auto auto auto minmax(0, 1fr); height: calc(100dvh - var(--header-height)); min-height: 0; }
+  .registry-masthead { align-items: center; border-bottom: 1px solid var(--ink); display: flex; justify-content: space-between; min-height: 44px; }
   .masthead-title { align-items: center; display: flex; gap: 16px; padding: 0 18px; }
   .masthead-title strong { font-family: var(--sans); font-size: .98rem; }
   .masthead-title span { align-items: center; display: flex; font-family: var(--mono); font-size: .58rem; gap: 7px; text-transform: uppercase; }
   .masthead-title span::before { background: var(--acid); border: 1px solid var(--ink); content: ""; height: 7px; width: 7px; }
-  .registry-masthead dl { display: grid; grid-template-columns: repeat(5, 1fr); margin: 0; }
-  .registry-masthead dl > div { align-items: center; border-left: 1px solid var(--line); display: flex; gap: 10px; justify-content: space-between; min-width: 0; padding: 8px 14px; }
-  .registry-masthead dt { color: var(--muted); font-family: var(--mono); font-size: .53rem; line-height: 1.25; text-transform: uppercase; }
-  .registry-masthead dd { font-family: var(--sans); font-size: 1rem; font-variant-numeric: tabular-nums; line-height: 1; margin: 0; white-space: nowrap; }
-  .registry-masthead dd small { color: var(--muted); display: block; font-family: var(--mono); font-size: .48rem; margin-top: 3px; text-transform: uppercase; }
+  .registry-masthead p { color: var(--muted); display: flex; font-family: var(--mono); font-size: .56rem; gap: 18px; margin: 0; padding: 0 18px; text-transform: uppercase; }
+  .domain-tabs { align-items: stretch; border-bottom: 1px solid var(--ink); display: flex; min-height: 43px; padding: 0 18px; }
+  .domain-tabs a { align-items: center; border-left: 1px solid var(--line); display: flex; font-family: var(--mono); font-size: .62rem; padding: 0 18px; text-transform: uppercase; }
+  .domain-tabs a:last-child { border-right: 1px solid var(--line); }
+  .domain-tabs a[aria-current="page"] { background: var(--acid); box-shadow: inset 0 -3px 0 var(--ink); }
   .filter-panel { background: rgba(243, 244, 239, .98); border-bottom: 1px solid var(--ink); min-width: 0; z-index: 6; }
   .filter-panel summary { align-items: center; cursor: pointer; display: none; font-family: var(--mono); font-size: .65rem; justify-content: space-between; min-height: 50px; padding: 0 16px; text-transform: uppercase; }
   .filter-panel summary strong { color: var(--muted); font-weight: 500; }
-  .ledger-filters { align-items: end; display: grid; gap: 14px; grid-template-columns: minmax(210px, 1.5fr) repeat(7, minmax(108px, .72fr)) auto; padding: 18px 20px 14px; }
+  .ledger-filters { align-items: end; display: flex; gap: 14px; padding: 14px 20px 10px; }
+  .ledger-filters .field { flex: 1 1 118px; min-width: 105px; }
+  .ledger-filters .search-field { flex: 2 1 230px; }
   .field label { display: block; font-family: var(--mono); font-size: .58rem; margin-bottom: 6px; text-transform: uppercase; }
   .field input, .field select { background: var(--paper-raised); border: 1px solid var(--ink); border-radius: 0; font-size: .76rem; height: 39px; padding: 0 10px; width: 100%; }
   .ledger-filters .button { min-height: 39px; }
@@ -178,9 +193,6 @@ function removeFilterHref(key: string): string {
   .load-error a { font-family: var(--mono); font-size: .58rem; margin-left: auto; text-decoration: underline; text-transform: uppercase; }
 
   @media (max-width: 1280px) {
-    .registry-masthead { grid-template-columns: 270px 1fr; }
-    .registry-masthead dl > div:nth-child(4) { display: none; }
-    .registry-masthead dl { grid-template-columns: repeat(4, 1fr); }
     .filter-panel summary { display: flex; }
     .ledger-filters { grid-template-columns: repeat(4, 1fr); }
     .search-field { grid-column: span 2; }
@@ -189,9 +201,7 @@ function removeFilterHref(key: string): string {
     :global(body) { overflow: auto; }
     :global(.site-footer) { display: grid; }
     .ledger-grid { display: block; height: auto; min-height: calc(100dvh - var(--header-height)); }
-    .registry-masthead { grid-template-columns: 1fr; }
-    .masthead-title { min-height: 48px; }
-    .registry-masthead dl { border-top: 1px solid var(--line); }
+    .masthead-title { min-height: 44px; }
     .registry-workspace { display: block; overflow: visible; }
     .results-panel { display: block; overflow: visible; }
   }
@@ -203,7 +213,9 @@ function removeFilterHref(key: string): string {
     .registry-masthead { min-height: 0; }
     .masthead-title { gap: 14px; min-height: 48px; padding: 0 14px; }
     .masthead-title strong { font-size: 1.05rem; }
-    .registry-masthead dl { display: none; }
+    .registry-masthead p { display: none; }
+    .domain-tabs { overflow-x: auto; padding: 0; }
+    .domain-tabs a { flex: 1 0 auto; justify-content: center; min-width: 92px; padding: 0 12px; }
     .filter-panel summary { display: flex; }
     .ledger-filters { grid-template-columns: 1fr; padding: 14px; }
     .search-field { grid-column: auto; }

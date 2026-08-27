@@ -4,19 +4,25 @@ import { getRegistry } from "@/lib/registry/runtime";
 
 const staticPaths = [
   "/",
+  "/agents",
+  "/robotics",
   "/database",
+  "/rankings",
+  "/changes",
   "/sources",
   "/methodology",
   "/api",
   "/about",
-  "/open-source-ai-agents",
+  "/support",
+  "/corrections",
   "/open-source-robots",
   "/open-source-humanoid-robots",
   "/open-source-agent-frameworks",
   "/open-source-vla-models",
   "/compare/openclaw-vs-browser-use-vs-openhands",
   "/compare/langfuse-vs-mlflow",
-  "/compare/openclaw-vs-openhands"
+  "/compare/openclaw-vs-openhands",
+  "/blog/continue-vs-cursor"
 ];
 
 export const GET: APIRoute = async () => {

@@ -54,6 +54,10 @@ type EntityRow = {
   repository_url: string | null;
   documentation_url: string | null;
   logo_url: string | null;
+  hero_image_url: string | null;
+  image_source: string | null;
+  image_source_url: string | null;
+  image_usage_note: string | null;
   stars: number | null;
   forks: number | null;
   watchers: number | null;
@@ -107,6 +111,10 @@ function entityFromRow(row: EntityRow): RegistryEntity {
     repositoryUrl: row.repository_url ?? undefined,
     documentationUrl: row.documentation_url ?? undefined,
     logoUrl: row.logo_url ?? undefined,
+    heroImageUrl: row.hero_image_url ?? undefined,
+    imageSource: row.image_source ?? undefined,
+    imageSourceUrl: row.image_source_url ?? undefined,
+    imageUsageNote: row.image_usage_note ?? undefined,
     stars: row.stars ?? undefined,
     forks: row.forks ?? undefined,
     watchers: row.watchers ?? undefined,

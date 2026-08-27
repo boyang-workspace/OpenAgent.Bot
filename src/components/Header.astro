@@ -2,16 +2,15 @@
 import { site } from "@/config/site";
 
 const path = Astro.url.pathname;
-const isHome = path === "/";
 const domain = Astro.url.searchParams.get("domain");
 const nav = site.nav.map((item) => {
   const active = item.label === "Database"
     ? (path === "/database" && domain !== "agent" && domain !== "robotics") || path.startsWith("/project/") || path.startsWith("/compare")
     : item.label === "Agents"
-      ? (path === "/database" && domain === "agent") || path === "/open-source-ai-agents" || path === "/open-source-agent-frameworks"
+      ? path === "/agents" || (path === "/database" && domain === "agent") || path === "/open-source-ai-agents" || path === "/open-source-agent-frameworks"
       : item.label === "Robotics"
-        ? (path === "/database" && domain === "robotics") || path === "/open-source-robots" || path === "/open-source-humanoid-robots" || path === "/open-source-vla-models"
-        : false;
+        ? path === "/robotics" || (path === "/database" && domain === "robotics") || path === "/open-source-robots" || path === "/open-source-humanoid-robots" || path === "/open-source-vla-models"
+        : path === item.href;
   return { ...item, active };
 });
 ---
@@ -24,5 +23,4 @@ const nav = site.nav.map((item) => {
   <nav class="primary-nav" aria-label="Primary navigation">
     {nav.map((item) => <a class:list={[{ active: item.active }]} href={item.href}>{item.label}</a>)}
   </nav>
-  <a class="support-link" href={isHome ? "#support" : "/#support"}>Support the index <span aria-hidden="true">↗</span></a>
 </header>

@@ -6,6 +6,9 @@ export type HomepageData = {
   robotPlatforms: RegistryEntity[];
   robotIntelligence: RegistryEntity[];
   roboticsStack: RegistryEntity[];
+  recentlyActive: RegistryEntity[];
+  recentlyUpdated: RegistryEntity[];
+  searchEntities: RegistryEntity[];
   changes: RegistryChange[];
   stats: RegistryStats;
 };
@@ -30,7 +33,7 @@ const emptyStats: RegistryStats = {
 export async function getHomepageData(): Promise<HomepageData> {
   try {
     const registry = getRegistry();
-    const [agentResult, platformResult, intelligenceResult, stackResult, changes, stats] = await Promise.all([
+    const [agentResult, platformResult, intelligenceResult, stackResult, activeResult, updatedResult, searchResult, changes, stats] = await Promise.all([
       registry.listEntities({
         domains: ["agent"],
         kinds: ["agent", "agent-framework"],
@@ -59,6 +62,9 @@ export async function getHomepageData(): Promise<HomepageData> {
         sort: "stars",
         limit: 6
       }),
+      registry.listEntities({ sort: "activity", limit: 10 }),
+      registry.listEntities({ sort: "updated", limit: 10 }),
+      registry.listEntities({ sort: "stars", limit: 100 }),
       registry.listChanges(10),
       registry.getStats()
     ]);
@@ -68,6 +74,9 @@ export async function getHomepageData(): Promise<HomepageData> {
       robotPlatforms: platformResult.items,
       robotIntelligence: intelligenceResult.items,
       roboticsStack: stackResult.items,
+      recentlyActive: activeResult.items,
+      recentlyUpdated: updatedResult.items,
+      searchEntities: searchResult.items,
       changes,
       stats
     };
@@ -77,6 +86,9 @@ export async function getHomepageData(): Promise<HomepageData> {
       robotPlatforms: [],
       robotIntelligence: [],
       roboticsStack: [],
+      recentlyActive: [],
+      recentlyUpdated: [],
+      searchEntities: [],
       changes: [],
       stats: emptyStats
     };

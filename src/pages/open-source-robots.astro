@@ -2,7 +2,7 @@
 import RegistryLanding from "@/components/RegistryLanding.astro";
 import { getRegistryLanding } from "@/lib/registry/landings";
 
-const data = await getRegistryLanding({ kinds: ["robot"], sort: "stars" });
+const data = await getRegistryLanding({ kinds: ["robot"], openness: ["open-source"], sort: "stars" });
 ---
 <RegistryLanding
   title="Open-source robots"
@@ -11,5 +11,5 @@ const data = await getRegistryLanding({ kinds: ["robot"], sort: "stars" });
   path="/open-source-robots"
   entities={data.entities}
   total={data.total}
-  databaseHref="/database?kind=robot"
+  databaseHref="/database?domain=robotics&kind=robot&openness=open-source"
 />

@@ -3,9 +3,15 @@ import { site } from "@/config/site";
 const canonicalUrl = new URL(site.url);
 const productHosts = new Set(["openagent.bot", "www.openagent.bot"]);
 const legacyEntitySections = new Set([
+  "agent",
   "agents",
+  "model",
   "models",
+  "bot",
   "bots",
+  "robot",
+  "robots",
+  "tool",
   "tools",
   "skills",
   "plugins",
@@ -13,7 +19,8 @@ const legacyEntitySections = new Set([
 ]);
 
 const exactLegacyPaths = new Map([
-  ["/open-source-agents", "/open-source-ai-agents"],
+  ["/open-source-agents", "/agents"],
+  ["/open-source-ai-agents", "/agents"],
   ["/blog/openclaw-vs-browser-use-vs-openhands", "/compare/openclaw-vs-browser-use-vs-openhands"],
   ["/blog/langfuse-vs-mlflow", "/compare/langfuse-vs-mlflow"],
   ["/blog/openclaw-vs-openhands", "/compare/openclaw-vs-openhands"],

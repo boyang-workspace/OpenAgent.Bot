@@ -1,0 +1,158 @@
+---
+import { calendarDate, compactNumber, label, relativeDate } from "@/lib/registry/format";
+import type { RegistryDossier, RegistryEntity } from "@/lib/registry/types";
+
+type Props = { dossier: RegistryDossier; related: RegistryEntity[] };
+const { dossier, related } = Astro.props;
+const { entity } = dossier;
+const metadata = entity.robotics?.metadata ?? {};
+const value = (...keys: string[]) => {
+  for (const key of keys) {
+    const item = metadata[key];
+    if (typeof item === "string" && item.trim()) return item;
+    if (typeof item === "number") return String(item);
+    if (typeof item === "boolean") return item ? "Supported" : undefined;
+  }
+};
+const list = (...keys: string[]) => {
+  for (const key of keys) {
+    const item = metadata[key];
+    if (Array.isArray(item)) return item.map(String).filter(Boolean);
+    if (typeof item === "string" && item.trim()) return item.split(",").map((part) => part.trim()).filter(Boolean);
+  }
+  return [];
+};
+const lastActivity = entity.lastCommitAt ?? entity.lastReleaseAt ?? entity.lastVerifiedAt;
+const glance = [
+  { label: "Type", value: value("robot_type") ?? (entity.robotics?.formFactor ? label(entity.robotics.formFactor) : undefined) },
+  { label: "DOF", value: value("dof") },
+  { label: "Hardware", value: value("hardware_openness") ?? dossier.opennessFacets.find((item) => item.facet === "hardware")?.status },
+  { label: "Software", value: value("software_openness") ?? dossier.opennessFacets.find((item) => item.facet === "code")?.status },
+  { label: "Availability", value: value("availability") },
+  { label: "ROS support", value: value("ros_support", "ros") },
+  { label: "Simulation", value: list("simulation").join(" · ") || value("simulation") },
+  { label: "Latest activity", value: relativeDate(lastActivity) }
+].filter((item) => item.value);
+const specs = [
+  ["Robot type", value("robot_type") ?? (entity.robotics?.formFactor ? label(entity.robotics.formFactor) : undefined)],
+  ["DOF", value("dof")], ["Payload", value("payload")], ["Reach", value("reach")], ["Weight", value("weight")],
+  ["Actuators", value("actuators")], ["Sensors", value("sensors")], ["End effector", value("end_effector")],
+  ["Compute", value("compute")], ["Teleoperation", value("teleoperation")], ["Configuration", value("configuration")]
+].filter((item) => item[1]) as string[][];
+const ecosystem = Array.from(new Set([...list("software_ecosystem", "ecosystem"), ...list("simulation")]));
+const opennessNames = ["hardware", "code", "documentation", "data", "weights", "governance"];
+---
+
+<article class="project-sheet robot-sheet page-grid">
+  <header class="robot-hero">
+    <figure>
+      {entity.heroImageUrl ? <img src={entity.heroImageUrl} alt={`${entity.name} official project image`} /> : <div class="image-placeholder"><span>Official image pending</span><strong>{entity.name}</strong></div>}
+      {(entity.imageSource || entity.imageUsageNote) && <figcaption>{entity.imageSourceUrl ? <a href={entity.imageSourceUrl} rel="noreferrer">{entity.imageSource ?? "Official source"} ↗</a> : entity.imageSource}<span>{entity.imageUsageNote}</span></figcaption>}
+    </figure>
+    <div class="robot-identity">
+      <span class="data-label">Open robot platform</span>
+      <h1>{entity.name}</h1>
+      <p>{entity.summary}</p>
+      <div class="tag-row"><span>{entity.robotics?.formFactor ? label(entity.robotics.formFactor) : label(entity.kind)}</span><span>{value("hardware_openness") ?? "Hardware evidence collecting"}</span><span>{value("software_openness") ?? label(entity.opennessStatus)}</span></div>
+      <div class="hero-actions">
+        {entity.canonicalUrl && <a class="primary" href={entity.canonicalUrl} rel="noreferrer">Official site</a>}
+        {entity.repositoryUrl && <a href={entity.repositoryUrl} rel="noreferrer">GitHub</a>}
+        {entity.documentationUrl && <a href={entity.documentationUrl} rel="noreferrer">Documentation</a>}
+        <a href={`/database?compare=${entity.slug}`}>Compare +</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="robot-glance" aria-label="Robot at a glance">{glance.map((item) => <div><span>{item.label}</span><strong>{label(String(item.value))}</strong></div>)}</section>
+
+  <section class="spec-section section-block">
+    <header><span class="eyebrow">Physical system</span><h2>Known system specifications</h2><p>Only specifications backed by current registry data are shown.</p></header>
+    {specs.length ? <dl class="spec-grid">{specs.map(([name, item]) => <div><dt>{name}</dt><dd>{item}</dd></div>)}</dl> : <p class="empty-copy">Verified physical specifications are still being collected.</p>}
+    <a class="data-link" href={`/project/${entity.slug}.json`}>View full registry data →</a>
+  </section>
+
+  <section class="robot-openness section-block">
+    <header><span class="eyebrow">Openness</span><h2>Hardware and software are separate</h2></header>
+    <div class="openness-grid">
+      {opennessNames.map((name) => {
+        const facet = dossier.opennessFacets.find((item) => item.facet === name);
+        const derived = name === "hardware" ? value("hardware_openness") : name === "code" ? value("software_openness") : undefined;
+        return <div><span>{name === "code" ? "Software" : label(name)}</span><strong class:list={[facet?.status ?? "unknown"]}>{derived ?? (facet ? label(facet.status) : "Unknown")}</strong><small>{facet?.licenseOrTerms ?? "No specific terms recorded"}</small></div>;
+      })}
+    </div>
+  </section>
+
+  {(ecosystem.length > 0 || dossier.relationships.length > 0) && <section class="ecosystem section-block">
+    <span class="eyebrow">Software ecosystem</span><h2>Systems it works with</h2>
+    <div class="chip-list">{ecosystem.map((item) => <span>{item}</span>)}{dossier.relationships.map((relationship) => <a href={`/project/${relationship.entity.slug}`}>{relationship.entity.name} ↗</a>)}</div>
+  </section>}
+
+  {value("availability") && <section class="availability section-block"><span class="eyebrow">Availability</span><h2>{value("availability")}</h2><p>Availability is reported from official project material. No price is shown unless canonical evidence is recorded.</p></section>}
+
+  <section class="repo-activity section-block">
+    <header><span class="eyebrow">Repository activity</span><h2>Supporting software evidence</h2><p>GitHub metrics describe the repository, not the physical system itself.</p></header>
+    <div class="repo-grid"><div><span>Stars</span><strong>{compactNumber(entity.stars)}</strong></div><div><span>Forks</span><strong>{compactNumber(entity.forks)}</strong></div><div><span>Open issues</span><strong>{compactNumber(entity.openIssues)}</strong></div><div><span>Last commit</span><strong>{relativeDate(entity.lastCommitAt)}</strong><small>{calendarDate(entity.lastCommitAt)}</small></div></div>
+  </section>
+
+  <details class="evidence section-block"><summary><span><span class="eyebrow">Evidence & sources</span><strong>{dossier.record.observationCount} records</strong></span><b>Open evidence ↓</b></summary><div class="evidence-list">{dossier.subscriptions.map((source) => <div><strong>{source.sourceName}</strong><span>{source.sourceTrustTier}</span><time datetime={source.lastSyncedAt}>{relativeDate(source.lastSyncedAt)}</time></div>)}</div></details>
+
+  <section class="related section-block"><span class="eyebrow">Related platforms</span><h2>Explore comparable systems</h2>{related.length ? <div class="related-grid">{related.map((item) => <a href={`/project/${item.slug}`}><strong>{item.name}</strong><span>{item.robotics?.formFactor ? label(item.robotics.formFactor) : label(item.kind)}</span><small>{relativeDate(item.lastCommitAt ?? item.lastVerifiedAt)}</small></a>)}</div> : <p class="empty-copy">Comparable platform relationships are still being verified.</p>}</section>
+</article>
+
+<style>
+  .project-sheet { overflow: hidden; }
+  .robot-hero { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(390px, .75fr); min-height: 530px; }
+  figure { background: #dfe1db; border-right: 1px solid var(--ink); display: grid; grid-template-rows: minmax(0, 1fr) auto; margin: 0; min-width: 0; }
+  figure img { height: 100%; max-height: 620px; object-fit: cover; width: 100%; }
+  figcaption { align-items: center; background: var(--paper-raised); border-top: 1px solid var(--line); color: var(--muted); display: flex; font-family: var(--mono); font-size: .52rem; justify-content: space-between; padding: 10px 14px; text-transform: uppercase; }
+  figcaption span { margin-left: 18px; }
+  .image-placeholder { align-items: center; background: linear-gradient(135deg, #e1e4dc, #cdd1c7); display: flex; flex-direction: column; justify-content: center; }
+  .image-placeholder span { font-family: var(--mono); font-size: .58rem; text-transform: uppercase; } .image-placeholder strong { font-family: var(--sans); font-size: 3rem; margin-top: 16px; }
+  .robot-identity { display: flex; flex-direction: column; justify-content: center; padding: 42px; }
+  h1 { font-family: var(--sans); font-size: clamp(3.5rem, 5.7vw, 6.2rem); font-weight: 600; letter-spacing: -.07em; line-height: .86; margin: 24px 0; }
+  .robot-identity > p { font-size: 1.05rem; line-height: 1.6; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 24px; }
+  .tag-row span { border: 1px solid var(--ink); font-family: var(--mono); font-size: .55rem; padding: 6px 8px; text-transform: uppercase; }
+  .hero-actions { display: grid; gap: 7px; grid-template-columns: 1fr 1fr; margin-top: 30px; }
+  .hero-actions a { align-items: center; border: 1px solid var(--ink); display: flex; font-family: var(--mono); font-size: .57rem; justify-content: center; min-height: 42px; text-transform: uppercase; }
+  .hero-actions .primary { background: var(--ink); color: var(--acid); }
+  .robot-glance { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: repeat(4, 1fr); }
+  .robot-glance div { border-right: 1px solid var(--line); min-height: 112px; padding: 20px; }
+  .robot-glance span, .repo-grid span { color: var(--muted); display: block; font-family: var(--mono); font-size: .55rem; text-transform: uppercase; }
+  .robot-glance strong { display: block; font-size: 1.03rem; font-weight: 600; line-height: 1.25; margin-top: 24px; }
+  .section-block { border-bottom: 1px solid var(--ink); padding: 46px 42px; }
+  .section-block header { max-width: 720px; }
+  h2 { font-family: var(--sans); font-size: clamp(2.2rem, 3.6vw, 3.7rem); font-weight: 600; letter-spacing: -.05em; line-height: .96; margin: 13px 0 18px; }
+  .section-block header p, .availability p { color: var(--muted); line-height: 1.6; }
+  .spec-grid { border-top: 1px solid var(--ink); display: grid; grid-template-columns: 1fr 1fr; margin: 32px 0 0; }
+  .spec-grid div { border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 150px 1fr; min-height: 58px; padding: 17px 0; }
+  .spec-grid div:nth-child(odd) { border-right: 1px solid var(--line); padding-right: 24px; }
+  .spec-grid div:nth-child(even) { padding-left: 24px; }
+  dt { color: var(--muted); font-family: var(--mono); font-size: .57rem; text-transform: uppercase; } dd { font-weight: 600; margin: 0; }
+  .data-link { display: inline-block; font-family: var(--mono); font-size: .58rem; margin-top: 22px; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
+  .robot-openness { background: var(--paper-raised); }
+  .openness-grid { border-top: 1px solid var(--ink); display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 30px; }
+  .openness-grid div { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); min-height: 132px; padding: 20px; }
+  .openness-grid span, .openness-grid small { color: var(--muted); display: block; font-family: var(--mono); font-size: .56rem; text-transform: uppercase; }
+  .openness-grid strong { display: inline-block; font-size: .86rem; margin: 20px 0 12px; }
+  .openness-grid strong.open { background: var(--acid); border: 1px solid var(--ink); padding: 5px 7px; }
+  .chip-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip-list > * { border: 1px solid var(--ink); font-family: var(--mono); font-size: .62rem; padding: 10px 13px; text-transform: uppercase; }
+  .chip-list a:hover { background: var(--acid); }
+  .availability { background: var(--acid); }
+  .repo-grid { border: 1px solid var(--line); display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 30px; }
+  .repo-grid div { border-right: 1px solid var(--line); min-height: 115px; padding: 20px; }
+  .repo-grid strong { display: block; font-size: 1.5rem; margin-top: 22px; } .repo-grid small { color: var(--muted); display: block; font-family: var(--mono); font-size: .53rem; margin-top: 7px; }
+  .evidence { padding: 0; }
+  .evidence summary { align-items: center; cursor: pointer; display: flex; justify-content: space-between; padding: 28px 42px; }
+  .evidence summary strong { display: block; font-family: var(--sans); font-size: 1.5rem; margin-top: 8px; } .evidence summary b { font-family: var(--mono); font-size: .57rem; text-transform: uppercase; }
+  .evidence-list { border-top: 1px solid var(--ink); }
+  .evidence-list div { border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr 120px 110px; padding: 15px 42px; }
+  .evidence-list span, .evidence-list time { color: var(--muted); font-family: var(--mono); font-size: .57rem; text-transform: uppercase; }
+  .related-grid { border-top: 1px solid var(--ink); display: grid; grid-template-columns: repeat(4, 1fr); }
+  .related-grid a { border-right: 1px solid var(--line); min-height: 145px; padding: 20px; } .related-grid a:hover { background: var(--acid); }
+  .related-grid strong, .related-grid span, .related-grid small { display: block; } .related-grid strong { font-size: 1.25rem; } .related-grid span, .related-grid small { color: var(--muted); font-family: var(--mono); font-size: .56rem; margin-top: 14px; text-transform: uppercase; }
+  .empty-copy { color: var(--muted); font-family: var(--mono); font-size: .65rem; }
+  @media (max-width: 900px) { .robot-hero { grid-template-columns: 1fr; } figure { border-bottom: 1px solid var(--ink); border-right: 0; min-height: 420px; } .robot-glance { grid-template-columns: repeat(2, 1fr); } .related-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 620px) { .robot-hero { min-height: 0; } figure { min-height: 300px; } figcaption { align-items: start; flex-direction: column; gap: 5px; } figcaption span { margin-left: 0; } .robot-identity { padding: 30px 18px; } h1 { font-size: 3.2rem; } .section-block { padding: 34px 18px; } .robot-glance div { min-height: 100px; padding: 16px; } .spec-grid, .openness-grid, .repo-grid, .related-grid { grid-template-columns: 1fr; } .spec-grid div:nth-child(n) { border-right: 0; padding-left: 0; padding-right: 0; } .openness-grid div { border-right: 0; } .evidence summary { padding: 24px 18px; } .evidence-list div { grid-template-columns: 1fr; gap: 8px; padding: 15px 18px; } }
+</style>

@@ -20,6 +20,8 @@ describe("canonical domain redirect", () => {
     expect(canonicalRedirect("http://openagent.bot/agents/hermes-agent/?ref=old")?.toString())
       .toBe("https://www.openagent.bot/project/hermes-agent?ref=old");
     expect(canonicalPath("/skills/lottie/")).toBe("/project/lottie");
+    expect(canonicalPath("/robot/openarm/")).toBe("/project/openarm");
+    expect(canonicalPath("/robots/reachy-2/")).toBe("/project/reachy-2");
   });
 
   it("preserves high-intent comparisons instead of sending them to a generic page", () => {
@@ -27,6 +29,7 @@ describe("canonical domain redirect", () => {
   });
 
   it("consolidates the shorter agent landing alias", () => {
-    expect(canonicalPath("/open-source-agents/")).toBe("/open-source-ai-agents");
+    expect(canonicalPath("/open-source-agents/")).toBe("/agents");
+    expect(canonicalPath("/open-source-ai-agents/")).toBe("/agents");
   });
 });

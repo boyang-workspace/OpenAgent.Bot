@@ -14,6 +14,9 @@ describe("SEO consolidation", () => {
     expect(redirects).toContain("/agents/:slug /project/:slug 301");
     expect(redirects).toContain("/evaluations /methodology 301");
     expect(redirects).toContain("/recommendations/* /database 301");
+    expect(redirects).not.toContain("/blog/* /changes 301");
+    expect(redirects).not.toContain("/blog/*");
+    expect(redirects).toContain("/blog/langfuse-vs-mlflow /compare/langfuse-vs-mlflow 301");
   });
 
   it("preserves extensions when redirecting legacy machine-readable entity URLs", () => {
@@ -21,7 +24,6 @@ describe("SEO consolidation", () => {
     expect(redirects).toContain("/agents/:slug /project/:slug 301");
     expect(redirects).toContain("/models/:slug /project/:slug 301");
     expect(redirects).not.toContain("/agents/:slug /database");
-    expect(redirects).toContain("/project/genesis-world.json /project/genesis.json 301");
-    expect(redirects).toContain("/project/genesis-world.md /project/genesis.md 301");
+    expect(redirects).not.toContain("/project/genesis-world.json /project/genesis.json 301");
   });
 });

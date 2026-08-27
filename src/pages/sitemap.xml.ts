@@ -15,7 +15,10 @@ const staticPaths = [
   "/open-source-robots",
   "/open-source-humanoid-robots",
   "/open-source-agent-frameworks",
-  "/open-source-vla-models"
+  "/open-source-vla-models",
+  "/compare/openclaw-vs-browser-use-vs-openhands",
+  "/compare/langfuse-vs-mlflow",
+  "/compare/openclaw-vs-openhands"
 ];
 
 export const GET: APIRoute = async () => {

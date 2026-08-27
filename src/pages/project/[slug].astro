@@ -8,7 +8,10 @@ import type { RegistryDossier } from "@/lib/registry/types";
 const slug = Astro.params.slug ?? "";
 let dossier: RegistryDossier | undefined;
 try { dossier = await getRegistry().getEntityDossier(slug); } catch {}
-if (!dossier) return Astro.redirect("/database", 302);
+if (!dossier) {
+  Astro.response.status = 404;
+  return Astro.rewrite("/404");
+}
 
 const { entity } = dossier;
 const facts = new Map(dossier.facts.map((fact) => [fact.key, fact]));
@@ -29,6 +32,13 @@ const metricCards = [
   entity.openIssues !== undefined && { label: "Open issues", value: compactNumber(entity.openIssues), note: "Current repository count" },
   entity.lastCommitAt && { label: "Last commit", value: relativeDate(entity.lastCommitAt), note: calendarDate(entity.lastCommitAt) }
 ].filter(Boolean) as Array<{ label: string; value: string; note: string }>;
+const starHistory = dossier.metricSnapshots
+  .filter((snapshot) => snapshot.key === "stars")
+  .sort((a, b) => new Date(a.observedAt).getTime() - new Date(b.observedAt).getTime())
+  .slice(-30);
+const historyDays = dossier.record.firstObservationAt
+  ? Math.max(0, Math.floor((Date.now() - new Date(dossier.record.firstObservationAt).getTime()) / 86_400_000))
+  : 0;
 
 const passport = dossier.opennessFacets.length > 0
   ? dossier.opennessFacets
@@ -68,13 +78,26 @@ const schema = {
   ...(typeof language === "string" ? { programmingLanguage: language } : {}),
   sameAs: [entity.canonicalUrl, entity.repositoryUrl, entity.documentationUrl].filter(Boolean)
 };
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Database", item: "https://www.openagent.bot/database" },
+    { "@type": "ListItem", position: 2, name: entity.name, item: `https://www.openagent.bot/project/${entity.slug}` }
+  ]
+};
 
 const seoClassification = entity.robotics ? roboticsLayerLabel(entity.robotics.layer) : entity.primaryDomain ? `${domainLabel(entity.primaryDomain)} field` : "open-source AI ecosystem";
 const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLowerCase()} ${label(entity.kind).toLowerCase()} classified as ${seoClassification}. See license, activity, openness details and attributed evidence.`;
+const seoTitle = isPhysical
+  ? `${entity.name} — Open Hardware & Activity Data`
+  : entity.kind === "model"
+    ? `${entity.name} — Open Weights & Activity Data`
+    : `${entity.name} — Activity & Open-Source Data`;
 ---
 
-<BaseLayout title={`${entity.name} — ${label(entity.kind)} dossier`} description={seoDescription} path={`/project/${entity.slug}`} image={entity.logoUrl}>
-  <script slot="head" is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+<BaseLayout title={seoTitle} description={seoDescription} path={`/project/${entity.slug}`} image={entity.logoUrl}>
+  <script slot="head" is:inline type="application/ld+json" set:html={JSON.stringify([schema, breadcrumbSchema])} />
   <div class="page-shell">
     <article class="page-grid dossier">
       <header class="identity-header">
@@ -95,12 +118,21 @@ const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLo
           </div>
         </div>
         <div class="identity-actions">
-          <span class="record-id">OA / {entity.id}</span>
-          {entity.repositoryUrl && <a class="action-primary" href={entity.repositoryUrl} rel="noreferrer">View source repository <span>↗</span></a>}
-          {entity.documentationUrl && <a href={entity.documentationUrl} rel="noreferrer">Read documentation <span>↗</span></a>}
-          {entity.canonicalUrl && entity.canonicalUrl !== entity.documentationUrl && entity.canonicalUrl !== entity.repositoryUrl && <a href={entity.canonicalUrl} rel="noreferrer">Visit official site <span>↗</span></a>}
-          <a href={`/project/${entity.slug}.json`}>JSON record <span>↗</span></a>
-          <a href={`/project/${entity.slug}.md`}>Markdown record <span>↗</span></a>
+          <div class="record-summary">
+            <span class="record-id">OA / {entity.id}</span>
+            <dl>
+              <div><dt>Evidence</dt><dd>{compactNumber(dossier.record.observationCount)}</dd></div>
+              <div><dt>Sources</dt><dd>{dossier.subscriptions.length}</dd></div>
+              <div><dt>History</dt><dd>{historyDays}/30d</dd></div>
+              <div><dt>Freshness</dt><dd>{relativeDate(dossier.record.lastObservationAt)}</dd></div>
+            </dl>
+          </div>
+          <div class="action-stack">
+            {entity.repositoryUrl && <a class="action-primary" href={entity.repositoryUrl} rel="noreferrer">Repository</a>}
+            {entity.documentationUrl && <a href={entity.documentationUrl} rel="noreferrer">Documentation</a>}
+            <a href={`/database?selected=${entity.slug}`}>Compare</a>
+            <a href={`/project/${entity.slug}.json`}>JSON</a>
+          </div>
         </div>
       </header>
 
@@ -114,10 +146,9 @@ const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLo
       </nav>
 
       <section id="state" class="state-section section-block">
-        <header class="section-intro">
-          <span class="eyebrow">01 / Current state</span>
-          <h2>What is true now.</h2>
-          <p>Latest repository and registry state. Counts are snapshots, not lifetime claims.</p>
+        <header class="state-heading">
+          <div><span class="eyebrow">01 / Current state</span><h2>Current, sourced, comparable.</h2></div>
+          <p>Repository and registry values at the latest observation. Counts are snapshots, not lifetime claims.</p>
         </header>
         <div class="metric-board">
           {metricCards.map((metric) => (
@@ -184,7 +215,9 @@ const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLo
             <time datetime={dossier.record.lastObservationAt}>{calendarDate(dossier.record.lastObservationAt)}</time>
           </div>
         </div>
-        {dossier.metricSnapshots.length < 2 && <p class="history-note">Trend lines will appear after multiple daily snapshots. The current value is shown without implying movement.</p>}
+        {starHistory.length > 1 ? (
+          <div class="history-chart"><div><span class="data-label">Observed GitHub star history</span><strong>{starHistory.length} snapshots · {historyDays}/30 days</strong></div><canvas data-project-history data-values={JSON.stringify(starHistory.map((snapshot) => snapshot.value))} height="120" aria-label={`${entity.name} observed GitHub star history`}></canvas></div>
+        ) : <p class="history-note">Trend lines will appear after multiple daily snapshots. The current value is shown without implying movement.</p>}
       </section>
 
       {dossier.relationships.length > 0 && (
@@ -242,41 +275,89 @@ const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLo
   </div>
 </BaseLayout>
 
+<script>
+  const historyChart = document.querySelector<HTMLCanvasElement>("[data-project-history]");
+  if (historyChart) {
+    const values = JSON.parse(historyChart.dataset.values ?? "[]") as number[];
+    const ratio = window.devicePixelRatio || 1;
+    const width = historyChart.clientWidth;
+    const height = Number(historyChart.getAttribute("height") ?? 120);
+    historyChart.width = width * ratio;
+    historyChart.height = height * ratio;
+    const context = historyChart.getContext("2d");
+    if (context && values.length > 1) {
+      context.scale(ratio, ratio);
+      const min = Math.min(...values);
+      const max = Math.max(...values);
+      const range = Math.max(max - min, 1);
+      context.strokeStyle = "#141510";
+      context.lineWidth = 1;
+      for (let line = 0; line < 3; line += 1) {
+        const y = 14 + line * 42;
+        context.beginPath();
+        context.moveTo(0, y);
+        context.lineTo(width, y);
+        context.strokeStyle = "#d5d5cc";
+        context.stroke();
+      }
+      context.beginPath();
+      values.forEach((value, index) => {
+        const x = (index / (values.length - 1)) * width;
+        const y = height - 12 - ((value - min) / range) * (height - 28);
+        if (index === 0) context.moveTo(x, y); else context.lineTo(x, y);
+      });
+      context.strokeStyle = "#141510";
+      context.lineWidth = 2;
+      context.stroke();
+    }
+  }
+</script>
+
 <style>
   .dossier { overflow: hidden; }
-  .identity-header { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 1fr) 320px; min-height: 480px; }
-  .identity-main { display: flex; flex-direction: column; justify-content: center; padding: 56px 48px; }
+  .identity-header { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 1fr) 320px; min-height: 310px; }
+  .identity-main { display: flex; flex-direction: column; justify-content: center; padding: 36px 42px; }
   .identity-tags { display: flex; flex-wrap: wrap; gap: 7px; }
   .identity-tags span { border: 1px solid var(--ink); font-family: var(--mono); font-size: .59rem; padding: 6px 8px; text-transform: uppercase; }
   .identity-tags .open-tag { background: var(--acid); }
   .identity-tags .domain-tag { background: var(--ink); color: var(--paper); }
   .identity-tags .robotics-tag { background: var(--orange); }
   .identity-tags .open-core, .identity-tags .source-available { background: #dce6ff; color: var(--blue); }
-  .identity-main h1 { font-family: var(--display); font-size: clamp(4.8rem, 9vw, 9.5rem); letter-spacing: -.05em; line-height: .78; margin: 54px 0 36px; }
-  .identity-summary { font-size: 1.15rem; line-height: 1.6; max-width: 760px; }
-  .identity-meta { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 26px; }
+  .identity-main h1 { font-family: var(--sans); font-size: clamp(3rem, 5vw, 5.25rem); font-weight: 600; letter-spacing: -.06em; line-height: .9; margin: 34px 0 22px; }
+  .identity-summary { font-size: 1.02rem; line-height: 1.55; max-width: 760px; }
+  .identity-meta { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 18px; }
   .identity-meta span { color: var(--muted); font-family: var(--mono); font-size: .66rem; }
   .identity-meta strong { color: var(--ink); }
-  .identity-actions { background: var(--acid); border-left: 1px solid var(--ink); display: flex; flex-direction: column; justify-content: flex-end; padding: 28px; }
-  .identity-actions > a { align-items: center; border: 1px solid var(--ink); border-bottom: 0; display: flex; font-family: var(--mono); font-size: .68rem; justify-content: space-between; min-height: 50px; padding: 0 14px; text-transform: uppercase; }
-  .identity-actions > a:last-child { border-bottom: 1px solid var(--ink); }
-  .identity-actions > a:hover, .identity-actions .action-primary { background: var(--ink); color: var(--acid); }
-  .record-id { font-family: var(--mono); font-size: .58rem; margin-bottom: auto; overflow-wrap: anywhere; text-transform: uppercase; }
+  .identity-actions { background: var(--paper-raised); border-left: 1px solid var(--ink); display: flex; flex-direction: column; justify-content: space-between; padding: 24px; }
+  .record-summary { min-width: 0; }
+  .record-id { color: var(--muted); display: block; font-family: var(--mono); font-size: .55rem; overflow-wrap: anywhere; text-transform: uppercase; }
+  .record-summary dl { border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; margin: 22px 0 0; }
+  .record-summary dl div { border-bottom: 1px solid var(--line); padding: 11px 5px 10px 0; }
+  .record-summary dl div:nth-child(odd) { border-right: 1px solid var(--line); }
+  .record-summary dl div:nth-child(even) { padding-left: 12px; }
+  .record-summary dt { color: var(--muted); font-family: var(--mono); font-size: .5rem; text-transform: uppercase; }
+  .record-summary dd { font-family: var(--mono); font-size: .68rem; margin: 6px 0 0; }
+  .action-stack { display: grid; gap: 6px; grid-template-columns: 1fr 1fr; margin-top: 20px; }
+  .action-stack a { align-items: center; border: 1px solid var(--ink); display: flex; font-family: var(--mono); font-size: .56rem; justify-content: center; min-height: 38px; text-transform: uppercase; }
+  .action-stack a:hover, .action-stack .action-primary { background: var(--ink); color: var(--acid); }
   .dossier-nav { background: var(--paper-raised); border-bottom: 1px solid var(--ink); display: flex; overflow-x: auto; }
   .dossier-nav > * { border-right: 1px solid var(--line); flex: 0 0 auto; font-family: var(--mono); font-size: .6rem; padding: 14px 18px; text-transform: uppercase; }
   .dossier-nav span { background: var(--ink); color: var(--paper); }
   .dossier-nav a:hover { background: var(--acid); }
 
   .section-block { border-bottom: 1px solid var(--ink); scroll-margin-top: 110px; }
+  .state-heading { align-items: end; display: grid; gap: 30px; grid-template-columns: minmax(280px, .8fr) minmax(320px, 1fr); padding: 26px 42px 22px; }
+  .state-heading h2 { font-family: var(--sans); font-size: clamp(1.55rem, 2.5vw, 2.5rem); font-weight: 600; letter-spacing: -.04em; margin: 9px 0 0; }
+  .state-heading p { color: var(--muted); line-height: 1.5; margin: 0; max-width: 620px; }
   .section-intro { padding: 44px 48px 30px; }
-  .section-intro h2, .overview-grid h2, .record-heading h2 { font-family: var(--display); font-size: clamp(2.8rem, 5vw, 5.2rem); line-height: .9; margin: 12px 0 16px; }
+  .section-intro h2, .overview-grid h2, .record-heading h2 { font-family: var(--sans); font-size: clamp(2rem, 3.2vw, 3.3rem); font-weight: 600; letter-spacing: -.045em; line-height: .98; margin: 12px 0 16px; }
   .section-intro p, .panel-note { color: var(--muted); line-height: 1.55; max-width: 620px; }
   .compact-intro { padding-bottom: 24px; }
   .metric-board { border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
   .metric-card { border-right: 1px solid var(--line); min-height: 150px; padding: 24px; }
   .metric-card:last-child { border-right: 0; }
   .metric-card span, .metric-card small { color: var(--muted); display: block; font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
-  .metric-card strong { display: block; font-family: var(--display); font-size: 2.75rem; font-weight: 400; line-height: 1; margin: 22px 0 14px; }
+  .metric-card strong { display: block; font-family: var(--sans); font-size: 2.35rem; font-weight: 500; letter-spacing: -.05em; line-height: 1; margin: 22px 0 14px; }
   .state-line { background: var(--ink); color: var(--paper); display: grid; grid-template-columns: repeat(4, 1fr); }
   .state-line > div { border-right: 1px solid #45463f; padding: 20px 24px; }
   .state-line > div:last-child { border-right: 0; }
@@ -287,24 +368,24 @@ const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLo
 
   .overview-grid { display: grid; grid-template-columns: 1fr 1fr; }
   .what-it-is, .passport-panel { padding: 48px; }
-  .passport-panel { background: var(--blue); border-left: 1px solid var(--ink); color: white; }
-  .passport-panel .eyebrow, .passport-panel .panel-note { color: #cbd6ff; }
-  .body-copy > p { font-family: var(--display); font-size: 1.7rem; line-height: 1.35; max-width: 720px; }
+  .passport-panel { background: var(--paper-raised); border-left: 1px solid var(--ink); color: var(--ink); }
+  .passport-panel .eyebrow, .passport-panel .panel-note { color: var(--muted); }
+  .body-copy > p { font-family: var(--sans); font-size: 1.25rem; line-height: 1.45; max-width: 720px; }
   .body-copy dl { border-top: 1px solid var(--ink); margin-top: 36px; }
   .body-copy dl > div { border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 150px 1fr; padding: 14px 0; }
   .body-copy dt { color: var(--muted); font-family: var(--mono); font-size: .6rem; text-transform: uppercase; }
   .body-copy dd { margin: 0; }
   .topic-row dd { display: flex; flex-wrap: wrap; gap: 6px; }
   .topic-row dd span { background: var(--paper-raised); border: 1px solid var(--line); font-family: var(--mono); font-size: .58rem; padding: 4px 6px; }
-  .passport-list { border-top: 1px solid rgba(255,255,255,.55); margin-top: 32px; }
-  .passport-row { align-items: center; border-bottom: 1px solid rgba(255,255,255,.3); display: grid; gap: 12px; grid-template-columns: 70px 1fr auto; min-height: 72px; }
+  .passport-list { border-top: 1px solid var(--ink); margin-top: 32px; }
+  .passport-row { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 12px; grid-template-columns: 70px 1fr auto; min-height: 72px; }
   .facet-status { border: 1px solid currentColor; font-family: var(--mono); font-size: .55rem; padding: 5px 6px; text-align: center; text-transform: uppercase; }
   .facet-status.open { background: var(--acid); color: var(--ink); }
   .facet-status.partial { background: var(--orange); color: var(--ink); }
   .passport-row strong, .passport-row small { display: block; }
-  .passport-row small { color: #cbd6ff; font-family: var(--mono); font-size: .57rem; margin-top: 5px; }
+  .passport-row small { color: var(--muted); font-family: var(--mono); font-size: .57rem; margin-top: 5px; }
   .passport-row a, .no-link { font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
-  .no-link { color: #aebbea; }
+  .no-link { color: var(--muted); }
 
   .activity-grid { border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); }
   .activity-event { border-right: 1px solid var(--line); min-height: 180px; padding: 26px; }
@@ -314,6 +395,10 @@ const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLo
   .featured-event { background: var(--acid); }
   .baseline-event { background: var(--paper-raised); }
   .history-note { color: var(--muted); font-family: var(--mono); font-size: .62rem; margin: 0; padding: 18px 26px; }
+  .history-chart { border-top: 1px solid var(--line); padding: 24px 26px 28px; }
+  .history-chart > div { align-items: center; display: flex; justify-content: space-between; }
+  .history-chart strong { font-family: var(--mono); font-size: .58rem; font-weight: 500; text-transform: uppercase; }
+  .history-chart canvas { display: block; margin-top: 20px; max-width: 100%; width: 100%; }
 
   .relationship-grid { border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, 1fr); }
   .relationship-grid a { border-right: 1px solid var(--line); min-height: 170px; padding: 26px; }
@@ -337,7 +422,7 @@ const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLo
   .record-grid > div { border-right: 1px solid #45463f; padding: 24px; }
   .record-grid > div:last-child { border-right: 0; }
   .record-grid span, .record-grid small { color: #a9aa9f; display: block; font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
-  .record-grid strong { display: block; font-family: var(--display); font-size: 2.1rem; font-weight: 400; margin: 16px 0 9px; }
+  .record-grid strong { display: block; font-family: var(--sans); font-size: 1.7rem; font-weight: 500; letter-spacing: -.035em; margin: 16px 0 9px; }
   .source-ledger { border-top: 1px solid #45463f; padding: 30px 48px 44px; }
   .source-ledger > .data-label { color: #a9aa9f; display: block; margin-bottom: 16px; }
   .source-ledger > div { align-items: center; border-top: 1px solid #45463f; display: grid; gap: 15px; grid-template-columns: 90px 190px 1fr auto; min-height: 58px; }
@@ -357,10 +442,10 @@ const seoDescription = `${entity.name} is an ${label(entity.opennessStatus).toLo
 
   @media (max-width: 760px) {
     .identity-header, .overview-grid { grid-template-columns: 1fr; }
-    .identity-main { min-height: 430px; padding: 42px 20px; }
-    .identity-main h1 { font-size: clamp(4.4rem, 23vw, 7rem); margin: 44px 0 28px; }
-    .identity-actions { border-left: 0; border-top: 1px solid var(--ink); min-height: 230px; padding: 20px; }
-    .record-id { margin-bottom: 34px; }
+    .identity-main { min-height: 300px; padding: 30px 20px; }
+    .identity-main h1 { font-size: clamp(2.7rem, 14vw, 4.2rem); margin: 34px 0 20px; }
+    .identity-actions { border-left: 0; border-top: 1px solid var(--ink); min-height: 220px; padding: 20px; }
+    .state-heading { align-items: start; grid-template-columns: 1fr; padding: 24px 20px; }
     .section-intro, .what-it-is, .passport-panel, .record-heading { padding: 36px 20px 26px; }
     .passport-panel { border-left: 0; border-top: 1px solid var(--ink); }
     .metric-board { grid-template-columns: 1fr 1fr; }

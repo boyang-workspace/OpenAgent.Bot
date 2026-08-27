@@ -1,0 +1,37 @@
+---
+import ComparisonView from "@/components/ComparisonView.astro";
+import { getRegistry } from "@/lib/registry/runtime";
+import type { RegistryDossier } from "@/lib/registry/types";
+
+const comparisons: Record<string, { title: string; description: string; slugs: string[] }> = {
+  "openclaw-vs-browser-use-vs-openhands": {
+    title: "OpenClaw vs Browser Use vs OpenHands",
+    description: "Compare three open-source action and automation projects across license, activity, repository metrics and auditable source coverage.",
+    slugs: ["openclaw", "browser-use", "openhands"]
+  },
+  "langfuse-vs-mlflow": {
+    title: "Langfuse vs MLflow",
+    description: "Compare two AI engineering and observability platforms using current open-source registry data and documented evidence.",
+    slugs: ["langfuse", "mlflow"]
+  },
+  "openclaw-vs-openhands": {
+    title: "OpenClaw vs OpenHands",
+    description: "Compare two open-source agent projects across intended use, openness, repository activity and evidence coverage.",
+    slugs: ["openclaw", "openhands"]
+  }
+};
+
+const slug = Astro.params.slug ?? "";
+const config = comparisons[slug];
+if (!config) {
+  Astro.response.status = 404;
+  return Astro.rewrite("/404");
+}
+
+let dossiers: RegistryDossier[] = [];
+try {
+  dossiers = (await Promise.all(config.slugs.map((entitySlug) => getRegistry().getEntityDossier(entitySlug)))).filter((item): item is RegistryDossier => item !== undefined);
+} catch {}
+---
+
+<ComparisonView title={config.title} description={config.description} path={`/compare/${slug}`} dossiers={dossiers} indexable />

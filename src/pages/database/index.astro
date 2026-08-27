@@ -1,9 +1,10 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import EntityTable from "@/components/EntityTable.astro";
+import RecordInspector from "@/components/RecordInspector.astro";
+import RegistryTable from "@/components/RegistryTable.astro";
 import { getRegistry } from "@/lib/registry/runtime";
-import { entityDomains, entityKinds, opennessStatuses, roboticsLayers, type EntityDomain, type EntityKind, type OpennessStatus, type RegistryEntity, type RoboticsLayer } from "@/lib/registry/types";
-import { label } from "@/lib/registry/format";
+import { entityDomains, entityKinds, opennessStatuses, roboticsLayers, type EntityDomain, type EntityKind, type OpennessStatus, type RegistryDossier, type RegistryEntity, type RegistryStats, type RoboticsLayer } from "@/lib/registry/types";
+import { calendarDate, compactNumber, label, relativeDate } from "@/lib/registry/format";
 import { domainLabel, roboticsLayerLabel } from "@/lib/registry/domains";
 
 const q = Astro.url.searchParams.get("q") ?? "";
@@ -12,65 +13,184 @@ const legacyDomain = requestedKind === "agent-side" ? "agent" : requestedKind ==
 const requestedDomain = Astro.url.searchParams.get("domain") ?? legacyDomain;
 const requestedOpenness = Astro.url.searchParams.get("openness") ?? "";
 const requestedLayer = Astro.url.searchParams.get("layer") ?? "";
+const requestedLicense = Astro.url.searchParams.get("license") ?? "";
+const requestedFreshness = Number(Astro.url.searchParams.get("freshness") ?? 0);
 const requestedPage = Number(Astro.url.searchParams.get("page") ?? 1);
 const page = Number.isFinite(requestedPage) ? Math.max(Math.floor(requestedPage), 1) : 1;
 const pageSize = 50;
-const sort = Astro.url.searchParams.get("sort") === "stars" ? "stars" : Astro.url.searchParams.get("sort") === "name" ? "name" : "updated";
+const sortParam = Astro.url.searchParams.get("sort");
+const sort = sortParam === "stars" || sortParam === "name" || sortParam === "activity" ? sortParam : "updated";
 const kind = entityKinds.includes(requestedKind as EntityKind) ? requestedKind as EntityKind : undefined;
 const domain = entityDomains.includes(requestedDomain as EntityDomain) ? requestedDomain as EntityDomain : undefined;
 const openness = opennessStatuses.includes(requestedOpenness as OpennessStatus) ? requestedOpenness as OpennessStatus : undefined;
 const roboticsLayer = roboticsLayers.includes(requestedLayer as RoboticsLayer) ? requestedLayer as RoboticsLayer : undefined;
+const freshness = [7, 30, 90].includes(requestedFreshness) ? requestedFreshness : undefined;
+const licenses = ["Apache-2.0", "MIT", "BSD-3-Clause", "GPL-3.0", "MPL-2.0"];
+const license = licenses.includes(requestedLicense) ? requestedLicense : undefined;
 let entities: RegistryEntity[] = [];
 let total = 0;
+let selectedDossier: RegistryDossier | undefined;
+let loadError = false;
+let stats: RegistryStats = { entities: 0, agents: 0, robots: 0, infrastructure: 0, robotPlatforms: 0, robotIntelligence: 0, roboticsStack: 0, models: 0, tools: 0, sources: 0, liveSources: 0, observations: 0, metricEntities: 0, changes30d: 0 };
 
+const registry = getRegistry();
 try {
-  const result = await getRegistry().listEntities({ q, domains: domain ? [domain] : undefined, roboticsLayers: roboticsLayer ? [roboticsLayer] : undefined, kinds: kind ? [kind] : undefined, openness: openness ? [openness] : undefined, sort, limit: pageSize, offset: (page - 1) * pageSize });
+  const [result, registryStats] = await Promise.all([
+    registry.listEntities({ q, domains: domain ? [domain] : undefined, roboticsLayers: roboticsLayer ? [roboticsLayer] : undefined, kinds: kind ? [kind] : undefined, openness: openness ? [openness] : undefined, license, verifiedWithinDays: freshness, sort, limit: pageSize, offset: (page - 1) * pageSize }),
+    registry.getStats()
+  ]);
   entities = result.items;
   total = result.total;
-} catch {}
+  stats = registryStats;
+  const requestedSelected = Astro.url.searchParams.get("selected");
+  const selectedSlug = requestedSelected && entities.some((entity) => entity.slug === requestedSelected) ? requestedSelected : entities[0]?.slug;
+  if (selectedSlug) selectedDossier = await registry.getEntityDossier(selectedSlug);
+} catch {
+  loadError = true;
+}
 
+const selectedSlug = selectedDossier?.entity.slug;
 const pageCount = Math.max(Math.ceil(total / pageSize), 1);
 function pageHref(nextPage: number): string {
   const params = new URLSearchParams(Astro.url.searchParams);
+  params.delete("selected");
   params.set("page", String(nextPage));
   return `/database?${params.toString()}`;
 }
+
+const activeFilters = [
+  q && `Search: ${q}`,
+  domain && `Field: ${domainLabel(domain)}`,
+  roboticsLayer && `Layer: ${roboticsLayerLabel(roboticsLayer)}`,
+  kind && `Artifact: ${label(kind)}`,
+  openness && `Openness: ${label(openness)}`,
+  license && `License: ${license}`,
+  freshness && `Verified: ${freshness}d`
+].filter(Boolean) as string[];
 ---
 
-<BaseLayout title="Database" description="Search the evidence-backed registry of open-source agents, models, robotics projects and infrastructure." path="/database">
-  <div class="page-shell"><div class="page-grid">
-    <section class="page-section">
-      <span class="kicker">Registry explorer</span>
-      <h1 class="page-title">Database</h1>
-      <p class="lede">{total} entities with attributed sources, typed classifications, openness states and verification timestamps.</p>
-    </section>
-    <form class="filter-bar" method="get">
-      <div class="field"><label for="q">Search</label><input id="q" name="q" type="search" value={q} placeholder="Name, organization, summary" /></div>
-      <div class="field"><label for="domain">Field</label><select id="domain" name="domain"><option value="">All fields</option>{entityDomains.map((item) => <option value={item} selected={domain === item}>{domainLabel(item)}</option>)}</select></div>
-      <div class="field"><label for="layer">Robotics layer</label><select id="layer" name="layer"><option value="">All layers</option>{roboticsLayers.map((item) => <option value={item} selected={roboticsLayer === item}>{roboticsLayerLabel(item)}</option>)}</select></div>
-      <div class="field"><label for="kind">Artifact type</label><select id="kind" name="kind"><option value="">All types</option>{entityKinds.map((item) => <option value={item} selected={kind === item}>{label(item)}</option>)}</select></div>
-      <div class="field"><label for="openness">Openness</label><select id="openness" name="openness"><option value="">All states</option>{opennessStatuses.map((item) => <option value={item} selected={openness === item}>{label(item)}</option>)}</select></div>
-      <div class="field"><label for="sort">Sort</label><select id="sort" name="sort"><option value="updated" selected={sort === "updated"}>Recently verified</option><option value="stars" selected={sort === "stars"}>GitHub stars</option><option value="name" selected={sort === "name"}>Name</option></select></div>
-      <button class="button primary" type="submit">Apply</button>
-    </form>
-    <section class="page-section results">
-      <EntityTable entities={entities} />
-      {pageCount > 1 && (
-        <nav class="pagination" aria-label="Database pages">
-          {page > 1 ? <a class="button secondary" href={pageHref(page - 1)}>← Previous</a> : <span></span>}
-          <span class="mono">Page {page} / {pageCount}</span>
-          {page < pageCount ? <a class="button secondary" href={pageHref(page + 1)}>Next →</a> : <span></span>}
-        </nav>
-      )}
-    </section>
-  </div></div>
+<BaseLayout
+  title="Open-Source Agent & Robot Database"
+  description="Search and compare open-source AI agents, robots, models and frameworks by activity, license, openness and attributed evidence."
+  path="/database"
+  noindex={Astro.url.searchParams.size > 0}
+>
+  <div class="page-shell ledger-shell">
+    <div class="page-grid ledger-grid">
+      <section class="registry-masthead">
+        <div class="masthead-title"><strong>Database</strong><span>Registry explorer</span><span>{compactNumber(stats.entities)} entities</span></div>
+        <dl>
+          <div><dt>Models + policies</dt><dd>{compactNumber(stats.models)}</dd></div>
+          <div><dt>Robotics stack</dt><dd>{compactNumber(stats.roboticsStack)}</dd></div>
+          <div><dt>Platforms</dt><dd>{compactNumber(stats.robotPlatforms)}</dd></div>
+          <div><dt>Evidence records</dt><dd>{compactNumber(stats.observations)}</dd></div>
+          <div><dt>Last update</dt><dd>{relativeDate(stats.lastSyncAt)}<small>{calendarDate(stats.lastSyncAt)}</small></dd></div>
+        </dl>
+      </section>
+
+      <details class="filter-panel" open>
+        <summary><span>Search and filters</span><strong>{activeFilters.length ? `${activeFilters.length} active` : "All records"}</strong></summary>
+        <form class="ledger-filters" method="get">
+          <div class="field search-field"><label for="q">Search</label><input id="q" name="q" type="search" value={q} placeholder="Name, organization, summary…" /></div>
+          <div class="field"><label for="domain">Field</label><select id="domain" name="domain"><option value="">All fields</option>{entityDomains.map((item) => <option value={item} selected={domain === item}>{domainLabel(item)}</option>)}</select></div>
+          <div class="field"><label for="layer">Robotics layer</label><select id="layer" name="layer"><option value="">All layers</option>{roboticsLayers.map((item) => <option value={item} selected={roboticsLayer === item}>{roboticsLayerLabel(item)}</option>)}</select></div>
+          <div class="field"><label for="kind">Artifact</label><select id="kind" name="kind"><option value="">All types</option>{entityKinds.map((item) => <option value={item} selected={kind === item}>{label(item)}</option>)}</select></div>
+          <div class="field"><label for="openness">Openness</label><select id="openness" name="openness"><option value="">All states</option>{opennessStatuses.map((item) => <option value={item} selected={openness === item}>{label(item)}</option>)}</select></div>
+          <div class="field"><label for="license">License</label><select id="license" name="license"><option value="">All licenses</option>{licenses.map((item) => <option value={item} selected={license === item}>{item}</option>)}</select></div>
+          <div class="field"><label for="freshness">Freshness</label><select id="freshness" name="freshness"><option value="">Any time</option><option value="7" selected={freshness === 7}>Verified ≤ 7d</option><option value="30" selected={freshness === 30}>Verified ≤ 30d</option><option value="90" selected={freshness === 90}>Verified ≤ 90d</option></select></div>
+          <div class="field"><label for="sort">Sort</label><select id="sort" name="sort"><option value="updated" selected={sort === "updated"}>Recently verified</option><option value="activity" selected={sort === "activity"}>Last activity</option><option value="stars" selected={sort === "stars"}>GitHub stars</option><option value="name" selected={sort === "name"}>Name</option></select></div>
+          <button class="button primary" type="submit">Apply</button>
+        </form>
+        <div class="active-filter-row">
+          <span class="data-label">Active filters</span>
+          {activeFilters.length ? activeFilters.map((item) => <span>{item}</span>) : <span class="empty-filter">None</span>}
+          {activeFilters.length > 0 && <a href="/database">Clear all</a>}
+        </div>
+      </details>
+
+      {loadError && <div class="load-error" role="alert"><strong>The registry could not be loaded.</strong><span>Refresh the page or use the public JSON API while the database reconnects.</span><a href="/api/v1/entities.json">Open API response</a></div>}
+
+      <div class="registry-workspace">
+        <section class="results-panel" aria-label="Registry results">
+          <RegistryTable entities={entities} total={total} selectedSlug={selectedSlug} queryString={Astro.url.searchParams.toString()} />
+          {pageCount > 1 && (
+            <nav class="pagination" aria-label="Database pages">
+              {page > 1 ? <a class="button secondary" href={pageHref(page - 1)}>Previous</a> : <span></span>}
+              <span class="mono">Page {page} / {pageCount}</span>
+              {page < pageCount ? <a class="button secondary" href={pageHref(page + 1)}>Next</a> : <span></span>}
+            </nav>
+          )}
+        </section>
+        <RecordInspector dossier={selectedDossier} />
+      </div>
+    </div>
+  </div>
 </BaseLayout>
 
+<script>
+  const filterPanel = document.querySelector<HTMLDetailsElement>(".filter-panel");
+  if (filterPanel && window.matchMedia("(max-width: 760px)").matches) filterPanel.removeAttribute("open");
+</script>
+
 <style>
-  .filter-bar { grid-template-columns: minmax(190px, 1fr) repeat(5, minmax(120px, 150px)) auto; }
-  .results { padding-top: 26px; }
-  .pagination { align-items: center; display: grid; grid-template-columns: 1fr auto 1fr; margin-top: 28px; }
+  .ledger-shell { max-width: 1600px; padding: 0; }
+  .ledger-grid { min-height: calc(100vh - 66px); }
+  .registry-masthead { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(350px, 1fr) minmax(600px, 1.8fr); min-height: 84px; }
+  .masthead-title { align-items: center; display: flex; gap: 24px; padding: 0 28px; }
+  .masthead-title strong { font-family: var(--sans); font-size: 1.05rem; }
+  .masthead-title span { align-items: center; display: flex; font-family: var(--mono); font-size: .62rem; gap: 8px; text-transform: uppercase; }
+  .masthead-title span::before { background: var(--acid); border: 1px solid var(--ink); content: ""; height: 7px; width: 7px; }
+  .registry-masthead dl { display: grid; grid-template-columns: repeat(5, 1fr); margin: 0; }
+  .registry-masthead dl > div { border-left: 1px solid var(--line); display: flex; flex-direction: column; justify-content: center; padding: 12px 18px; }
+  .registry-masthead dt { color: var(--muted); font-family: var(--mono); font-size: .54rem; text-transform: uppercase; }
+  .registry-masthead dd { font-family: var(--sans); font-size: 1.35rem; font-variant-numeric: tabular-nums; margin: 8px 0 0; }
+  .registry-masthead dd small { color: var(--muted); display: block; font-family: var(--mono); font-size: .48rem; margin-top: 3px; text-transform: uppercase; }
+  .filter-panel { border-bottom: 1px solid var(--ink); }
+  .filter-panel summary { align-items: center; cursor: pointer; display: none; font-family: var(--mono); font-size: .65rem; justify-content: space-between; min-height: 50px; padding: 0 16px; text-transform: uppercase; }
+  .filter-panel summary strong { color: var(--muted); font-weight: 500; }
+  .ledger-filters { align-items: end; display: grid; gap: 14px; grid-template-columns: minmax(210px, 1.5fr) repeat(7, minmax(108px, .72fr)) auto; padding: 18px 20px 14px; }
+  .field label { display: block; font-family: var(--mono); font-size: .54rem; margin-bottom: 6px; text-transform: uppercase; }
+  .field input, .field select { background: var(--paper-raised); border: 1px solid var(--ink); border-radius: 0; font-size: .76rem; height: 39px; padding: 0 10px; width: 100%; }
+  .ledger-filters .button { min-height: 39px; }
+  .active-filter-row { align-items: center; display: flex; flex-wrap: wrap; gap: 8px; min-height: 46px; padding: 0 20px 12px; }
+  .active-filter-row > span:not(.data-label) { background: #eceee4; border: 1px solid var(--line); font-family: var(--mono); font-size: .53rem; padding: 6px 8px; text-transform: uppercase; }
+  .active-filter-row .empty-filter { color: var(--muted); }
+  .active-filter-row a { font-family: var(--mono); font-size: .55rem; margin-left: 4px; text-decoration: underline; text-transform: uppercase; text-underline-offset: 3px; }
+  .registry-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 320px; min-height: 690px; }
+  .results-panel { min-width: 0; }
+  .pagination { align-items: center; display: grid; grid-template-columns: 1fr auto 1fr; padding: 22px 18px; }
   .pagination > :last-child { justify-self: end; }
-  @media (max-width: 1100px) { .filter-bar { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 640px) { .filter-bar { grid-template-columns: 1fr; } }
+  .load-error { align-items: center; background: #fff2ed; border-bottom: 1px solid var(--orange); display: flex; gap: 18px; padding: 13px 20px; }
+  .load-error span { color: var(--muted); font-size: .8rem; }
+  .load-error a { font-family: var(--mono); font-size: .58rem; margin-left: auto; text-decoration: underline; text-transform: uppercase; }
+
+  @media (max-width: 1280px) {
+    .registry-masthead { grid-template-columns: 330px 1fr; }
+    .registry-masthead dl > div:nth-child(4) { display: none; }
+    .registry-masthead dl { grid-template-columns: repeat(4, 1fr); }
+    .ledger-filters { grid-template-columns: repeat(4, 1fr); }
+    .search-field { grid-column: span 2; }
+  }
+  @media (max-width: 1040px) {
+    .registry-masthead { grid-template-columns: 1fr; }
+    .masthead-title { min-height: 70px; }
+    .registry-masthead dl { border-top: 1px solid var(--line); }
+    .registry-workspace { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 760px) {
+    .registry-masthead { min-height: 0; }
+    .masthead-title { align-items: flex-start; flex-direction: column; gap: 8px; min-height: 108px; padding: 19px 16px; }
+    .masthead-title strong { font-size: 1.25rem; }
+    .registry-masthead dl { grid-template-columns: repeat(3, 1fr); }
+    .registry-masthead dl > div { min-height: 70px; padding: 10px; }
+    .registry-masthead dl > div:nth-child(4), .registry-masthead dl > div:nth-child(5) { display: none; }
+    .registry-masthead dd { font-size: 1.05rem; }
+    .filter-panel summary { display: flex; }
+    .ledger-filters { grid-template-columns: 1fr; padding: 14px; }
+    .search-field { grid-column: auto; }
+    .field input, .field select, .ledger-filters .button { min-height: 48px; }
+    .active-filter-row { padding: 0 14px 14px; }
+    .load-error { align-items: flex-start; flex-direction: column; gap: 6px; }
+    .load-error a { margin-left: 0; }
+  }
 </style>

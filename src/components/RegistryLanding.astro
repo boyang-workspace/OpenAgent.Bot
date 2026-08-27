@@ -14,9 +14,32 @@ type Props = {
 };
 
 const { title, eyebrow, description, path, entities, total, databaseHref } = Astro.props;
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.openagent.bot/" },
+      { "@type": "ListItem", position: 2, name: title, item: `https://www.openagent.bot${path}` }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: title,
+    numberOfItems: total,
+    itemListElement: entities.map((entity, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: entity.name,
+      url: `https://www.openagent.bot/project/${entity.slug}`
+    }))
+  }
+];
 ---
 
 <BaseLayout title={title} description={description} path={path}>
+  <script slot="head" is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   <div class="page-shell"><div class="page-grid">
     <section class="page-section">
       <span class="kicker">{eyebrow}</span>
@@ -35,4 +58,9 @@ const { title, eyebrow, description, path, entities, total, databaseHref } = Ast
   .landing-count { margin-top: 24px; }
   .landing-results { padding-top: 28px; }
   .landing-results .button { margin-top: 28px; }
+  :global(.landing-results + *) { border-top: 0; }
+  @media (min-width: 761px) {
+    :global(.page-grid > .page-section:first-child) { padding-bottom: 36px; padding-top: 38px; }
+    :global(.page-grid > .page-section:first-child .page-title) { font-family: var(--sans); font-size: clamp(2.6rem, 5vw, 5.4rem); font-weight: 500; letter-spacing: -.055em; line-height: .96; margin-bottom: 20px; }
+  }
 </style>

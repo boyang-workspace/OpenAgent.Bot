@@ -90,6 +90,10 @@ export type RegistryEntity = {
   openIssues?: number;
   lastReleaseAt?: string;
   lastCommitAt?: string;
+  evidenceRecords?: number;
+  sourceCount?: number;
+  metricHistoryDays?: number;
+  starsDelta30d?: number;
   firstSeenAt: string;
   lastSeenAt: string;
   lastVerifiedAt?: string;
@@ -230,7 +234,9 @@ export type EntityQuery = {
   kinds?: EntityKind[];
   openness?: OpennessStatus[];
   country?: string;
-  sort?: "updated" | "stars" | "name";
+  license?: string;
+  verifiedWithinDays?: number;
+  sort?: "updated" | "stars" | "activity" | "name";
   limit?: number;
   offset?: number;
 };

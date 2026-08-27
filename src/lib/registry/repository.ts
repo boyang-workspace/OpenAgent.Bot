@@ -61,6 +61,10 @@ type EntityRow = {
   open_issues: number | null;
   last_release_at: string | null;
   last_commit_at: string | null;
+  evidence_records: number | null;
+  source_count: number | null;
+  metric_history_started_at: string | null;
+  stars_baseline: number | null;
   first_seen_at: string;
   last_seen_at: string;
   last_verified_at: string | null;
@@ -69,6 +73,9 @@ type EntityRow = {
 };
 
 function entityFromRow(row: EntityRow): RegistryEntity {
+  const metricHistoryDays = row.metric_history_started_at
+    ? Math.max(0, Math.floor((Date.now() - new Date(row.metric_history_started_at).getTime()) / 86_400_000))
+    : undefined;
   const robotics = row.robotics_layer ? {
     layer: row.robotics_layer,
     modelType: row.robotics_model_type ?? undefined,
@@ -107,6 +114,12 @@ function entityFromRow(row: EntityRow): RegistryEntity {
     openIssues: row.open_issues ?? undefined,
     lastReleaseAt: row.last_release_at ?? undefined,
     lastCommitAt: row.last_commit_at ?? undefined,
+    evidenceRecords: row.evidence_records ?? undefined,
+    sourceCount: row.source_count ?? undefined,
+    metricHistoryDays,
+    starsDelta30d: metricHistoryDays !== undefined && metricHistoryDays >= 28 && row.stars !== null && row.stars_baseline !== null
+      ? row.stars - row.stars_baseline
+      : undefined,
     firstSeenAt: row.first_seen_at,
     lastSeenAt: row.last_seen_at,
     lastVerifiedAt: row.last_verified_at ?? undefined,
@@ -118,6 +131,12 @@ function entityFromRow(row: EntityRow): RegistryEntity {
 const selectEntity = `
   SELECT e.*, m.stars, m.forks, m.watchers, m.downloads_30d, m.open_issues,
          m.last_release_at, m.last_commit_at,
+         (SELECT COUNT(*) FROM observations o_count WHERE o_count.entity_id = e.id) AS evidence_records,
+         (SELECT COUNT(*) FROM source_subscriptions ss_count WHERE ss_count.entity_id = e.id AND ss_count.enabled = 1) AS source_count,
+         (SELECT MIN(ms_start.observed_at) FROM metric_snapshots ms_start WHERE ms_start.entity_id = e.id) AS metric_history_started_at,
+         (SELECT ms_base.metric_value FROM metric_snapshots ms_base
+          WHERE ms_base.entity_id = e.id AND ms_base.metric_key = 'stars'
+          ORDER BY ms_base.observed_at ASC LIMIT 1) AS stars_baseline,
          (SELECT group_concat(ed.domain, '|') FROM entity_domains ed WHERE ed.entity_id = e.id) AS domains_csv,
          (SELECT ed.domain FROM entity_domains ed WHERE ed.entity_id = e.id AND ed.is_primary = 1 LIMIT 1) AS primary_domain,
          rp.layer AS robotics_layer, rp.model_type AS robotics_model_type,
@@ -203,10 +222,20 @@ export class RegistryRepository {
       values.push(query.country);
       filters.push(`e.country = ?${values.length}`);
     }
+    if (query.license) {
+      values.push(query.license);
+      filters.push(`e.license_spdx = ?${values.length}`);
+    }
+    if (query.verifiedWithinDays) {
+      values.push(`-${Math.max(1, Math.floor(query.verifiedWithinDays))} days`);
+      filters.push(`julianday(COALESCE(e.last_verified_at, e.updated_at)) >= julianday('now', ?${values.length})`);
+    }
 
     const orderBy =
       query.sort === "stars"
         ? "COALESCE(m.stars, 0) DESC, e.name ASC"
+        : query.sort === "activity"
+          ? "COALESCE(m.last_commit_at, m.last_release_at, e.last_verified_at, e.updated_at) DESC, e.name ASC"
         : query.sort === "name"
           ? "e.name ASC"
           : "COALESCE(e.last_verified_at, e.updated_at) DESC, e.name ASC";

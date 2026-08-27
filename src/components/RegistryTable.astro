@@ -1,0 +1,152 @@
+---
+import { compactNumber, label, relativeDate } from "@/lib/registry/format";
+import { domainLabel, roboticsLayerLabel } from "@/lib/registry/domains";
+import type { RegistryEntity } from "@/lib/registry/types";
+
+type Props = {
+  entities: RegistryEntity[];
+  total: number;
+  selectedSlug?: string;
+  queryString?: string;
+};
+
+const { entities, total, selectedSlug, queryString = "" } = Astro.props;
+
+function selectHref(slug: string): string {
+  const params = new URLSearchParams(queryString);
+  params.set("selected", slug);
+  return `/database?${params.toString()}`;
+}
+
+function classification(entity: RegistryEntity): string {
+  if (entity.robotics) return roboticsLayerLabel(entity.robotics.layer);
+  if (entity.primaryDomain) return domainLabel(entity.primaryDomain);
+  return "Unclassified";
+}
+
+function activityDate(entity: RegistryEntity): string | undefined {
+  return entity.lastCommitAt ?? entity.lastReleaseAt ?? entity.lastVerifiedAt;
+}
+---
+
+{entities.length > 0 ? (
+  <div class="registry-results">
+    <div class="result-toolbar">
+      <div class="compare-control">
+        <span class="data-label">Compare</span>
+        <strong data-compare-count>0 selected</strong>
+        <a data-compare-link href="/compare" hidden>Compare records</a>
+      </div>
+      <span class="result-count">{total} results</span>
+    </div>
+    <div class="table-scroll">
+      <table class="registry-table">
+        <thead>
+          <tr>
+            <th class="select-column"><span class="sr-only">Compare</span></th>
+            <th>Entity</th>
+            <th>Field / layer</th>
+            <th>Artifact</th>
+            <th>License</th>
+            <th class="numeric">Stars</th>
+            <th class="numeric">30d Δ</th>
+            <th>Last activity</th>
+            <th class="numeric">Evidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {entities.map((entity) => (
+            <tr class:list={[{ selected: entity.slug === selectedSlug }]}>
+              <td class="select-column"><input data-compare-item type="checkbox" value={entity.slug} aria-label={`Compare ${entity.name}`} /></td>
+              <td class="entity-cell">
+                <a href={selectHref(entity.slug)}>{entity.name}</a>
+                <small>{entity.organization ?? entity.summary}</small>
+              </td>
+              <td><span class:list={["domain-value", entity.primaryDomain ?? "shared"]}>{classification(entity)}</span></td>
+              <td>{label(entity.kind)}</td>
+              <td>{entity.licenseSpdx ?? "Not declared"}</td>
+              <td class="numeric metric-value">{compactNumber(entity.stars)}</td>
+              <td class="numeric delta-value">{entity.starsDelta30d === undefined ? <span title={`${entity.metricHistoryDays ?? 0}/30 history days collected`}>Collecting</span> : `${entity.starsDelta30d >= 0 ? "+" : ""}${compactNumber(entity.starsDelta30d)}`}</td>
+              <td>{relativeDate(activityDate(entity))}</td>
+              <td class="numeric"><span class="evidence-count">{entity.evidenceRecords ?? 0}</span></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+) : <div class="empty-state">No matching records. Clear one or more filters and try again.</div>}
+
+<script>
+  const compareBoxes = Array.from(document.querySelectorAll<HTMLInputElement>("[data-compare-item]"));
+  const compareCount = document.querySelector<HTMLElement>("[data-compare-count]");
+  const compareLink = document.querySelector<HTMLAnchorElement>("[data-compare-link]");
+  const updateCompare = () => {
+    const selected = compareBoxes.filter((box) => box.checked).map((box) => box.value);
+    if (compareCount) compareCount.textContent = `${selected.length} selected`;
+    if (compareLink) {
+      compareLink.hidden = selected.length < 2;
+      compareLink.href = `/compare?items=${encodeURIComponent(selected.join(","))}`;
+    }
+    for (const box of compareBoxes) box.disabled = selected.length >= 3 && !box.checked;
+  };
+  for (const box of compareBoxes) box.addEventListener("change", updateCompare);
+</script>
+
+<style>
+  .registry-results { min-width: 0; }
+  .result-toolbar { align-items: center; border-bottom: 1px solid var(--ink); display: flex; justify-content: space-between; min-height: 54px; padding: 0 18px; }
+  .compare-control { align-items: center; display: flex; gap: 13px; }
+  .compare-control strong, .compare-control a, .result-count { font-family: var(--mono); font-size: .64rem; text-transform: uppercase; }
+  .compare-control a { background: var(--ink); color: var(--acid); padding: 7px 10px; }
+  .table-scroll { min-width: 0; overflow-x: auto; }
+  .registry-table { border-collapse: collapse; min-width: 1010px; table-layout: fixed; width: 100%; }
+  th { background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: .59rem; font-weight: 500; height: 39px; letter-spacing: .035em; padding: 0 10px; text-align: left; text-transform: uppercase; }
+  th:nth-child(2) { width: 25%; }
+  th:nth-child(3) { width: 13%; }
+  th:nth-child(4) { width: 12%; }
+  th:nth-child(5) { width: 11%; }
+  th:nth-child(6), th:nth-child(7) { width: 8%; }
+  th:nth-child(8) { width: 10%; }
+  th:nth-child(9) { width: 7%; }
+  td { border-bottom: 1px solid var(--line); color: #3f423d; font-family: var(--mono); font-size: .66rem; height: 68px; padding: 9px 10px; vertical-align: middle; }
+  tbody tr:hover, tbody tr.selected { background: #f7f8f2; box-shadow: inset 3px 0 0 var(--acid); }
+  .select-column { text-align: center; width: 38px; }
+  .select-column input { accent-color: var(--acid); height: 16px; margin: 0; width: 16px; }
+  .entity-cell a { color: var(--ink); display: block; font-family: var(--sans); font-size: .92rem; font-weight: 600; }
+  .entity-cell a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .entity-cell small { color: var(--muted); display: block; font-size: .58rem; margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .domain-value { font-weight: 600; text-transform: uppercase; }
+  .domain-value.agent { color: var(--blue); }
+  .domain-value.robotics { color: var(--orange); }
+  .domain-value.shared { color: var(--muted); }
+  .numeric { font-variant-numeric: tabular-nums; text-align: right; }
+  .metric-value { color: var(--ink); font-size: .78rem; }
+  .delta-value { color: #426300; }
+  .delta-value span { color: var(--muted); font-size: .56rem; text-transform: uppercase; }
+  .evidence-count { background: var(--acid); border: 1px solid var(--ink); color: var(--ink); display: inline-block; min-width: 28px; padding: 4px 5px; text-align: center; }
+  .sr-only { height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; clip: rect(0,0,0,0); }
+
+  @media (max-width: 760px) {
+    .result-toolbar { min-height: 50px; padding: 0 14px; }
+    .compare-control .data-label { display: none; }
+    .table-scroll { overflow: visible; }
+    .registry-table { display: block; min-width: 0; }
+    .registry-table thead { display: none; }
+    .registry-table tbody { display: block; }
+    .registry-table tr { border-bottom: 1px solid var(--line); display: grid; gap: 7px 12px; grid-template-columns: 24px minmax(0, 1fr) auto; padding: 15px 14px; }
+    .registry-table td { border: 0; display: block; font-size: .63rem; height: auto; padding: 0; text-align: left; }
+    .registry-table .select-column { grid-row: 1 / 4; padding-top: 3px; }
+    .registry-table .entity-cell { grid-column: 2; }
+    .registry-table td:nth-child(3) { grid-column: 3; grid-row: 1; text-align: right; }
+    .registry-table td:nth-child(4) { grid-column: 2; }
+    .registry-table td:nth-child(5) { grid-column: 2; color: var(--muted); }
+    .registry-table td:nth-child(5)::before { content: "License · "; }
+    .registry-table td:nth-child(6) { grid-column: 3; grid-row: 2; text-align: right; }
+    .registry-table td:nth-child(6)::after { content: " stars"; color: var(--muted); font-size: .55rem; }
+    .registry-table td:nth-child(7) { display: none; }
+    .registry-table td:nth-child(8) { grid-column: 3; grid-row: 3; text-align: right; }
+    .registry-table td:nth-child(9) { grid-column: 3; grid-row: 4; text-align: right; }
+    .entity-cell small { max-width: 230px; }
+  }
+</style>

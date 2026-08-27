@@ -1,0 +1,169 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { calendarDate, compactNumber, label, relativeDate } from "@/lib/registry/format";
+import type { RegistryDossier } from "@/lib/registry/types";
+
+type Props = {
+  title: string;
+  description: string;
+  path: string;
+  dossiers: RegistryDossier[];
+  indexable?: boolean;
+};
+
+const { title, description, path, dossiers, indexable = false } = Astro.props;
+const entities = dossiers.map((dossier) => dossier.entity);
+const comparisonRows = [
+  { label: "Artifact", value: (dossier: RegistryDossier) => label(dossier.entity.kind) },
+  { label: "Organization", value: (dossier: RegistryDossier) => dossier.entity.organization ?? "Not declared" },
+  { label: "Open status", value: (dossier: RegistryDossier) => label(dossier.entity.opennessStatus) },
+  { label: "License", value: (dossier: RegistryDossier) => dossier.entity.licenseSpdx ?? "Not declared" },
+  { label: "Repository stars", value: (dossier: RegistryDossier) => compactNumber(dossier.entity.stars) },
+  { label: "Forks", value: (dossier: RegistryDossier) => compactNumber(dossier.entity.forks) },
+  { label: "Open issues", value: (dossier: RegistryDossier) => compactNumber(dossier.entity.openIssues) },
+  { label: "Last activity", value: (dossier: RegistryDossier) => relativeDate(dossier.entity.lastCommitAt ?? dossier.entity.lastReleaseAt ?? dossier.entity.lastVerifiedAt) },
+  { label: "Evidence records", value: (dossier: RegistryDossier) => String(dossier.record.observationCount) },
+  { label: "Metric snapshots", value: (dossier: RegistryDossier) => String(dossier.record.metricSnapshotCount) },
+  { label: "Tracked since", value: (dossier: RegistryDossier) => calendarDate(dossier.record.firstObservationAt) }
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: title,
+  itemListElement: entities.map((entity, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    url: `https://www.openagent.bot/project/${entity.slug}`,
+    name: entity.name
+  }))
+};
+---
+
+<BaseLayout title={title} description={description} path={path} noindex={!indexable}>
+  <script slot="head" is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  <div class="compare-shell">
+    <header class="compare-masthead">
+      <div>
+        <span class="kicker">Registry comparison</span>
+        <h1>{title}</h1>
+        <p>{description}</p>
+      </div>
+      <div class="comparison-status">
+        <span class="data-label">Record set</span>
+        <strong>{entities.length} projects</strong>
+        <span>Live registry values</span>
+      </div>
+    </header>
+
+    {dossiers.length >= 2 ? (
+      <>
+        <section class="summary-grid" style={`--columns:${dossiers.length}`}>
+          {dossiers.map((dossier) => (
+            <article>
+              <span class="badge open-source">{label(dossier.entity.kind)}</span>
+              <h2><a href={`/project/${dossier.entity.slug}`}>{dossier.entity.name}</a></h2>
+              <p>{dossier.entity.summary}</p>
+              <div class="project-actions">
+                <a href={`/project/${dossier.entity.slug}`}>Open record</a>
+                {dossier.entity.repositoryUrl && <a href={dossier.entity.repositoryUrl} target="_blank" rel="noreferrer">Repository ↗</a>}
+              </div>
+            </article>
+          ))}
+        </section>
+
+        <section class="matrix-section">
+          <div class="matrix-heading">
+            <div><span class="eyebrow">Comparable fields</span><h2>Side-by-side registry data</h2></div>
+            <p>Values are sourced from each project record. Missing data stays visible instead of being estimated.</p>
+          </div>
+          <div class="matrix-scroll">
+            <table style={`--columns:${dossiers.length}`}>
+              <thead><tr><th>Field</th>{dossiers.map((dossier) => <th>{dossier.entity.name}</th>)}</tr></thead>
+              <tbody>
+                {comparisonRows.map((row) => <tr><th>{row.label}</th>{dossiers.map((dossier) => <td>{row.value(dossier)}</td>)}</tr>)}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="evidence-grid" style={`--columns:${dossiers.length}`}>
+          {dossiers.map((dossier) => (
+            <article>
+              <span class="data-label">Evidence ledger · {dossier.entity.name}</span>
+              <dl>
+                <div><dt>Sources</dt><dd>{dossier.subscriptions.length}</dd></div>
+                <div><dt>Open facets</dt><dd>{dossier.opennessFacets.filter((facet) => facet.status === "open").length}/{dossier.opennessFacets.length}</dd></div>
+                <div><dt>Changes</dt><dd>{dossier.changes.length}</dd></div>
+              </dl>
+              {dossier.subscriptions.length > 0 ? <ul>{dossier.subscriptions.slice(0, 4).map((source) => <li><span>{source.sourceName}</span><small>{source.sourceTrustTier}</small></li>)}</ul> : <p class="empty-copy">Source subscriptions are still being added.</p>}
+            </article>
+          ))}
+        </section>
+      </>
+    ) : (
+      <section class="compare-empty">
+        <span class="eyebrow">Choose records</span>
+        <h2>Select two or three projects in the database.</h2>
+        <p>The comparison view only publishes fields present in the registry. Return to the database and use the compare checkboxes.</p>
+        <a class="button primary" href="/database">Open database</a>
+      </section>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .compare-shell { border-left: 1px solid var(--line); border-right: 1px solid var(--line); margin: 0 auto; max-width: var(--max); }
+  .compare-masthead { align-items: end; border-bottom: 1px solid var(--ink); display: grid; gap: 36px; grid-template-columns: minmax(0, 1fr) 210px; padding: 38px 42px 34px; }
+  .compare-masthead h1 { font-family: var(--sans); font-size: clamp(2rem, 4.4vw, 4.6rem); font-weight: 500; letter-spacing: -.055em; line-height: .96; margin: 18px 0 15px; max-width: 960px; }
+  .compare-masthead p { color: var(--muted); line-height: 1.55; margin: 0; max-width: 720px; }
+  .comparison-status { border-left: 1px solid var(--ink); display: grid; gap: 7px; padding-left: 20px; }
+  .comparison-status strong { font-family: var(--mono); font-size: 1.15rem; }
+  .comparison-status > span:last-child { color: var(--muted); font-family: var(--mono); font-size: .62rem; text-transform: uppercase; }
+  .summary-grid, .evidence-grid { display: grid; grid-template-columns: repeat(var(--columns), minmax(0, 1fr)); }
+  .summary-grid article { border-bottom: 1px solid var(--ink); border-right: 1px solid var(--line); min-height: 250px; padding: 28px; }
+  .summary-grid article:last-child, .evidence-grid article:last-child { border-right: 0; }
+  .summary-grid h2 { font-family: var(--sans); font-size: 1.65rem; font-weight: 600; letter-spacing: -.03em; margin: 24px 0 10px; }
+  .summary-grid h2 a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .summary-grid p { color: var(--muted); font-size: .84rem; line-height: 1.55; min-height: 66px; }
+  .project-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 24px; }
+  .project-actions a { border-bottom: 1px solid var(--ink); font-family: var(--mono); font-size: .63rem; padding-bottom: 3px; text-transform: uppercase; }
+  .matrix-section { border-bottom: 1px solid var(--ink); }
+  .matrix-heading { align-items: end; display: grid; gap: 40px; grid-template-columns: 1fr 360px; padding: 35px 42px 28px; }
+  .matrix-heading h2 { font-family: var(--sans); font-size: 2rem; font-weight: 500; letter-spacing: -.04em; margin: 10px 0 0; }
+  .matrix-heading p { color: var(--muted); font-size: .78rem; line-height: 1.5; margin: 0; }
+  .matrix-scroll { overflow-x: auto; }
+  table { border-collapse: collapse; min-width: 760px; width: 100%; }
+  th, td { border-right: 1px solid var(--line); border-top: 1px solid var(--line); font-family: var(--mono); font-size: .68rem; padding: 15px 18px; text-align: left; vertical-align: top; }
+  thead th { background: var(--ink); color: var(--paper); font-size: .61rem; text-transform: uppercase; }
+  th:first-child { width: 190px; }
+  tbody th { color: var(--muted); font-weight: 500; text-transform: uppercase; }
+  td:last-child, th:last-child { border-right: 0; }
+  .evidence-grid article { border-right: 1px solid var(--line); padding: 28px; }
+  dl { display: grid; grid-template-columns: repeat(3, 1fr); margin: 22px 0; }
+  dl div { border-right: 1px solid var(--line); padding: 0 10px; }
+  dl div:first-child { padding-left: 0; }
+  dl div:last-child { border: 0; }
+  dt { color: var(--muted); font-family: var(--mono); font-size: .56rem; text-transform: uppercase; }
+  dd { font-family: var(--mono); font-size: 1.2rem; margin: 7px 0 0; }
+  ul { border-top: 1px solid var(--line); list-style: none; margin: 0; padding: 0; }
+  li { align-items: center; border-bottom: 1px solid var(--line); display: flex; font-family: var(--mono); font-size: .65rem; justify-content: space-between; padding: 9px 0; }
+  li small, .empty-copy { color: var(--muted); font-family: var(--mono); font-size: .57rem; text-transform: uppercase; }
+  .compare-empty { min-height: 58vh; padding: 70px 42px; }
+  .compare-empty h2 { font-family: var(--sans); font-size: 2.4rem; font-weight: 500; letter-spacing: -.04em; margin: 15px 0; }
+  .compare-empty p { color: var(--muted); line-height: 1.6; max-width: 620px; }
+  .compare-empty .button { margin-top: 18px; }
+  @media (max-width: 760px) {
+    .compare-shell { border: 0; }
+    .compare-masthead { align-items: start; gap: 22px; grid-template-columns: 1fr; padding: 28px 18px; }
+    .compare-masthead h1 { font-size: 2.35rem; }
+    .comparison-status { border-left: 0; border-top: 1px solid var(--line); grid-template-columns: 1fr auto auto; padding: 16px 0 0; }
+    .summary-grid, .evidence-grid { display: block; }
+    .summary-grid article, .evidence-grid article { border-right: 0; min-height: 0; padding: 23px 18px; }
+    .summary-grid article { border-bottom: 1px solid var(--line); }
+    .summary-grid p { min-height: 0; }
+    .matrix-heading { align-items: start; gap: 12px; grid-template-columns: 1fr; padding: 28px 18px 20px; }
+    .matrix-heading h2 { font-size: 1.7rem; }
+    .compare-empty { min-height: 50vh; padding: 45px 18px; }
+  }
+</style>

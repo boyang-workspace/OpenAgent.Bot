@@ -1,0 +1,19 @@
+---
+import ComparisonView from "@/components/ComparisonView.astro";
+import { getRegistry } from "@/lib/registry/runtime";
+import type { RegistryDossier } from "@/lib/registry/types";
+
+const rawItems = Astro.url.searchParams.get("items") ?? "";
+const slugs = Array.from(new Set(rawItems.split(",").map((item) => item.trim()).filter(Boolean))).slice(0, 3);
+let dossiers: RegistryDossier[] = [];
+try {
+  dossiers = (await Promise.all(slugs.map((slug) => getRegistry().getEntityDossier(slug)))).filter((item): item is RegistryDossier => item !== undefined);
+} catch {}
+const names = dossiers.map((dossier) => dossier.entity.name);
+const title = names.length >= 2 ? `${names.join(" vs ")} — open-source data comparison` : "Compare open-source agents and robots";
+const description = names.length >= 2
+  ? `Compare ${names.join(", ")} using live registry data, source coverage, openness fields, repository activity and historical observations.`
+  : "Build an evidence-backed comparison of two or three open-source agent, model, robot or infrastructure projects.";
+---
+
+<ComparisonView title={title} description={description} path="/compare" dossiers={dossiers} />

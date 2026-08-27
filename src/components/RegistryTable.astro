@@ -59,8 +59,9 @@ function activityDate(entity: RegistryEntity): string | undefined {
             <tr class:list={[{ selected: entity.slug === selectedSlug }]}>
               <td class="select-column"><input data-compare-item type="checkbox" value={entity.slug} aria-label={`Compare ${entity.name}`} /></td>
               <td class="entity-cell">
-                <a href={selectHref(entity.slug)}>{entity.name}</a>
+                <a data-inspect-record data-slug={entity.slug} href={selectHref(entity.slug)} aria-current={entity.slug === selectedSlug ? "true" : undefined}>{entity.name}</a>
                 <small>{entity.organization ?? entity.summary}</small>
+                <a class="mobile-dossier-link" href={`/project/${entity.slug}`}>Full dossier ↗</a>
               </td>
               <td><span class:list={["domain-value", entity.primaryDomain ?? "shared"]}>{classification(entity)}</span></td>
               <td>{label(entity.kind)}</td>
@@ -81,6 +82,11 @@ function activityDate(entity: RegistryEntity): string | undefined {
   const compareBoxes = Array.from(document.querySelectorAll<HTMLInputElement>("[data-compare-item]"));
   const compareCount = document.querySelector<HTMLElement>("[data-compare-count]");
   const compareLink = document.querySelector<HTMLAnchorElement>("[data-compare-link]");
+  const tableScroll = document.querySelector<HTMLElement>(".table-scroll");
+  const filterParams = new URLSearchParams(window.location.search);
+  filterParams.delete("selected");
+  const scrollKey = `openagent:database-scroll:${filterParams.toString()}`;
+  const compareKey = `openagent:database-compare:${filterParams.toString()}`;
   const updateCompare = () => {
     const selected = compareBoxes.filter((box) => box.checked).map((box) => box.value);
     if (compareCount) compareCount.textContent = `${selected.length} selected`;
@@ -89,19 +95,36 @@ function activityDate(entity: RegistryEntity): string | undefined {
       compareLink.href = `/compare?items=${encodeURIComponent(selected.join(","))}`;
     }
     for (const box of compareBoxes) box.disabled = selected.length >= 3 && !box.checked;
+    sessionStorage.setItem(compareKey, JSON.stringify(selected));
   };
   for (const box of compareBoxes) box.addEventListener("change", updateCompare);
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(compareKey) ?? "[]") as string[];
+    for (const box of compareBoxes) box.checked = saved.includes(box.value);
+    updateCompare();
+  } catch {}
+  if (tableScroll) {
+    const savedScroll = Number(sessionStorage.getItem(scrollKey) ?? 0);
+    requestAnimationFrame(() => { tableScroll.scrollTop = savedScroll; });
+    tableScroll.addEventListener("scroll", () => sessionStorage.setItem(scrollKey, String(tableScroll.scrollTop)), { passive: true });
+  }
+  for (const link of document.querySelectorAll<HTMLAnchorElement>("[data-inspect-record]")) {
+    if (window.matchMedia("(max-width: 760px)").matches && link.dataset.slug) link.href = `/project/${link.dataset.slug}`;
+    link.addEventListener("click", () => {
+      if (tableScroll) sessionStorage.setItem(scrollKey, String(tableScroll.scrollTop));
+    });
+  }
 </script>
 
 <style>
-  .registry-results { min-width: 0; }
-  .result-toolbar { align-items: center; border-bottom: 1px solid var(--ink); display: flex; justify-content: space-between; min-height: 54px; padding: 0 18px; }
+  .registry-results { display: grid; grid-template-rows: auto minmax(0, 1fr); height: 100%; min-height: 0; min-width: 0; }
+  .result-toolbar { align-items: center; background: rgba(243, 244, 239, .98); border-bottom: 1px solid var(--ink); display: flex; justify-content: space-between; min-height: 54px; padding: 0 18px; z-index: 3; }
   .compare-control { align-items: center; display: flex; gap: 13px; }
   .compare-control strong, .compare-control a, .result-count { font-family: var(--mono); font-size: .64rem; text-transform: uppercase; }
   .compare-control a { background: var(--ink); color: var(--acid); padding: 7px 10px; }
-  .table-scroll { min-width: 0; overflow-x: auto; }
+  .table-scroll { min-height: 0; min-width: 0; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
   .registry-table { border-collapse: collapse; min-width: 1010px; table-layout: fixed; width: 100%; }
-  th { background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: .59rem; font-weight: 500; height: 39px; letter-spacing: .035em; padding: 0 10px; text-align: left; text-transform: uppercase; }
+  th { background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: .59rem; font-weight: 500; height: 39px; letter-spacing: .035em; padding: 0 10px; position: sticky; text-align: left; text-transform: uppercase; top: 0; z-index: 2; }
   th:nth-child(2) { width: 25%; }
   th:nth-child(3) { width: 13%; }
   th:nth-child(4) { width: 12%; }
@@ -116,6 +139,7 @@ function activityDate(entity: RegistryEntity): string | undefined {
   .entity-cell a { color: var(--ink); display: block; font-family: var(--sans); font-size: .92rem; font-weight: 600; }
   .entity-cell a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .entity-cell small { color: var(--muted); display: block; font-size: .58rem; margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .entity-cell .mobile-dossier-link { display: none; }
   .domain-value { font-weight: 600; text-transform: uppercase; }
   .domain-value.agent { color: var(--blue); }
   .domain-value.robotics { color: var(--orange); }
@@ -127,7 +151,14 @@ function activityDate(entity: RegistryEntity): string | undefined {
   .evidence-count { background: var(--acid); border: 1px solid var(--ink); color: var(--ink); display: inline-block; min-width: 28px; padding: 4px 5px; text-align: center; }
   .sr-only { height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; clip: rect(0,0,0,0); }
 
+  @media (max-width: 1040px) {
+    .registry-results { display: block; height: auto; }
+    .table-scroll { overflow-x: auto; overflow-y: visible; }
+    th { position: static; }
+  }
+
   @media (max-width: 760px) {
+    .registry-results { display: block; height: auto; }
     .result-toolbar { min-height: 50px; padding: 0 14px; }
     .compare-control .data-label { display: none; }
     .table-scroll { overflow: visible; }
@@ -148,5 +179,6 @@ function activityDate(entity: RegistryEntity): string | undefined {
     .registry-table td:nth-child(8) { grid-column: 3; grid-row: 3; text-align: right; }
     .registry-table td:nth-child(9) { grid-column: 3; grid-row: 4; text-align: right; }
     .entity-cell small { max-width: 230px; }
+    .mobile-dossier-link { color: var(--muted) !important; display: inline-block !important; font-family: var(--mono) !important; font-size: .54rem !important; font-weight: 500 !important; margin-top: 8px; text-transform: uppercase; }
   }
 </style>

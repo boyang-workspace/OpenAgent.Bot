@@ -290,7 +290,7 @@ const seoTitle = isPhysical
       const min = Math.min(...values);
       const max = Math.max(...values);
       const range = Math.max(max - min, 1);
-      context.strokeStyle = "#141510";
+      context.strokeStyle = "#0b0d0c";
       context.lineWidth = 1;
       for (let line = 0; line < 3; line += 1) {
         const y = 14 + line * 42;
@@ -306,7 +306,7 @@ const seoTitle = isPhysical
         const y = height - 12 - ((value - min) / range) * (height - 28);
         if (index === 0) context.moveTo(x, y); else context.lineTo(x, y);
       });
-      context.strokeStyle = "#141510";
+      context.strokeStyle = "#0b0d0c";
       context.lineWidth = 2;
       context.stroke();
     }
@@ -391,7 +391,7 @@ const seoTitle = isPhysical
   .activity-event { border-right: 1px solid var(--line); min-height: 180px; padding: 26px; }
   .activity-event:last-child { border-right: 0; }
   .activity-event > span, .activity-event time { color: var(--muted); display: block; font-family: var(--mono); font-size: .59rem; text-transform: uppercase; }
-  .activity-event strong { display: block; font-family: var(--display); font-size: 1.8rem; font-weight: 400; line-height: 1.15; margin: 38px 0 18px; }
+  .activity-event strong { display: block; font-family: var(--sans); font-size: 1.55rem; font-weight: 600; letter-spacing: -.03em; line-height: 1.15; margin: 38px 0 18px; }
   .featured-event { background: var(--acid); }
   .baseline-event { background: var(--paper-raised); }
   .history-note { color: var(--muted); font-family: var(--mono); font-size: .62rem; margin: 0; padding: 18px 26px; }
@@ -404,7 +404,7 @@ const seoTitle = isPhysical
   .relationship-grid a { border-right: 1px solid var(--line); min-height: 170px; padding: 26px; }
   .relationship-grid a:hover { background: var(--acid); }
   .relationship-grid span, .relationship-grid small { color: var(--muted); display: block; font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
-  .relationship-grid strong { display: block; font-family: var(--display); font-size: 2rem; font-weight: 400; margin: 35px 0 12px; }
+  .relationship-grid strong { display: block; font-family: var(--sans); font-size: 1.7rem; font-weight: 600; letter-spacing: -.035em; margin: 35px 0 12px; }
 
   .fact-table { border-top: 1px solid var(--ink); }
   .fact-row { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 18px; grid-template-columns: 150px minmax(260px, 1fr) 190px 110px; min-height: 64px; padding: 10px 24px; }

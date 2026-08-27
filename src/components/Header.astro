@@ -1,19 +1,35 @@
 ---
 import { site } from "@/config/site";
+
 const path = Astro.url.pathname;
+const isHome = path === "/";
+const nav = isHome ? [
+  { label: "Rankings", href: "#rankings", active: false },
+  { label: "Agents", href: "/database?domain=agent", active: false },
+  { label: "Robotics", href: "/database?domain=robotics", active: false },
+  { label: "Signals", href: "#signals", active: false },
+  { label: "Database", href: "/database", active: false }
+] : site.nav.map((item) => {
+  const active = item.label === "Database"
+    ? path === "/database" || path.startsWith("/project/") || path.startsWith("/compare")
+    : item.label === "Agents"
+      ? path === "/open-source-ai-agents" || path === "/open-source-agent-frameworks"
+      : item.label === "Robotics"
+        ? path === "/open-source-robots" || path === "/open-source-humanoid-robots" || path === "/open-source-vla-models"
+        : item.label === "Signals"
+          ? path === "/changes" || path === "/sources"
+          : path === item.href || path.startsWith(`${item.href}/`);
+  return { ...item, active };
+});
 ---
 
 <header class="site-header">
-  <a class="brand" href="/" aria-label="OpenAgent.bot home">
-    <span class="brand-mark">OA</span>
-    <span class="brand-copy">OPENAGENT<small>BOT / DATABASE</small></span>
+  <a class="wordmark" href="/" aria-label="OpenAgent.bot home">
+    <span class="wordmark-icon">OA</span>
+    <span>OPENAGENT<small>.BOT</small></span>
   </a>
-  <nav aria-label="Primary navigation">
-    {site.nav.map((item) => (
-      <a class:list={["nav-link", { active: path === item.href || path.startsWith(`${item.href}/`) }]} href={item.href}>
-        {item.label}
-      </a>
-    ))}
+  <nav class="primary-nav" aria-label="Primary navigation">
+    {nav.map((item) => <a class:list={[{ active: item.active }]} href={item.href}>{item.label}</a>)}
   </nav>
-  <a class="api-link" href="/api">API <span aria-hidden="true">↗</span></a>
+  <a class="support-link" href={isHome ? "#support" : "/#support"}>Support the index <span aria-hidden="true">↗</span></a>
 </header>

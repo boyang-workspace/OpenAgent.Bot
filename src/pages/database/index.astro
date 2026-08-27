@@ -59,14 +59,23 @@ function pageHref(nextPage: number): string {
 }
 
 const activeFilters = [
-  q && `Search: ${q}`,
-  domain && `Field: ${domainLabel(domain)}`,
-  roboticsLayer && `Layer: ${roboticsLayerLabel(roboticsLayer)}`,
-  kind && `Artifact: ${label(kind)}`,
-  openness && `Openness: ${label(openness)}`,
-  license && `License: ${license}`,
-  freshness && `Verified: ${freshness}d`
-].filter(Boolean) as string[];
+  q && { key: "q", label: `Search: ${q}` },
+  domain && { key: "domain", label: `Field: ${domainLabel(domain)}` },
+  roboticsLayer && { key: "layer", label: `Layer: ${roboticsLayerLabel(roboticsLayer)}` },
+  kind && { key: "kind", label: `Artifact: ${label(kind)}` },
+  openness && { key: "openness", label: `Openness: ${label(openness)}` },
+  license && { key: "license", label: `License: ${license}` },
+  freshness && { key: "freshness", label: `Verified: ${freshness}d` }
+].filter(Boolean) as Array<{ key: string; label: string }>;
+
+function removeFilterHref(key: string): string {
+  const params = new URLSearchParams(Astro.url.searchParams);
+  params.delete(key);
+  params.delete("page");
+  params.delete("selected");
+  const query = params.toString();
+  return query ? `/database?${query}` : "/database";
+}
 ---
 
 <BaseLayout
@@ -103,7 +112,7 @@ const activeFilters = [
         </form>
         <div class="active-filter-row">
           <span class="data-label">Active filters</span>
-          {activeFilters.length ? activeFilters.map((item) => <span>{item}</span>) : <span class="empty-filter">None</span>}
+          {activeFilters.length ? activeFilters.map((item) => <a class="filter-chip" href={removeFilterHref(item.key)} aria-label={`Remove ${item.label} filter`}>{item.label}<b aria-hidden="true">×</b></a>) : <span class="empty-filter">None</span>}
           {activeFilters.length > 0 && <a href="/database">Clear all</a>}
         </div>
       </details>
@@ -129,12 +138,14 @@ const activeFilters = [
 
 <script>
   const filterPanel = document.querySelector<HTMLDetailsElement>(".filter-panel");
-  if (filterPanel && window.matchMedia("(max-width: 760px)").matches) filterPanel.removeAttribute("open");
+  if (filterPanel && window.matchMedia("(max-width: 1280px)").matches) filterPanel.removeAttribute("open");
 </script>
 
 <style>
   .ledger-shell { max-width: 1600px; padding: 0; }
-  .ledger-grid { min-height: calc(100vh - 66px); }
+  :global(body) { overflow: hidden; }
+  :global(.site-footer) { display: none; }
+  .ledger-grid { display: grid; grid-template-rows: auto auto minmax(0, 1fr); height: calc(100dvh - var(--header-height)); min-height: 0; }
   .registry-masthead { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(350px, 1fr) minmax(600px, 1.8fr); min-height: 84px; }
   .masthead-title { align-items: center; display: flex; gap: 24px; padding: 0 28px; }
   .masthead-title strong { font-family: var(--sans); font-size: 1.05rem; }
@@ -142,22 +153,24 @@ const activeFilters = [
   .masthead-title span::before { background: var(--acid); border: 1px solid var(--ink); content: ""; height: 7px; width: 7px; }
   .registry-masthead dl { display: grid; grid-template-columns: repeat(5, 1fr); margin: 0; }
   .registry-masthead dl > div { border-left: 1px solid var(--line); display: flex; flex-direction: column; justify-content: center; padding: 12px 18px; }
-  .registry-masthead dt { color: var(--muted); font-family: var(--mono); font-size: .54rem; text-transform: uppercase; }
+  .registry-masthead dt { color: var(--muted); font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
   .registry-masthead dd { font-family: var(--sans); font-size: 1.35rem; font-variant-numeric: tabular-nums; margin: 8px 0 0; }
-  .registry-masthead dd small { color: var(--muted); display: block; font-family: var(--mono); font-size: .48rem; margin-top: 3px; text-transform: uppercase; }
-  .filter-panel { border-bottom: 1px solid var(--ink); }
+  .registry-masthead dd small { color: var(--muted); display: block; font-family: var(--mono); font-size: .54rem; margin-top: 3px; text-transform: uppercase; }
+  .filter-panel { background: rgba(243, 244, 239, .98); border-bottom: 1px solid var(--ink); min-width: 0; z-index: 6; }
   .filter-panel summary { align-items: center; cursor: pointer; display: none; font-family: var(--mono); font-size: .65rem; justify-content: space-between; min-height: 50px; padding: 0 16px; text-transform: uppercase; }
   .filter-panel summary strong { color: var(--muted); font-weight: 500; }
   .ledger-filters { align-items: end; display: grid; gap: 14px; grid-template-columns: minmax(210px, 1.5fr) repeat(7, minmax(108px, .72fr)) auto; padding: 18px 20px 14px; }
-  .field label { display: block; font-family: var(--mono); font-size: .54rem; margin-bottom: 6px; text-transform: uppercase; }
+  .field label { display: block; font-family: var(--mono); font-size: .58rem; margin-bottom: 6px; text-transform: uppercase; }
   .field input, .field select { background: var(--paper-raised); border: 1px solid var(--ink); border-radius: 0; font-size: .76rem; height: 39px; padding: 0 10px; width: 100%; }
   .ledger-filters .button { min-height: 39px; }
   .active-filter-row { align-items: center; display: flex; flex-wrap: wrap; gap: 8px; min-height: 46px; padding: 0 20px 12px; }
-  .active-filter-row > span:not(.data-label) { background: #eceee4; border: 1px solid var(--line); font-family: var(--mono); font-size: .53rem; padding: 6px 8px; text-transform: uppercase; }
+  .filter-chip { align-items: center; background: #eceee4; border: 1px solid var(--line); display: inline-flex; font-family: var(--mono); font-size: .58rem; gap: 8px; padding: 6px 8px; text-transform: uppercase; }
+  .filter-chip:hover { background: var(--acid); border-color: var(--ink); }
+  .filter-chip b { font-size: .72rem; line-height: .7; }
   .active-filter-row .empty-filter { color: var(--muted); }
-  .active-filter-row a { font-family: var(--mono); font-size: .55rem; margin-left: 4px; text-decoration: underline; text-transform: uppercase; text-underline-offset: 3px; }
-  .registry-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 320px; min-height: 690px; }
-  .results-panel { min-width: 0; }
+  .active-filter-row > a:not(.filter-chip) { font-family: var(--mono); font-size: .58rem; margin-left: 4px; text-decoration: underline; text-transform: uppercase; text-underline-offset: 3px; }
+  .registry-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 320px; min-height: 0; overflow: hidden; }
+  .results-panel { display: grid; grid-template-rows: minmax(0, 1fr) auto; min-height: 0; min-width: 0; overflow: hidden; }
   .pagination { align-items: center; display: grid; grid-template-columns: 1fr auto 1fr; padding: 22px 18px; }
   .pagination > :last-child { justify-self: end; }
   .load-error { align-items: center; background: #fff2ed; border-bottom: 1px solid var(--orange); display: flex; gap: 18px; padding: 13px 20px; }
@@ -168,14 +181,23 @@ const activeFilters = [
     .registry-masthead { grid-template-columns: 330px 1fr; }
     .registry-masthead dl > div:nth-child(4) { display: none; }
     .registry-masthead dl { grid-template-columns: repeat(4, 1fr); }
+    .filter-panel summary { display: flex; }
     .ledger-filters { grid-template-columns: repeat(4, 1fr); }
     .search-field { grid-column: span 2; }
   }
   @media (max-width: 1040px) {
+    :global(body) { overflow: auto; }
+    :global(.site-footer) { display: grid; }
+    .ledger-grid { display: block; height: auto; min-height: calc(100dvh - var(--header-height)); }
     .registry-masthead { grid-template-columns: 1fr; }
     .masthead-title { min-height: 70px; }
     .registry-masthead dl { border-top: 1px solid var(--line); }
-    .registry-workspace { grid-template-columns: 1fr; }
+    .registry-workspace { display: block; overflow: visible; }
+    .results-panel { display: block; overflow: visible; }
+  }
+  @media (min-width: 761px) and (max-width: 1040px) {
+    .registry-workspace { display: flex; flex-direction: column; }
+    .registry-workspace :global(.record-inspector) { order: -1; }
   }
   @media (max-width: 760px) {
     .registry-masthead { min-height: 0; }

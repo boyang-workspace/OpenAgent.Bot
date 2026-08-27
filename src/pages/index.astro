@@ -16,21 +16,6 @@ const historyDays = data.stats.historyStartedAt
   themeColor="#0b0d0c"
 >
   <div class="index-app">
-    <header class="index-header">
-      <a class="wordmark" href="/" aria-label="OpenAgent.bot home">
-        <span class="wordmark-icon">OA</span>
-        <span>OPENAGENT<small>.BOT</small></span>
-      </a>
-      <nav class="primary-nav" aria-label="Primary navigation">
-        <a href="#rankings">Rankings</a>
-        <a href="/database?domain=agent">Agents</a>
-        <a href="/database?domain=robotics">Robotics</a>
-        <a href="#signals">Signals</a>
-        <a href="/database">Database</a>
-      </nav>
-      <a class="support-link" href="#support">Support the index <span>↗</span></a>
-    </header>
-
     <main class="index-main">
       <div class="index-content">
       <section class="index-hero">
@@ -196,11 +181,6 @@ const historyDays = data.stats.historyStartedAt
       </aside>
     </main>
 
-    <footer class="index-footer">
-      <a href="/">OPENAGENT.BOT</a>
-      <p>Open data for software agents and robotics.</p>
-      <a href="/about">About the index →</a>
-    </footer>
   </div>
 </IndexLayout>
 
@@ -209,15 +189,6 @@ const historyDays = data.stats.historyStartedAt
   :global(::selection) { background: #b9ff38; color: #0b0d0c; }
   .index-app { --acid: #b9ff38; --support: #caff62; --agent: #43a5ff; --robot: #ff653c; --ink: #0b0d0c; --paper: #f3f4ef; background: var(--paper); margin: 0 auto; max-width: 1600px; min-height: 100vh; overflow: clip; }
   .index-app a:focus-visible, .index-app button:focus-visible, .index-app input:focus-visible { outline: 3px solid var(--robot); outline-offset: 3px; position: relative; z-index: 10; }
-  .index-header { align-items: stretch; border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: 250px 1fr 250px; min-height: 74px; }
-  .wordmark { align-items: center; border-right: 1px solid var(--ink); display: flex; font-family: "Azeret Mono", monospace; font-size: .78rem; font-weight: 700; gap: 12px; padding: 14px 22px; }
-  .wordmark small { color: #687067; }
-  .wordmark-icon { align-items: center; background: var(--ink); color: var(--acid); display: flex; height: 38px; justify-content: center; width: 38px; }
-  .primary-nav { display: flex; overflow: auto; }
-  .primary-nav a { align-items: center; border-right: 1px solid #c8ccc5; color: #515a51; display: flex; font-family: "Azeret Mono", monospace; font-size: .68rem; padding: 0 20px; text-transform: uppercase; }
-  .primary-nav a:hover { background: #e4e6df; color: var(--ink); }
-  .support-link { align-items: center; background: var(--ink); color: var(--paper); display: flex; font-family: "Azeret Mono", monospace; font-size: .68rem; justify-content: space-between; padding: 0 20px; text-transform: uppercase; }
-  .support-link:hover { background: var(--acid); color: var(--ink); }
   .index-main { display: grid; grid-template-columns: minmax(0, 3fr) minmax(310px, 1fr); }
   .index-content { min-width: 0; }
   .index-hero { border-bottom: 1px solid var(--ink); }
@@ -321,7 +292,7 @@ const historyDays = data.stats.historyStartedAt
   .support-rail section { border-bottom: 1px solid #424941; }
   .rail-heading { display: flex; font-family: "Azeret Mono", monospace; font-size: .61rem; justify-content: space-between; letter-spacing: .03em; text-transform: uppercase; }
   .rail-heading small { opacity: .58; }
-  .support-intro { background: var(--support); color: var(--ink); display: flex; flex-direction: column; min-height: 360px; padding: 24px; position: sticky; top: 0; z-index: 4; }
+  .support-intro { background: var(--support); color: var(--ink); display: flex; flex-direction: column; min-height: 360px; padding: 24px; position: sticky; top: var(--header-height); z-index: 4; }
   .slot-state { align-items: center; display: flex; font-family: "Azeret Mono", monospace; font-size: .6rem; gap: 8px; margin-top: 34px; text-transform: uppercase; }
   .slot-state i { animation: pulse 1.8s infinite; background: var(--ink); border-radius: 50%; height: 8px; width: 8px; }
   .support-intro h2 { font-size: clamp(2.65rem, 3.8vw, 4.1rem); letter-spacing: -.055em; line-height: .88; margin: 22px 0 18px; }
@@ -348,13 +319,9 @@ const historyDays = data.stats.historyStartedAt
   .boundary-card > span { font-family: "Azeret Mono", monospace; font-size: .6rem; text-transform: uppercase; }
   .boundary-card p { font-size: 1.3rem; letter-spacing: -.025em; line-height: 1.3; margin: 38px 0 24px; }
   .boundary-card a { border-bottom: 1px solid var(--ink); font-family: "Azeret Mono", monospace; font-size: .6rem; padding-bottom: 7px; text-transform: uppercase; }
-  .index-footer { align-items: center; background: var(--acid); display: grid; font-family: "Azeret Mono", monospace; font-size: .62rem; gap: 20px; grid-template-columns: .5fr 1fr auto; min-height: 82px; padding: 20px 28px; text-transform: uppercase; }
-  .index-footer p { margin: 0; text-align: center; }
   @keyframes pulse { 50% { box-shadow: 0 0 0 7px rgba(185,255,56,.15); } }
   @keyframes rowIn { from { opacity: 0; transform: translateY(10px); } }
   @media (max-width: 1100px) {
-    .index-header { grid-template-columns: 220px 1fr; }
-    .support-link { display: none; }
     .index-main { grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr); }
     .hero-copy { min-height: auto; }
     .hero-copy h1 { font-size: clamp(3.3rem, 6.8vw, 5rem); }
@@ -371,11 +338,7 @@ const historyDays = data.stats.historyStartedAt
     .support-board, .bounty-panel { border-right: 1px solid #424941; }
   }
   @media (max-width: 760px) {
-    .index-app, .index-header, .index-hero, .index-main { max-width: 100vw; min-width: 0; width: 100%; }
-    .index-header { grid-template-columns: minmax(0, 1fr); }
-    .wordmark { border-bottom: 1px solid var(--ink); border-right: 0; }
-    .primary-nav { max-width: 100vw; min-width: 0; }
-    .primary-nav a { min-height: 42px; padding: 0 14px; white-space: nowrap; }
+    .index-app, .index-hero, .index-main { max-width: 100vw; min-width: 0; width: 100%; }
     .hero-copy { max-width: 100vw; min-height: auto; padding: 34px 20px 28px; width: 100vw; }
     .hero-copy h1 { font-size: clamp(2.6rem, 11.5vw, 3.2rem); letter-spacing: -.065em; line-height: .93; margin: 30px 0 24px; }
     .hero-copy h1 .title-open, .hero-copy h1 .title-agent, .hero-copy h1 .title-bot { display: block; width: max-content; }
@@ -401,7 +364,5 @@ const historyDays = data.stats.historyStartedAt
     .coverage-panel { min-height: 390px; padding: 24px 20px; }
     .support-intro, .boundary-card { padding: 30px 20px; }
     .support-intro { min-height: auto; }
-    .index-footer { grid-template-columns: 1fr; text-align: left; }
-    .index-footer p { text-align: left; }
   }
 </style>

@@ -1,0 +1,40 @@
+---
+import { calendarDate, label } from "@/lib/registry/format";
+import { entityResources, relationshipLabel } from "@/lib/registry/resources";
+import type { RegistryDossier } from "@/lib/registry/types";
+type Props = { dossier: RegistryDossier };
+const { dossier } = Astro.props;
+const resources = entityResources(dossier.facts);
+const useCases = dossier.entity.useCases ?? [];
+const relationships = dossier.relationships.filter((item) => item.status === "verified");
+---
+{(useCases.length > 0 || resources.length > 0 || relationships.length > 0) && <section class="project-resources" aria-label="Use cases and connected resources">
+  {useCases.length > 0 && <div class="use-cases"><span class="eyebrow">Use cases</span><div class="case-links">{useCases.map((item) => <a href={`/database?use_case=${encodeURIComponent(item.slug)}`}>{item.name} →</a>)}</div></div>}
+  {relationships.length > 0 && <div class="connections"><h2>Connected projects</h2><ul>{relationships.map((item) => <li><span>{relationshipLabel(item)}</span><a href={`/project/${item.entity.slug}`}>{item.entity.name} →</a>{item.evidence[0] && <a class="source-link" href={item.evidence[0].sourceUrl} rel="noreferrer">Source ↗</a>}</li>)}</ul></div>}
+  {resources.length > 0 && <div class="resources"><h2>Files & official resources</h2><p>Reviewed snapshots, not a live file mirror. Repository activity syncs separately.</p><ul>{resources.map((resource) => <li>
+    <div><a class="resource-name" href={resource.url} rel="noreferrer">{resource.name} ↗</a><span class="resource-kind">{label(resource.kind)}</span>{resource.description && <p>{resource.description}</p>}</div>
+    <div class="resource-meta">{resource.license && <span>{resource.license}</span>}{resource.revision && <code title={resource.revision}>Commit {resource.revision.slice(0, 12)}</code>}<span>Reviewed {calendarDate(resource.observedAt)}{resource.sourceUrl && <> · <a href={resource.sourceUrl} rel="noreferrer">Source ↗</a></>}</span></div>
+  </li>)}</ul></div>}
+</section>}
+<style>
+  .project-resources { border-bottom: 1px solid var(--ink); padding: 32px 42px; }
+  .project-resources > div + div { margin-top: 28px; }
+  h2 { font-size: 1.5rem; letter-spacing: -.03em; margin: 0 0 14px; }
+  p { color: var(--muted); font-size: .85rem; line-height: 1.5; }
+  a { text-decoration: underline; text-underline-offset: 4px; }
+  a:hover { color: var(--orange); }
+  .case-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .case-links a { border: 1px solid var(--line); font-size: .8rem; padding: 9px 12px; text-decoration: none; }
+  .case-links a:hover { background: var(--acid); color: var(--ink); }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { border-top: 1px solid var(--line); padding: 14px 0; }
+  .connections li { align-items: baseline; display: grid; gap: 14px; grid-template-columns: 130px minmax(0, 1fr) auto; }
+  .connections li > span, .source-link { color: var(--muted); font-size: .75rem; }
+  .resources li { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr) minmax(180px, .5fr); }
+  .resource-name { font-weight: 600; overflow-wrap: anywhere; }
+  .resource-kind { color: var(--muted); font-family: var(--mono); font-size: .65rem; margin-left: 12px; }
+  .resources li p { margin: 8px 0 0; }
+  .resource-meta { color: var(--muted); display: grid; font-size: .75rem; gap: 7px; line-height: 1.5; overflow-wrap: anywhere; }
+  .resource-meta code { font-size: .7rem; }
+  @media (max-width: 620px) { .project-resources { padding: 28px 18px; } .resources li { grid-template-columns: 1fr; gap: 10px; } .connections li { grid-template-columns: 90px minmax(0, 1fr); gap: 10px; } .source-link { grid-column: 2; } }
+</style>

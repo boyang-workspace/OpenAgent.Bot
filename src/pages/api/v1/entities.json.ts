@@ -16,6 +16,7 @@ export const GET: APIRoute = async ({ url }) => {
   const requestedOffset = Number(url.searchParams.get("offset") ?? 0);
   const result = await getRegistry().listEntities({
     q: url.searchParams.get("q") ?? undefined,
+    useCase: url.searchParams.get("use_case") || undefined,
     domains: domain ? [domain] : undefined,
     roboticsLayers: roboticsLayer ? [roboticsLayer] : undefined,
     kinds: kind ? [kind] : undefined,

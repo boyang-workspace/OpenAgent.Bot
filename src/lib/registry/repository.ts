@@ -31,6 +31,7 @@ type EntityRow = {
   slug: string;
   kind: EntityKind;
   domains_csv: string | null;
+  use_cases_json: string | null;
   primary_domain: EntityDomain | null;
   robotics_layer: RegistryRoboticsProfile["layer"] | null;
   robotics_model_type: RegistryRoboticsProfile["modelType"] | null;
@@ -97,6 +98,7 @@ function entityFromRow(row: EntityRow): RegistryEntity {
     slug: row.slug,
     kind: row.kind,
     domains: parseEntityDomains(row.domains_csv),
+    useCases: (jsonValue(row.use_cases_json) ?? []) as RegistryEntity["useCases"],
     primaryDomain: row.primary_domain ?? undefined,
     robotics,
     name: row.name,
@@ -146,6 +148,8 @@ const selectEntity = `
           WHERE ms_base.entity_id = e.id AND ms_base.metric_key = 'stars'
           ORDER BY ms_base.observed_at ASC LIMIT 1) AS stars_baseline,
          (SELECT group_concat(ed.domain, '|') FROM entity_domains ed WHERE ed.entity_id = e.id) AS domains_csv,
+         (SELECT json_group_array(json_object('slug', uc.slug, 'name', uc.name, 'sourceUrl', eu.source_url, 'observedAt', eu.observed_at))
+          FROM entity_use_cases eu JOIN use_cases uc ON uc.slug = eu.use_case_slug WHERE eu.entity_id = e.id) AS use_cases_json,
          (SELECT ed.domain FROM entity_domains ed WHERE ed.entity_id = e.id AND ed.is_primary = 1 LIMIT 1) AS primary_domain,
          rp.layer AS robotics_layer, rp.model_type AS robotics_model_type,
          rp.form_factor AS robotics_form_factor, rp.stack_type AS robotics_stack_type,
@@ -230,6 +234,10 @@ export class RegistryRepository {
       values.push(query.country);
       filters.push(`e.country = ?${values.length}`);
     }
+    if (query.useCase) {
+      values.push(query.useCase);
+      filters.push(`EXISTS (SELECT 1 FROM entity_use_cases eu WHERE eu.entity_id = e.id AND eu.use_case_slug = ?${values.length})`);
+    }
     if (query.license) {
       values.push(query.license);
       filters.push(`e.license_spdx = ?${values.length}`);
@@ -268,6 +276,13 @@ export class RegistryRepository {
       limit,
       offset
     };
+  }
+
+  async listUseCases(): Promise<Array<{ slug: string; name: string }>> {
+    const rows = await this.db.prepare(`SELECT uc.slug, uc.name FROM use_cases uc
+      WHERE EXISTS (SELECT 1 FROM entity_use_cases eu JOIN entities e ON e.id = eu.entity_id
+        WHERE eu.use_case_slug = uc.slug AND e.visibility = 'public') ORDER BY uc.name`).all<{ slug: string; name: string }>();
+    return rows.results ?? [];
   }
 
   async getEntity(slug: string): Promise<RegistryEntity | undefined> {

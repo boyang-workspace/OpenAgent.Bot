@@ -94,13 +94,13 @@ function opennessLabel(entity: RegistryEntity, facet: "hardware" | "software"): 
                 <td>{opennessLabel(entity, "hardware")}</td>
                 <td>{opennessLabel(entity, "software")}</td>
                 <td>{metadataValue(entity, ["availability", "commercial_availability", "status"]) ?? "Collecting"}</td>
-                <td>{relativeDate(activityDate(entity))}<small class="secondary-metric">{compactNumber(entity.stars)} stars</small></td>
+                <td>{relativeDate(activityDate(entity))}{entity.stars !== undefined && <small class="secondary-metric">{compactNumber(entity.stars)} stars</small>}</td>
                 <td class="numeric"><span class="evidence-count">{entity.evidenceRecords ?? 0}</span></td>
               </> : <>
                 <td><span class:list={["domain-value", entity.opennessStatus]}>{label(entity.opennessStatus)}</span></td>
                 <td>{entity.licenseSpdx ?? "Not declared"}</td>
                 <td class="numeric metric-value">{compactNumber(entity.stars)}</td>
-                <td class="numeric delta-value">{entity.starsDelta30d === undefined ? <span title={`${entity.metricHistoryDays ?? 0}/30 history days collected`}>Collecting</span> : `${entity.starsDelta30d >= 0 ? "+" : ""}${compactNumber(entity.starsDelta30d)}`}</td>
+                <td class="numeric delta-value">{entity.stars === undefined && !entity.sourceCount ? <span title="No repository metric subscription for this record">—</span> : entity.starsDelta30d === undefined ? <span title={`${entity.metricHistoryDays ?? 0}/30 history days collected`}>Collecting</span> : `${entity.starsDelta30d >= 0 ? "+" : ""}${compactNumber(entity.starsDelta30d)}`}</td>
                 <td>{relativeDate(activityDate(entity))}</td>
                 <td class="numeric"><span class="evidence-count">{entity.evidenceRecords ?? 0}</span></td>
               </>}

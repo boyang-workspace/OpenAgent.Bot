@@ -32,13 +32,13 @@ const { entity } = dossier;
 const isRobotPlatform = entity.primaryDomain === "robotics" && entity.robotics?.layer === "platform";
 const schema = {
   "@context": "https://schema.org",
-  "@type": isRobotPlatform ? "Product" : "SoftwareSourceCode",
+  "@type": isRobotPlatform ? "Product" : entity.kind === "model" ? "CreativeWork" : "SoftwareSourceCode",
   name: entity.name,
   description: entity.description ?? entity.summary,
   url: `https://www.openagent.bot/project/${entity.slug}`,
   category: [entity.primaryDomain ? domainLabel(entity.primaryDomain) : undefined, entity.robotics ? roboticsLayerLabel(entity.robotics.layer) : undefined, label(entity.kind)].filter(Boolean).join(" / "),
-  ...(entity.organization ? { brand: { "@type": "Organization", name: entity.organization } } : {}),
-  ...(entity.repositoryUrl ? { codeRepository: entity.repositoryUrl } : {}),
+  ...(entity.organization ? { [isRobotPlatform ? "brand" : "author"]: { "@type": "Organization", name: entity.organization } } : {}),
+  ...(!isRobotPlatform && entity.repositoryUrl ? { codeRepository: entity.repositoryUrl } : {}),
   ...(entity.licenseSpdx ? { license: entity.licenseSpdx } : {}),
   ...(entity.heroImageUrl ? { image: entity.heroImageUrl } : {}),
   sameAs: [entity.canonicalUrl, entity.repositoryUrl, entity.documentationUrl].filter(Boolean)
@@ -52,7 +52,7 @@ const breadcrumbSchema = {
   ]
 };
 const seoTitle = isRobotPlatform
-  ? `${entity.name} — Open Robot Specs, Software & Activity`
+  ? `${entity.name} — Robot Specs, Software & Openness`
   : `${entity.name} — Activity, Openness & Evidence`;
 const seoDescription = `${entity.name}: ${entity.summary} Compare activity, openness, license, changes and attributed source evidence.`;
 ---

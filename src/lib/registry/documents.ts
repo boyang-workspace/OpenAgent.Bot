@@ -1,8 +1,9 @@
 import { domainLabel, roboticsLayerLabel } from "./domains";
 import { calendarDate, label } from "./format";
 import type { RegistryDossier } from "./types";
+import { entityResources, formatFactValue, relationshipLabel } from "./resources";
 
-export const entityDocumentVersion = "2026-08-26";
+export const entityDocumentVersion = "2026-08-28";
 
 export function buildEntityDocument(dossier: RegistryDossier) {
   const { entity } = dossier;
@@ -15,6 +16,7 @@ export function buildEntityDocument(dossier: RegistryDossier) {
       name: entity.name,
       field: entity.primaryDomain ?? null,
       fields: entity.domains,
+      useCases: entity.useCases ?? [],
       artifactType: entity.kind,
       robotics: entity.robotics ?? null,
       lifecycle: entity.lifecycle,
@@ -47,6 +49,7 @@ export function buildEntityDocument(dossier: RegistryDossier) {
     classification: dossier.domainAssignments,
     openness: dossier.opennessFacets,
     facts: dossier.facts,
+    resources: entityResources(dossier.facts),
     relationships: dossier.relationships,
     changes: dossier.changes,
     sources: dossier.subscriptions,
@@ -55,10 +58,10 @@ export function buildEntityDocument(dossier: RegistryDossier) {
 }
 
 function markdownValue(value: unknown): string {
-  if (Array.isArray(value)) return value.map(String).join(", ") || "Unknown";
+  if (Array.isArray(value)) return value.map(formatFactValue).join(", ") || "Unknown";
   if (typeof value === "boolean") return value ? "Yes" : "No";
   if (value === null || value === undefined || value === "") return "Unknown";
-  return String(value).replaceAll("\n", " ");
+  return formatFactValue(value).replaceAll("\n", " ");
 }
 
 export function buildEntityMarkdown(dossier: RegistryDossier): string {
@@ -74,7 +77,7 @@ export function buildEntityMarkdown(dossier: RegistryDossier): string {
     ? dossier.opennessFacets.map((facet) => `- ${label(facet.facet)}: ${label(facet.status)}${facet.licenseOrTerms ? ` — ${facet.licenseOrTerms}` : ""}${facet.sourceUrl ? ` (${facet.sourceUrl})` : ""}`).join("\n")
     : `- Overall: ${label(entity.opennessStatus)}${entity.licenseSpdx ? ` — ${entity.licenseSpdx}` : ""}`;
   const relationships = dossier.relationships.length
-    ? dossier.relationships.map((relationship) => `- ${label(relationship.type)}: [${relationship.entity.name}](https://www.openagent.bot/project/${relationship.entity.slug}) — ${label(relationship.status)}, ${Math.round(relationship.confidence * 100)}% confidence`).join("\n")
+    ? dossier.relationships.map((relationship) => `- ${relationshipLabel(relationship)}: [${relationship.entity.name}](https://www.openagent.bot/project/${relationship.entity.slug}) — ${label(relationship.status)}, ${Math.round(relationship.confidence * 100)}% confidence`).join("\n")
     : "- No evidenced relationships are currently published.";
   const sources = dossier.subscriptions.length
     ? dossier.subscriptions.map((source) => `- ${source.sourceName} (${label(source.sourceTrustTier)}): ${source.locator}`).join("\n")
@@ -87,6 +90,7 @@ export function buildEntityMarkdown(dossier: RegistryDossier): string {
 
 Canonical: https://www.openagent.bot/project/${entity.slug}
 Field: ${field}
+Use cases: ${(entity.useCases ?? []).map((item) => item.name).join(", ") || "Not classified"}
 ${roboticsClassification}Artifact type: ${label(entity.kind)}
 Status: ${label(entity.lifecycle)}
 Openness: ${label(entity.opennessStatus)}

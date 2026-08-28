@@ -1,6 +1,8 @@
 ---
 import { calendarDate, compactNumber, label, relativeDate } from "@/lib/registry/format";
 import type { RegistryDossier, RegistryEntity } from "@/lib/registry/types";
+import ProjectResources from "./ProjectResources.astro";
+import { formatFactValue } from "@/lib/registry/resources";
 
 type Props = { dossier: RegistryDossier; related: RegistryEntity[] };
 const { dossier, related } = Astro.props;
@@ -8,19 +10,25 @@ const { entity } = dossier;
 const lastActivity = entity.lastCommitAt ?? entity.lastReleaseAt ?? entity.lastVerifiedAt;
 const history = dossier.metricSnapshots.filter((item) => item.key === "stars").sort((a, b) => Date.parse(a.observedAt) - Date.parse(b.observedAt)).slice(-30);
 const historyDays = entity.metricHistoryDays ?? 0;
+const hasRepositoryMetrics = entity.stars !== undefined || dossier.subscriptions.length > 0;
+const modelMetadata = entity.robotics?.metadata ?? {};
 const facets = ["code", "weights", "data", "documentation", "governance"].map((name) => ({
   name,
   value: dossier.opennessFacets.find((item) => item.facet === name)
 }));
 const atGlance = [
-  { label: "Stars", value: compactNumber(entity.stars) },
-  { label: "30d", value: entity.starsDelta30d === undefined ? "Collecting" : `${entity.starsDelta30d >= 0 ? "+" : ""}${compactNumber(entity.starsDelta30d)}` },
+  ...(hasRepositoryMetrics ? [
+    { label: "Stars", value: compactNumber(entity.stars) },
+    { label: "30d", value: entity.starsDelta30d === undefined ? "Collecting" : `${entity.starsDelta30d >= 0 ? "+" : ""}${compactNumber(entity.starsDelta30d)}` }
+  ] : []),
+  ...(typeof modelMetadata.policy_count === "number" ? [{ label: "Policy files", value: String(modelMetadata.policy_count) }] : []),
+  ...(typeof modelMetadata.format === "string" ? [{ label: "Format", value: modelMetadata.format }] : []),
   { label: "Last activity", value: relativeDate(lastActivity) },
   { label: "License", value: entity.licenseSpdx ?? "Not declared" },
   { label: "Openness", value: label(entity.opennessStatus) },
   { label: "Evidence", value: compactNumber(dossier.record.observationCount) }
 ];
-const factRows = dossier.facts.slice(0, 12);
+const factRows = dossier.facts.filter((fact) => !fact.key.startsWith("resources."));
 ---
 
 <article class="project-sheet software-sheet page-grid">
@@ -28,7 +36,7 @@ const factRows = dossier.facts.slice(0, 12);
     <div class="project-identity">
       <div class="project-mark">{entity.logoUrl ? <img src={entity.logoUrl} alt="" /> : <span>{entity.name.slice(0, 2).toUpperCase()}</span>}</div>
       <div>
-        <span class="data-label">Open software record</span>
+        <span class="data-label">{entity.kind === "model" ? "Model / policy record" : "Software record"}</span>
         <h1>{entity.name}</h1>
         <p>{entity.summary}</p>
         <div class="tag-row"><span>{label(entity.kind)}</span><span>{label(entity.opennessStatus)}</span><span>{entity.licenseSpdx ?? "License not declared"}</span><span>{label(entity.lifecycle)}</span></div>
@@ -47,6 +55,8 @@ const factRows = dossier.facts.slice(0, 12);
     {atGlance.map((item) => <div><span>{item.label}</span><strong>{item.value}</strong></div>)}
   </section>
 
+  <ProjectResources dossier={dossier} />
+
   <section class="two-column section-block">
     <div class="what-it-is">
       <span class="eyebrow">What it is</span>
@@ -62,16 +72,16 @@ const factRows = dossier.facts.slice(0, 12);
       <h2>Open, facet by facet</h2>
       <div class="passport-list">
         <div><strong>License</strong><span class="state open">{entity.licenseSpdx ?? "Unknown"}</span></div>
-        {facets.map((facet) => <div><strong>{label(facet.name)}</strong><span class:list={["state", facet.value?.status ?? "unknown"]}>{facet.value ? label(facet.value.status) : "Unknown"}</span></div>)}
+        {facets.map((facet) => <div><strong>{label(facet.name)}{facet.value?.licenseOrTerms && <small>{facet.value.licenseOrTerms}{facet.value.sourceUrl && <> · <a href={facet.value.sourceUrl} rel="noreferrer">Source ↗</a></>}</small>}</strong><span class:list={["state", facet.value?.status ?? "unknown"]}>{facet.value ? label(facet.value.status) : "Unknown"}</span></div>)}
       </div>
     </div>
   </section>
 
-  <section class="activity section-block">
+  {hasRepositoryMetrics && <section class="activity section-block">
     <header><div><span class="eyebrow">Activity</span><h2>Observed project activity</h2></div><div class="range-tabs" aria-label="Chart range"><span class="active">30d</span><span>90d</span><span>1y</span><span>All</span></div></header>
     <div class="activity-summary"><div><span>Stars</span><strong>{compactNumber(entity.stars)}</strong></div><div><span>Forks</span><strong>{compactNumber(entity.forks)}</strong></div><div><span>Open issues</span><strong>{compactNumber(entity.openIssues)}</strong></div><div><span>Last commit</span><strong>{relativeDate(entity.lastCommitAt)}</strong></div></div>
     {history.length > 1 ? <canvas data-project-history data-values={JSON.stringify(history.map((item) => item.value))} height="150" aria-label={`${entity.name} observed star history`}></canvas> : <p class="collecting">History is still being collected. {historyDays} of 30 days available.</p>}
-  </section>
+  </section>}
 
   <section class="changes section-block">
     <span class="eyebrow">Recent changes</span><h2>What changed</h2>
@@ -81,7 +91,7 @@ const factRows = dossier.facts.slice(0, 12);
   <details id="evidence" class="evidence section-block">
     <summary><span><span class="eyebrow">Evidence & sources</span><strong>{dossier.record.observationCount} records</strong></span><b>Open evidence ↓</b></summary>
     <div class="evidence-table">
-      {factRows.map((fact) => <div><strong>{label(fact.key.replaceAll("_", "-"))}</strong><span>{fact.sourceUrl ? <a href={fact.sourceUrl} rel="noreferrer">{fact.sourceName} ↗</a> : fact.sourceName}</span><time datetime={fact.observedAt}>{calendarDate(fact.observedAt)}</time></div>)}
+      {factRows.map((fact) => <div><strong>{label(fact.key.replaceAll("_", "-"))}<small>{formatFactValue(fact.value)}</small></strong><span>{fact.sourceUrl ? <a href={fact.sourceUrl} rel="noreferrer">{fact.sourceName} ↗</a> : fact.sourceName}</span><time datetime={fact.observedAt}>{calendarDate(fact.observedAt)}</time></div>)}
     </div>
   </details>
 
@@ -143,6 +153,7 @@ const factRows = dossier.facts.slice(0, 12);
   .passport-list { border-top: 1px solid var(--ink); }
   .passport-list > div { align-items: center; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; min-height: 54px; }
   .passport-list strong { font-size: .76rem; }
+  .passport-list small, .evidence-table small { color: var(--muted); display: block; font-size: .75rem; font-weight: 400; line-height: 1.5; margin: 8px 16px 8px 0; overflow-wrap: anywhere; }
   .state { border: 1px solid currentColor; font-family: var(--mono); font-size: .55rem; padding: 5px 7px; text-transform: uppercase; }
   .state.open { background: var(--acid); color: var(--ink); } .state.partial { color: var(--orange); } .state.unknown { color: var(--muted); }
   .activity > header { align-items: end; display: flex; justify-content: space-between; }

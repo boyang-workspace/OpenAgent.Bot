@@ -1,6 +1,8 @@
 ---
 import { calendarDate, compactNumber, label, relativeDate } from "@/lib/registry/format";
 import type { RegistryDossier, RegistryEntity } from "@/lib/registry/types";
+import ProjectResources from "./ProjectResources.astro";
+import { formatFactValue } from "@/lib/registry/resources";
 
 type Props = { dossier: RegistryDossier; related: RegistryEntity[] };
 const { dossier, related } = Astro.props;
@@ -35,12 +37,16 @@ const glance = [
 ].filter((item) => item.value);
 const specs = [
   ["Robot type", value("robot_type") ?? (entity.robotics?.formFactor ? label(entity.robotics.formFactor) : undefined)],
-  ["DOF", value("dof")], ["Payload", value("payload")], ["Reach", value("reach")], ["Weight", value("weight")],
+  ["DOF", value("dof")], ["Height", value("height")], ["Width", value("width")], ["Payload", value("payload")], ["Reach", value("reach")], ["Weight", value("weight")],
   ["Actuators", value("actuators")], ["Sensors", value("sensors")], ["End effector", value("end_effector")],
-  ["Compute", value("compute")], ["Teleoperation", value("teleoperation")], ["Configuration", value("configuration")]
+  ["Compute", value("compute")], ["Battery", value("battery")], ["Teleoperation", value("teleoperation")], ["Configuration", value("configuration")]
 ].filter((item) => item[1]) as string[][];
 const ecosystem = Array.from(new Set([...list("software_ecosystem", "ecosystem"), ...list("simulation")]));
 const opennessNames = ["hardware", "code", "documentation", "data", "weights", "governance"];
+const priceFact = dossier.facts.find((fact) => fact.key === "availability.offer");
+const offer = priceFact?.value as { price?: number; currency?: string; note?: string } | undefined;
+const offerPrice = typeof offer?.price === "number" && Number.isFinite(offer.price) && /^[A-Z]{3}$/.test(offer.currency ?? "")
+  ? new Intl.NumberFormat("en", { style: "currency", currency: offer!.currency }).format(offer.price) : undefined;
 ---
 
 <article class="project-sheet robot-sheet page-grid">
@@ -50,7 +56,7 @@ const opennessNames = ["hardware", "code", "documentation", "data", "weights", "
       {(entity.imageSource || entity.imageUsageNote) && <figcaption>{entity.imageSourceUrl ? <a href={entity.imageSourceUrl} rel="noreferrer">{entity.imageSource ?? "Official source"} ↗</a> : entity.imageSource}<span>{entity.imageUsageNote}</span></figcaption>}
     </figure>
     <div class="robot-identity">
-      <span class="data-label">Open robot platform</span>
+      <span class="data-label">Robot platform</span>
       <h1>{entity.name}</h1>
       <p>{entity.summary}</p>
       <div class="tag-row"><span>{entity.robotics?.formFactor ? label(entity.robotics.formFactor) : label(entity.kind)}</span><span>{value("hardware_openness") ?? "Hardware evidence collecting"}</span><span>{value("software_openness") ?? label(entity.opennessStatus)}</span></div>
@@ -63,11 +69,14 @@ const opennessNames = ["hardware", "code", "documentation", "data", "weights", "
     </div>
   </header>
 
-  <section class="robot-glance" aria-label="Robot at a glance">{glance.map((item) => <div><span>{item.label}</span><strong>{label(String(item.value))}</strong></div>)}</section>
+  <section class="robot-glance" aria-label="Robot at a glance">{glance.map((item) => <div><span>{item.label}</span><strong>{String(item.value)}</strong></div>)}</section>
+
+  <ProjectResources dossier={dossier} />
 
   <section class="spec-section section-block">
     <header><span class="eyebrow">Physical system</span><h2>Known system specifications</h2><p>Only specifications backed by current registry data are shown.</p></header>
     {specs.length ? <dl class="spec-grid">{specs.map(([name, item]) => <div><dt>{name}</dt><dd>{item}</dd></div>)}</dl> : <p class="empty-copy">Verified physical specifications are still being collected.</p>}
+    {value("specification_note") && <p class="empty-copy">{value("specification_note")}</p>}
     <a class="data-link" href={`/project/${entity.slug}.json`}>View full registry data →</a>
   </section>
 
@@ -77,24 +86,24 @@ const opennessNames = ["hardware", "code", "documentation", "data", "weights", "
       {opennessNames.map((name) => {
         const facet = dossier.opennessFacets.find((item) => item.facet === name);
         const derived = name === "hardware" ? value("hardware_openness") : name === "code" ? value("software_openness") : undefined;
-        return <div><span>{name === "code" ? "Software" : label(name)}</span><strong class:list={[facet?.status ?? "unknown"]}>{derived ?? (facet ? label(facet.status) : "Unknown")}</strong><small>{facet?.licenseOrTerms ?? "No specific terms recorded"}</small></div>;
+        return <div><span>{name === "code" ? "Software" : label(name)}</span><strong class:list={[facet?.status ?? "unknown"]}>{derived ?? (facet ? label(facet.status) : "Unknown")}</strong><small>{facet?.licenseOrTerms ?? "No specific terms recorded"}{facet?.sourceUrl && <> · <a href={facet.sourceUrl} rel="noreferrer">Source ↗</a></>}</small></div>;
       })}
     </div>
   </section>
 
-  {(ecosystem.length > 0 || dossier.relationships.length > 0) && <section class="ecosystem section-block">
+  {ecosystem.length > 0 && <section class="ecosystem section-block">
     <span class="eyebrow">Software ecosystem</span><h2>Systems it works with</h2>
-    <div class="chip-list">{ecosystem.map((item) => <span>{item}</span>)}{dossier.relationships.map((relationship) => <a href={`/project/${relationship.entity.slug}`}>{relationship.entity.name} ↗</a>)}</div>
+    <div class="chip-list">{ecosystem.map((item) => <span>{item}</span>)}</div>
   </section>}
 
-  {value("availability") && <section class="availability section-block"><span class="eyebrow">Availability</span><h2>{value("availability")}</h2><p>Availability is reported from official project material. No price is shown unless canonical evidence is recorded.</p></section>}
+  {value("availability") && <section class="availability section-block"><span class="eyebrow">Availability</span><h2>{value("availability")}</h2>{offerPrice ? <><strong>{offerPrice} {offer?.currency}</strong><p>{offer?.note}</p><p>Reviewed {calendarDate(priceFact?.observedAt)}. {priceFact?.sourceUrl && <a href={priceFact.sourceUrl} rel="noreferrer">Check current official offer ↗</a>}</p></> : <p>Availability is reported from official project material. No price is shown unless canonical evidence is recorded.</p>}</section>}
 
-  <section class="repo-activity section-block">
+  {(entity.stars !== undefined || dossier.subscriptions.length > 0) && <section class="repo-activity section-block">
     <header><span class="eyebrow">Repository activity</span><h2>Supporting software evidence</h2><p>GitHub metrics describe the repository, not the physical system itself.</p></header>
     <div class="repo-grid"><div><span>Stars</span><strong>{compactNumber(entity.stars)}</strong></div><div><span>Forks</span><strong>{compactNumber(entity.forks)}</strong></div><div><span>Open issues</span><strong>{compactNumber(entity.openIssues)}</strong></div><div><span>Last commit</span><strong>{relativeDate(entity.lastCommitAt)}</strong><small>{calendarDate(entity.lastCommitAt)}</small></div></div>
-  </section>
+  </section>}
 
-  <details class="evidence section-block"><summary><span><span class="eyebrow">Evidence & sources</span><strong>{dossier.record.observationCount} records</strong></span><b>Open evidence ↓</b></summary><div class="evidence-list">{dossier.subscriptions.map((source) => <div><strong>{source.sourceName}</strong><span>{source.sourceTrustTier}</span><time datetime={source.lastSyncedAt}>{relativeDate(source.lastSyncedAt)}</time></div>)}</div></details>
+  <details class="evidence section-block"><summary><span><span class="eyebrow">Evidence & sources</span><strong>{dossier.record.observationCount} records</strong></span><b>Open evidence ↓</b></summary><div class="evidence-list">{dossier.facts.filter((fact) => !fact.key.startsWith("resources.")).map((fact) => <div><strong>{label(fact.key.replaceAll("_", "-"))}</strong><span>{formatFactValue(fact.value)}</span><span>{fact.sourceUrl && <a href={fact.sourceUrl} rel="noreferrer">{fact.sourceName} ↗</a>}<br /><time datetime={fact.observedAt}>{calendarDate(fact.observedAt)}</time></span></div>)}</div></details>
 
   <section class="related section-block"><span class="eyebrow">Related platforms</span><h2>Explore comparable systems</h2>{related.length ? <div class="related-grid">{related.map((item) => <a href={`/project/${item.slug}`}><strong>{item.name}</strong><span>{item.robotics?.formFactor ? label(item.robotics.formFactor) : label(item.kind)}</span><small>{relativeDate(item.lastCommitAt ?? item.lastVerifiedAt)}</small></a>)}</div> : <p class="empty-copy">Comparable platform relationships are still being verified.</p>}</section>
 </article>

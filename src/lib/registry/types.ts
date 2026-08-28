@@ -26,7 +26,7 @@ export const robotModelTypes = [
 export type RobotModelType = (typeof robotModelTypes)[number];
 
 export const robotFormFactors = [
-  "humanoid", "mobile-manipulator", "manipulator", "dual-arm", "robot-arm",
+  "humanoid", "biped", "mobile-manipulator", "manipulator", "dual-arm", "robot-arm",
   "quadruped", "mobile-base", "drone", "hand", "gripper", "sensor-platform", "other"
 ] as const;
 export type RobotFormFactor = (typeof robotFormFactors)[number];
@@ -69,6 +69,7 @@ export type RegistryEntity = {
   slug: string;
   kind: EntityKind;
   domains: EntityDomain[];
+  useCases?: Array<{ slug: string; name: string; sourceUrl: string; observedAt: string }>;
   primaryDomain?: EntityDomain;
   robotics?: RegistryRoboticsProfile;
   name: string;
@@ -233,6 +234,7 @@ export type RegistryStats = {
 
 export type EntityQuery = {
   q?: string;
+  useCase?: string;
   domains?: EntityDomain[];
   roboticsLayers?: RoboticsLayer[];
   kinds?: EntityKind[];

@@ -8,6 +8,8 @@ import { compactNumber, label, relativeDate } from "@/lib/registry/format";
 import { domainLabel, roboticsLayerLabel } from "@/lib/registry/domains";
 
 const q = Astro.url.searchParams.get("q") ?? "";
+const useCase = Astro.url.searchParams.get("use_case") || undefined;
+let useCases: Array<{ slug: string; name: string }> = [];
 const requestedKind = Astro.url.searchParams.get("kind") ?? "";
 const legacyDomain = requestedKind === "agent-side" ? "agent" : requestedKind === "bot-side" ? "robotics" : "";
 const requestedDomain = Astro.url.searchParams.get("domain") ?? legacyDomain;
@@ -35,10 +37,12 @@ let stats: RegistryStats = { entities: 0, agents: 0, robots: 0, infrastructure: 
 
 const registry = getRegistry();
 try {
-  const [result, registryStats] = await Promise.all([
-    registry.listEntities({ q, domains: domain ? [domain] : undefined, roboticsLayers: roboticsLayer ? [roboticsLayer] : undefined, kinds: kind ? [kind] : undefined, openness: openness ? [openness] : undefined, license, verifiedWithinDays: freshness, sort, limit: pageSize, offset: (page - 1) * pageSize }),
-    registry.getStats()
+  const [result, registryStats, availableUseCases] = await Promise.all([
+    registry.listEntities({ q, useCase, domains: domain ? [domain] : undefined, roboticsLayers: roboticsLayer ? [roboticsLayer] : undefined, kinds: kind ? [kind] : undefined, openness: openness ? [openness] : undefined, license, verifiedWithinDays: freshness, sort, limit: pageSize, offset: (page - 1) * pageSize }),
+    registry.getStats(),
+    registry.listUseCases()
   ]);
+  useCases = availableUseCases;
   entities = result.items;
   total = result.total;
   stats = registryStats;
@@ -67,6 +71,7 @@ function pageHref(nextPage: number): string {
 
 const activeFilters = [
   q && { key: "q", label: `Search: ${q}` },
+  useCase && { key: "use_case", label: `Use case: ${useCases.find((item) => item.slug === useCase)?.name ?? useCase}` },
   domain && { key: "domain", label: `Field: ${domainLabel(domain)}` },
   roboticsLayer && { key: "layer", label: `Layer: ${roboticsLayerLabel(roboticsLayer)}` },
   kind && { key: "kind", label: `Artifact: ${label(kind)}` },
@@ -115,6 +120,7 @@ function removeFilterHref(key: string): string {
         <form class="ledger-filters" method="get">
           <div class="field search-field"><label for="q">Search</label><input id="q" name="q" type="search" value={q} placeholder="Name, organization, summary…" /></div>
           {domain && <input type="hidden" name="domain" value={domain} />}
+          <div class="field"><label for="use-case">Use case</label><select id="use-case" name="use_case"><option value="">All use cases</option>{useCase && !useCases.some((item) => item.slug === useCase) && <option selected value={useCase}>{useCase} (unrecognized)</option>}{useCases.map((item) => <option value={item.slug} selected={useCase === item.slug}>{item.name}</option>)}</select></div>
           {domain === "robotics" && <div class="field"><label for="layer">Layer</label><select id="layer" name="layer"><option value="">All layers</option>{roboticsLayers.map((item) => <option value={item} selected={roboticsLayer === item}>{roboticsLayerLabel(item)}</option>)}</select></div>}
           <div class="field"><label for="kind">Type</label><select id="kind" name="kind"><option value="">All types</option>{entityKinds.map((item) => <option value={item} selected={kind === item}>{label(item)}</option>)}</select></div>
           <div class="field"><label for="openness">Openness</label><select id="openness" name="openness"><option value="">All states</option>{opennessStatuses.map((item) => <option value={item} selected={openness === item}>{label(item)}</option>)}</select></div>
@@ -194,7 +200,7 @@ function removeFilterHref(key: string): string {
 
   @media (max-width: 1280px) {
     .filter-panel summary { display: flex; }
-    .ledger-filters { grid-template-columns: repeat(4, 1fr); }
+    .ledger-filters { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .search-field { grid-column: span 2; }
   }
   @media (max-width: 1040px) {

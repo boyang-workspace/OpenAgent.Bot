@@ -13,7 +13,7 @@ Use GitHub Actions **Reviewed Registry Intake** on main:
 
 1. Select `preview` and the manifest path. Review every changed identity, permission, fact, source and removal in its log.
 2. Select `publish` with the same manifest and the returned `base_hash` and `payload_hash`. The repository actor is recorded as reviewer. A changed payload or changed database state requires another preview.
-3. Run Registry Sync for initial automatic observations, or let the daily workflow collect them.
+3. A successful publish workflow collects initial observations only for that manifest's subscriptions. Later updates follow the daily Registry Sync workflow. Direct CLI publication can use a scoped sync or wait for that daily run.
 
 The authenticated local/operator CLI is equivalent:
 
@@ -53,3 +53,11 @@ This is not an automatic project-discovery or AI adjudication system. New candid
 HF datasets/spaces, PyPI, richer relation vocabulary, multiple independent packages per entity, resource-version search and performance rankings remain follow-ups when concrete records require them. Existing legacy robotics records/relationships are preserved; they are not mass-rewritten into new manifests.
 
 No database replacement, new first-level category or new homepage layout is needed for vgpu and Microduck. No throughput/capacity guarantee has been established by load testing.
+
+## First production verification — 2026-08-28
+
+- vgpu published through [reviewed intake](https://github.com/boyang-workspace/OpenAgent.Bot/actions/runs/33131029038), not a content migration. All three scoped collectors succeeded.
+- Live HTML, JSON, Markdown and sitemap include vgpu; MCP and shader-development filters each return the single canonical tool. Five interfaces and five resources match the content package.
+- Microduck still has four distinct projects and nine policy files; its closed hardware / open software distinction is preserved.
+- Local quality gate: 59 tests passed, Astro check and production build passed. Browser checks covered 1440px desktop and 390px mobile, filter application and overflow. Production intake/sync workflows succeeded. The separate CI workflow was already manually disabled and was left unchanged.
+- Remaining limitations are listed above; no vgpu shader, downloaded package or MCP operation was executed during intake.

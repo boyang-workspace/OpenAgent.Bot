@@ -45,7 +45,9 @@ const automated = mode === "metrics" ? dossier.subscriptions.filter((s) => ["git
   code { display: block; font-size: .85rem; margin: 12px 0; overflow-wrap: anywhere; }
   small { display: block; font-size: .7rem; color: var(--muted); line-height: 1.6; overflow-wrap: anywhere; }
   .package-data dl { grid-template-columns: repeat(3,minmax(0,1fr)); }
-  .sync-status li { display: flex; gap: 20px; font-size: .75rem; flex-wrap: wrap; }
+  .package-data dd a { margin-inline-start: .35em; }
+  .sync-status { display: flex; flex-wrap: wrap; gap: 12px 28px; border-top: 1px solid var(--line); margin-top: 16px; padding-top: 12px; }
+  .sync-status li { display: flex; gap: 8px; padding: 0; border: 0; font-size: .75rem; flex-wrap: wrap; }
   .sync-status span { color: var(--muted); }
   @media(max-width: 620px) { .tool-details { padding: 28px 18px; } dl { grid-template-columns: 1fr 1fr; } .package-data dl { grid-template-columns: 1fr; } }
 </style>

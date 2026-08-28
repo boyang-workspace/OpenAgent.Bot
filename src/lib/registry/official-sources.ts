@@ -7,6 +7,16 @@ import type { RegistrySource } from "./types";
  */
 export const officialSources: RegistrySource[] = [
   {
+    id: "github-releases", name: "GitHub Releases", publisher: "GitHub", region: "global",
+    kind: "repository", trustTier: "canonical", automationStatus: "active", connector: "github-releases",
+    url: "https://github.com", apiUrl: "https://api.github.com", scope: ["agents","models","robots","hardware"], cadence: "daily"
+  },
+  {
+    id: "vercel-labs", name: "Vercel Labs", publisher: "Vercel", region: "us",
+    kind: "documentation", trustTier: "official", automationStatus: "manual", connector: "manual",
+    url: "https://github.com/vercel-labs", scope: ["agents","research"], cadence: "manual"
+  },
+  {
     id: "github",
     name: "GitHub repositories",
     publisher: "GitHub",
@@ -69,8 +79,8 @@ export const officialSources: RegistrySource[] = [
     region: "global",
     kind: "registry",
     trustTier: "canonical",
-    automationStatus: "registered",
-    connector: "json-api",
+    automationStatus: "active",
+    connector: "npm",
     url: "https://www.npmjs.com",
     apiUrl: "https://registry.npmjs.org/{package}",
     scope: ["agents", "robots"],

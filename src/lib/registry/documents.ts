@@ -1,7 +1,7 @@
 import { domainLabel, roboticsLayerLabel } from "./domains";
 import { calendarDate, label } from "./format";
 import type { RegistryDossier } from "./types";
-import { entityResources, formatFactValue, relationshipLabel } from "./resources";
+import { entityInterfaces, entityResources, formatFactValue, relationshipLabel } from "./resources";
 
 export const entityDocumentVersion = "2026-08-28";
 
@@ -50,6 +50,8 @@ export function buildEntityDocument(dossier: RegistryDossier) {
     openness: dossier.opennessFacets,
     facts: dossier.facts,
     resources: entityResources(dossier.facts),
+    interfaces: entityInterfaces(dossier.facts),
+    metricSnapshots: dossier.metricSnapshots,
     relationships: dossier.relationships,
     changes: dossier.changes,
     sources: dossier.subscriptions,

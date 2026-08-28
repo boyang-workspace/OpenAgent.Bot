@@ -10,6 +10,7 @@
     "deploy": "npm run build && wrangler deploy",
     "check": "astro check",
     "test": "vitest run",
+    "registry:intake": "node scripts/registry-intake.mjs",
     "typegen": "wrangler types",
     "d1:migrations:local": "wrangler d1 migrations apply openagent_registry_v2 --local",
     "d1:migrations:remote": "wrangler d1 migrations apply openagent_registry_v2 --remote"

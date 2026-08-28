@@ -124,7 +124,7 @@ export type RegistrySource = {
   kind: SourceKind;
   trustTier: SourceTrustTier;
   automationStatus: SourceAutomationStatus;
-  connector: "github" | "huggingface" | "rss" | "json-api" | "html" | "manual";
+  connector: "github" | "github-releases" | "npm" | "huggingface" | "rss" | "json-api" | "html" | "manual";
   url: string;
   feedUrl?: string;
   apiUrl?: string;
@@ -150,6 +150,7 @@ export type RegistryChange = {
 
 export type RegistryFact = {
   key: string;
+  sourceId?: string;
   value: unknown;
   confidence: number;
   observedAt: string;
@@ -183,14 +184,17 @@ export type RegistryRelationship = {
 };
 
 export type RegistrySubscription = {
+  sourceId?: string;
   sourceName: string;
   sourceTrustTier: SourceTrustTier;
   locator: string;
   lastSyncedAt?: string;
   nextSyncAt?: string;
+  lastError?: string;
 };
 
 export type RegistryMetricSnapshot = {
+  sourceId?: string;
   key: string;
   value: number;
   observedAt: string;
@@ -233,6 +237,7 @@ export type RegistryStats = {
 };
 
 export type EntityQuery = {
+  interfaceType?: string;
   q?: string;
   useCase?: string;
   domains?: EntityDomain[];

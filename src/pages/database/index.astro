@@ -6,8 +6,10 @@ import { getRegistry } from "@/lib/registry/runtime";
 import { entityDomains, entityKinds, opennessStatuses, roboticsLayers, type EntityDomain, type EntityKind, type OpennessStatus, type RegistryDossier, type RegistryEntity, type RegistryStats, type RoboticsLayer } from "@/lib/registry/types";
 import { compactNumber, label, relativeDate } from "@/lib/registry/format";
 import { domainLabel, roboticsLayerLabel } from "@/lib/registry/domains";
+import { interfaceTypes } from "@/lib/registry/intake-contract";
 
 const q = Astro.url.searchParams.get("q") ?? "";
+const interfaceType = Astro.url.searchParams.get("interface") || undefined;
 const useCase = Astro.url.searchParams.get("use_case") || undefined;
 let useCases: Array<{ slug: string; name: string }> = [];
 const requestedKind = Astro.url.searchParams.get("kind") ?? "";
@@ -38,7 +40,7 @@ let stats: RegistryStats = { entities: 0, agents: 0, robots: 0, infrastructure: 
 const registry = getRegistry();
 try {
   const [result, registryStats, availableUseCases] = await Promise.all([
-    registry.listEntities({ q, useCase, domains: domain ? [domain] : undefined, roboticsLayers: roboticsLayer ? [roboticsLayer] : undefined, kinds: kind ? [kind] : undefined, openness: openness ? [openness] : undefined, license, verifiedWithinDays: freshness, sort, limit: pageSize, offset: (page - 1) * pageSize }),
+    registry.listEntities({ q, useCase, interfaceType, domains: domain ? [domain] : undefined, roboticsLayers: roboticsLayer ? [roboticsLayer] : undefined, kinds: kind ? [kind] : undefined, openness: openness ? [openness] : undefined, license, verifiedWithinDays: freshness, sort, limit: pageSize, offset: (page - 1) * pageSize }),
     registry.getStats(),
     registry.listUseCases()
   ]);
@@ -71,6 +73,7 @@ function pageHref(nextPage: number): string {
 
 const activeFilters = [
   q && { key: "q", label: `Search: ${q}` },
+  interfaceType && { key: "interface", label: `Interface: ${interfaceType.toUpperCase()}` },
   useCase && { key: "use_case", label: `Use case: ${useCases.find((item) => item.slug === useCase)?.name ?? useCase}` },
   domain && { key: "domain", label: `Field: ${domainLabel(domain)}` },
   roboticsLayer && { key: "layer", label: `Layer: ${roboticsLayerLabel(roboticsLayer)}` },
@@ -120,6 +123,7 @@ function removeFilterHref(key: string): string {
         <form class="ledger-filters" method="get">
           <div class="field search-field"><label for="q">Search</label><input id="q" name="q" type="search" value={q} placeholder="Name, organization, summary…" /></div>
           {domain && <input type="hidden" name="domain" value={domain} />}
+          {(domain === "agent" || interfaceType) && <div class="field"><label for="interface">Interface</label><select id="interface" name="interface"><option value="">All interfaces</option>{interfaceType && !interfaceTypes.includes(interfaceType as typeof interfaceTypes[number]) && <option selected value={interfaceType}>Unrecognized</option>}{interfaceTypes.map((item) => <option value={item} selected={interfaceType === item}>{item.toUpperCase()}</option>)}</select></div>}
           <div class="field"><label for="use-case">Use case</label><select id="use-case" name="use_case"><option value="">All use cases</option>{useCase && !useCases.some((item) => item.slug === useCase) && <option selected value={useCase}>{useCase} (unrecognized)</option>}{useCases.map((item) => <option value={item.slug} selected={useCase === item.slug}>{item.name}</option>)}</select></div>
           {domain === "robotics" && <div class="field"><label for="layer">Layer</label><select id="layer" name="layer"><option value="">All layers</option>{roboticsLayers.map((item) => <option value={item} selected={roboticsLayer === item}>{roboticsLayerLabel(item)}</option>)}</select></div>}
           <div class="field"><label for="kind">Type</label><select id="kind" name="kind"><option value="">All types</option>{entityKinds.map((item) => <option value={item} selected={kind === item}>{label(item)}</option>)}</select></div>

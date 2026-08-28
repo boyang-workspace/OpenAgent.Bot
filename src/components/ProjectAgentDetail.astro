@@ -2,6 +2,7 @@
 import { calendarDate, compactNumber, label, relativeDate } from "@/lib/registry/format";
 import type { RegistryDossier, RegistryEntity } from "@/lib/registry/types";
 import ProjectResources from "./ProjectResources.astro";
+import ProjectInterfaces from "./ProjectInterfaces.astro";
 import { formatFactValue } from "@/lib/registry/resources";
 
 type Props = { dossier: RegistryDossier; related: RegistryEntity[] };
@@ -10,7 +11,7 @@ const { entity } = dossier;
 const lastActivity = entity.lastCommitAt ?? entity.lastReleaseAt ?? entity.lastVerifiedAt;
 const history = dossier.metricSnapshots.filter((item) => item.key === "stars").sort((a, b) => Date.parse(a.observedAt) - Date.parse(b.observedAt)).slice(-30);
 const historyDays = entity.metricHistoryDays ?? 0;
-const hasRepositoryMetrics = entity.stars !== undefined || dossier.subscriptions.length > 0;
+const hasRepositoryMetrics = entity.stars !== undefined || dossier.subscriptions.some((s) => s.sourceId === "github");
 const modelMetadata = entity.robotics?.metadata ?? {};
 const facets = ["code", "weights", "data", "documentation", "governance"].map((name) => ({
   name,
@@ -28,7 +29,7 @@ const atGlance = [
   { label: "Openness", value: label(entity.opennessStatus) },
   { label: "Evidence", value: compactNumber(dossier.record.observationCount) }
 ];
-const factRows = dossier.facts.filter((fact) => !fact.key.startsWith("resources."));
+const factRows = dossier.facts.filter((fact) => !["resources.", "curated.", "interfaces."].some((prefix) => fact.key.startsWith(prefix)));
 ---
 
 <article class="project-sheet software-sheet page-grid">
@@ -55,7 +56,9 @@ const factRows = dossier.facts.filter((fact) => !fact.key.startsWith("resources.
     {atGlance.map((item) => <div><span>{item.label}</span><strong>{item.value}</strong></div>)}
   </section>
 
+  <ProjectInterfaces dossier={dossier} mode="metrics" />
   <ProjectResources dossier={dossier} />
+  <ProjectInterfaces dossier={dossier} mode="interfaces" />
 
   <section class="two-column section-block">
     <div class="what-it-is">

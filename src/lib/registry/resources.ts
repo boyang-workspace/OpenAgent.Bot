@@ -1,8 +1,11 @@
 import type { RegistryFact, RegistryRelationship } from "./types";
+import type { ToolInterface } from "./intake-contract";
 
 // Resources reuse the observation ledger: each manifest keeps its own provenance,
 // review date and change history instead of becoming a second source of truth.
 export type RegistryResource = {
+  id?: string;
+  version?: string;
   name: string;
   kind: string;
   url: string;
@@ -26,6 +29,8 @@ export function entityResources(facts: RegistryFact[]): RegistryResource[] {
     return items.flatMap((item) => {
       if (!item || typeof item !== "object" || typeof item.name !== "string" || !httpUrl(item.url) || typeof item.kind !== "string") return [];
       return [{
+        id: typeof item.id === "string" ? item.id : undefined,
+        version: typeof item.version === "string" ? item.version : undefined,
         name: item.name, kind: item.kind, url: item.url,
         description: typeof item.description === "string" ? item.description : undefined,
         license: typeof item.license === "string" ? item.license : undefined,
@@ -36,6 +41,14 @@ export function entityResources(facts: RegistryFact[]): RegistryResource[] {
         observedAt: fact.observedAt
       }];
     });
+  });
+}
+
+export function entityInterfaces(facts: RegistryFact[]): ToolInterface[] {
+  return facts.filter((fact) => fact.key.startsWith("interfaces.")).flatMap((fact) => {
+    const value = fact.value as Partial<ToolInterface> | null;
+    if (!value || !value.id || !value.name || !["cli","api","mcp","sdk"].includes(value.type ?? "") || !Array.isArray(value.runtimes) || !fact.sourceUrl) return [];
+    return [{ ...value, evidence: { sourceId: fact.sourceId ?? "unknown", sourceUrl: fact.sourceUrl, observedAt: fact.observedAt } } as ToolInterface];
   });
 }
 

@@ -1,0 +1,82 @@
+name: Reviewed Registry Intake
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Preview first; publish requires both reviewed hashes
+        type: choice
+        options: [preview, publish]
+        default: preview
+        required: true
+      manifest:
+        description: Reviewed content file in this repository
+        default: content/intake/vgpu.json
+        required: true
+        type: string
+      base_hash:
+        description: Base hash from the reviewed preview (publish only)
+        type: string
+      payload_hash:
+        description: Payload hash from the reviewed preview (publish only)
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: reviewed-registry-intake
+  cancel-in-progress: false
+
+jobs:
+  intake:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Validate path and run reviewed intake
+        env:
+          REGISTRY_SYNC_TOKEN: ${{ secrets.REGISTRY_SYNC_TOKEN }}
+          INTAKE_ACTION: ${{ inputs.action }}
+          INTAKE_MANIFEST: ${{ inputs.manifest }}
+          INTAKE_BASE_HASH: ${{ inputs.base_hash }}
+          INTAKE_PAYLOAD_HASH: ${{ inputs.payload_hash }}
+          INTAKE_REVIEWER: ${{ github.actor }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$INTAKE_MANIFEST" =~ ^content/intake/[a-z0-9-]+\.json$ ]] || exit 1
+          args=("$INTAKE_MANIFEST")
+          if [[ "$INTAKE_ACTION" == "publish" ]]; then
+            [[ "$INTAKE_BASE_HASH" =~ ^[a-f0-9]{64}$ ]] || exit 1
+            [[ "$INTAKE_PAYLOAD_HASH" =~ ^[a-f0-9]{64}$ ]] || exit 1
+            args+=(--publish --base-hash "$INTAKE_BASE_HASH" --payload-hash "$INTAKE_PAYLOAD_HASH" --reviewer "$INTAKE_REVIEWER")
+          fi
+          node scripts/registry-intake.mjs "${args[@]}"
+      - name: Collect initial observations for this manifest only
+        if: inputs.action == 'publish'
+        env:
+          REGISTRY_SYNC_TOKEN: ${{ secrets.REGISTRY_SYNC_TOKEN }}
+          GITHUB_API_TOKEN: ${{ github.token }}
+          INTAKE_MANIFEST: ${{ inputs.manifest }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          const manifest = JSON.parse(readFileSync(process.env.INTAKE_MANIFEST, 'utf8'));
+          const origin = 'https://www.openagent.bot';
+          for (const subscription of manifest.subscriptions) {
+            const url = new URL('/api/internal/sync.json', origin);
+            url.search = new URLSearchParams({ source: subscription.sourceId, locator: subscription.locator, limit: '1' });
+            const response = await fetch(url, {
+              method: 'POST', redirect: 'error', signal: AbortSignal.timeout(60000),
+              headers: { Authorization: `Bearer ${process.env.REGISTRY_SYNC_TOKEN}`, Origin: origin, 'X-GitHub-Token': process.env.GITHUB_API_TOKEN }
+            });
+            const result = await response.json();
+            console.log(subscription.sourceId, response.status, JSON.stringify(result));
+            if (!response.ok || result.errors?.length) process.exitCode = 1;
+          }
+          NODE

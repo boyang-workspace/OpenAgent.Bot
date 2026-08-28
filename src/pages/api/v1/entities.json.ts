@@ -17,6 +17,7 @@ export const GET: APIRoute = async ({ url }) => {
   const result = await getRegistry().listEntities({
     q: url.searchParams.get("q") ?? undefined,
     useCase: url.searchParams.get("use_case") || undefined,
+    interfaceType: url.searchParams.get("interface") || undefined,
     domains: domain ? [domain] : undefined,
     roboticsLayers: roboticsLayer ? [roboticsLayer] : undefined,
     kinds: kind ? [kind] : undefined,

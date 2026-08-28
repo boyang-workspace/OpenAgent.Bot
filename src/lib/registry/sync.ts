@@ -19,6 +19,7 @@ type SubscriptionRow = {
 };
 
 type CurrentFactRow = {
+  source_id: string;
   value_json: string;
   value_hash: string;
 };
@@ -85,6 +86,8 @@ export class RegistrySyncService {
     offset?: number;
     limit?: number;
     token?: string;
+    locator?: string;
+    fetcher?: typeof fetch;
   }): Promise<SyncBatchResult> {
     const limit = Math.min(Math.max(options.limit ?? 20, 1), 25);
     const offset = Math.max(options.offset ?? 0, 0);
@@ -104,10 +107,11 @@ export class RegistrySyncService {
       SELECT id, entity_id, source_id, locator
       FROM source_subscriptions
       WHERE source_id = ?1 AND enabled = 1
-        AND (next_sync_at IS NULL OR next_sync_at <= datetime('now'))
+        AND (next_sync_at IS NULL OR julianday(next_sync_at) <= julianday('now'))
+        AND (?4 IS NULL OR locator = ?4)
       ORDER BY COALESCE(last_synced_at, '1970-01-01') ASC, id ASC
       LIMIT ?2 OFFSET ?3
-    `).bind(source.id, limit, offset).all<SubscriptionRow>();
+    `).bind(source.id, limit, offset, options.locator ?? null).all<SubscriptionRow>();
     const rows = subscriptions.results ?? [];
     const result: SyncBatchResult = {
       sourceId: source.id,
@@ -125,12 +129,16 @@ export class RegistrySyncService {
 
     for (const subscription of rows) {
       try {
-        const snapshot = await connector.fetchEntity(subscription.locator, { token: options.token });
+        const snapshot = await connector.fetchEntity(subscription.locator, { token: options.token, fetcher: options.fetcher });
         const applied = await this.applyEntitySnapshot(subscription, runId, snapshot);
         result.processed += 1;
         result.observed += applied.observed;
         result.changed += applied.changed;
       } catch (error) {
+        // Back off failures so one inaccessible source cannot monopolize every batch.
+        await this.db.prepare(`UPDATE source_subscriptions SET error_count = error_count + 1,
+          last_error = ?2, next_sync_at = datetime('now', '+' || MIN(24, (error_count + 1) * 2) || ' hours')
+          WHERE id = ?1`).bind(subscription.id, (error instanceof Error ? error.message : String(error)).slice(0,1000)).run();
         result.errors.push({
           locator: subscription.locator,
           message: error instanceof Error ? error.message : String(error)
@@ -170,8 +178,11 @@ export class RegistrySyncService {
       const valueJson = stableStringify(value);
       const valueHash = await factHash(value);
       const current = await this.db.prepare(`
-        SELECT value_json, value_hash FROM current_facts WHERE entity_id = ?1 AND fact_key = ?2
+        SELECT value_json, value_hash, source_id FROM current_facts WHERE entity_id = ?1 AND fact_key = ?2
       `).bind(subscription.entity_id, factKey).first<CurrentFactRow>();
+      // Cross-source disagreements require review; never silently replace a
+      // curated fact with a package/repository claim. New collectors use namespaces.
+      if (current && current.source_id !== subscription.source_id) continue;
       if (current?.value_hash === valueHash) continue;
 
       const observationId = id("obs");
@@ -197,7 +208,7 @@ export class RegistrySyncService {
       // The first observation establishes a baseline. Public change events begin
       // only when a previously observed value moves.
       const change = current ? deriveFactChange(previousValue, value) : undefined;
-      if (change) {
+      if (change && factKey !== "npm.downloads") {
         changed += 1;
         statements.push(this.db.prepare(`
           INSERT INTO change_events (
@@ -255,11 +266,13 @@ export class RegistrySyncService {
       ));
     }
 
-    statements.push(this.db.prepare(`
+    // This legacy cache describes the primary repository/model metrics. Package
+    // and release provenance stays in their namespaced facts and snapshots.
+    if (!["npm", "github-releases"].includes(subscription.source_id)) statements.push(this.db.prepare(`
       INSERT INTO entity_metrics_current (
         entity_id, stars, forks, watchers, downloads_30d, open_issues,
-        last_commit_at, source_id, observed_at, updated_at
-      ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?9)
+        last_commit_at, last_release_at, source_id, observed_at, updated_at
+      ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?10)
       ON CONFLICT(entity_id) DO UPDATE SET
         stars = COALESCE(excluded.stars, entity_metrics_current.stars),
         forks = COALESCE(excluded.forks, entity_metrics_current.forks),
@@ -267,6 +280,7 @@ export class RegistrySyncService {
         downloads_30d = COALESCE(excluded.downloads_30d, entity_metrics_current.downloads_30d),
         open_issues = COALESCE(excluded.open_issues, entity_metrics_current.open_issues),
         last_commit_at = COALESCE(excluded.last_commit_at, entity_metrics_current.last_commit_at),
+        last_release_at = COALESCE(excluded.last_release_at, entity_metrics_current.last_release_at),
         source_id = excluded.source_id, observed_at = excluded.observed_at, updated_at = excluded.updated_at
     `).bind(
       subscription.entity_id,
@@ -276,17 +290,18 @@ export class RegistrySyncService {
       metricValue(snapshot, "downloads_30d"),
       metricValue(snapshot, "open_issues"),
       typeof snapshot.metrics.last_commit_at === "string" ? snapshot.metrics.last_commit_at : null,
+      typeof snapshot.metrics.last_release_at === "string" ? snapshot.metrics.last_release_at : null,
       subscription.source_id,
       snapshot.observedAt
     ));
 
     statements.push(this.db.prepare(`
       UPDATE source_subscriptions
-      SET external_id = ?2, last_synced_at = ?3, next_sync_at = datetime(?3, '+1 day'), updated_at = ?3
+      SET external_id = ?2, last_synced_at = ?3, next_sync_at = datetime(?3, '+1 day'), updated_at = ?3, error_count = 0, last_error = NULL
       WHERE id = ?1
     `).bind(subscription.id, snapshot.externalId, snapshot.observedAt));
     statements.push(this.db.prepare(`
-      UPDATE entities SET last_seen_at = ?2, last_verified_at = ?2, updated_at = ?2 WHERE id = ?1
+      UPDATE entities SET last_seen_at = ?2 WHERE id = ?1
     `).bind(subscription.entity_id, snapshot.observedAt));
 
     if (statements.length) await this.db.batch(statements);

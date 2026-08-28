@@ -23,9 +23,13 @@ The code catalog includes both `active` and `registered` sources. Registered HTM
 
 ## Synchronization
 
-The internal sync endpoint requires `SYNC_TOKEN`. GitHub Actions calls it in batches of at most 20 subscriptions. Synchronized subscriptions move their `next_sync_at` forward one day, so a failed or unprocessed subscription remains due.
+The internal sync endpoint requires `SYNC_TOKEN`. GitHub Actions calls it in bounded batches. Successful subscriptions move their next sync one day forward; failed subscriptions back off for 2–24 hours and keep their last successful data. Due-time comparisons use SQLite date parsing, including both legacy SQL timestamps and ISO timestamps.
 
-GitHub and Hugging Face connectors normalize entity facts and metrics. The RSS connector stores official source items. New connectors implement the same snapshot boundary; they do not write directly to product pages.
+GitHub repositories, GitHub stable releases, npm package/version/downloads and Hugging Face models normalize facts and metrics. The RSS connector stores official source items. HF datasets/spaces and website specifications are not automated yet. Package downloads use a separate metric key and never overwrite the repository/model metrics cache. Release dates are projected from attributed release facts. Sync updates last-seen timestamps, not curated verification dates or entity summaries/licenses.
+
+## Reviewed intake
+
+`content/intake/*.json` follows the validated contract in `intake-contract.ts`. Preview is read-only; publish checks the reviewed payload/base hashes, claims a monotonic revision and writes facts, observations and query projections in one D1 batch. It records the reviewer, previous state and diff in `intake_publications`. `entity_interfaces` is a filter index, not a competing source of truth. Existing robotics profiles cannot be removed by omission. Prior observations remain immutable when a previous manifest is re-published. See [intake operations and limits](REGISTRY_INTAKE.md).
 
 ## Ranking publication gate
 

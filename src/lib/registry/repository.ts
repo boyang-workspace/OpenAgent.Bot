@@ -140,7 +140,9 @@ function entityFromRow(row: EntityRow): RegistryEntity {
 
 const selectEntity = `
   SELECT e.*, m.stars, m.forks, m.watchers, m.downloads_30d, m.open_issues,
-         m.last_release_at, m.last_commit_at,
+         COALESCE((SELECT json_extract(rf.value_json, '$.publishedAt') FROM current_facts rf
+           WHERE rf.entity_id=e.id AND rf.fact_key='github_release.latest'), m.last_release_at) AS last_release_at,
+         m.last_commit_at,
          (SELECT COUNT(*) FROM observations o_count WHERE o_count.entity_id = e.id) AS evidence_records,
          (SELECT COUNT(*) FROM source_subscriptions ss_count WHERE ss_count.entity_id = e.id AND ss_count.enabled = 1) AS source_count,
          (SELECT MIN(ms_start.observed_at) FROM metric_snapshots ms_start WHERE ms_start.entity_id = e.id) AS metric_history_started_at,
@@ -238,6 +240,10 @@ export class RegistryRepository {
       values.push(query.useCase);
       filters.push(`EXISTS (SELECT 1 FROM entity_use_cases eu WHERE eu.entity_id = e.id AND eu.use_case_slug = ?${values.length})`);
     }
+    if (query.interfaceType) {
+      values.push(query.interfaceType);
+      filters.push(`EXISTS (SELECT 1 FROM entity_interfaces ei WHERE ei.entity_id = e.id AND ei.interface_type = ?${values.length})`);
+    }
     if (query.license) {
       values.push(query.license);
       filters.push(`e.license_spdx = ?${values.length}`);
@@ -306,7 +312,7 @@ export class RegistryRepository {
         ORDER BY is_primary DESC, domain
       `).bind(entity.id).all<Record<string, string | number | null>>(),
       this.db.prepare(`
-        SELECT f.fact_key, f.value_json, f.confidence, f.observed_at,
+        SELECT f.fact_key, f.value_json, f.confidence, f.observed_at, f.source_id,
                s.name AS source_name, s.trust_tier, o.source_url
         FROM current_facts f
         JOIN sources s ON s.id = f.source_id
@@ -358,15 +364,15 @@ export class RegistryRepository {
         ORDER BY re.observed_at DESC
       `).bind(entity.id).all<Record<string, string | null>>(),
       this.db.prepare(`
-        SELECT s.name AS source_name, s.trust_tier, ss.locator,
-               ss.last_synced_at, ss.next_sync_at
+        SELECT s.id AS source_id, s.name AS source_name, s.trust_tier, ss.locator,
+               ss.last_synced_at, ss.next_sync_at, ss.last_error
         FROM source_subscriptions ss
         JOIN sources s ON s.id = ss.source_id
         WHERE ss.entity_id = ?1 AND ss.enabled = 1
         ORDER BY s.trust_tier, s.name
       `).bind(entity.id).all<Record<string, string | null>>(),
       this.db.prepare(`
-        SELECT metric_key, metric_value, observed_at
+        SELECT source_id, metric_key, metric_value, observed_at
         FROM metric_snapshots
         WHERE entity_id = ?1
         ORDER BY observed_at DESC
@@ -406,6 +412,7 @@ export class RegistryRepository {
       })),
       facts: (facts.results ?? []).map((row) => ({
         key: String(row.fact_key),
+        sourceId: String(row.source_id),
         value: jsonValue(typeof row.value_json === "string" ? row.value_json : null),
         confidence: Number(row.confidence),
         observedAt: String(row.observed_at),
@@ -438,6 +445,8 @@ export class RegistryRepository {
         evidence: evidenceByRelationship.get(String(row.id)) ?? []
       })),
       subscriptions: (subscriptions.results ?? []).map((row) => ({
+        sourceId: String(row.source_id),
+        lastError: row.last_error ?? undefined,
         sourceName: String(row.source_name),
         sourceTrustTier: String(row.trust_tier) as RegistryDossier["subscriptions"][number]["sourceTrustTier"],
         locator: String(row.locator),
@@ -445,6 +454,7 @@ export class RegistryRepository {
         nextSyncAt: row.next_sync_at ?? undefined
       })),
       metricSnapshots: (metricSnapshots.results ?? []).map((row) => ({
+        sourceId: String(row.source_id),
         key: String(row.metric_key),
         value: Number(row.metric_value),
         observedAt: String(row.observed_at)

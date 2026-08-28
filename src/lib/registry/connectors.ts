@@ -1,4 +1,5 @@
 import { factHash } from "./observations";
+import { githubReleasesConnector, npmConnector } from "./package-connectors";
 
 export type ConnectorContext = {
   token?: string;
@@ -183,6 +184,8 @@ export const rssConnector: FeedConnector = {
 
 export const entityConnectors: Record<string, EntityConnector> = {
   github: githubConnector,
+  "github-releases": githubReleasesConnector,
+  npm: npmConnector,
   huggingface: huggingFaceConnector
 };
 

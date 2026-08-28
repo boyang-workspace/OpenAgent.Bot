@@ -1,0 +1,51 @@
+---
+import type { RegistryDossier } from "@/lib/registry/types";
+import { calendarDate, compactNumber } from "@/lib/registry/format";
+import { entityInterfaces } from "@/lib/registry/resources";
+type Props = { dossier: RegistryDossier; mode: "metrics" | "interfaces" };
+const { dossier, mode } = Astro.props;
+const interfaces = mode === "interfaces" ? entityInterfaces(dossier.facts) : [];
+const release = dossier.facts.find((f) => f.key === "github_release.latest");
+const packageFact = dossier.facts.find((f) => f.key === "npm.package");
+const downloadsFact = dossier.facts.find((f) => f.key === "npm.downloads");
+const record = (value: unknown): Record<string, any> => value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, any> : {};
+const pkg = record(packageFact?.value), latest = record(release?.value), downloads = record(downloadsFact?.value);
+const releaseStatus = dossier.facts.find((f) => f.key === "github_release.status")?.value;
+const automated = mode === "metrics" ? dossier.subscriptions.filter((s) => ["github-releases","npm"].includes(s.sourceId ?? "")) : [];
+---
+{(interfaces.length > 0 || automated.length > 0) && <section class="tool-details">
+  {interfaces.length > 0 && <div><h2>Agent & developer interfaces</h2><p>Documented means confirmed in official material, not independently tested. Permissions depend on the interface and configuration.</p>
+    <ul>{interfaces.map((item) => <li>
+      <div class="interface-title"><strong>{item.name}</strong><a href={`/database?domain=agent&interface=${item.type}`}>{item.type.toUpperCase()} →</a><span>{item.verification}</span></div>
+      <p>{item.description}</p><dl><div><dt>Transport</dt><dd>{item.transport}</dd></div><div><dt>Authentication</dt><dd>{item.authentication}</dd></div><div><dt>Access</dt><dd>{item.access.replaceAll("-"," ")}</dd></div><div><dt>Runtime</dt><dd>{item.runtimes.join(" · ")}</dd></div></dl>
+      {item.command && <code>{item.command}</code>}{item.url && <small><a href={item.url} rel="noreferrer">{item.url} ↗</a></small>}<small><a href={item.evidence.sourceUrl} rel="noreferrer">Official source ↗</a> · Reviewed {calendarDate(item.evidence.observedAt)}</small>
+    </li>)}</ul></div>}
+  {automated.length > 0 && <div class="package-data"><h2>Releases & package data</h2><p>Package downloads are not users, and are not added to GitHub stars.</p>
+    <dl>{latest.tag && <div><dt>GitHub stable release</dt><dd>{releaseStatus === "Published stable release" ? latest.tag : `Last known: ${latest.tag}`} · {calendarDate(latest.publishedAt)} {release?.sourceUrl && <a href={release.sourceUrl} rel="noreferrer">Source ↗</a>}</dd></div>}
+    {pkg.version && <div><dt>npm package</dt><dd>{pkg.name} @ {pkg.version} · {calendarDate(pkg.publishedAt)} {packageFact?.sourceUrl && <a href={packageFact.sourceUrl} rel="noreferrer">Source ↗</a>}</dd></div>}
+    {Number.isFinite(downloads.downloads) && <div><dt>npm downloads / 30 days</dt><dd>{compactNumber(downloads.downloads)} <small>{downloads.start} – {downloads.end}; package: {downloads.package} {downloads.sourceUrl && <a href={downloads.sourceUrl} rel="noreferrer">Source ↗</a>}</small></dd></div>}
+    {!latest.tag && releaseStatus && <div><dt>GitHub stable release</dt><dd>{String(releaseStatus)}</dd></div>}
+    {pkg.deprecated && <div><dt>Package notice</dt><dd>{pkg.deprecated}</dd></div>}</dl>
+    <ul class="sync-status">{automated.map((source) => <li><strong>{source.sourceName}</strong><span>{source.lastSyncedAt ? `Last synced ${calendarDate(source.lastSyncedAt)}` : "First sync pending"}{source.lastError && " · Last attempt failed; previous data retained"}</span></li>)}</ul>
+  </div>}
+</section>}
+<style>
+  .tool-details { border-bottom: 1px solid var(--ink); padding: 32px 42px; }
+  .tool-details > div + div { margin-top: 30px; }
+  h2 { font-size: 1.5rem; margin: 0 0 12px; letter-spacing: -.03em; }
+  p { color: var(--muted); font-size: .85rem; line-height: 1.6; max-width: 850px; }
+  ul { list-style: none; padding: 0; margin: 20px 0 0; }
+  li { padding: 18px 0; border-top: 1px solid var(--line); }
+  .interface-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .interface-title span { color: var(--muted); font-family: var(--mono); font-size: .65rem; }
+  a { text-decoration: underline; text-underline-offset: 3px; }
+  dl { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 18px; }
+  dt { font-family: var(--mono); font-size: .65rem; color: var(--muted); }
+  dd { font-size: .85rem; line-height: 1.5; margin: 6px 0 0; overflow-wrap: anywhere; }
+  code { display: block; font-size: .85rem; margin: 12px 0; overflow-wrap: anywhere; }
+  small { display: block; font-size: .7rem; color: var(--muted); line-height: 1.6; overflow-wrap: anywhere; }
+  .package-data dl { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .sync-status li { display: flex; gap: 20px; font-size: .75rem; flex-wrap: wrap; }
+  .sync-status span { color: var(--muted); }
+  @media(max-width: 620px) { .tool-details { padding: 28px 18px; } dl { grid-template-columns: 1fr 1fr; } .package-data dl { grid-template-columns: 1fr; } }
+</style>

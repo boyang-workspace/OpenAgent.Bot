@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 1,
+  "entity": {
+    "slug": "vgpu",
+    "name": "vgpu",
+    "kind": "tool",
+    "summary": "A TypeScript WebGPU library with shader modules, cross-runtime rendering and tooling for coding agents.",
+    "description": "vgpu is a developer tool, not an autonomous agent. It combines typed WGSL modules with browser and headless Node rendering, plus CLI-accessible documentation, examples and shader checks. Agent interfaces are documented by the maintainer; OpenAgent.bot has not executed its shaders or tested MCP operations. Package downloads and repository activity are tracked separately.",
+    "organization": "Vercel Labs",
+    "lifecycle": "active",
+    "opennessStatus": "open-source",
+    "licenseSpdx": "MIT",
+    "canonicalUrl": "https://vgpu.sh",
+    "repositoryUrl": "https://github.com/vercel-labs/vgpu",
+    "documentationUrl": "https://vgpu.sh/docs",
+    "visibility": "public"
+  },
+  "evidence": {
+    "sourceId": "vercel-labs",
+    "sourceUrl": "https://vgpu.sh/agents.md",
+    "observedAt": "2026-08-28T00:37:18.237Z"
+  },
+  "domains": [
+    "agent"
+  ],
+  "useCases": [
+    {
+      "slug": "shader-development",
+      "name": "Shader development",
+      "description": "Writing, composing and validating shader programs.",
+      "evidence": {
+        "sourceId": "vercel-labs",
+        "sourceUrl": "https://vgpu.sh/agents.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "slug": "gpu-rendering",
+      "name": "GPU rendering",
+      "description": "Creating rendered graphics using GPU APIs.",
+      "evidence": {
+        "sourceId": "vercel-labs",
+        "sourceUrl": "https://vgpu.sh/agents.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "slug": "agent-assisted-development",
+      "name": "Agent-assisted development",
+      "description": "Developer workflows designed to be operated by coding agents.",
+      "evidence": {
+        "sourceId": "vercel-labs",
+        "sourceUrl": "https://vgpu.sh/agents.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    }
+  ],
+  "facets": [
+    {
+      "facet": "code",
+      "status": "open",
+      "terms": "MIT license for the vgpu source repository.",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/vercel-labs/vgpu/blob/ef2418bc13269cc4b3198ecfebf34a26f6a1073e/LICENSE",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "facet": "documentation",
+      "status": "open",
+      "terms": "Public web and bundled offline documentation. This status describes accessibility; source license is tracked separately.",
+      "evidence": {
+        "sourceId": "vercel-labs",
+        "sourceUrl": "https://vgpu.sh/agents.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    }
+  ],
+  "facts": [
+    {
+      "key": "software.category",
+      "value": "WebGPU / shader developer library",
+      "evidence": {
+        "sourceId": "vercel-labs",
+        "sourceUrl": "https://vgpu.sh/agents.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "key": "software.language",
+      "value": "TypeScript and WGSL",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/vercel-labs/vgpu/blob/ef2418bc13269cc4b3198ecfebf34a26f6a1073e/README.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "key": "software.runtimes",
+      "value": [
+        "Browser WebGPU",
+        "Headless Node.js via Dawn",
+        "Deterministic mock adapter for tests"
+      ],
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/vercel-labs/vgpu/blob/ef2418bc13269cc4b3198ecfebf34a26f6a1073e/README.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "key": "scope.bundle_budget",
+      "value": {
+        "amount": 25,
+        "unit": "KB gzip",
+        "scope": "Complete fullscreen effect example",
+        "claim": "Maintainer-stated CI budget; not a measured universal library size"
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/vercel-labs/vgpu/blob/ef2418bc13269cc4b3198ecfebf34a26f6a1073e/README.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "key": "scope.first_release",
+      "value": "The August 27 news date is not used as the first release date; earlier releases exist.",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/vercel-labs/vgpu/releases/tag/v0.3.1",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "npm-vgpu",
+      "name": "vgpu on npm",
+      "kind": "package",
+      "url": "https://www.npmjs.com/package/vgpu",
+      "description": "Primary published package; versions and downloads tracked by the npm subscription.",
+      "license": "MIT",
+      "evidence": {
+        "sourceId": "npm",
+        "sourceUrl": "https://registry.npmjs.org/vgpu/latest",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "id": "agent-manifest",
+      "name": "Agent readiness manifest",
+      "kind": "documentation",
+      "url": "https://vgpu.sh/agents.md",
+      "description": "Official agent-facing identity, interfaces and discovery links.",
+      "evidence": {
+        "sourceId": "vercel-labs",
+        "sourceUrl": "https://vgpu.sh/agents.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "id": "llm-docs",
+      "name": "LLM documentation index",
+      "kind": "documentation",
+      "url": "https://vgpu.sh/llms.txt",
+      "description": "Machine-readable documentation entry point.",
+      "evidence": {
+        "sourceId": "vercel-labs",
+        "sourceUrl": "https://vgpu.sh/agents.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "id": "examples",
+      "name": "Shader examples",
+      "kind": "example",
+      "url": "https://vgpu.sh/examples",
+      "description": "Official gallery; examples are not indexed as separate projects.",
+      "evidence": {
+        "sourceId": "vercel-labs",
+        "sourceUrl": "https://vgpu.sh/agents.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "id": "source",
+      "name": "Reviewed source snapshot",
+      "kind": "repository",
+      "url": "https://github.com/vercel-labs/vgpu/tree/ef2418bc13269cc4b3198ecfebf34a26f6a1073e",
+      "revision": "ef2418bc13269cc4b3198ecfebf34a26f6a1073e",
+      "license": "MIT",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/vercel-labs/vgpu/blob/ef2418bc13269cc4b3198ecfebf34a26f6a1073e/README.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    }
+  ],
+  "interfaces": [
+    {
+      "id": "cli",
+      "name": "vgpu CLI",
+      "type": "cli",
+      "transport": "Local process",
+      "authentication": "none",
+      "access": "read-write",
+      "verification": "documented",
+      "runtimes": [
+        "Node.js"
+      ],
+      "description": "Documentation, shader validation and environment diagnostics; explicit install/download commands can write locally.",
+      "command": "npx vgpu",
+      "url": "https://vgpu.sh/docs/cli",
+      "evidence": {
+        "sourceId": "vercel-labs",
+        "sourceUrl": "https://vgpu.sh/docs/cli",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "id": "mcp-http",
+      "name": "Hosted MCP",
+      "type": "mcp",
+      "transport": "Streamable HTTP",
+      "authentication": "none",
+      "access": "read-only",
+      "verification": "documented",
+      "runtimes": [
+        "MCP client"
+      ],
+      "description": "Read-only documentation and verified example discovery. No account required.",
+      "url": "https://vgpu.sh/api/mcp",
+      "evidence": {
+        "sourceId": "vercel-labs",
+        "sourceUrl": "https://vgpu.sh/docs/mcp",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "id": "mcp-local",
+      "name": "Local MCP",
+      "type": "mcp",
+      "transport": "stdio",
+      "authentication": "none",
+      "access": "local-write-opt-in",
+      "verification": "documented",
+      "runtimes": [
+        "Node.js"
+      ],
+      "description": "Read-only by default. Scoped local downloads require explicit configuration; not the same permissions as hosted MCP.",
+      "command": "npx vgpu mcp",
+      "url": "https://vgpu.sh/docs/mcp",
+      "evidence": {
+        "sourceId": "vercel-labs",
+        "sourceUrl": "https://vgpu.sh/docs/mcp",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "id": "examples-api",
+      "name": "Examples API",
+      "type": "api",
+      "transport": "HTTPS / OpenAPI",
+      "authentication": "none",
+      "access": "read-only",
+      "verification": "documented",
+      "runtimes": [
+        "HTTP client"
+      ],
+      "description": "Discover and inspect example manifests and source files.",
+      "url": "https://vgpu.sh/openapi.json",
+      "evidence": {
+        "sourceId": "vercel-labs",
+        "sourceUrl": "https://vgpu.sh/agents.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    },
+    {
+      "id": "typescript",
+      "name": "TypeScript library",
+      "type": "sdk",
+      "transport": "Module import",
+      "authentication": "none",
+      "access": "unknown",
+      "verification": "documented",
+      "runtimes": [
+        "Browser WebGPU",
+        "Node.js / Dawn"
+      ],
+      "description": "Typed WGSL imports and rendering APIs; runtime/device requirements apply.",
+      "url": "https://vgpu.sh/docs/get-started",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/vercel-labs/vgpu/blob/ef2418bc13269cc4b3198ecfebf34a26f6a1073e/README.md",
+        "observedAt": "2026-08-28T00:37:18.237Z"
+      }
+    }
+  ],
+  "subscriptions": [
+    {
+      "sourceId": "github",
+      "locator": "vercel-labs/vgpu"
+    },
+    {
+      "sourceId": "github-releases",
+      "locator": "vercel-labs/vgpu"
+    },
+    {
+      "sourceId": "npm",
+      "locator": "vgpu"
+    }
+  ]
+}

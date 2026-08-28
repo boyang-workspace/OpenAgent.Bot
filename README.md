@@ -82,6 +82,8 @@ Set Worker secrets with `wrangler secret put SYNC_TOKEN` and, when available, `w
 
 Open an issue or pull request with the project URL, canonical repository, entity domain, artifact kind and primary evidence links. Do not infer openness facets from marketing copy or a repository license alone. Schema migrations belong in `migrations/`; connector behavior must include Vitest coverage.
 
+Reviewed content packages live in `content/intake/`. Use the **Reviewed Registry Intake** GitHub workflow to preview and then publish with the returned base/payload hashes, or use `npm run registry:intake -- <manifest>` with `REGISTRY_SYNC_TOKEN`. New project content no longer needs a SQL migration. See [the intake runbook](docs/REGISTRY_INTAKE.md) for validation, audit history and recovery.
+
 ## Development status
 
 Registry V2 is live at `https://www.openagent.bot`. The current work hardens canonical URL migration and the Observation → ChangeEvent history pipeline before publishing momentum rankings or user-facing watch features.

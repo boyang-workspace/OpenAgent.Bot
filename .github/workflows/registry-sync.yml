@@ -76,13 +76,19 @@ jobs:
           set -euo pipefail
           had_errors=0
           for source in github-releases npm; do
-            for batch in $(seq 1 12); do
+            limit=10
+            max_batches=18
+            if [ "${source}" = "github-releases" ]; then
+              limit=5
+              max_batches=36
+            fi
+            for batch in $(seq 1 "${max_batches}"); do
               if ! response=$(curl --fail-with-body --silent --show-error --max-time 90 \
                 --request POST \
                 --header "Authorization: Bearer ${SYNC_TOKEN}" \
                 --header "X-GitHub-Token: ${GITHUB_API_TOKEN}" \
                 --header "Origin: https://www.openagent.bot" \
-                "${SYNC_URL}?source=${source}&limit=10"); then
+                "${SYNC_URL}?source=${source}&limit=${limit}"); then
                 had_errors=1
                 break
               fi
@@ -90,7 +96,20 @@ jobs:
               errors=$(jq -r '.errors | length' <<<"${response}")
               echo "${source} batch ${batch}: ${processed} processed, ${errors} errors"
               if [ "$errors" -gt 0 ]; then had_errors=1; fi
-              if [ "$((processed + errors))" -lt 10 ]; then break; fi
+              if [ "$((processed + errors))" -lt "${limit}" ]; then break; fi
             done
           done
           exit "$had_errors"
+
+      - name: Sync public model and app usage
+        if: always()
+        env:
+          SYNC_TOKEN: ${{ secrets.REGISTRY_SYNC_TOKEN }}
+          USAGE_SYNC_URL: https://www.openagent.bot/api/internal/usage-sync.json
+        run: |
+          response=$(curl --fail-with-body --silent --show-error --max-time 120 \
+            --request POST \
+            --header "Authorization: Bearer ${SYNC_TOKEN}" \
+            --header "Origin: https://www.openagent.bot" \
+            "${USAGE_SYNC_URL}?dataset=all")
+          echo "Usage sync: $(jq -c '{status,sourceId,startDate,endDate,results,reason}' <<<"${response}")"

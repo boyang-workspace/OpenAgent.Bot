@@ -1,0 +1,83 @@
+---
+import type { CatalogDetail } from "@/lib/registry/catalog";
+import { calendarDate, label, relativeDate } from "@/lib/registry/format";
+
+type Props = { detail: CatalogDetail };
+const { detail } = Astro.props;
+---
+
+<section id="record-status" class="catalog-record-status">
+  <header><div><span>Database classification</span><h2>Record status</h2></div><p>Classification and lifecycle are versioned database assessments. Missing modules remain visible instead of being inferred.</p></header>
+  <dl>
+    <div><dt>Primary category</dt><dd>{detail.profile ? label(detail.profile.category) : "Review pending"}</dd></div>
+    <div><dt>Subtype</dt><dd>{detail.profile?.subtype ? label(detail.profile.subtype) : "Not classified"}</dd></div>
+    <div><dt>Inclusion</dt><dd>{detail.profile ? label(detail.profile.inclusionStatus) : "Review pending"}</dd></div>
+    <div><dt>Lifecycle</dt><dd>{detail.lifecycle ? label(detail.lifecycle.state) : "Not assessed"}</dd></div>
+    <div><dt>Data completeness</dt><dd>{detail.completeness ? `${detail.completeness.present}/${detail.completeness.required}` : "Not calculated"}</dd></div>
+    <div><dt>Classification checked</dt><dd>{relativeDate(detail.profile?.observedAt)}</dd></div>
+  </dl>
+  {detail.profile?.sourceUrl && <a href={detail.profile.sourceUrl} rel="noreferrer" target="_blank">Classification source ↗</a>}
+</section>
+
+{detail.completeness && <section id="data-coverage" class="data-completeness">
+  <header><div><span>Coverage contract</span><h2>Data coverage</h2></div><strong>{Math.round(detail.completeness.coverage * 100)}%</strong></header>
+  <div>{detail.completeness.modules.map((module) => <article class:list={[module.status]}><i></i><span><strong>{module.label}</strong><small>{module.updateSource}</small></span><b>{module.status}</b></article>)}</div>
+</section>}
+
+<section class="record-module-grid">
+  <article id="releases">
+    <header><span>Versions</span><h2>Releases</h2><b>{detail.releases.length}</b></header>
+    {detail.releases.length ? <div class="module-list">{detail.releases.map((release) => <a href={release.url} rel="noreferrer" target="_blank"><span><strong>{release.title}</strong><small>{label(release.kind)} · {label(release.channel)}</small></span><time datetime={release.publishedAt ?? release.observedAt}>{calendarDate(release.publishedAt ?? release.observedAt)}</time></a>)}</div> : <p>No versioned releases have been normalized for this record yet.</p>}
+  </article>
+  <article id="papers">
+    <header><span>Research</span><h2>Papers</h2><b>{detail.papers.length}</b></header>
+    {detail.papers.length ? <div class="module-list">{detail.papers.map((paper) => <a href={paper.url} rel="noreferrer" target="_blank"><span><strong>{paper.title}</strong><small>{label(paper.relationshipType)} · {paper.arxivId ?? paper.doi ?? "Official paper"}</small></span><time datetime={paper.publishedAt}>{calendarDate(paper.publishedAt)}</time></a>)}</div> : <p>No attributed paper relationships have been normalized for this record yet.</p>}
+  </article>
+  <article id="evaluations">
+    <header><span>Third party</span><h2>Evaluations</h2><b>{detail.evaluations.length}</b></header>
+    {detail.evaluations.length ? <div class="module-list">{detail.evaluations.map((evaluation) => <a href={evaluation.resultUrl} rel="noreferrer" target="_blank"><span><strong>{evaluation.benchmarkName}</strong><small>{evaluation.metricKey} · {label(evaluation.evaluatorType)}</small></span><b>{evaluation.metricValue ?? evaluation.metricText} {evaluation.unit}</b></a>)}</div> : <p>No comparable third-party evaluation with attributable conditions is available yet.</p>}
+  </article>
+</section>
+
+<style>
+  .catalog-record-status { border-top: 1px solid var(--ink); padding: 28px; scroll-margin-top: calc(var(--header-height) + 48px); }
+  .catalog-record-status > header { align-items: end; display: grid; gap: 40px; grid-template-columns: 1fr 420px; margin-bottom: 24px; }
+  .catalog-record-status header span, .record-module-grid header span { color: var(--muted); font-size: .75rem; font-weight: 700; text-transform: uppercase; }
+  .catalog-record-status h2, .record-module-grid h2 { font-size: var(--section-title); letter-spacing: -.025em; margin: 5px 0 0; }
+  .catalog-record-status header p, .record-module-grid article > p { color: var(--muted); font-size: .8rem; line-height: 1.55; margin: 0; }
+  .catalog-record-status dl { border: 1px solid var(--ink); display: grid; grid-template-columns: repeat(6,1fr); margin: 0 0 18px; }
+  .catalog-record-status dl div { border-right: 1px solid var(--line); min-height: 88px; padding: 14px; }
+  .catalog-record-status dl div:last-child { border: 0; }
+  .catalog-record-status dt { color: var(--muted); font-size: .75rem; text-transform: uppercase; }
+  .catalog-record-status dd { font-size: .8rem; font-weight: 650; margin: 16px 0 0; }
+  .catalog-record-status > a { font-size: .75rem; font-weight: 700; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
+  .data-completeness { border-top: 1px solid var(--ink); padding: 26px 28px; scroll-margin-top: calc(var(--header-height) + 48px); }
+  .data-completeness > header { align-items: end; display: flex; justify-content: space-between; }
+  .data-completeness header span { color: var(--muted); font-size: .75rem; font-weight: 700; text-transform: uppercase; }
+  .data-completeness h2 { font-size: var(--section-title); letter-spacing: -.025em; margin: 5px 0 0; }
+  .data-completeness > header > strong { font-size: 2rem; }
+  .data-completeness > div { border-top: 1px solid var(--ink); display: grid; grid-template-columns: 1fr 1fr; margin-top: 22px; }
+  .data-completeness article { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 12px; grid-template-columns: 8px 1fr auto; min-height: 62px; padding: 8px 12px 8px 0; }
+  .data-completeness article:nth-child(odd) { border-right: 1px solid var(--line); padding-right: 18px; }
+  .data-completeness article:nth-child(even) { padding-left: 18px; }
+  .data-completeness i { background: var(--ink); border-radius: 50%; height: 7px; width: 7px; }
+  .data-completeness .missing i { background: transparent; border: 1px solid var(--muted); }
+  .data-completeness article strong, .data-completeness article small { display: block; }
+  .data-completeness article strong { font-size: .8rem; }
+  .data-completeness article small, .data-completeness article b { color: var(--muted); font-size: .75rem; font-weight: 500; margin-top: 5px; }
+  .data-completeness article b { font-family: var(--mono); text-transform: uppercase; }
+  .record-module-grid { border-top: 1px solid var(--ink); display: grid; grid-template-columns: repeat(3,1fr); }
+  .record-module-grid article { border-right: 1px solid var(--line); min-height: 240px; padding: 24px 28px; scroll-margin-top: calc(var(--header-height) + 48px); }
+  .record-module-grid article:last-child { border: 0; }
+  .record-module-grid header { display: grid; grid-template-columns: 1fr auto; }
+  .record-module-grid header span, .record-module-grid header h2 { grid-column: 1; }
+  .record-module-grid header > b { font-size: 1.4rem; grid-column: 2; grid-row: 1 / 3; }
+  .record-module-grid article > p { margin-top: 36px; }
+  .module-list { border-top: 1px solid var(--line); margin-top: 24px; }
+  .module-list a { align-items: start; border-bottom: 1px solid var(--line); display: flex; gap: 14px; justify-content: space-between; padding: 13px 0; }
+  .module-list strong { display: block; font-size: .8rem; }
+  .module-list small, .module-list time, .module-list > a > b { color: var(--muted); font-size: .75rem; font-weight: 500; }
+  .module-list small { display: block; margin-top: 5px; }
+  @media (max-width: 900px) { .catalog-record-status > header { grid-template-columns: 1fr; } .catalog-record-status dl { grid-template-columns: 1fr 1fr; } .catalog-record-status dl div { border-bottom: 1px solid var(--line); } .record-module-grid { grid-template-columns: 1fr; } .record-module-grid article { border-bottom: 1px solid var(--line); border-right: 0; min-height: 0; } }
+  @media (max-width: 760px) { .catalog-record-status,.data-completeness { padding: 30px 18px; } .data-completeness > div { grid-template-columns: 1fr; } .data-completeness article:nth-child(odd) { border-right: 0; } .data-completeness article:nth-child(even) { padding-left: 0; } }
+</style>

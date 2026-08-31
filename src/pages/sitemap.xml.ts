@@ -1,10 +1,14 @@
 import type { APIRoute } from "astro";
 import { site } from "@/config/site";
-import { getRegistry } from "@/lib/registry/runtime";
+import { getRegistry, getUsage } from "@/lib/registry/runtime";
+import { projectIndexability } from "@/lib/seo/indexability";
 
 const staticPaths = [
   "/",
+  "/models",
   "/agents",
+  "/robot-models",
+  "/robots",
   "/robotics",
   "/database",
   "/rankings",
@@ -27,21 +31,26 @@ const staticPaths = [
 
 export const GET: APIRoute = async () => {
   let projects: Array<{ slug: string; updatedAt: string }> = [];
+  let includeUsage = false;
   try {
     const registry = getRegistry();
     let offset = 0;
     let total = 1;
     while (offset < total) {
       const result = await registry.listEntities({ limit: 100, offset });
-      projects.push(...result.items.map(({ slug, updatedAt }) => ({ slug, updatedAt })));
+      projects.push(...result.items.filter((entity) => projectIndexability(entity).indexable).map(({ slug, updatedAt }) => ({ slug, updatedAt })));
       total = result.total;
       offset += result.items.length;
       if (result.items.length === 0) break;
     }
   } catch {}
+  try {
+    const usage = await getUsage().pageData("model", { openOnly: true, days: 30 });
+    includeUsage = Boolean(usage.latestDate && usage.historyDays >= 30 && usage.snapshot.length >= 2);
+  } catch {}
   const today = new Date().toISOString().slice(0, 10);
   const urls = [
-    ...staticPaths.map((path) => ({ path, lastmod: today })),
+    ...[...staticPaths, ...(includeUsage ? ["/usage"] : [])].map((path) => ({ path, lastmod: today })),
     ...projects.map((project) => ({ path: `/project/${project.slug}`, lastmod: project.updatedAt.slice(0, 10) }))
   ];
   const xml = urls.map(({ path, lastmod }) => `<url><loc>${new URL(path, site.url)}</loc><lastmod>${lastmod}</lastmod></url>`).join("");

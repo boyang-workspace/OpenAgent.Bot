@@ -44,12 +44,12 @@ const structuredData = [
 
 <style>
   .editorial-page { align-items: start; display: grid; grid-template-columns: minmax(0, 1fr) 280px; }
-  article { border-right: 1px solid var(--ink); min-width: 0; padding: 44px 54px 70px; }
-  article header { border-bottom: 1px solid var(--ink); padding-bottom: 34px; }
-  h1 { font-size: clamp(2.7rem, 5vw, 5rem); letter-spacing: -.055em; line-height: .95; margin: 22px 0; }
-  .dek { color: var(--muted); font-size: 1.1rem; line-height: 1.6; margin: 0; max-width: 760px; }
+  article { border-right: 1px solid var(--ink); min-width: 0; padding: 32px 42px 60px; }
+  article header { border-bottom: 1px solid var(--ink); padding-bottom: 28px; }
+  h1 { font-size: var(--data-title); letter-spacing: -.045em; line-height: 1; margin: 14px 0; }
+  .dek { color: var(--muted); font-size: 1rem; line-height: 1.6; margin: 0; max-width: 760px; }
   .answer { background: var(--acid); border: 1px solid var(--ink); margin: 34px 0; padding: 24px; }
-  .answer strong { font-family: var(--mono); font-size: .65rem; text-transform: uppercase; }
+  .answer strong { font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
   .answer p { margin-bottom: 0; }
   article section { border-top: 1px solid var(--line); padding: 30px 0; }
   article h2 { font-size: 2rem; letter-spacing: -.04em; margin-bottom: 16px; }
@@ -60,12 +60,12 @@ const structuredData = [
   .row + .row { border-top: 1px solid var(--line); }
   .row span { border-right: 1px solid var(--line); font-size: .77rem; line-height: 1.45; padding: 14px; }
   .row span:last-child { border: 0; }
-  .row.head { background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: .61rem; text-transform: uppercase; }
+  .row.head { background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
   .next-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
   .next-links a { text-decoration: none; }
   aside { position: sticky; top: calc(var(--header-height) + 24px); padding: 28px 24px; }
   aside p { color: var(--muted); font-size: .8rem; line-height: 1.55; margin: 16px 0; }
-  aside a { font-family: var(--mono); font-size: .6rem; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
+  aside a { font-family: var(--mono); font-size: .75rem; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
   @media (max-width: 760px) {
     .editorial-page { grid-template-columns: 1fr; }
     article { border-right: 0; padding: 30px 20px 50px; }

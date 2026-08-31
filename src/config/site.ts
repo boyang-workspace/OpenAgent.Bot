@@ -1,13 +1,15 @@
 export const site = {
   name: "OpenAgent.bot",
   url: "https://www.openagent.bot",
-  title: "Open-Source AI Agent & Robot Database | OpenAgent.bot",
+  title: "Open AI & Robotics Database | OpenAgent.bot",
   description:
-    "The database of open-source agents, robots, and everything that makes them work.",
+    "Historical rankings, releases, evaluations and source evidence for open models, agents, robot intelligence and robot hardware.",
   nav: [
+    { label: "Models", href: "/models" },
     { label: "Agents", href: "/agents" },
-    { label: "Robotics", href: "/robotics" },
-    { label: "Rankings", href: "/rankings" },
+    { label: "Robot Models", href: "/robot-models" },
+    { label: "Robots", href: "/robots" },
+    { label: "Usage", href: "/usage" },
     { label: "Changes", href: "/changes" },
     { label: "Database", href: "/database" }
   ]

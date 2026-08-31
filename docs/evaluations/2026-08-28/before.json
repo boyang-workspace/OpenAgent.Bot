@@ -1,0 +1,278 @@
+{
+  "evaluatedAt": "2026-08-28T05:03:01.675Z",
+  "evaluationTime": "2026-08-28T02:00:00.000Z",
+  "method": "Deterministic local component evaluation; no independent agents, inference timing or real-world success rate measured",
+  "population": {
+    "projects": 162,
+    "representative": [
+      "vgpu",
+      "opencode",
+      "microduck",
+      "microduck-runtime",
+      "microduck-rl",
+      "microduck-policies"
+    ],
+    "holdout": [
+      "openhands",
+      "langgraph",
+      "lerobot",
+      "playwright-mcp"
+    ]
+  },
+  "discovery": [
+    {
+      "id": "Q1",
+      "question": "Find a documented, read-only, no-auth MCP interface",
+      "params": "interface=mcp&access=read-only&authentication=none",
+      "expected": [
+        "vgpu/mcp-http"
+      ],
+      "results": [
+        "vgpu/mcp-http"
+      ],
+      "unknownCandidates": 0,
+      "correct": true,
+      "execution": "evaluation-only client filtering, not a product search endpoint"
+    },
+    {
+      "id": "Q2",
+      "question": "Find a documented, read-only MCP interface requiring authentication",
+      "params": "interface=mcp&access=read-only&authentication=required",
+      "expected": [],
+      "results": [],
+      "unknownCandidates": 0,
+      "correct": true,
+      "execution": "evaluation-only client filtering, not a product search endpoint"
+    },
+    {
+      "id": "Q3",
+      "question": "Find a documented CLI that can write",
+      "params": "interface=cli&access=read-write",
+      "expected": [
+        "opencode/cli",
+        "vgpu/cli"
+      ],
+      "results": [
+        "opencode/cli",
+        "vgpu/cli"
+      ],
+      "unknownCandidates": 0,
+      "correct": true,
+      "execution": "evaluation-only client filtering, not a product search endpoint"
+    },
+    {
+      "id": "Q4",
+      "question": "Find read-only SDKs (unknown must not pass)",
+      "params": "interface=sdk&access=read-only",
+      "expected": [],
+      "results": [],
+      "unknownCandidates": 1,
+      "correct": true,
+      "execution": "evaluation-only client filtering, not a product search endpoint"
+    },
+    {
+      "id": "Q5",
+      "question": "Find independently tested, read-only MCP interfaces",
+      "params": "interface=mcp&access=read-only&verification=tested",
+      "expected": [],
+      "results": [],
+      "unknownCandidates": 2,
+      "correct": true,
+      "execution": "evaluation-only client filtering, not a product search endpoint"
+    },
+    {
+      "id": "Q6",
+      "question": "Find fresh, read-only MCP interfaces",
+      "params": "interface=mcp&access=read-only&require_fresh=true",
+      "expected": [],
+      "results": [],
+      "unknownCandidates": 2,
+      "correct": true,
+      "execution": "evaluation-only client filtering, not a product search endpoint"
+    }
+  ],
+  "productSearchAvailable": false,
+  "payloads": [
+    {
+      "slug": "vgpu",
+      "cohort": "representative",
+      "legacyJsonBytes": 16489,
+      "knowledgeJsonBytes": 33148,
+      "interfaces": 5,
+      "resources": 5,
+      "scopedChecks": 0
+    },
+    {
+      "slug": "opencode",
+      "cohort": "representative",
+      "legacyJsonBytes": 13456,
+      "knowledgeJsonBytes": 25472,
+      "interfaces": 2,
+      "resources": 3,
+      "scopedChecks": 0
+    },
+    {
+      "slug": "microduck",
+      "cohort": "representative",
+      "legacyJsonBytes": 13887,
+      "knowledgeJsonBytes": 19837,
+      "interfaces": 0,
+      "resources": 3,
+      "scopedChecks": 0
+    },
+    {
+      "slug": "microduck-runtime",
+      "cohort": "representative",
+      "legacyJsonBytes": 8836,
+      "knowledgeJsonBytes": 13319,
+      "interfaces": 0,
+      "resources": 1,
+      "scopedChecks": 0
+    },
+    {
+      "slug": "microduck-rl",
+      "cohort": "representative",
+      "legacyJsonBytes": 11375,
+      "knowledgeJsonBytes": 15878,
+      "interfaces": 0,
+      "resources": 1,
+      "scopedChecks": 0
+    },
+    {
+      "slug": "microduck-policies",
+      "cohort": "representative",
+      "legacyJsonBytes": 16702,
+      "knowledgeJsonBytes": 32822,
+      "interfaces": 0,
+      "resources": 9,
+      "scopedChecks": 0
+    },
+    {
+      "slug": "openhands",
+      "cohort": "holdout",
+      "legacyJsonBytes": 1588,
+      "knowledgeJsonBytes": 3462,
+      "interfaces": 0,
+      "resources": 0,
+      "scopedChecks": 0
+    },
+    {
+      "slug": "langgraph",
+      "cohort": "holdout",
+      "legacyJsonBytes": 1648,
+      "knowledgeJsonBytes": 3458,
+      "interfaces": 0,
+      "resources": 0,
+      "scopedChecks": 0
+    },
+    {
+      "slug": "lerobot",
+      "cohort": "holdout",
+      "legacyJsonBytes": 1811,
+      "knowledgeJsonBytes": 3466,
+      "interfaces": 0,
+      "resources": 0,
+      "scopedChecks": 0
+    },
+    {
+      "slug": "playwright-mcp",
+      "cohort": "holdout",
+      "legacyJsonBytes": 1856,
+      "knowledgeJsonBytes": 3525,
+      "interfaces": 0,
+      "resources": 0,
+      "scopedChecks": 0
+    }
+  ],
+  "uncertainty": [
+    {
+      "id": "U1-missing-value",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U2-missing-evidence",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U3-withdrawn",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U4-conflicting",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U5-expired",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U6-no-freshness",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U7-not-tested",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U8-unscoped-version",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U9-future-evidence",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U10-unknown-verification",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    }
+  ],
+  "history": {
+    "synthetic": true,
+    "ledgerChanges": 26,
+    "exposedChanges": 20,
+    "canRetrieveOlderPages": false,
+    "pointInTime": "unavailable"
+  },
+  "holdoutCoverage": [
+    {
+      "slug": "openhands",
+      "interfaces": 0,
+      "resources": 0
+    },
+    {
+      "slug": "langgraph",
+      "interfaces": 0,
+      "resources": 0
+    },
+    {
+      "slug": "lerobot",
+      "interfaces": 0,
+      "resources": 0
+    },
+    {
+      "slug": "playwright-mcp",
+      "interfaces": 0,
+      "resources": 0
+    }
+  ]
+}

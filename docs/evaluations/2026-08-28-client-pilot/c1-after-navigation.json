@@ -1,0 +1,487 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-08-28T06:29:26.669Z",
+  "finishedAt": "2026-08-28T06:30:57.507Z",
+  "design": "New compound questions over four already-curated projects; not unseen-project generalization. Freeze before the first client run. One run per arm is a feasibility pilot, not a reliable success-rate estimate.",
+  "baseline": "pinned-official-source-snapshots, not live web search",
+  "repetitionsPerArm": 1,
+  "taskSpecSha256": "a0a636b951c65d837f86cf3ca0207898a8dc4dd933ef2a92cfc6d462fc7c5d06",
+  "corpusSha256": "a45a4c26a297520eab2d70829b55ede7d5321b47655e29436faaa35acd4ff260",
+  "fingerprints": {
+    "scripts/evaluate-knowledge-client.mjs": "99691e844f1300c5549a2d1e4254b5edaf1a469f54de3414963b0bbc81d35342",
+    "scripts/knowledge-evaluation-mcp.mjs": "9ad79dfa4efb0b78747668dd8c05dbaca6a002393b7c9675ec872169d3315ac4",
+    "evaluations/knowledge-preview.ts": "71f1107813d9a98e48ed17b35e126133d1165b3058d7e5f7ba616f1ae39fd8ab",
+    "src/lib/registry/knowledge-query.ts": "c55927819f751f61c5f8bcf6d16c2f7eaa76260de6c805c4081e4d1b633b4c0e",
+    "src/lib/registry/knowledge-document.ts": "9b37649e7a63437cbc9315657d955b622bee2aae181f2fa8f5c996e3ebf95e5b",
+    "src/lib/registry/intake.ts": "7a799d96a55a0af4936633d33dc5f93f44f8d443544e567d17baa1be6d572c75",
+    "migrations/0001_registry.sql": "42d3c4c65e54341ea74d3775b4b36b8554c0c1e0c1ed4f72cd70e0677610adc8",
+    "migrations/0002_seed.sql": "f80965d5da1214ac5df8a4cd905c9118aef881997eeeb67aa5a4338bc87a2580",
+    "migrations/0003_robotics_seed.sql": "fa6b511b80596577559490436cc212beb86c777a8c87649f883d6b0de2e6a21a",
+    "migrations/0004_pipeline_integrity.sql": "9e29c50dcb46398398541603b9f3783dcf8981447487a0cc114709ed30affa01",
+    "migrations/0005_mistral_large_source.sql": "b4951dc18957537332618e39574311af63ff28bbb54c2ac18180f051e9ab9bcd",
+    "migrations/0006_normalize_seeded_spdx.sql": "664c89b57a91d442b9761d3c347d0a26dacd80e6d4cbdbc17e5d9481e27dcfb5",
+    "migrations/0007_openclaw_canonical_evidence.sql": "b0d81de5e785474a37ad1aa9ec92dca42aea9e4679127dc909b292e07b8b8727",
+    "migrations/0008_entity_domains.sql": "b03f4d579affff8630b3d0a437100789c99cedc3af0630bd9efe38331b248a24",
+    "migrations/0009_entity_domain_defaults.sql": "4fadadee28c895b3da4238041773df048e5b0559da3ae71a1f729d31892d1b44",
+    "migrations/0010_robotics_layers.sql": "e192412e071b732a4709a7d24ff1ad908b8c88742d992e92eae28eb523831479",
+    "migrations/0011_dedupe_genesis.sql": "bdd4fb6992fb6178be30653d572cffec0db4604ad0a68d8ad7084430e8536220",
+    "migrations/0012_robot_media_and_specs.sql": "abca4c9b1bb7b9a7c8e472d22d0d032bef912a4bf68228062698961afba07ad0",
+    "migrations/0013_robot_use_cases.sql": "e22eaad3c2fa09732d2022b844dae86ed210c0603ca7982e8de3337176cccaa4",
+    "migrations/0014_microduck_seed.sql": "61faab13242cfbc3f22e7590e53e07c6a5d5611c8c5cb55ccc445fa2f5e66a7e",
+    "migrations/0015_reviewed_intake.sql": "e8d01fcd18f030f5b375e0100c32084e07f3da8d089cb69edd25ffd1acef7aea",
+    "migrations/0016_reviewed_corrections.sql": "e181a25b161502a64fc61eec7d7f49167aa06d57e52e925149b29a52cf1320bc",
+    "content/intake/vgpu.json": "a19643ea1424cb4abfa0cd9ddf85640e9f3fe839108f58dc153367819dc95115",
+    "content/intake/opencode.json": "eaa2a01bed8f72e6a98f757f1161b0ee2908b3046ec8b080f30ed33d0d2c9dc5",
+    "content/intake/openhands.json": "1718873661122c49be9a4ff36c84d2180060ae8e3d7f1199da7a114f2aafae0d",
+    "content/intake/langgraph.json": "d9a99851e6bb353436295eae76ac43457888f19580650b0625c8d8235c62dd5b",
+    "content/intake/lerobot.json": "4c4d461d2ce2235ba948e272a318e98881d4de23076232fce5c0471b3abcd984",
+    "content/intake/playwright-mcp.json": "6ac0123ac0f3f8fc02d87782aad2dd1a492a2f8084126c35334c811618936ad9"
+  },
+  "codexVersion": "codex-cli 0.150.0-alpha.12.2",
+  "secondClient": {
+    "client": "claude",
+    "authenticated": false,
+    "status": "blocked-authentication"
+  },
+  "trials": [
+    {
+      "trial": "codex-c1-sources",
+      "task": "C1",
+      "arm": "sources",
+      "client": "codex",
+      "model": "client-default-not-reported",
+      "elapsedMs": 40229,
+      "exitCode": 0,
+      "stopReason": null,
+      "usage": {
+        "input_tokens": 46921,
+        "cached_input_tokens": 17920,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 479,
+        "reasoning_output_tokens": 71
+      },
+      "toolCalls": [
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/sources/index.json"
+          },
+          "status": "completed",
+          "responseBytes": 5491,
+          "responseSha256": "f0e04bcf6290d1b40fb7c77f7346e5ca152e27242340023bd3d59721eb2c1f10",
+          "sourceUrls": [
+            "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md",
+            "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/package.json",
+            "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/LICENSE",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/LICENSE",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/LICENSE",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/LICENSE"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/sources/langgraph-package"
+          },
+          "status": "completed",
+          "responseBytes": 4856,
+          "responseSha256": "d5af7912fbb6009c6dc91c13e58bf64d7f579bff3e362a161137f86fb856f645",
+          "sourceUrls": [
+            "https://docs.langchain.com/oss/python/langgraph/overview",
+            "https://reference.langchain.com/python/langgraph/",
+            "https://github.com/langchain-ai/langgraph/tree/main/libs/langgraph",
+            "https://github.com/langchain-ai/langgraph/releases",
+            "https://x.com/langchain_oss",
+            "https://www.langchain.com/join-community",
+            "https://www.reddit.com/r/LangChain/"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/sources/lerobot-package"
+          },
+          "status": "completed",
+          "responseBytes": 26139,
+          "responseSha256": "365e73bd432374af0cbc782dee10a043ce108c6685811120e8fede7d370698ab",
+          "sourceUrls": [
+            "https://huggingface.co/lerobot",
+            "https://huggingface.co/docs/lerobot/index",
+            "https://github.com/huggingface/lerobot",
+            "https://github.com/huggingface/lerobot/issues",
+            "https://discord.gg/s3KuuzsPFb",
+            "https://download.pytorch.org/whl/cu130",
+            "https://download.pytorch.org/whl/cu128"
+          ]
+        }
+      ],
+      "unexpectedTools": [],
+      "http": [
+        {
+          "trial": "codex-c1-sources",
+          "method": "GET",
+          "path": "/sources/index.json",
+          "queryKeys": [],
+          "queryHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": 200,
+          "bytes": 5030,
+          "durationMs": 4.205
+        },
+        {
+          "trial": "codex-c1-sources",
+          "method": "GET",
+          "path": "/sources/langgraph-package",
+          "queryKeys": [],
+          "queryHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": 200,
+          "bytes": 4466,
+          "durationMs": 0.678
+        },
+        {
+          "trial": "codex-c1-sources",
+          "method": "GET",
+          "path": "/sources/lerobot-package",
+          "queryKeys": [],
+          "queryHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": 200,
+          "bytes": 24511,
+          "durationMs": 0.753
+        }
+      ],
+      "answer": {
+        "claims": {
+          "langgraphPython": ">=3.10",
+          "lerobotPython": ">=3.12",
+          "langgraphAllows311": true,
+          "lerobotAllows311": false,
+          "runtimeEvidence": "not-provided"
+        },
+        "citations": [
+          "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+          "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml"
+        ],
+        "explanation": "The pinned manifests declare Python >=3.10 for LangGraph and >=3.12 for LeRobot, so Python 3.11 satisfies only LangGraph's declared requirement. This establishes manifest compatibility only; the supplied evidence contains no successful installation or runtime-execution test."
+      },
+      "final": "{\"claims\":{\"langgraphPython\":\">=3.10\",\"lerobotPython\":\">=3.12\",\"langgraphAllows311\":true,\"lerobotAllows311\":false,\"runtimeEvidence\":\"not-provided\"},\"citations\":[\"https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml\",\"https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml\"],\"explanation\":\"The pinned manifests declare Python >=3.10 for LangGraph and >=3.12 for LeRobot, so Python 3.11 satisfies only LangGraph's declared requirement. This establishes manifest compatibility only; the supplied evidence contains no successful installation or runtime-execution test.\"}",
+      "grade": {
+        "claims": [
+          {
+            "key": "langgraphPython",
+            "passed": true
+          },
+          {
+            "key": "lerobotPython",
+            "passed": true
+          },
+          {
+            "key": "langgraphAllows311",
+            "passed": true
+          },
+          {
+            "key": "lerobotAllows311",
+            "passed": true
+          },
+          {
+            "key": "runtimeEvidence",
+            "passed": true
+          }
+        ],
+        "evidence": [
+          {
+            "source": "langgraph-package",
+            "passed": true
+          },
+          {
+            "source": "lerobot-package",
+            "passed": true
+          }
+        ],
+        "structuredPass": true,
+        "semanticAudit": "pending-human-or-parent-review"
+      },
+      "errors": [
+        "Reconnecting... 2/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Reconnecting... 3/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Reconnecting... 4/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Reconnecting... 5/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Falling back from WebSockets to HTTPS transport. stream disconnected before completion: Connection reset by peer (os error 54)"
+      ],
+      "clientDiagnostics": [
+        "2026-08-28T06:29:27.545106Z ERROR codex_skills_extension::loader::host: skills scan reached its traversal limit (root: file:///Users/boyangxie/.codex/skills)",
+        "2026-08-28T06:29:27.560321Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/briefing/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:29:27.560358Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/enrich/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:29:27.560361Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/ingest/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:29:27.560363Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/install/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:29:27.560365Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/maintain/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:29:27.560368Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/migrate/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:29:27.560369Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/publish/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:29:27.560371Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/query/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:29:27.560372Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/setup/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:29:27.560374Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.agents/skills/debug-pro-1.0.0/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:29:27.560375Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.agents/skills/feishu-drive-1.0.0/SKILL.md: invalid YAML: could not find expected ':' at line 13 column 1, while scanning a simple key at line 12 column 1",
+        "2026-08-28T06:29:27.560377Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.agents/skills/test-runner-1.0.0/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:29:27.853029Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T06:29:29.196790Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T06:29:29.722101Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T06:29:30.350755Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T06:29:31.696337Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T06:29:33.574063Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T06:29:37.129863Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses"
+      ],
+      "contextCaveats": [],
+      "validTrial": true
+    },
+    {
+      "trial": "codex-c1-platform",
+      "task": "C1",
+      "arm": "platform",
+      "client": "codex",
+      "model": "client-default-not-reported",
+      "elapsedMs": 50011,
+      "exitCode": 0,
+      "stopReason": null,
+      "usage": {
+        "input_tokens": 49503,
+        "cached_input_tokens": 26880,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 610,
+        "reasoning_output_tokens": 75
+      },
+      "toolCalls": [
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/llms.txt"
+          },
+          "status": "completed",
+          "responseBytes": 2218,
+          "responseSha256": "588678b78e539698eb3e6a22db0af5cf51c5cee5a9776ac4a3611a79edcec211",
+          "sourceUrls": []
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/api/knowledge/v1/project.json?slug=lerobot&section=fields&limit=20"
+          },
+          "status": "completed",
+          "responseBytes": 6307,
+          "responseSha256": "2cce417dcedbe3c2b8039e80aae776abd9fbbfc22b52dd803e042714dad6094d",
+          "sourceUrls": [
+            "https://www.openagent.bot/project/lerobot",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/LICENSE"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/api/knowledge/v1/project.json?slug=langgraph&section=fields&limit=20"
+          },
+          "status": "completed",
+          "responseBytes": 4742,
+          "responseSha256": "c9422ad4afbab0f8e59870793c3eabc8ae4943c8a2c951cf8011041e6e36bc12",
+          "sourceUrls": [
+            "https://www.openagent.bot/project/langgraph",
+            "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+            "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+            "https://github.com/langchain-ai/docs/blob/cafb0c882677b9979c4f8583790f111247a57937/src/oss/langgraph/persistence.mdx"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/api/knowledge/v1/project.json?slug=lerobot&section=facts&fact_key=software.runtime_requirements"
+          },
+          "status": "completed",
+          "responseBytes": 1601,
+          "responseSha256": "0095278ab305277535f079b56ce860366e965fc5df030a19027f95a6f2de2b19",
+          "sourceUrls": [
+            "https://www.openagent.bot/project/lerobot",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/api/knowledge/v1/project.json?slug=langgraph&section=facts&fact_key=software.runtime_requirements"
+          },
+          "status": "completed",
+          "responseBytes": 1636,
+          "responseSha256": "1e046b771640d5e46ad95cec0c9ce42ff52b66094c2b0936c6a835220b8e27f5",
+          "sourceUrls": [
+            "https://www.openagent.bot/project/langgraph",
+            "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml"
+          ]
+        }
+      ],
+      "unexpectedTools": [],
+      "http": [
+        {
+          "trial": "codex-c1-platform",
+          "method": "GET",
+          "path": "/llms.txt",
+          "queryKeys": [],
+          "queryHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": 200,
+          "bytes": 2139,
+          "durationMs": 0.632
+        },
+        {
+          "trial": "codex-c1-platform",
+          "method": "GET",
+          "path": "/api/knowledge/v1/project.json",
+          "queryKeys": [
+            "limit",
+            "section",
+            "slug"
+          ],
+          "queryHash": "23c8a4ed305b8b8c923d9dcc6b35d26807828583204eacfc3b1bc68b6682154d",
+          "status": 200,
+          "bytes": 5624,
+          "durationMs": 5.398
+        },
+        {
+          "trial": "codex-c1-platform",
+          "method": "GET",
+          "path": "/api/knowledge/v1/project.json",
+          "queryKeys": [
+            "limit",
+            "section",
+            "slug"
+          ],
+          "queryHash": "3de1c018f1d4f172e929a5709c44b7ffc856867e1ef52bf2295e31c63ae2cb9b",
+          "status": 200,
+          "bytes": 4223,
+          "durationMs": 2.48
+        },
+        {
+          "trial": "codex-c1-platform",
+          "method": "GET",
+          "path": "/api/knowledge/v1/project.json",
+          "queryKeys": [
+            "fact_key",
+            "section",
+            "slug"
+          ],
+          "queryHash": "beb8b33c464fe5920588c9e6fe44092a250c08cb954e2b1e19beed43109639dd",
+          "status": 200,
+          "bytes": 1390,
+          "durationMs": 7.792
+        },
+        {
+          "trial": "codex-c1-platform",
+          "method": "GET",
+          "path": "/api/knowledge/v1/project.json",
+          "queryKeys": [
+            "fact_key",
+            "section",
+            "slug"
+          ],
+          "queryHash": "979fb727cdd06560c215ee2580f95b94e7c495ff4e35d224317e5e77f83b1029",
+          "status": 200,
+          "bytes": 1425,
+          "durationMs": 4.331
+        }
+      ],
+      "answer": {
+        "claims": {
+          "langgraphPython": ">=3.10",
+          "lerobotPython": ">=3.12",
+          "langgraphAllows311": true,
+          "lerobotAllows311": false,
+          "runtimeEvidence": "not-provided"
+        },
+        "citations": [
+          "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+          "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml"
+        ],
+        "explanation": "At the reviewed commits, LangGraph’s manifest requirement includes Python 3.11, while LeRobot’s excludes it. This establishes only declared manifest compatibility; the supplied evidence documents no successful installation or runtime execution."
+      },
+      "final": "{\"claims\":{\"langgraphPython\":\">=3.10\",\"lerobotPython\":\">=3.12\",\"langgraphAllows311\":true,\"lerobotAllows311\":false,\"runtimeEvidence\":\"not-provided\"},\"citations\":[\"https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml\",\"https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml\"],\"explanation\":\"At the reviewed commits, LangGraph’s manifest requirement includes Python 3.11, while LeRobot’s excludes it. This establishes only declared manifest compatibility; the supplied evidence documents no successful installation or runtime execution.\"}",
+      "grade": {
+        "claims": [
+          {
+            "key": "langgraphPython",
+            "passed": true
+          },
+          {
+            "key": "lerobotPython",
+            "passed": true
+          },
+          {
+            "key": "langgraphAllows311",
+            "passed": true
+          },
+          {
+            "key": "lerobotAllows311",
+            "passed": true
+          },
+          {
+            "key": "runtimeEvidence",
+            "passed": true
+          }
+        ],
+        "evidence": [
+          {
+            "source": "langgraph-package",
+            "passed": true
+          },
+          {
+            "source": "lerobot-package",
+            "passed": true
+          }
+        ],
+        "structuredPass": true,
+        "semanticAudit": "pending-human-or-parent-review"
+      },
+      "errors": [
+        "Reconnecting... 2/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Reconnecting... 3/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Reconnecting... 4/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Reconnecting... 5/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Falling back from WebSockets to HTTPS transport. stream disconnected before completion: Connection reset by peer (os error 54)"
+      ],
+      "clientDiagnostics": [
+        "2026-08-28T06:30:07.800753Z ERROR codex_skills_extension::loader::host: skills scan reached its traversal limit (root: file:///Users/boyangxie/.codex/skills)",
+        "2026-08-28T06:30:07.816673Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/briefing/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:30:07.816703Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/enrich/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:30:07.816708Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/ingest/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:30:07.816709Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/install/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:30:07.816711Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/maintain/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:30:07.816713Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/migrate/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:30:07.816715Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/publish/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:30:07.816716Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/query/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:30:07.816718Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/setup/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:30:07.816719Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.agents/skills/debug-pro-1.0.0/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:30:07.816720Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.agents/skills/feishu-drive-1.0.0/SKILL.md: invalid YAML: could not find expected ':' at line 13 column 1, while scanning a simple key at line 12 column 1",
+        "2026-08-28T06:30:07.816722Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.agents/skills/test-runner-1.0.0/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T06:30:08.835355Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T06:30:10.618058Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T06:30:11.141291Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T06:30:12.033602Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T06:30:14.455162Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T06:30:16.585928Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T06:30:20.054233Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses"
+      ],
+      "contextCaveats": [],
+      "validTrial": true
+    }
+  ]
+}

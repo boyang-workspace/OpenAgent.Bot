@@ -1,0 +1,85 @@
+{
+  "observedOn": "2026-08-28",
+  "method": "Read-only live HTTP diagnostics and manual official-source cross-checks. Not independent-agent A/B testing.",
+  "legacyApi": [
+    {
+      "url": "https://www.openagent.bot/api/v1/entities.json?interface=mcp&limit=10",
+      "status": 200,
+      "total": 1,
+      "slugs": [
+        "vgpu"
+      ],
+      "jsonBytes": 1729,
+      "elapsedMsSingleRequest": 3720
+    },
+    {
+      "url": "https://www.openagent.bot/api/v1/entities.json?interface=mcp&authentication=required&access=read-only&limit=10",
+      "status": 200,
+      "total": 1,
+      "slugs": [
+        "vgpu"
+      ],
+      "jsonBytes": 1729,
+      "elapsedMsSingleRequest": 2275
+    },
+    {
+      "url": "https://www.openagent.bot/api/v1/entities.json?domain=not-a-domain&limit=1",
+      "status": 200,
+      "total": 162,
+      "slugs": [
+        "vgpu"
+      ],
+      "jsonBytes": 1730,
+      "elapsedMsSingleRequest": 1355
+    }
+  ],
+  "interpretation": "Legacy API does not support the added access/authentication filters. Identical results demonstrate why strict constraints need a separately versioned boundary; not a failure of a promised legacy feature. No throughput or latency percentile inference.",
+  "officialChecks": [
+    {
+      "question": "Is vgpu hosted MCP read-only and no-auth? What about local MCP?",
+      "sourceUrl": "https://vgpu.sh/docs/mcp.md",
+      "status": 200,
+      "rawUtf8Bytes": 13220,
+      "conclusion": "Hosted MCP agrees with the record. Bare local stdio defaults to read-only; writes require an explicit output boundary. local-write-opt-in is a capability label, not runtime mode. Exact configuration matching remains out of scope.",
+      "matchingLocalFields": [
+        "vgpu/interfaces.mcp-http",
+        "vgpu/interfaces.mcp-local"
+      ],
+      "result": "qualified-match"
+    },
+    {
+      "question": "Does OpenCode HTTP server always require authentication?",
+      "sourceUrl": "https://opencode.ai/docs/server/",
+      "status": 200,
+      "rawUtf8Bytes": 85672,
+      "tagStrippedUtf8BytesApproximate": 9892,
+      "conclusion": "Server HTTP basic authentication is optionally enabled by OPENCODE_SERVER_PASSWORD. This differs from model-provider credentials. The local record's optional authentication is supported.",
+      "matchingLocalFields": [
+        "opencode/interfaces.http-server"
+      ],
+      "result": "match"
+    },
+    {
+      "question": "Do Microduck policy roles have explicit input/output shapes and independent upstream hosting?",
+      "sourceUrl": "https://github.com/pollen-robotics/microduck/blob/590b986bd8c0d50ae02cb3ea2f59c463b6828168/policies/README.md",
+      "retrievedVia": "https://api.github.com/repos/pollen-robotics/microduck/contents/policies/README.md?ref=590b986bd8c0d50ae02cb3ea2f59c463b6828168",
+      "observedAt": "2026-08-28T05:15:20.357Z",
+      "status": 200,
+      "rawUtf8Bytes": 3547,
+      "conclusion": "The pinned README specifies [1,61] observations and [1,14] actions; 51-wide policies are rejected by the documented loader. Roles map to training-run files. Separate Hub hosting is planned, not established. Shapes/provenance/hosting agree with local facts; this does not certify runtime compatibility.",
+      "matchingLocalFields": [
+        "microduck-policies/policy.observation_shape",
+        "microduck-policies/policy.action_shape",
+        "microduck-policies/policy.provenance",
+        "microduck-policies/policy.hosting_status"
+      ],
+      "result": "match"
+    }
+  ],
+  "limitations": [
+    "Three purposive source checks, not a random sample or blinded score.",
+    "Source body size is not model input tokens. vgpu already offers compact Markdown, so full HTML is an unfair baseline.",
+    "No automatic tool invocation, shader execution, or physical robot operation.",
+    "The new endpoints have only local tests; public API probes concern the unchanged legacy API."
+  ]
+}

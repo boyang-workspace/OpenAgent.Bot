@@ -7,8 +7,10 @@ const { dossier } = Astro.props;
 const resources = entityResources(dossier.facts);
 const useCases = dossier.entity.useCases ?? [];
 const relationships = dossier.relationships.filter((item) => item.status === "verified");
+const subscriptions = dossier.subscriptions;
 ---
-{(useCases.length > 0 || resources.length > 0 || relationships.length > 0) && <section class="project-resources" aria-label="Use cases and connected resources">
+{(useCases.length > 0 || resources.length > 0 || relationships.length > 0 || subscriptions.length > 0) && <section class="project-resources" aria-label="Use cases and connected resources">
+  {subscriptions.length > 0 && <div class="source-map"><span class="eyebrow">Source map</span><ul>{subscriptions.map((source) => <li><span>{label(source.sourceRole)}</span><strong>{source.sourceName}</strong><code>{source.locator}</code><small>{source.validFrom ? `Bound ${calendarDate(source.validFrom)}` : "Active binding"}</small></li>)}</ul></div>}
   {useCases.length > 0 && <div class="use-cases"><span class="eyebrow">Use cases</span><div class="case-links">{useCases.map((item) => <a href={`/database?use_case=${encodeURIComponent(item.slug)}`}>{item.name} →</a>)}</div></div>}
   {relationships.length > 0 && <div class="connections"><h2>Connected projects</h2><ul>{relationships.map((item) => <li><span>{relationshipLabel(item)}</span><a href={`/project/${item.entity.slug}`}>{item.entity.name} →</a>{item.evidence[0] && <a class="source-link" href={item.evidence[0].sourceUrl} rel="noreferrer">Source ↗</a>}</li>)}</ul></div>}
   {resources.length > 0 && <div class="resources"><h2>Files & official resources</h2><p>Reviewed snapshots, not a live file mirror. Repository activity syncs separately.</p><ul>{resources.map((resource) => <li>
@@ -32,9 +34,12 @@ const relationships = dossier.relationships.filter((item) => item.status === "ve
   .connections li > span, .source-link { color: var(--muted); font-size: .75rem; }
   .resources li { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr) minmax(180px, .5fr); }
   .resource-name { font-weight: 600; overflow-wrap: anywhere; }
-  .resource-kind { color: var(--muted); font-family: var(--mono); font-size: .65rem; margin-left: 12px; }
+  .resource-kind { color: var(--muted); font-family: var(--mono); font-size: .75rem; margin-left: 12px; }
   .resources li p { margin: 8px 0 0; }
   .resource-meta { color: var(--muted); display: grid; font-size: .75rem; gap: 7px; line-height: 1.5; overflow-wrap: anywhere; }
   .resource-meta code { font-size: .7rem; }
-  @media (max-width: 620px) { .project-resources { padding: 28px 18px; } .resources li { grid-template-columns: 1fr; gap: 10px; } .connections li { grid-template-columns: 90px minmax(0, 1fr); gap: 10px; } .source-link { grid-column: 2; } }
+  .source-map li { align-items: center; display: grid; gap: 14px; grid-template-columns: 100px 160px minmax(0, 1fr) 130px; }
+  .source-map li > span, .source-map li > small { color: var(--muted); font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
+  .source-map code { font-size: .75rem; overflow-wrap: anywhere; }
+  @media (max-width: 620px) { .project-resources { padding: 28px 18px; } .resources li { grid-template-columns: 1fr; gap: 10px; } .connections li { grid-template-columns: 90px minmax(0, 1fr); gap: 10px; } .source-link { grid-column: 2; } .source-map li { grid-template-columns: 90px 1fr; } .source-map code, .source-map small { grid-column: 2; } }
 </style>

@@ -1,0 +1,5091 @@
+{
+  "stage": "after",
+  "recordedAt": "2026-08-28T05:48:38.873Z",
+  "evaluationTime": "2026-08-28T05:44:00.000Z",
+  "method": "Frozen source-grounded deterministic HTTP tasks in isolated SQLite. Cohort curated by the evaluator; not independent agent success, token savings, production tests or market validation.",
+  "fingerprints": {
+    "taskSpec": "b8df88ff208a70711bc33bb0c5b7cbc748dfb2b63455807add3e566f058e6fdb",
+    "evaluator": "dbeb506aa3ef82475f44ed57f0c1783c67a371b61408621da79ed18a26275494",
+    "query": "f266ec63cc24e8de549f8a2d639abdd7236e6689648d00843e4793466b6fc8d2",
+    "manifests": {
+      "openhands": "1718873661122c49be9a4ff36c84d2180060ae8e3d7f1199da7a114f2aafae0d",
+      "langgraph": "d9a99851e6bb353436295eae76ac43457888f19580650b0625c8d8235c62dd5b",
+      "lerobot": "4c4d461d2ce2235ba948e272a318e98881d4de23076232fce5c0471b3abcd984",
+      "playwright-mcp": "6ac0123ac0f3f8fc02d87782aad2dd1a492a2f8084126c35334c811618936ad9"
+    }
+  },
+  "summary": {
+    "total": 30,
+    "passed": 30,
+    "failed": []
+  },
+  "coverage": [
+    {
+      "slug": "openhands",
+      "projectId": "urn:openagent:project:res_openhands",
+      "interfaces": 2,
+      "resources": 3,
+      "curatedFacts": 4,
+      "fullDocumentBytes": 24745,
+      "runtimeTests": 0,
+      "scopedFreshnessChecks": 0,
+      "projectionIssues": 0
+    },
+    {
+      "slug": "langgraph",
+      "projectId": "urn:openagent:project:res_langgraph",
+      "interfaces": 1,
+      "resources": 3,
+      "curatedFacts": 3,
+      "fullDocumentBytes": 21597,
+      "runtimeTests": 0,
+      "scopedFreshnessChecks": 0,
+      "projectionIssues": 0
+    },
+    {
+      "slug": "lerobot",
+      "projectId": "urn:openagent:project:robotics_lerobot",
+      "interfaces": 3,
+      "resources": 3,
+      "curatedFacts": 5,
+      "fullDocumentBytes": 30550,
+      "runtimeTests": 0,
+      "scopedFreshnessChecks": 0,
+      "projectionIssues": 0
+    },
+    {
+      "slug": "playwright-mcp",
+      "projectId": "urn:openagent:project:res_playwright_mcp",
+      "interfaces": 2,
+      "resources": 2,
+      "curatedFacts": 4,
+      "fullDocumentBytes": 22610,
+      "runtimeTests": 0,
+      "scopedFreshnessChecks": 0,
+      "projectionIssues": 0
+    }
+  ],
+  "tasks": [
+    {
+      "id": "D1",
+      "group": "lookup",
+      "question": "Find OpenHands local launcher with write capability",
+      "endpoint": "search",
+      "params": "project=openhands&interface=cli&access=read-write",
+      "expected": [
+        "openhands/canvas-cli"
+      ],
+      "unknown": 0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [
+            "openhands/canvas-cli"
+          ],
+          "expected": [
+            "openhands/canvas-cli"
+          ],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=openhands&interface=cli&access=read-write",
+          "status": 200,
+          "jsonBytes": 2253,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": null,
+            "items": [
+              {
+                "project": {
+                  "id": "urn:openagent:project:res_openhands",
+                  "slug": "openhands",
+                  "name": "OpenHands Agent Canvas"
+                },
+                "interface": {
+                  "id": "urn:openagent:interface:res_openhands:canvas-cli",
+                  "localId": "canvas-cli",
+                  "projectId": "urn:openagent:project:res_openhands",
+                  "name": "Agent Canvas local launcher",
+                  "type": "cli",
+                  "description": "Starts the local agent stack; unsandboxed mode can modify the host filesystem. Backend and model credentials are configuration-dependent.",
+                  "referenceUrl": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+                  "commandText": "agent-canvas",
+                  "execution": "not-provided",
+                  "versionId": null,
+                  "transport": {
+                    "status": "known",
+                    "value": "Local process",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "authentication": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "access": {
+                    "status": "known",
+                    "value": "read-write",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "runtimes": {
+                    "status": "known",
+                    "value": [
+                      "Node.js >=22.12",
+                      "uv"
+                    ],
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  }
+                }
+              }
+            ],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+                "observedAt": "2026-08-28T05:36:15.418Z",
+                "publishedAt": null
+              }
+            },
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 1,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "D2",
+      "group": "lookup",
+      "question": "Find LangGraph Python SDK",
+      "endpoint": "search",
+      "params": "project=langgraph&interface=sdk",
+      "expected": [
+        "langgraph/python-sdk"
+      ],
+      "unknown": 0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [
+            "langgraph/python-sdk"
+          ],
+          "expected": [
+            "langgraph/python-sdk"
+          ],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=langgraph&interface=sdk",
+          "status": 200,
+          "jsonBytes": 2328,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": null,
+            "items": [
+              {
+                "project": {
+                  "id": "urn:openagent:project:res_langgraph",
+                  "slug": "langgraph",
+                  "name": "LangGraph"
+                },
+                "interface": {
+                  "id": "urn:openagent:interface:res_langgraph:python-sdk",
+                  "localId": "python-sdk",
+                  "projectId": "urn:openagent:project:res_langgraph",
+                  "name": "LangGraph Python library",
+                  "type": "sdk",
+                  "description": "Graph nodes and persistence backends determine writes; model/service credentials depend on the application. No generic read-only, no-auth or runtime compatibility guarantee.",
+                  "referenceUrl": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+                  "commandText": null,
+                  "execution": "not-provided",
+                  "versionId": null,
+                  "transport": {
+                    "status": "known",
+                    "value": "In-process Python import",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "authentication": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "access": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "runtimes": {
+                    "status": "known",
+                    "value": [
+                      "Python; see software.runtime_requirements for the reviewed package constraint"
+                    ],
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  }
+                }
+              }
+            ],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+                "observedAt": "2026-08-28T05:36:12.316Z",
+                "publishedAt": null
+              }
+            },
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 1,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "group": "lookup",
+      "question": "Find LeRobot write-capable CLIs",
+      "endpoint": "search",
+      "params": "project=lerobot&interface=cli&access=read-write",
+      "expected": [
+        "lerobot/teleoperate-cli",
+        "lerobot/train-cli"
+      ],
+      "unknown": 0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [
+            "lerobot/teleoperate-cli",
+            "lerobot/train-cli"
+          ],
+          "expected": [
+            "lerobot/teleoperate-cli",
+            "lerobot/train-cli"
+          ],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=lerobot&interface=cli&access=read-write",
+          "status": 200,
+          "jsonBytes": 4328,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": null,
+            "items": [
+              {
+                "project": {
+                  "id": "urn:openagent:project:robotics_lerobot",
+                  "slug": "lerobot",
+                  "name": "LeRobot"
+                },
+                "interface": {
+                  "id": "urn:openagent:interface:robotics_lerobot:teleoperate-cli",
+                  "localId": "teleoperate-cli",
+                  "projectId": "urn:openagent:project:robotics_lerobot",
+                  "name": "LeRobot physical teleoperation CLI",
+                  "type": "cli",
+                  "description": "Can physically move configured hardware through robot.send_action. Requires separate hardware setup and authorization; not a read-only data lookup and not executed by OpenAgent.",
+                  "referenceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+                  "commandText": "lerobot-teleoperate",
+                  "execution": "not-provided",
+                  "versionId": null,
+                  "transport": {
+                    "status": "known",
+                    "value": "Local process to configured hardware",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "authentication": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "access": {
+                    "status": "known",
+                    "value": "read-write",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "runtimes": {
+                    "status": "known",
+                    "value": [
+                      "Python",
+                      "Configured robot and teleoperator"
+                    ],
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  }
+                }
+              },
+              {
+                "project": {
+                  "id": "urn:openagent:project:robotics_lerobot",
+                  "slug": "lerobot",
+                  "name": "LeRobot"
+                },
+                "interface": {
+                  "id": "urn:openagent:interface:robotics_lerobot:train-cli",
+                  "localId": "train-cli",
+                  "projectId": "urn:openagent:project:robotics_lerobot",
+                  "name": "LeRobot policy training CLI",
+                  "type": "cli",
+                  "description": "Trains policies and produces local outputs. Dataset, policy, provider and Hub credentials are configuration-dependent; no hardware execution is implied by this training entry alone.",
+                  "referenceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+                  "commandText": "lerobot-train",
+                  "execution": "not-provided",
+                  "versionId": null,
+                  "transport": {
+                    "status": "known",
+                    "value": "Local process",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e2"
+                    ]
+                  },
+                  "authentication": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e2"
+                    ]
+                  },
+                  "access": {
+                    "status": "known",
+                    "value": "read-write",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e2"
+                    ]
+                  },
+                  "runtimes": {
+                    "status": "known",
+                    "value": [
+                      "Python; see software.runtime_requirements",
+                      "PyTorch and policy-specific dependencies"
+                    ],
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e2"
+                    ]
+                  }
+                }
+              }
+            ],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+                "observedAt": "2026-08-28T05:41:30.841Z",
+                "publishedAt": null
+              },
+              "e2": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+                "observedAt": "2026-08-28T05:36:13.133Z",
+                "publishedAt": null
+              }
+            },
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 2,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "D4",
+      "group": "lookup",
+      "question": "Find Playwright MCP transports with write capability",
+      "endpoint": "search",
+      "params": "project=playwright-mcp&interface=mcp&access=read-write",
+      "expected": [
+        "playwright-mcp/http",
+        "playwright-mcp/stdio"
+      ],
+      "unknown": 0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [
+            "playwright-mcp/http",
+            "playwright-mcp/stdio"
+          ],
+          "expected": [
+            "playwright-mcp/http",
+            "playwright-mcp/stdio"
+          ],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=playwright-mcp&interface=mcp&access=read-write",
+          "status": 200,
+          "jsonBytes": 3924,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": null,
+            "items": [
+              {
+                "project": {
+                  "id": "urn:openagent:project:res_playwright_mcp",
+                  "slug": "playwright-mcp",
+                  "name": "Playwright MCP"
+                },
+                "interface": {
+                  "id": "urn:openagent:interface:res_playwright_mcp:http",
+                  "localId": "http",
+                  "projectId": "urn:openagent:project:res_playwright_mcp",
+                  "name": "Self-hosted Playwright MCP HTTP transport",
+                  "type": "mcp",
+                  "description": "Documented --port transport for a self-hosted server. No hosted endpoint, authentication guarantee, read-only guarantee or security boundary is asserted.",
+                  "referenceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+                  "commandText": null,
+                  "execution": "not-provided",
+                  "versionId": null,
+                  "transport": {
+                    "status": "known",
+                    "value": "HTTP/SSE (--port)",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "authentication": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "access": {
+                    "status": "known",
+                    "value": "read-write",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "runtimes": {
+                    "status": "known",
+                    "value": [
+                      "Node.js >=18",
+                      "Configured browser"
+                    ],
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  }
+                }
+              },
+              {
+                "project": {
+                  "id": "urn:openagent:project:res_playwright_mcp",
+                  "slug": "playwright-mcp",
+                  "name": "Playwright MCP"
+                },
+                "interface": {
+                  "id": "urn:openagent:interface:res_playwright_mcp:stdio",
+                  "localId": "stdio",
+                  "projectId": "urn:openagent:project:res_playwright_mcp",
+                  "name": "Playwright MCP stdio server",
+                  "type": "mcp",
+                  "description": "Local MCP server with browser mutation capabilities. Authentication is not asserted for arbitrary client, browser-session or provider configurations. Tool annotations do not restrict the whole server.",
+                  "referenceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+                  "commandText": null,
+                  "execution": "not-provided",
+                  "versionId": null,
+                  "transport": {
+                    "status": "known",
+                    "value": "stdio",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "authentication": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "access": {
+                    "status": "known",
+                    "value": "read-write",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "runtimes": {
+                    "status": "known",
+                    "value": [
+                      "Node.js >=18",
+                      "Configured browser"
+                    ],
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  }
+                }
+              }
+            ],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+                "observedAt": "2026-08-28T05:36:14.140Z",
+                "publishedAt": null
+              }
+            },
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 2,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "D5",
+      "group": "lookup",
+      "question": "Restrict write-capable CLI discovery to robotics",
+      "endpoint": "search",
+      "params": "domain=robotics&interface=cli&access=read-write",
+      "expected": [
+        "lerobot/teleoperate-cli",
+        "lerobot/train-cli"
+      ],
+      "unknown": 0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [
+            "lerobot/teleoperate-cli",
+            "lerobot/train-cli"
+          ],
+          "expected": [
+            "lerobot/teleoperate-cli",
+            "lerobot/train-cli"
+          ],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "domain=robotics&interface=cli&access=read-write",
+          "status": 200,
+          "jsonBytes": 4334,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": "robotics",
+            "items": [
+              {
+                "project": {
+                  "id": "urn:openagent:project:robotics_lerobot",
+                  "slug": "lerobot",
+                  "name": "LeRobot"
+                },
+                "interface": {
+                  "id": "urn:openagent:interface:robotics_lerobot:teleoperate-cli",
+                  "localId": "teleoperate-cli",
+                  "projectId": "urn:openagent:project:robotics_lerobot",
+                  "name": "LeRobot physical teleoperation CLI",
+                  "type": "cli",
+                  "description": "Can physically move configured hardware through robot.send_action. Requires separate hardware setup and authorization; not a read-only data lookup and not executed by OpenAgent.",
+                  "referenceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+                  "commandText": "lerobot-teleoperate",
+                  "execution": "not-provided",
+                  "versionId": null,
+                  "transport": {
+                    "status": "known",
+                    "value": "Local process to configured hardware",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "authentication": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "access": {
+                    "status": "known",
+                    "value": "read-write",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "runtimes": {
+                    "status": "known",
+                    "value": [
+                      "Python",
+                      "Configured robot and teleoperator"
+                    ],
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  }
+                }
+              },
+              {
+                "project": {
+                  "id": "urn:openagent:project:robotics_lerobot",
+                  "slug": "lerobot",
+                  "name": "LeRobot"
+                },
+                "interface": {
+                  "id": "urn:openagent:interface:robotics_lerobot:train-cli",
+                  "localId": "train-cli",
+                  "projectId": "urn:openagent:project:robotics_lerobot",
+                  "name": "LeRobot policy training CLI",
+                  "type": "cli",
+                  "description": "Trains policies and produces local outputs. Dataset, policy, provider and Hub credentials are configuration-dependent; no hardware execution is implied by this training entry alone.",
+                  "referenceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+                  "commandText": "lerobot-train",
+                  "execution": "not-provided",
+                  "versionId": null,
+                  "transport": {
+                    "status": "known",
+                    "value": "Local process",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e2"
+                    ]
+                  },
+                  "authentication": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e2"
+                    ]
+                  },
+                  "access": {
+                    "status": "known",
+                    "value": "read-write",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e2"
+                    ]
+                  },
+                  "runtimes": {
+                    "status": "known",
+                    "value": [
+                      "Python; see software.runtime_requirements",
+                      "PyTorch and policy-specific dependencies"
+                    ],
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e2"
+                    ]
+                  }
+                }
+              }
+            ],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+                "observedAt": "2026-08-28T05:41:30.841Z",
+                "publishedAt": null
+              },
+              "e2": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+                "observedAt": "2026-08-28T05:36:13.133Z",
+                "publishedAt": null
+              }
+            },
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 2,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "D6",
+      "group": "lookup",
+      "question": "Restrict SDK discovery to agents, retaining existing vgpu coverage",
+      "endpoint": "search",
+      "params": "domain=agent&interface=sdk",
+      "expected": [
+        "langgraph/python-sdk",
+        "vgpu/typescript"
+      ],
+      "unknown": 0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [
+            "langgraph/python-sdk",
+            "vgpu/typescript"
+          ],
+          "expected": [
+            "langgraph/python-sdk",
+            "vgpu/typescript"
+          ],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "domain=agent&interface=sdk",
+          "status": 200,
+          "jsonBytes": 3974,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": "agent",
+            "items": [
+              {
+                "project": {
+                  "id": "urn:openagent:project:registry_vgpu",
+                  "slug": "vgpu",
+                  "name": "vgpu"
+                },
+                "interface": {
+                  "id": "urn:openagent:interface:registry_vgpu:typescript",
+                  "localId": "typescript",
+                  "projectId": "urn:openagent:project:registry_vgpu",
+                  "name": "TypeScript library",
+                  "type": "sdk",
+                  "description": "Typed WGSL imports and rendering APIs; runtime/device requirements apply.",
+                  "referenceUrl": "https://vgpu.sh/docs/get-started",
+                  "commandText": null,
+                  "execution": "not-provided",
+                  "versionId": null,
+                  "transport": {
+                    "status": "known",
+                    "value": "Module import",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "authentication": {
+                    "status": "known",
+                    "value": "none",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "access": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "runtimes": {
+                    "status": "known",
+                    "value": [
+                      "Browser WebGPU",
+                      "Node.js / Dawn"
+                    ],
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  }
+                }
+              },
+              {
+                "project": {
+                  "id": "urn:openagent:project:res_langgraph",
+                  "slug": "langgraph",
+                  "name": "LangGraph"
+                },
+                "interface": {
+                  "id": "urn:openagent:interface:res_langgraph:python-sdk",
+                  "localId": "python-sdk",
+                  "projectId": "urn:openagent:project:res_langgraph",
+                  "name": "LangGraph Python library",
+                  "type": "sdk",
+                  "description": "Graph nodes and persistence backends determine writes; model/service credentials depend on the application. No generic read-only, no-auth or runtime compatibility guarantee.",
+                  "referenceUrl": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+                  "commandText": null,
+                  "execution": "not-provided",
+                  "versionId": null,
+                  "transport": {
+                    "status": "known",
+                    "value": "In-process Python import",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e2"
+                    ]
+                  },
+                  "authentication": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e2"
+                    ]
+                  },
+                  "access": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e2"
+                    ]
+                  },
+                  "runtimes": {
+                    "status": "known",
+                    "value": [
+                      "Python; see software.runtime_requirements for the reviewed package constraint"
+                    ],
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e2"
+                    ]
+                  }
+                }
+              }
+            ],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/vercel-labs/vgpu/blob/ef2418bc13269cc4b3198ecfebf34a26f6a1073e/README.md",
+                "observedAt": "2026-08-28T00:37:18.237Z",
+                "publishedAt": null
+              },
+              "e2": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+                "observedAt": "2026-08-28T05:36:12.316Z",
+                "publishedAt": null
+              }
+            },
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 2,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "D7",
+      "group": "lookup",
+      "question": "Find Playwright in shared infrastructure",
+      "endpoint": "search",
+      "params": "domain=shared&project=playwright-mcp&interface=mcp",
+      "expected": [
+        "playwright-mcp/http",
+        "playwright-mcp/stdio"
+      ],
+      "unknown": 0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [
+            "playwright-mcp/http",
+            "playwright-mcp/stdio"
+          ],
+          "expected": [
+            "playwright-mcp/http",
+            "playwright-mcp/stdio"
+          ],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "domain=shared&project=playwright-mcp&interface=mcp",
+          "status": 200,
+          "jsonBytes": 3928,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": "shared",
+            "items": [
+              {
+                "project": {
+                  "id": "urn:openagent:project:res_playwright_mcp",
+                  "slug": "playwright-mcp",
+                  "name": "Playwright MCP"
+                },
+                "interface": {
+                  "id": "urn:openagent:interface:res_playwright_mcp:http",
+                  "localId": "http",
+                  "projectId": "urn:openagent:project:res_playwright_mcp",
+                  "name": "Self-hosted Playwright MCP HTTP transport",
+                  "type": "mcp",
+                  "description": "Documented --port transport for a self-hosted server. No hosted endpoint, authentication guarantee, read-only guarantee or security boundary is asserted.",
+                  "referenceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+                  "commandText": null,
+                  "execution": "not-provided",
+                  "versionId": null,
+                  "transport": {
+                    "status": "known",
+                    "value": "HTTP/SSE (--port)",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "authentication": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "access": {
+                    "status": "known",
+                    "value": "read-write",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "runtimes": {
+                    "status": "known",
+                    "value": [
+                      "Node.js >=18",
+                      "Configured browser"
+                    ],
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  }
+                }
+              },
+              {
+                "project": {
+                  "id": "urn:openagent:project:res_playwright_mcp",
+                  "slug": "playwright-mcp",
+                  "name": "Playwright MCP"
+                },
+                "interface": {
+                  "id": "urn:openagent:interface:res_playwright_mcp:stdio",
+                  "localId": "stdio",
+                  "projectId": "urn:openagent:project:res_playwright_mcp",
+                  "name": "Playwright MCP stdio server",
+                  "type": "mcp",
+                  "description": "Local MCP server with browser mutation capabilities. Authentication is not asserted for arbitrary client, browser-session or provider configurations. Tool annotations do not restrict the whole server.",
+                  "referenceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+                  "commandText": null,
+                  "execution": "not-provided",
+                  "versionId": null,
+                  "transport": {
+                    "status": "known",
+                    "value": "stdio",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "authentication": {
+                    "status": "unknown",
+                    "value": null,
+                    "verification": "unknown",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "access": {
+                    "status": "known",
+                    "value": "read-write",
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  },
+                  "runtimes": {
+                    "status": "known",
+                    "value": [
+                      "Node.js >=18",
+                      "Configured browser"
+                    ],
+                    "verification": "documented",
+                    "test": null,
+                    "scope": {
+                      "versionId": null,
+                      "validFrom": null,
+                      "validUntil": null
+                    },
+                    "checkedAt": null,
+                    "expiresAt": null,
+                    "freshness": "unknown",
+                    "evidence": [
+                      "e1"
+                    ]
+                  }
+                }
+              }
+            ],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+                "observedAt": "2026-08-28T05:36:14.140Z",
+                "publishedAt": null
+              }
+            },
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 2,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "S1",
+      "group": "lookup",
+      "question": "Do not classify the browser MCP server as read-only",
+      "endpoint": "search",
+      "params": "project=playwright-mcp&interface=mcp&access=read-only",
+      "expected": [],
+      "unknown": 0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=playwright-mcp&interface=mcp&access=read-only",
+          "status": 200,
+          "jsonBytes": 446,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": null,
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 2,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "S2",
+      "group": "lookup",
+      "question": "Unknown graph side effects must not qualify as read-only",
+      "endpoint": "search",
+      "params": "project=langgraph&interface=sdk&access=read-only",
+      "expected": [],
+      "unknown": 1,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 1,
+          "expected": 1,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=langgraph&interface=sdk&access=read-only",
+          "status": 200,
+          "jsonBytes": 456,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": null,
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 1,
+              "unknownCandidatesThisPage": 1,
+              "unknownReasons": {
+                "access": 1
+              },
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "S3",
+      "group": "lookup",
+      "question": "Unknown credentials must not qualify as no-auth",
+      "endpoint": "search",
+      "params": "project=lerobot&interface=cli&access=read-write&authentication=none",
+      "expected": [],
+      "unknown": 2,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 2,
+          "expected": 2,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=lerobot&interface=cli&access=read-write&authentication=none",
+          "status": 200,
+          "jsonBytes": 464,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": null,
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 2,
+              "unknownCandidatesThisPage": 2,
+              "unknownReasons": {
+                "authentication": 2
+              },
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "S4",
+      "group": "lookup",
+      "question": "Documentation is not a scoped runtime test",
+      "endpoint": "search",
+      "params": "project=langgraph&interface=sdk&verification=tested",
+      "expected": [],
+      "unknown": 1,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 1,
+          "expected": 1,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=langgraph&interface=sdk&verification=tested",
+          "status": 200,
+          "jsonBytes": 459,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": null,
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 1,
+              "unknownCandidatesThisPage": 1,
+              "unknownReasons": {
+                "transport": 1
+              },
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "S5",
+      "group": "lookup",
+      "question": "Observed recently is not a freshness guarantee",
+      "endpoint": "search",
+      "params": "project=playwright-mcp&interface=mcp&require_fresh=true",
+      "expected": [],
+      "unknown": 2,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 2,
+          "expected": 2,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=playwright-mcp&interface=mcp&require_fresh=true",
+          "status": 200,
+          "jsonBytes": 459,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": null,
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 2,
+              "unknownCandidatesThisPage": 2,
+              "unknownReasons": {
+                "transport": 2
+              },
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "S6",
+      "group": "lookup",
+      "question": "Reviewed package revision is not interface compatibility",
+      "endpoint": "search",
+      "params": "project=langgraph&interface=sdk&version_id=1.2.11",
+      "expected": [],
+      "unknown": 1,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 1,
+          "expected": 1,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=langgraph&interface=sdk&version_id=1.2.11",
+          "status": 200,
+          "jsonBytes": 459,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": null,
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 1,
+              "unknownCandidatesThisPage": 1,
+              "unknownReasons": {
+                "transport": 1
+              },
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "S7",
+      "group": "lookup",
+      "question": "An absent project does not prove upstream absence",
+      "endpoint": "search",
+      "params": "project=not-in-registry&interface=mcp",
+      "expected": [],
+      "unknown": 0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=not-in-registry&interface=mcp",
+          "status": 200,
+          "jsonBytes": 446,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "domainInterpretation": "registry-assignment-not-compatibility",
+            "domain": null,
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 0,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "F1",
+      "group": "evidence",
+      "question": "openhands: software.component_scope → sdkRepository",
+      "endpoint": "project",
+      "params": "slug=openhands&section=facts&fact_key=software.component_scope",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.sdkRepository",
+          "value": "https://github.com/OpenHands/software-agent-sdk"
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "items.0.claim.status",
+          "actual": "known",
+          "expected": "known",
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.value.sdkRepository",
+          "actual": "https://github.com/OpenHands/software-agent-sdk",
+          "expected": "https://github.com/OpenHands/software-agent-sdk",
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=openhands&section=facts&fact_key=software.component_scope",
+          "status": 200,
+          "jsonBytes": 1517,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:69aa1c8af8e58a38c12a78ef831143c293c74b1a6258062a93c040e9fe323328",
+            "project": {
+              "id": "urn:openagent:project:res_openhands",
+              "registryId": "res_openhands",
+              "slug": "openhands",
+              "name": "OpenHands Agent Canvas",
+              "artifactType": "tool",
+              "domains": [
+                "agent"
+              ],
+              "summary": "Self-hosted control center and launcher for coding agents; Agent Server and SDK are separate components.",
+              "recordUrl": "https://www.openagent.bot/project/openhands"
+            },
+            "section": "facts",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "key": "software.component_scope",
+                "claim": {
+                  "status": "known",
+                  "value": {
+                    "automationRepository": "https://github.com/OpenHands/automation",
+                    "crossComponentCompatibility": null,
+                    "currentRepositoryRole": "Agent Canvas frontend and local-stack orchestration",
+                    "sdkRepository": "https://github.com/OpenHands/software-agent-sdk",
+                    "typescriptClientRepository": "https://github.com/OpenHands/typescript-client"
+                  },
+                  "verification": "documented",
+                  "test": null,
+                  "scope": {
+                    "versionId": null,
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e1"
+                  ]
+                }
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+                "observedAt": "2026-08-28T05:36:15.418Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "F2",
+      "group": "evidence",
+      "question": "openhands: policy.public_mode_auth → header",
+      "endpoint": "project",
+      "params": "slug=openhands&section=facts&fact_key=policy.public_mode_auth",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.header",
+          "value": "X-Session-API-Key"
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "items.0.claim.status",
+          "actual": "known",
+          "expected": "known",
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.value.header",
+          "actual": "X-Session-API-Key",
+          "expected": "X-Session-API-Key",
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=openhands&section=facts&fact_key=policy.public_mode_auth",
+          "status": 200,
+          "jsonBytes": 1524,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:69aa1c8af8e58a38c12a78ef831143c293c74b1a6258062a93c040e9fe323328",
+            "project": {
+              "id": "urn:openagent:project:res_openhands",
+              "registryId": "res_openhands",
+              "slug": "openhands",
+              "name": "OpenHands Agent Canvas",
+              "artifactType": "tool",
+              "domains": [
+                "agent"
+              ],
+              "summary": "Self-hosted control center and launcher for coding agents; Agent Server and SDK are separate components.",
+              "recordUrl": "https://www.openagent.bot/project/openhands"
+            },
+            "section": "facts",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "key": "policy.public_mode_auth",
+                "claim": {
+                  "status": "known",
+                  "value": {
+                    "environmentVariable": "LOCAL_BACKEND_API_KEY",
+                    "header": "X-Session-API-Key",
+                    "mode": "agent-canvas --public",
+                    "providerAuthentication": null,
+                    "scope": "Configured self-hosted ingress /api/* requests; --public prevents embedding the key in frontend configuration. Not a general claim about every deployment or model provider."
+                  },
+                  "verification": "documented",
+                  "test": null,
+                  "scope": {
+                    "versionId": null,
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e1"
+                  ]
+                }
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md",
+                "observedAt": "2026-08-28T05:37:16.001Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "F3",
+      "group": "evidence",
+      "question": "langgraph: software.runtime_requirements → python",
+      "endpoint": "project",
+      "params": "slug=langgraph&section=facts&fact_key=software.runtime_requirements",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.python",
+          "value": ">=3.10"
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "items.0.claim.status",
+          "actual": "known",
+          "expected": "known",
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.value.python",
+          "actual": ">=3.10",
+          "expected": ">=3.10",
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=langgraph&section=facts&fact_key=software.runtime_requirements",
+          "status": 200,
+          "jsonBytes": 1425,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:2fd9955e10c79d038ab344b2e1e6e29d1070a34b8a13efed3e6c6b63d7bbc8f0",
+            "project": {
+              "id": "urn:openagent:project:res_langgraph",
+              "registryId": "res_langgraph",
+              "slug": "langgraph",
+              "name": "LangGraph",
+              "artifactType": "agent-framework",
+              "domains": [
+                "agent"
+              ],
+              "summary": "Python orchestration library for stateful graphs, with configurable persistence and graph-defined side effects.",
+              "recordUrl": "https://www.openagent.bot/project/langgraph"
+            },
+            "section": "facts",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "key": "software.runtime_requirements",
+                "claim": {
+                  "status": "known",
+                  "value": {
+                    "packageVersionAtReviewedCommit": "1.2.11",
+                    "python": ">=3.10",
+                    "runtimeTested": false,
+                    "scope": "Python package manifest at the pinned repository commit; not proof of an installed or published version."
+                  },
+                  "verification": "documented",
+                  "test": null,
+                  "scope": {
+                    "versionId": null,
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e1"
+                  ]
+                }
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+                "observedAt": "2026-08-28T05:37:17.573Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "F4",
+      "group": "evidence",
+      "question": "langgraph: software.persistence → inMemorySurvivesRestart",
+      "endpoint": "project",
+      "params": "slug=langgraph&section=facts&fact_key=software.persistence",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.inMemorySurvivesRestart",
+          "value": false
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "items.0.claim.status",
+          "actual": "known",
+          "expected": "known",
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.value.inMemorySurvivesRestart",
+          "actual": false,
+          "expected": false,
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=langgraph&section=facts&fact_key=software.persistence",
+          "status": 200,
+          "jsonBytes": 1511,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:2fd9955e10c79d038ab344b2e1e6e29d1070a34b8a13efed3e6c6b63d7bbc8f0",
+            "project": {
+              "id": "urn:openagent:project:res_langgraph",
+              "registryId": "res_langgraph",
+              "slug": "langgraph",
+              "name": "LangGraph",
+              "artifactType": "agent-framework",
+              "domains": [
+                "agent"
+              ],
+              "summary": "Python orchestration library for stateful graphs, with configurable persistence and graph-defined side effects.",
+              "recordUrl": "https://www.openagent.bot/project/langgraph"
+            },
+            "section": "facts",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "key": "software.persistence",
+                "claim": {
+                  "status": "known",
+                  "value": {
+                    "backend": "Select a persistent backend for restart durability; the in-memory example is not durable storage.",
+                    "checkpointerScope": "thread graph state",
+                    "inMemorySurvivesRestart": false,
+                    "serviceBoundary": "Agent Server manages persistence separately.",
+                    "storeScope": "cross-thread application data"
+                  },
+                  "verification": "documented",
+                  "test": null,
+                  "scope": {
+                    "versionId": null,
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e1"
+                  ]
+                }
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/langchain-ai/docs/blob/cafb0c882677b9979c4f8583790f111247a57937/src/oss/langgraph/persistence.mdx",
+                "observedAt": "2026-08-28T05:43:02.768Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "F5",
+      "group": "evidence",
+      "question": "lerobot: software.runtime_requirements → python",
+      "endpoint": "project",
+      "params": "slug=lerobot&section=facts&fact_key=software.runtime_requirements",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.python",
+          "value": ">=3.12"
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "items.0.claim.status",
+          "actual": "known",
+          "expected": "known",
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.value.python",
+          "actual": ">=3.12",
+          "expected": ">=3.12",
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=lerobot&section=facts&fact_key=software.runtime_requirements",
+          "status": 200,
+          "jsonBytes": 1390,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:1925f0f821420ec25bec2db14c8388fef0ec59c142b8b9f7535c00cac725ce67",
+            "project": {
+              "id": "urn:openagent:project:robotics_lerobot",
+              "registryId": "robotics_lerobot",
+              "slug": "lerobot",
+              "name": "LeRobot",
+              "artifactType": "robotics-framework",
+              "domains": [
+                "robotics"
+              ],
+              "summary": "Python robot-learning library with dataset, training and physical robot-control workflows.",
+              "recordUrl": "https://www.openagent.bot/project/lerobot"
+            },
+            "section": "facts",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "key": "software.runtime_requirements",
+                "claim": {
+                  "status": "known",
+                  "value": {
+                    "packageVersionAtReviewedCommit": "0.6.2",
+                    "python": ">=3.12",
+                    "runtimeTested": false,
+                    "scope": "Package manifest at the pinned repository commit; optional extras and platform constraints still apply."
+                  },
+                  "verification": "documented",
+                  "test": null,
+                  "scope": {
+                    "versionId": null,
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e1"
+                  ]
+                }
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml",
+                "observedAt": "2026-08-28T05:37:15.200Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "F6",
+      "group": "evidence",
+      "question": "lerobot: policy.physical_execution → canActuateHardware",
+      "endpoint": "project",
+      "params": "slug=lerobot&section=facts&fact_key=policy.physical_execution",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.canActuateHardware",
+          "value": true
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "items.0.claim.status",
+          "actual": "known",
+          "expected": "known",
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.value.canActuateHardware",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=lerobot&section=facts&fact_key=policy.physical_execution",
+          "status": 200,
+          "jsonBytes": 1479,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:1925f0f821420ec25bec2db14c8388fef0ec59c142b8b9f7535c00cac725ce67",
+            "project": {
+              "id": "urn:openagent:project:robotics_lerobot",
+              "registryId": "robotics_lerobot",
+              "slug": "lerobot",
+              "name": "LeRobot",
+              "artifactType": "robotics-framework",
+              "domains": [
+                "robotics"
+              ],
+              "summary": "Python robot-learning library with dataset, training and physical robot-control workflows.",
+              "recordUrl": "https://www.openagent.bot/project/lerobot"
+            },
+            "section": "facts",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "key": "policy.physical_execution",
+                "claim": {
+                  "status": "known",
+                  "value": {
+                    "actionMethod": "robot.send_action",
+                    "canActuateHardware": true,
+                    "hardwareCompatibility": null,
+                    "openAgentExecuted": false,
+                    "scope": "Teleoperation connects a configured robot and sends actions. Reading observations does not make the full control interface read-only."
+                  },
+                  "verification": "documented",
+                  "test": null,
+                  "scope": {
+                    "versionId": null,
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e1"
+                  ]
+                }
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+                "observedAt": "2026-08-28T05:41:30.841Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "F7",
+      "group": "evidence",
+      "question": "playwright-mcp: policy.isolation → readOnlyGuarantee",
+      "endpoint": "project",
+      "params": "slug=playwright-mcp&section=facts&fact_key=policy.isolation",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.readOnlyGuarantee",
+          "value": false
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "items.0.claim.status",
+          "actual": "known",
+          "expected": "known",
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.value.readOnlyGuarantee",
+          "actual": false,
+          "expected": false,
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=playwright-mcp&section=facts&fact_key=policy.isolation",
+          "status": 200,
+          "jsonBytes": 1396,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:72e989ae6572735ef7bd446c87a9a90e71235b74507289e956e8a31814a8dd79",
+            "project": {
+              "id": "urn:openagent:project:res_playwright_mcp",
+              "registryId": "res_playwright_mcp",
+              "slug": "playwright-mcp",
+              "name": "Playwright MCP",
+              "artifactType": "tool",
+              "domains": [
+                "shared"
+              ],
+              "summary": "MCP browser automation server with stdio and self-hosted HTTP transports; not intrinsically read-only.",
+              "recordUrl": "https://www.openagent.bot/project/playwright-mcp"
+            },
+            "section": "facts",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "key": "policy.isolation",
+                "claim": {
+                  "status": "known",
+                  "value": {
+                    "option": "--isolated",
+                    "profilePersistence": "in-memory",
+                    "readOnlyGuarantee": false,
+                    "scope": "Profile lifetime does not prevent browser actions, network effects or writes requested through tools."
+                  },
+                  "verification": "documented",
+                  "test": null,
+                  "scope": {
+                    "versionId": null,
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e1"
+                  ]
+                }
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+                "observedAt": "2026-08-28T05:36:14.140Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "F8",
+      "group": "evidence",
+      "question": "playwright-mcp: policy.security_boundary → securityBoundary",
+      "endpoint": "project",
+      "params": "slug=playwright-mcp&section=facts&fact_key=policy.security_boundary",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.securityBoundary",
+          "value": false
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "items.0.claim.status",
+          "actual": "known",
+          "expected": "known",
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.value.securityBoundary",
+          "actual": false,
+          "expected": false,
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=playwright-mcp&section=facts&fact_key=policy.security_boundary",
+          "status": 200,
+          "jsonBytes": 1396,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:72e989ae6572735ef7bd446c87a9a90e71235b74507289e956e8a31814a8dd79",
+            "project": {
+              "id": "urn:openagent:project:res_playwright_mcp",
+              "registryId": "res_playwright_mcp",
+              "slug": "playwright-mcp",
+              "name": "Playwright MCP",
+              "artifactType": "tool",
+              "domains": [
+                "shared"
+              ],
+              "summary": "MCP browser automation server with stdio and self-hosted HTTP transports; not intrinsically read-only.",
+              "recordUrl": "https://www.openagent.bot/project/playwright-mcp"
+            },
+            "section": "facts",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "key": "policy.security_boundary",
+                "claim": {
+                  "status": "known",
+                  "value": {
+                    "scope": "The README explicitly does not treat this MCP server or its origin/host filtering as a security boundary. Browser access may include logged-in state.",
+                    "securityBoundary": false
+                  },
+                  "verification": "documented",
+                  "test": null,
+                  "scope": {
+                    "versionId": null,
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e1"
+                  ]
+                }
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+                "observedAt": "2026-08-28T05:36:14.140Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "F9",
+      "group": "evidence",
+      "question": "lerobot: scope.artifact_licenses → datasetLicense",
+      "endpoint": "project",
+      "params": "slug=lerobot&section=facts&fact_key=scope.artifact_licenses",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.datasetLicense",
+          "value": null
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "items.0.claim.status",
+          "actual": "known",
+          "expected": "known",
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.value.datasetLicense",
+          "actual": null,
+          "expected": null,
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=lerobot&section=facts&fact_key=scope.artifact_licenses",
+          "status": 200,
+          "jsonBytes": 1476,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:1925f0f821420ec25bec2db14c8388fef0ec59c142b8b9f7535c00cac725ce67",
+            "project": {
+              "id": "urn:openagent:project:robotics_lerobot",
+              "registryId": "robotics_lerobot",
+              "slug": "lerobot",
+              "name": "LeRobot",
+              "artifactType": "robotics-framework",
+              "domains": [
+                "robotics"
+              ],
+              "summary": "Python robot-learning library with dataset, training and physical robot-control workflows.",
+              "recordUrl": "https://www.openagent.bot/project/lerobot"
+            },
+            "section": "facts",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "key": "scope.artifact_licenses",
+                "claim": {
+                  "status": "known",
+                  "value": {
+                    "datasetLicense": null,
+                    "policyLicense": null,
+                    "repositoryLicense": "Apache-2.0",
+                    "scope": "Linked Hub datasets and policy weights are not licensed by the source-code repository license.",
+                    "thirdPartyNotices": "The LICENSE also contains third-party MIT and Apache notices; retain the relevant notices."
+                  },
+                  "verification": "documented",
+                  "test": null,
+                  "scope": {
+                    "versionId": null,
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e1"
+                  ]
+                }
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/LICENSE",
+                "observedAt": "2026-08-28T05:41:34.270Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "X1",
+      "group": "field-discovery",
+      "question": "openhands: software.runtime_requirements → node",
+      "endpoint": "project",
+      "params": "slug=openhands&section=facts&fact_key=software.runtime_requirements",
+      "discover": "software.runtime_requirements",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.node",
+          "value": ">=22.12"
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "discoverable field",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.status",
+          "actual": "known",
+          "expected": "known",
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.value.node",
+          "actual": ">=22.12",
+          "expected": ">=22.12",
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=openhands&section=fields&limit=5",
+          "status": 200,
+          "jsonBytes": 2048,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:69aa1c8af8e58a38c12a78ef831143c293c74b1a6258062a93c040e9fe323328",
+            "project": {
+              "id": "urn:openagent:project:res_openhands",
+              "registryId": "res_openhands",
+              "slug": "openhands",
+              "name": "OpenHands Agent Canvas",
+              "artifactType": "tool",
+              "domains": [
+                "agent"
+              ],
+              "summary": "Self-hosted control center and launcher for coding agents; Agent Server and SDK are separate components.",
+              "recordUrl": "https://www.openagent.bot/project/openhands"
+            },
+            "section": "fields",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "claimInterpretation": "top-level-only; nested-null-values-remain-unknown",
+            "items": [
+              {
+                "key": "curated.domains",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "array",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "curated.entity",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "curated.facets",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "array",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "curated.use_cases",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "array",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "interfaces.canvas-cli",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+                "observedAt": "2026-08-28T05:36:15.418Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 13,
+            "issues": [],
+            "nextCursor": "JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJvcGVuaGFuZHMlNUMlMjIlNUQlNUQlNUQlMjIlMkMlMjJzbmFwc2hvdCUyMiUzQSUyMnNoYTI1NiUzQTY5YWExYzhhZjhlNThhMzhjMTJhNzhlZjgzMTE0M2MyOTNjNzRiMWE2MjU4MDYyYTkzYzA0MGU5ZmUzMjMzMjglMjIlMkMlMjJvZmZzZXQlMjIlM0E1JTdE"
+          }
+        },
+        {
+          "endpoint": "project",
+          "query": "slug=openhands&section=fields&limit=5&cursor=JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJvcGVuaGFuZHMlNUMlMjIlNUQlNUQlNUQlMjIlMkMlMjJzbmFwc2hvdCUyMiUzQSUyMnNoYTI1NiUzQTY5YWExYzhhZjhlNThhMzhjMTJhNzhlZjgzMTE0M2MyOTNjNzRiMWE2MjU4MDYyYTkzYzA0MGU5ZmUzMjMzMjglMjIlMkMlMjJvZmZzZXQlMjIlM0E1JTdE",
+          "status": 200,
+          "jsonBytes": 2350,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:69aa1c8af8e58a38c12a78ef831143c293c74b1a6258062a93c040e9fe323328",
+            "project": {
+              "id": "urn:openagent:project:res_openhands",
+              "registryId": "res_openhands",
+              "slug": "openhands",
+              "name": "OpenHands Agent Canvas",
+              "artifactType": "tool",
+              "domains": [
+                "agent"
+              ],
+              "summary": "Self-hosted control center and launcher for coding agents; Agent Server and SDK are separate components.",
+              "recordUrl": "https://www.openagent.bot/project/openhands"
+            },
+            "section": "fields",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "claimInterpretation": "top-level-only; nested-null-values-remain-unknown",
+            "items": [
+              {
+                "key": "interfaces.canvas-public-api",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e2"
+                ]
+              },
+              {
+                "key": "policy.local_execution",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "policy.public_mode_auth",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e2"
+                ]
+              },
+              {
+                "key": "resources.overview",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "resources.sdk-repository",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e2": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md",
+                "observedAt": "2026-08-28T05:37:16.001Z",
+                "publishedAt": null
+              },
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+                "observedAt": "2026-08-28T05:36:15.418Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 13,
+            "issues": [],
+            "nextCursor": "JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJvcGVuaGFuZHMlNUMlMjIlNUQlNUQlNUQlMjIlMkMlMjJzbmFwc2hvdCUyMiUzQSUyMnNoYTI1NiUzQTY5YWExYzhhZjhlNThhMzhjMTJhNzhlZjgzMTE0M2MyOTNjNzRiMWE2MjU4MDYyYTkzYzA0MGU5ZmUzMjMzMjglMjIlMkMlMjJvZmZzZXQlMjIlM0ExMCU3RA=="
+          }
+        },
+        {
+          "endpoint": "project",
+          "query": "slug=openhands&section=fields&limit=5&cursor=JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJvcGVuaGFuZHMlNUMlMjIlNUQlNUQlNUQlMjIlMkMlMjJzbmFwc2hvdCUyMiUzQSUyMnNoYTI1NiUzQTY5YWExYzhhZjhlNThhMzhjMTJhNzhlZjgzMTE0M2MyOTNjNzRiMWE2MjU4MDYyYTkzYzA0MGU5ZmUzMjMzMjglMjIlMkMlMjJvZmZzZXQlMjIlM0ExMCU3RA%3D%3D",
+          "status": 200,
+          "jsonBytes": 1710,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:69aa1c8af8e58a38c12a78ef831143c293c74b1a6258062a93c040e9fe323328",
+            "project": {
+              "id": "urn:openagent:project:res_openhands",
+              "registryId": "res_openhands",
+              "slug": "openhands",
+              "name": "OpenHands Agent Canvas",
+              "artifactType": "tool",
+              "domains": [
+                "agent"
+              ],
+              "summary": "Self-hosted control center and launcher for coding agents; Agent Server and SDK are separate components.",
+              "recordUrl": "https://www.openagent.bot/project/openhands"
+            },
+            "section": "fields",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "claimInterpretation": "top-level-only; nested-null-values-remain-unknown",
+            "items": [
+              {
+                "key": "resources.self-hosting",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e2"
+                ]
+              },
+              {
+                "key": "software.component_scope",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "software.runtime_requirements",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e2": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md",
+                "observedAt": "2026-08-28T05:37:16.001Z",
+                "publishedAt": null
+              },
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+                "observedAt": "2026-08-28T05:36:15.418Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 13,
+            "issues": [],
+            "nextCursor": null
+          }
+        },
+        {
+          "endpoint": "project",
+          "query": "slug=openhands&section=facts&fact_key=software.runtime_requirements",
+          "status": 200,
+          "jsonBytes": 1375,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:69aa1c8af8e58a38c12a78ef831143c293c74b1a6258062a93c040e9fe323328",
+            "project": {
+              "id": "urn:openagent:project:res_openhands",
+              "registryId": "res_openhands",
+              "slug": "openhands",
+              "name": "OpenHands Agent Canvas",
+              "artifactType": "tool",
+              "domains": [
+                "agent"
+              ],
+              "summary": "Self-hosted control center and launcher for coding agents; Agent Server and SDK are separate components.",
+              "recordUrl": "https://www.openagent.bot/project/openhands"
+            },
+            "section": "facts",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "key": "software.runtime_requirements",
+                "claim": {
+                  "status": "known",
+                  "value": {
+                    "additionalTool": "uv",
+                    "node": ">=22.12",
+                    "runtimeTested": false,
+                    "scope": "npm/source launcher prerequisites at the reviewed commit; Docker deployment has separate prerequisites."
+                  },
+                  "verification": "documented",
+                  "test": null,
+                  "scope": {
+                    "versionId": null,
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e1"
+                  ]
+                }
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+                "observedAt": "2026-08-28T05:36:15.418Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "X2",
+      "group": "field-discovery",
+      "question": "langgraph: software.runtime_requirements → python",
+      "endpoint": "project",
+      "params": "slug=langgraph&section=facts&fact_key=software.runtime_requirements",
+      "discover": "software.runtime_requirements",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.python",
+          "value": ">=3.10"
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "discoverable field",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.status",
+          "actual": "known",
+          "expected": "known",
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.value.python",
+          "actual": ">=3.10",
+          "expected": ">=3.10",
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=langgraph&section=fields&limit=5",
+          "status": 200,
+          "jsonBytes": 2056,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:2fd9955e10c79d038ab344b2e1e6e29d1070a34b8a13efed3e6c6b63d7bbc8f0",
+            "project": {
+              "id": "urn:openagent:project:res_langgraph",
+              "registryId": "res_langgraph",
+              "slug": "langgraph",
+              "name": "LangGraph",
+              "artifactType": "agent-framework",
+              "domains": [
+                "agent"
+              ],
+              "summary": "Python orchestration library for stateful graphs, with configurable persistence and graph-defined side effects.",
+              "recordUrl": "https://www.openagent.bot/project/langgraph"
+            },
+            "section": "fields",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "claimInterpretation": "top-level-only; nested-null-values-remain-unknown",
+            "items": [
+              {
+                "key": "curated.domains",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "array",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "curated.entity",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "curated.facets",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "array",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "curated.use_cases",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "array",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "interfaces.python-sdk",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+                "observedAt": "2026-08-28T05:36:12.316Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 11,
+            "issues": [],
+            "nextCursor": "JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJsYW5nZ3JhcGglNUMlMjIlNUQlNUQlNUQlMjIlMkMlMjJzbmFwc2hvdCUyMiUzQSUyMnNoYTI1NiUzQTJmZDk5NTVlMTBjNzlkMDM4YWIzNDRiMmUxZTZlMjlkMTA3MGEzNGI4YTEzZWZlZDNlNmM2YjYzZDdiYmM4ZjAlMjIlMkMlMjJvZmZzZXQlMjIlM0E1JTdE"
+          }
+        },
+        {
+          "endpoint": "project",
+          "query": "slug=langgraph&section=fields&limit=5&cursor=JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJsYW5nZ3JhcGglNUMlMjIlNUQlNUQlNUQlMjIlMkMlMjJzbmFwc2hvdCUyMiUzQSUyMnNoYTI1NiUzQTJmZDk5NTVlMTBjNzlkMDM4YWIzNDRiMmUxZTZlMjlkMTA3MGEzNGI4YTEzZWZlZDNlNmM2YjYzZDdiYmM4ZjAlMjIlMkMlMjJvZmZzZXQlMjIlM0E1JTdE",
+          "status": 200,
+          "jsonBytes": 2642,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:2fd9955e10c79d038ab344b2e1e6e29d1070a34b8a13efed3e6c6b63d7bbc8f0",
+            "project": {
+              "id": "urn:openagent:project:res_langgraph",
+              "registryId": "res_langgraph",
+              "slug": "langgraph",
+              "name": "LangGraph",
+              "artifactType": "agent-framework",
+              "domains": [
+                "agent"
+              ],
+              "summary": "Python orchestration library for stateful graphs, with configurable persistence and graph-defined side effects.",
+              "recordUrl": "https://www.openagent.bot/project/langgraph"
+            },
+            "section": "fields",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "claimInterpretation": "top-level-only; nested-null-values-remain-unknown",
+            "items": [
+              {
+                "key": "resources.overview",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "resources.package-manifest",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e2"
+                ]
+              },
+              {
+                "key": "resources.persistence-guide",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e3"
+                ]
+              },
+              {
+                "key": "scope.package_vs_service",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "software.persistence",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e3"
+                ]
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+                "observedAt": "2026-08-28T05:36:12.316Z",
+                "publishedAt": null
+              },
+              "e2": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+                "observedAt": "2026-08-28T05:37:17.573Z",
+                "publishedAt": null
+              },
+              "e3": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/langchain-ai/docs/blob/cafb0c882677b9979c4f8583790f111247a57937/src/oss/langgraph/persistence.mdx",
+                "observedAt": "2026-08-28T05:43:02.768Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 11,
+            "issues": [],
+            "nextCursor": "JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJsYW5nZ3JhcGglNUMlMjIlNUQlNUQlNUQlMjIlMkMlMjJzbmFwc2hvdCUyMiUzQSUyMnNoYTI1NiUzQTJmZDk5NTVlMTBjNzlkMDM4YWIzNDRiMmUxZTZlMjlkMTA3MGEzNGI4YTEzZWZlZDNlNmM2YjYzZDdiYmM4ZjAlMjIlMkMlMjJvZmZzZXQlMjIlM0ExMCU3RA=="
+          }
+        },
+        {
+          "endpoint": "project",
+          "query": "slug=langgraph&section=fields&limit=5&cursor=JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJsYW5nZ3JhcGglNUMlMjIlNUQlNUQlNUQlMjIlMkMlMjJzbmFwc2hvdCUyMiUzQSUyMnNoYTI1NiUzQTJmZDk5NTVlMTBjNzlkMDM4YWIzNDRiMmUxZTZlMjlkMTA3MGEzNGI4YTEzZWZlZDNlNmM2YjYzZDdiYmM4ZjAlMjIlMkMlMjJvZmZzZXQlMjIlM0ExMCU3RA%3D%3D",
+          "status": 200,
+          "jsonBytes": 1197,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:2fd9955e10c79d038ab344b2e1e6e29d1070a34b8a13efed3e6c6b63d7bbc8f0",
+            "project": {
+              "id": "urn:openagent:project:res_langgraph",
+              "registryId": "res_langgraph",
+              "slug": "langgraph",
+              "name": "LangGraph",
+              "artifactType": "agent-framework",
+              "domains": [
+                "agent"
+              ],
+              "summary": "Python orchestration library for stateful graphs, with configurable persistence and graph-defined side effects.",
+              "recordUrl": "https://www.openagent.bot/project/langgraph"
+            },
+            "section": "fields",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "claimInterpretation": "top-level-only; nested-null-values-remain-unknown",
+            "items": [
+              {
+                "key": "software.runtime_requirements",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e2"
+                ]
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e2": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+                "observedAt": "2026-08-28T05:37:17.573Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 11,
+            "issues": [],
+            "nextCursor": null
+          }
+        },
+        {
+          "endpoint": "project",
+          "query": "slug=langgraph&section=facts&fact_key=software.runtime_requirements",
+          "status": 200,
+          "jsonBytes": 1425,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:2fd9955e10c79d038ab344b2e1e6e29d1070a34b8a13efed3e6c6b63d7bbc8f0",
+            "project": {
+              "id": "urn:openagent:project:res_langgraph",
+              "registryId": "res_langgraph",
+              "slug": "langgraph",
+              "name": "LangGraph",
+              "artifactType": "agent-framework",
+              "domains": [
+                "agent"
+              ],
+              "summary": "Python orchestration library for stateful graphs, with configurable persistence and graph-defined side effects.",
+              "recordUrl": "https://www.openagent.bot/project/langgraph"
+            },
+            "section": "facts",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "key": "software.runtime_requirements",
+                "claim": {
+                  "status": "known",
+                  "value": {
+                    "packageVersionAtReviewedCommit": "1.2.11",
+                    "python": ">=3.10",
+                    "runtimeTested": false,
+                    "scope": "Python package manifest at the pinned repository commit; not proof of an installed or published version."
+                  },
+                  "verification": "documented",
+                  "test": null,
+                  "scope": {
+                    "versionId": null,
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e1"
+                  ]
+                }
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+                "observedAt": "2026-08-28T05:37:17.573Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "X3",
+      "group": "field-discovery",
+      "question": "lerobot: policy.physical_execution → canActuateHardware",
+      "endpoint": "project",
+      "params": "slug=lerobot&section=facts&fact_key=policy.physical_execution",
+      "discover": "policy.physical_execution",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.canActuateHardware",
+          "value": true
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "discoverable field",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.status",
+          "actual": "known",
+          "expected": "known",
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.value.canActuateHardware",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=lerobot&section=fields&limit=5",
+          "status": 200,
+          "jsonBytes": 2033,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:1925f0f821420ec25bec2db14c8388fef0ec59c142b8b9f7535c00cac725ce67",
+            "project": {
+              "id": "urn:openagent:project:robotics_lerobot",
+              "registryId": "robotics_lerobot",
+              "slug": "lerobot",
+              "name": "LeRobot",
+              "artifactType": "robotics-framework",
+              "domains": [
+                "robotics"
+              ],
+              "summary": "Python robot-learning library with dataset, training and physical robot-control workflows.",
+              "recordUrl": "https://www.openagent.bot/project/lerobot"
+            },
+            "section": "fields",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "claimInterpretation": "top-level-only; nested-null-values-remain-unknown",
+            "items": [
+              {
+                "key": "curated.domains",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "array",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "curated.entity",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "curated.facets",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "array",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "curated.robotics",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "curated.use_cases",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "array",
+                "evidence": [
+                  "e1"
+                ]
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+                "observedAt": "2026-08-28T05:36:13.133Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 16,
+            "issues": [],
+            "nextCursor": "JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJsZXJvYm90JTVDJTIyJTVEJTVEJTVEJTIyJTJDJTIyc25hcHNob3QlMjIlM0ElMjJzaGEyNTYlM0ExOTI1ZjBmODIxNDIwZWMyNWJlYzJkYjE0YzgzODhmZWYwZWM1OWMxNDJiOGI5Zjc1MzVjMDBjYWM3MjVjZTY3JTIyJTJDJTIyb2Zmc2V0JTIyJTNBNSU3RA=="
+          }
+        },
+        {
+          "endpoint": "project",
+          "query": "slug=lerobot&section=fields&limit=5&cursor=JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJsZXJvYm90JTVDJTIyJTVEJTVEJTVEJTIyJTJDJTIyc25hcHNob3QlMjIlM0ElMjJzaGEyNTYlM0ExOTI1ZjBmODIxNDIwZWMyNWJlYzJkYjE0YzgzODhmZWYwZWM1OWMxNDJiOGI5Zjc1MzVjMDBjYWM3MjVjZTY3JTIyJTJDJTIyb2Zmc2V0JTIyJTNBNSU3RA%3D%3D",
+          "status": 200,
+          "jsonBytes": 2348,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:1925f0f821420ec25bec2db14c8388fef0ec59c142b8b9f7535c00cac725ce67",
+            "project": {
+              "id": "urn:openagent:project:robotics_lerobot",
+              "registryId": "robotics_lerobot",
+              "slug": "lerobot",
+              "name": "LeRobot",
+              "artifactType": "robotics-framework",
+              "domains": [
+                "robotics"
+              ],
+              "summary": "Python robot-learning library with dataset, training and physical robot-control workflows.",
+              "recordUrl": "https://www.openagent.bot/project/lerobot"
+            },
+            "section": "fields",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "claimInterpretation": "top-level-only; nested-null-values-remain-unknown",
+            "items": [
+              {
+                "key": "interfaces.robot-sdk",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "interfaces.teleoperate-cli",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e2"
+                ]
+              },
+              {
+                "key": "interfaces.train-cli",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "policy.physical_execution",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e2"
+                ]
+              },
+              {
+                "key": "policy.plugins",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+                "observedAt": "2026-08-28T05:36:13.133Z",
+                "publishedAt": null
+              },
+              "e2": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+                "observedAt": "2026-08-28T05:41:30.841Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 16,
+            "issues": [],
+            "nextCursor": "JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJsZXJvYm90JTVDJTIyJTVEJTVEJTVEJTIyJTJDJTIyc25hcHNob3QlMjIlM0ElMjJzaGEyNTYlM0ExOTI1ZjBmODIxNDIwZWMyNWJlYzJkYjE0YzgzODhmZWYwZWM1OWMxNDJiOGI5Zjc1MzVjMDBjYWM3MjVjZTY3JTIyJTJDJTIyb2Zmc2V0JTIyJTNBMTAlN0Q="
+          }
+        },
+        {
+          "endpoint": "project",
+          "query": "slug=lerobot&section=fields&limit=5&cursor=JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJsZXJvYm90JTVDJTIyJTVEJTVEJTVEJTIyJTJDJTIyc25hcHNob3QlMjIlM0ElMjJzaGEyNTYlM0ExOTI1ZjBmODIxNDIwZWMyNWJlYzJkYjE0YzgzODhmZWYwZWM1OWMxNDJiOGI5Zjc1MzVjMDBjYWM3MjVjZTY3JTIyJTJDJTIyb2Zmc2V0JTIyJTNBMTAlN0Q%3D",
+          "status": 200,
+          "jsonBytes": 2866,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:1925f0f821420ec25bec2db14c8388fef0ec59c142b8b9f7535c00cac725ce67",
+            "project": {
+              "id": "urn:openagent:project:robotics_lerobot",
+              "registryId": "robotics_lerobot",
+              "slug": "lerobot",
+              "name": "LeRobot",
+              "artifactType": "robotics-framework",
+              "domains": [
+                "robotics"
+              ],
+              "summary": "Python robot-learning library with dataset, training and physical robot-control workflows.",
+              "recordUrl": "https://www.openagent.bot/project/lerobot"
+            },
+            "section": "fields",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "claimInterpretation": "top-level-only; nested-null-values-remain-unknown",
+            "items": [
+              {
+                "key": "resources.overview",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "resources.package-manifest",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e3"
+                ]
+              },
+              {
+                "key": "resources.teleoperation-source",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e2"
+                ]
+              },
+              {
+                "key": "scope.artifact_licenses",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e4"
+                ]
+              },
+              {
+                "key": "software.dataset_format",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+                "observedAt": "2026-08-28T05:36:13.133Z",
+                "publishedAt": null
+              },
+              "e3": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml",
+                "observedAt": "2026-08-28T05:37:15.200Z",
+                "publishedAt": null
+              },
+              "e2": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+                "observedAt": "2026-08-28T05:41:30.841Z",
+                "publishedAt": null
+              },
+              "e4": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/LICENSE",
+                "observedAt": "2026-08-28T05:41:34.270Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 16,
+            "issues": [],
+            "nextCursor": "JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJsZXJvYm90JTVDJTIyJTVEJTVEJTVEJTIyJTJDJTIyc25hcHNob3QlMjIlM0ElMjJzaGEyNTYlM0ExOTI1ZjBmODIxNDIwZWMyNWJlYzJkYjE0YzgzODhmZWYwZWM1OWMxNDJiOGI5Zjc1MzVjMDBjYWM3MjVjZTY3JTIyJTJDJTIyb2Zmc2V0JTIyJTNBMTUlN0Q="
+          }
+        },
+        {
+          "endpoint": "project",
+          "query": "slug=lerobot&section=fields&limit=5&cursor=JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJsZXJvYm90JTVDJTIyJTVEJTVEJTVEJTIyJTJDJTIyc25hcHNob3QlMjIlM0ElMjJzaGEyNTYlM0ExOTI1ZjBmODIxNDIwZWMyNWJlYzJkYjE0YzgzODhmZWYwZWM1OWMxNDJiOGI5Zjc1MzVjMDBjYWM3MjVjZTY3JTIyJTJDJTIyb2Zmc2V0JTIyJTNBMTUlN0Q%3D",
+          "status": 200,
+          "jsonBytes": 1164,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:1925f0f821420ec25bec2db14c8388fef0ec59c142b8b9f7535c00cac725ce67",
+            "project": {
+              "id": "urn:openagent:project:robotics_lerobot",
+              "registryId": "robotics_lerobot",
+              "slug": "lerobot",
+              "name": "LeRobot",
+              "artifactType": "robotics-framework",
+              "domains": [
+                "robotics"
+              ],
+              "summary": "Python robot-learning library with dataset, training and physical robot-control workflows.",
+              "recordUrl": "https://www.openagent.bot/project/lerobot"
+            },
+            "section": "fields",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "claimInterpretation": "top-level-only; nested-null-values-remain-unknown",
+            "items": [
+              {
+                "key": "software.runtime_requirements",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e3"
+                ]
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e3": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml",
+                "observedAt": "2026-08-28T05:37:15.200Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 16,
+            "issues": [],
+            "nextCursor": null
+          }
+        },
+        {
+          "endpoint": "project",
+          "query": "slug=lerobot&section=facts&fact_key=policy.physical_execution",
+          "status": 200,
+          "jsonBytes": 1479,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:1925f0f821420ec25bec2db14c8388fef0ec59c142b8b9f7535c00cac725ce67",
+            "project": {
+              "id": "urn:openagent:project:robotics_lerobot",
+              "registryId": "robotics_lerobot",
+              "slug": "lerobot",
+              "name": "LeRobot",
+              "artifactType": "robotics-framework",
+              "domains": [
+                "robotics"
+              ],
+              "summary": "Python robot-learning library with dataset, training and physical robot-control workflows.",
+              "recordUrl": "https://www.openagent.bot/project/lerobot"
+            },
+            "section": "facts",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "key": "policy.physical_execution",
+                "claim": {
+                  "status": "known",
+                  "value": {
+                    "actionMethod": "robot.send_action",
+                    "canActuateHardware": true,
+                    "hardwareCompatibility": null,
+                    "openAgentExecuted": false,
+                    "scope": "Teleoperation connects a configured robot and sends actions. Reading observations does not make the full control interface read-only."
+                  },
+                  "verification": "documented",
+                  "test": null,
+                  "scope": {
+                    "versionId": null,
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e1"
+                  ]
+                }
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+                "observedAt": "2026-08-28T05:41:30.841Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "X4",
+      "group": "field-discovery",
+      "question": "playwright-mcp: policy.isolation → readOnlyGuarantee",
+      "endpoint": "project",
+      "params": "slug=playwright-mcp&section=facts&fact_key=policy.isolation",
+      "discover": "policy.isolation",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.readOnlyGuarantee",
+          "value": false
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "discoverable field",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.status",
+          "actual": "known",
+          "expected": "known",
+          "passed": true
+        },
+        {
+          "name": "items.0.claim.value.readOnlyGuarantee",
+          "actual": false,
+          "expected": false,
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=playwright-mcp&section=fields&limit=5",
+          "status": 200,
+          "jsonBytes": 2066,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:72e989ae6572735ef7bd446c87a9a90e71235b74507289e956e8a31814a8dd79",
+            "project": {
+              "id": "urn:openagent:project:res_playwright_mcp",
+              "registryId": "res_playwright_mcp",
+              "slug": "playwright-mcp",
+              "name": "Playwright MCP",
+              "artifactType": "tool",
+              "domains": [
+                "shared"
+              ],
+              "summary": "MCP browser automation server with stdio and self-hosted HTTP transports; not intrinsically read-only.",
+              "recordUrl": "https://www.openagent.bot/project/playwright-mcp"
+            },
+            "section": "fields",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "claimInterpretation": "top-level-only; nested-null-values-remain-unknown",
+            "items": [
+              {
+                "key": "curated.domains",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "array",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "curated.entity",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "curated.facets",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "array",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "curated.use_cases",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "array",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "interfaces.http",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+                "observedAt": "2026-08-28T05:36:14.140Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 12,
+            "issues": [],
+            "nextCursor": "JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJwbGF5d3JpZ2h0LW1jcCU1QyUyMiU1RCU1RCU1RCUyMiUyQyUyMnNuYXBzaG90JTIyJTNBJTIyc2hhMjU2JTNBNzJlOTg5YWU2NTcyNzM1ZWY3YmQ0NDZjODdhOWE5MGU3MTIzNWI3NDUwNzI4OWU5NTZlOGEzMTgxNGE4ZGQ3OSUyMiUyQyUyMm9mZnNldCUyMiUzQTUlN0Q="
+          }
+        },
+        {
+          "endpoint": "project",
+          "query": "slug=playwright-mcp&section=fields&limit=5&cursor=JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJwbGF5d3JpZ2h0LW1jcCU1QyUyMiU1RCU1RCU1RCUyMiUyQyUyMnNuYXBzaG90JTIyJTNBJTIyc2hhMjU2JTNBNzJlOTg5YWU2NTcyNzM1ZWY3YmQ0NDZjODdhOWE5MGU3MTIzNWI3NDUwNzI4OWU5NTZlOGEzMTgxNGE4ZGQ3OSUyMiUyQyUyMm9mZnNldCUyMiUzQTUlN0Q%3D",
+          "status": 200,
+          "jsonBytes": 2352,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:72e989ae6572735ef7bd446c87a9a90e71235b74507289e956e8a31814a8dd79",
+            "project": {
+              "id": "urn:openagent:project:res_playwright_mcp",
+              "registryId": "res_playwright_mcp",
+              "slug": "playwright-mcp",
+              "name": "Playwright MCP",
+              "artifactType": "tool",
+              "domains": [
+                "shared"
+              ],
+              "summary": "MCP browser automation server with stdio and self-hosted HTTP transports; not intrinsically read-only.",
+              "recordUrl": "https://www.openagent.bot/project/playwright-mcp"
+            },
+            "section": "fields",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "claimInterpretation": "top-level-only; nested-null-values-remain-unknown",
+            "items": [
+              {
+                "key": "interfaces.stdio",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "policy.isolation",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "policy.security_boundary",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "resources.overview",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "resources.package-manifest",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e2"
+                ]
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+                "observedAt": "2026-08-28T05:36:14.140Z",
+                "publishedAt": null
+              },
+              "e2": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/package.json",
+                "observedAt": "2026-08-28T05:41:31.672Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 12,
+            "issues": [],
+            "nextCursor": "JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJwbGF5d3JpZ2h0LW1jcCU1QyUyMiU1RCU1RCU1RCUyMiUyQyUyMnNuYXBzaG90JTIyJTNBJTIyc2hhMjU2JTNBNzJlOTg5YWU2NTcyNzM1ZWY3YmQ0NDZjODdhOWE5MGU3MTIzNWI3NDUwNzI4OWU5NTZlOGEzMTgxNGE4ZGQ3OSUyMiUyQyUyMm9mZnNldCUyMiUzQTEwJTdE"
+          }
+        },
+        {
+          "endpoint": "project",
+          "query": "slug=playwright-mcp&section=fields&limit=5&cursor=JTdCJTIyc2NvcGUlMjIlM0ElMjIlNUIlNUMlMjJwcm9qZWN0JTVDJTIyJTJDJTVCJTVCJTVDJTIyc2VjdGlvbiU1QyUyMiUyQyU1QyUyMmZpZWxkcyU1QyUyMiU1RCUyQyU1QiU1QyUyMnNsdWclNUMlMjIlMkMlNUMlMjJwbGF5d3JpZ2h0LW1jcCU1QyUyMiU1RCU1RCU1RCUyMiUyQyUyMnNuYXBzaG90JTIyJTNBJTIyc2hhMjU2JTNBNzJlOTg5YWU2NTcyNzM1ZWY3YmQ0NDZjODdhOWE5MGU3MTIzNWI3NDUwNzI4OWU5NTZlOGEzMTgxNGE4ZGQ3OSUyMiUyQyUyMm9mZnNldCUyMiUzQTEwJTdE",
+          "status": 200,
+          "jsonBytes": 1580,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:72e989ae6572735ef7bd446c87a9a90e71235b74507289e956e8a31814a8dd79",
+            "project": {
+              "id": "urn:openagent:project:res_playwright_mcp",
+              "registryId": "res_playwright_mcp",
+              "slug": "playwright-mcp",
+              "name": "Playwright MCP",
+              "artifactType": "tool",
+              "domains": [
+                "shared"
+              ],
+              "summary": "MCP browser automation server with stdio and self-hosted HTTP transports; not intrinsically read-only.",
+              "recordUrl": "https://www.openagent.bot/project/playwright-mcp"
+            },
+            "section": "fields",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "claimInterpretation": "top-level-only; nested-null-values-remain-unknown",
+            "items": [
+              {
+                "key": "scope.tool_vs_server",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e1"
+                ]
+              },
+              {
+                "key": "software.runtime_requirements",
+                "status": "known",
+                "verification": "documented",
+                "freshness": "unknown",
+                "valueType": "object",
+                "evidence": [
+                  "e2"
+                ]
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+                "observedAt": "2026-08-28T05:36:14.140Z",
+                "publishedAt": null
+              },
+              "e2": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/package.json",
+                "observedAt": "2026-08-28T05:41:31.672Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 12,
+            "issues": [],
+            "nextCursor": null
+          }
+        },
+        {
+          "endpoint": "project",
+          "query": "slug=playwright-mcp&section=facts&fact_key=policy.isolation",
+          "status": 200,
+          "jsonBytes": 1396,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:72e989ae6572735ef7bd446c87a9a90e71235b74507289e956e8a31814a8dd79",
+            "project": {
+              "id": "urn:openagent:project:res_playwright_mcp",
+              "registryId": "res_playwright_mcp",
+              "slug": "playwright-mcp",
+              "name": "Playwright MCP",
+              "artifactType": "tool",
+              "domains": [
+                "shared"
+              ],
+              "summary": "MCP browser automation server with stdio and self-hosted HTTP transports; not intrinsically read-only.",
+              "recordUrl": "https://www.openagent.bot/project/playwright-mcp"
+            },
+            "section": "facts",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "key": "policy.isolation",
+                "claim": {
+                  "status": "known",
+                  "value": {
+                    "option": "--isolated",
+                    "profilePersistence": "in-memory",
+                    "readOnlyGuarantee": false,
+                    "scope": "Profile lifetime does not prevent browser actions, network effects or writes requested through tools."
+                  },
+                  "verification": "documented",
+                  "test": null,
+                  "scope": {
+                    "versionId": null,
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e1"
+                  ]
+                }
+              }
+            ],
+            "versions": [],
+            "evidence": {
+              "e1": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+                "observedAt": "2026-08-28T05:36:14.140Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "R1",
+      "group": "resource",
+      "question": "Retrieve pinned LangGraph package manifest, not a runtime compatibility promise",
+      "endpoint": "project",
+      "params": "slug=langgraph&section=resources&id=package-manifest",
+      "assertions": [
+        {
+          "path": "versions.0.sourceRevision",
+          "value": "d5f4b2aa960940effc8430165ab3604038e817af"
+        },
+        {
+          "path": "versions.0.digests.0.algorithm",
+          "value": "git-blob-sha1"
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "versions.0.sourceRevision",
+          "actual": "d5f4b2aa960940effc8430165ab3604038e817af",
+          "expected": "d5f4b2aa960940effc8430165ab3604038e817af",
+          "passed": true
+        },
+        {
+          "name": "versions.0.digests.0.algorithm",
+          "actual": "git-blob-sha1",
+          "expected": "git-blob-sha1",
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=langgraph&section=resources&id=package-manifest",
+          "status": 200,
+          "jsonBytes": 2222,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:2fd9955e10c79d038ab344b2e1e6e29d1070a34b8a13efed3e6c6b63d7bbc8f0",
+            "project": {
+              "id": "urn:openagent:project:res_langgraph",
+              "registryId": "res_langgraph",
+              "slug": "langgraph",
+              "name": "LangGraph",
+              "artifactType": "agent-framework",
+              "domains": [
+                "agent"
+              ],
+              "summary": "Python orchestration library for stateful graphs, with configurable persistence and graph-defined side effects.",
+              "recordUrl": "https://www.openagent.bot/project/langgraph"
+            },
+            "section": "resources",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "id": "urn:openagent:resource:res_langgraph:package-manifest",
+                "localId": "package-manifest",
+                "projectId": "urn:openagent:project:res_langgraph",
+                "name": "Reviewed Python runtime requirements",
+                "kind": "documentation",
+                "url": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+                "description": null,
+                "versionId": "urn:openagent:resource:res_langgraph:package-manifest:version:95964e222b75d2ade322828e58b8eb798507d822eef7fc3f0bd2a745172be109",
+                "license": {
+                  "status": "unknown",
+                  "value": null,
+                  "verification": "unknown",
+                  "test": null,
+                  "scope": {
+                    "versionId": "urn:openagent:resource:res_langgraph:package-manifest:version:95964e222b75d2ade322828e58b8eb798507d822eef7fc3f0bd2a745172be109",
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e2"
+                  ]
+                },
+                "evidence": [
+                  "e2"
+                ]
+              }
+            ],
+            "versions": [
+              {
+                "id": "urn:openagent:resource:res_langgraph:package-manifest:version:95964e222b75d2ade322828e58b8eb798507d822eef7fc3f0bd2a745172be109",
+                "subjectId": "urn:openagent:resource:res_langgraph:package-manifest",
+                "label": null,
+                "sourceRevision": "d5f4b2aa960940effc8430165ab3604038e817af",
+                "digests": [
+                  {
+                    "algorithm": "git-blob-sha1",
+                    "value": "e3d95cfec83fb9ce4a887c264a060f4513be2e9d"
+                  }
+                ],
+                "evidence": [
+                  "e2"
+                ]
+              }
+            ],
+            "evidence": {
+              "e2": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+                "observedAt": "2026-08-28T05:37:17.573Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "group": "resource",
+      "question": "Retrieve pinned Playwright package manifest and retain unknown resource terms",
+      "endpoint": "project",
+      "params": "slug=playwright-mcp&section=resources&id=package-manifest",
+      "assertions": [
+        {
+          "path": "versions.0.sourceRevision",
+          "value": "d0c29a5658b93b6e62435ceaf362a7d7dfc3522d"
+        },
+        {
+          "path": "items.0.license.status",
+          "value": "unknown"
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "versions.0.sourceRevision",
+          "actual": "d0c29a5658b93b6e62435ceaf362a7d7dfc3522d",
+          "expected": "d0c29a5658b93b6e62435ceaf362a7d7dfc3522d",
+          "passed": true
+        },
+        {
+          "name": "items.0.license.status",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        },
+        {
+          "name": "dated pinned provenance",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=playwright-mcp&section=resources&id=package-manifest",
+          "status": 200,
+          "jsonBytes": 2238,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "snapshotId": "sha256:72e989ae6572735ef7bd446c87a9a90e71235b74507289e956e8a31814a8dd79",
+            "project": {
+              "id": "urn:openagent:project:res_playwright_mcp",
+              "registryId": "res_playwright_mcp",
+              "slug": "playwright-mcp",
+              "name": "Playwright MCP",
+              "artifactType": "tool",
+              "domains": [
+                "shared"
+              ],
+              "summary": "MCP browser automation server with stdio and self-hosted HTTP transports; not intrinsically read-only.",
+              "recordUrl": "https://www.openagent.bot/project/playwright-mcp"
+            },
+            "section": "resources",
+            "coverage": "partial",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "items": [
+              {
+                "id": "urn:openagent:resource:res_playwright_mcp:package-manifest",
+                "localId": "package-manifest",
+                "projectId": "urn:openagent:project:res_playwright_mcp",
+                "name": "Reviewed Node requirement and package metadata",
+                "kind": "documentation",
+                "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/package.json",
+                "description": null,
+                "versionId": "urn:openagent:resource:res_playwright_mcp:package-manifest:version:a4665c254812144d58c147d60be350a1b22b562cf70a122c05723bf06e8c315b",
+                "license": {
+                  "status": "unknown",
+                  "value": null,
+                  "verification": "unknown",
+                  "test": null,
+                  "scope": {
+                    "versionId": "urn:openagent:resource:res_playwright_mcp:package-manifest:version:a4665c254812144d58c147d60be350a1b22b562cf70a122c05723bf06e8c315b",
+                    "validFrom": null,
+                    "validUntil": null
+                  },
+                  "checkedAt": null,
+                  "expiresAt": null,
+                  "freshness": "unknown",
+                  "evidence": [
+                    "e2"
+                  ]
+                },
+                "evidence": [
+                  "e2"
+                ]
+              }
+            ],
+            "versions": [
+              {
+                "id": "urn:openagent:resource:res_playwright_mcp:package-manifest:version:a4665c254812144d58c147d60be350a1b22b562cf70a122c05723bf06e8c315b",
+                "subjectId": "urn:openagent:resource:res_playwright_mcp:package-manifest",
+                "label": null,
+                "sourceRevision": "d0c29a5658b93b6e62435ceaf362a7d7dfc3522d",
+                "digests": [
+                  {
+                    "algorithm": "git-blob-sha1",
+                    "value": "8ffbac3da702b8450afe750ab16b0c9cb8f40350"
+                  }
+                ],
+                "evidence": [
+                  "e2"
+                ]
+              }
+            ],
+            "evidence": {
+              "e2": {
+                "sourceId": "github",
+                "sourceName": "GitHub repositories",
+                "sourceTrust": "canonical",
+                "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/package.json",
+                "observedAt": "2026-08-28T05:41:31.672Z",
+                "publishedAt": null
+              }
+            },
+            "totalInRecord": 1,
+            "issues": [],
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "H1",
+      "group": "history-boundary",
+      "question": "Do not claim point-in-time reconstruction or backfilled upstream history",
+      "endpoint": "history",
+      "params": "slug=lerobot",
+      "assertions": [
+        {
+          "path": "pointInTime",
+          "value": "unavailable"
+        },
+        {
+          "path": "coverage",
+          "value": "partial"
+        },
+        {
+          "path": "timeBasis",
+          "value": "registry-detected-at"
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "pointInTime",
+          "actual": "unavailable",
+          "expected": "unavailable",
+          "passed": true
+        },
+        {
+          "name": "coverage",
+          "actual": "partial",
+          "expected": "partial",
+          "passed": true
+        },
+        {
+          "name": "timeBasis",
+          "actual": "registry-detected-at",
+          "expected": "registry-detected-at",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "history",
+          "query": "slug=lerobot",
+          "status": 200,
+          "jsonBytes": 248,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "projectId": "urn:openagent:project:robotics_lerobot",
+            "coverage": "partial",
+            "consistency": "append-window",
+            "pointInTime": "unavailable",
+            "timeBasis": "registry-detected-at",
+            "since": null,
+            "items": [],
+            "evidence": {},
+            "nextCursor": null
+          }
+        }
+      ]
+    }
+  ]
+}

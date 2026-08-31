@@ -9,3 +9,9 @@ dist/
 !.env.example
 .gstack/
 .playwright-mcp/
+.playwright-cli/
+output/
+progress.md
+reports/seo-audit.json
+reports/seo-url-migration.csv
+reports/seo-blog-inventory.csv

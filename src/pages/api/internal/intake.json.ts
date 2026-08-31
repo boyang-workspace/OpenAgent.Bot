@@ -24,10 +24,10 @@ export const POST: APIRoute = async ({ request }) => {
     const intake = new RegistryIntakeService(getRegistryDatabase());
     if (body.action === "revision") return respond(await intake.revision(String(body.publicationId ?? "")));
     if (body.action === "preview") {
-      const result = await intake.preview(body.manifest);
-      return respond({ status: result.diff.length ? "pending-review" : "unchanged", slug: result.manifest.entity.slug, revision: result.revision, baseHash: result.baseHash, payloadHash: result.payloadHash, diff: result.diff });
+      const result = await intake.preview(body.manifest, body.corrections);
+      return respond({ status: result.diff.length ? "pending-review" : "unchanged", slug: result.manifest.entity.slug, revision: result.revision, baseHash: result.baseHash, payloadHash: result.payloadHash, diff: result.diff, corrections: result.corrections, correctionTargets: result.correctionTargets });
     }
-    if (body.action === "publish") return respond(await intake.publish(body.manifest, body.baseHash, body.payloadHash, body.reviewer));
+    if (body.action === "publish") return respond(await intake.publish(body.manifest, body.baseHash, body.payloadHash, body.reviewer, body.corrections));
     throw new IntakeError("Use preview, publish or revision");
   } catch (error) {
     return respond({ error: error instanceof IntakeError ? error.message : "Invalid request or intake unavailable" }, error instanceof IntakeError ? error.status : 400);

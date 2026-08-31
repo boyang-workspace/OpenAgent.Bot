@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "design": "New compound questions over four already-curated projects; not unseen-project generalization. Freeze before the first client run. One run per arm is a feasibility pilot, not a reliable success-rate estimate.",
+  "tasks": [
+    {
+      "id": "C1",
+      "question": "A project is constrained to Python 3.11. Compare the reviewed LangGraph and LeRobot package manifests: their declared Python requirements, whether 3.11 satisfies each requirement, and whether the supplied evidence proves a successful runtime test. Return claims with keys langgraphPython (string), lerobotPython (string), langgraphAllows311 (boolean), lerobotAllows311 (boolean), runtimeEvidence ('provided' or 'not-provided'). Distinguish manifest compatibility from actual installation or execution.",
+      "expected": { "langgraphPython": ">=3.10", "lerobotPython": ">=3.12", "langgraphAllows311": true, "lerobotAllows311": false, "runtimeEvidence": "not-provided" },
+      "requiredSources": ["langgraph-package", "lerobot-package"]
+    },
+    {
+      "id": "C2",
+      "question": "An operator proposes running Playwright MCP with --isolated and treating the whole server as a read-only security boundary. Evaluate both guarantees using the reviewed source. Return claims with keys isolatedGuaranteesReadOnly (boolean), wholeServerReadOnly (boolean), securityBoundary (boolean), and profilePersistence (string). Explain the difference between profile lifetime and tool effects.",
+      "expected": { "isolatedGuaranteesReadOnly": false, "wholeServerReadOnly": false, "securityBoundary": false, "profilePersistence": "in-memory" },
+      "requiredSources": ["playwright-mcp-readme"]
+    },
+    {
+      "id": "C3",
+      "question": "A developer wants the current OpenHands Python SDK and Agent Server. At the reviewed commit, does the OpenHands/OpenHands repository own that SDK, or is it another component? Identify the SDK repository and the reviewed main repository's role. Return claims with keys mainRepositoryOwnsPythonSdk (boolean), sdkRepository (canonical GitHub repository URL), mainRepositoryRole ('agent-canvas' or 'python-sdk'), crossComponentCompatibilityProven (boolean). Do not merge distinct repositories into one identity.",
+      "expected": { "mainRepositoryOwnsPythonSdk": false, "sdkRepository": "https://github.com/OpenHands/software-agent-sdk", "mainRepositoryRole": "agent-canvas", "crossComponentCompatibilityProven": false },
+      "requiredSources": ["openhands-readme"]
+    },
+    {
+      "id": "C4",
+      "question": "For the reviewed OpenHands self-hosted public-mode configuration, identify the environment variable and HTTP header used to authenticate /api/* requests. Does --public mean those API requests need no authentication? Does this establish every model provider's authentication requirements? Return claims with keys environmentVariable (string), header (string), publicMeansNoApiAuthentication (boolean), providerAuthenticationKnown (boolean). Keep the deployment scope explicit.",
+      "expected": { "environmentVariable": "LOCAL_BACKEND_API_KEY", "header": "X-Session-API-Key", "publicMeansNoApiAuthentication": false, "providerAuthenticationKnown": false },
+      "requiredSources": ["openhands-self-hosting"]
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "entity": {
+    "slug": "langgraph",
+    "name": "LangGraph",
+    "kind": "agent-framework",
+    "summary": "Python orchestration library for stateful graphs, with configurable persistence and graph-defined side effects.",
+    "description": "This record covers the Python package in langchain-ai/langgraph. JavaScript LangGraph and LangSmith deployment services are distinct products/components. Graph code, persistence backend and model providers determine side effects and credentials; no generic read-only or no-auth guarantee is asserted. Source documentation only, not runtime verification.",
+    "organization": "LangChain",
+    "lifecycle": "active",
+    "opennessStatus": "open-source",
+    "licenseSpdx": "MIT",
+    "canonicalUrl": "https://www.langchain.com/langgraph",
+    "repositoryUrl": "https://github.com/langchain-ai/langgraph",
+    "documentationUrl": "https://docs.langchain.com/oss/python/langgraph/overview",
+    "visibility": "public"
+  },
+  "evidence": {
+    "sourceId": "github",
+    "sourceUrl": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+    "observedAt": "2026-08-28T05:36:12.316Z"
+  },
+  "domains": [
+    "agent"
+  ],
+  "useCases": [],
+  "facets": [
+    {
+      "facet": "code",
+      "status": "open",
+      "terms": "MIT for this repository, subject to its LICENSE and third-party notices. This is not a license for linked models, datasets, services or other repositories.",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/LICENSE",
+        "observedAt": "2026-08-28T05:41:33.442Z"
+      }
+    }
+  ],
+  "facts": [
+    {
+      "key": "software.runtime_requirements",
+      "value": {
+        "python": ">=3.10",
+        "packageVersionAtReviewedCommit": "1.2.11",
+        "scope": "Python package manifest at the pinned repository commit; not proof of an installed or published version.",
+        "runtimeTested": false
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+        "observedAt": "2026-08-28T05:37:17.573Z"
+      }
+    },
+    {
+      "key": "software.persistence",
+      "value": {
+        "checkpointerScope": "thread graph state",
+        "storeScope": "cross-thread application data",
+        "inMemorySurvivesRestart": false,
+        "backend": "Select a persistent backend for restart durability; the in-memory example is not durable storage.",
+        "serviceBoundary": "Agent Server manages persistence separately."
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/langchain-ai/docs/blob/cafb0c882677b9979c4f8583790f111247a57937/src/oss/langgraph/persistence.mdx",
+        "observedAt": "2026-08-28T05:43:02.768Z"
+      }
+    },
+    {
+      "key": "scope.package_vs_service",
+      "value": {
+        "pythonRepository": "https://github.com/langchain-ai/langgraph",
+        "javascriptRepository": "https://github.com/langchain-ai/langgraphjs",
+        "hostedDeployment": "LangSmith is separate from the standalone library.",
+        "providerCredentials": null,
+        "graphSideEffects": null
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+        "observedAt": "2026-08-28T05:36:12.316Z"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "overview",
+      "name": "Reviewed Python package overview",
+      "kind": "documentation",
+      "url": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+      "revision": "d5f4b2aa960940effc8430165ab3604038e817af",
+      "gitBlobSha": "97c31e9cb4d8fe56be8d768ce3eb5e22400e897e",
+      "sizeBytes": 6395,
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+        "observedAt": "2026-08-28T05:36:12.316Z"
+      }
+    },
+    {
+      "id": "package-manifest",
+      "name": "Reviewed Python runtime requirements",
+      "kind": "documentation",
+      "url": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+      "revision": "d5f4b2aa960940effc8430165ab3604038e817af",
+      "gitBlobSha": "e3d95cfec83fb9ce4a887c264a060f4513be2e9d",
+      "sizeBytes": 4466,
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+        "observedAt": "2026-08-28T05:37:17.573Z"
+      }
+    },
+    {
+      "id": "persistence-guide",
+      "name": "Reviewed persistence scope and restart behavior",
+      "kind": "documentation",
+      "url": "https://github.com/langchain-ai/docs/blob/cafb0c882677b9979c4f8583790f111247a57937/src/oss/langgraph/persistence.mdx",
+      "revision": "cafb0c882677b9979c4f8583790f111247a57937",
+      "gitBlobSha": "d2839b6d30a14ad10d1acf32007bb5a47b9d0d9b",
+      "sizeBytes": 4897,
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/langchain-ai/docs/blob/cafb0c882677b9979c4f8583790f111247a57937/src/oss/langgraph/persistence.mdx",
+        "observedAt": "2026-08-28T05:43:02.768Z"
+      }
+    }
+  ],
+  "interfaces": [
+    {
+      "authentication": "unknown",
+      "verification": "documented",
+      "id": "python-sdk",
+      "name": "LangGraph Python library",
+      "type": "sdk",
+      "transport": "In-process Python import",
+      "access": "unknown",
+      "runtimes": [
+        "Python; see software.runtime_requirements for the reviewed package constraint"
+      ],
+      "description": "Graph nodes and persistence backends determine writes; model/service credentials depend on the application. No generic read-only, no-auth or runtime compatibility guarantee.",
+      "url": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+        "observedAt": "2026-08-28T05:36:12.316Z"
+      }
+    }
+  ],
+  "subscriptions": [
+    {
+      "sourceId": "github",
+      "locator": "langchain-ai/langgraph"
+    }
+  ]
+}

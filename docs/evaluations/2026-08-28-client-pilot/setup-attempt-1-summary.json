@@ -1,0 +1,11 @@
+{
+  "kind": "summary-only; full raw receipt was not retained",
+  "startedAt": "2026-08-28T06:17:16.740Z",
+  "finishedAt": "2026-08-28T06:18:03.727Z",
+  "trial": "codex-c1-sources",
+  "validTrial": false,
+  "httpReads": 0,
+  "elapsedMs": 46446,
+  "usage": { "input_tokens": 31881, "cached_input_tokens": 0, "output_tokens": 815, "reasoning_output_tokens": 650 },
+  "outcome": "Client returned unknown without retrieving documents. Code-mode host was disabled; later diagnostics identified this configuration mistake. Excluded from task-effectiveness comparison."
+}

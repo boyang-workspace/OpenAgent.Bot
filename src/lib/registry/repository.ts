@@ -11,6 +11,7 @@ import type {
   RegistryStats
 } from "./types";
 import { parseEntityDomains } from "./domains";
+import { deriveOpennessStatus } from "./integrity";
 
 export type D1Result<T> = { results?: T[]; success: boolean; meta?: Record<string, unknown> };
 
@@ -50,6 +51,10 @@ type EntityRow = {
   country: string | null;
   lifecycle: RegistryEntity["lifecycle"];
   openness_status: OpennessStatus;
+  code_openness_status: string | null;
+  weights_openness_status: string | null;
+  open_license_scopes: number | null;
+  restricted_license_scopes: number | null;
   license_spdx: string | null;
   canonical_url: string | null;
   repository_url: string | null;
@@ -107,7 +112,17 @@ function entityFromRow(row: EntityRow): RegistryEntity {
     organization: row.organization ?? undefined,
     country: row.country ?? undefined,
     lifecycle: row.lifecycle,
-    opennessStatus: row.openness_status,
+    opennessStatus: deriveOpennessStatus({
+      claimed: row.openness_status,
+      facets: [
+        ...(row.code_openness_status ? [{ facet: "code" as const, status: row.code_openness_status as "open" | "partial" | "source_available" | "closed" | "unknown" | "not_applicable" }] : []),
+        ...(row.weights_openness_status ? [{ facet: "weights" as const, status: row.weights_openness_status as "open" | "partial" | "source_available" | "closed" | "unknown" | "not_applicable" }] : [])
+      ],
+      licenses: [
+        ...(Number(row.open_license_scopes ?? 0) > 0 ? [{ status: "open" as const }] : []),
+        ...(Number(row.restricted_license_scopes ?? 0) > 0 ? [{ status: "restricted" as const }] : [])
+      ]
+    }),
     licenseSpdx: row.license_spdx ?? undefined,
     canonicalUrl: row.canonical_url ?? undefined,
     repositoryUrl: row.repository_url ?? undefined,
@@ -145,6 +160,10 @@ const selectEntity = `
          m.last_commit_at,
          (SELECT COUNT(*) FROM observations o_count WHERE o_count.entity_id = e.id) AS evidence_records,
          (SELECT COUNT(*) FROM source_subscriptions ss_count WHERE ss_count.entity_id = e.id AND ss_count.enabled = 1) AS source_count,
+         (SELECT status FROM openness_facets of_code WHERE of_code.entity_id=e.id AND of_code.facet='code') AS code_openness_status,
+         (SELECT status FROM openness_facets of_weights WHERE of_weights.entity_id=e.id AND of_weights.facet='weights') AS weights_openness_status,
+         (SELECT COUNT(*) FROM entity_license_scopes els_open WHERE els_open.entity_id=e.id AND els_open.status='open') AS open_license_scopes,
+         (SELECT COUNT(*) FROM entity_license_scopes els_restricted WHERE els_restricted.entity_id=e.id AND els_restricted.status='restricted') AS restricted_license_scopes,
          (SELECT MIN(ms_start.observed_at) FROM metric_snapshots ms_start WHERE ms_start.entity_id = e.id) AS metric_history_started_at,
          (SELECT ms_base.metric_value FROM metric_snapshots ms_base
           WHERE ms_base.entity_id = e.id AND ms_base.metric_key = 'stars'
@@ -197,6 +216,15 @@ export class RegistryRepository {
       values.push(`%${query.q.trim()}%`);
       const index = values.length;
       filters.push(`(e.name LIKE ?${index} OR e.summary LIKE ?${index} OR e.organization LIKE ?${index})`);
+    }
+    if (query.category) {
+      values.push(query.category);
+      filters.push(`EXISTS (
+        SELECT 1 FROM catalog_profiles cp_filter
+        WHERE cp_filter.entity_id = e.id
+          AND cp_filter.primary_category = ?${values.length}
+          AND cp_filter.inclusion_status = 'included'
+      )`);
     }
     if (query.kinds?.length) {
       const placeholders = query.kinds.map((kind) => {
@@ -303,7 +331,7 @@ export class RegistryRepository {
     const entity = await this.getEntity(slug);
     if (!entity) return undefined;
 
-    const [domainAssignments, facts, facets, changes, relationships, relationshipEvidence, subscriptions, metricSnapshots, record] = await Promise.all([
+    const [domainAssignments, facts, facets, licenseScopes, changes, relationships, relationshipEvidence, subscriptions, metricSnapshots, record] = await Promise.all([
       this.db.prepare(`
         SELECT domain, is_primary, confidence, classification_method, review_status,
                source_url, updated_at
@@ -322,11 +350,18 @@ export class RegistryRepository {
       `).bind(entity.id).all<Record<string, string | number | null>>(),
       this.db.prepare(`
         SELECT o.facet, o.status, o.license_or_terms, o.source_url, o.observed_at,
+               o.evidence_confidence,
                s.name AS source_name
         FROM openness_facets o
         JOIN sources s ON s.id = o.source_id
         WHERE o.entity_id = ?1
         ORDER BY o.facet
+      `).bind(entity.id).all<Record<string, string | null>>(),
+      this.db.prepare(`
+        SELECT id, source_id, scope, path, license_identifier, status, source_url, observed_at
+        FROM entity_license_scopes
+        WHERE entity_id = ?1
+        ORDER BY scope, path
       `).bind(entity.id).all<Record<string, string | null>>(),
       this.db.prepare(`
         SELECT c.id, c.entity_id, e.slug AS entity_slug, e.name AS entity_name,
@@ -365,6 +400,7 @@ export class RegistryRepository {
       `).bind(entity.id).all<Record<string, string | null>>(),
       this.db.prepare(`
         SELECT s.id AS source_id, s.name AS source_name, s.trust_tier, ss.locator,
+               ss.source_role, ss.valid_from, ss.valid_until,
                ss.last_synced_at, ss.next_sync_at, ss.last_error
         FROM source_subscriptions ss
         JOIN sources s ON s.id = ss.source_id
@@ -400,7 +436,10 @@ export class RegistryRepository {
     }
 
     return {
-      entity,
+      entity: {
+        ...entity,
+        opennessStatus: deriveOpennessStatus({ claimed: entity.opennessStatus, facets: (facets.results ?? []).map((row) => ({ facet: String(row.facet) as any, status: String(row.status) as any })), licenses: (licenseScopes.results ?? []).map((row) => ({ status: String(row.status) as "open" | "restricted" | "unknown" })) })
+      },
       domainAssignments: (domainAssignments.results ?? []).map((row) => ({
         domain: String(row.domain) as EntityDomain,
         isPrimary: Number(row.is_primary) === 1,
@@ -424,8 +463,19 @@ export class RegistryRepository {
         facet: String(row.facet) as RegistryDossier["opennessFacets"][number]["facet"],
         status: String(row.status) as RegistryDossier["opennessFacets"][number]["status"],
         licenseOrTerms: row.license_or_terms ?? undefined,
+        evidenceConfidence: (row.evidence_confidence ?? "verified") as RegistryDossier["opennessFacets"][number]["evidenceConfidence"],
         sourceName: String(row.source_name),
         sourceUrl: row.source_url ?? undefined,
+        observedAt: String(row.observed_at)
+      })),
+      licenseScopes: (licenseScopes.results ?? []).map((row) => ({
+        id: String(row.id),
+        scope: String(row.scope),
+        path: row.path ?? undefined,
+        licenseIdentifier: String(row.license_identifier),
+        status: String(row.status) as "open" | "restricted" | "unknown",
+        sourceId: String(row.source_id),
+        sourceUrl: String(row.source_url),
         observedAt: String(row.observed_at)
       })),
       changes: (changes.results ?? []).map(changeFromRow),
@@ -449,7 +499,10 @@ export class RegistryRepository {
         lastError: row.last_error ?? undefined,
         sourceName: String(row.source_name),
         sourceTrustTier: String(row.trust_tier) as RegistryDossier["subscriptions"][number]["sourceTrustTier"],
+        sourceRole: String(row.source_role ?? "primary") as RegistryDossier["subscriptions"][number]["sourceRole"],
         locator: String(row.locator),
+        validFrom: row.valid_from ?? undefined,
+        validUntil: row.valid_until ?? undefined,
         lastSyncedAt: row.last_synced_at ?? undefined,
         nextSyncAt: row.next_sync_at ?? undefined
       })),

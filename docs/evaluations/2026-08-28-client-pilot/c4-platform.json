@@ -1,0 +1,387 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-08-28T10:11:32.639Z",
+  "finishedAt": "2026-08-28T10:12:23.751Z",
+  "design": "New compound questions over four already-curated projects; not unseen-project generalization. Freeze before the first client run. One run per arm is a feasibility pilot, not a reliable success-rate estimate.",
+  "baseline": "pinned-official-source-snapshots, not live web search",
+  "repetitionsPerArm": 1,
+  "taskSpecSha256": "a0a636b951c65d837f86cf3ca0207898a8dc4dd933ef2a92cfc6d462fc7c5d06",
+  "corpusSha256": "a45a4c26a297520eab2d70829b55ede7d5321b47655e29436faaa35acd4ff260",
+  "fingerprints": {
+    "scripts/evaluate-knowledge-client.mjs": "144c93e706d833b22154bd9c9d4aa4d27ce49cd8eecc0669fe5a8fd3f7899ac3",
+    "scripts/knowledge-evaluation-mcp.mjs": "08d402eb55ea066e6b166702064aff9612d28c101b866173318af861252a8719",
+    "evaluations/knowledge-preview.ts": "de71af902c73bb75bcf6a7d26303b82296e1094438db4ad38caa25ebdeb521b6",
+    "src/lib/registry/knowledge-query.ts": "c55927819f751f61c5f8bcf6d16c2f7eaa76260de6c805c4081e4d1b633b4c0e",
+    "src/lib/registry/knowledge-document.ts": "9b37649e7a63437cbc9315657d955b622bee2aae181f2fa8f5c996e3ebf95e5b",
+    "src/lib/registry/intake.ts": "7a799d96a55a0af4936633d33dc5f93f44f8d443544e567d17baa1be6d572c75",
+    "migrations/0001_registry.sql": "42d3c4c65e54341ea74d3775b4b36b8554c0c1e0c1ed4f72cd70e0677610adc8",
+    "migrations/0002_seed.sql": "f80965d5da1214ac5df8a4cd905c9118aef881997eeeb67aa5a4338bc87a2580",
+    "migrations/0003_robotics_seed.sql": "fa6b511b80596577559490436cc212beb86c777a8c87649f883d6b0de2e6a21a",
+    "migrations/0004_pipeline_integrity.sql": "9e29c50dcb46398398541603b9f3783dcf8981447487a0cc114709ed30affa01",
+    "migrations/0005_mistral_large_source.sql": "b4951dc18957537332618e39574311af63ff28bbb54c2ac18180f051e9ab9bcd",
+    "migrations/0006_normalize_seeded_spdx.sql": "664c89b57a91d442b9761d3c347d0a26dacd80e6d4cbdbc17e5d9481e27dcfb5",
+    "migrations/0007_openclaw_canonical_evidence.sql": "b0d81de5e785474a37ad1aa9ec92dca42aea9e4679127dc909b292e07b8b8727",
+    "migrations/0008_entity_domains.sql": "b03f4d579affff8630b3d0a437100789c99cedc3af0630bd9efe38331b248a24",
+    "migrations/0009_entity_domain_defaults.sql": "4fadadee28c895b3da4238041773df048e5b0559da3ae71a1f729d31892d1b44",
+    "migrations/0010_robotics_layers.sql": "e192412e071b732a4709a7d24ff1ad908b8c88742d992e92eae28eb523831479",
+    "migrations/0011_dedupe_genesis.sql": "bdd4fb6992fb6178be30653d572cffec0db4604ad0a68d8ad7084430e8536220",
+    "migrations/0012_robot_media_and_specs.sql": "abca4c9b1bb7b9a7c8e472d22d0d032bef912a4bf68228062698961afba07ad0",
+    "migrations/0013_robot_use_cases.sql": "e22eaad3c2fa09732d2022b844dae86ed210c0603ca7982e8de3337176cccaa4",
+    "migrations/0014_microduck_seed.sql": "61faab13242cfbc3f22e7590e53e07c6a5d5611c8c5cb55ccc445fa2f5e66a7e",
+    "migrations/0015_reviewed_intake.sql": "e8d01fcd18f030f5b375e0100c32084e07f3da8d089cb69edd25ffd1acef7aea",
+    "migrations/0016_reviewed_corrections.sql": "e181a25b161502a64fc61eec7d7f49167aa06d57e52e925149b29a52cf1320bc",
+    "content/intake/vgpu.json": "a19643ea1424cb4abfa0cd9ddf85640e9f3fe839108f58dc153367819dc95115",
+    "content/intake/opencode.json": "eaa2a01bed8f72e6a98f757f1161b0ee2908b3046ec8b080f30ed33d0d2c9dc5",
+    "content/intake/openhands.json": "1718873661122c49be9a4ff36c84d2180060ae8e3d7f1199da7a114f2aafae0d",
+    "content/intake/langgraph.json": "d9a99851e6bb353436295eae76ac43457888f19580650b0625c8d8235c62dd5b",
+    "content/intake/lerobot.json": "4c4d461d2ce2235ba948e272a318e98881d4de23076232fce5c0471b3abcd984",
+    "content/intake/playwright-mcp.json": "6ac0123ac0f3f8fc02d87782aad2dd1a492a2f8084126c35334c811618936ad9"
+  },
+  "codexVersion": "codex-cli 0.150.0-alpha.12.2",
+  "secondClient": {
+    "client": "claude",
+    "authenticated": false,
+    "status": "blocked-authentication"
+  },
+  "trials": [
+    {
+      "trial": "codex-c4-platform",
+      "task": "C4",
+      "arm": "platform",
+      "client": "codex",
+      "model": "client-default-not-reported",
+      "elapsedMs": 50539,
+      "exitCode": 0,
+      "stopReason": null,
+      "usage": {
+        "input_tokens": 78973,
+        "cached_input_tokens": 44800,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 736,
+        "reasoning_output_tokens": 103
+      },
+      "toolCalls": [
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/llms.txt"
+          },
+          "status": "completed",
+          "responseBytes": 2490,
+          "responseSha256": "847c9b960a8452c7a2c8e4400b52c6c4f972375c7d7880385381f25ef63ec970",
+          "sourceUrls": []
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/api/knowledge/v1/project.json?slug=openhands&section=fields&limit=20"
+          },
+          "status": "completed",
+          "responseBytes": 4974,
+          "responseSha256": "a76f34d56c443a0b08c9d750e37a032ed4cd36c229ef2659e99661b87134602a",
+          "sourceUrls": [
+            "https://www.openagent.bot/project/openhands",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/api/knowledge/v1/project.json?slug=openhands&section=facts&fact_key=interfaces.canvas-public-api"
+          },
+          "status": "completed",
+          "responseBytes": 2070,
+          "responseSha256": "6aa0f02105f9cf21fc59f3cbf70d02702ed729288a1e788acfa98bceb3cfdd0c",
+          "sourceUrls": [
+            "https://www.openagent.bot/project/openhands",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/api/knowledge/v1/project.json?slug=openhands&section=facts&fact_key=policy.public_mode_auth"
+          },
+          "status": "completed",
+          "responseBytes": 1739,
+          "responseSha256": "d3607f2f4506eb25f2465c9cb0b7f2741d57e43874990aba098b4cba60ff2be0",
+          "sourceUrls": [
+            "https://www.openagent.bot/project/openhands",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/api/knowledge/v1/project.json?slug=openhands&section=facts&fact_key=resources.self-hosting"
+          },
+          "status": "completed",
+          "responseBytes": 1774,
+          "responseSha256": "24bfe4f0ea11d9dff5c52bfa3fa2e70ef5f03bdb4d96d29e17d0fdb8e42e7f52",
+          "sourceUrls": [
+            "https://www.openagent.bot/project/openhands",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/sources/index.json"
+          },
+          "status": "completed",
+          "responseBytes": 5833,
+          "responseSha256": "966f8ad7ee2d2cbe24d88781558dc891bf9d30e8934014e60a359b29dd13dee8",
+          "sourceUrls": [
+            "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md",
+            "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/package.json",
+            "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/LICENSE",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/LICENSE",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/LICENSE",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/LICENSE"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/sources/openhands-self-hosting?query=X-Session-API-Key"
+          },
+          "status": "completed",
+          "responseBytes": 1326,
+          "responseSha256": "d94eb2058966df0aa3aafe0cb97284da63816febdd16ff94c07daf2fc9817411",
+          "sourceUrls": [
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/sources/openhands-self-hosting?query=LOCAL_BACKEND_API_KEY"
+          },
+          "status": "completed",
+          "responseBytes": 5811,
+          "responseSha256": "1a03c9fd127eb009d470111789136085d5906dabf5f3c1e0fc7ef9ae7976a247",
+          "sourceUrls": [
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md",
+            "https://canvas.example.com/`"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/sources/openhands-self-hosting?query=--public"
+          },
+          "status": "completed",
+          "responseBytes": 4018,
+          "responseSha256": "5816d76fda8fb1fe4c40be9bce08969ba90432b756c7c13c05f2c0b3247e4389",
+          "sourceUrls": [
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md"
+          ]
+        }
+      ],
+      "unexpectedTools": [],
+      "http": [
+        {
+          "trial": "codex-c4-platform",
+          "method": "GET",
+          "path": "/llms.txt",
+          "queryKeys": [],
+          "queryHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": 200,
+          "bytes": 2410,
+          "durationMs": 4.177
+        },
+        {
+          "trial": "codex-c4-platform",
+          "method": "GET",
+          "path": "/api/knowledge/v1/project.json",
+          "queryKeys": [
+            "limit",
+            "section",
+            "slug"
+          ],
+          "queryHash": "471dc9dc58a5d3a7e0d2b4da5360876208eab2f1ec075d6da9f7b257cc648513",
+          "status": 200,
+          "bytes": 4423,
+          "durationMs": 11.097
+        },
+        {
+          "trial": "codex-c4-platform",
+          "method": "GET",
+          "path": "/api/knowledge/v1/project.json",
+          "queryKeys": [
+            "fact_key",
+            "section",
+            "slug"
+          ],
+          "queryHash": "039a2b0415cac501ee740aab96f759d0dbb5781a72549ffd28fa2841776ed608",
+          "status": 200,
+          "bytes": 1831,
+          "durationMs": 7.595
+        },
+        {
+          "trial": "codex-c4-platform",
+          "method": "GET",
+          "path": "/api/knowledge/v1/project.json",
+          "queryKeys": [
+            "fact_key",
+            "section",
+            "slug"
+          ],
+          "queryHash": "5df9b0d3c5f9caa20283a17be623c5f59b224d793c91862bf423b2cf60744e76",
+          "status": 200,
+          "bytes": 1524,
+          "durationMs": 4.858
+        },
+        {
+          "trial": "codex-c4-platform",
+          "method": "GET",
+          "path": "/api/knowledge/v1/project.json",
+          "queryKeys": [
+            "fact_key",
+            "section",
+            "slug"
+          ],
+          "queryHash": "fda52fb52a99982bf02edfcce0b7448889e6dc4f33ac439a12258d3ace50feda",
+          "status": 200,
+          "bytes": 1551,
+          "durationMs": 5.043
+        },
+        {
+          "trial": "codex-c4-platform",
+          "method": "GET",
+          "path": "/sources/index.json",
+          "queryKeys": [],
+          "queryHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": 200,
+          "bytes": 5342,
+          "durationMs": 2.436
+        },
+        {
+          "trial": "codex-c4-platform",
+          "method": "GET",
+          "path": "/sources/openhands-self-hosting",
+          "queryKeys": [
+            "query"
+          ],
+          "queryHash": "15a5acad8762534bd35af8ae856986e3f71263d498ba28bee4eb8c185f090d9e",
+          "status": 200,
+          "bytes": 1171,
+          "durationMs": 2.538
+        },
+        {
+          "trial": "codex-c4-platform",
+          "method": "GET",
+          "path": "/sources/openhands-self-hosting",
+          "queryKeys": [
+            "query"
+          ],
+          "queryHash": "36b0e4a6653598a7054f2dfd5134720b986876e35b7b5a20087cb0b9407bd3ed",
+          "status": 200,
+          "bytes": 5254,
+          "durationMs": 1.516
+        },
+        {
+          "trial": "codex-c4-platform",
+          "method": "GET",
+          "path": "/sources/openhands-self-hosting",
+          "queryKeys": [
+            "query"
+          ],
+          "queryHash": "bcab5921b3df8801fe26c31fc3a72a7d0bac2f276b0417d228170f5b18239cd4",
+          "status": 200,
+          "bytes": 3613,
+          "durationMs": 2.692
+        }
+      ],
+      "answer": {
+        "claims": {
+          "environmentVariable": "LOCAL_BACKEND_API_KEY",
+          "header": "X-Session-API-Key",
+          "publicMeansNoApiAuthentication": false,
+          "providerAuthenticationKnown": false
+        },
+        "citations": [
+          "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md"
+        ],
+        "explanation": "Scoped to the reviewed self-hosted Agent Canvas deployment using --public: every /api/* request must carry a matching X-Session-API-Key. Public mode keeps the key out of the frontend bundle and prompts users for it; it does not disable API authentication. This deployment documentation does not establish authentication requirements for every model provider."
+      },
+      "final": "{\"claims\":{\"environmentVariable\":\"LOCAL_BACKEND_API_KEY\",\"header\":\"X-Session-API-Key\",\"publicMeansNoApiAuthentication\":false,\"providerAuthenticationKnown\":false},\"citations\":[\"https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md\"],\"explanation\":\"Scoped to the reviewed self-hosted Agent Canvas deployment using --public: every /api/* request must carry a matching X-Session-API-Key. Public mode keeps the key out of the frontend bundle and prompts users for it; it does not disable API authentication. This deployment documentation does not establish authentication requirements for every model provider.\"}",
+      "grade": {
+        "claims": [
+          {
+            "key": "environmentVariable",
+            "passed": true
+          },
+          {
+            "key": "header",
+            "passed": true
+          },
+          {
+            "key": "publicMeansNoApiAuthentication",
+            "passed": true
+          },
+          {
+            "key": "providerAuthenticationKnown",
+            "passed": true
+          }
+        ],
+        "evidence": [
+          {
+            "source": "openhands-self-hosting",
+            "passed": true
+          }
+        ],
+        "structuredPass": true,
+        "semanticAudit": "pending-human-or-parent-review"
+      },
+      "errors": [
+        "Reconnecting... 2/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Reconnecting... 3/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Reconnecting... 4/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Reconnecting... 5/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Falling back from WebSockets to HTTPS transport. stream disconnected before completion: Connection reset by peer (os error 54)"
+      ],
+      "clientDiagnostics": [
+        "2026-08-28T10:11:33.483020Z ERROR codex_skills_extension::loader::host: skills scan reached its traversal limit (root: file:///Users/boyangxie/.codex/skills)",
+        "2026-08-28T10:11:33.502321Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/briefing/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:11:33.502343Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/enrich/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:11:33.502345Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/ingest/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:11:33.502347Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/install/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:11:33.502348Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/maintain/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:11:33.502350Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/migrate/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:11:33.502351Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/publish/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:11:33.502353Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/query/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:11:33.502354Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/setup/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:11:33.502356Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.agents/skills/debug-pro-1.0.0/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:11:33.502358Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.agents/skills/feishu-drive-1.0.0/SKILL.md: invalid YAML: could not find expected ':' at line 13 column 1, while scanning a simple key at line 12 column 1",
+        "2026-08-28T10:11:33.502360Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.agents/skills/test-runner-1.0.0/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:11:33.880493Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T10:11:35.284725Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T10:11:35.847275Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T10:11:36.499148Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T10:11:37.622743Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T10:11:39.511494Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T10:11:43.256988Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses"
+      ],
+      "contextCaveats": [],
+      "validTrial": true
+    }
+  ]
+}

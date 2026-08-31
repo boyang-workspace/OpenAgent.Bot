@@ -20,13 +20,22 @@ describe("shared product design system", () => {
     expect(homepage).not.toContain("index-footer");
   });
 
+  it("places verified open agent usage on the homepage with a full usage route", () => {
+    const homepage = read("../src/pages/index.astro");
+    expect(homepage).toContain('getUsage().pageData("app", { openOnly: true, days: 7 })');
+    expect(homepage).toContain("Open agent usage");
+    expect(homepage).toContain('/usage?kind=app&scope=open&days=30');
+    expect(homepage).toContain("previous complete UTC day");
+  });
+
   it("uses one product navigation on every route", () => {
     const header = read("../src/components/Header.astro");
     const site = read("../src/config/site.ts");
     expect(header).not.toContain("isHome ? [");
+    expect(site).toContain('{ label: "Models", href: "/models" }');
     expect(site).toContain('{ label: "Agents", href: "/agents" }');
-    expect(site).toContain('{ label: "Robotics", href: "/robotics" }');
-    expect(site).toContain('{ label: "Rankings", href: "/rankings" }');
+    expect(site).toContain('{ label: "Robot Models", href: "/robot-models" }');
+    expect(site).toContain('{ label: "Robots", href: "/robots" }');
     expect(site).toContain('{ label: "Changes", href: "/changes" }');
     expect(site).toContain('{ label: "Database", href: "/database" }');
   });
@@ -45,9 +54,17 @@ describe("shared product design system", () => {
   it("uses the homepage type system globally", () => {
     const baseLayout = read("../src/layouts/BaseLayout.astro");
     const globalCss = read("../src/styles/global.css");
-    expect(baseLayout).toContain("Spline+Sans");
-    expect(baseLayout).toContain("Azeret+Mono");
+    expect(baseLayout).toContain("Inter:wght");
+    expect(globalCss).toContain('--sans: "Inter"');
     expect(`${baseLayout}${globalCss}`).not.toMatch(/IBM Plex|Instrument Serif/);
+  });
+
+  it("publishes four explicit primary database routes", () => {
+    for (const path of ["models.astro", "agents.astro", "robot-models.astro", "robots.astro"]) {
+      expect(existsSync(new URL(`../src/pages/${path}`, import.meta.url))).toBe(true);
+    }
+    const redirects = read("../public/_redirects");
+    expect(redirects).not.toMatch(/^\/models /m);
   });
 });
 

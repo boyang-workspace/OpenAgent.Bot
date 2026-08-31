@@ -1,4 +1,3 @@
-/models /database?kind=model 301
 /bots /robotics 301
 /tools /database?kind=tool 301
 /skills /database?kind=tool 301
@@ -20,7 +19,8 @@
 /evaluations /methodology 301
 /recommendations /database 301
 /recommendations/* /database 301
-/admin/* / 301
+/search /database 301
+/search/ /database 301
 /agents/:slug /project/:slug 301
 /agent/:slug /project/:slug 301
 /models/:slug /project/:slug 301
@@ -34,5 +34,3 @@
 /skills/:slug /project/:slug 301
 /plugins/:slug /project/:slug 301
 /memory-systems/:slug /project/:slug 301
-/prototypes / 301
-/prototypes/* / 301

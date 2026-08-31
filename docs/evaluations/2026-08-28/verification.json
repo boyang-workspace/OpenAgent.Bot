@@ -1,0 +1,60 @@
+{
+  "date": "2026-08-28",
+  "baselineSha256": "d63e990cd73837eb601e55f927a5d9759e7d08474612dbe4025f6af2a4b6c97e",
+  "commands": [
+    {
+      "command": "npm test",
+      "result": "passed",
+      "testFiles": 15,
+      "tests": 114
+    },
+    {
+      "command": "npm run knowledge:check",
+      "result": "passed",
+      "testFiles": 3,
+      "tests": 55
+    },
+    {
+      "command": "npm run check",
+      "result": "passed",
+      "files": 94,
+      "errors": 0,
+      "warnings": 0,
+      "hints": 0
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "notebook": {
+    "file": "analysis.ipynb",
+    "codeCellsExecuted": 3,
+    "method": "Python stdlib, shared namespace in cell order; recorded outputs. Jupyter kernel/UI not validated (nbformat/nbclient unavailable)."
+  },
+  "report": {
+    "file": "report.html",
+    "stages": {
+      "validation": "passed",
+      "package": "passed",
+      "verification": "passed"
+    },
+    "counts": {
+      "blocks": 12,
+      "charts": 1,
+      "html": 0,
+      "metrics": 0,
+      "tables": 1
+    },
+    "viewports": [
+      1440,
+      390
+    ],
+    "sourceDialog": "passed"
+  },
+  "boundary": "Local isolated SQLite/HTTP-handler tests and read-only public legacy API/official-source probes. No production deployment, no production data writes, no runtime invocation, no load test, no independent-agent A/B."
+}

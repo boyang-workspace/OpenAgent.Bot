@@ -1,63 +1,36 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import EntityTable from "@/components/EntityTable.astro";
-import { evaluateRankingGate } from "@/lib/registry/rankings";
-import { getRegistry } from "@/lib/registry/runtime";
-import type { RegistryEntity, RegistryStats } from "@/lib/registry/types";
-
-let stats: RegistryStats = { entities: 0, agents: 0, robots: 0, infrastructure: 0, robotPlatforms: 0, robotIntelligence: 0, roboticsStack: 0, models: 0, tools: 0, sources: 0, liveSources: 0, observations: 0, metricEntities: 0, changes30d: 0 };
-let snapshot: RegistryEntity[] = [];
-try {
-  const registry = getRegistry();
-  [stats, snapshot] = await Promise.all([registry.getStats(), registry.listEntities({ sort: "stars", limit: 12 }).then((result) => result.items)]);
-} catch {}
-const historyDays = stats.historyStartedAt ? Math.max(0, Math.floor((Date.now() - new Date(stats.historyStartedAt).getTime()) / 86_400_000)) : 0;
-const coverage = stats.entities ? stats.metricEntities / stats.entities : 0;
-const gate = evaluateRankingGate({ historyDays, coverage, entityCount: stats.entities });
+import { primaryCatalogPages } from "@/lib/registry/catalog-config";
 ---
-
-<BaseLayout title="Open Agent & Robot Rankings" description="Transparent momentum rankings for open agents and robotics projects, with visible publication gates and explainable inputs." path="/rankings">
-  <div class="page-shell"><div class="page-grid rankings-page">
-    <section class="ranking-head"><div><span class="kicker">Open Momentum / collecting</span><h1>Rankings are not live yet.</h1><p>Open Momentum needs a complete historical window before movement can be compared fairly. Until then, this page exposes collection progress and the current adoption snapshot without assigning ranks.</p></div><div class="gate-state"><strong>{historyDays}<small>/30 days</small></strong><span>{gate.eligible ? "Ready to publish" : "History collecting"}</span></div></section>
-    <section class="gate-grid">
-      <article><span>History progress</span><strong>{historyDays}/30</strong><div><i style={`width:${Math.min(100, historyDays / 30 * 100)}%`}></i></div><p>Daily comparable snapshots required.</p></article>
-      <article><span>Metric coverage</span><strong>{stats.metricEntities}/{stats.entities}</strong><div><i style={`width:${Math.min(100, coverage * 100)}%`}></i></div><p>Projects with recorded metric history.</p></article>
-      <article><span>Evidence records</span><strong>{stats.observations}</strong><div><i style={`width:${stats.observations ? 100 : 0}%`}></i></div><p>Attributed observations available to scoring.</p></article>
-    </section>
-    <section class="cohort-grid"><a href="/agents"><span>Agents</span><strong>{stats.agents}</strong><small>Software systems →</small></a><a href="/database?domain=robotics&layer=intelligence"><span>Robot intelligence</span><strong>{stats.robotIntelligence}</strong><small>Models and policies →</small></a><a href="/database?domain=robotics&layer=platform"><span>Robot platforms</span><strong>{stats.robotPlatforms}</strong><small>Physical systems →</small></a></section>
-    <section class="snapshot-section"><header><div><span class="eyebrow">Current adoption snapshot</span><h2>Most followed projects</h2></div><p>Ordered by current repository stars for data inspection only. No rank number or momentum score is implied.</p></header><EntityTable entities={snapshot} /><a class="method-link" href="/methodology#rankings">How Open Momentum will work →</a></section>
-  </div></div>
+<BaseLayout title="Open AI & Robotics Rankings" description="Category-specific activity, adoption, release and evaluation rankings for open models, agents and robotics." path="/rankings">
+  <div class="ranking-hub">
+    <section class="ranking-head"><div><span class="kicker">Ranking index</span><h1>Category rankings</h1><p>Each view declares its category, metric family, time window and methodology version.</p></div><dl><div><dt>Databases</dt><dd>4</dd></div><div><dt>Families</dt><dd>4</dd></div><div><dt>Method</dt><dd>v0.1</dd></div></dl></section>
+    <div class="ranking-categories">{primaryCatalogPages.map((page, index) => <a href={page.href}><span>0{index + 1}</span><h2>{page.label}</h2><p>{page.description}</p><b>Open rankings ↗</b></a>)}</div>
+    <aside><strong>Publication threshold</strong><p>Momentum appears after 30 history days, 80% required-metric coverage and at least 10 eligible records.</p><a href="/methodology#rankings">Methodology →</a></aside>
+  </div>
 </BaseLayout>
-
 <style>
-  .ranking-head { align-items: end; border-bottom: 1px solid var(--ink); display: grid; gap: 46px; grid-template-columns: 1fr 230px; padding: 38px 44px 34px; }
-  .ranking-head h1 { font-size: clamp(2.8rem, 5.4vw, 5.8rem); letter-spacing: -.06em; line-height: .92; margin: 18px 0; }
-  .ranking-head p { color: var(--muted); line-height: 1.55; margin: 0; max-width: 760px; }
-  .gate-state { border-left: 4px solid var(--orange); display: grid; gap: 9px; padding-left: 20px; }
-  .gate-state strong { font-size: 2rem; }
-  .gate-state small { color: var(--muted); font-family: var(--mono); font-size: .6rem; }
-  .gate-state span { font-family: var(--mono); font-size: .61rem; text-transform: uppercase; }
-  .gate-grid, .cohort-grid { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: repeat(3, 1fr); }
-  .gate-grid article, .cohort-grid a { border-right: 1px solid var(--line); min-height: 150px; padding: 22px; }
-  .gate-grid article:last-child, .cohort-grid a:last-child { border: 0; }
-  .gate-grid span, .cohort-grid span, .cohort-grid small { color: var(--muted); font-family: var(--mono); font-size: .59rem; text-transform: uppercase; }
-  .gate-grid strong, .cohort-grid strong { display: block; font-size: 1.7rem; margin: 22px 0 14px; }
-  .gate-grid div { background: var(--line); height: 6px; }
-  .gate-grid i { background: var(--acid); display: block; height: 100%; }
-  .gate-grid p { color: var(--muted); font-size: .7rem; }
-  .cohort-grid a:hover { background: var(--acid); }
-  .cohort-grid strong { font-size: 2.2rem; }
-  .cohort-grid small { display: block; }
-  .snapshot-section { padding: 36px 42px 44px; }
-  .snapshot-section header { align-items: end; display: grid; gap: 40px; grid-template-columns: 1fr 390px; margin-bottom: 24px; }
-  .snapshot-section h2 { font-size: 2.2rem; letter-spacing: -.04em; margin: 8px 0 0; }
-  .snapshot-section header p { color: var(--muted); font-size: .74rem; line-height: 1.5; margin: 0; }
-  .method-link { display: inline-block; font-family: var(--mono); font-size: .61rem; margin-top: 24px; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
-  @media (max-width: 760px) {
-    .ranking-head, .snapshot-section header { align-items: start; gap: 22px; grid-template-columns: 1fr; }
-    .ranking-head { padding: 30px 20px; }
-    .gate-grid, .cohort-grid { grid-template-columns: 1fr; }
-    .gate-grid article, .cohort-grid a { border-bottom: 1px solid var(--line); border-right: 0; min-height: 130px; }
-    .snapshot-section { padding: 30px 14px; }
-  }
+  .ranking-hub { background: var(--paper); margin: 0 auto; max-width: var(--max); }
+  .ranking-head { align-items: stretch; border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0,1fr) minmax(480px,.7fr); min-height: 150px; }
+  .ranking-head > div { align-self: center; padding: 24px 28px; }
+  .ranking-hub h1 { font-size: var(--data-title); letter-spacing: -.045em; line-height: 1; margin: 11px 0 9px; }
+  .ranking-head > div p { color: var(--muted); font-size: .88rem; line-height: 1.5; margin: 0; max-width: 700px; }
+  .ranking-head dl { border-left: 1px solid var(--ink); display: grid; grid-template-columns: repeat(3,1fr); margin: 0; }
+  .ranking-head dl div { border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; }
+  .ranking-head dl div:last-child { border: 0; }
+  .ranking-head dt { color: var(--muted); font-size: .75rem; text-transform: uppercase; }
+  .ranking-head dd { font-size: 1.2rem; font-weight: 650; margin: 0; }
+  .ranking-categories { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: repeat(4,1fr); }
+  .ranking-categories a { border-right: 1px solid var(--line); min-height: 178px; padding: 20px; }
+  .ranking-categories a:last-child { border: 0; }
+  .ranking-categories a:hover { background: var(--ink); color: var(--paper); }
+  .ranking-categories span, .ranking-categories b { color: var(--muted); font-size: .75rem; text-transform: uppercase; }
+  .ranking-categories h2 { font-size: 1.25rem; letter-spacing: -.025em; margin: 26px 0 10px; }
+  .ranking-categories p { color: var(--muted); font-size: .8rem; line-height: 1.5; min-height: 48px; }
+  .ranking-categories b { display: block; margin-top: 18px; }
+  .ranking-hub aside { align-items: center; background: #e5e5e5; display: grid; gap: 32px; grid-template-columns: 180px 1fr auto; padding: 20px 28px; }
+  .ranking-hub aside p { color: var(--muted); font-size: .78rem; line-height: 1.55; margin: 0; }
+  .ranking-hub aside a { font-size: .75rem; font-weight: 700; text-decoration: underline; text-transform: uppercase; }
+  @media (max-width: 900px) { .ranking-head { grid-template-columns: 1fr; } .ranking-head dl { border-left: 0; border-top: 1px solid var(--ink); min-height: 88px; } .ranking-categories { grid-template-columns: 1fr 1fr; } .ranking-hub aside { grid-template-columns: 1fr; gap: 10px; } }
+  @media (max-width: 600px) { .ranking-head > div { padding: 24px 18px; } .ranking-head dl div { padding: 13px 12px; } .ranking-categories { grid-template-columns: 1fr; } .ranking-categories a { border-bottom: 1px solid var(--line); border-right: 0; min-height: 150px; padding: 18px; } .ranking-hub aside { padding: 20px 18px; } }
 </style>

@@ -18,4 +18,7 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm test
+      - run: npm run seo:audit:source
+      - run: npm run knowledge:check
+      - run: node --check mcp/server.mjs
       - run: npm run build

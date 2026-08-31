@@ -1,0 +1,438 @@
+{
+  "schemaVersion": 1,
+  "evaluationTime": "2026-08-28T05:44:00.000Z",
+  "method": "Source-grounded tasks frozen before enrichment; deterministic HTTP contracts, not blind agent trials.",
+  "cohort": [
+    "openhands",
+    "langgraph",
+    "lerobot",
+    "playwright-mcp"
+  ],
+  "tasks": [
+    {
+      "id": "D1",
+      "group": "lookup",
+      "question": "Find OpenHands local launcher with write capability",
+      "endpoint": "search",
+      "params": "project=openhands&interface=cli&access=read-write",
+      "expected": [
+        "openhands/canvas-cli"
+      ],
+      "unknown": 0
+    },
+    {
+      "id": "D2",
+      "group": "lookup",
+      "question": "Find LangGraph Python SDK",
+      "endpoint": "search",
+      "params": "project=langgraph&interface=sdk",
+      "expected": [
+        "langgraph/python-sdk"
+      ],
+      "unknown": 0
+    },
+    {
+      "id": "D3",
+      "group": "lookup",
+      "question": "Find LeRobot write-capable CLIs",
+      "endpoint": "search",
+      "params": "project=lerobot&interface=cli&access=read-write",
+      "expected": [
+        "lerobot/teleoperate-cli",
+        "lerobot/train-cli"
+      ],
+      "unknown": 0
+    },
+    {
+      "id": "D4",
+      "group": "lookup",
+      "question": "Find Playwright MCP transports with write capability",
+      "endpoint": "search",
+      "params": "project=playwright-mcp&interface=mcp&access=read-write",
+      "expected": [
+        "playwright-mcp/http",
+        "playwright-mcp/stdio"
+      ],
+      "unknown": 0
+    },
+    {
+      "id": "D5",
+      "group": "lookup",
+      "question": "Restrict write-capable CLI discovery to robotics",
+      "endpoint": "search",
+      "params": "domain=robotics&interface=cli&access=read-write",
+      "expected": [
+        "lerobot/teleoperate-cli",
+        "lerobot/train-cli"
+      ],
+      "unknown": 0
+    },
+    {
+      "id": "D6",
+      "group": "lookup",
+      "question": "Restrict SDK discovery to agents, retaining existing vgpu coverage",
+      "endpoint": "search",
+      "params": "domain=agent&interface=sdk",
+      "expected": [
+        "langgraph/python-sdk",
+        "vgpu/typescript"
+      ],
+      "unknown": 0
+    },
+    {
+      "id": "D7",
+      "group": "lookup",
+      "question": "Find Playwright in shared infrastructure",
+      "endpoint": "search",
+      "params": "domain=shared&project=playwright-mcp&interface=mcp",
+      "expected": [
+        "playwright-mcp/http",
+        "playwright-mcp/stdio"
+      ],
+      "unknown": 0
+    },
+    {
+      "id": "S1",
+      "group": "lookup",
+      "question": "Do not classify the browser MCP server as read-only",
+      "endpoint": "search",
+      "params": "project=playwright-mcp&interface=mcp&access=read-only",
+      "expected": [],
+      "unknown": 0
+    },
+    {
+      "id": "S2",
+      "group": "lookup",
+      "question": "Unknown graph side effects must not qualify as read-only",
+      "endpoint": "search",
+      "params": "project=langgraph&interface=sdk&access=read-only",
+      "expected": [],
+      "unknown": 1
+    },
+    {
+      "id": "S3",
+      "group": "lookup",
+      "question": "Unknown credentials must not qualify as no-auth",
+      "endpoint": "search",
+      "params": "project=lerobot&interface=cli&access=read-write&authentication=none",
+      "expected": [],
+      "unknown": 2
+    },
+    {
+      "id": "S4",
+      "group": "lookup",
+      "question": "Documentation is not a scoped runtime test",
+      "endpoint": "search",
+      "params": "project=langgraph&interface=sdk&verification=tested",
+      "expected": [],
+      "unknown": 1
+    },
+    {
+      "id": "S5",
+      "group": "lookup",
+      "question": "Observed recently is not a freshness guarantee",
+      "endpoint": "search",
+      "params": "project=playwright-mcp&interface=mcp&require_fresh=true",
+      "expected": [],
+      "unknown": 2
+    },
+    {
+      "id": "S6",
+      "group": "lookup",
+      "question": "Reviewed package revision is not interface compatibility",
+      "endpoint": "search",
+      "params": "project=langgraph&interface=sdk&version_id=1.2.11",
+      "expected": [],
+      "unknown": 1
+    },
+    {
+      "id": "S7",
+      "group": "lookup",
+      "question": "An absent project does not prove upstream absence",
+      "endpoint": "search",
+      "params": "project=not-in-registry&interface=mcp",
+      "expected": [],
+      "unknown": 0
+    },
+    {
+      "id": "F1",
+      "group": "evidence",
+      "question": "openhands: software.component_scope → sdkRepository",
+      "endpoint": "project",
+      "params": "slug=openhands&section=facts&fact_key=software.component_scope",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.sdkRepository",
+          "value": "https://github.com/OpenHands/software-agent-sdk"
+        }
+      ]
+    },
+    {
+      "id": "F2",
+      "group": "evidence",
+      "question": "openhands: policy.public_mode_auth → header",
+      "endpoint": "project",
+      "params": "slug=openhands&section=facts&fact_key=policy.public_mode_auth",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.header",
+          "value": "X-Session-API-Key"
+        }
+      ]
+    },
+    {
+      "id": "F3",
+      "group": "evidence",
+      "question": "langgraph: software.runtime_requirements → python",
+      "endpoint": "project",
+      "params": "slug=langgraph&section=facts&fact_key=software.runtime_requirements",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.python",
+          "value": ">=3.10"
+        }
+      ]
+    },
+    {
+      "id": "F4",
+      "group": "evidence",
+      "question": "langgraph: software.persistence → inMemorySurvivesRestart",
+      "endpoint": "project",
+      "params": "slug=langgraph&section=facts&fact_key=software.persistence",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.inMemorySurvivesRestart",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "F5",
+      "group": "evidence",
+      "question": "lerobot: software.runtime_requirements → python",
+      "endpoint": "project",
+      "params": "slug=lerobot&section=facts&fact_key=software.runtime_requirements",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.python",
+          "value": ">=3.12"
+        }
+      ]
+    },
+    {
+      "id": "F6",
+      "group": "evidence",
+      "question": "lerobot: policy.physical_execution → canActuateHardware",
+      "endpoint": "project",
+      "params": "slug=lerobot&section=facts&fact_key=policy.physical_execution",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.canActuateHardware",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "F7",
+      "group": "evidence",
+      "question": "playwright-mcp: policy.isolation → readOnlyGuarantee",
+      "endpoint": "project",
+      "params": "slug=playwright-mcp&section=facts&fact_key=policy.isolation",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.readOnlyGuarantee",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "F8",
+      "group": "evidence",
+      "question": "playwright-mcp: policy.security_boundary → securityBoundary",
+      "endpoint": "project",
+      "params": "slug=playwright-mcp&section=facts&fact_key=policy.security_boundary",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.securityBoundary",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "F9",
+      "group": "evidence",
+      "question": "lerobot: scope.artifact_licenses → datasetLicense",
+      "endpoint": "project",
+      "params": "slug=lerobot&section=facts&fact_key=scope.artifact_licenses",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.datasetLicense",
+          "value": null
+        }
+      ]
+    },
+    {
+      "id": "X1",
+      "group": "field-discovery",
+      "question": "openhands: software.runtime_requirements → node",
+      "endpoint": "project",
+      "params": "slug=openhands&section=facts&fact_key=software.runtime_requirements",
+      "discover": "software.runtime_requirements",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.node",
+          "value": ">=22.12"
+        }
+      ]
+    },
+    {
+      "id": "X2",
+      "group": "field-discovery",
+      "question": "langgraph: software.runtime_requirements → python",
+      "endpoint": "project",
+      "params": "slug=langgraph&section=facts&fact_key=software.runtime_requirements",
+      "discover": "software.runtime_requirements",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.python",
+          "value": ">=3.10"
+        }
+      ]
+    },
+    {
+      "id": "X3",
+      "group": "field-discovery",
+      "question": "lerobot: policy.physical_execution → canActuateHardware",
+      "endpoint": "project",
+      "params": "slug=lerobot&section=facts&fact_key=policy.physical_execution",
+      "discover": "policy.physical_execution",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.canActuateHardware",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "X4",
+      "group": "field-discovery",
+      "question": "playwright-mcp: policy.isolation → readOnlyGuarantee",
+      "endpoint": "project",
+      "params": "slug=playwright-mcp&section=facts&fact_key=policy.isolation",
+      "discover": "policy.isolation",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.readOnlyGuarantee",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "R1",
+      "group": "resource",
+      "question": "Retrieve pinned LangGraph package manifest, not a runtime compatibility promise",
+      "endpoint": "project",
+      "params": "slug=langgraph&section=resources&id=package-manifest",
+      "assertions": [
+        {
+          "path": "versions.0.sourceRevision",
+          "value": "d5f4b2aa960940effc8430165ab3604038e817af"
+        },
+        {
+          "path": "versions.0.digests.0.algorithm",
+          "value": "git-blob-sha1"
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "group": "resource",
+      "question": "Retrieve pinned Playwright package manifest and retain unknown resource terms",
+      "endpoint": "project",
+      "params": "slug=playwright-mcp&section=resources&id=package-manifest",
+      "assertions": [
+        {
+          "path": "versions.0.sourceRevision",
+          "value": "d0c29a5658b93b6e62435ceaf362a7d7dfc3522d"
+        },
+        {
+          "path": "items.0.license.status",
+          "value": "unknown"
+        }
+      ]
+    },
+    {
+      "id": "H1",
+      "group": "history-boundary",
+      "question": "Do not claim point-in-time reconstruction or backfilled upstream history",
+      "endpoint": "history",
+      "params": "slug=lerobot",
+      "assertions": [
+        {
+          "path": "pointInTime",
+          "value": "unavailable"
+        },
+        {
+          "path": "coverage",
+          "value": "partial"
+        },
+        {
+          "path": "timeBasis",
+          "value": "registry-detected-at"
+        }
+      ]
+    }
+  ]
+}

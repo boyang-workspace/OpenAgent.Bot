@@ -1,0 +1,78 @@
+---
+import { env } from "cloudflare:workers";
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import { authorizeAnalyticsRequest } from "@/lib/analytics/auth";
+
+if (!await authorizeAnalyticsRequest(Astro.request, env.ANALYTICS_ADMIN_SECRET)) return Astro.redirect(`/admin/analytics/login?next=${encodeURIComponent(Astro.url.pathname)}`, 302);
+type Row = Record<string, string | number | null>;
+let summary: Row = {}, issues: Row[] = [], error: string | undefined;
+try {
+  summary = await env.DB.prepare(`SELECT
+    (SELECT COUNT(*) FROM entities WHERE visibility='public') AS entities,
+    (SELECT COUNT(*) FROM entities e WHERE e.visibility='public' AND e.openness_status='open-source' AND NOT EXISTS (SELECT 1 FROM openness_facets f WHERE f.entity_id=e.id AND f.facet='code' AND f.status='open')) AS openness_conflicts,
+    (SELECT COUNT(*) FROM entities e WHERE e.visibility='public' AND NOT EXISTS (SELECT 1 FROM source_subscriptions s WHERE s.entity_id=e.id AND s.enabled=1 AND s.source_role='primary')) AS missing_primary_source,
+    (SELECT COUNT(*) FROM entities e WHERE e.visibility='public' AND julianday('now')-julianday(e.last_verified_at)>90) AS stale_entities,
+    (SELECT COUNT(*) FROM source_binding_events WHERE changed_at >= datetime('now','-30 days')) AS binding_changes_30d,
+    (SELECT COUNT(*) FROM entities e WHERE EXISTS (SELECT 1 FROM entity_license_scopes l WHERE l.entity_id=e.id AND l.status='open') AND EXISTS (SELECT 1 FROM entity_license_scopes l WHERE l.entity_id=e.id AND l.status='restricted') AND e.openness_status!='open-core') AS mixed_license_conflicts,
+    (SELECT COUNT(*) FROM entities e WHERE e.visibility='public' AND NOT EXISTS (SELECT 1 FROM observations o WHERE o.entity_id=e.id)) AS missing_evidence,
+    (SELECT COUNT(*) FROM source_subscriptions WHERE enabled=1 AND (error_count>0 OR last_error IS NOT NULL)) AS broken_sources,
+    (SELECT COUNT(*) FROM sync_runs WHERE status IN ('failed','partial') AND started_at>=datetime('now','-7 days')) AS failed_runs_7d,
+    (WITH ranked AS (
+      SELECT entity_id,metric_key,metric_value,ROW_NUMBER() OVER (PARTITION BY entity_id,metric_key ORDER BY observed_at DESC) AS rn
+      FROM metric_snapshots
+    ), pairs AS (
+      SELECT latest.metric_value,previous.metric_value AS previous_value
+      FROM ranked latest JOIN ranked previous ON previous.entity_id=latest.entity_id AND previous.metric_key=latest.metric_key AND previous.rn=2
+      WHERE latest.rn=1
+    ) SELECT COUNT(*) FROM pairs WHERE previous_value>=100 AND (metric_value=0 OR metric_value>previous_value*3 OR metric_value<previous_value*0.5)) AS metric_anomalies
+  `).first<Row>() ?? {};
+  const [entityIssues, sourceIssues, metricIssues] = await Promise.all([
+    env.DB.prepare(`SELECT e.slug,e.name,e.openness_status,
+      CASE
+        WHEN e.openness_status='open-source' AND NOT EXISTS (SELECT 1 FROM openness_facets f WHERE f.entity_id=e.id AND f.facet='code' AND f.status='open') THEN 'Openness contradiction'
+        WHEN EXISTS (SELECT 1 FROM entity_license_scopes l WHERE l.entity_id=e.id AND l.status='open') AND EXISTS (SELECT 1 FROM entity_license_scopes l WHERE l.entity_id=e.id AND l.status='restricted') AND e.openness_status!='open-core' THEN 'Mixed-license mismatch'
+        WHEN NOT EXISTS (SELECT 1 FROM source_subscriptions s WHERE s.entity_id=e.id AND s.enabled=1 AND s.source_role='primary') THEN 'Missing primary source'
+        WHEN NOT EXISTS (SELECT 1 FROM observations o WHERE o.entity_id=e.id) THEN 'Missing evidence'
+        ELSE 'Stale evidence'
+      END AS issue,
+      CASE WHEN julianday('now')-julianday(e.last_verified_at)>90 THEN 'warning' ELSE 'error' END AS severity,
+      CASE
+        WHEN e.openness_status='open-source' AND NOT EXISTS (SELECT 1 FROM openness_facets f WHERE f.entity_id=e.id AND f.facet='code' AND f.status='open') THEN 'Claim is unsupported by the code facet.'
+        WHEN EXISTS (SELECT 1 FROM entity_license_scopes l WHERE l.entity_id=e.id AND l.status='open') AND EXISTS (SELECT 1 FROM entity_license_scopes l WHERE l.entity_id=e.id AND l.status='restricted') AND e.openness_status!='open-core' THEN 'Open and restricted scopes require open-core.'
+        WHEN NOT EXISTS (SELECT 1 FROM source_subscriptions s WHERE s.entity_id=e.id AND s.enabled=1 AND s.source_role='primary') THEN 'No enabled primary source binding.'
+        WHEN NOT EXISTS (SELECT 1 FROM observations o WHERE o.entity_id=e.id) THEN 'No attributed observation is stored.'
+        ELSE 'The entity has not been verified for more than 90 days.'
+      END AS detail,e.last_verified_at AS observed_at
+    FROM entities e WHERE e.visibility='public' AND (
+      (e.openness_status='open-source' AND NOT EXISTS (SELECT 1 FROM openness_facets f WHERE f.entity_id=e.id AND f.facet='code' AND f.status='open')) OR
+      (EXISTS (SELECT 1 FROM entity_license_scopes l WHERE l.entity_id=e.id AND l.status='open') AND EXISTS (SELECT 1 FROM entity_license_scopes l WHERE l.entity_id=e.id AND l.status='restricted') AND e.openness_status!='open-core') OR
+      NOT EXISTS (SELECT 1 FROM source_subscriptions s WHERE s.entity_id=e.id AND s.enabled=1 AND s.source_role='primary') OR
+      NOT EXISTS (SELECT 1 FROM observations o WHERE o.entity_id=e.id) OR
+      julianday('now')-julianday(e.last_verified_at)>90
+    ) ORDER BY e.last_verified_at LIMIT 140`).all<Row>(),
+    env.DB.prepare(`SELECT e.slug,e.name,e.openness_status,'Broken source' AS issue,'error' AS severity,s.source_id || ' · ' || s.locator || COALESCE(' · ' || s.last_error,'') AS detail,COALESCE(s.last_synced_at,s.updated_at) AS observed_at
+      FROM source_subscriptions s LEFT JOIN entities e ON e.id=s.entity_id WHERE s.enabled=1 AND (s.error_count>0 OR s.last_error IS NOT NULL)
+      UNION ALL
+      SELECT NULL,s.name,NULL,'Recent sync failure','warning',r.status || COALESCE(' · ' || r.error_summary,''),COALESCE(r.finished_at,r.started_at)
+      FROM sync_runs r JOIN sources s ON s.id=r.source_id WHERE r.status IN ('failed','partial') AND r.started_at>=datetime('now','-7 days') LIMIT 20`).all<Row>(),
+    env.DB.prepare(`WITH ranked AS (
+      SELECT entity_id,metric_key,metric_value,observed_at,ROW_NUMBER() OVER (PARTITION BY entity_id,metric_key ORDER BY observed_at DESC) AS rn FROM metric_snapshots
+    ) SELECT e.slug,e.name,e.openness_status,'Metric anomaly' AS issue,'warning' AS severity,latest.metric_key || ': ' || printf('%.0f',previous.metric_value) || ' → ' || printf('%.0f',latest.metric_value) AS detail,latest.observed_at
+    FROM ranked latest JOIN ranked previous ON previous.entity_id=latest.entity_id AND previous.metric_key=latest.metric_key AND previous.rn=2 JOIN entities e ON e.id=latest.entity_id
+    WHERE latest.rn=1 AND previous.metric_value>=100 AND (latest.metric_value=0 OR latest.metric_value>previous.metric_value*3 OR latest.metric_value<previous.metric_value*0.5) LIMIT 20`).all<Row>()
+  ]);
+  issues = [...(entityIssues.results ?? []), ...(sourceIssues.results ?? []), ...(metricIssues.results ?? [])].sort((left, right) => String(left.severity).localeCompare(String(right.severity)) || String(left.observed_at).localeCompare(String(right.observed_at))).slice(0, 150);
+} catch (cause) { error = cause instanceof Error ? cause.message : "Data health query failed."; }
+const cards = [["Entities",summary.entities],["Openness conflicts",summary.openness_conflicts],["Mixed license",summary.mixed_license_conflicts],["Missing primary",summary.missing_primary_source],["Missing evidence",summary.missing_evidence],["Stale >90d",summary.stale_entities],["Broken sources",summary.broken_sources],["Failed syncs 7d",summary.failed_runs_7d],["Metric anomalies",summary.metric_anomalies],["Binding changes 30d",summary.binding_changes_30d]];
+---
+<AdminLayout title="Registry data health">
+  <main class="health-shell">
+    <header><div><a href="/admin/analytics/health">← Analytics health</a><span>Registry integrity</span><h1>Data health</h1></div><a href="/admin/analytics/logout">Sign out</a></header>
+    {error && <div class="error">{error}</div>}
+    <section class="cards">{cards.map(([label,value]) => <div><span>{label}</span><strong>{Number(value ?? 0).toLocaleString()}</strong></div>)}</section>
+    <section class="issues"><div class="table-head"><span>Entity / source</span><span>Issue</span><span>Detail</span><span>Observed</span></div>{issues.map((row) => <div data-severity={row.severity}>{row.slug ? <a href={`/project/${row.slug}`}>{row.name}</a> : <span>{row.name}</span>}<strong>{row.issue}</strong><span>{row.detail}</span><time>{row.observed_at ?? "Never"}</time></div>)}</section>
+  </main>
+</AdminLayout>
+<style>
+  .health-shell{margin:0 auto;max-width:1400px;padding:0 24px 50px}.health-shell>header{align-items:center;border-bottom:1px solid var(--ink);display:flex;justify-content:space-between;min-height:110px}.health-shell header div>a,.health-shell header>a,.health-shell header span{font-family:var(--mono);font-size:.7rem;text-transform:uppercase}.health-shell header span{color:var(--muted);display:block;margin-top:14px}.health-shell h1{font-size:1.8rem;margin:6px 0 0}.cards{border:1px solid var(--ink);display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin-top:20px}.cards div{border-bottom:1px solid var(--line);border-right:1px solid var(--line);min-height:90px;padding:14px}.cards span{color:var(--muted);font-family:var(--mono);font-size:.68rem;text-transform:uppercase}.cards strong{display:block;font-size:1.5rem;margin-top:22px}.issues{border:1px solid var(--ink);margin-top:20px}.issues>div{align-items:center;border-bottom:1px solid var(--line);display:grid;gap:14px;grid-template-columns:minmax(150px,1.2fr) 170px 2fr 170px;min-height:42px;padding:8px 14px}.issues>div[data-severity="error"]{box-shadow:inset 3px 0 0 var(--orange)}.issues a,.issues strong,.issues span,.issues time{font-family:var(--mono);font-size:.72rem}.issues>div>span{color:var(--muted);line-height:1.4}.table-head{background:#e4e6df;color:var(--muted);text-transform:uppercase}.error{background:#fff2ed;border:1px solid var(--orange);margin-top:20px;padding:12px}@media(max-width:800px){.cards{grid-template-columns:repeat(2,1fr)}.issues{overflow-x:auto}.issues>div{min-width:840px}}
+</style>

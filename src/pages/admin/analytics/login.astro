@@ -1,0 +1,25 @@
+---
+import { env } from "cloudflare:workers";
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import { analyticsCookie, authorizeAnalyticsRequest, createAnalyticsSession, timingSafeEqual } from "@/lib/analytics/auth";
+
+const nextValue = Astro.url.searchParams.get("next") ?? "/admin/analytics/overview";
+const next = nextValue.startsWith("/admin/") && !nextValue.startsWith("//") ? nextValue : "/admin/analytics/overview";
+if (await authorizeAnalyticsRequest(Astro.request, env.ANALYTICS_ADMIN_SECRET)) return Astro.redirect(next);
+let error: string | undefined;
+if (Astro.request.method === "POST") {
+  const form = await Astro.request.formData();
+  const supplied = String(form.get("secret") ?? "");
+  if (env.ANALYTICS_ADMIN_SECRET && await timingSafeEqual(supplied, env.ANALYTICS_ADMIN_SECRET)) {
+    Astro.cookies.set(analyticsCookie, await createAnalyticsSession(env.ANALYTICS_ADMIN_SECRET), { httpOnly: true, secure: Astro.url.protocol === "https:", sameSite: "strict", path: "/admin", maxAge: 12 * 60 * 60 });
+    return Astro.redirect(next);
+  }
+  error = env.ANALYTICS_ADMIN_SECRET ? "Incorrect admin secret." : "ANALYTICS_ADMIN_SECRET is not configured.";
+}
+---
+<AdminLayout title="Analytics sign in">
+  <main class="login-shell"><form method="post"><a href="/" class="brand">OPENAGENT.BOT</a><span>Private analytics</span><h1>Sign in</h1><p>Enter the server-side analytics admin secret. No third-party identity provider is used.</p>{error && <div role="alert">{error}</div>}<input type="hidden" name="next" value={next} /><label for="secret">Admin secret</label><input id="secret" name="secret" type="password" required autocomplete="current-password" autofocus /><button type="submit">Continue</button></form></main>
+</AdminLayout>
+<style>
+  .login-shell{align-items:center;display:flex;justify-content:center;min-height:100dvh;padding:20px}.login-shell form{background:var(--paper);border:1px solid var(--ink);display:grid;max-width:430px;padding:30px;width:100%}.brand{font-family:var(--mono);font-size:.75rem;font-weight:700}.login-shell span{color:var(--muted);font-family:var(--mono);font-size:.7rem;margin-top:30px;text-transform:uppercase}.login-shell h1{font-size:2rem;margin:8px 0}.login-shell p{color:var(--muted);font-size:.85rem;line-height:1.55;margin:0 0 24px}.login-shell div{background:#fff2ed;border:1px solid var(--orange);font-size:.78rem;margin-bottom:16px;padding:10px}.login-shell label{font-family:var(--mono);font-size:.72rem;margin-bottom:7px;text-transform:uppercase}.login-shell input{border:1px solid var(--ink);font:inherit;height:44px;padding:0 10px}.login-shell button{background:var(--ink);border:0;color:var(--acid);font-family:var(--mono);font-size:.75rem;height:44px;margin-top:10px;text-transform:uppercase}
+</style>

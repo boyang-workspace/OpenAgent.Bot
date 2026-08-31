@@ -42,7 +42,7 @@ const specs = [
   ["Compute", value("compute")], ["Battery", value("battery")], ["Teleoperation", value("teleoperation")], ["Configuration", value("configuration")]
 ].filter((item) => item[1]) as string[][];
 const ecosystem = Array.from(new Set([...list("software_ecosystem", "ecosystem"), ...list("simulation")]));
-const opennessNames = ["hardware", "code", "documentation", "data", "weights", "governance"];
+const opennessNames = ["hardware", "cad", "bom", "firmware", "control_stack", "code", "documentation", "data", "weights", "commercial_use", "governance"];
 const priceFact = dossier.facts.find((fact) => fact.key === "availability.offer");
 const offer = priceFact?.value as { price?: number; currency?: string; note?: string } | undefined;
 const offerPrice = typeof offer?.price === "number" && Number.isFinite(offer.price) && /^[A-Z]{3}$/.test(offer.currency ?? "")
@@ -71,97 +71,112 @@ const offerPrice = typeof offer?.price === "number" && Number.isFinite(offer.pri
 
   <section class="robot-glance" aria-label="Robot at a glance">{glance.map((item) => <div><span>{item.label}</span><strong>{String(item.value)}</strong></div>)}</section>
 
+  <nav class="dossier-nav" aria-label={`${entity.name} dossier sections`}>
+    <a href="#specifications">Specifications</a>
+    <a href="#openness">Openness</a>
+    <a href="#repository-activity">Activity</a>
+    <a href="#record-status">Status</a>
+    <a href="#releases">Releases</a>
+    <a href="#evaluations">Evaluations</a>
+    <a href="#robot-evidence">Evidence</a>
+  </nav>
+
   <ProjectResources dossier={dossier} />
 
-  <section class="spec-section section-block">
-    <header><span class="eyebrow">Physical system</span><h2>Known system specifications</h2><p>Only specifications backed by current registry data are shown.</p></header>
+  <section id="specifications" class="spec-section section-block">
+    <header><span class="eyebrow">Physical system</span><h2>Specifications</h2><p>Source-backed specifications currently recorded for this system.</p></header>
     {specs.length ? <dl class="spec-grid">{specs.map(([name, item]) => <div><dt>{name}</dt><dd>{item}</dd></div>)}</dl> : <p class="empty-copy">Verified physical specifications are still being collected.</p>}
     {value("specification_note") && <p class="empty-copy">{value("specification_note")}</p>}
     <a class="data-link" href={`/project/${entity.slug}.json`}>View full registry data →</a>
   </section>
 
-  <section class="robot-openness section-block">
-    <header><span class="eyebrow">Openness</span><h2>Hardware and software are separate</h2></header>
+  <section id="openness" class="robot-openness section-block">
+    <header><span class="eyebrow">Hardware and software</span><h2>Openness</h2></header>
     <div class="openness-grid">
       {opennessNames.map((name) => {
         const facet = dossier.opennessFacets.find((item) => item.facet === name);
         const derived = name === "hardware" ? value("hardware_openness") : name === "code" ? value("software_openness") : undefined;
         return <div><span>{name === "code" ? "Software" : label(name)}</span><strong class:list={[facet?.status ?? "unknown"]}>{derived ?? (facet ? label(facet.status) : "Unknown")}</strong><small>{facet?.licenseOrTerms ?? "No specific terms recorded"}{facet?.sourceUrl && <> · <a href={facet.sourceUrl} rel="noreferrer">Source ↗</a></>}</small></div>;
       })}
+      {(dossier.licenseScopes ?? []).map((license) => <div><span>{license.scope}</span><strong class:list={[license.status === "restricted" ? "partial" : license.status]}>{license.licenseIdentifier}</strong><small>{license.path ?? "System scope"} · <a href={license.sourceUrl} rel="noreferrer">Evidence ↗</a></small></div>)}
     </div>
   </section>
 
-  {ecosystem.length > 0 && <section class="ecosystem section-block">
-    <span class="eyebrow">Software ecosystem</span><h2>Systems it works with</h2>
+  {ecosystem.length > 0 && <section id="ecosystem" class="ecosystem section-block">
+    <span class="eyebrow">Software ecosystem</span><h2>Compatible systems</h2>
     <div class="chip-list">{ecosystem.map((item) => <span>{item}</span>)}</div>
   </section>}
 
-  {value("availability") && <section class="availability section-block"><span class="eyebrow">Availability</span><h2>{value("availability")}</h2>{offerPrice ? <><strong>{offerPrice} {offer?.currency}</strong><p>{offer?.note}</p><p>Reviewed {calendarDate(priceFact?.observedAt)}. {priceFact?.sourceUrl && <a href={priceFact.sourceUrl} rel="noreferrer">Check current official offer ↗</a>}</p></> : <p>Availability is reported from official project material. No price is shown unless canonical evidence is recorded.</p>}</section>}
+  {value("availability") && <section id="availability" class="availability section-block"><span class="eyebrow">Availability</span><h2>{value("availability")}</h2>{offerPrice ? <><strong>{offerPrice} {offer?.currency}</strong><p>{offer?.note}</p><p>Reviewed {calendarDate(priceFact?.observedAt)}. {priceFact?.sourceUrl && <a href={priceFact.sourceUrl} rel="noreferrer">Check current official offer ↗</a>}</p></> : <p>Reported from official project material. Price remains blank without canonical evidence.</p>}</section>}
 
-  {(entity.stars !== undefined || dossier.subscriptions.length > 0) && <section class="repo-activity section-block">
-    <header><span class="eyebrow">Repository activity</span><h2>Supporting software evidence</h2><p>GitHub metrics describe the repository, not the physical system itself.</p></header>
+  {(entity.stars !== undefined || dossier.subscriptions.length > 0) && <section id="repository-activity" class="repo-activity section-block">
+    <header><span class="eyebrow">Software repository</span><h2>Repository activity</h2><p>These metrics describe the repository, not the physical system.</p></header>
     <div class="repo-grid"><div><span>Stars</span><strong>{compactNumber(entity.stars)}</strong></div><div><span>Forks</span><strong>{compactNumber(entity.forks)}</strong></div><div><span>Open issues</span><strong>{compactNumber(entity.openIssues)}</strong></div><div><span>Last commit</span><strong>{relativeDate(entity.lastCommitAt)}</strong><small>{calendarDate(entity.lastCommitAt)}</small></div></div>
   </section>}
 
-  <details class="evidence section-block"><summary><span><span class="eyebrow">Evidence & sources</span><strong>{dossier.record.observationCount} records</strong></span><b>Open evidence ↓</b></summary><div class="evidence-list">{dossier.facts.filter((fact) => !fact.key.startsWith("resources.")).map((fact) => <div><strong>{label(fact.key.replaceAll("_", "-"))}</strong><span>{formatFactValue(fact.value)}</span><span>{fact.sourceUrl && <a href={fact.sourceUrl} rel="noreferrer">{fact.sourceName} ↗</a>}<br /><time datetime={fact.observedAt}>{calendarDate(fact.observedAt)}</time></span></div>)}</div></details>
+  <details id="robot-evidence" class="evidence section-block"><summary><span><span class="eyebrow">Evidence & sources</span><strong>{dossier.record.observationCount} records</strong></span><b>Open evidence ↓</b></summary><div class="evidence-list">{dossier.facts.filter((fact) => !fact.key.startsWith("resources.")).map((fact) => <div><strong>{label(fact.key.replaceAll("_", "-"))}</strong><span>{formatFactValue(fact.value)}</span><span>{fact.sourceUrl && <a href={fact.sourceUrl} rel="noreferrer">{fact.sourceName} ↗</a>}<br /><time datetime={fact.observedAt}>{calendarDate(fact.observedAt)}</time></span></div>)}</div></details>
 
-  <section class="related section-block"><span class="eyebrow">Related platforms</span><h2>Explore comparable systems</h2>{related.length ? <div class="related-grid">{related.map((item) => <a href={`/project/${item.slug}`}><strong>{item.name}</strong><span>{item.robotics?.formFactor ? label(item.robotics.formFactor) : label(item.kind)}</span><small>{relativeDate(item.lastCommitAt ?? item.lastVerifiedAt)}</small></a>)}</div> : <p class="empty-copy">Comparable platform relationships are still being verified.</p>}</section>
+  <section id="related" class="related section-block"><span class="eyebrow">Related platforms</span><h2>Compare with</h2>{related.length ? <div class="related-grid">{related.map((item) => <a href={`/project/${item.slug}`}><strong>{item.name}</strong><span>{item.robotics?.formFactor ? label(item.robotics.formFactor) : label(item.kind)}</span><small>{relativeDate(item.lastCommitAt ?? item.lastVerifiedAt)}</small></a>)}</div> : <p class="empty-copy">Comparable platform relationships are still being verified.</p>}</section>
 </article>
 
 <style>
   .project-sheet { overflow: hidden; }
-  .robot-hero { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(390px, .75fr); min-height: 530px; }
+  .robot-hero { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(420px, .9fr); min-height: 320px; }
   figure { background: #dfe1db; border-right: 1px solid var(--ink); display: grid; grid-template-rows: minmax(0, 1fr) auto; margin: 0; min-width: 0; }
-  figure img { height: 100%; max-height: 620px; object-fit: cover; width: 100%; }
-  figcaption { align-items: center; background: var(--paper-raised); border-top: 1px solid var(--line); color: var(--muted); display: flex; font-family: var(--mono); font-size: .52rem; justify-content: space-between; padding: 10px 14px; text-transform: uppercase; }
+  figure img { height: 100%; max-height: 390px; object-fit: contain; padding: 18px; width: 100%; }
+  figcaption { align-items: center; background: var(--paper-raised); border-top: 1px solid var(--line); color: var(--muted); display: flex; font-family: var(--mono); font-size: .75rem; justify-content: space-between; padding: 9px 13px; text-transform: uppercase; }
   figcaption span { margin-left: 18px; }
   .image-placeholder { align-items: center; background: linear-gradient(135deg, #e1e4dc, #cdd1c7); display: flex; flex-direction: column; justify-content: center; }
-  .image-placeholder span { font-family: var(--mono); font-size: .58rem; text-transform: uppercase; } .image-placeholder strong { font-family: var(--sans); font-size: 3rem; margin-top: 16px; }
-  .robot-identity { display: flex; flex-direction: column; justify-content: center; padding: 42px; }
-  h1 { font-family: var(--sans); font-size: clamp(3.5rem, 5.7vw, 6.2rem); font-weight: 600; letter-spacing: -.07em; line-height: .86; margin: 24px 0; }
-  .robot-identity > p { font-size: 1.05rem; line-height: 1.6; }
-  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 24px; }
-  .tag-row span { border: 1px solid var(--ink); font-family: var(--mono); font-size: .55rem; padding: 6px 8px; text-transform: uppercase; }
-  .hero-actions { display: grid; gap: 7px; grid-template-columns: 1fr 1fr; margin-top: 30px; }
-  .hero-actions a { align-items: center; border: 1px solid var(--ink); display: flex; font-family: var(--mono); font-size: .57rem; justify-content: center; min-height: 42px; text-transform: uppercase; }
+  .image-placeholder span { font-family: var(--mono); font-size: .75rem; text-transform: uppercase; } .image-placeholder strong { font-family: var(--sans); font-size: 3rem; margin-top: 16px; }
+  .robot-identity { display: flex; flex-direction: column; justify-content: center; padding: 28px; }
+  h1 { font-family: var(--sans); font-size: var(--data-title); font-weight: 600; letter-spacing: -.045em; line-height: 1; margin: 12px 0; }
+  .robot-identity > p { font-size: .9rem; line-height: 1.5; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 14px; }
+  .tag-row span { border: 1px solid var(--ink); font-family: var(--mono); font-size: .75rem; padding: 5px 7px; text-transform: uppercase; }
+  .hero-actions { display: grid; gap: 6px; grid-template-columns: 1fr 1fr; margin-top: 18px; }
+  .hero-actions a { align-items: center; border: 1px solid var(--ink); display: flex; font-family: var(--mono); font-size: .75rem; justify-content: center; min-height: 40px; text-transform: uppercase; }
   .hero-actions .primary { background: var(--ink); color: var(--acid); }
   .robot-glance { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: repeat(4, 1fr); }
-  .robot-glance div { border-right: 1px solid var(--line); min-height: 112px; padding: 20px; }
-  .robot-glance span, .repo-grid span { color: var(--muted); display: block; font-family: var(--mono); font-size: .55rem; text-transform: uppercase; }
-  .robot-glance strong { display: block; font-size: 1.03rem; font-weight: 600; line-height: 1.25; margin-top: 24px; }
-  .section-block { border-bottom: 1px solid var(--ink); padding: 46px 42px; }
+  .robot-glance div { border-right: 1px solid var(--line); min-height: 78px; padding: 13px 16px; }
+  .robot-glance span, .repo-grid span { color: var(--muted); display: block; font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
+  .robot-glance strong { display: block; font-size: .95rem; font-weight: 600; line-height: 1.25; margin-top: 12px; }
+  .dossier-nav { background: rgba(247,247,245,.98); border-bottom: 1px solid var(--ink); display: flex; overflow-x: auto; padding-left: 28px; position: sticky; top: var(--header-height); z-index: 18; }
+  .dossier-nav a { border-left: 1px solid var(--line); font-size: .75rem; font-weight: 650; padding: 12px 15px; text-transform: uppercase; white-space: nowrap; }
+  .dossier-nav a:last-child { border-right: 1px solid var(--line); }
+  .dossier-nav a:hover { background: var(--ink); color: var(--paper); }
+  .section-block { border-bottom: 1px solid var(--ink); padding: 28px; scroll-margin-top: calc(var(--header-height) + 48px); }
   .section-block header { max-width: 720px; }
-  h2 { font-family: var(--sans); font-size: clamp(2.2rem, 3.6vw, 3.7rem); font-weight: 600; letter-spacing: -.05em; line-height: .96; margin: 13px 0 18px; }
-  .section-block header p, .availability p { color: var(--muted); line-height: 1.6; }
+  h2 { font-family: var(--sans); font-size: var(--section-title); font-weight: 600; letter-spacing: -.025em; line-height: 1.1; margin: 6px 0 14px; }
+  .section-block header p, .availability p { color: var(--muted); font-size: .86rem; line-height: 1.55; }
   .spec-grid { border-top: 1px solid var(--ink); display: grid; grid-template-columns: 1fr 1fr; margin: 32px 0 0; }
   .spec-grid div { border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 150px 1fr; min-height: 58px; padding: 17px 0; }
   .spec-grid div:nth-child(odd) { border-right: 1px solid var(--line); padding-right: 24px; }
   .spec-grid div:nth-child(even) { padding-left: 24px; }
-  dt { color: var(--muted); font-family: var(--mono); font-size: .57rem; text-transform: uppercase; } dd { font-weight: 600; margin: 0; }
-  .data-link { display: inline-block; font-family: var(--mono); font-size: .58rem; margin-top: 22px; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
+  dt { color: var(--muted); font-family: var(--mono); font-size: .75rem; text-transform: uppercase; } dd { font-weight: 600; margin: 0; }
+  .data-link { display: inline-block; font-family: var(--mono); font-size: .75rem; margin-top: 22px; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
   .robot-openness { background: var(--paper-raised); }
   .openness-grid { border-top: 1px solid var(--ink); display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 30px; }
   .openness-grid div { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); min-height: 132px; padding: 20px; }
-  .openness-grid span, .openness-grid small { color: var(--muted); display: block; font-family: var(--mono); font-size: .56rem; text-transform: uppercase; }
+  .openness-grid span, .openness-grid small { color: var(--muted); display: block; font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
   .openness-grid strong { display: inline-block; font-size: .86rem; margin: 20px 0 12px; }
   .openness-grid strong.open { background: var(--acid); border: 1px solid var(--ink); padding: 5px 7px; }
   .chip-list { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip-list > * { border: 1px solid var(--ink); font-family: var(--mono); font-size: .62rem; padding: 10px 13px; text-transform: uppercase; }
+  .chip-list > * { border: 1px solid var(--ink); font-family: var(--mono); font-size: .75rem; padding: 10px 13px; text-transform: uppercase; }
   .chip-list a:hover { background: var(--acid); }
   .availability { background: var(--acid); }
   .repo-grid { border: 1px solid var(--line); display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 30px; }
   .repo-grid div { border-right: 1px solid var(--line); min-height: 115px; padding: 20px; }
-  .repo-grid strong { display: block; font-size: 1.5rem; margin-top: 22px; } .repo-grid small { color: var(--muted); display: block; font-family: var(--mono); font-size: .53rem; margin-top: 7px; }
+  .repo-grid strong { display: block; font-size: 1.5rem; margin-top: 22px; } .repo-grid small { color: var(--muted); display: block; font-family: var(--mono); font-size: .75rem; margin-top: 7px; }
   .evidence { padding: 0; }
   .evidence summary { align-items: center; cursor: pointer; display: flex; justify-content: space-between; padding: 28px 42px; }
-  .evidence summary strong { display: block; font-family: var(--sans); font-size: 1.5rem; margin-top: 8px; } .evidence summary b { font-family: var(--mono); font-size: .57rem; text-transform: uppercase; }
+  .evidence summary strong { display: block; font-family: var(--sans); font-size: 1.3rem; margin-top: 6px; } .evidence summary b { font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
   .evidence-list { border-top: 1px solid var(--ink); }
   .evidence-list div { border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr 120px 110px; padding: 15px 42px; }
-  .evidence-list span, .evidence-list time { color: var(--muted); font-family: var(--mono); font-size: .57rem; text-transform: uppercase; }
+  .evidence-list span, .evidence-list time { color: var(--muted); font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
   .related-grid { border-top: 1px solid var(--ink); display: grid; grid-template-columns: repeat(4, 1fr); }
   .related-grid a { border-right: 1px solid var(--line); min-height: 145px; padding: 20px; } .related-grid a:hover { background: var(--acid); }
-  .related-grid strong, .related-grid span, .related-grid small { display: block; } .related-grid strong { font-size: 1.25rem; } .related-grid span, .related-grid small { color: var(--muted); font-family: var(--mono); font-size: .56rem; margin-top: 14px; text-transform: uppercase; }
-  .empty-copy { color: var(--muted); font-family: var(--mono); font-size: .65rem; }
-  @media (max-width: 900px) { .robot-hero { grid-template-columns: 1fr; } figure { border-bottom: 1px solid var(--ink); border-right: 0; min-height: 420px; } .robot-glance { grid-template-columns: repeat(2, 1fr); } .related-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 620px) { .robot-hero { min-height: 0; } figure { min-height: 300px; } figcaption { align-items: start; flex-direction: column; gap: 5px; } figcaption span { margin-left: 0; } .robot-identity { padding: 30px 18px; } h1 { font-size: 3.2rem; } .section-block { padding: 34px 18px; } .robot-glance div { min-height: 100px; padding: 16px; } .spec-grid, .openness-grid, .repo-grid, .related-grid { grid-template-columns: 1fr; } .spec-grid div:nth-child(n) { border-right: 0; padding-left: 0; padding-right: 0; } .openness-grid div { border-right: 0; } .evidence summary { padding: 24px 18px; } .evidence-list div { grid-template-columns: 1fr; gap: 8px; padding: 15px 18px; } }
+  .related-grid strong, .related-grid span, .related-grid small { display: block; } .related-grid strong { font-size: 1.25rem; } .related-grid span, .related-grid small { color: var(--muted); font-family: var(--mono); font-size: .75rem; margin-top: 14px; text-transform: uppercase; }
+  .empty-copy { color: var(--muted); font-family: var(--mono); font-size: .75rem; }
+  @media (max-width: 900px) { .robot-hero { grid-template-columns: 1fr; } figure { border-bottom: 1px solid var(--ink); border-right: 0; min-height: 300px; } .robot-glance { grid-template-columns: repeat(2, 1fr); } .related-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 620px) { .robot-hero { min-height: 0; } figure { min-height: 230px; } figcaption { align-items: start; flex-direction: column; gap: 5px; } figcaption span { margin-left: 0; } .robot-identity { padding: 24px 18px; } h1 { font-size: 2rem; } .dossier-nav { padding-left: 0; } .section-block { padding: 24px 18px; } .robot-glance div { min-height: 78px; padding: 13px; } .spec-grid, .openness-grid, .repo-grid, .related-grid { grid-template-columns: 1fr; } .spec-grid div:nth-child(n) { border-right: 0; padding-left: 0; padding-right: 0; } .openness-grid div { border-right: 0; } .evidence summary { padding: 20px 18px; } .evidence-list div { grid-template-columns: 1fr; gap: 8px; padding: 15px 18px; } }
 </style>

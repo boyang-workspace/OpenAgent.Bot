@@ -1,0 +1,234 @@
+{
+  "schemaVersion": 1,
+  "entity": {
+    "slug": "lerobot",
+    "name": "LeRobot",
+    "kind": "robotics-framework",
+    "summary": "Python robot-learning library with dataset, training and physical robot-control workflows.",
+    "description": "This record distinguishes training artifacts from interfaces that can send actions to real robots. The source package version and Python constraint are tied to a reviewed commit, not hardware compatibility. Data and policy artifacts require their own licenses. No robot, teleoperator, training job or downloaded model was run by OpenAgent.",
+    "organization": "Hugging Face",
+    "lifecycle": "active",
+    "opennessStatus": "open-source",
+    "licenseSpdx": "Apache-2.0",
+    "canonicalUrl": "https://huggingface.co/docs/lerobot",
+    "repositoryUrl": "https://github.com/huggingface/lerobot",
+    "documentationUrl": "https://huggingface.co/docs/lerobot",
+    "visibility": "public",
+    "country": "FR"
+  },
+  "evidence": {
+    "sourceId": "github",
+    "sourceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+    "observedAt": "2026-08-28T05:36:13.133Z"
+  },
+  "domains": [
+    "robotics"
+  ],
+  "useCases": [],
+  "facets": [
+    {
+      "facet": "code",
+      "status": "open",
+      "terms": "Apache-2.0 for this repository, subject to its LICENSE and third-party notices. This is not a license for linked models, datasets, services or other repositories.",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/LICENSE",
+        "observedAt": "2026-08-28T05:41:34.270Z"
+      }
+    }
+  ],
+  "facts": [
+    {
+      "key": "software.runtime_requirements",
+      "value": {
+        "python": ">=3.12",
+        "packageVersionAtReviewedCommit": "0.6.2",
+        "scope": "Package manifest at the pinned repository commit; optional extras and platform constraints still apply.",
+        "runtimeTested": false
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml",
+        "observedAt": "2026-08-28T05:37:15.200Z"
+      }
+    },
+    {
+      "key": "policy.physical_execution",
+      "value": {
+        "canActuateHardware": true,
+        "actionMethod": "robot.send_action",
+        "scope": "Teleoperation connects a configured robot and sends actions. Reading observations does not make the full control interface read-only.",
+        "hardwareCompatibility": null,
+        "openAgentExecuted": false
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+        "observedAt": "2026-08-28T05:41:30.841Z"
+      }
+    },
+    {
+      "key": "scope.artifact_licenses",
+      "value": {
+        "repositoryLicense": "Apache-2.0",
+        "thirdPartyNotices": "The LICENSE also contains third-party MIT and Apache notices; retain the relevant notices.",
+        "datasetLicense": null,
+        "policyLicense": null,
+        "scope": "Linked Hub datasets and policy weights are not licensed by the source-code repository license."
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/LICENSE",
+        "observedAt": "2026-08-28T05:41:34.270Z"
+      }
+    },
+    {
+      "key": "software.dataset_format",
+      "value": {
+        "stateAndAction": "Parquet",
+        "vision": [
+          "MP4",
+          "images"
+        ],
+        "datasetCompatibility": null
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+        "observedAt": "2026-08-28T05:36:13.133Z"
+      }
+    },
+    {
+      "key": "policy.plugins",
+      "value": {
+        "discovery": "Installed lerobot_robot_, lerobot_teleoperator_ and lerobot_camera_ packages are imported by naming convention.",
+        "reviewedThirdPartyPlugins": 0,
+        "securityAudit": null
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+        "observedAt": "2026-08-28T05:36:13.133Z"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "overview",
+      "name": "Reviewed robot-learning and dataset overview",
+      "kind": "documentation",
+      "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+      "revision": "bf31dd794ffb4f87380aba3912f64421e8352d3c",
+      "gitBlobSha": "50814df9295864e814a424c26461100f0fee631f",
+      "sizeBytes": 13143,
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+        "observedAt": "2026-08-28T05:36:13.133Z"
+      }
+    },
+    {
+      "id": "package-manifest",
+      "name": "Reviewed Python requirements and CLI entries",
+      "kind": "documentation",
+      "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml",
+      "revision": "bf31dd794ffb4f87380aba3912f64421e8352d3c",
+      "gitBlobSha": "e080b678467555a640261f456e576a1f8ec23dab",
+      "sizeBytes": 24511,
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml",
+        "observedAt": "2026-08-28T05:37:15.200Z"
+      }
+    },
+    {
+      "id": "teleoperation-source",
+      "name": "Reviewed physical-action call path",
+      "kind": "documentation",
+      "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+      "revision": "bf31dd794ffb4f87380aba3912f64421e8352d3c",
+      "gitBlobSha": "81bd98e65e7e6c376c19cdbfd4d27ee58efcfaf4",
+      "sizeBytes": 11235,
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+        "observedAt": "2026-08-28T05:41:30.841Z"
+      }
+    }
+  ],
+  "interfaces": [
+    {
+      "authentication": "unknown",
+      "verification": "documented",
+      "id": "train-cli",
+      "name": "LeRobot policy training CLI",
+      "type": "cli",
+      "transport": "Local process",
+      "access": "read-write",
+      "runtimes": [
+        "Python; see software.runtime_requirements",
+        "PyTorch and policy-specific dependencies"
+      ],
+      "description": "Trains policies and produces local outputs. Dataset, policy, provider and Hub credentials are configuration-dependent; no hardware execution is implied by this training entry alone.",
+      "command": "lerobot-train",
+      "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+        "observedAt": "2026-08-28T05:36:13.133Z"
+      }
+    },
+    {
+      "authentication": "unknown",
+      "verification": "documented",
+      "id": "teleoperate-cli",
+      "name": "LeRobot physical teleoperation CLI",
+      "type": "cli",
+      "transport": "Local process to configured hardware",
+      "access": "read-write",
+      "runtimes": [
+        "Python",
+        "Configured robot and teleoperator"
+      ],
+      "description": "Can physically move configured hardware through robot.send_action. Requires separate hardware setup and authorization; not a read-only data lookup and not executed by OpenAgent.",
+      "command": "lerobot-teleoperate",
+      "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+        "observedAt": "2026-08-28T05:41:30.841Z"
+      }
+    },
+    {
+      "authentication": "unknown",
+      "verification": "documented",
+      "id": "robot-sdk",
+      "name": "LeRobot Robot control API",
+      "type": "sdk",
+      "transport": "In-process Python import",
+      "access": "read-write",
+      "runtimes": [
+        "Python",
+        "Configured robot driver"
+      ],
+      "description": "Robot observation and send_action methods form a control API capable of physical actuation. Device compatibility and safeguards are not verified.",
+      "url": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+        "observedAt": "2026-08-28T05:36:13.133Z"
+      }
+    }
+  ],
+  "subscriptions": [
+    {
+      "sourceId": "github",
+      "locator": "huggingface/lerobot"
+    }
+  ],
+  "robotics": {
+    "layer": "stack",
+    "stackType": "framework",
+    "metadata": {}
+  }
+}

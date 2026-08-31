@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "entity": {
+    "slug": "playwright-mcp",
+    "name": "Playwright MCP",
+    "kind": "tool",
+    "summary": "MCP browser automation server with stdio and self-hosted HTTP transports; not intrinsically read-only.",
+    "description": "This record covers microsoft/playwright-mcp, not the separate Playwright CLI repository. Browser sessions may perform writes and act with logged-in state. Isolated profiles and origin filters do not constitute a security boundary. No browser was driven and no package was installed during this evidence review.",
+    "organization": "Microsoft",
+    "lifecycle": "active",
+    "opennessStatus": "open-source",
+    "licenseSpdx": "Apache-2.0",
+    "canonicalUrl": "https://github.com/microsoft/playwright-mcp",
+    "repositoryUrl": "https://github.com/microsoft/playwright-mcp",
+    "documentationUrl": "https://github.com/microsoft/playwright-mcp?tab=readme-ov-file#readme",
+    "visibility": "public"
+  },
+  "evidence": {
+    "sourceId": "github",
+    "sourceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+    "observedAt": "2026-08-28T05:36:14.140Z"
+  },
+  "domains": [
+    "shared"
+  ],
+  "useCases": [],
+  "facets": [
+    {
+      "facet": "code",
+      "status": "open",
+      "terms": "Apache-2.0 for this repository, subject to its LICENSE and third-party notices. This is not a license for linked models, datasets, services or other repositories.",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/LICENSE",
+        "observedAt": "2026-08-28T05:41:35.402Z"
+      }
+    }
+  ],
+  "facts": [
+    {
+      "key": "software.runtime_requirements",
+      "value": {
+        "node": ">=18",
+        "packageVersionAtReviewedCommit": "0.0.79",
+        "scope": "The package manifest at the pinned commit, not an assertion about every npm version or compatibility.",
+        "runtimeTested": false
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/package.json",
+        "observedAt": "2026-08-28T05:41:31.672Z"
+      }
+    },
+    {
+      "key": "policy.isolation",
+      "value": {
+        "option": "--isolated",
+        "profilePersistence": "in-memory",
+        "readOnlyGuarantee": false,
+        "scope": "Profile lifetime does not prevent browser actions, network effects or writes requested through tools."
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+        "observedAt": "2026-08-28T05:36:14.140Z"
+      }
+    },
+    {
+      "key": "policy.security_boundary",
+      "value": {
+        "securityBoundary": false,
+        "scope": "The README explicitly does not treat this MCP server or its origin/host filtering as a security boundary. Browser access may include logged-in state."
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+        "observedAt": "2026-08-28T05:36:14.140Z"
+      }
+    },
+    {
+      "key": "scope.tool_vs_server",
+      "value": {
+        "serverReadOnly": false,
+        "toolAnnotations": "A read-only annotation on one tool is not a permission guarantee for the entire server.",
+        "separateCliRepository": "https://github.com/microsoft/playwright-cli"
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+        "observedAt": "2026-08-28T05:36:14.140Z"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "overview",
+      "name": "Reviewed transport, profile and security documentation",
+      "kind": "documentation",
+      "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+      "revision": "d0c29a5658b93b6e62435ceaf362a7d7dfc3522d",
+      "gitBlobSha": "8fc97dfe0c378af3fbc01eeb2afe5a98f13302ce",
+      "sizeBytes": 61992,
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+        "observedAt": "2026-08-28T05:36:14.140Z"
+      }
+    },
+    {
+      "id": "package-manifest",
+      "name": "Reviewed Node requirement and package metadata",
+      "kind": "documentation",
+      "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/package.json",
+      "revision": "d0c29a5658b93b6e62435ceaf362a7d7dfc3522d",
+      "gitBlobSha": "8ffbac3da702b8450afe750ab16b0c9cb8f40350",
+      "sizeBytes": 1530,
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/package.json",
+        "observedAt": "2026-08-28T05:41:31.672Z"
+      }
+    }
+  ],
+  "interfaces": [
+    {
+      "authentication": "unknown",
+      "verification": "documented",
+      "id": "stdio",
+      "name": "Playwright MCP stdio server",
+      "type": "mcp",
+      "transport": "stdio",
+      "access": "read-write",
+      "runtimes": [
+        "Node.js >=18",
+        "Configured browser"
+      ],
+      "description": "Local MCP server with browser mutation capabilities. Authentication is not asserted for arbitrary client, browser-session or provider configurations. Tool annotations do not restrict the whole server.",
+      "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+        "observedAt": "2026-08-28T05:36:14.140Z"
+      }
+    },
+    {
+      "authentication": "unknown",
+      "verification": "documented",
+      "id": "http",
+      "name": "Self-hosted Playwright MCP HTTP transport",
+      "type": "mcp",
+      "transport": "HTTP/SSE (--port)",
+      "access": "read-write",
+      "runtimes": [
+        "Node.js >=18",
+        "Configured browser"
+      ],
+      "description": "Documented --port transport for a self-hosted server. No hosted endpoint, authentication guarantee, read-only guarantee or security boundary is asserted.",
+      "url": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+        "observedAt": "2026-08-28T05:36:14.140Z"
+      }
+    }
+  ],
+  "subscriptions": [
+    {
+      "sourceId": "github",
+      "locator": "microsoft/playwright-mcp"
+    }
+  ]
+}

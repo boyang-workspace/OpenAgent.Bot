@@ -22,6 +22,8 @@ This map records canonical URL decisions made during the product and SEO refacto
 | `/blog/langfuse-vs-mlflow` | `/compare/langfuse-vs-mlflow` | 301 |
 | `/blog/openclaw-vs-browser-use-vs-openhands` | `/compare/openclaw-vs-browser-use-vs-openhands` | 301 |
 | `/blog/continue-vs-cursor` | same URL | Preserved under current app shell |
+| `/prototypes` | none | 410 Gone; obsolete test surface |
+| `/prototypes/*` | none | 410 Gone; obsolete test surface |
 
 Rules:
 

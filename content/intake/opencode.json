@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "entity": {
+    "slug": "opencode",
+    "name": "OpenCode",
+    "kind": "agent",
+    "summary": "A coding agent with terminal and HTTP interfaces, configurable model providers and per-tool permissions.",
+    "description": "OpenCode can inspect and modify projects using a configured language model. This reviewed record describes its CLI, headless HTTP server, model configuration and documented permission controls. OpenAgent has not executed OpenCode, tested model compatibility or audited its sandboxing. Interface authentication and provider credentials are separate concerns.",
+    "organization": "Anomaly",
+    "lifecycle": "active",
+    "opennessStatus": "open-source",
+    "licenseSpdx": "MIT",
+    "canonicalUrl": "https://opencode.ai",
+    "repositoryUrl": "https://github.com/anomalyco/opencode",
+    "documentationUrl": "https://opencode.ai/docs",
+    "visibility": "public"
+  },
+  "evidence": {
+    "sourceId": "github",
+    "sourceUrl": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/packages/web/src/content/docs/cli.mdx",
+    "observedAt": "2026-08-28T01:18:26.000Z"
+  },
+  "domains": ["agent"],
+  "useCases": [{
+    "slug": "coding-assistance",
+    "name": "Coding assistance",
+    "description": "Inspecting and modifying software projects with a coding agent.",
+    "evidence": {
+      "sourceId": "github",
+      "sourceUrl": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/packages/web/src/content/docs/permissions.mdx",
+      "observedAt": "2026-08-28T01:18:26.000Z"
+    }
+  }],
+  "facets": [{
+    "facet": "code",
+    "status": "open",
+    "terms": "MIT for this source repository; this does not license connected models or providers.",
+    "evidence": {
+      "sourceId": "github",
+      "sourceUrl": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/LICENSE",
+      "observedAt": "2026-08-28T01:18:26.000Z"
+    }
+  }],
+  "facts": [
+    {
+      "key": "software.model_configuration",
+      "value": { "selectorFormat": "provider_id/model_id", "localModelsDocumented": true, "minimumModelVersion": null, "providerCredentials": "Depends on the selected provider; configure independently of server authentication." },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/packages/web/src/content/docs/models.mdx",
+        "observedAt": "2026-08-28T01:18:26.000Z"
+      }
+    },
+    {
+      "key": "policy.permission_actions",
+      "value": ["allow", "ask", "deny"],
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/packages/web/src/content/docs/permissions.mdx",
+        "observedAt": "2026-08-28T01:18:26.000Z"
+      }
+    },
+    {
+      "key": "policy.default_permissions",
+      "value": { "mostTools": "allow", "externalDirectory": "ask", "repeatedToolLoop": "ask", "environmentFiles": "Read denied for .env and .env.*; .env.example is an exception.", "scope": "Documented defaults at the reviewed commit; configuration can override them. Not a sandbox guarantee." },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/packages/web/src/content/docs/permissions.mdx",
+        "observedAt": "2026-08-28T01:18:26.000Z"
+      }
+    },
+    {
+      "key": "capabilities.project_modification",
+      "value": { "fileEdits": true, "shellCommands": true, "authorization": "Controlled by per-tool permission rules; not intrinsically read-only." },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/packages/web/src/content/docs/permissions.mdx",
+        "observedAt": "2026-08-28T01:18:26.000Z"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "source",
+      "name": "Reviewed OpenCode source",
+      "kind": "repository",
+      "url": "https://github.com/anomalyco/opencode/tree/15537a41d2a0514f7040e1c4128b7846cdc19ce0",
+      "revision": "15537a41d2a0514f7040e1c4128b7846cdc19ce0",
+      "license": "MIT",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/LICENSE",
+        "observedAt": "2026-08-28T01:18:26.000Z"
+      }
+    },
+    {
+      "id": "permission-guide",
+      "name": "Reviewed permission configuration",
+      "kind": "documentation",
+      "url": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/packages/web/src/content/docs/permissions.mdx",
+      "revision": "15537a41d2a0514f7040e1c4128b7846cdc19ce0",
+      "gitBlobSha": "ccc4034dc6966cd0eb155ea6a68fe4388c151728",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/packages/web/src/content/docs/permissions.mdx",
+        "observedAt": "2026-08-28T01:18:26.000Z"
+      }
+    },
+    {
+      "id": "model-guide",
+      "name": "Reviewed model configuration",
+      "kind": "documentation",
+      "url": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/packages/web/src/content/docs/models.mdx",
+      "revision": "15537a41d2a0514f7040e1c4128b7846cdc19ce0",
+      "gitBlobSha": "b135e7554d467ea70b386b006ae8cf10e9c225bb",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/packages/web/src/content/docs/models.mdx",
+        "observedAt": "2026-08-28T01:18:26.000Z"
+      }
+    }
+  ],
+  "interfaces": [
+    {
+      "id": "cli",
+      "name": "OpenCode CLI",
+      "type": "cli",
+      "transport": "Local process",
+      "authentication": "unknown",
+      "access": "read-write",
+      "verification": "documented",
+      "runtimes": ["OpenCode executable", "Configured LLM provider"],
+      "description": "Interactive terminal or non-interactive run command with JSON event output. Provider credentials depend on configuration; this is not a read-only integration.",
+      "command": "opencode run --format json",
+      "url": "https://opencode.ai/docs/cli/",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/packages/web/src/content/docs/cli.mdx",
+        "observedAt": "2026-08-28T01:18:26.000Z"
+      }
+    },
+    {
+      "id": "http-server",
+      "name": "OpenCode headless HTTP server",
+      "type": "api",
+      "transport": "HTTP",
+      "authentication": "optional",
+      "access": "read-write",
+      "verification": "documented",
+      "runtimes": ["OpenCode executable", "HTTP client", "Configured LLM provider"],
+      "description": "Self-hosted server with an OpenAPI description. HTTP basic authentication is enabled through server configuration. Model-provider authentication is separate. No public hosted endpoint is asserted.",
+      "command": "opencode serve",
+      "url": "https://opencode.ai/docs/server/",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/anomalyco/opencode/blob/15537a41d2a0514f7040e1c4128b7846cdc19ce0/packages/web/src/content/docs/server.mdx",
+        "observedAt": "2026-08-28T01:18:26.000Z"
+      }
+    }
+  ],
+  "subscriptions": [{ "sourceId": "github", "locator": "anomalyco/opencode" }]
+}

@@ -1,358 +1,169 @@
 ---
 import IndexLayout from "@/layouts/IndexLayout.astro";
-import { compactNumber, label, relativeDate } from "@/lib/registry/format";
-import { domainLabel } from "@/lib/registry/domains";
-import { getHomepageData } from "@/lib/homepage-data";
+import ActivityLeaderboard from "@/components/ActivityLeaderboard.astro";
+import { rankByActivity, type ActivityEntry } from "@/lib/registry/activity";
+import { primaryCatalogPages } from "@/lib/registry/catalog-config";
+import { calendarDate, compactNumber, label, relativeDate } from "@/lib/registry/format";
+import { getRegistry, getUsage } from "@/lib/registry/runtime";
+import { compactTokens, type UsagePageData } from "@/lib/registry/usage";
+import type { RegistryChange, RegistryStats } from "@/lib/registry/types";
 
-const data = await getHomepageData();
-const historyDays = data.stats.historyStartedAt
-  ? Math.max(1, Math.ceil((Date.now() - new Date(data.stats.historyStartedAt).getTime()) / 86_400_000))
-  : 0;
-const trackedPercent = data.stats.entities ? Math.round(data.stats.metricEntities / data.stats.entities * 100) : 0;
-const robotSnapshot = [...data.robotPlatforms, ...data.robotIntelligence, ...data.roboticsStack]
-  .sort((a, b) => (b.stars ?? 0) - (a.stars ?? 0))
-  .filter((entity, index, list) => list.findIndex((item) => item.slug === entity.slug) === index)
-  .slice(0, 6);
-const happening = data.changes.length
-  ? data.changes.slice(0, 6).map((change) => ({
-      slug: change.entitySlug,
-      name: change.entityName,
-      type: `${label(change.factKey)} ${change.changeType}`,
-      time: change.detectedAt,
-      meta: label(change.entityKind)
-    }))
-  : data.recentlyUpdated.slice(0, 6).map((entity) => ({
-      slug: entity.slug,
-      name: entity.name,
-      type: "Source evidence refreshed",
-      time: entity.lastVerifiedAt ?? entity.updatedAt,
-      meta: label(entity.kind)
-    }));
-const searchIndex = data.searchEntities.map((entity) => ({
-  slug: entity.slug,
-  name: entity.name,
-  organization: entity.organization ?? "",
-  summary: entity.summary,
-  group: entity.primaryDomain === "robotics" ? "Robot" : entity.primaryDomain === "agent" ? "Agent" : entity.kind === "model" ? "Model" : "Tool / Infrastructure",
-  kind: label(entity.kind)
-}));
+let stats: RegistryStats = { entities: 0, agents: 0, robots: 0, infrastructure: 0, robotPlatforms: 0, robotIntelligence: 0, roboticsStack: 0, models: 0, tools: 0, sources: 0, liveSources: 0, observations: 0, metricEntities: 0, changes30d: 0 };
+let changes: RegistryChange[] = [];
+let leaderboards = new Map<string, ActivityEntry[]>();
+let categoryTotals = new Map<string, number>();
+let loadError = false;
+let agentUsage: UsagePageData | undefined;
+
+try {
+  const registry = getRegistry();
+  const [registryStats, recentChanges, ...cohorts] = await Promise.all([
+    registry.getStats(),
+    registry.listChanges(8),
+    ...primaryCatalogPages.map((page) => registry.listEntities({ category: page.category, sort: "activity", limit: 6 }))
+  ]);
+  stats = registryStats;
+  changes = recentChanges;
+  primaryCatalogPages.forEach((page, index) => {
+    leaderboards.set(page.category, rankByActivity(cohorts[index].items, page.category));
+    categoryTotals.set(page.category, cohorts[index].total);
+  });
+} catch { loadError = true; }
+
+try { agentUsage = await getUsage().pageData("app", { openOnly: true, days: 7 }); }
+catch { agentUsage = undefined; }
+
+const historyDays = stats.historyStartedAt ? Math.max(0, Math.floor((Date.now() - new Date(stats.historyStartedAt).getTime()) / 86_400_000)) : 0;
+const coverage = stats.entities ? Math.round(stats.metricEntities / stats.entities * 100) : 0;
+const agentUsageSnapshot = agentUsage?.snapshot.slice(0, 6) ?? [];
+const maxAgentUsage = agentUsageSnapshot.reduce((max, item) => {
+  const tokens = BigInt(item.totalTokens);
+  return tokens > max ? tokens : max;
+}, 0n);
 ---
 
-<IndexLayout
-  title="OpenAgent.bot — Open-Source AI Agent & Robot Database"
-  description="Track and compare activity, openness, momentum and source evidence across open agents, robot intelligence and physical platforms."
-  path="/"
-  themeColor="#0b0d0c"
->
-  <main class="home-shell">
-    <section class="home-hero">
-      <div class="hero-main">
-        <span class="hero-eyebrow"><i></i> Independent open ecosystem index</span>
-        <p class="brand-statement">Open(Source) × <em>Agent(s)</em> × <b>(Ro)Bot</b></p>
-        <h1>Track open agents and robots over time.</h1>
-        <p class="hero-description">Compare activity, openness, momentum and source evidence across software agents, robot intelligence and physical platforms.</p>
-
-        <form class="hero-search" action="/database" method="get" role="search" data-home-search>
-          <label for="home-search">Search the database</label>
-          <div class="search-control">
-            <input id="home-search" name="q" type="search" placeholder="Search OpenClaw, OpenHands, LeRobot, OpenArm…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="home-search-results" />
-            <kbd>⌘ K</kbd>
-            <button type="submit">Search <span aria-hidden="true">↗</span></button>
-          </div>
-          <div id="home-search-results" class="search-results" role="listbox" hidden></div>
-        </form>
-
-        <nav class="task-shortcuts" aria-label="Explore OpenAgent.bot">
-          <a href="/agents"><span>01</span>Explore Agents</a>
-          <a href="/robotics"><span>02</span>Explore Robotics</a>
-          <a href="/changes"><span>03</span>Recent Changes</a>
-          <a href="/compare"><span>04</span>Compare Projects</a>
-        </nav>
+<IndexLayout title="OpenAgent.bot — Open AI & Robotics Database" description="Track open models, agents, robot intelligence and robot hardware through rankings, releases, evaluations and historical change." path="/" themeColor="#111111">
+  <main class="db-home">
+    <section class="db-hero">
+      <div class="hero-copy">
+        <span class="overline">Open AI &amp; robotics database</span>
+        <h1>Track the open ecosystem.</h1>
+        <p>Models, agents, robot intelligence and hardware—ranked by current activity and recorded over time.</p>
       </div>
-      <aside class="hero-definition">
-        <span class="data-label">Why not just GitHub?</span>
-        <p>Repositories show code. OpenAgent.bot connects repositories to openness facets, physical systems, attributed evidence and historical change.</p>
-        <dl>
-          <div><dt>Agents</dt><dd>Software intelligence</dd></div>
-          <div><dt>Robots</dt><dd>Physical systems</dd></div>
-          <div><dt>Evidence</dt><dd>Sources over claims</dd></div>
-        </dl>
-        <a href="/methodology">Read the methodology →</a>
-      </aside>
-    </section>
-
-    <section class="composition" aria-label="Dataset composition">
-      <a class="agents-card" href="/agents"><span>Agents</span><strong>{compactNumber(data.stats.agents)}</strong><small>Software systems</small></a>
-      <a class="robotics-card" href="/robotics"><span>Robotics</span><strong>{compactNumber(data.stats.robots)}</strong><small>Platforms · intelligence · stack</small></a>
-      <a href="/database?domain=shared"><span>Infrastructure</span><strong>{compactNumber(data.stats.infrastructure)}</strong><small>Models · tools · protocols</small></a>
-    </section>
-
-    <section class="happening-section">
-      <header class="section-heading"><div><span class="section-index">01 / Live data</span><h2>What’s happening</h2></div><a href="/changes">Open change feed →</a></header>
-      <div class="happening-grid">
-        <div class="change-feed-preview">
-          {happening.length ? happening.map((item) => (
-            <a href={`/project/${item.slug}`}>
-              <span class="event-name"><strong>{item.name}</strong><small>{item.meta}</small></span>
-              <span class="event-type">{item.type}</span>
-              <time datetime={item.time}>{relativeDate(item.time)}</time>
-              <b aria-hidden="true">↗</b>
-            </a>
-          )) : <div class="empty-state">No verified changes observed yet. Source collection is establishing the current baseline.</div>}
-        </div>
-        <aside class="activity-preview">
-          <header><span class="data-label">Recently active</span><a href="/database?sort=activity">View all →</a></header>
-          {data.recentlyActive.slice(0, 5).map((entity) => <a href={`/project/${entity.slug}`}><span><strong>{entity.name}</strong><small>{domainLabel(entity.primaryDomain ?? "shared")} · {label(entity.kind)}</small></span><time datetime={entity.lastCommitAt ?? entity.lastReleaseAt ?? entity.lastVerifiedAt}>{relativeDate(entity.lastCommitAt ?? entity.lastReleaseAt ?? entity.lastVerifiedAt)}</time></a>)}
-        </aside>
-      </div>
-    </section>
-
-    <section class="snapshot-section">
-      <header class="section-heading"><div><span class="section-index">02 / Adoption baseline</span><h2>Current adoption snapshot</h2></div><p>Repository stars provide a current baseline while Open Momentum history is collected. This is not a ranking.</p></header>
-      <div class="snapshot-grid">
-        <article>
-          <header><span class="agent-dot"></span><div><strong>Agents</strong><small>Software layer</small></div><a href="/agents">Browse all →</a></header>
-          <div class="snapshot-head"><span>Project</span><span>Activity</span><span>Stars</span></div>
-          {data.agents.slice(0, 6).map((entity) => <a class="snapshot-row" href={`/project/${entity.slug}`}><span><strong>{entity.name}</strong><small>{label(entity.kind)} · {label(entity.opennessStatus)}</small></span><time datetime={entity.lastCommitAt ?? entity.lastVerifiedAt}>{relativeDate(entity.lastCommitAt ?? entity.lastVerifiedAt)}</time><b>{compactNumber(entity.stars)}</b></a>)}
-        </article>
-        <article>
-          <header><span class="robot-dot"></span><div><strong>Robotics</strong><small>Physical intelligence</small></div><a href="/robotics">Browse all →</a></header>
-          <div class="snapshot-head"><span>Project</span><span>Layer</span><span>Stars</span></div>
-          {robotSnapshot.map((entity) => <a class="snapshot-row" href={`/project/${entity.slug}`}><span><strong>{entity.name}</strong><small>{label(entity.kind)} · {label(entity.opennessStatus)}</small></span><span>{entity.robotics ? label(entity.robotics.layer) : "Robotics"}</span><b>{compactNumber(entity.stars)}</b></a>)}
-        </article>
-      </div>
-    </section>
-
-    <section class="data-health">
-      <div><span class="section-index">03 / Data health</span><strong>Continuously updated, source by source.</strong></div>
-      <dl>
-        <div><dt>Entities</dt><dd>{compactNumber(data.stats.entities)}</dd></div>
-        <div><dt>Tracked</dt><dd>{compactNumber(data.stats.metricEntities)} <small>{trackedPercent}%</small></dd></div>
-        <div><dt>Evidence</dt><dd>{compactNumber(data.stats.observations)}</dd></div>
+      <dl class="hero-readout" aria-label="Database status">
+        <div><dt>Records</dt><dd>{compactNumber(stats.entities)}</dd></div>
+        <div><dt>Evidence</dt><dd>{compactNumber(stats.observations)}</dd></div>
+        <div><dt>Coverage</dt><dd>{coverage}%</dd></div>
         <div><dt>History</dt><dd>{historyDays}/30d</dd></div>
-        <div><dt>Updated</dt><dd>{relativeDate(data.stats.lastSyncAt)}</dd></div>
+        <div><dt>30d changes</dt><dd>{compactNumber(stats.changes30d)}</dd></div>
+        <div><dt>Updated</dt><dd>{relativeDate(stats.lastSyncAt)}</dd></div>
       </dl>
-      <a href="/sources">View sources →</a>
     </section>
 
-    <section class="support-compact" id="support">
-      <div><span class="data-label">Support the open index</span><h2>Fund public data—not placement in organic rankings.</h2></div>
-      <p>Sponsorship supports collection and maintenance. Every placement is disclosed and never changes an entity’s organic position.</p>
-      <a href="/support">Learn more →</a>
+    <nav class="category-index" aria-label="Primary databases">
+      {primaryCatalogPages.map((page, index) => <a href={page.href}><span>0{index + 1}</span><strong>{page.label}</strong><small>{categoryTotals.get(page.category) ?? 0} tracked records</small><b>↗</b></a>)}
+    </nav>
+
+    <section class="leaderboard-index">
+      <header class="home-section-head"><div><span>Current view · update activity</span><h2>Activity rankings</h2></div><a href="/methodology#rankings">Ranking method →</a></header>
+      {loadError ? <div class="empty-state">The new catalogue is initializing. Rankings will appear after migration completes.</div> : (
+        <div class="leaderboard-grid">
+          {primaryCatalogPages.map((page) => <article><header><div><span>{page.eyebrow}</span><h3>{page.label}</h3></div><a href={page.href}>Full ranking →</a></header><ActivityLeaderboard entries={leaderboards.get(page.category) ?? []} compact /></article>)}
+        </div>
+      )}
+    </section>
+
+    <section class="usage-index" aria-labelledby="agent-usage-title">
+      <header class="home-section-head"><div><span>Public usage · previous complete UTC day</span><h2 id="agent-usage-title">Open agent usage</h2></div><a href="/usage?kind=app&scope=open&days=30">Full usage →</a></header>
+      {agentUsageSnapshot.length ? <>
+        <div class="usage-table" role="list" aria-label="Open agent and app usage by public tokens">
+          {agentUsageSnapshot.map((item, index) => {
+            const width = maxAgentUsage ? Math.max(1.5, Number(BigInt(item.totalTokens) * 10000n / maxAgentUsage) / 100) : 0;
+            return <a href={item.entitySlug ? `/project/${item.entitySlug}` : "/usage?kind=app&scope=open&days=30"} role="listitem">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <strong>{item.displayName}<small>{label(item.opennessStatus)}{item.variants > 1 ? ` · ${item.variants} variants` : ""}</small></strong>
+              <i aria-hidden="true"><b style={`width:${width}%`}></b></i>
+              <em>{compactTokens(item.totalTokens)}</em>
+              <b aria-hidden="true">↗</b>
+            </a>;
+          })}
+        </div>
+        <footer class="usage-source-note"><span>Source: <a href={agentUsage?.sourceUrl} rel="noreferrer" target="_blank">{agentUsage?.sourceName} ↗</a></span><span>{agentUsage?.latestDate ? calendarDate(agentUsage.latestDate) : "Awaiting complete day"}</span><span>{agentUsage?.mappedSubjects}/{agentUsage?.totalSubjects} subjects mapped</span><a href="/usage?kind=model&scope=open&days=30">Model usage →</a></footer>
+      </> : <div class="empty-state usage-empty">Open agent usage is collecting. The first verified source snapshot will appear here without estimated values.</div>}
+    </section>
+
+    <section class="change-index">
+      <header class="home-section-head"><div><span>Change ledger</span><h2>Recent changes</h2></div><a href="/changes">Full history →</a></header>
+      <div class="change-rows">
+        {changes.length ? changes.map((change) => <a href={`/project/${change.entitySlug}`}><time datetime={change.detectedAt}>{relativeDate(change.detectedAt)}</time><strong>{change.entityName}</strong><span>{label(change.factKey)} {change.changeType}</span><small>{label(change.entityKind)}</small><b>↗</b></a>) : <div class="empty-state">No verified changes are available yet.</div>}
+      </div>
+    </section>
+
+    <section class="database-note">
+      <strong>Sources, timestamps and ranking methods stay attached to the data.</strong>
+      <span>Unknown values remain unknown.</span>
+      <a href="/methodology">Methodology →</a>
     </section>
   </main>
-  <script is:inline type="application/json" id="home-search-data" set:html={JSON.stringify(searchIndex).replaceAll("<", "\\u003c")} />
 </IndexLayout>
 
-<script>
-  const form = document.querySelector<HTMLFormElement>("[data-home-search]");
-  const input = form?.querySelector<HTMLInputElement>("input");
-  const results = document.querySelector<HTMLElement>("#home-search-results");
-  const dataElement = document.querySelector<HTMLScriptElement>("#home-search-data");
-  const searchItems = JSON.parse(dataElement?.textContent ?? "[]") as Array<{ slug: string; name: string; organization: string; summary: string; group: string; kind: string }>;
-  let activeIndex = -1;
-  let visibleItems: typeof searchItems = [];
-
-  function closeResults() {
-    if (!results || !input) return;
-    results.hidden = true;
-    results.replaceChildren();
-    input.setAttribute("aria-expanded", "false");
-    input.removeAttribute("aria-activedescendant");
-    activeIndex = -1;
-  }
-
-  function setActive(next: number) {
-    if (!results || !input || !visibleItems.length) return;
-    activeIndex = (next + visibleItems.length) % visibleItems.length;
-    const options = Array.from(results.querySelectorAll<HTMLElement>("[role=option]"));
-    options.forEach((option, index) => option.classList.toggle("active", index === activeIndex));
-    const active = options[activeIndex];
-    if (active) {
-      input.setAttribute("aria-activedescendant", active.id);
-      active.scrollIntoView({ block: "nearest" });
-    }
-  }
-
-  function renderResults() {
-    if (!results || !input) return;
-    const query = input.value.trim().toLowerCase();
-    if (query.length < 1) return closeResults();
-    visibleItems = searchItems.filter((item) => `${item.name} ${item.organization} ${item.summary}`.toLowerCase().includes(query)).slice(0, 8);
-    results.replaceChildren();
-    if (!visibleItems.length) {
-      const empty = document.createElement("p");
-      empty.textContent = "No direct match. Press Enter to search the full database.";
-      results.append(empty);
-    } else {
-      visibleItems.forEach((item, index) => {
-        const link = document.createElement("a");
-        link.id = `home-search-option-${index}`;
-        link.href = `/project/${item.slug}`;
-        link.setAttribute("role", "option");
-        link.innerHTML = `<span><strong></strong><small></small></span><b></b>`;
-        link.querySelector("strong")!.textContent = item.name;
-        link.querySelector("small")!.textContent = item.organization || item.kind;
-        link.querySelector("b")!.textContent = item.group;
-        results.append(link);
-      });
-    }
-    results.hidden = false;
-    input.setAttribute("aria-expanded", "true");
-    activeIndex = -1;
-  }
-
-  input?.addEventListener("input", renderResults);
-  input?.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowDown") { event.preventDefault(); if (results?.hidden) renderResults(); setActive(activeIndex + 1); }
-    if (event.key === "ArrowUp") { event.preventDefault(); setActive(activeIndex - 1); }
-    if (event.key === "Escape") closeResults();
-    if (event.key === "Enter" && activeIndex >= 0 && visibleItems[activeIndex]) {
-      event.preventDefault();
-      window.location.href = `/project/${visibleItems[activeIndex].slug}`;
-    }
-  });
-  document.addEventListener("keydown", (event) => {
-    if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") { event.preventDefault(); input?.focus(); }
-  });
-  document.addEventListener("click", (event) => { if (form && !form.contains(event.target as Node)) closeResults(); });
-</script>
-
 <style>
-  .home-shell { background: var(--paper); margin: 0 auto; max-width: var(--max); overflow: clip; }
-  .home-hero { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 1fr) 320px; }
-  .hero-main { min-width: 0; padding: 44px 48px 34px; }
-  .hero-eyebrow { align-items: center; color: var(--muted); display: flex; font-family: var(--mono); font-size: .64rem; gap: 9px; text-transform: uppercase; }
-  .hero-eyebrow i { background: var(--acid); border: 1px solid var(--ink); height: 8px; width: 8px; }
-  .brand-statement { font-size: clamp(1rem, 1.5vw, 1.35rem); font-weight: 600; letter-spacing: -.03em; margin: 30px 0 12px; }
-  .brand-statement em { color: var(--blue); font-style: normal; }
-  .brand-statement b { color: var(--orange); }
-  .hero-main h1 { font-size: clamp(3.2rem, 6.5vw, 7rem); font-weight: 600; letter-spacing: -.07em; line-height: .86; margin: 0; max-width: 1000px; }
-  .hero-description { color: #3f473f; font-size: 1.05rem; line-height: 1.55; margin: 28px 0 0; max-width: 720px; }
-  .hero-search { margin-top: 36px; max-width: 880px; position: relative; }
-  .hero-search > label { display: block; font-family: var(--mono); font-size: .61rem; margin-bottom: 9px; text-transform: uppercase; }
-  .search-control { border: 1px solid var(--ink); display: grid; grid-template-columns: 1fr auto auto; }
-  .search-control input { background: #fff; border: 0; min-height: 54px; min-width: 0; padding: 0 16px; }
-  .search-control kbd { align-self: center; border: 1px solid var(--line); color: var(--muted); font-family: var(--mono); font-size: .58rem; margin-right: 12px; padding: 5px 7px; }
-  .search-control button { background: var(--ink); border: 0; color: var(--paper); cursor: pointer; font-family: var(--mono); font-size: .62rem; min-width: 120px; text-transform: uppercase; }
-  .search-control button:hover { background: var(--acid); color: var(--ink); }
-  .search-results { background: #fff; border: 1px solid var(--ink); border-top: 0; left: 0; max-height: 360px; overflow-y: auto; position: absolute; right: 0; z-index: 80; }
-  .search-results[hidden] { display: none; }
-  .search-results a { align-items: center; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; min-height: 62px; padding: 10px 14px; }
-  .search-results a:hover, .search-results a.active { background: var(--acid); }
-  .search-results strong, .search-results small { display: block; }
-  .search-results small, .search-results b, .search-results p { color: var(--muted); font-family: var(--mono); font-size: .58rem; margin: 4px 0 0; text-transform: uppercase; }
-  .search-results p { padding: 18px; }
-  .task-shortcuts { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 18px; }
-  .task-shortcuts a { border: 1px solid var(--line); border-right: 0; font-family: var(--mono); font-size: .6rem; padding: 13px 12px; text-transform: uppercase; }
-  .task-shortcuts a:last-child { border-right: 1px solid var(--line); }
-  .task-shortcuts a:hover { background: var(--acid); border-color: var(--ink); }
-  .task-shortcuts span { color: var(--muted); margin-right: 8px; }
-  .hero-definition { background: var(--ink); color: var(--paper); padding: 34px 26px; }
-  .hero-definition .data-label { color: var(--acid); }
-  .hero-definition > p { color: #c6cbc4; font-size: .9rem; line-height: 1.6; margin: 24px 0 32px; }
-  .hero-definition dl { border-top: 1px solid #424740; margin: 0; }
-  .hero-definition dl div { border-bottom: 1px solid #424740; display: grid; grid-template-columns: 72px 1fr; padding: 14px 0; }
-  .hero-definition dt, .hero-definition dd, .hero-definition > a { font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
-  .hero-definition dt { color: var(--acid); }
-  .hero-definition dd { color: #b9beb7; margin: 0; }
-  .hero-definition > a { display: inline-block; margin-top: 28px; text-decoration: underline; text-underline-offset: 4px; }
-  .composition { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: repeat(3, 1fr); }
-  .composition a { border-right: 1px solid var(--line); display: grid; min-height: 118px; padding: 18px 22px; }
-  .composition a:last-child { border: 0; }
-  .composition a:hover { background: #e6e8e1; }
-  .composition span, .composition small { color: var(--muted); font-family: var(--mono); font-size: .59rem; text-transform: uppercase; }
-  .composition strong { align-self: end; font-size: 2rem; line-height: 1; }
-  .composition .agents-card { box-shadow: inset 4px 0 0 var(--blue); }
-  .composition .robotics-card { box-shadow: inset 4px 0 0 var(--orange); }
-  .section-heading { align-items: end; display: flex; justify-content: space-between; margin-bottom: 26px; }
-  .section-index { color: var(--muted); font-family: var(--mono); font-size: .61rem; text-transform: uppercase; }
-  .section-heading h2 { font-size: clamp(2.5rem, 4.6vw, 4.8rem); letter-spacing: -.055em; line-height: .94; margin: 9px 0 0; }
-  .section-heading > a, .section-heading > p { color: var(--muted); font-family: var(--mono); font-size: .61rem; line-height: 1.5; margin: 0; max-width: 420px; text-transform: uppercase; }
-  .section-heading > a { text-decoration: underline; text-underline-offset: 4px; }
-  .happening-section, .snapshot-section { border-bottom: 1px solid var(--ink); padding: 48px; }
-  .happening-section { background: #e3e5de; }
-  .happening-grid { display: grid; grid-template-columns: minmax(0, 1fr) 330px; }
-  .change-feed-preview { border: 1px solid var(--ink); }
-  .change-feed-preview > a { align-items: center; background: var(--paper); border-bottom: 1px solid var(--line); display: grid; gap: 16px; grid-template-columns: minmax(180px, 1fr) minmax(160px, 1fr) 90px 18px; min-height: 70px; padding: 10px 16px; }
-  .change-feed-preview > a:last-child { border: 0; }
-  .change-feed-preview > a:hover { background: var(--acid); }
-  .event-name strong, .event-name small { display: block; }
-  .event-name small, .event-type, .change-feed-preview time { color: var(--muted); font-family: var(--mono); font-size: .58rem; margin-top: 4px; text-transform: uppercase; }
-  .activity-preview { background: var(--ink); color: var(--paper); }
-  .activity-preview header, .activity-preview > a { border-bottom: 1px solid #444a43; padding: 14px 18px; }
-  .activity-preview header { display: flex; justify-content: space-between; }
-  .activity-preview header a { color: var(--acid); font-family: var(--mono); font-size: .57rem; text-transform: uppercase; }
-  .activity-preview > a { align-items: center; display: flex; justify-content: space-between; min-height: 69px; }
-  .activity-preview > a:hover { background: #1e241e; }
-  .activity-preview strong, .activity-preview small { display: block; }
-  .activity-preview small, .activity-preview time { color: #aeb5ad; font-family: var(--mono); font-size: .55rem; margin-top: 4px; text-transform: uppercase; }
-  .snapshot-grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
-  .snapshot-grid article { border: 1px solid var(--ink); }
-  .snapshot-grid article > header { align-items: center; border-bottom: 1px solid var(--ink); display: grid; gap: 12px; grid-template-columns: 10px 1fr auto; min-height: 76px; padding: 12px 16px; }
-  .agent-dot, .robot-dot { background: var(--blue); height: 10px; width: 10px; }
-  .robot-dot { background: var(--orange); }
-  .snapshot-grid header strong, .snapshot-grid header small { display: block; }
-  .snapshot-grid header small, .snapshot-grid header a { color: var(--muted); font-family: var(--mono); font-size: .56rem; margin-top: 4px; text-transform: uppercase; }
-  .snapshot-head, .snapshot-row { align-items: center; display: grid; gap: 12px; grid-template-columns: 1fr 100px 74px; }
-  .snapshot-head { background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: .55rem; padding: 9px 14px; text-transform: uppercase; }
-  .snapshot-row { border-bottom: 1px solid var(--line); min-height: 67px; padding: 9px 14px; }
-  .snapshot-row:last-child { border: 0; }
-  .snapshot-row:hover { background: var(--acid); }
-  .snapshot-row strong, .snapshot-row small { display: block; }
-  .snapshot-row small, .snapshot-row time, .snapshot-row > span:nth-child(2) { color: var(--muted); font-family: var(--mono); font-size: .55rem; margin-top: 4px; text-transform: uppercase; }
-  .snapshot-row b { font-family: var(--mono); font-size: .7rem; text-align: right; }
-  .data-health { align-items: center; background: var(--acid); border-bottom: 1px solid var(--ink); display: grid; gap: 22px; grid-template-columns: 240px 1fr auto; padding: 20px 28px; }
-  .data-health > div strong { display: block; font-size: 1rem; margin-top: 7px; }
-  .data-health dl { display: grid; grid-template-columns: repeat(5, 1fr); margin: 0; }
-  .data-health dl div { border-left: 1px solid rgba(11,13,12,.35); padding: 2px 16px; }
-  .data-health dt { font-family: var(--mono); font-size: .52rem; text-transform: uppercase; }
-  .data-health dd { font-size: 1rem; font-weight: 600; margin: 7px 0 0; }
-  .data-health dd small { font-family: var(--mono); font-size: .5rem; }
-  .data-health > a { font-family: var(--mono); font-size: .58rem; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
-  .support-compact { align-items: center; background: var(--paper-raised); display: grid; gap: 36px; grid-template-columns: 1fr 1fr auto; padding: 34px 40px; }
-  .support-compact h2 { font-size: 1.7rem; letter-spacing: -.04em; margin: 10px 0 0; }
-  .support-compact p { color: var(--muted); line-height: 1.55; margin: 0; }
-  .support-compact > a { border: 1px solid var(--ink); font-family: var(--mono); font-size: .6rem; padding: 13px 16px; text-transform: uppercase; }
-  .support-compact > a:hover { background: var(--ink); color: var(--acid); }
-  @media (max-width: 1040px) {
-    .home-hero { grid-template-columns: 1fr 280px; }
-    .task-shortcuts { grid-template-columns: 1fr 1fr; }
-    .task-shortcuts a:nth-child(-n+2) { border-bottom: 0; }
-    .happening-grid { grid-template-columns: 1fr; }
-    .activity-preview { display: grid; grid-template-columns: 1fr 1fr; }
-    .activity-preview header { grid-column: 1 / -1; }
-    .snapshot-grid { grid-template-columns: 1fr; }
-    .data-health { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 760px) {
-    .home-hero { grid-template-columns: 1fr; }
-    .hero-main { padding: 30px 20px 24px; }
-    .brand-statement { margin-top: 24px; }
-    .hero-main h1 { font-size: clamp(3rem, 15vw, 5rem); }
-    .search-control { grid-template-columns: 1fr auto; }
-    .search-control kbd { display: none; }
-    .search-control button { min-width: 88px; }
-    .task-shortcuts { grid-template-columns: 1fr; }
-    .task-shortcuts a:nth-child(n) { border: 1px solid var(--line); border-bottom: 0; }
-    .task-shortcuts a:last-child { border-bottom: 1px solid var(--line); }
-    .hero-definition { padding: 28px 20px; }
-    .composition { grid-template-columns: 1fr; }
-    .composition a { border-bottom: 1px solid var(--line); border-right: 0; min-height: 100px; }
-    .happening-section, .snapshot-section { padding: 34px 14px; }
-    .section-heading { align-items: start; display: grid; gap: 14px; }
-    .change-feed-preview > a { align-items: start; grid-template-columns: 1fr auto; padding: 14px; }
-    .event-type { grid-column: 1; }
-    .change-feed-preview time { grid-column: 2; grid-row: 1; }
-    .change-feed-preview b { display: none; }
-    .activity-preview { grid-template-columns: 1fr; }
-    .snapshot-head { display: none; }
-    .snapshot-row { align-items: start; grid-template-columns: 1fr auto; }
-    .snapshot-row > span:nth-child(2), .snapshot-row time { grid-column: 1; }
-    .snapshot-row b { grid-column: 2; grid-row: 1; }
-    .data-health { padding: 22px 16px; }
-    .data-health dl { grid-template-columns: repeat(2, 1fr); }
-    .data-health dl div { border-bottom: 1px solid rgba(11,13,12,.3); min-height: 65px; padding: 10px; }
-    .support-compact { align-items: start; gap: 20px; grid-template-columns: 1fr; padding: 30px 20px; }
-  }
+  .db-home { background: var(--paper); margin: 0 auto; max-width: var(--max); }
+  .db-hero { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0,1fr) minmax(520px,.85fr); min-height: 196px; }
+  .hero-copy { padding: 26px 32px 28px; }
+  .overline, .home-section-head span { color: var(--muted); font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .hero-copy h1 { font-size: var(--data-title); letter-spacing: -.045em; line-height: 1; margin: 14px 0 10px; }
+  .hero-copy > p { color: var(--muted); font-size: .9rem; line-height: 1.5; margin: 0; max-width: 680px; }
+  .hero-readout { background: #ededeb; border-left: 1px solid var(--ink); display: grid; grid-template-columns: repeat(3,1fr); margin: 0; }
+  .hero-readout div { border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; min-height: 98px; padding: 16px; }
+  .hero-readout div:nth-child(3n) { border-right: 0; }
+  .hero-readout div:nth-last-child(-n+3) { border-bottom: 0; }
+  .hero-readout dt { color: var(--muted); font-size: .75rem; }
+  .hero-readout dd { font-size: 1.15rem; font-variant-numeric: tabular-nums; font-weight: 650; margin: 0; }
+  .category-index { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: repeat(4,1fr); }
+  .category-index a { align-items: center; border-right: 1px solid var(--line); display: grid; gap: 5px 12px; grid-template-columns: auto 1fr auto; min-height: 72px; padding: 12px 16px; }
+  .category-index a:last-child { border: 0; }
+  .category-index a:hover { background: var(--ink); color: #fff; }
+  .category-index span, .category-index small { color: var(--muted); font-size: .75rem; text-transform: uppercase; }
+  .category-index strong { font-size: .95rem; letter-spacing: -.015em; }
+  .category-index small { grid-column: 2; }
+  .category-index b { grid-column: 3; grid-row: 1 / 3; }
+  .leaderboard-index, .usage-index, .change-index { border-bottom: 1px solid var(--ink); padding: 28px 32px 32px; }
+  .home-section-head { align-items: end; display: flex; justify-content: space-between; margin-bottom: 18px; }
+  .home-section-head h2 { font-size: var(--section-title); letter-spacing: -.025em; line-height: 1.1; margin: 6px 0 0; }
+  .home-section-head > a { color: var(--muted); font-size: .75rem; line-height: 1.5; margin: 0; }
+  .home-section-head > a { font-weight: 700; text-align: right; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
+  .leaderboard-grid { display: grid; gap: 20px; grid-template-columns: 1fr 1fr; }
+  .leaderboard-grid article > header { align-items: end; display: flex; justify-content: space-between; margin-bottom: 12px; }
+  .leaderboard-grid article > header span { color: var(--muted); font-size: .75rem; font-weight: 700; text-transform: uppercase; }
+  .leaderboard-grid h3 { font-size: 1.05rem; letter-spacing: -.02em; margin: 3px 0 0; }
+  .leaderboard-grid article > header a { font-size: .75rem; font-weight: 700; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
+  .usage-table { border: 1px solid var(--ink); }
+  .usage-table > a { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 14px; grid-template-columns: 42px minmax(180px,.75fr) minmax(120px,1fr) 94px 16px; min-height: 48px; padding: 7px 11px; }
+  .usage-table > a:last-child { border-bottom: 0; }
+  .usage-table > a:hover { background: var(--ink); color: var(--paper); }
+  .usage-table > a > span, .usage-table em { font-size: .78rem; font-style: normal; font-variant-numeric: tabular-nums; font-weight: 700; }
+  .usage-table strong { font-size: .86rem; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .usage-table strong small { color: var(--muted); font-size: .72rem; font-weight: 500; margin-left: 7px; }
+  .usage-table > a:hover small { color: #bdbdbd; }
+  .usage-table > a > i { background: #dededb; display: block; height: 7px; overflow: hidden; }
+  .usage-table > a > i > b { background: var(--ink); display: block; height: 100%; }
+  .usage-table > a:hover > i { background: #575757; }
+  .usage-table > a:hover > i > b { background: #fff; }
+  .usage-table > a > b { font-size: .82rem; text-align: right; }
+  .usage-source-note { align-items: center; color: var(--muted); display: flex; flex-wrap: wrap; font-size: .72rem; gap: 7px 18px; padding: 11px 1px 0; }
+  .usage-source-note a { font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .usage-source-note > a { margin-left: auto; text-transform: uppercase; }
+  .usage-empty { border: 1px solid var(--ink); padding: 18px; }
+  .change-rows { border-top: 1px solid var(--ink); }
+  .change-rows > a { align-items: center; border-bottom: 1px solid var(--line); display: grid; gap: 18px; grid-template-columns: 100px minmax(170px,.7fr) 1fr 110px 20px; min-height: 50px; padding: 8px 10px; }
+  .change-rows > a:hover { background: #e5e5e5; }
+  .change-rows time, .change-rows span, .change-rows small { color: var(--muted); font-size: .75rem; }
+  .change-rows strong { font-size: .86rem; }
+  .database-note { align-items: center; background: #111; color: #fff; display: flex; gap: 18px; min-height: 60px; padding: 14px 32px; }
+  .database-note strong { font-size: .82rem; }
+  .database-note span { color: #aaa; font-size: .78rem; }
+  .database-note a { font-size: .75rem; font-weight: 700; margin-left: auto; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
+  @media (max-width: 1050px) { .db-hero { grid-template-columns: 1fr; } .hero-readout { border-left: 0; border-top: 1px solid var(--ink); } .category-index, .leaderboard-grid { grid-template-columns: 1fr 1fr; } .category-index a:nth-child(2) { border-right: 0; } }
+  @media (max-width: 760px) { .hero-copy { padding: 22px 18px; } .hero-copy h1 { font-size: 2rem; } .hero-readout { grid-template-columns: repeat(6, minmax(108px,1fr)); overflow-x: auto; } .hero-readout div { border-bottom: 0; min-height: 74px; padding: 11px 12px; } .category-index { display: flex; overflow-x: auto; } .category-index a:nth-child(n) { flex: 0 0 158px; min-height: 58px; padding: 9px 12px; } .leaderboard-grid { grid-template-columns: 1fr; } .leaderboard-index, .usage-index, .change-index { padding: 22px 0; } .home-section-head, .leaderboard-grid article > header { padding-inline: 18px; } .leaderboard-grid { gap: 30px; } .usage-table { border-left: 0; border-right: 0; } .usage-table > a { gap: 8px; grid-template-columns: 30px minmax(100px,1fr) 68px 14px; min-height: 54px; padding: 9px 10px; } .usage-table > a > i { display: none; } .usage-table strong small { display: block; margin: 3px 0 0; } .usage-source-note { padding: 11px 18px 0; } .usage-source-note > a { margin-left: 0; } .change-rows > a { align-items: start; grid-template-columns: 72px 1fr 18px; } .change-rows span { grid-column: 2; } .change-rows small { display: none; } .database-note { align-items: flex-start; flex-direction: column; gap: 6px; padding: 18px; } .database-note a { margin-left: 0; } }
 </style>

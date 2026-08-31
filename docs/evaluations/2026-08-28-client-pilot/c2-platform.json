@@ -1,0 +1,401 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-08-28T10:03:18.439Z",
+  "finishedAt": "2026-08-28T10:04:16.995Z",
+  "design": "New compound questions over four already-curated projects; not unseen-project generalization. Freeze before the first client run. One run per arm is a feasibility pilot, not a reliable success-rate estimate.",
+  "baseline": "pinned-official-source-snapshots, not live web search",
+  "repetitionsPerArm": 1,
+  "taskSpecSha256": "a0a636b951c65d837f86cf3ca0207898a8dc4dd933ef2a92cfc6d462fc7c5d06",
+  "corpusSha256": "a45a4c26a297520eab2d70829b55ede7d5321b47655e29436faaa35acd4ff260",
+  "fingerprints": {
+    "scripts/evaluate-knowledge-client.mjs": "144c93e706d833b22154bd9c9d4aa4d27ce49cd8eecc0669fe5a8fd3f7899ac3",
+    "scripts/knowledge-evaluation-mcp.mjs": "9ad79dfa4efb0b78747668dd8c05dbaca6a002393b7c9675ec872169d3315ac4",
+    "evaluations/knowledge-preview.ts": "71f1107813d9a98e48ed17b35e126133d1165b3058d7e5f7ba616f1ae39fd8ab",
+    "src/lib/registry/knowledge-query.ts": "c55927819f751f61c5f8bcf6d16c2f7eaa76260de6c805c4081e4d1b633b4c0e",
+    "src/lib/registry/knowledge-document.ts": "9b37649e7a63437cbc9315657d955b622bee2aae181f2fa8f5c996e3ebf95e5b",
+    "src/lib/registry/intake.ts": "7a799d96a55a0af4936633d33dc5f93f44f8d443544e567d17baa1be6d572c75",
+    "migrations/0001_registry.sql": "42d3c4c65e54341ea74d3775b4b36b8554c0c1e0c1ed4f72cd70e0677610adc8",
+    "migrations/0002_seed.sql": "f80965d5da1214ac5df8a4cd905c9118aef881997eeeb67aa5a4338bc87a2580",
+    "migrations/0003_robotics_seed.sql": "fa6b511b80596577559490436cc212beb86c777a8c87649f883d6b0de2e6a21a",
+    "migrations/0004_pipeline_integrity.sql": "9e29c50dcb46398398541603b9f3783dcf8981447487a0cc114709ed30affa01",
+    "migrations/0005_mistral_large_source.sql": "b4951dc18957537332618e39574311af63ff28bbb54c2ac18180f051e9ab9bcd",
+    "migrations/0006_normalize_seeded_spdx.sql": "664c89b57a91d442b9761d3c347d0a26dacd80e6d4cbdbc17e5d9481e27dcfb5",
+    "migrations/0007_openclaw_canonical_evidence.sql": "b0d81de5e785474a37ad1aa9ec92dca42aea9e4679127dc909b292e07b8b8727",
+    "migrations/0008_entity_domains.sql": "b03f4d579affff8630b3d0a437100789c99cedc3af0630bd9efe38331b248a24",
+    "migrations/0009_entity_domain_defaults.sql": "4fadadee28c895b3da4238041773df048e5b0559da3ae71a1f729d31892d1b44",
+    "migrations/0010_robotics_layers.sql": "e192412e071b732a4709a7d24ff1ad908b8c88742d992e92eae28eb523831479",
+    "migrations/0011_dedupe_genesis.sql": "bdd4fb6992fb6178be30653d572cffec0db4604ad0a68d8ad7084430e8536220",
+    "migrations/0012_robot_media_and_specs.sql": "abca4c9b1bb7b9a7c8e472d22d0d032bef912a4bf68228062698961afba07ad0",
+    "migrations/0013_robot_use_cases.sql": "e22eaad3c2fa09732d2022b844dae86ed210c0603ca7982e8de3337176cccaa4",
+    "migrations/0014_microduck_seed.sql": "61faab13242cfbc3f22e7590e53e07c6a5d5611c8c5cb55ccc445fa2f5e66a7e",
+    "migrations/0015_reviewed_intake.sql": "e8d01fcd18f030f5b375e0100c32084e07f3da8d089cb69edd25ffd1acef7aea",
+    "migrations/0016_reviewed_corrections.sql": "e181a25b161502a64fc61eec7d7f49167aa06d57e52e925149b29a52cf1320bc",
+    "content/intake/vgpu.json": "a19643ea1424cb4abfa0cd9ddf85640e9f3fe839108f58dc153367819dc95115",
+    "content/intake/opencode.json": "eaa2a01bed8f72e6a98f757f1161b0ee2908b3046ec8b080f30ed33d0d2c9dc5",
+    "content/intake/openhands.json": "1718873661122c49be9a4ff36c84d2180060ae8e3d7f1199da7a114f2aafae0d",
+    "content/intake/langgraph.json": "d9a99851e6bb353436295eae76ac43457888f19580650b0625c8d8235c62dd5b",
+    "content/intake/lerobot.json": "4c4d461d2ce2235ba948e272a318e98881d4de23076232fce5c0471b3abcd984",
+    "content/intake/playwright-mcp.json": "6ac0123ac0f3f8fc02d87782aad2dd1a492a2f8084126c35334c811618936ad9"
+  },
+  "codexVersion": "codex-cli 0.150.0-alpha.12.2",
+  "secondClient": {
+    "client": "claude",
+    "authenticated": false,
+    "status": "blocked-authentication"
+  },
+  "trials": [
+    {
+      "trial": "codex-c2-platform",
+      "task": "C2",
+      "arm": "platform",
+      "client": "codex",
+      "model": "client-default-not-reported",
+      "elapsedMs": 57902,
+      "exitCode": 0,
+      "stopReason": null,
+      "usage": {
+        "input_tokens": 104287,
+        "cached_input_tokens": 55040,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 847,
+        "reasoning_output_tokens": 239
+      },
+      "toolCalls": [
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/llms.txt"
+          },
+          "status": "completed",
+          "responseBytes": 2218,
+          "responseSha256": "588678b78e539698eb3e6a22db0af5cf51c5cee5a9776ac4a3611a79edcec211",
+          "sourceUrls": []
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/api/knowledge/v1/search.json?interface=mcp&limit=20"
+          },
+          "status": "completed",
+          "responseBytes": 7827,
+          "responseSha256": "7bc25a80de53d808b97a2f2426cc6565be84f38f89c04d5bd9d7a39c723b932d",
+          "sourceUrls": [
+            "https://vgpu.sh/api/mcp",
+            "https://vgpu.sh/docs/mcp",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/api/knowledge/v1/project.json?slug=playwright-mcp&section=fields&limit=20"
+          },
+          "status": "completed",
+          "responseBytes": 4725,
+          "responseSha256": "376457212a6de4be7a587dd15810e95334d8ea0b4e3d364e14f17e70099b90a1",
+          "sourceUrls": [
+            "https://www.openagent.bot/project/playwright-mcp",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/package.json"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/api/knowledge/v1/project.json?slug=playwright-mcp&section=facts&fact_key=policy.security_boundary"
+          },
+          "status": "completed",
+          "responseBytes": 1599,
+          "responseSha256": "556792927dfc47f2a3e4fe8f54d0650996768507e8ed6ed6097b3652bcf2fd67",
+          "sourceUrls": [
+            "https://www.openagent.bot/project/playwright-mcp",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/api/knowledge/v1/project.json?slug=playwright-mcp&section=facts&fact_key=policy.isolation"
+          },
+          "status": "completed",
+          "responseBytes": 1607,
+          "responseSha256": "1aa593503164c27b1b164f7a062b1f6fa65cdd270213aaddb13d9089db562b03",
+          "sourceUrls": [
+            "https://www.openagent.bot/project/playwright-mcp",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/api/knowledge/v1/project.json?slug=playwright-mcp&section=facts&fact_key=scope.tool_vs_server"
+          },
+          "status": "completed",
+          "responseBytes": 1615,
+          "responseSha256": "1b9e5703a63756d9a7fb76dd2d86ecf18b7789476270e5a1ffa07409432bf492",
+          "sourceUrls": [
+            "https://www.openagent.bot/project/playwright-mcp",
+            "https://github.com/microsoft/playwright-cli",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/sources/index.json"
+          },
+          "status": "completed",
+          "responseBytes": 5491,
+          "responseSha256": "f0e04bcf6290d1b40fb7c77f7346e5ca152e27242340023bd3d59721eb2c1f10",
+          "sourceUrls": [
+            "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/README.md",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/README.md",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/pyproject.toml",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md",
+            "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/libs/langgraph/pyproject.toml",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/package.json",
+            "https://github.com/langchain-ai/langgraph/blob/d5f4b2aa960940effc8430165ab3604038e817af/LICENSE",
+            "https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/LICENSE",
+            "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/LICENSE",
+            "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/LICENSE"
+          ]
+        },
+        {
+          "server": "evaluation",
+          "tool": "read",
+          "arguments": {
+            "path": "/sources/playwright-mcp-readme"
+          },
+          "status": "completed",
+          "responseBytes": 64020,
+          "responseSha256": "6a8cc1a5e6f546bf4ef73a79c1162990b305f3439f6d0f501db2b05e88418cad",
+          "sourceUrls": [
+            "https://playwright.dev",
+            "https://github.com/microsoft/playwright-cli",
+            "https://img.shields.io/badge/VS_Code-VS_Code?style=flat-square&label=Install%20Server&color=0098FF",
+            "https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522playwright%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522%2540playwright%252Fmcp%2540latest%2522%255D%257D",
+            "https://img.shields.io/badge/VS_Code_Insiders-VS_Code_Insiders?style=flat-square&label=Install%20Server&color=24bfa5",
+            "https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522playwright%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522%2540playwright%252Fmcp%2540latest%2522%255D%257D",
+            "https://modelcontextprotocol.io/quickstart/user",
+            "https://docs.cline.bot/mcp/configuring-mcp-servers",
+            "https://docs.cline.bot/mcp/configuring-mcp-servers#editing-mcp-settings-files",
+            "https://github.com/openai/codex/blob/main/codex-rs/config.md#mcp_servers",
+            "https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli",
+            "https://cursor.com/deeplink/mcp-install-dark.svg",
+            "https://cursor.com/en/install-mcp?name=Playwright&config=eyJjb21tYW5kIjoibnB4IEBwbGF5d3JpZ2h0L21jcEBsYXRlc3QifQ%3D%3D",
+            "https://docs.factory.ai/cli/configuration/mcp",
+            "https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md#configure-the-mcp-server-in-settingsjson",
+            "https://block.github.io/goose/img/extension-install-dark.svg",
+            "https://block.github.io/goose/extension?cmd=npx&arg=%40playwright%2Fmcp%40latest&id=playwright&name=Playwright&description=Interact%20with%20web%20pages%20through%20structured%20accessibility%20snapshots%20using%20Playwright",
+            "https://docs.x.ai/build/features/mcp-servers",
+            "https://junie.jetbrains.com/docs/junie-cli-mcp-configuration.html",
+            "https://kiro.dev/images/add-to-kiro.svg",
+            "https://kiro.dev/launch/mcp/add?name=playwright&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22%40playwright%2Fmcp%40latest%22%5D%7D",
+            "https://kiro.dev/docs/mcp/",
+            "https://files.lmstudio.ai/deeplink/mcp-install-light.svg",
+            "https://lmstudio.ai/install-mcp?name=playwright&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyJAcGxheXdyaWdodC9tY3BAbGF0ZXN0Il19",
+            "https://opencode.ai/docs/mcp-servers/",
+            "https://opencode.ai/config.json",
+            "https://docs.qodo.ai/qodo-documentation/qodo-gen",
+            "https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_add-an-mcp-server",
+            "https://docs.warp.dev/knowledge-and-collaboration/mcp#adding-an-mcp-server",
+            "https://docs.windsurf.com/windsurf/cascade/mcp",
+            "https://playwright.dev/docs/auth",
+            "https://github.com/microsoft/playwright/tree/main/packages/extension#readme",
+            "https://playwright.dev/docs/api/class-browsertype#browser-type-launch-persistent-context",
+            "https://example.com:8080`",
+            "https://playwright.dev/docs/api/class-page#page-set-default-timeout",
+            "https://playwright.dev/docs/api/class-page#page-set-default-navigation-timeout",
+            "https://playwright.dev/docs/test-timeouts#expect-timeout",
+            "https://modelcontextprotocol.io/docs/tutorials/security/security_best_practices",
+            "https://example.com"
+          ]
+        }
+      ],
+      "unexpectedTools": [],
+      "http": [
+        {
+          "trial": "codex-c2-platform",
+          "method": "GET",
+          "path": "/llms.txt",
+          "queryKeys": [],
+          "queryHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": 200,
+          "bytes": 2139,
+          "durationMs": 4.097
+        },
+        {
+          "trial": "codex-c2-platform",
+          "method": "GET",
+          "path": "/api/knowledge/v1/search.json",
+          "queryKeys": [
+            "interface",
+            "limit"
+          ],
+          "queryHash": "8392e585c2b21b973025cca05739995ffd2b31768001cf618bdd077ebbe28593",
+          "status": 200,
+          "bytes": 6882,
+          "durationMs": 17.961
+        },
+        {
+          "trial": "codex-c2-platform",
+          "method": "GET",
+          "path": "/api/knowledge/v1/project.json",
+          "queryKeys": [
+            "limit",
+            "section",
+            "slug"
+          ],
+          "queryHash": "6541009a93b67e62cfe44824a8f5bf9bedb7722c77f8c45ed19d2161a5ab21b5",
+          "status": 200,
+          "bytes": 4202,
+          "durationMs": 10.167
+        },
+        {
+          "trial": "codex-c2-platform",
+          "method": "GET",
+          "path": "/api/knowledge/v1/project.json",
+          "queryKeys": [
+            "fact_key",
+            "section",
+            "slug"
+          ],
+          "queryHash": "7f7051cb021dfc77e48112ee8bf18750404605004aa827d5d1f61d6c529bd0b3",
+          "status": 200,
+          "bytes": 1396,
+          "durationMs": 7.734
+        },
+        {
+          "trial": "codex-c2-platform",
+          "method": "GET",
+          "path": "/api/knowledge/v1/project.json",
+          "queryKeys": [
+            "fact_key",
+            "section",
+            "slug"
+          ],
+          "queryHash": "e650ba28f3b3fe7b97899949bc934330c04daf6206c5adf300c46a551619abc8",
+          "status": 200,
+          "bytes": 1396,
+          "durationMs": 5.567
+        },
+        {
+          "trial": "codex-c2-platform",
+          "method": "GET",
+          "path": "/api/knowledge/v1/project.json",
+          "queryKeys": [
+            "fact_key",
+            "section",
+            "slug"
+          ],
+          "queryHash": "ea7eaf0f2a5d15242d375c76c4307f461de6569d499ceed015c3baa54598c41c",
+          "status": 200,
+          "bytes": 1408,
+          "durationMs": 5.441
+        },
+        {
+          "trial": "codex-c2-platform",
+          "method": "GET",
+          "path": "/sources/index.json",
+          "queryKeys": [],
+          "queryHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": 200,
+          "bytes": 5030,
+          "durationMs": 0.843
+        },
+        {
+          "trial": "codex-c2-platform",
+          "method": "GET",
+          "path": "/sources/playwright-mcp-readme",
+          "queryKeys": [],
+          "queryHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": 200,
+          "bytes": 61992,
+          "durationMs": 0.526
+        }
+      ],
+      "answer": {
+        "claims": {
+          "isolatedGuaranteesReadOnly": false,
+          "wholeServerReadOnly": false,
+          "securityBoundary": false,
+          "profilePersistence": "With --isolated, the browser profile remains in memory and is not saved to disk."
+        },
+        "citations": [
+          "https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md"
+        ],
+        "explanation": "--isolated controls profile persistence, not browser or tool effects. The reviewed README lists many tools as Read-only: false, including typing, tab management, storage mutation, and mouse actions; browser activity can also cause network and remote-side effects. Read-only annotations apply per tool and do not make the whole server read-only. The documented origin filters explicitly do not serve as a security boundary. These are source-reviewed guarantees, not runtime-tested behavior."
+      },
+      "final": "{\n  \"claims\": {\n    \"isolatedGuaranteesReadOnly\": false,\n    \"wholeServerReadOnly\": false,\n    \"securityBoundary\": false,\n    \"profilePersistence\": \"With --isolated, the browser profile remains in memory and is not saved to disk.\"\n  },\n  \"citations\": [\n    \"https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md\"\n  ],\n  \"explanation\": \"--isolated controls profile persistence, not browser or tool effects. The reviewed README lists many tools as Read-only: false, including typing, tab management, storage mutation, and mouse actions; browser activity can also cause network and remote-side effects. Read-only annotations apply per tool and do not make the whole server read-only. The documented origin filters explicitly do not serve as a security boundary. These are source-reviewed guarantees, not runtime-tested behavior.\"\n}",
+      "grade": {
+        "claims": [
+          {
+            "key": "isolatedGuaranteesReadOnly",
+            "passed": true
+          },
+          {
+            "key": "wholeServerReadOnly",
+            "passed": true
+          },
+          {
+            "key": "securityBoundary",
+            "passed": true
+          },
+          {
+            "key": "profilePersistence",
+            "passed": false
+          }
+        ],
+        "evidence": [
+          {
+            "source": "playwright-mcp-readme",
+            "passed": true
+          }
+        ],
+        "structuredPass": false,
+        "semanticAudit": "pending-human-or-parent-review"
+      },
+      "errors": [
+        "Reconnecting... 2/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Reconnecting... 3/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Reconnecting... 4/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Reconnecting... 5/5 (stream disconnected before completion: Connection reset by peer (os error 54))",
+        "Falling back from WebSockets to HTTPS transport. stream disconnected before completion: Connection reset by peer (os error 54)"
+      ],
+      "clientDiagnostics": [
+        "2026-08-28T10:03:19.775408Z ERROR codex_skills_extension::loader::host: skills scan reached its traversal limit (root: file:///Users/boyangxie/.codex/skills)",
+        "2026-08-28T10:03:19.793313Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/briefing/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:03:19.793343Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/enrich/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:03:19.793345Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/ingest/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:03:19.793347Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/install/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:03:19.793349Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/maintain/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:03:19.793350Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/migrate/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:03:19.793352Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/publish/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:03:19.793354Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/query/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:03:19.793355Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.codex/skills/gbrain/upstream-skills/setup/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:03:19.793357Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.agents/skills/debug-pro-1.0.0/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:03:19.793358Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.agents/skills/feishu-drive-1.0.0/SKILL.md: invalid YAML: could not find expected ':' at line 13 column 1, while scanning a simple key at line 12 column 1",
+        "2026-08-28T10:03:19.793361Z ERROR codex_core::session::session: failed to load skill /Users/boyangxie/.agents/skills/test-runner-1.0.0/SKILL.md: missing YAML frontmatter delimited by ---",
+        "2026-08-28T10:03:20.118032Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T10:03:21.607055Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T10:03:22.118880Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T10:03:22.776522Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T10:03:23.849969Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T10:03:25.656744Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses",
+        "2026-08-28T10:03:29.122245Z ERROR codex_api::endpoint::responses_websocket: failed to connect to websocket: IO error: Connection reset by peer (os error 54), url: wss://chatgpt.com/backend-api/codex/responses"
+      ],
+      "contextCaveats": [],
+      "validTrial": true
+    }
+  ]
+}

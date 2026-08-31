@@ -202,11 +202,11 @@ function opennessLabel(entity: RegistryEntity, facet: "hardware" | "software"): 
   .registry-results { display: grid; grid-template-rows: auto minmax(0, 1fr); height: 100%; min-height: 0; min-width: 0; }
   .result-toolbar { align-items: center; background: rgba(243, 244, 239, .98); border-bottom: 1px solid var(--ink); display: flex; justify-content: space-between; min-height: 54px; padding: 0 18px; z-index: 3; }
   .compare-control { align-items: center; display: flex; gap: 13px; }
-  .compare-control strong, .compare-control a, .result-count { font-family: var(--mono); font-size: .64rem; text-transform: uppercase; }
+  .compare-control strong, .compare-control a, .result-count { font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
   .compare-control a { background: var(--ink); color: var(--acid); padding: 7px 10px; }
   .table-scroll { min-height: 0; min-width: 0; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
   .registry-table { border-collapse: collapse; min-width: 1010px; table-layout: fixed; width: 100%; }
-  th { background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: .59rem; font-weight: 500; height: 39px; letter-spacing: .035em; padding: 0 10px; position: sticky; text-align: left; text-transform: uppercase; top: 0; z-index: 2; }
+  th { background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: .75rem; font-weight: 500; height: 36px; letter-spacing: .025em; padding: 0 10px; position: sticky; text-align: left; text-transform: uppercase; top: 0; z-index: 2; }
   th:nth-child(2) { width: 25%; }
   th:nth-child(3) { width: 13%; }
   th:nth-child(4) { width: 12%; }
@@ -214,13 +214,13 @@ function opennessLabel(entity: RegistryEntity, facet: "hardware" | "software"): 
   th:nth-child(6), th:nth-child(7) { width: 8%; }
   th:nth-child(8) { width: 10%; }
   th:nth-child(9) { width: 7%; }
-  td { border-bottom: 1px solid var(--line); color: #3f423d; font-family: var(--mono); font-size: .66rem; height: 68px; padding: 9px 10px; vertical-align: middle; }
+  td { border-bottom: 1px solid var(--line); color: #3f423d; font-family: var(--mono); font-size: .75rem; height: 58px; padding: 7px 10px; vertical-align: middle; }
   tbody tr:hover, tbody tr.selected { background: #f7f8f2; box-shadow: inset 3px 0 0 var(--acid); }
   .select-column { text-align: center; width: 38px; }
   .select-column input { accent-color: var(--acid); height: 16px; margin: 0; width: 16px; }
   .entity-cell a { color: var(--ink); display: block; font-family: var(--sans); font-size: .92rem; font-weight: 600; }
   .entity-cell a:hover { text-decoration: underline; text-underline-offset: 3px; }
-  .entity-cell small { color: var(--muted); display: block; font-size: .58rem; margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .entity-cell small { color: var(--muted); display: block; font-size: .75rem; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .entity-cell .mobile-dossier-link { display: none; }
   .domain-value { font-weight: 600; text-transform: uppercase; }
   .domain-value.agent { color: var(--blue); }
@@ -228,7 +228,7 @@ function opennessLabel(entity: RegistryEntity, facet: "hardware" | "software"): 
   .domain-value.shared { color: var(--muted); }
   .domain-value.open-source, .domain-value.open-weights { color: #426300; }
   .domain-value.closed { color: var(--orange); }
-  .secondary-metric { color: var(--muted); display: block; font-size: .54rem; margin-top: 5px; text-transform: uppercase; }
+  .secondary-metric { color: var(--muted); display: block; font-size: .75rem; margin-top: 4px; text-transform: uppercase; }
   .robot-mode { min-width: 900px; }
   .robot-mode th:nth-child(2) { width: 26%; }
   .robot-mode th:nth-child(3) { width: 12%; }
@@ -239,16 +239,16 @@ function opennessLabel(entity: RegistryEntity, facet: "hardware" | "software"): 
   .numeric { font-variant-numeric: tabular-nums; text-align: right; }
   .metric-value { color: var(--ink); font-size: .78rem; }
   .delta-value { color: #426300; }
-  .delta-value span { color: var(--muted); font-size: .56rem; text-transform: uppercase; }
+  .delta-value span { color: var(--muted); font-size: .75rem; text-transform: uppercase; }
   .evidence-count { background: var(--acid); border: 1px solid var(--ink); color: var(--ink); display: inline-block; min-width: 28px; padding: 4px 5px; text-align: center; }
   .compare-tray { align-items: center; background: var(--ink); bottom: 18px; color: var(--paper); display: flex; gap: 10px; left: 50%; max-width: min(920px, calc(100vw - 36px)); min-height: 58px; padding: 9px 10px 9px 16px; position: fixed; transform: translateX(-50%); width: max-content; z-index: 90; }
   .compare-tray[hidden] { display: none; }
-  .tray-label { color: var(--acid); font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
+  .tray-label { color: var(--acid); font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
   .tray-projects { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tray-projects span { align-items: center; border: 1px solid #555b53; display: inline-flex; font-family: var(--mono); font-size: .6rem; gap: 8px; min-height: 34px; padding-left: 10px; text-transform: uppercase; }
+  .tray-projects span { align-items: center; border: 1px solid #555b53; display: inline-flex; font-family: var(--mono); font-size: .75rem; gap: 8px; min-height: 34px; padding-left: 10px; text-transform: uppercase; }
   .tray-projects button { align-self: stretch; background: transparent; border: 0; border-left: 1px solid #555b53; color: var(--paper); cursor: pointer; min-width: 30px; }
   .tray-projects button:hover { background: var(--orange); color: var(--ink); }
-  .tray-add, .tray-action { align-items: center; border: 1px solid #555b53; display: flex; font-family: var(--mono); font-size: .58rem; min-height: 36px; padding: 0 11px; text-transform: uppercase; }
+  .tray-add, .tray-action { align-items: center; border: 1px solid #555b53; display: flex; font-family: var(--mono); font-size: .75rem; min-height: 36px; padding: 0 11px; text-transform: uppercase; }
   .tray-action { background: var(--acid); border-color: var(--acid); color: var(--ink); }
   .tray-action[aria-disabled="true"] { background: transparent; color: #8c938a; pointer-events: none; }
   .sr-only { height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; clip: rect(0,0,0,0); }
@@ -268,7 +268,7 @@ function opennessLabel(entity: RegistryEntity, facet: "hardware" | "software"): 
     .registry-table thead { display: none; }
     .registry-table tbody { display: block; }
     .registry-table tr { border-bottom: 1px solid var(--line); display: grid; gap: 7px 12px; grid-template-columns: 24px minmax(0, 1fr) auto; padding: 15px 14px; }
-    .registry-table td { border: 0; display: block; font-size: .63rem; height: auto; padding: 0; text-align: left; }
+    .registry-table td { border: 0; display: block; font-size: .75rem; height: auto; padding: 0; text-align: left; }
     .registry-table .select-column { grid-row: 1 / 4; padding-top: 3px; }
     .registry-table .entity-cell { grid-column: 2; }
     .registry-table td:nth-child(3) { grid-column: 3; grid-row: 1; text-align: right; }
@@ -276,7 +276,7 @@ function opennessLabel(entity: RegistryEntity, facet: "hardware" | "software"): 
     .registry-table td:nth-child(5) { grid-column: 2; color: var(--muted); }
     .registry-table td:nth-child(5)::before { content: "License · "; }
     .registry-table td:nth-child(6) { grid-column: 3; grid-row: 2; text-align: right; }
-    .registry-table td:nth-child(6)::after { content: " stars"; color: var(--muted); font-size: .55rem; }
+    .registry-table td:nth-child(6)::after { content: " stars"; color: var(--muted); font-size: .75rem; }
     .registry-table td:nth-child(7) { display: none; }
     .registry-table td:nth-child(8) { grid-column: 3; grid-row: 3; text-align: right; }
     .registry-table td:nth-child(9) { grid-column: 3; grid-row: 4; text-align: right; }
@@ -285,12 +285,12 @@ function opennessLabel(entity: RegistryEntity, facet: "hardware" | "software"): 
     .registry-table.robot-mode td:nth-child(5) { grid-column: 2; grid-row: 3; }
     .registry-table.robot-mode td:nth-child(5)::before { content: "Software · "; }
     .registry-table.robot-mode td:nth-child(6) { grid-column: 3; grid-row: 2; }
-    .registry-table.robot-mode td:nth-child(6)::before { content: "Availability · "; color: var(--muted); font-size: .54rem; }
+    .registry-table.robot-mode td:nth-child(6)::before { content: "Availability · "; color: var(--muted); font-size: .75rem; }
     .registry-table.robot-mode td:nth-child(6)::after { content: none; }
     .registry-table.robot-mode td:nth-child(7) { display: block; grid-column: 3; grid-row: 3; text-align: right; }
     .registry-table.robot-mode td:nth-child(8) { grid-column: 3; grid-row: 4; text-align: right; }
     .entity-cell small { max-width: 230px; }
-    .mobile-dossier-link { color: var(--muted) !important; display: inline-block !important; font-family: var(--mono) !important; font-size: .54rem !important; font-weight: 500 !important; margin-top: 8px; text-transform: uppercase; }
+    .mobile-dossier-link { color: var(--muted) !important; display: inline-block !important; font-family: var(--mono) !important; font-size: .75rem !important; font-weight: 500 !important; margin-top: 8px; text-transform: uppercase; }
     .compare-tray { bottom: 0; left: 0; max-width: none; padding: 9px 12px; transform: none; width: 100%; }
     .tray-label, .tray-projects, .tray-add { display: none; }
     .tray-action { margin-left: auto; }

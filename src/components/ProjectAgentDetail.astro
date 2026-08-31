@@ -13,7 +13,7 @@ const history = dossier.metricSnapshots.filter((item) => item.key === "stars").s
 const historyDays = entity.metricHistoryDays ?? 0;
 const hasRepositoryMetrics = entity.stars !== undefined || dossier.subscriptions.some((s) => s.sourceId === "github");
 const modelMetadata = entity.robotics?.metadata ?? {};
-const facets = ["code", "weights", "data", "documentation", "governance"].map((name) => ({
+const facets = ["code", "weights", "data", "documentation", "governance", "commercial_use"].map((name) => ({
   name,
   value: dossier.opennessFacets.find((item) => item.facet === name)
 }));
@@ -30,6 +30,11 @@ const atGlance = [
   { label: "Evidence", value: compactNumber(dossier.record.observationCount) }
 ];
 const factRows = dossier.facts.filter((fact) => !["resources.", "curated.", "interfaces."].some((prefix) => fact.key.startsWith(prefix)));
+const ownerFact = dossier.facts.find((fact) => fact.key === "owner")?.value;
+const repositoryOwner = ownerFact && typeof ownerFact === "object" && !Array.isArray(ownerFact) && typeof (ownerFact as Record<string, unknown>).login === "string"
+  ? String((ownerFact as Record<string, unknown>).login) : undefined;
+const repositoryCreatedAt = dossier.facts.find((fact) => fact.key === "repository_created_at")?.value;
+const maintainer = entity.organization ?? repositoryOwner;
 ---
 
 <article class="project-sheet software-sheet page-grid">
@@ -56,38 +61,50 @@ const factRows = dossier.facts.filter((fact) => !["resources.", "curated.", "int
     {atGlance.map((item) => <div><span>{item.label}</span><strong>{item.value}</strong></div>)}
   </section>
 
+  <nav class="dossier-nav" aria-label={`${entity.name} dossier sections`}>
+    <a href="#overview">Overview</a>
+    {hasRepositoryMetrics && <a href="#activity">Activity</a>}
+    <a href="#changes">Changes</a>
+    <a href="#record-status">Status</a>
+    <a href="#releases">Releases</a>
+    <a href="#evaluations">Evaluations</a>
+    <a href="#evidence">Evidence</a>
+  </nav>
+
   <ProjectInterfaces dossier={dossier} mode="metrics" />
   <ProjectResources dossier={dossier} />
   <ProjectInterfaces dossier={dossier} mode="interfaces" />
 
-  <section class="two-column section-block">
+  <section id="overview" class="two-column section-block">
     <div class="what-it-is">
-      <span class="eyebrow">What it is</span>
-      <h2>What {entity.name} is</h2>
+      <span class="eyebrow">Product record</span>
+      <h2>Overview</h2>
       <p>{entity.description ?? entity.summary}</p>
-      {(entity.organization || entity.country) && <dl>
-        {entity.organization && <div><dt>Maintainer</dt><dd>{entity.organization}</dd></div>}
+      {(maintainer || entity.country || typeof repositoryCreatedAt === "string") && <dl>
+        {maintainer && <div><dt>Maintainer</dt><dd>{maintainer}</dd></div>}
         {entity.country && <div><dt>Origin</dt><dd>{entity.country}</dd></div>}
+        {typeof repositoryCreatedAt === "string" && <div><dt>Repository since</dt><dd>{calendarDate(repositoryCreatedAt)}</dd></div>}
       </dl>}
     </div>
     <div class="passport">
       <span class="eyebrow">Open passport</span>
-      <h2>Open, facet by facet</h2>
+      <h2>Openness</h2>
       <div class="passport-list">
         <div><strong>License</strong><span class="state open">{entity.licenseSpdx ?? "Unknown"}</span></div>
+        {(dossier.licenseScopes ?? []).map((license) => <div><strong>{license.scope}<small>{license.path ?? "Project scope"} · <a href={license.sourceUrl} rel="noreferrer">Evidence ↗</a></small></strong><span class:list={["state", license.status === "restricted" ? "partial" : license.status]}>{license.licenseIdentifier}</span></div>)}
         {facets.map((facet) => <div><strong>{label(facet.name)}{facet.value?.licenseOrTerms && <small>{facet.value.licenseOrTerms}{facet.value.sourceUrl && <> · <a href={facet.value.sourceUrl} rel="noreferrer">Source ↗</a></>}</small>}</strong><span class:list={["state", facet.value?.status ?? "unknown"]}>{facet.value ? label(facet.value.status) : "Unknown"}</span></div>)}
       </div>
     </div>
   </section>
 
-  {hasRepositoryMetrics && <section class="activity section-block">
-    <header><div><span class="eyebrow">Activity</span><h2>Observed project activity</h2></div><div class="range-tabs" aria-label="Chart range"><span class="active">30d</span><span>90d</span><span>1y</span><span>All</span></div></header>
+  {hasRepositoryMetrics && <section id="activity" class="activity section-block">
+    <header><div><span class="eyebrow">Repository</span><h2>Activity</h2></div><div class="range-tabs" aria-label="Chart range"><span class="active">30d</span><span>90d</span><span>1y</span><span>All</span></div></header>
     <div class="activity-summary"><div><span>Stars</span><strong>{compactNumber(entity.stars)}</strong></div><div><span>Forks</span><strong>{compactNumber(entity.forks)}</strong></div><div><span>Open issues</span><strong>{compactNumber(entity.openIssues)}</strong></div><div><span>Last commit</span><strong>{relativeDate(entity.lastCommitAt)}</strong></div></div>
     {history.length > 1 ? <canvas data-project-history data-values={JSON.stringify(history.map((item) => item.value))} height="150" aria-label={`${entity.name} observed star history`}></canvas> : <p class="collecting">History is still being collected. {historyDays} of 30 days available.</p>}
   </section>}
 
-  <section class="changes section-block">
-    <span class="eyebrow">Recent changes</span><h2>What changed</h2>
+  <section id="changes" class="changes section-block">
+    <span class="eyebrow">Change ledger</span><h2>Changes</h2>
     {dossier.changes.length ? <div class="change-list">{dossier.changes.slice(0, 6).map((change) => <article><time datetime={change.detectedAt}>{calendarDate(change.detectedAt)}</time><strong>{label(change.factKey.replaceAll("_", "-"))}</strong><span>{label(change.changeType)}</span></article>)}</div> : <p class="empty-copy">No verified changes observed yet.</p>}
   </section>
 
@@ -99,7 +116,7 @@ const factRows = dossier.facts.filter((fact) => !["resources.", "curated.", "int
   </details>
 
   <section class="related section-block">
-    <span class="eyebrow">Next step</span><h2>Compare {entity.name} with</h2>
+    <span class="eyebrow">Related records</span><h2>Compare with</h2>
     {related.length ? <div class="related-grid">{related.map((item) => <a href={`/project/${item.slug}`}><strong>{item.name}</strong><span>{label(item.kind)} · {label(item.opennessStatus)}</span><small>{compactNumber(item.stars)} stars</small></a>)}</div> : <p class="empty-copy">Related records are being classified.</p>}
   </section>
 </article>
@@ -127,63 +144,67 @@ const factRows = dossier.facts.filter((fact) => !["resources.", "curated.", "int
 
 <style>
   .project-sheet { overflow: hidden; }
-  .project-head { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: 1fr 320px; min-height: 280px; }
-  .project-identity { align-items: center; display: grid; gap: 28px; grid-template-columns: 86px 1fr; padding: 36px 42px; }
-  .project-mark { align-items: center; background: var(--paper-raised); border: 1px solid var(--ink); display: flex; height: 86px; justify-content: center; overflow: hidden; width: 86px; }
+  .project-head { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: 1fr 340px; min-height: 188px; }
+  .project-identity { align-items: center; display: grid; gap: 22px; grid-template-columns: 68px 1fr; padding: 24px 28px; }
+  .project-mark { align-items: center; background: var(--paper-raised); border: 1px solid var(--ink); display: flex; height: 68px; justify-content: center; overflow: hidden; width: 68px; }
   .project-mark img { height: 100%; object-fit: contain; width: 100%; }
   .project-mark span { font-family: var(--mono); font-size: 1.1rem; }
-  h1 { font-family: var(--sans); font-size: clamp(3.1rem, 5vw, 5rem); font-weight: 600; letter-spacing: -.06em; line-height: .9; margin: 17px 0; }
-  .project-identity p { font-size: 1rem; line-height: 1.55; margin: 0; max-width: 720px; }
-  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 21px; }
-  .tag-row span { border: 1px solid var(--ink); font-family: var(--mono); font-size: .57rem; padding: 6px 8px; text-transform: uppercase; }
-  .head-actions { align-content: center; background: var(--paper-raised); border-left: 1px solid var(--ink); display: grid; gap: 8px; grid-template-columns: 1fr 1fr; padding: 28px; }
-  .head-actions a { align-items: center; border: 1px solid var(--ink); display: flex; font-family: var(--mono); font-size: .58rem; justify-content: center; min-height: 42px; text-transform: uppercase; }
+  h1 { font-family: var(--sans); font-size: var(--data-title); font-weight: 600; letter-spacing: -.045em; line-height: 1; margin: 10px 0; }
+  .project-identity p { font-size: .9rem; line-height: 1.5; margin: 0; max-width: 720px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 13px; }
+  .tag-row span { border: 1px solid var(--ink); font-family: var(--mono); font-size: .75rem; padding: 5px 7px; text-transform: uppercase; }
+  .head-actions { align-content: center; background: var(--paper-raised); border-left: 1px solid var(--ink); display: grid; gap: 7px; grid-template-columns: 1fr 1fr; padding: 20px; }
+  .head-actions a { align-items: center; border: 1px solid var(--ink); display: flex; font-family: var(--mono); font-size: .75rem; justify-content: center; min-height: 40px; text-transform: uppercase; }
   .head-actions .primary { background: var(--ink); color: var(--acid); }
   .head-actions .secondary-action { border-color: var(--line); color: var(--muted); }
   .glance { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: repeat(6, 1fr); }
-  .glance div { border-right: 1px solid var(--line); min-height: 112px; padding: 20px; }
-  .glance span, .activity-summary span { color: var(--muted); display: block; font-family: var(--mono); font-size: .56rem; text-transform: uppercase; }
-  .glance strong { display: block; font-family: var(--sans); font-size: 1.55rem; font-weight: 500; letter-spacing: -.04em; margin-top: 24px; overflow-wrap: anywhere; }
-  .section-block { border-bottom: 1px solid var(--ink); padding: 44px 42px; scroll-margin-top: 90px; }
+  .glance div { border-right: 1px solid var(--line); min-height: 78px; padding: 13px 16px; }
+  .glance span, .activity-summary span { color: var(--muted); display: block; font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
+  .glance strong { display: block; font-family: var(--sans); font-size: 1.1rem; font-weight: 600; letter-spacing: -.02em; margin-top: 12px; overflow-wrap: anywhere; }
+  .dossier-nav { background: rgba(247,247,245,.98); border-bottom: 1px solid var(--ink); display: flex; overflow-x: auto; padding-left: 28px; position: sticky; top: var(--header-height); z-index: 18; }
+  .dossier-nav a { border-left: 1px solid var(--line); font-size: .75rem; font-weight: 650; padding: 12px 15px; text-transform: uppercase; white-space: nowrap; }
+  .dossier-nav a:last-child { border-right: 1px solid var(--line); }
+  .dossier-nav a:hover { background: var(--ink); color: var(--paper); }
+  .section-block { border-bottom: 1px solid var(--ink); padding: 28px; scroll-margin-top: calc(var(--header-height) + 48px); }
   .two-column { display: grid; grid-template-columns: 1fr 1fr; padding: 0; }
-  .two-column > div { padding: 46px 42px; }
+  .two-column > div { padding: 28px; }
   .passport { background: var(--paper-raised); border-left: 1px solid var(--ink); }
-  h2 { font-family: var(--sans); font-size: clamp(2rem, 3.3vw, 3.25rem); font-weight: 600; letter-spacing: -.05em; line-height: 1; margin: 12px 0 24px; }
-  .what-it-is > p { font-size: 1.08rem; line-height: 1.65; max-width: 680px; }
+  h2 { font-family: var(--sans); font-size: var(--section-title); font-weight: 600; letter-spacing: -.025em; line-height: 1.1; margin: 7px 0 16px; }
+  .what-it-is > p { font-size: .92rem; line-height: 1.6; max-width: 680px; }
   .what-it-is dl { border-top: 1px solid var(--line); margin-top: 32px; }
   .what-it-is dl div { border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 120px 1fr; padding: 13px 0; }
-  dt { color: var(--muted); font-family: var(--mono); font-size: .58rem; text-transform: uppercase; } dd { margin: 0; }
+  dt { color: var(--muted); font-family: var(--mono); font-size: .75rem; text-transform: uppercase; } dd { margin: 0; }
   .passport-list { border-top: 1px solid var(--ink); }
   .passport-list > div { align-items: center; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; min-height: 54px; }
   .passport-list strong { font-size: .76rem; }
   .passport-list small, .evidence-table small { color: var(--muted); display: block; font-size: .75rem; font-weight: 400; line-height: 1.5; margin: 8px 16px 8px 0; overflow-wrap: anywhere; }
-  .state { border: 1px solid currentColor; font-family: var(--mono); font-size: .55rem; padding: 5px 7px; text-transform: uppercase; }
+  .state { border: 1px solid currentColor; font-family: var(--mono); font-size: .75rem; padding: 5px 7px; text-transform: uppercase; }
   .state.open { background: var(--acid); color: var(--ink); } .state.partial { color: var(--orange); } .state.unknown { color: var(--muted); }
   .activity > header { align-items: end; display: flex; justify-content: space-between; }
   .range-tabs { display: flex; }
-  .range-tabs span { border: 1px solid var(--line); font-family: var(--mono); font-size: .56rem; padding: 8px 11px; }
+  .range-tabs span { border: 1px solid var(--line); font-family: var(--mono); font-size: .75rem; padding: 8px 11px; }
   .range-tabs .active { background: var(--ink); color: var(--paper); }
   .activity-summary { border: 1px solid var(--line); display: grid; grid-template-columns: repeat(4, 1fr); }
   .activity-summary div { border-right: 1px solid var(--line); padding: 17px; }
   .activity-summary strong { display: block; font-size: 1rem; margin-top: 10px; }
   .activity canvas { display: block; margin-top: 24px; max-width: 100%; width: 100%; }
-  .collecting, .empty-copy { color: var(--muted); font-family: var(--mono); font-size: .65rem; line-height: 1.6; }
+  .collecting, .empty-copy { color: var(--muted); font-family: var(--mono); font-size: .78rem; line-height: 1.6; }
   .change-list { border-top: 1px solid var(--ink); }
   .change-list article { align-items: center; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 130px 1fr 100px; min-height: 58px; }
-  .change-list time, .change-list span { color: var(--muted); font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
+  .change-list time, .change-list span { color: var(--muted); font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
   .evidence { padding: 0; }
   .evidence summary { align-items: center; cursor: pointer; display: flex; justify-content: space-between; padding: 28px 42px; }
   .evidence summary strong { display: block; font-family: var(--sans); font-size: 1.55rem; margin-top: 8px; }
-  .evidence summary b { font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
+  .evidence summary b { font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
   .evidence-table { border-top: 1px solid var(--ink); }
   .evidence-table div { border-bottom: 1px solid var(--line); display: grid; gap: 20px; grid-template-columns: 1fr 180px 110px; padding: 15px 42px; }
-  .evidence-table span, .evidence-table time { color: var(--muted); font-family: var(--mono); font-size: .58rem; }
+  .evidence-table span, .evidence-table time { color: var(--muted); font-family: var(--mono); font-size: .75rem; }
   .related-grid { border-top: 1px solid var(--ink); display: grid; grid-template-columns: repeat(4, 1fr); }
   .related-grid a { border-right: 1px solid var(--line); min-height: 150px; padding: 20px; }
   .related-grid a:hover { background: var(--acid); }
   .related-grid strong, .related-grid span, .related-grid small { display: block; }
   .related-grid strong { font-family: var(--sans); font-size: 1.3rem; }
-  .related-grid span, .related-grid small { color: var(--muted); font-family: var(--mono); font-size: .57rem; margin-top: 15px; text-transform: uppercase; }
+  .related-grid span, .related-grid small { color: var(--muted); font-family: var(--mono); font-size: .75rem; margin-top: 12px; text-transform: uppercase; }
   @media (max-width: 900px) { .project-head { grid-template-columns: 1fr; } .head-actions { border-left: 0; border-top: 1px solid var(--ink); } .glance { grid-template-columns: repeat(3, 1fr); } .two-column { grid-template-columns: 1fr; } .passport { border-left: 0; border-top: 1px solid var(--ink); } .related-grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 620px) { .project-identity { align-items: start; grid-template-columns: 54px 1fr; padding: 26px 18px; } .project-mark { height: 54px; width: 54px; } h1 { font-size: 2.6rem; } .glance { grid-template-columns: 1fr 1fr; } .glance div { min-height: 96px; padding: 16px; } .section-block, .two-column > div { padding: 32px 18px; } .activity > header { align-items: start; flex-direction: column; } .activity-summary { grid-template-columns: 1fr 1fr; } .change-list article { grid-template-columns: 90px 1fr; } .change-list span { display: none; } .evidence summary { padding: 24px 18px; } .evidence-table div { grid-template-columns: 1fr; padding: 15px 18px; } .related-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 620px) { .project-identity { align-items: start; grid-template-columns: 54px 1fr; padding: 22px 18px; } .project-mark { height: 54px; width: 54px; } h1 { font-size: 2rem; } .glance { grid-template-columns: 1fr 1fr; } .glance div { min-height: 78px; padding: 13px; } .dossier-nav { padding-left: 0; } .section-block, .two-column > div { padding: 24px 18px; } .activity > header { align-items: start; flex-direction: column; } .activity-summary { grid-template-columns: 1fr 1fr; } .change-list article { grid-template-columns: 90px 1fr; } .change-list span { display: none; } .evidence summary { padding: 20px 18px; } .evidence-table div { grid-template-columns: 1fr; padding: 15px 18px; } .related-grid { grid-template-columns: 1fr; } }
 </style>

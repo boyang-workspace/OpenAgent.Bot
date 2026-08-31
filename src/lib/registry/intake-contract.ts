@@ -1,7 +1,9 @@
-import { entityDomains, entityKinds, opennessStatuses, roboticsLayers, robotFormFactors, robotModelTypes, roboticsStackTypes } from "./types";
-import type { EntityDomain, EntityKind, OpennessStatus, RegistryRoboticsProfile } from "./types";
+import { entityDomains, entityKinds, opennessFacetNames, opennessFacetStatuses, opennessStatuses, roboticsLayers, robotFormFactors, robotModelTypes, roboticsStackTypes, sourceRoles } from "./types";
+import type { EntityDomain, EntityKind, OpennessFacetName, OpennessFacetStatus, OpennessStatus, RegistryRoboticsProfile, SourceRole } from "./types";
+import { deriveOpennessStatus } from "./integrity";
 
 export type Evidence = { sourceId: string; sourceUrl: string; observedAt: string };
+export type IntakeCorrection = { factKey: string; previousObservationId: string; reason: string };
 export const interfaceTypes = ["cli", "api", "mcp", "sdk"] as const;
 export type ToolInterface = {
   id: string; name: string; type: typeof interfaceTypes[number];
@@ -26,11 +28,12 @@ export type IntakeManifest = {
   evidence: Evidence;
   domains: EntityDomain[];
   useCases: Array<{ slug: string; name: string; description: string; evidence: Evidence }>;
-  facets: Array<{ facet: "code" | "weights" | "data" | "hardware" | "documentation" | "governance"; status: "open" | "partial" | "closed" | "unknown"; terms: string; evidence: Evidence }>;
+  facets: Array<{ facet: OpennessFacetName; status: OpennessFacetStatus; terms: string; evidenceConfidence?: "verified" | "inferred" | "manual" | "conflicting" | "stale"; evidence: Evidence }>;
+  licenses: Array<{ id: string; scope: string; path?: string; licenseIdentifier: string; status: "open" | "restricted" | "unknown"; evidence: Evidence }>;
   facts: Array<{ key: string; value: unknown; evidence: Evidence }>;
   resources: IntakeResource[];
   interfaces: ToolInterface[];
-  subscriptions: Array<{ sourceId: "github" | "github-releases" | "npm" | "huggingface"; locator: string }>;
+  subscriptions: Array<{ sourceId: "github" | "github-releases" | "npm" | "huggingface"; locator: string; role: SourceRole }>;
   robotics?: Pick<RegistryRoboticsProfile, "layer" | "formFactor" | "stackType" | "modelType" | "metadata">;
 };
 
@@ -62,6 +65,19 @@ function evidence(value: unknown) {
 function slug(value: unknown) { requireThat(typeof value === "string" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value) && value.length <= 100, "Invalid stable ID/slug"); }
 function unique(items: string[], name: string) { requireThat(new Set(items).size === items.length, `Duplicate ${name}`); }
 
+// Review annotations belong to one publication, not to the reusable manifest.
+// They are hashed with that manifest and are never inferred from an update.
+export function validateCorrections(input: unknown = []): IntakeCorrection[] {
+  requireThat(Array.isArray(input) && input.length <= 20 && JSON.stringify(input).length <= 24_000, "Invalid corrections list");
+  for (const item of input) {
+    object(item);
+    requireThat(Object.keys(item).every(key => ["factKey", "previousObservationId", "reason"].includes(key)), "Unrecognized correction field");
+    text(item.factKey, "correction fact key", 200); text(item.previousObservationId, "prior observation ID", 200); text(item.reason, "correction reason", 1000);
+  }
+  unique(input.map(item => item.factKey), "correction key");
+  return input.map(item => ({ factKey: item.factKey, previousObservationId: item.previousObservationId, reason: item.reason.trim() }));
+}
+
 // Only canonical resource locators can reach collectors; URLs are never fetched
 // from arbitrary manifest fields, and commands are displayed but never executed.
 export function validateLocator(sourceId: string, locator: string): void {
@@ -73,7 +89,7 @@ export function validateManifest(input: unknown): IntakeManifest {
   object(input);
   requireThat(JSON.stringify(input).length <= 150_000, "Manifest is too large");
   requireThat(input.schemaVersion === 1, "Unsupported manifest version");
-  const allowed = ["schemaVersion", "entity", "evidence", "domains", "useCases", "facets", "facts", "resources", "interfaces", "subscriptions", "robotics"];
+  const allowed = ["schemaVersion", "entity", "evidence", "domains", "useCases", "facets", "licenses", "facts", "resources", "interfaces", "subscriptions", "robotics"];
   requireThat(Object.keys(input).every((key) => allowed.includes(key)), "Unrecognized manifest field");
   const e = input.entity; object(e); slug(e.slug);
   requireThat(Object.keys(e).every((key) => ["slug","name","kind","summary","description","organization","country","lifecycle","opennessStatus","licenseSpdx","canonicalUrl","repositoryUrl","documentationUrl","visibility"].includes(key)), "Unrecognized entity field");
@@ -86,13 +102,19 @@ export function validateManifest(input: unknown): IntakeManifest {
   if (e.licenseSpdx !== undefined) text(e.licenseSpdx, "license", 100);
   if (e.country !== undefined) requireThat(/^[A-Z]{2}$/.test(e.country), "Country must use ISO alpha-2");
   evidence(input.evidence);
-  for (const key of ["domains","useCases","facets","facts","resources","interfaces","subscriptions"]) requireThat(Array.isArray(input[key]) && input[key].length <= 60, `Invalid ${key} list`);
+  if (input.licenses === undefined) input.licenses = [];
+  for (const key of ["domains","useCases","facets","licenses","facts","resources","interfaces","subscriptions"]) requireThat(Array.isArray(input[key]) && input[key].length <= 60, `Invalid ${key} list`);
   requireThat(input.domains.length > 0, "A primary domain is required");
   input.domains.forEach((domain: unknown) => choice(domain, entityDomains, "domain")); unique(input.domains, "domain");
   for (const item of input.useCases) { object(item); slug(item.slug); text(item.name,"use case name",100); text(item.description,"use case description",500); evidence(item.evidence); }
   unique(input.useCases.map((item: any) => item.slug), "use case");
-  for (const item of input.facets) { object(item); choice(item.facet,["code","weights","data","hardware","documentation","governance"],"facet"); choice(item.status,["open","partial","closed","unknown"],"facet status"); text(item.terms,"facet terms",2000); evidence(item.evidence); }
+  for (const item of input.facets) { object(item); choice(item.facet,opennessFacetNames,"facet"); choice(item.status,opennessFacetStatuses,"facet status"); text(item.terms,"facet terms",2000); if (item.evidenceConfidence !== undefined) choice(item.evidenceConfidence,["verified","inferred","manual","conflicting","stale"],"evidence confidence"); evidence(item.evidence); }
   unique(input.facets.map((item: any) => item.facet), "facet");
+  for (const item of input.licenses) {
+    object(item); slug(item.id); text(item.scope,"license scope",200); text(item.licenseIdentifier,"license identifier",200); choice(item.status,["open","restricted","unknown"],"license status");
+    if (item.path !== undefined) text(item.path,"license path",500); evidence(item.evidence);
+  }
+  unique(input.licenses.map((item: any) => item.id), "license scope ID");
   for (const item of input.facts) {
     object(item); requireThat(/^(software|spec|training|policy|availability|scope|capabilities)\.[a-z0-9_]+$/.test(item.key), "Fact must use an approved curated namespace");
     requireThat(item.value !== undefined && JSON.stringify(item.value).length <= 16000, "Missing or oversized fact value"); evidence(item.evidence);
@@ -117,8 +139,10 @@ export function validateManifest(input: unknown): IntakeManifest {
     requireThat(item.url || item.command, "Interface requires URL or command");
   }
   unique(input.interfaces.map((item: any) => item.id), "interface ID");
-  for (const item of input.subscriptions) { object(item); choice(item.sourceId,["github","github-releases","npm","huggingface"],"subscription source"); text(item.locator,"locator",214); validateLocator(item.sourceId,item.locator); }
+  for (const item of input.subscriptions) { object(item); choice(item.sourceId,["github","github-releases","npm","huggingface"],"subscription source"); text(item.locator,"locator",214); validateLocator(item.sourceId,item.locator); if (item.role === undefined) item.role = item.sourceId === "huggingface" ? "weights" : item.sourceId === "npm" ? "package" : item.sourceId === "github-releases" ? "core" : "primary"; choice(item.role,sourceRoles,"source role"); }
   unique(input.subscriptions.map((item: any) => item.sourceId), "metric source per entity");
+  const derivedOpenness = deriveOpennessStatus({ claimed: e.opennessStatus, facets: input.facets, licenses: input.licenses });
+  requireThat(derivedOpenness === e.opennessStatus, `Openness ${e.opennessStatus} conflicts with facet or scoped-license evidence; derived ${derivedOpenness}`);
   if (input.robotics) {
     object(input.robotics); requireThat(input.domains.includes("robotics"), "Robotics profile requires robotics domain");
     choice(input.robotics.layer,roboticsLayers,"robotics layer"); object(input.robotics.metadata);

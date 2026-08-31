@@ -1,0 +1,24 @@
+{
+  "robotics_microduck": [
+    { "factKey": "resources.official", "name": "Official product & pre-order", "id": "product" },
+    { "factKey": "resources.official", "name": "Microduck browser simulator", "id": "browser-simulator" },
+    { "factKey": "resources.official", "name": "Official specifications & press kit", "id": "press-kit" }
+  ],
+  "robotics_microduck_runtime": [
+    { "factKey": "resources.documentation", "name": "Runtime architecture & documentation", "id": "runtime-docs" }
+  ],
+  "robotics_microduck_rl": [
+    { "factKey": "resources.simulation", "name": "Microduck MJCF robot models", "id": "mjcf-models" }
+  ],
+  "robotics_microduck_policies": [
+    { "factKey": "resources.policies", "name": "alpha_ground_pick.onnx", "id": "alpha-ground-pick" },
+    { "factKey": "resources.policies", "name": "alpha_sitstand.onnx", "id": "alpha-sitstand" },
+    { "factKey": "resources.policies", "name": "alpha_stand.onnx", "id": "alpha-stand" },
+    { "factKey": "resources.policies", "name": "alpha_walking.onnx", "id": "alpha-walking" },
+    { "factKey": "resources.policies", "name": "ball_kick_left.onnx", "id": "ball-kick-left" },
+    { "factKey": "resources.policies", "name": "ball_kick_right.onnx", "id": "ball-kick-right" },
+    { "factKey": "resources.policies", "name": "roller.onnx", "id": "roller" },
+    { "factKey": "resources.policies", "name": "roller_crouch.onnx", "id": "roller-crouch" },
+    { "factKey": "resources.policies", "name": "roulade.onnx", "id": "roulade" }
+  ]
+}

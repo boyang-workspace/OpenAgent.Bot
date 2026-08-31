@@ -37,6 +37,43 @@ Take its `manifest` object, review it, then preview and publish as a new revisio
 
 Identity conflicts and changing the package/repository metric owner are deliberately blocked; resolve them in an explicit reviewed data migration instead of silently stitching unrelated series.
 
+## Explicit corrections (local implementation; migration 0016 required)
+
+Normal changes and corrections have different meanings. First preview an updated
+manifest without correction annotations. Its `correctionTargets` lists eligible
+changed, retained facts and their exact `previousObservationId`. For an actual
+correction, prepare a separate review file (not part of the reusable manifest):
+
+```json
+[
+  {
+    "factKey": "software.runtime_requirements",
+    "previousObservationId": "COPY_THE_EXACT_ID_FROM_PREVIEW",
+    "reason": "Describe the error and why the cited replacement evidence corrects it."
+  }
+]
+```
+
+Use `--corrections reviewed-corrections.json` on **both** a fresh preview and its
+publish command. The authenticated API likewise accepts an optional `corrections`
+array alongside `manifest`. Reasons are public, maximum 1,000 characters; do not
+include personal information or credentials. Up to 20 corrections are accepted.
+The existing GitHub workflow has no corrections-file input; use the operator CLI
+or API for this feature, without changing workflow authorization.
+
+The payload hash covers annotations as well as the manifest. Missing reasons,
+wrong/stale observation references, duplicate targets, new/removed/unchanged facts
+are rejected. Replaying a correction after publication requires a new preview:
+old annotations cannot be blindly carried to a later revision. Restoring a manifest
+does not automatically restore or reuse the correction rationale of its original
+publication. Ordinary unchanged imports without annotations remain no-ops.
+
+Old observations, event values and publication audits are preserved. The correction
+sidecar is append-only, and a late DB error rolls back all new data. A normal removal
+is still `removed`, not a fully implemented withdrawal/conflict adjudication workflow.
+Source time is separate from registry time; first-seen events start prospectively
+with this implementation. Applying migration 0016 does not create missing past events.
+
 ## Source ownership and freshness
 - GitHub repositories own stars/forks/issues/commit activity.
 - GitHub Releases tracks the latest **stable release**, not first announcement, prerelease, or arbitrary tags. An accessible repo with no stable release is distinct from inaccessible/failed requests; last known releases remain with a status notice.

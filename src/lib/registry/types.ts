@@ -60,6 +60,19 @@ export const opennessStatuses = [
 ] as const;
 
 export type OpennessStatus = (typeof opennessStatuses)[number];
+export const sourceRoles = [
+  "primary", "core", "server", "client", "frontend", "backend", "deployment",
+  "sdk", "model", "weights", "dataset", "hardware", "firmware", "simulation",
+  "docs", "research", "package", "website", "other"
+] as const;
+export type SourceRole = (typeof sourceRoles)[number];
+export const opennessFacetNames = [
+  "code", "weights", "data", "hardware", "firmware", "documentation", "governance",
+  "commercial_use", "cad", "bom", "control_stack"
+] as const;
+export type OpennessFacetName = (typeof opennessFacetNames)[number];
+export const opennessFacetStatuses = ["open", "partial", "source_available", "closed", "unknown", "not_applicable"] as const;
+export type OpennessFacetStatus = (typeof opennessFacetStatuses)[number];
 export type SourceTrustTier = "canonical" | "official" | "community" | "discovery";
 export type SourceAutomationStatus = "active" | "registered" | "manual" | "paused";
 export type SourceKind = "api" | "feed" | "repository" | "newsroom" | "research" | "documentation" | "registry";
@@ -160,11 +173,23 @@ export type RegistryFact = {
 };
 
 export type RegistryOpennessFacet = {
-  facet: "code" | "weights" | "data" | "hardware" | "documentation" | "governance";
-  status: "open" | "partial" | "closed" | "unknown";
+  facet: OpennessFacetName;
+  status: OpennessFacetStatus;
   licenseOrTerms?: string;
+  evidenceConfidence: "verified" | "inferred" | "manual" | "conflicting" | "stale";
   sourceName: string;
   sourceUrl?: string;
+  observedAt: string;
+};
+
+export type RegistryLicenseScope = {
+  id: string;
+  scope: string;
+  path?: string;
+  licenseIdentifier: string;
+  status: "open" | "restricted" | "unknown";
+  sourceId: string;
+  sourceUrl: string;
   observedAt: string;
 };
 
@@ -187,7 +212,10 @@ export type RegistrySubscription = {
   sourceId?: string;
   sourceName: string;
   sourceTrustTier: SourceTrustTier;
+  sourceRole: SourceRole;
   locator: string;
+  validFrom?: string;
+  validUntil?: string;
   lastSyncedAt?: string;
   nextSyncAt?: string;
   lastError?: string;
@@ -205,6 +233,7 @@ export type RegistryDossier = {
   domainAssignments: RegistryDomainAssignment[];
   facts: RegistryFact[];
   opennessFacets: RegistryOpennessFacet[];
+  licenseScopes?: RegistryLicenseScope[];
   changes: RegistryChange[];
   relationships: RegistryRelationship[];
   subscriptions: RegistrySubscription[];
@@ -237,6 +266,7 @@ export type RegistryStats = {
 };
 
 export type EntityQuery = {
+  category?: import("./catalog").CatalogCategory;
   interfaceType?: string;
   q?: string;
   useCase?: string;

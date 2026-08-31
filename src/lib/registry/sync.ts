@@ -16,12 +16,25 @@ type SubscriptionRow = {
   entity_id: string;
   source_id: string;
   locator: string;
+  table: "source_subscriptions" | "history_subscriptions";
 };
 
 type CurrentFactRow = {
   source_id: string;
   value_json: string;
   value_hash: string;
+};
+
+type NormalizedRelease = {
+  upstreamId?: string;
+  version?: string;
+  title: string;
+  kind: "software" | "model" | "weights" | "dataset" | "firmware" | "hardware" | "documentation" | "other";
+  channel: "stable" | "prerelease" | "development" | "unknown";
+  url: string;
+  publishedAt?: string;
+  notes?: string;
+  metadata: Record<string, unknown>;
 };
 
 export type SyncBatchResult = {
@@ -37,6 +50,10 @@ function id(prefix: string): string {
   return `${prefix}_${crypto.randomUUID()}`;
 }
 
+function stableId(prefix: string, ...parts: string[]): string {
+  return `${prefix}_${parts.join("_").toLowerCase().replace(/[^a-z0-9_]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 180)}`;
+}
+
 function sqlDate(value = new Date()): string {
   return value.toISOString();
 }
@@ -44,6 +61,46 @@ function sqlDate(value = new Date()): string {
 function metricValue(snapshot: EntitySnapshot, key: string): number | null {
   const value = snapshot.metrics[key];
   return typeof value === "number" && Number.isFinite(value) ? value : null;
+}
+
+function objectValue(value: unknown): Record<string, unknown> | undefined {
+  return value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : undefined;
+}
+
+function releaseKind(category?: string): NormalizedRelease["kind"] {
+  if (category === "foundation-model" || category === "robot-model") return "model";
+  if (category === "robot-hardware") return "firmware";
+  return "software";
+}
+
+function normalizedRelease(snapshot: EntitySnapshot, sourceId: string, category?: string): NormalizedRelease | undefined {
+  const github = objectValue(snapshot.facts["github_release.latest"]);
+  if (sourceId === "github-releases" && github && typeof github.url === "string" && typeof github.name === "string") {
+    return {
+      upstreamId: snapshot.externalId,
+      version: typeof github.tag === "string" ? github.tag : undefined,
+      title: github.name,
+      kind: releaseKind(category),
+      channel: "stable",
+      url: github.url,
+      publishedAt: typeof github.publishedAt === "string" ? github.publishedAt : undefined,
+      metadata: { repository: github.repository }
+    };
+  }
+  const npm = objectValue(snapshot.facts["npm.package"]);
+  if (sourceId === "npm" && npm && typeof npm.url === "string" && typeof npm.version === "string") {
+    return {
+      upstreamId: snapshot.externalId,
+      version: npm.version,
+      title: `${typeof npm.name === "string" ? npm.name : snapshot.locator} ${npm.version}`,
+      kind: "software",
+      channel: "stable",
+      url: npm.url,
+      publishedAt: typeof npm.publishedAt === "string" ? npm.publishedAt : undefined,
+      metadata: { deprecated: npm.deprecated ?? null, license: npm.license ?? null }
+    };
+  }
+  return undefined;
 }
 
 export class RegistrySyncService {
@@ -103,16 +160,19 @@ export class RegistrySyncService {
     const connector = entityConnectors[source.connector];
     if (!connector) throw new Error(`No entity connector for ${source.connector}`);
 
+    const subscriptionTable: SubscriptionRow["table"] = source.id === "github-releases"
+      ? "history_subscriptions"
+      : "source_subscriptions";
     const subscriptions = await this.db.prepare(`
       SELECT id, entity_id, source_id, locator
-      FROM source_subscriptions
+      FROM ${subscriptionTable}
       WHERE source_id = ?1 AND enabled = 1
         AND (next_sync_at IS NULL OR julianday(next_sync_at) <= julianday('now'))
         AND (?4 IS NULL OR locator = ?4)
       ORDER BY COALESCE(last_synced_at, '1970-01-01') ASC, id ASC
       LIMIT ?2 OFFSET ?3
-    `).bind(source.id, limit, offset, options.locator ?? null).all<SubscriptionRow>();
-    const rows = subscriptions.results ?? [];
+    `).bind(source.id, limit, offset, options.locator ?? null).all<Omit<SubscriptionRow, "table">>();
+    const rows = (subscriptions.results ?? []).map((subscription) => ({ ...subscription, table: subscriptionTable }));
     const result: SyncBatchResult = {
       sourceId: source.id,
       processed: 0,
@@ -136,7 +196,7 @@ export class RegistrySyncService {
         result.changed += applied.changed;
       } catch (error) {
         // Back off failures so one inaccessible source cannot monopolize every batch.
-        await this.db.prepare(`UPDATE source_subscriptions SET error_count = error_count + 1,
+        await this.db.prepare(`UPDATE ${subscription.table} SET error_count = error_count + 1,
           last_error = ?2, next_sync_at = datetime('now', '+' || MIN(24, (error_count + 1) * 2) || ' hours')
           WHERE id = ?1`).bind(subscription.id, (error instanceof Error ? error.message : String(error)).slice(0,1000)).run();
         result.errors.push({
@@ -172,6 +232,105 @@ export class RegistrySyncService {
   ): Promise<{ observed: number; changed: number }> {
     const statements: D1Statement[] = [];
     let changed = 0;
+
+    const catalog = await this.db.prepare("SELECT primary_category FROM catalog_profiles WHERE entity_id = ?1 LIMIT 1")
+      .bind(subscription.entity_id).first<{ primary_category: string }>();
+    const normalized = normalizedRelease(snapshot, subscription.source_id, catalog?.primary_category);
+    const releases: NormalizedRelease[] = snapshot.releases?.map((release) => ({
+      upstreamId: release.upstreamId,
+      version: release.version,
+      title: release.title,
+      kind: releaseKind(catalog?.primary_category),
+      channel: release.channel,
+      url: release.url,
+      publishedAt: release.publishedAt,
+      metadata: release.metadata ?? {},
+      notes: release.notes
+    })) ?? (normalized ? [normalized] : []);
+    for (const release of releases) statements.push(this.db.prepare(`
+      INSERT INTO project_releases (
+        id, entity_id, upstream_id, version, title, release_kind, channel,
+        release_url, notes, metadata_json, source_id, published_at, observed_at, created_at
+      ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?13)
+      ON CONFLICT(entity_id, source_id, release_url) DO UPDATE SET
+        upstream_id = excluded.upstream_id, version = excluded.version,
+        title = excluded.title, release_kind = excluded.release_kind,
+        channel = excluded.channel, notes = excluded.notes, metadata_json = excluded.metadata_json,
+        published_at = excluded.published_at, observed_at = excluded.observed_at
+    `).bind(
+      id("release"), subscription.entity_id, release.upstreamId ?? null,
+      release.version ?? null, release.title, release.kind, release.channel,
+      release.url, release.notes ?? null, JSON.stringify(release.metadata), subscription.source_id,
+      release.publishedAt ?? null, snapshot.observedAt
+    ));
+
+    for (const paper of snapshot.papers ?? []) {
+      const paperId = paper.arxivId
+        ? stableId("paper_arxiv", paper.arxivId)
+        : paper.doi ? stableId("paper_doi", paper.doi) : stableId("paper_url", paper.url);
+      statements.push(this.db.prepare(`
+        INSERT INTO papers (
+          id, title, doi, arxiv_id, paper_url, published_at, metadata_json,
+          source_id, observed_at, created_at
+        ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?9)
+        ON CONFLICT(id) DO UPDATE SET title = excluded.title, doi = excluded.doi,
+          arxiv_id = excluded.arxiv_id, paper_url = excluded.paper_url,
+          published_at = COALESCE(excluded.published_at, papers.published_at),
+          metadata_json = excluded.metadata_json, source_id = excluded.source_id,
+          observed_at = excluded.observed_at
+      `).bind(
+        paperId, paper.title, paper.doi ?? null, paper.arxivId ?? null,
+        paper.url, paper.publishedAt ?? null, JSON.stringify(paper.metadata ?? {}),
+        subscription.source_id, snapshot.observedAt
+      ));
+      statements.push(this.db.prepare(`
+        INSERT INTO entity_papers (entity_id, paper_id, relationship_type, source_url, observed_at)
+        VALUES (?1, ?2, ?3, ?4, ?5)
+        ON CONFLICT(entity_id, paper_id, relationship_type) DO UPDATE SET
+          source_url = excluded.source_url, observed_at = excluded.observed_at
+      `).bind(subscription.entity_id, paperId, paper.relationshipType, paper.sourceUrl, snapshot.observedAt));
+    }
+
+    const benchmarkCategory = ["foundation-model", "agent", "robot-model", "robot-hardware"].includes(catalog?.primary_category ?? "")
+      ? catalog?.primary_category : "cross-category";
+    for (const evaluation of snapshot.evaluations ?? []) {
+      const benchmarkId = stableId("benchmark", evaluation.benchmarkSlug);
+      const evaluationId = stableId("evaluation", subscription.entity_id, evaluation.benchmarkSlug, evaluation.metricKey);
+      statements.push(this.db.prepare(`
+        INSERT INTO benchmarks (
+          id, slug, name, category, task, primary_metric, methodology_url,
+          evaluator, metadata_json, source_id, observed_at, created_at, updated_at
+        ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, '{}', ?9, ?10, ?10, ?10)
+        ON CONFLICT(slug) DO UPDATE SET name = excluded.name, category = excluded.category,
+          task = excluded.task, primary_metric = excluded.primary_metric,
+          methodology_url = excluded.methodology_url, evaluator = excluded.evaluator,
+          source_id = excluded.source_id, observed_at = excluded.observed_at,
+          updated_at = excluded.updated_at
+      `).bind(
+        benchmarkId, evaluation.benchmarkSlug, evaluation.benchmarkName,
+        benchmarkCategory, evaluation.task ?? null, evaluation.metricKey,
+        evaluation.resultUrl, subscription.source_id === "huggingface" ? "Model card publisher" : subscription.source_id,
+        subscription.source_id, snapshot.observedAt
+      ));
+      statements.push(this.db.prepare(`
+        INSERT INTO evaluation_results (
+          id, benchmark_id, entity_id, evaluator_type, metric_key, metric_value,
+          metric_text, unit, higher_is_better, conditions_json, result_url,
+          source_id, evaluated_at, observed_at, created_at
+        ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?14)
+        ON CONFLICT(id) DO UPDATE SET metric_value = excluded.metric_value,
+          metric_text = excluded.metric_text, unit = excluded.unit,
+          higher_is_better = excluded.higher_is_better,
+          conditions_json = excluded.conditions_json, result_url = excluded.result_url,
+          evaluated_at = excluded.evaluated_at, observed_at = excluded.observed_at
+      `).bind(
+        evaluationId, benchmarkId, subscription.entity_id, evaluation.evaluatorType,
+        evaluation.metricKey, evaluation.metricValue ?? null, evaluation.metricText ?? null,
+        evaluation.unit ?? null, evaluation.higherIsBetter === undefined ? null : evaluation.higherIsBetter ? 1 : 0,
+        JSON.stringify(evaluation.conditions ?? {}), evaluation.resultUrl, subscription.source_id,
+        evaluation.evaluatedAt ?? null, snapshot.observedAt
+      ));
+    }
 
     for (const [factKey, value] of Object.entries(snapshot.facts)) {
       if (value === undefined) continue;
@@ -296,7 +455,7 @@ export class RegistrySyncService {
     ));
 
     statements.push(this.db.prepare(`
-      UPDATE source_subscriptions
+      UPDATE ${subscription.table}
       SET external_id = ?2, last_synced_at = ?3, next_sync_at = datetime(?3, '+1 day'), updated_at = ?3, error_count = 0, last_error = NULL
       WHERE id = ?1
     `).bind(subscription.id, snapshot.externalId, snapshot.observedAt));
@@ -305,7 +464,11 @@ export class RegistrySyncService {
     `).bind(subscription.entity_id, snapshot.observedAt));
 
     if (statements.length) await this.db.batch(statements);
-    return { observed: metricEntries.length + Object.keys(snapshot.facts).length, changed };
+    return {
+      observed: metricEntries.length + Object.keys(snapshot.facts).length + releases.length
+        + (snapshot.papers?.length ?? 0) + (snapshot.evaluations?.length ?? 0),
+      changed
+    };
   }
 
   private async syncFeed(source: SourceRow): Promise<SyncBatchResult> {

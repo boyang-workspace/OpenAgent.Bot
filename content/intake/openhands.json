@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "entity": {
+    "slug": "openhands",
+    "name": "OpenHands Agent Canvas",
+    "kind": "tool",
+    "summary": "Self-hosted control center and launcher for coding agents; Agent Server and SDK are separate components.",
+    "description": "At the reviewed commit this repository contains Agent Canvas, backend selection and local-stack orchestration. It is not the canonical Python SDK or Agent Server implementation. The existing OpenHands project identity and repository metrics are retained. Interfaces below describe the launcher and its configured ingress, not an independently verified server API. OpenAgent has not executed this stack.",
+    "organization": "OpenHands",
+    "lifecycle": "active",
+    "opennessStatus": "open-source",
+    "licenseSpdx": "MIT",
+    "canonicalUrl": "https://openhands.dev",
+    "repositoryUrl": "https://github.com/OpenHands/OpenHands",
+    "documentationUrl": "https://docs.openhands.dev/",
+    "visibility": "public"
+  },
+  "evidence": {
+    "sourceId": "github",
+    "sourceUrl": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+    "observedAt": "2026-08-28T05:36:15.418Z"
+  },
+  "domains": [
+    "agent"
+  ],
+  "useCases": [],
+  "facets": [
+    {
+      "facet": "code",
+      "status": "open",
+      "terms": "MIT for this repository, subject to its LICENSE and third-party notices. This is not a license for linked models, datasets, services or other repositories.",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/LICENSE",
+        "observedAt": "2026-08-28T05:41:34.809Z"
+      }
+    }
+  ],
+  "facts": [
+    {
+      "key": "software.component_scope",
+      "value": {
+        "currentRepositoryRole": "Agent Canvas frontend and local-stack orchestration",
+        "sdkRepository": "https://github.com/OpenHands/software-agent-sdk",
+        "typescriptClientRepository": "https://github.com/OpenHands/typescript-client",
+        "automationRepository": "https://github.com/OpenHands/automation",
+        "crossComponentCompatibility": null
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+        "observedAt": "2026-08-28T05:36:15.418Z"
+      }
+    },
+    {
+      "key": "software.runtime_requirements",
+      "value": {
+        "node": ">=22.12",
+        "additionalTool": "uv",
+        "scope": "npm/source launcher prerequisites at the reviewed commit; Docker deployment has separate prerequisites.",
+        "runtimeTested": false
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+        "observedAt": "2026-08-28T05:36:15.418Z"
+      }
+    },
+    {
+      "key": "policy.local_execution",
+      "value": {
+        "defaultSandbox": false,
+        "hostFilesystemAccess": "full",
+        "dockerScope": "Configured host project directory is mounted; no security audit or universal sandbox guarantee is asserted."
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+        "observedAt": "2026-08-28T05:36:15.418Z"
+      }
+    },
+    {
+      "key": "policy.public_mode_auth",
+      "value": {
+        "mode": "agent-canvas --public",
+        "environmentVariable": "LOCAL_BACKEND_API_KEY",
+        "header": "X-Session-API-Key",
+        "scope": "Configured self-hosted ingress /api/* requests; --public prevents embedding the key in frontend configuration. Not a general claim about every deployment or model provider.",
+        "providerAuthentication": null
+      },
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md",
+        "observedAt": "2026-08-28T05:37:16.001Z"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "overview",
+      "name": "Reviewed component boundaries and launcher",
+      "kind": "documentation",
+      "url": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+      "revision": "b50c60c6728e2ce123ccb6e125bee3eb88ac87d1",
+      "gitBlobSha": "43f8740f621f4ef6319308ba94a78604a0372fa9",
+      "sizeBytes": 10126,
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+        "observedAt": "2026-08-28T05:36:15.418Z"
+      }
+    },
+    {
+      "id": "self-hosting",
+      "name": "Reviewed self-hosting and public-mode authentication",
+      "kind": "documentation",
+      "url": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md",
+      "revision": "b50c60c6728e2ce123ccb6e125bee3eb88ac87d1",
+      "gitBlobSha": "ef7f9a869f97d2567845c62577b3e197f7fa50e8",
+      "sizeBytes": 10347,
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md",
+        "observedAt": "2026-08-28T05:37:16.001Z"
+      }
+    },
+    {
+      "id": "sdk-repository",
+      "name": "Related Agent Server / SDK repository",
+      "kind": "repository",
+      "url": "https://github.com/OpenHands/software-agent-sdk",
+      "description": "A distinct component referenced by the reviewed README. Its version, terms and runtime compatibility have not been reviewed in this intake.",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+        "observedAt": "2026-08-28T05:36:15.418Z"
+      }
+    }
+  ],
+  "interfaces": [
+    {
+      "authentication": "unknown",
+      "verification": "documented",
+      "id": "canvas-cli",
+      "name": "Agent Canvas local launcher",
+      "type": "cli",
+      "transport": "Local process",
+      "access": "read-write",
+      "runtimes": [
+        "Node.js >=22.12",
+        "uv"
+      ],
+      "description": "Starts the local agent stack; unsandboxed mode can modify the host filesystem. Backend and model credentials are configuration-dependent.",
+      "command": "agent-canvas",
+      "url": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md",
+        "observedAt": "2026-08-28T05:36:15.418Z"
+      }
+    },
+    {
+      "authentication": "required",
+      "verification": "documented",
+      "id": "canvas-public-api",
+      "name": "Configured public-mode Agent Canvas ingress",
+      "type": "api",
+      "transport": "HTTP ingress to Agent Server",
+      "access": "read-write",
+      "runtimes": [
+        "Configured Agent Canvas ingress",
+        "Agent Server backend"
+      ],
+      "description": "Only the documented --public deployment with LOCAL_BACKEND_API_KEY: /api/* calls use X-Session-API-Key. Canonical API implementation belongs to software-agent-sdk; not a public hosted service or runtime test.",
+      "url": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md",
+      "evidence": {
+        "sourceId": "github",
+        "sourceUrl": "https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/docs/SELF_HOSTING.md",
+        "observedAt": "2026-08-28T05:37:16.001Z"
+      }
+    }
+  ],
+  "subscriptions": [
+    {
+      "sourceId": "github",
+      "locator": "OpenHands/OpenHands"
+    }
+  ]
+}

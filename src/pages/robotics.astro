@@ -1,75 +1,27 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import EntityTable from "@/components/EntityTable.astro";
-import { getRegistry } from "@/lib/registry/runtime";
-import type { RegistryEntity, RegistryStats } from "@/lib/registry/types";
-
-let platforms: RegistryEntity[] = [];
-let intelligence: RegistryEntity[] = [];
-let stack: RegistryEntity[] = [];
-let stats: RegistryStats = { entities: 0, agents: 0, robots: 0, infrastructure: 0, robotPlatforms: 0, robotIntelligence: 0, roboticsStack: 0, models: 0, tools: 0, sources: 0, liveSources: 0, observations: 0, metricEntities: 0, changes30d: 0 };
-try {
-  const registry = getRegistry();
-  const [platformResult, intelligenceResult, stackResult, registryStats] = await Promise.all([
-    registry.listEntities({ domains: ["robotics"], roboticsLayers: ["platform"], sort: "activity", limit: 8 }),
-    registry.listEntities({ domains: ["robotics"], roboticsLayers: ["intelligence"], sort: "activity", limit: 8 }),
-    registry.listEntities({ domains: ["robotics"], roboticsLayers: ["stack"], sort: "activity", limit: 8 }),
-    registry.getStats()
-  ]);
-  platforms = platformResult.items;
-  intelligence = intelligenceResult.items;
-  stack = stackResult.items;
-  stats = registryStats;
-} catch {}
-
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "Dataset",
-  name: "Open-Source Robotics Database",
-  description: "Robot platforms, robot intelligence and the open robotics stack with attributed evidence.",
-  url: "https://www.openagent.bot/robotics",
-  creator: { "@type": "Organization", name: "OpenAgent.bot" },
-  dateModified: new Date().toISOString()
-};
+import { catalogPages } from "@/lib/registry/catalog-config";
 ---
-
-<BaseLayout title="Open-Source Robotics Database" description="Explore open robot platforms, robot intelligence and robotics infrastructure through specifications, openness and verified source evidence." path="/robotics">
-  <script slot="head" is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-  <div class="page-shell"><div class="page-grid robotics-page">
-    <section class="robotics-hero"><span class="kicker">Physical intelligence</span><h1>Open Robotics</h1><p>Physical systems, the intelligence that controls them, and the software stack that makes them usable—tracked as separate layers.</p></section>
-    <section class="layer-grid">
-      <a href="/database?domain=robotics&layer=platform"><span>01 / Physical systems</span><h2>Robot Platforms</h2><p>Humanoids, arms, mobile robots, quadrupeds and other embodied machines.</p><strong>{stats.robotPlatforms} records →</strong></a>
-      <a href="/database?domain=robotics&layer=intelligence"><span>02 / Models and policies</span><h2>Robot Intelligence</h2><p>VLA, policy, embodied and perception models that drive physical behavior.</p><strong>{stats.robotIntelligence} records →</strong></a>
-      <a href="/database?domain=robotics&layer=stack"><span>03 / Enabling layer</span><h2>Robotics Stack</h2><p>Simulation, training, control, middleware, datasets, SDKs and tooling.</p><strong>{stats.roboticsStack} records →</strong></a>
-    </section>
-    <section class="robotics-list"><header><div><span class="eyebrow">Robot Platforms</span><h2>Recently active physical systems</h2></div><a href="/database?domain=robotics&layer=platform">Browse platforms →</a></header><EntityTable entities={platforms} /></section>
-    <section class="robotics-list"><header><div><span class="eyebrow">Robot Intelligence</span><h2>Models and policies</h2></div><a href="/database?domain=robotics&layer=intelligence">Browse intelligence →</a></header><EntityTable entities={intelligence} /></section>
-    <section class="robotics-list"><header><div><span class="eyebrow">Robotics Stack</span><h2>Frameworks, simulators and tools</h2></div><a href="/database?domain=robotics&layer=stack">Browse stack →</a></header><EntityTable entities={stack} /></section>
-  </div></div>
+<BaseLayout title="Open Robotics Database" description="Choose between robot intelligence models, physical robot hardware and supporting robotics infrastructure." path="/robotics">
+  <div class="robotics-hub"><section><div><span class="kicker">Robotics index</span><h1>Robotics, by system layer</h1><p>Intelligence, physical platforms and supporting infrastructure remain separate records.</p></div><dl><div><dt>Primary rankings</dt><dd>2</dd></div><div><dt>Supporting layer</dt><dd>1</dd></div></dl></section><div><a href={catalogPages["robot-model"].href}><span>01 / Intelligence</span><h2>Robot Models</h2><p>{catalogPages["robot-model"].description}</p><b>Open database →</b></a><a href={catalogPages["robot-hardware"].href}><span>02 / Physical systems</span><h2>Robot Hardware</h2><p>{catalogPages["robot-hardware"].description}</p><b>Open database →</b></a><a href="/database?domain=robotics&layer=stack"><span>03 / Supporting layer</span><h2>Robotics Stack</h2><p>Simulators, SDKs, datasets, runtimes and training infrastructure.</p><b>Explore stack →</b></a></div></div>
 </BaseLayout>
-
 <style>
-  .robotics-hero { border-bottom: 1px solid var(--ink); padding: 42px 48px 40px; }
-  .robotics-hero h1 { font-size: clamp(3rem, 6vw, 6.2rem); font-weight: 600; letter-spacing: -.06em; line-height: .9; margin: 20px 0; }
-  .robotics-hero p { color: var(--muted); font-size: 1.05rem; line-height: 1.55; margin: 0; max-width: 760px; }
-  .layer-grid { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: repeat(3, 1fr); }
-  .layer-grid a { border-right: 1px solid var(--line); min-height: 260px; padding: 26px; }
-  .layer-grid a:last-child { border: 0; }
-  .layer-grid a:hover { background: var(--orange); }
-  .layer-grid span, .layer-grid strong { font-family: var(--mono); font-size: .61rem; text-transform: uppercase; }
-  .layer-grid span { color: var(--muted); }
-  .layer-grid h2 { font-size: 2rem; letter-spacing: -.04em; margin: 46px 0 14px; }
-  .layer-grid p { color: var(--muted); line-height: 1.5; min-height: 68px; }
-  .layer-grid strong { display: block; margin-top: 28px; }
-  .robotics-list { border-bottom: 1px solid var(--ink); padding: 34px 42px 40px; }
-  .robotics-list > header { align-items: end; display: flex; justify-content: space-between; margin-bottom: 22px; }
-  .robotics-list h2 { font-size: 2rem; letter-spacing: -.04em; margin: 8px 0 0; }
-  .robotics-list header > a { color: var(--muted); font-family: var(--mono); font-size: .61rem; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
-  @media (max-width: 760px) {
-    .robotics-hero { padding: 30px 20px; }
-    .layer-grid { grid-template-columns: 1fr; }
-    .layer-grid a { border-bottom: 1px solid var(--line); border-right: 0; min-height: 220px; }
-    .robotics-list { padding: 30px 14px; }
-    .robotics-list > header { align-items: start; display: grid; gap: 12px; }
-  }
+  .robotics-hub { background: var(--paper); margin: 0 auto; max-width: var(--max); }
+  .robotics-hub > section { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0,1fr) 360px; min-height: 150px; }
+  .robotics-hub > section > div { align-self: center; padding: 24px 28px; }
+  .robotics-hub h1 { font-size: var(--data-title); letter-spacing: -.045em; line-height: 1; margin: 11px 0 9px; }
+  .robotics-hub > section p, .robotics-hub a p { color: var(--muted); font-size: .84rem; line-height: 1.5; margin-bottom: 0; max-width: 720px; }
+  .robotics-hub dl { border-left: 1px solid var(--ink); display: grid; grid-template-columns: repeat(2,1fr); margin: 0; }
+  .robotics-hub dl div { border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; }
+  .robotics-hub dl div:last-child { border: 0; }
+  .robotics-hub dt { color: var(--muted); font-size: .75rem; text-transform: uppercase; }
+  .robotics-hub dd { font-size: 1.25rem; font-weight: 650; margin: 0; }
+  .robotics-hub > div { display: grid; grid-template-columns: repeat(3,1fr); }
+  .robotics-hub a { border-right: 1px solid var(--line); min-height: 190px; padding: 20px; }
+  .robotics-hub a:last-child { border: 0; }
+  .robotics-hub a:hover { background: var(--ink); color: var(--paper); }
+  .robotics-hub a span, .robotics-hub a b { color: var(--muted); font-size: .75rem; text-transform: uppercase; }
+  .robotics-hub a h2 { font-size: 1.35rem; letter-spacing: -.03em; margin: 30px 0 10px; }
+  .robotics-hub a b { display: block; margin-top: 20px; }
+  @media (max-width:760px) { .robotics-hub > section { grid-template-columns: 1fr; } .robotics-hub > section > div { padding: 24px 18px; } .robotics-hub dl { border-left: 0; border-top: 1px solid var(--ink); min-height: 88px; } .robotics-hub dl div { padding: 13px 18px; } .robotics-hub > div { grid-template-columns: 1fr; } .robotics-hub a { border-bottom: 1px solid var(--line); border-right: 0; min-height: 155px; padding: 18px; } }
 </style>

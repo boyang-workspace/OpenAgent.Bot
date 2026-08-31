@@ -1,0 +1,46 @@
+{
+  "recordedAt": "2026-08-28T05:55:01.687Z",
+  "tests": {
+    "command": "npm test",
+    "files": 16,
+    "passed": 149,
+    "failed": 0
+  },
+  "typecheck": {
+    "command": "npm run check",
+    "files": 97,
+    "errors": 0,
+    "warnings": 0,
+    "hints": 0
+  },
+  "build": {
+    "command": "npm run build",
+    "passed": true,
+    "note": "Local server build; no deployment. Parallel check/build used an alternate inspector port."
+  },
+  "diffCheck": {
+    "command": "git diff --check",
+    "passed": true
+  },
+  "notebook": {
+    "codeCells": 4,
+    "stdlibSequentialExecution": "passed",
+    "structure": "stdlib shape checks passed",
+    "jupyterKernel": "not-run",
+    "reason": "Jupyter, nbformat and nbclient are not installed; no dependencies were added."
+  },
+  "scope": {
+    "database": "isolated in-memory SQLite only",
+    "productionWrites": 0,
+    "deployments": 0,
+    "upstreamCodeExecutions": 0,
+    "robotActions": 0,
+    "runtimeCertifications": 0
+  },
+  "frozenResults": {
+    "before": 3,
+    "dataOnly": 23,
+    "after": 30,
+    "total": 30
+  }
+}

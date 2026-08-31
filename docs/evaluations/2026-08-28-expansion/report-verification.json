@@ -1,0 +1,9 @@
+{
+  "ok": true,
+  "stages": { "validation": "passed", "package": "passed", "verification": "passed" },
+  "counts": { "blocks": 11, "charts": 1, "html": 0, "metrics": 0, "tables": 0 },
+  "sourceDialog": "passed",
+  "sourceInteraction": "keyboard_menu_semantic_click",
+  "viewports": [1440, 390],
+  "delivery": "Self-contained local HTML. No deployment or external publication."
+}

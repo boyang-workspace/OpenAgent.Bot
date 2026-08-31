@@ -1,4 +1,5 @@
 name = "openagent-bot"
+main = "src/worker.ts"
 compatibility_date = "2026-08-20"
 compatibility_flags = [ "nodejs_compat" ]
 routes = [
@@ -15,6 +16,14 @@ enabled = true
 
 [vars]
 PUBLIC_SITE_URL = "https://www.openagent.bot"
+CLOUDFLARE_ACCOUNT_ID = "4bfc4bde28906afbaf01677c36a14a20"
+
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "openagent_events"
+
+[triggers]
+crons = [ "17 * * * *" ]
 
 [[d1_databases]]
 binding = "DB"

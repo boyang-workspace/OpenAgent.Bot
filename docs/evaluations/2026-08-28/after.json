@@ -1,0 +1,262 @@
+{
+  "evaluatedAt": "2026-08-28T05:15:03.409Z",
+  "evaluationTime": "2026-08-28T02:00:00.000Z",
+  "method": "Deterministic local HTTP-handler evaluation; no independent agents, inference timing or real-world success rate measured",
+  "population": {
+    "projects": 162,
+    "representative": [
+      "vgpu",
+      "opencode",
+      "microduck",
+      "microduck-runtime",
+      "microduck-rl",
+      "microduck-policies"
+    ],
+    "holdout": [
+      "openhands",
+      "langgraph",
+      "lerobot",
+      "playwright-mcp"
+    ]
+  },
+  "discovery": [
+    {
+      "id": "Q1",
+      "question": "Find a documented, read-only, no-auth MCP interface",
+      "params": "interface=mcp&access=read-only&authentication=none",
+      "expected": [
+        "vgpu/mcp-http"
+      ],
+      "results": [
+        "vgpu/mcp-http"
+      ],
+      "correct": true,
+      "unknownCandidates": 0,
+      "exhausted": true,
+      "jsonBytes": 1910,
+      "execution": "local HTTP handler against isolated SQLite, not deployed production"
+    },
+    {
+      "id": "Q2",
+      "question": "Find a documented, read-only MCP interface requiring authentication",
+      "params": "interface=mcp&access=read-only&authentication=required",
+      "expected": [],
+      "results": [],
+      "correct": true,
+      "unknownCandidates": 0,
+      "exhausted": true,
+      "jsonBytes": 369,
+      "execution": "local HTTP handler against isolated SQLite, not deployed production"
+    },
+    {
+      "id": "Q3",
+      "question": "Find a documented CLI that can write",
+      "params": "interface=cli&access=read-write",
+      "expected": [
+        "opencode/cli",
+        "vgpu/cli"
+      ],
+      "results": [
+        "opencode/cli",
+        "vgpu/cli"
+      ],
+      "correct": true,
+      "unknownCandidates": 0,
+      "exhausted": true,
+      "jsonBytes": 3724,
+      "execution": "local HTTP handler against isolated SQLite, not deployed production"
+    },
+    {
+      "id": "Q4",
+      "question": "Find read-only SDKs (unknown must not pass)",
+      "params": "interface=sdk&access=read-only",
+      "expected": [],
+      "results": [],
+      "correct": true,
+      "unknownCandidates": 1,
+      "exhausted": true,
+      "jsonBytes": 379,
+      "execution": "local HTTP handler against isolated SQLite, not deployed production"
+    },
+    {
+      "id": "Q5",
+      "question": "Find independently tested, read-only MCP interfaces",
+      "params": "interface=mcp&access=read-only&verification=tested",
+      "expected": [],
+      "results": [],
+      "correct": true,
+      "unknownCandidates": 2,
+      "exhausted": true,
+      "jsonBytes": 379,
+      "execution": "local HTTP handler against isolated SQLite, not deployed production"
+    },
+    {
+      "id": "Q6",
+      "question": "Find fresh, read-only MCP interfaces",
+      "params": "interface=mcp&access=read-only&require_fresh=true",
+      "expected": [],
+      "results": [],
+      "correct": true,
+      "unknownCandidates": 2,
+      "exhausted": true,
+      "jsonBytes": 379,
+      "execution": "local HTTP handler against isolated SQLite, not deployed production"
+    }
+  ],
+  "productSearchAvailable": "local-only",
+  "payloads": [
+    {
+      "slug": "vgpu",
+      "params": "section=interfaces&id=mcp-http",
+      "question": "Inspect hosted MCP access, auth, provenance and verification",
+      "legacyJsonBytes": 16489,
+      "knowledgeJsonBytes": 33148,
+      "taskJsonBytes": 2119,
+      "items": 1,
+      "evidenceRecords": 1
+    },
+    {
+      "slug": "opencode",
+      "params": "section=interfaces&id=cli",
+      "question": "Inspect CLI access, auth, provenance and verification",
+      "legacyJsonBytes": 13456,
+      "knowledgeJsonBytes": 25472,
+      "taskJsonBytes": 2365,
+      "items": 1,
+      "evidenceRecords": 1
+    },
+    {
+      "slug": "microduck",
+      "params": "section=resources&id=browser-simulator",
+      "question": "Locate the browser simulator and its stated resource terms",
+      "legacyJsonBytes": 13887,
+      "knowledgeJsonBytes": 19837,
+      "taskJsonBytes": 1519,
+      "items": 1,
+      "evidenceRecords": 1
+    },
+    {
+      "slug": "microduck-runtime",
+      "params": "section=resources&id=runtime-docs",
+      "question": "Locate runtime documentation and its stated resource terms",
+      "legacyJsonBytes": 8836,
+      "knowledgeJsonBytes": 13319,
+      "taskJsonBytes": 2223,
+      "items": 1,
+      "evidenceRecords": 1
+    },
+    {
+      "slug": "microduck-rl",
+      "params": "section=resources&id=mjcf-models",
+      "question": "Locate simulation assets with scoped version and evidence",
+      "legacyJsonBytes": 11375,
+      "knowledgeJsonBytes": 15878,
+      "taskJsonBytes": 2328,
+      "items": 1,
+      "evidenceRecords": 1
+    },
+    {
+      "slug": "microduck-policies",
+      "params": "section=resources&id=alpha-walking",
+      "question": "Locate one policy artifact with scoped digest and resource terms",
+      "legacyJsonBytes": 16702,
+      "knowledgeJsonBytes": 32822,
+      "taskJsonBytes": 2384,
+      "items": 1,
+      "evidenceRecords": 1
+    }
+  ],
+  "uncertainty": [
+    {
+      "id": "U1-missing-value",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U2-missing-evidence",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U3-withdrawn",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U4-conflicting",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U5-expired",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U6-no-freshness",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U7-not-tested",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U8-unscoped-version",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U9-future-evidence",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    },
+    {
+      "id": "U10-unknown-verification",
+      "expected": "unknown",
+      "actual": "unknown",
+      "synthetic": true
+    }
+  ],
+  "history": {
+    "synthetic": true,
+    "ledgerChanges": 26,
+    "exposedChanges": 26,
+    "uniqueEvents": 26,
+    "pages": 6,
+    "canRetrieveOlderPages": true,
+    "pointInTime": "unavailable"
+  },
+  "holdoutCoverage": [
+    {
+      "slug": "openhands",
+      "interfaces": 0,
+      "resources": 0
+    },
+    {
+      "slug": "langgraph",
+      "interfaces": 0,
+      "resources": 0
+    },
+    {
+      "slug": "lerobot",
+      "interfaces": 0,
+      "resources": 0
+    },
+    {
+      "slug": "playwright-mcp",
+      "interfaces": 0,
+      "resources": 0
+    }
+  ]
+}

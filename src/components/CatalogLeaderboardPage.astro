@@ -1,0 +1,91 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ActivityLeaderboard from "@/components/ActivityLeaderboard.astro";
+import { rankByActivity, type ActivityEntry } from "@/lib/registry/activity";
+import { evaluateRankingGate } from "@/lib/registry/rankings";
+import { compactNumber, relativeDate } from "@/lib/registry/format";
+import { getCatalog, getRegistry } from "@/lib/registry/runtime";
+import type { CatalogPageConfig } from "@/lib/registry/catalog-config";
+
+type Props = { config: CatalogPageConfig };
+const { config } = Astro.props;
+const requestedView = Astro.url.searchParams.get("view");
+const view = requestedView === "adoption" || requestedView === "releases" || requestedView === "evaluation" ? requestedView : "activity";
+let rows: ActivityEntry[] = [];
+let total = 0;
+let metricEntities = 0;
+let coverage = 0;
+let historyDays = 0;
+let latestObservationAt: string | undefined;
+let loadError = false;
+
+try {
+  const [result, health] = await Promise.all([
+    getRegistry().listEntities({ category: config.category, sort: view === "adoption" ? "stars" : "activity", limit: 100 }),
+    getCatalog().getCategoryHealth(config.category)
+  ]);
+  total = result.total;
+  metricEntities = health.metricEntities;
+  coverage = health.coverage;
+  latestObservationAt = health.latestObservationAt;
+  historyDays = health.historyStartedAt ? Math.max(0, Math.floor((Date.now() - new Date(health.historyStartedAt).getTime()) / 86_400_000)) : 0;
+  rows = rankByActivity(result.items, config.category);
+  if (view === "adoption") rows = rows.sort((a, b) => (b.entity.stars ?? -1) - (a.entity.stars ?? -1)).map((row, index) => ({ ...row, rank: index + 1 }));
+  if (view === "releases") rows = rows.filter((row) => row.entity.lastReleaseAt).sort((a, b) => new Date(b.entity.lastReleaseAt!).getTime() - new Date(a.entity.lastReleaseAt!).getTime()).map((row, index) => ({ ...row, rank: index + 1 }));
+  if (view === "evaluation") rows = [];
+} catch { loadError = true; }
+const gate = evaluateRankingGate({ historyDays, coverage, entityCount: total });
+const viewTitle = view === "activity" ? "Update activity" : view === "adoption" ? "Adoption snapshot" : view === "releases" ? "Latest releases" : "Third-party evaluation";
+---
+
+<BaseLayout title={`${config.label} Rankings & Database`} description={config.description} path={config.href} noindex={Astro.url.searchParams.size > 0}>
+  <div class="catalog-shell">
+    <section class="catalog-hero">
+      <div><span class="catalog-eyebrow">{config.eyebrow}</span><h1>{config.label}</h1><p>{config.description}</p></div>
+      <dl><div><dt>Tracked</dt><dd>{compactNumber(total)}</dd></div><div><dt>Metric coverage</dt><dd>{Math.round(coverage * 100)}%</dd></div><div><dt>Last observation</dt><dd>{relativeDate(latestObservationAt)}</dd></div></dl>
+    </section>
+    <nav class="ranking-tabs" aria-label={`${config.label} ranking views`}>
+      {[{ key: "activity", label: "Activity" }, { key: "adoption", label: "Adoption" }, { key: "releases", label: "Releases" }, { key: "evaluation", label: "Evaluation" }].map((item) => <a class:list={{ active: view === item.key }} href={item.key === "activity" ? config.href : `${config.href}?view=${item.key}`}>{item.label}</a>)}
+    </nav>
+    <section class="ranking-body">
+      <header class="ranking-title"><div><span>Current view</span><h2>{viewTitle}</h2></div><p>{view === "activity" ? "Freshest qualifying source signal, adjusted to this category’s lifecycle window." : view === "adoption" ? "Repository stars are shown as an adoption signal, not a quality score." : view === "releases" ? "Qualifying releases ordered by publication date." : "Published only when versions, conditions and evaluator identity are attributable."}</p></header>
+      {loadError ? <div class="empty-state">The catalogue is temporarily unavailable while the database migration completes.</div> : view === "evaluation" ? <div class="collection-state"><strong>Collecting comparable evaluations.</strong><p>No ranking is published until project versions, test conditions and evaluator identity can be compared fairly.</p><a href="/methodology#rankings">Read the publication rules →</a></div> : <ActivityLeaderboard entries={rows} metric={view} />}
+    </section>
+    <section class="catalog-health"><div><span>Historical momentum</span><strong>{gate.eligible ? "Eligible" : "Collecting"}</strong></div><div><span>History</span><strong>{historyDays}/30 days</strong></div><div><span>Coverage</span><strong>{metricEntities}/{total}</strong></div><p>{gate.eligible ? "The cohort passes the minimum publication gate." : `Historical movement stays unpublished: ${gate.reasons.join("; ") || "collection is still establishing a baseline"}.`}</p><a href="/methodology#rankings">Methodology →</a></section>
+    <nav class="related-views" aria-label="Related database views"><span>Related views</span><a href="/rankings">All rankings</a>{config.relatedViews?.map((item) => <a href={item.href}>{item.label}</a>)}</nav>
+  </div>
+</BaseLayout>
+
+<style>
+  .catalog-shell { background: var(--paper); margin: 0 auto; max-width: var(--max); }
+  .catalog-hero { align-items: stretch; border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0,1fr) minmax(500px,.75fr); min-height: 124px; }
+  .catalog-hero > div { display: grid; grid-template-columns: minmax(230px,.55fr) 1fr; grid-template-rows: auto auto; padding: 22px 28px; }
+  .catalog-eyebrow, .ranking-title span, .catalog-health span { color: var(--muted); font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+  .catalog-eyebrow { grid-column: 1 / -1; }
+  .catalog-hero h1 { align-self: end; font-size: var(--data-title); letter-spacing: -.045em; line-height: 1; margin: 10px 0 0; }
+  .catalog-hero p { align-self: end; color: var(--muted); font-size: .84rem; line-height: 1.5; margin: 10px 0 2px; max-width: 680px; }
+  .catalog-hero dl { border: 1px solid var(--ink); display: grid; grid-template-columns: repeat(3,1fr); margin: 0; }
+  .catalog-hero dl div { border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; min-height: 100%; padding: 18px; }
+  .catalog-hero dl div:last-child { border: 0; }
+  .catalog-hero dt { color: var(--muted); font-size: .75rem; font-weight: 700; text-transform: uppercase; }
+  .catalog-hero dd { font-size: 1.15rem; font-variant-numeric: tabular-nums; font-weight: 650; margin: 12px 0 0; }
+  .ranking-tabs { background: rgba(247,247,245,.98); border-bottom: 1px solid var(--ink); display: flex; overflow-x: auto; padding-left: 28px; position: sticky; top: var(--header-height); z-index: 20; }
+  .ranking-tabs a { border-left: 1px solid var(--line); font-size: .75rem; font-weight: 700; min-width: 118px; padding: 13px 16px; text-align: center; text-transform: uppercase; }
+  .ranking-tabs a:last-child { border-right: 1px solid var(--line); }
+  .ranking-tabs a.active, .ranking-tabs a:hover { background: var(--ink); color: var(--paper); }
+  .ranking-body { border-bottom: 1px solid var(--ink); padding: 20px 28px 28px; }
+  .ranking-title { align-items: end; display: flex; justify-content: space-between; margin-bottom: 14px; }
+  .ranking-title h2 { font-size: var(--section-title); letter-spacing: -.025em; margin: 4px 0 0; }
+  .ranking-title p, .collection-state p, .catalog-health p { color: var(--muted); font-size: .78rem; line-height: 1.5; margin: 0; max-width: 620px; text-align: right; }
+  .collection-state { border: 1px solid var(--ink); min-height: 260px; padding: 42px; }
+  .collection-state strong { font-size: 1.6rem; }
+  .collection-state p { margin: 18px 0 28px; max-width: 600px; }
+  .collection-state a { font-size: .75rem; font-weight: 700; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
+  .catalog-health { align-items: center; background: #e7e7e7; display: grid; gap: 20px; grid-template-columns: 140px 120px 120px 1fr auto; padding: 16px 28px; }
+  .catalog-health div { display: grid; gap: 6px; }
+  .catalog-health strong { font-size: .85rem; font-variant-numeric: tabular-nums; }
+  .catalog-health a { font-size: .75rem; font-weight: 700; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
+  .related-views { align-items:center;border-top:1px solid var(--ink);display:flex;flex-wrap:wrap;gap:0;padding:0 28px }.related-views span,.related-views a{font-family:var(--mono);font-size:.75rem;text-transform:uppercase}.related-views span{color:var(--muted);margin-right:18px}.related-views a{border-left:1px solid var(--line);padding:14px 18px}.related-views a:last-child{border-right:1px solid var(--line)}.related-views a:hover{background:var(--ink);color:var(--paper)}
+  @media (max-width: 1000px) { .catalog-hero { grid-template-columns: 1fr; } .catalog-hero dl { border-bottom: 0; border-left: 0; border-right: 0; } .catalog-health { grid-template-columns: repeat(3,1fr); } .catalog-health p { grid-column: 1 / -1; text-align: left; } }
+  @media (max-width: 760px) { .catalog-hero > div { display: block; padding: 22px 18px; } .catalog-hero h1 { font-size: 2rem; margin-top: 9px; } .catalog-hero p { font-size: .82rem; margin-top: 9px; } .catalog-hero dl div { min-height: 72px; padding: 12px; } .catalog-hero dd { margin-top: 8px; } .ranking-tabs { padding-left: 0; } .ranking-tabs a { min-width: 102px; padding-inline: 12px; } .ranking-body { padding: 18px 0 26px; } .ranking-title { align-items: start; display: block; padding: 0 18px; } .ranking-title p { margin-top: 8px; text-align: left; } .catalog-health { grid-template-columns: 1fr 1fr; padding: 18px; } .catalog-health p, .catalog-health a { grid-column: 1 / -1; }.related-views{align-items:stretch;display:grid;padding:0}.related-views span,.related-views a{border-bottom:1px solid var(--line);border-left:0;padding:13px 18px}.related-views span{margin:0} }
+</style>

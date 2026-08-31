@@ -51,6 +51,7 @@ describe("reviewed intake", () => {
     expect(dossier.entity.kind).toBe("tool"); expect(dossier.entity.domains).toEqual(["agent"]);
     expect(buildEntityDocument(dossier).interfaces).toHaveLength(5);
     expect(buildEntityDocument(dossier).interfaces[0].evidence.sourceId).toBe("vercel-labs");
+    expect(db.prepare("SELECT primary_category,inclusion_status FROM catalog_profiles WHERE entity_id='registry_vgpu'").get()).toEqual({primary_category:"supporting-infrastructure",inclusion_status:"included"});
     expect((await registry.listEntities({ interfaceType: "mcp" })).items.map((e) => e.slug)).toEqual(["vgpu"]);
     expect((await registry.listEntities({ interfaceType: "' OR 1=1 --" })).total).toBe(0);
     expect((await registry.listEntities({ q: "Microduck" })).total).toBe(4);
@@ -87,7 +88,7 @@ describe("reviewed intake", () => {
     await publish(m);
     expect((await intake.preview(m)).diff).toEqual([]);
   });
-  it("rejects conflicting identities, vocabulary and metric reassignment", async () => {
+  it("rejects conflicting identities and vocabulary, while auditing reviewed source rebindings", async () => {
     await publish();
     let m = manifest(); m.entity.slug = "vgpu-copy";
     await expect(intake.preview(m)).rejects.toThrow("Canonical identity");
@@ -96,7 +97,17 @@ describe("reviewed intake", () => {
     m = manifest(); m.useCases[0].description = "A conflicting definition";
     await expect(intake.preview(m)).rejects.toThrow("canonical vocabulary");
     m = manifest(); m.subscriptions.find((s: any) => s.sourceId === "npm").locator = "another-package";
-    await expect(intake.preview(m)).rejects.toThrow("identity");
+    const preview = await intake.preview(m);
+    expect(preview.diff.some((change) => change.field === "subscriptions")).toBe(true);
+    await intake.publish(m, preview.baseHash, preview.payloadHash, "test reviewer");
+    expect(db.prepare("SELECT source_role,old_locator,new_locator,reason FROM source_binding_events WHERE entity_id='registry_vgpu' AND source_id='npm'").get()).toEqual({
+      source_role: "package",
+      old_locator: "vgpu",
+      new_locator: "another-package",
+      reason: "Reviewed source binding update"
+    });
+    expect(db.prepare("SELECT enabled,valid_until FROM source_subscriptions WHERE entity_id='registry_vgpu' AND source_id='npm' AND locator='vgpu'").get()).toMatchObject({ enabled: 0 });
+    expect(db.prepare("SELECT enabled,valid_from,valid_until FROM source_subscriptions WHERE entity_id='registry_vgpu' AND source_id='npm' AND locator='another-package'").get()).toMatchObject({ enabled: 1, valid_until: null });
   });
   it("rolls back the entire D1 batch if any later statement fails", async () => {
     const baseBatch = adapter.batch.bind(adapter);
@@ -118,6 +129,7 @@ describe("reviewed intake", () => {
     expect(dossier.metricSnapshots).toMatchObject([{key:"npm_downloads_30d",value:0,sourceId:"npm"}]);
     expect(dossier.entity.downloads30d).toBeUndefined();
     expect(dossier.facts.find((f) => f.key === "npm.package")?.sourceId).toBe("npm");
+    expect(db.prepare("SELECT version,release_kind,channel FROM project_releases WHERE entity_id='registry_vgpu'").get()).toEqual({version:"0.3.1",release_kind:"software",channel:"stable"});
     const oldFacts = db.prepare("SELECT * FROM current_facts WHERE entity_id='registry_vgpu' ORDER BY fact_key").all();
     db.exec("UPDATE source_subscriptions SET next_sync_at=NULL WHERE source_id='npm'");
     const failed = await new RegistrySyncService(adapter).syncSubscriptions({sourceId:"npm",fetcher:(async () => new Response("",{status:503})) as typeof fetch});

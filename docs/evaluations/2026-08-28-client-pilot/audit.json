@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-08-28T10:14:14.852Z",
+  "reviewer": "Parent Codex implementer; post-run, not independent or blinded",
+  "taskSpecSha256": "a0a636b951c65d837f86cf3ca0207898a8dc4dd933ef2a92cfc6d462fc7c5d06",
+  "corpusSha256": "a45a4c26a297520eab2d70829b55ede7d5321b47655e29436faaa35acd4ff260",
+  "scope": "Eight completed trials across four previously curated tasks. Reader and timing conditions vary by pair; no pooled speedup or general success-rate estimate.",
+  "rows": [
+    {
+      "receipt": "c1-after-navigation.json",
+      "receiptSha256": "28f3e195b86715ed705fd7397b3f6c9d4add9ea75dfd33a6371f7fbf8d797ffd",
+      "task": "C1",
+      "arm": "sources",
+      "validTrial": true,
+      "exactStructuralPass": true,
+      "reads": 3,
+      "bytes": 34007,
+      "elapsedMs": 40229,
+      "inputTokens": 46921,
+      "cachedInputTokens": 17920,
+      "uncachedInputTokens": 29001,
+      "outputTokens": 479,
+      "sourceFallbackReads": 3,
+      "semanticReview": {
+        "outcome": "supported",
+        "reason": "Both answers correctly compare the declared Python lower bounds, apply them to 3.11, and avoid claiming a successful runtime test.",
+        "sourceAnchors": [
+          {
+            "source": "langgraph-package",
+            "lines": [
+              10
+            ]
+          },
+          {
+            "source": "lerobot-package",
+            "lines": [
+              32
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "receipt": "c1-after-navigation.json",
+      "receiptSha256": "28f3e195b86715ed705fd7397b3f6c9d4add9ea75dfd33a6371f7fbf8d797ffd",
+      "task": "C1",
+      "arm": "platform",
+      "validTrial": true,
+      "exactStructuralPass": true,
+      "reads": 5,
+      "bytes": 14801,
+      "elapsedMs": 50011,
+      "inputTokens": 49503,
+      "cachedInputTokens": 26880,
+      "uncachedInputTokens": 22623,
+      "outputTokens": 610,
+      "sourceFallbackReads": 0,
+      "semanticReview": {
+        "outcome": "supported",
+        "reason": "Both answers correctly compare the declared Python lower bounds, apply them to 3.11, and avoid claiming a successful runtime test.",
+        "sourceAnchors": [
+          {
+            "source": "langgraph-package",
+            "lines": [
+              10
+            ]
+          },
+          {
+            "source": "lerobot-package",
+            "lines": [
+              32
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "receipt": "c2-after-reader-sources.json",
+      "receiptSha256": "8e86f1a0935eed9a459907e38cfe3156fbacb6163e1cd0cd5b60f8c13fa16dd4",
+      "task": "C2",
+      "arm": "sources",
+      "validTrial": true,
+      "exactStructuralPass": false,
+      "reads": 10,
+      "bytes": 38726,
+      "elapsedMs": 45402,
+      "inputTokens": 65216,
+      "cachedInputTokens": 34048,
+      "uncachedInputTokens": 31168,
+      "outputTokens": 803,
+      "sourceFallbackReads": 10,
+      "semanticReview": {
+        "outcome": "supported; frozen exact-string grader too narrow",
+        "reason": "The question permits a string for profilePersistence. Both answers describe the documented in-memory lifecycle correctly; the grader accepted only the literal in-memory. All three safety booleans and pinned citations are correct. Original automatic scores are preserved.",
+        "sourceAnchors": [
+          {
+            "source": "playwright-mcp-readme",
+            "lines": [
+              433,
+              484,
+              485,
+              486,
+              487,
+              800,
+              869,
+              878,
+              901,
+              909,
+              925,
+              933,
+              937,
+              942
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "receipt": "c2-after-reader-platform.json",
+      "receiptSha256": "93e78e6ce3b5adc32e77b66d8aa7dbd83c54627d762a77709859fa8d94556734",
+      "task": "C2",
+      "arm": "platform",
+      "validTrial": true,
+      "exactStructuralPass": false,
+      "reads": 17,
+      "bytes": 49313,
+      "elapsedMs": 61745,
+      "inputTokens": 141286,
+      "cachedInputTokens": 100352,
+      "uncachedInputTokens": 40934,
+      "outputTokens": 934,
+      "sourceFallbackReads": 11,
+      "semanticReview": {
+        "outcome": "supported; frozen exact-string grader too narrow",
+        "reason": "The question permits a string for profilePersistence. Both answers describe the documented in-memory lifecycle correctly; the grader accepted only the literal in-memory. All three safety booleans and pinned citations are correct. Original automatic scores are preserved.",
+        "sourceAnchors": [
+          {
+            "source": "playwright-mcp-readme",
+            "lines": [
+              433,
+              484,
+              485,
+              486,
+              487,
+              800,
+              869,
+              878,
+              901,
+              909,
+              925,
+              933,
+              937,
+              942
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "receipt": "c3-sources.json",
+      "receiptSha256": "3917c7a8b1eb0c9cbc0ad821528d58e55f406afee5c15311cb9b8cfed9e980e1",
+      "task": "C3",
+      "arm": "sources",
+      "validTrial": true,
+      "exactStructuralPass": true,
+      "reads": 3,
+      "bytes": 25503,
+      "elapsedMs": 36214,
+      "inputTokens": 42999,
+      "cachedInputTokens": 25856,
+      "uncachedInputTokens": 17143,
+      "outputTokens": 529,
+      "sourceFallbackReads": 3,
+      "semanticReview": {
+        "outcome": "supported core facts; platform output-contract caveat",
+        "reason": "Both identify Agent Canvas and the separate Python SDK repository correctly and do not assert tested compatibility. The platform returns null for crossComponentCompatibilityProven instead of the frozen expected false, while its explanation says the retrieved evidence does not establish compatibility. Preserve the structural failure; do not equate unknown compatibility with incompatibility.",
+        "sourceAnchors": [
+          {
+            "source": "openhands-readme",
+            "lines": [
+              141,
+              145,
+              146,
+              147,
+              148,
+              150
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "receipt": "c3-platform.json",
+      "receiptSha256": "91835c4fc1abfdd6f820e6a3cb3dbfe78497491b513abbb0059c9021419d8bf5",
+      "task": "C3",
+      "arm": "platform",
+      "validTrial": true,
+      "exactStructuralPass": false,
+      "reads": 4,
+      "bytes": 9575,
+      "elapsedMs": 42108,
+      "inputTokens": 46619,
+      "cachedInputTokens": 24832,
+      "uncachedInputTokens": 21787,
+      "outputTokens": 628,
+      "sourceFallbackReads": 0,
+      "semanticReview": {
+        "outcome": "supported core facts; platform output-contract caveat",
+        "reason": "Both identify Agent Canvas and the separate Python SDK repository correctly and do not assert tested compatibility. The platform returns null for crossComponentCompatibilityProven instead of the frozen expected false, while its explanation says the retrieved evidence does not establish compatibility. Preserve the structural failure; do not equate unknown compatibility with incompatibility.",
+        "sourceAnchors": [
+          {
+            "source": "openhands-readme",
+            "lines": [
+              141,
+              145,
+              146,
+              147,
+              148,
+              150
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "receipt": "c4-sources.json",
+      "receiptSha256": "b4b0fa6bcd77472b0e6b5859a646c19e859d11feeed0571a2a75dd901b76adcd",
+      "task": "C4",
+      "arm": "sources",
+      "validTrial": true,
+      "exactStructuralPass": true,
+      "reads": 9,
+      "bytes": 19174,
+      "elapsedMs": 37102,
+      "inputTokens": 55950,
+      "cachedInputTokens": 39680,
+      "uncachedInputTokens": 16270,
+      "outputTokens": 455,
+      "sourceFallbackReads": 9,
+      "semanticReview": {
+        "outcome": "supported",
+        "reason": "Both answers identify LOCAL_BACKEND_API_KEY and X-Session-API-Key, keep /api/* authentication scoped to the documented public-mode deployment and do not generalize to every model provider.",
+        "sourceAnchors": [
+          {
+            "source": "openhands-self-hosting",
+            "lines": [
+              48,
+              49,
+              50,
+              57,
+              58,
+              59,
+              177,
+              178,
+              179
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "receipt": "c4-platform.json",
+      "receiptSha256": "295cca46e896f6105535317aa9208db7d8ae66c2e5f8edf0087d65fa6fcc6c34",
+      "task": "C4",
+      "arm": "platform",
+      "validTrial": true,
+      "exactStructuralPass": true,
+      "reads": 9,
+      "bytes": 27119,
+      "elapsedMs": 50539,
+      "inputTokens": 78973,
+      "cachedInputTokens": 44800,
+      "uncachedInputTokens": 34173,
+      "outputTokens": 736,
+      "sourceFallbackReads": 4,
+      "semanticReview": {
+        "outcome": "supported",
+        "reason": "Both answers identify LOCAL_BACKEND_API_KEY and X-Session-API-Key, keep /api/* authentication scoped to the documented public-mode deployment and do not generalize to every model provider.",
+        "sourceAnchors": [
+          {
+            "source": "openhands-self-hosting",
+            "lines": [
+              48,
+              49,
+              50,
+              57,
+              58,
+              59,
+              177,
+              178,
+              179
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "conclusions": {
+    "implementedBoundaryWorks": true,
+    "generalEfficiencyAdvantageEstablished": false,
+    "twoClientValidationComplete": false,
+    "secondClientBlocker": "Claude was not authenticated; no login attempted.",
+    "recommendedDecision": "Continue a narrow evidence-navigation and batch-retrieval iteration; do not scale curation or production promises on this pilot."
+  },
+  "excluded": [
+    "c1-before-navigation.json is an iteration diagnostic, not a same-configuration performance baseline.",
+    "c2-platform.json and c2-sources.json precede the source-reader improvement; the source timeout is a reader limitation.",
+    "Setup attempts and unpreserved prior batch outputs are not effectiveness evidence."
+  ]
+}

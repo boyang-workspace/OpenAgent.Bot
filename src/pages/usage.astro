@@ -1,0 +1,136 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getUsage } from "@/lib/registry/runtime";
+import { compactTokens, type UsagePageData, type UsageSubjectType } from "@/lib/registry/usage";
+import { calendarDate, label } from "@/lib/registry/format";
+
+const kind: UsageSubjectType = Astro.url.searchParams.get("kind") === "app" ? "app" : "model";
+const openOnly = Astro.url.searchParams.get("scope") !== "all";
+const requestedDays = Number(Astro.url.searchParams.get("days") ?? 30);
+const days = [7, 30, 90, 365].includes(requestedDays) ? requestedDays : 30;
+let data: UsagePageData;
+try { data = await getUsage().pageData(kind, { openOnly, days }); }
+catch { data = { sourceId:"openrouter",sourceName:"OpenRouter",sourceUrl:"https://openrouter.ai/rankings",metricScope:"Public OpenRouter traffic",licenseName:"CC BY 4.0",attributionTemplate:"Source: OpenRouter. Licensed under CC BY 4.0.",subjectType:kind,openOnly,latestDate:undefined,sourceAsOf:undefined,snapshot:[],series:[],historyDays:0,mappedSubjects:0,totalSubjects:0 }; }
+
+const maxSnapshot = data.snapshot.reduce((max, item) => BigInt(item.totalTokens) > max ? BigInt(item.totalTokens) : max, 0n);
+const allDates = [...new Set(data.series.flatMap((series) => series.points.map((point) => point.date)))].sort();
+const maxTrend = data.series.flatMap((series) => series.points).reduce((max, point) => BigInt(point.totalTokens) > max ? BigInt(point.totalTokens) : max, 0n);
+const colors = ["#0b0d0c", "#545b55", "#878d87", "#b1b5af", "#6e756f", "#c9ccc7"];
+const paths = data.series.map((series, seriesIndex) => {
+  const values = new Map(series.points.map((point) => [point.date, BigInt(point.totalTokens)]));
+  const points = allDates.map((date, index) => {
+    const x = allDates.length > 1 ? 24 + index / (allDates.length - 1) * 952 : 500;
+    const value = values.get(date) ?? 0n;
+    const ratio = maxTrend ? Number(value * 10000n / maxTrend) / 10000 : 0;
+    const y = 232 - ratio * 202;
+    return `${x.toFixed(2)},${y.toFixed(2)}`;
+  }).join(" ");
+  return { ...series, points, color: colors[seriesIndex] };
+});
+const modeLabel = kind === "model" ? "Models" : "Agents / Apps";
+const scopeLabel = openOnly ? "Confirmed open" : "All public subjects";
+const description = "Daily public token traffic for models and attributed agents/apps, with open-source and open-weight records emphasized and every number scoped to its source.";
+const usageIsIndexable = Boolean(data.latestDate && data.historyDays >= 30 && data.snapshot.length >= 2);
+---
+
+<BaseLayout title="Open Model & Agent Usage | OpenAgent.bot" description={description} path="/usage" noindex={!usageIsIndexable}>
+  <main class="usage-page page-shell">
+    <header class="usage-hero">
+      <div><span class="eyebrow">Public inference traffic</span><h1>Usage</h1><p>Source-scoped token traffic for open models and openly developed agents.</p></div>
+      <dl>
+        <div><dt>View</dt><dd>{modeLabel}</dd></div>
+        <div><dt>Scope</dt><dd>{scopeLabel}</dd></div>
+        <div><dt>Latest day</dt><dd>{data.latestDate ? calendarDate(data.latestDate) : "Collecting"}</dd></div>
+        <div><dt>History</dt><dd>{data.historyDays}/{days}d</dd></div>
+      </dl>
+    </header>
+
+    <nav class="usage-tabs" aria-label="Usage dimensions">
+      <a class:list={{active:kind==="model"}} href={`/usage?kind=model&scope=${openOnly?"open":"all"}&days=${days}`}>Models</a>
+      <a class:list={{active:kind==="app"}} href={`/usage?kind=app&scope=${openOnly?"open":"all"}&days=${days}`}>Agents / Apps</a>
+      <span></span>
+      <a class:list={{active:openOnly}} href={`/usage?kind=${kind}&scope=open&days=${days}`}>Open first</a>
+      <a class:list={{active:!openOnly}} href={`/usage?kind=${kind}&scope=all&days=${days}`}>All public</a>
+    </nav>
+
+    <section class="source-strip">
+      <div><span>Source</span><strong>{data.sourceName}</strong></div>
+      <p>{data.metricScope} Cross-model totals are approximate because tokenizers differ. Private traffic is not included.</p>
+      <a href={data.sourceUrl} rel="noreferrer" target="_blank">Inspect source ↗</a>
+    </section>
+
+    {data.latestDate ? <>
+      <section class="snapshot-section">
+        <header><div><span class="eyebrow">Previous complete UTC day</span><h2>{modeLabel} by tokens</h2></div><p>Mapped variants are combined. Unverified subjects appear only in “All public”.</p></header>
+        <div class="bar-list">
+          {data.snapshot.map((item, index) => {
+            const width = maxSnapshot ? Math.max(1.5, Number(BigInt(item.totalTokens) * 10000n / maxSnapshot) / 100) : 0;
+            return <article>
+              <span class="rank">{String(index + 1).padStart(2,"0")}</span>
+              <div class="bar-identity">{item.entitySlug ? <a href={`/project/${item.entitySlug}`}>{item.displayName}</a> : <strong>{item.displayName}</strong>}<small>{label(item.opennessStatus)}{item.variants > 1 ? ` · ${item.variants} variants` : ""}</small></div>
+              <div class="bar-track"><i style={`width:${width}%`}></i></div>
+              <b>{compactTokens(item.totalTokens)}</b>
+            </article>;
+          })}
+        </div>
+      </section>
+
+      <section class="trend-section">
+        <header><div><span class="eyebrow">Observed history</span><h2>Traffic over time</h2></div><nav>{[7,30,90,365].map((period)=><a class:list={{active:period===days}} href={`/usage?kind=${kind}&scope=${openOnly?"open":"all"}&days=${period}`}>{period===365?"1y":`${period}d`}</a>)}</nav></header>
+        {paths.length && allDates.length ? <>
+          <svg viewBox="0 0 1000 260" role="img" aria-label={`${modeLabel} token traffic over ${days} days`}>
+            {[30,80,130,180,230].map((y)=><line x1="24" x2="976" y1={y} y2={y} />)}
+            {paths.map((series)=><polyline points={series.points} stroke={series.color} />)}
+          </svg>
+          <div class="legend">{paths.map((series)=><div><i style={`background:${series.color}`}></i><span>{series.displayName}</span><b>{compactTokens(series.windowTokens)}</b></div>)}</div>
+        </> : <p class="empty">More than one daily observation is required for a trend line.</p>}
+      </section>
+    </> : <section class="collecting-state">
+      <span class="status-dot"></span><div><span class="eyebrow">Collector ready</span><h2>Awaiting the first attributable snapshot.</h2><p>The database and daily job are installed. No estimated or scraped values are substituted while the official source credential is pending.</p></div>
+    </section>}
+
+    <section class="usage-method">
+      <div><span>01</span><strong>Open is verified.</strong><p>Open-source and open-weight labels come from mapped database records and official license evidence. Unknown is never promoted to open.</p></div>
+      <div><span>02</span><strong>Platforms stay separate.</strong><p>OpenRouter traffic is not added to downloads, repository stars or another provider’s tokens.</p></div>
+      <div><span>03</span><strong>History is append-only.</strong><p>Each completed UTC day is stored with the source timestamp and sync run so later corrections remain auditable.</p></div>
+    </section>
+
+    <footer class="attribution">
+      <span>Coverage: {data.mappedSubjects}/{data.totalSubjects} subjects mapped to database records.</span>
+      <span>{data.attributionTemplate?.replace("{as_of}", data.sourceAsOf ?? "pending") ?? "Source: OpenRouter. Licensed under CC BY 4.0."}</span>
+    </footer>
+  </main>
+</BaseLayout>
+
+<style>
+  .usage-page { border-left:1px solid var(--ink); border-right:1px solid var(--ink); }
+  .usage-hero { display:grid; grid-template-columns:1fr minmax(520px,.8fr); min-height:124px; }
+  .usage-hero>div { padding:22px 28px; }
+  .usage-hero h1 { font-size:var(--data-title); letter-spacing:-.045em; line-height:1; margin:9px 0 8px; }
+  .usage-hero p { color:var(--muted); font-size:.86rem; line-height:1.5; margin:0; max-width:760px; }
+  .usage-hero dl { align-self:stretch; border:1px solid var(--ink); display:grid; grid-template-columns:1fr 1fr; margin:0; }
+  .usage-hero dl div { border-bottom:1px solid var(--line); min-height:62px; padding:11px 14px; }
+  .usage-hero dl div:nth-child(odd){border-right:1px solid var(--line)} .usage-hero dl div:nth-last-child(-n+2){border-bottom:0}
+  dt,.source-strip span { color:var(--muted); font-family:var(--mono); font-size:.75rem; text-transform:uppercase; } dd{font-size:.9rem;font-weight:650;margin:8px 0 0}
+  .usage-tabs { background:rgba(247,247,245,.98); border-bottom:1px solid var(--ink); border-top:1px solid var(--ink); display:grid; grid-template-columns:150px 150px 1fr 130px 130px; position:sticky; top:var(--header-height); z-index:18; }
+  .usage-tabs a { align-items:center; border-right:1px solid var(--line); display:flex; font-family:var(--mono); font-size:.75rem; font-weight:700; justify-content:center; min-height:44px; text-transform:uppercase; }
+  .usage-tabs a.active { background:var(--ink); color:var(--paper); }
+  .source-strip { align-items:center; background:var(--paper-raised); border-bottom:1px solid var(--ink); display:grid; gap:24px; grid-template-columns:160px 1fr 130px; padding:13px 28px; }
+  .source-strip strong{display:block;margin-top:4px}.source-strip p{color:var(--muted);font-size:.78rem;line-height:1.5;margin:0}.source-strip a{font-family:var(--mono);font-size:.75rem;font-weight:700;text-align:right;text-transform:uppercase}
+  .snapshot-section,.trend-section { border-bottom:1px solid var(--ink); padding:24px 28px 30px; }
+  .snapshot-section>header,.trend-section>header { align-items:end; display:grid; gap:32px; grid-template-columns:1fr 440px; }
+  h2 { font-size:var(--section-title); letter-spacing:-.025em; line-height:1.1; margin:5px 0 0; }
+  .snapshot-section>header p { color:var(--muted); font-size:.78rem; line-height:1.5; margin:0; text-align:right; }
+  .bar-list { border-top:1px solid var(--ink); margin-top:16px; }
+  .bar-list article { align-items:center; border-bottom:1px solid var(--line); display:grid; gap:16px; grid-template-columns:36px minmax(180px,260px) 1fr 92px; min-height:52px; }
+  .rank,.bar-list b,.bar-identity small { font-family:var(--mono); font-size:.75rem; }.bar-list b{text-align:right}.bar-identity a,.bar-identity strong{font-size:.86rem}.bar-identity small{color:var(--muted);display:block;margin-top:3px;text-transform:uppercase}
+  .bar-track{background:#e0e2dc;height:10px}.bar-track i{background:var(--ink);display:block;height:100%}
+  .trend-section header nav{display:flex;justify-content:flex-end}.trend-section header nav a{border:1px solid var(--line);font-family:var(--mono);font-size:.75rem;padding:8px 12px}.trend-section header nav a.active{background:var(--ink);color:var(--paper)}
+  svg{display:block;height:auto;margin-top:38px;overflow:visible;width:100%}svg line{stroke:var(--line);stroke-width:1}svg polyline{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.5}
+  .legend{border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);margin-top:20px}.legend div{align-items:center;border-bottom:1px solid var(--line);display:grid;gap:9px;grid-template-columns:9px 1fr auto;padding:12px}.legend i{height:9px}.legend span,.legend b{font-family:var(--mono);font-size:.75rem}.legend b{color:var(--muted)}
+  .collecting-state{align-items:center;border-bottom:1px solid var(--ink);display:grid;gap:24px;grid-template-columns:14px 1fr;min-height:220px;padding:32px}.collecting-state h2{max-width:800px}.collecting-state p,.empty{color:var(--muted);font-family:var(--mono);font-size:.78rem;line-height:1.6;max-width:700px}.status-dot{background:var(--ink);border-radius:50%;height:10px;width:10px}
+  .usage-method{display:grid;grid-template-columns:repeat(3,1fr)}.usage-method>div{border-bottom:1px solid var(--ink);border-right:1px solid var(--line);min-height:132px;padding:20px 24px}.usage-method span{color:var(--muted);font-family:var(--mono);font-size:.75rem}.usage-method strong{display:block;font-size:.95rem;margin:18px 0 8px}.usage-method p{color:var(--muted);font-size:.78rem;line-height:1.5}
+  .attribution{background:var(--ink);color:var(--paper);display:flex;font-family:var(--mono);font-size:.75rem;gap:32px;justify-content:space-between;line-height:1.5;padding:18px 28px}
+  @media(max-width:900px){.usage-hero{grid-template-columns:1fr}.usage-hero dl{border-left:0;border-right:0}.usage-tabs{grid-template-columns:1fr 1fr}.usage-tabs span{display:none}.source-strip{grid-template-columns:1fr}.source-strip a{text-align:left}.snapshot-section>header,.trend-section>header{grid-template-columns:1fr}.snapshot-section>header p{text-align:left}.usage-method{grid-template-columns:1fr}.legend{grid-template-columns:1fr 1fr}}
+  @media(max-width:620px){.usage-page{border:0}.usage-hero>div,.snapshot-section,.trend-section{padding:22px 18px}.usage-hero h1{font-size:2rem}.usage-tabs{grid-template-columns:1fr 1fr}.source-strip{padding:14px 18px}.bar-list article{gap:8px 10px;grid-template-columns:28px 1fr 70px;min-height:58px}.bar-track{grid-column:2/4;width:100%}.bar-list b{grid-column:3;grid-row:1}.legend{grid-template-columns:1fr}.attribution{flex-direction:column;padding:18px}}
+</style>

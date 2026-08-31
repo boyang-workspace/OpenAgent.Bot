@@ -2,24 +2,24 @@
 import { site } from "@/config/site";
 
 const path = Astro.url.pathname;
-const domain = Astro.url.searchParams.get("domain");
 const nav = site.nav.map((item) => {
-  const active = item.label === "Database"
-    ? (path === "/database" && domain !== "agent" && domain !== "robotics") || path.startsWith("/project/") || path.startsWith("/compare")
-    : item.label === "Agents"
-      ? path === "/agents" || (path === "/database" && domain === "agent") || path === "/open-source-ai-agents" || path === "/open-source-agent-frameworks"
-      : item.label === "Robotics"
-        ? path === "/robotics" || (path === "/database" && domain === "robotics") || path === "/open-source-robots" || path === "/open-source-humanoid-robots" || path === "/open-source-vla-models"
-        : path === item.href;
+  const active = path === item.href
+    || (item.href === "/changes" && path === "/rankings")
+    || (item.href === "/database" && (path.startsWith("/project/") || path.startsWith("/compare")));
   return { ...item, active };
 });
 ---
 
 <header class="site-header">
   <a class="wordmark" href="/" aria-label="OpenAgent.bot home">
-    <span class="wordmark-icon">OA</span>
+    <span class="wordmark-icon">DB</span>
     <span>OPENAGENT<small>.BOT</small></span>
   </a>
+  <form class="header-search" action="/database" method="get" role="search">
+    <label class="sr-only" for="global-search">Search the database</label>
+    <input id="global-search" name="q" type="search" placeholder="Search the database" />
+    <button type="submit" aria-label="Submit database search">Search</button>
+  </form>
   <nav class="primary-nav" aria-label="Primary navigation">
     {nav.map((item) => <a class:list={[{ active: item.active }]} href={item.href}>{item.label}</a>)}
   </nav>

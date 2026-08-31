@@ -35,7 +35,7 @@ function displayValue(value: unknown): string {
 
 <BaseLayout title="Agent & Robotics Project Changes" description="A timestamped feed of verified changes across open agents, robot platforms, models and infrastructure." path="/changes" noindex={Astro.url.searchParams.size > 0}>
   <div class="page-shell"><div class="page-grid changes-page">
-    <section class="changes-head"><div><span class="kicker">Open ecosystem change feed</span><h1>Changes</h1><p>Verified differences between source observations, grouped by project and collection run.</p></div><div class="feed-count"><strong>{groups.length}</strong><span>change groups</span></div></section>
+    <section class="changes-head"><div><span class="kicker">Change ledger</span><h1>Verified changes</h1><p>Source-observation differences, grouped by project and collection run.</p></div><dl class="feed-count"><div><dt>Groups</dt><dd>{groups.length}</dd></div><div><dt>Records scanned</dt><dd>{changes.length}</dd></div></dl></section>
     <nav class="change-filters" aria-label="Change feed filters">
       {[{ key: "all", label: "All" }, { key: "agents", label: "Agents" }, { key: "robotics", label: "Robotics" }, { key: "activity", label: "Activity" }, { key: "openness", label: "Openness" }, { key: "metadata", label: "Metadata" }].map((item) => <a class:list={{ active: requestedType === item.key }} href={item.key === "all" ? "/changes" : `/changes?type=${item.key}`}>{item.label}</a>)}
     </nav>
@@ -59,32 +59,37 @@ function displayValue(value: unknown): string {
 </BaseLayout>
 
 <style>
-  .changes-head { align-items: end; border-bottom: 1px solid var(--ink); display: grid; gap: 40px; grid-template-columns: 1fr 170px; padding: 38px 44px 34px; }
-  .changes-head h1 { font-size: clamp(3rem, 6vw, 6rem); letter-spacing: -.06em; line-height: .9; margin: 18px 0; }
-  .changes-head p { color: var(--muted); line-height: 1.55; margin: 0; max-width: 700px; }
-  .feed-count { border-left: 1px solid var(--ink); display: grid; gap: 7px; padding-left: 20px; }
-  .feed-count strong { font-size: 2rem; }
-  .feed-count span { color: var(--muted); font-family: var(--mono); font-size: .6rem; text-transform: uppercase; }
-  .change-filters { border-bottom: 1px solid var(--ink); display: flex; overflow-x: auto; }
-  .change-filters a { border-right: 1px solid var(--line); font-family: var(--mono); font-size: .61rem; padding: 15px 18px; text-transform: uppercase; }
-  .change-filters a.active, .change-filters a:hover { background: var(--acid); }
-  .change-feed { padding: 28px 36px 48px; }
+  .changes-head { align-items: stretch; border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 1fr) 360px; min-height: 142px; }
+  .changes-head > div { align-self: center; padding: 24px 28px; }
+  .changes-head h1 { font-size: var(--data-title); letter-spacing: -.045em; line-height: 1; margin: 11px 0 9px; }
+  .changes-head p { color: var(--muted); font-size: .88rem; line-height: 1.5; margin: 0; max-width: 700px; }
+  .feed-count { border-left: 1px solid var(--ink); display: grid; grid-template-columns: repeat(2, 1fr); margin: 0; }
+  .feed-count div { border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; }
+  .feed-count div:last-child { border-right: 0; }
+  .feed-count dt { color: var(--muted); font-size: .75rem; text-transform: uppercase; }
+  .feed-count dd { font-size: 1.25rem; font-weight: 650; margin: 0; }
+  .change-filters { background: rgba(247,247,245,.98); border-bottom: 1px solid var(--ink); display: flex; overflow-x: auto; position: sticky; top: var(--header-height); z-index: 20; }
+  .change-filters a { border-right: 1px solid var(--line); font-family: var(--mono); font-size: .75rem; font-weight: 650; min-width: 104px; padding: 13px 18px; text-align: center; text-transform: uppercase; }
+  .change-filters a.active, .change-filters a:hover { background: var(--ink); color: var(--paper); }
+  .change-feed { padding: 20px 28px 36px; }
   .change-group { border: 1px solid var(--line); border-bottom: 0; }
   .change-group:last-child { border-bottom: 1px solid var(--line); }
-  .change-group summary { align-items: center; cursor: pointer; display: grid; gap: 18px; grid-template-columns: 120px minmax(220px, 1fr) 140px 18px; min-height: 76px; padding: 12px 18px; }
+  .change-group summary { align-items: center; cursor: pointer; display: grid; gap: 18px; grid-template-columns: 140px minmax(220px, 1fr) 150px 18px; min-height: 62px; padding: 9px 14px; }
   .change-group[open] summary, .change-group summary:hover { background: var(--paper-raised); }
-  .change-time span, .change-time small, .change-entity small, .change-count { color: var(--muted); display: block; font-family: var(--mono); font-size: .58rem; text-transform: uppercase; }
+  .change-time span, .change-time small, .change-entity small, .change-count { color: var(--muted); display: block; font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
   .change-time small, .change-entity small { margin-top: 5px; }
   .change-count { text-align: right; }
-  .change-diffs { border-top: 1px solid var(--line); padding: 0 18px 18px 156px; }
+  .change-diffs { border-top: 1px solid var(--line); padding: 0 14px 16px 172px; }
   .change-diffs > div { border-bottom: 1px solid var(--line); display: grid; gap: 14px; grid-template-columns: 130px 1fr 20px 1fr; padding: 15px 0; }
-  .change-diffs strong, .change-diffs span, .change-diffs b, .change-diffs > a { font-family: var(--mono); font-size: .62rem; overflow-wrap: anywhere; }
+  .change-diffs strong, .change-diffs span, .change-diffs b, .change-diffs > a { font-family: var(--mono); font-size: .75rem; overflow-wrap: anywhere; }
   .change-diffs span { color: var(--muted); }
   .change-diffs > a { display: inline-block; margin-top: 18px; text-decoration: underline; text-transform: uppercase; text-underline-offset: 4px; }
   @media (max-width: 760px) {
-    .changes-head { align-items: start; gap: 22px; grid-template-columns: 1fr; padding: 30px 20px; }
-    .feed-count { border-left: 0; border-top: 1px solid var(--line); padding: 16px 0 0; }
-    .change-feed { padding: 18px 12px 36px; }
+    .changes-head { grid-template-columns: 1fr; }
+    .changes-head > div { padding: 24px 18px; }
+    .feed-count { border-left: 0; border-top: 1px solid var(--line); min-height: 88px; }
+    .feed-count div { padding: 13px 18px; }
+    .change-feed { padding: 16px 0 30px; }
     .change-group summary { align-items: start; grid-template-columns: 80px 1fr 18px; }
     .change-count { grid-column: 2; text-align: left; }
     .change-diffs { padding: 0 14px 16px; }

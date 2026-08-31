@@ -1,5 +1,6 @@
 ---
 import { buildSeo } from "@/lib/seo";
+import { queryStateIndexability } from "@/lib/seo/indexability";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import "@/styles/global.css";
@@ -9,17 +10,21 @@ type Props = {
   description?: string;
   path?: string;
   image?: string;
+  imageAlt?: string;
   noindex?: boolean;
+  robots?: "index,follow,max-image-preview:large" | "noindex,follow" | "noindex,nofollow";
 };
 
 const seo = buildSeo(Astro.props);
+const queryIndexability = queryStateIndexability(Astro.url.searchParams);
+const robotsContent = Astro.props.robots ?? (seo.noindex || !queryIndexability.indexable ? "noindex,follow" : "index,follow,max-image-preview:large");
 const structuredData = [
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "OpenAgent.bot",
     url: "https://www.openagent.bot",
-    description: "An evidence-first living registry of open-source agents, robots and their supporting infrastructure."
+    description: "Historical rankings, releases, evaluations and source evidence for open AI and robotics."
   },
   {
     "@context": "https://schema.org",
@@ -36,10 +41,11 @@ const structuredData = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111111" />
     <title>{seo.title}</title>
     <meta name="description" content={seo.description} />
     <link rel="canonical" href={seo.canonical} />
-    {seo.noindex && <meta name="robots" content="noindex,follow" />}
+    <meta name="robots" content={robotsContent} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content="OpenAgent.bot" />
@@ -47,16 +53,23 @@ const structuredData = [
     <meta property="og:description" content={seo.description} />
     <meta property="og:url" content={seo.canonical} />
     <meta property="og:image" content={seo.image} />
+    <meta property="og:image:secure_url" content={seo.image} />
+    {seo.imageType && <meta property="og:image:type" content={seo.imageType} />}
+    {seo.imageWidth && <meta property="og:image:width" content={String(seo.imageWidth)} />}
+    {seo.imageHeight && <meta property="og:image:height" content={String(seo.imageHeight)} />}
+    <meta property="og:image:alt" content={seo.imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@OpenAgentBot" />
+    <meta name="twitter:creator" content="@OpenAgentBot" />
     <meta name="twitter:title" content={seo.title} />
     <meta name="twitter:description" content={seo.description} />
     <meta name="twitter:image" content={seo.image} />
+    <meta name="twitter:image:alt" content={seo.imageAlt} />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;750&display=swap" rel="stylesheet" />
     <slot name="head" />
   </head>
   <body>
@@ -65,5 +78,8 @@ const structuredData = [
       <slot />
     </main>
     <Footer />
+    <script>
+      import "@/scripts/analytics";
+    </script>
   </body>
 </html>

@@ -2,6 +2,7 @@
 import ComparisonView from "@/components/ComparisonView.astro";
 import { getRegistry } from "@/lib/registry/runtime";
 import type { RegistryDossier } from "@/lib/registry/types";
+import { compareIndexability } from "@/lib/seo/indexability";
 
 const comparisons: Record<string, { title: string; description: string; slugs: string[] }> = {
   "openclaw-vs-browser-use-vs-openhands": {
@@ -32,6 +33,7 @@ let dossiers: RegistryDossier[] = [];
 try {
   dossiers = (await Promise.all(config.slugs.map((entitySlug) => getRegistry().getEntityDossier(entitySlug)))).filter((item): item is RegistryDossier => item !== undefined);
 } catch {}
+const indexability = compareIndexability(dossiers);
 ---
 
-<ComparisonView title={config.title} description={config.description} path={`/compare/${slug}`} dossiers={dossiers} indexable />
+<ComparisonView title={config.title} description={config.description} path={`/compare/${slug}`} dossiers={dossiers} indexable={indexability.indexable} />

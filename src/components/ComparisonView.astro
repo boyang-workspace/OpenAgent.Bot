@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { calendarDate, compactNumber, label, relativeDate } from "@/lib/registry/format";
+import { buildSystemScorecard } from "@/lib/registry/intelligence";
 import type { RegistryDossier } from "@/lib/registry/types";
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 
 const { title, description, path, dossiers, indexable = false } = Astro.props;
 const entities = dossiers.map((dossier) => dossier.entity);
+const systemScorecards = dossiers.map(buildSystemScorecard);
 const comparisonRows = [
   { label: "Artifact", value: (dossier: RegistryDossier) => label(dossier.entity.kind) },
   { label: "Organization", value: (dossier: RegistryDossier) => dossier.entity.organization ?? "Not declared" },
@@ -45,14 +47,14 @@ const structuredData = {
   <div class="compare-shell">
     <header class="compare-masthead">
       <div>
-        <span class="kicker">Registry comparison</span>
+        <span class="kicker">Database comparison</span>
         <h1>{title}</h1>
         <p>{description}</p>
       </div>
       <div class="comparison-status">
         <span class="data-label">Record set</span>
         <strong>{entities.length} projects</strong>
-        <span>Live registry values</span>
+        <span>Attributed values only</span>
       </div>
     </header>
 
@@ -72,10 +74,15 @@ const structuredData = {
           ))}
         </section>
 
+        <section class="scorecard-section">
+          <div class="matrix-heading"><div><span class="eyebrow">Coverage</span><h2>Documented system fields</h2></div><p>Coverage is not a quality score. Unknown data remains unknown.</p></div>
+          <div class="scorecard-grid" style={`--columns:${dossiers.length}`}>{dossiers.map((dossier, index) => <article><header><span>{label(dossier.entity.kind)}</span><strong>{dossier.entity.name}</strong></header><dl>{systemScorecards[index].map((row) => <div data-status={row.status}><dt>{row.label}</dt><dd>{row.value}</dd><small>{row.detail}</small></div>)}</dl></article>)}</div>
+        </section>
+
         <section class="matrix-section">
           <div class="matrix-heading">
-            <div><span class="eyebrow">Comparable fields</span><h2>Side-by-side registry data</h2></div>
-            <p>Values are sourced from each project record. Missing data stays visible instead of being estimated.</p>
+            <div><span class="eyebrow">Comparable fields</span><h2>Side-by-side data</h2></div>
+            <p>Missing values remain visible instead of being estimated.</p>
           </div>
           <div class="matrix-scroll">
             <table style={`--columns:${dossiers.length}`}>
@@ -114,43 +121,57 @@ const structuredData = {
 
 <style>
   .compare-shell { border-left: 1px solid var(--line); border-right: 1px solid var(--line); margin: 0 auto; max-width: var(--max); }
-  .compare-masthead { align-items: end; border-bottom: 1px solid var(--ink); display: grid; gap: 36px; grid-template-columns: minmax(0, 1fr) 210px; padding: 38px 42px 34px; }
-  .compare-masthead h1 { font-family: var(--sans); font-size: clamp(2rem, 4.4vw, 4.6rem); font-weight: 500; letter-spacing: -.055em; line-height: .96; margin: 18px 0 15px; max-width: 960px; }
-  .compare-masthead p { color: var(--muted); line-height: 1.55; margin: 0; max-width: 720px; }
+  .compare-masthead { align-items: center; border-bottom: 1px solid var(--ink); display: grid; gap: 36px; grid-template-columns: minmax(0, 1fr) 220px; min-height: 150px; padding: 24px 28px; }
+  .compare-masthead h1 { font-family: var(--sans); font-size: var(--data-title); font-weight: 600; letter-spacing: -.045em; line-height: 1; margin: 11px 0 9px; max-width: 960px; }
+  .compare-masthead p { color: var(--muted); font-size: .88rem; line-height: 1.5; margin: 0; max-width: 720px; }
   .comparison-status { border-left: 1px solid var(--ink); display: grid; gap: 7px; padding-left: 20px; }
   .comparison-status strong { font-family: var(--mono); font-size: 1.15rem; }
-  .comparison-status > span:last-child { color: var(--muted); font-family: var(--mono); font-size: .62rem; text-transform: uppercase; }
+  .comparison-status > span:last-child { color: var(--muted); font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
   .summary-grid, .evidence-grid { display: grid; grid-template-columns: repeat(var(--columns), minmax(0, 1fr)); }
-  .summary-grid article { border-bottom: 1px solid var(--ink); border-right: 1px solid var(--line); min-height: 250px; padding: 28px; }
+  .summary-grid article { border-bottom: 1px solid var(--ink); border-right: 1px solid var(--line); min-height: 205px; padding: 22px; }
   .summary-grid article:last-child, .evidence-grid article:last-child { border-right: 0; }
-  .summary-grid h2 { font-family: var(--sans); font-size: 1.65rem; font-weight: 600; letter-spacing: -.03em; margin: 24px 0 10px; }
+  .summary-grid h2 { font-family: var(--sans); font-size: 1.35rem; font-weight: 600; letter-spacing: -.025em; margin: 18px 0 8px; }
   .summary-grid h2 a:hover { text-decoration: underline; text-underline-offset: 4px; }
-  .summary-grid p { color: var(--muted); font-size: .84rem; line-height: 1.55; min-height: 66px; }
-  .project-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 24px; }
-  .project-actions a { border-bottom: 1px solid var(--ink); font-family: var(--mono); font-size: .63rem; padding-bottom: 3px; text-transform: uppercase; }
+  .summary-grid p { color: var(--muted); font-size: .82rem; line-height: 1.5; min-height: 58px; }
+  .project-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 18px; }
+  .project-actions a { border-bottom: 1px solid var(--ink); font-family: var(--mono); font-size: .75rem; padding-bottom: 3px; text-transform: uppercase; }
   .matrix-section { border-bottom: 1px solid var(--ink); }
-  .matrix-heading { align-items: end; display: grid; gap: 40px; grid-template-columns: 1fr 360px; padding: 35px 42px 28px; }
-  .matrix-heading h2 { font-family: var(--sans); font-size: 2rem; font-weight: 500; letter-spacing: -.04em; margin: 10px 0 0; }
+  .scorecard-section { border-bottom: 1px solid var(--ink); }
+  .scorecard-grid { display: grid; grid-template-columns: repeat(var(--columns), minmax(0, 1fr)); }
+  .scorecard-grid article { border-right: 1px solid var(--line); }
+  .scorecard-grid article:last-child { border: 0; }
+  .scorecard-grid header { background: var(--ink); color: var(--paper); display: grid; gap: 6px; padding: 16px 18px; }
+  .scorecard-grid header span { color: var(--acid); font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
+  .scorecard-grid header strong { font-size: 1rem; }
+  .scorecard-grid dl { display: block; margin: 0; }
+  .scorecard-grid dl > div { border-bottom: 1px solid var(--line); min-height: 84px; padding: 12px 16px; }
+  .scorecard-grid dl > div:last-child { border: 0; }
+  .scorecard-grid dl > div[data-status="unknown"] { background: #f1f2ed; }
+  .scorecard-grid dl > div[data-status="partial"] { box-shadow: inset 3px 0 0 var(--orange); }
+  .scorecard-grid dd { font-size: .82rem; margin: 6px 0; }
+  .scorecard-grid small { color: var(--muted); display: block; font-family: var(--mono); font-size: .75rem; line-height: 1.45; text-transform: uppercase; }
+  .matrix-heading { align-items: end; display: grid; gap: 40px; grid-template-columns: 1fr 360px; padding: 26px 28px 20px; }
+  .matrix-heading h2 { font-family: var(--sans); font-size: var(--section-title); font-weight: 600; letter-spacing: -.025em; margin: 7px 0 0; }
   .matrix-heading p { color: var(--muted); font-size: .78rem; line-height: 1.5; margin: 0; }
   .matrix-scroll { overflow-x: auto; }
   table { border-collapse: collapse; min-width: 760px; width: 100%; }
-  th, td { border-right: 1px solid var(--line); border-top: 1px solid var(--line); font-family: var(--mono); font-size: .68rem; padding: 15px 18px; text-align: left; vertical-align: top; }
-  thead th { background: var(--ink); color: var(--paper); font-size: .61rem; text-transform: uppercase; }
+  th, td { border-right: 1px solid var(--line); border-top: 1px solid var(--line); font-family: var(--mono); font-size: .75rem; padding: 13px 16px; text-align: left; vertical-align: top; }
+  thead th { background: var(--ink); color: var(--paper); font-size: .75rem; text-transform: uppercase; }
   th:first-child { width: 190px; }
-  tbody th { color: var(--muted); font-weight: 500; text-transform: uppercase; }
+  tbody th { background: var(--paper); color: var(--muted); font-weight: 500; left: 0; position: sticky; text-transform: uppercase; z-index: 1; }
   td:last-child, th:last-child { border-right: 0; }
-  .evidence-grid article { border-right: 1px solid var(--line); padding: 28px; }
+  .evidence-grid article { border-right: 1px solid var(--line); padding: 22px; }
   dl { display: grid; grid-template-columns: repeat(3, 1fr); margin: 22px 0; }
   dl div { border-right: 1px solid var(--line); padding: 0 10px; }
   dl div:first-child { padding-left: 0; }
   dl div:last-child { border: 0; }
-  dt { color: var(--muted); font-family: var(--mono); font-size: .56rem; text-transform: uppercase; }
+  dt { color: var(--muted); font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
   dd { font-family: var(--mono); font-size: 1.2rem; margin: 7px 0 0; }
   ul { border-top: 1px solid var(--line); list-style: none; margin: 0; padding: 0; }
-  li { align-items: center; border-bottom: 1px solid var(--line); display: flex; font-family: var(--mono); font-size: .65rem; justify-content: space-between; padding: 9px 0; }
-  li small, .empty-copy { color: var(--muted); font-family: var(--mono); font-size: .57rem; text-transform: uppercase; }
-  .compare-empty { min-height: 58vh; padding: 70px 42px; }
-  .compare-empty h2 { font-family: var(--sans); font-size: 2.4rem; font-weight: 500; letter-spacing: -.04em; margin: 15px 0; }
+  li { align-items: center; border-bottom: 1px solid var(--line); display: flex; font-family: var(--mono); font-size: .75rem; justify-content: space-between; padding: 9px 0; }
+  li small, .empty-copy { color: var(--muted); font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
+  .compare-empty { min-height: 48vh; padding: 48px 28px; }
+  .compare-empty h2 { font-family: var(--sans); font-size: var(--section-title); font-weight: 600; letter-spacing: -.025em; margin: 12px 0; }
   .compare-empty p { color: var(--muted); line-height: 1.6; max-width: 620px; }
   .compare-empty .button { margin-top: 18px; }
   @media (max-width: 760px) {
@@ -158,7 +179,7 @@ const structuredData = {
     .compare-masthead { align-items: start; gap: 22px; grid-template-columns: 1fr; padding: 28px 18px; }
     .compare-masthead h1 { font-size: 2.35rem; }
     .comparison-status { border-left: 0; border-top: 1px solid var(--line); grid-template-columns: 1fr auto auto; padding: 16px 0 0; }
-    .summary-grid, .evidence-grid { display: block; }
+    .summary-grid, .evidence-grid, .scorecard-grid { display: block; }
     .summary-grid article, .evidence-grid article { border-right: 0; min-height: 0; padding: 23px 18px; }
     .summary-grid article { border-bottom: 1px solid var(--line); }
     .summary-grid p { min-height: 0; }

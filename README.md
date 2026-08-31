@@ -28,7 +28,7 @@ This allows records such as a robotics model or an agent-oriented tool to remain
 
 ## Data pipeline
 
-Cloudflare Workers runs the Astro application and Cloudflare D1 is the canonical datastore. Bounded connectors fetch GitHub, Hugging Face and official feeds. Each source run records its status, stores timestamped observations, updates the current fact projection and emits a change only when a previously observed value moves.
+Cloudflare Workers runs the Astro application and Cloudflare D1 is the canonical datastore. Bounded connectors fetch GitHub, Hugging Face and official feeds. Each source run records its status, stores timestamped observations and updates the current fact projection. Reviewed intake records initial selections and later value changes; explicit corrections preserve both versions and their evidence.
 
 ```text
 Source → Sync run → Observation → Current fact → Change event
@@ -84,6 +84,44 @@ Open an issue or pull request with the project URL, canonical repository, entity
 
 Reviewed content packages live in `content/intake/`. Use the **Reviewed Registry Intake** GitHub workflow to preview and then publish with the returned base/payload hashes, or use `npm run registry:intake -- <manifest>` with `REGISTRY_SYNC_TOKEN`. New project content no longer needs a SQL migration. See [the intake runbook](docs/REGISTRY_INTAKE.md) for validation, audit history and recovery.
 
+## Use OpenAgent as an MCP server
+
+Agents discover OpenAgent through its read-only MCP server, not by scraping pages.
+Run it locally (it queries the public registry by default):
+
+```bash
+npm run mcp                       # node mcp/server.mjs
+# or point it at a self-hosted/derived instance:
+OPENAGENT_API_BASE=https://your-instance npm run mcp
+```
+
+Add it to an agent runtime (Claude Code, Codex, OpenCode, Cline) by pointing the
+MCP config at the command `node mcp/server.mjs` from this repo. The server exposes
+`search_entities`, `get_entity` and `get_stats`; every returned fact carries a
+source, source URL and observation time. The catalog manifest is served at
+`/mcp/manifest.json`.
+
 ## Development status
 
 Registry V2 is live at `https://www.openagent.bot`. The current work hardens canonical URL migration and the Observation → ChangeEvent history pipeline before publishing momentum rankings or user-facing watch features.
+
+The next machine-facing layer, **OpenAgent Knowledge v0.1**, now has a local
+contract/projection, three representative sample cases, and a read-only API
+preview for strict interface queries, compact sections and paginated changes.
+These changes are local, not deployed; no production MCP server or execution runtime is provided.
+Legacy contracts remain unchanged. Run `npm run knowledge:check` for isolated
+tests and `npm run knowledge:evaluate` for task-level measurements; see
+[the implementation](docs/KNOWLEDGE_V0_1.md), [API semantics](docs/KNOWLEDGE_API.md)
+and [the evaluation](docs/evaluations/2026-08-28/README.md).
+
+The next local enrichment batch adds source-reviewed OpenHands Agent Canvas,
+LangGraph, LeRobot and Playwright MCP records, strict domain filtering and a
+discoverable fact-key index. Run `npm run knowledge:evaluate:expansion` for its
+30 frozen tasks. See [the expansion results](docs/evaluations/2026-08-28-expansion/README.md).
+
+The fourth local batch adds `npm run knowledge:preview` (loopback HTTP, query-only
+in-memory DB), an explicitly invoked real Codex client pilot, and prospective
+first-seen / reviewed correction history. Its stdio MCP proxy is test-only.
+Migration 0016 is required for the new history query; it has not been applied to
+production. See [the client pilot](docs/evaluations/2026-08-28-client-pilot/README.md)
+and [correction operations](docs/REGISTRY_INTAKE.md).

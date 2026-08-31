@@ -1,0 +1,578 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "OpenAgent Knowledge: Task Evaluation",
+    "description": "2026-08-28 · 产品决策与本地迭代复测",
+    "generatedAt": "2026-08-28T05:15:03.409Z",
+    "sources": [
+      {
+        "id": "evaluation",
+        "label": "Isolated SQLite + local HTTP task evaluation",
+        "path": "evaluations/knowledge-agent-tasks.ts"
+      },
+      {
+        "id": "after",
+        "label": "After: measured local HTTP responses",
+        "path": "docs/evaluations/2026-08-28/after.json"
+      },
+      {
+        "id": "before",
+        "label": "Before: preserved component evaluation",
+        "path": "docs/evaluations/2026-08-28/before.json"
+      },
+      {
+        "id": "sources",
+        "label": "Live legacy API probes and three official-source checks",
+        "path": "docs/evaluations/2026-08-28/source-checks.json"
+      },
+      {
+        "id": "notebook",
+        "label": "Reproducible paired-byte and correctness analysis",
+        "path": "docs/evaluations/2026-08-28/analysis.ipynb"
+      },
+      {
+        "id": "analysis",
+        "label": "Paired analysis of measured JSON bytes",
+        "path": "docs/evaluations/2026-08-28/payload-analysis.sql",
+        "query": {
+          "engine": "SQLite (Python stdlib sqlite3)",
+          "language": "sql",
+          "sql": "-- Inputs: ?1 = before.json text; ?2 = after.json text.\n-- Measured bytes originate in evaluations/knowledge-agent-tasks.ts; this query\n-- computes paired reductions and reconciles identical full-document baselines.\nWITH baseline AS (\n  SELECT json_extract(value, '$.slug') AS project,\n         json_extract(value, '$.knowledgeJsonBytes') AS before_full_bytes\n  FROM json_each(?1, '$.payloads')\n), paired AS (\n  SELECT json_extract(a.value, '$.slug') AS project,\n         json_extract(a.value, '$.question') AS question,\n         json_extract(a.value, '$.legacyJsonBytes') AS legacyBytes,\n         json_extract(a.value, '$.knowledgeJsonBytes') AS fullBytes,\n         json_extract(a.value, '$.taskJsonBytes') AS taskBytes,\n         b.before_full_bytes AS beforeFullBytes,\n         1.0 - (1.0 * json_extract(a.value, '$.taskJsonBytes') /\n           NULLIF(json_extract(a.value, '$.knowledgeJsonBytes'), 0)) AS reduction\n  FROM json_each(?2, '$.payloads') a\n  JOIN baseline b ON b.project = json_extract(a.value, '$.slug')\n), representations(representation, ordinal) AS (\n  VALUES ('旧版完整 JSON', 1), ('完整 Knowledge JSON', 2), ('单任务 Knowledge JSON', 3)\n)\nSELECT paired.*, representation, ordinal,\n       CASE ordinal WHEN 1 THEN legacyBytes WHEN 2 THEN fullBytes ELSE taskBytes END AS bytes\nFROM paired CROSS JOIN representations\nORDER BY project, ordinal;\n",
+          "description": "This executed analysis reconciles original full-document bytes and computes paired task reductions. The original measurements are produced by evaluations/knowledge-agent-tasks.ts, preserved in before.json and after.json, and rerun in analysis.ipynb. ?1 is the complete before.json text; ?2 is the complete after.json text. It is not a database network/latency benchmark. Display-only labels shorten representation names to 旧 JSON / 完整知识 / 任务答案; measurements and identifiers are unchanged.",
+          "filters": {
+            "representative": [
+              "vgpu",
+              "opencode",
+              "microduck",
+              "microduck-runtime",
+              "microduck-rl",
+              "microduck-policies"
+            ],
+            "evaluationTime": "2026-08-28T02:00:00.000Z"
+          },
+          "metric_definitions": {
+            "bytes": "Uncompressed UTF-8 JSON bytes, measured with Buffer.byteLength(JSON.stringify(response)); not tokens.",
+            "reduction": "1 - taskBytes/fullBytes, paired within project; task-specific subset, not lossless compression."
+          }
+        }
+      }
+    ],
+    "charts": [
+      {
+        "id": "payload",
+        "title": "六个任务的 JSON 响应大小",
+        "subtitle": "按需读取保留来源与不确定性，减少无关上下文；不代表同等幅度的 token 或时间节省。",
+        "type": "bar",
+        "dataset": "payloads",
+        "sourceId": "analysis",
+        "valueFormat": "number",
+        "encodings": {
+          "x": {
+            "field": "project",
+            "type": "nominal",
+            "label": "项目"
+          },
+          "y": {
+            "field": "bytes",
+            "type": "quantitative",
+            "label": "UTF-8 字节"
+          },
+          "color": {
+            "field": "representation",
+            "type": "nominal",
+            "label": "响应类型"
+          }
+        },
+        "options": {
+          "orientation": "horizontal",
+          "grouping": "grouped"
+        },
+        "palette": {
+          "kind": "categorical",
+          "colors": [
+            "#C69133",
+            "#4279B0",
+            "#C96C37"
+          ]
+        }
+      }
+    ],
+    "tables": [
+      {
+        "id": "bytes",
+        "title": "任务字节数审计",
+        "dataset": "detail",
+        "sourceId": "analysis",
+        "defaultSort": {
+          "field": "project",
+          "direction": "asc"
+        },
+        "columns": [
+          {
+            "field": "project",
+            "label": "项目",
+            "type": "text"
+          },
+          {
+            "field": "fullBytes",
+            "label": "完整字节",
+            "format": "number"
+          },
+          {
+            "field": "taskBytes",
+            "label": "任务字节",
+            "format": "number"
+          }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# OpenAgent Knowledge: Task Evaluation\n\n2026-08-28 · 面向产品决策 · 本地实现，未部署"
+      },
+      {
+        "id": "summary",
+        "type": "markdown",
+        "body": "## Executive Summary\n\n值得继续一个受控验证批次，但还不值得扩建成通用大知识库。此次验证表明：结构化约束、按需证据和历史导航可以成为 Agent 的有用工具。按测试结论，已完成严格只读查询、短结果与历史分页的本地迭代。\n\n六个筛选任务通过；六个指定详情任务返回约 1.5–2.4 KB，较完整知识 JSON 的字节减少中位数为 91.5%；26 条模拟变化均可取回。四个样板外项目仍无结构化接口。没有测量独立 Agent 的真实成功率、token 成本、复用意愿或付费需求。",
+        "sourceId": "evaluation"
+      },
+      {
+        "id": "findings",
+        "type": "markdown",
+        "body": "## 接口形式可行，数据覆盖仍是主要缺口\n\n这轮在 162 个本地项目记录中，重点检查 6 条样板记录（vgpu、OpenCode、Microduck 的 4 个相关项目）和 4 条定向选择的样板外记录。不是随机抽样。6/6 查询结果是固定语义与已录入事实的对照，不是产品通用准确率。四项标准的具体前后结果如下。",
+        "sourceId": "evaluation"
+      },
+      {
+        "id": "score-block",
+        "type": "markdown",
+        "sourceId": "evaluation",
+        "body": "- 条件查询：改动前，本地筛选函数 6/6；没有新产品查询接口；改动后，真实 HTTP handler 6/6；未知/重复参数拒绝。边界：不是自然语言搜索；缺少记录不等于全网不存在。\n- 简短结果：改动前，完整知识 JSON 13.3–33.1 KB，比旧 JSON 更大；改动后，指定接口／资源 1.5–2.4 KB；来源与状态保留。边界：按需取子集，不是无损压缩；不含前置查找成本。\n- 明确未知：改动前，10/10 合成边界案例返回 unknown；改动后，10/10 保持；查询不把 fresh/tested 未知项判为匹配。边界：尚无字段复核 TTL、独立执行报告、自动冲突治理。\n- 变化追踪：改动前，26 条模拟变化只暴露最近 20 条；改动后，6 页取回 26/26，无重复。边界：非真实上游历史；不支持任意时点复原。"
+      },
+      {
+        "id": "payload-context",
+        "type": "markdown",
+        "body": "## 小答案来自按需取数，不是省略关键证据\n\n6 个详情任务分别取一个接口或资源；都保留来源、观测日期、验证状态、未知新鲜度，资源还保留版本与摘要标识。相同任务所需信息在完整文档和短响应中均存在。\n\n图中单位为未压缩 UTF-8 字节，KB 采用 1,000 字节。单任务请求预先知道项目及局部 ID；不含发现 ID、后续请求、模型推理或网络压缩成本。完整知识文档从 13.3–33.1 KB 变为任务响应 1.5–2.4 KB；因此支持“更小的响应”，不支持“端到端成本降低 91.5%”。",
+        "sourceId": "evaluation"
+      },
+      {
+        "id": "payload-block",
+        "type": "chart",
+        "chartId": "payload"
+      },
+      {
+        "id": "bytes-block",
+        "type": "table",
+        "tableId": "bytes"
+      },
+      {
+        "id": "primary",
+        "type": "markdown",
+        "body": "## 官方资料对照：可以信任边界，不能替代原始资料\n\n对照三组官方资料，OpenCode 的服务器认证可选、Microduck 的策略形状与托管状态与本地记录一致。vgpu 托管 MCP 的只读／无认证描述也一致，但本地 MCP 默认只读、写入需额外配置；当前 local-write-opt-in 是能力标签，不是本次运行权限。新接口明确提示该边界，未把它强行归入只读。\n\nvgpu 已提供约 13.2 KB 的官方 Markdown，Microduck 这份 README 约 3.5 KB。平台价值应来自跨来源标准化与可追溯性，而非拿充满页面框架代码的 HTML 作比较来夸大节省。\n\n来源：[vgpu MCP](https://vgpu.sh/docs/mcp.md)、[OpenCode server](https://opencode.ai/docs/server/)、[Microduck pinned policies README](https://github.com/pollen-robotics/microduck/blob/590b986bd8c0d50ae02cb3ea2f59c463b6828168/policies/README.md)。",
+        "sourceId": "sources"
+      },
+      {
+        "id": "iteration",
+        "type": "markdown",
+        "body": "## 已完成的迭代与暂不扩大的范围\n\n新增 /api/knowledge/v1/search.json、project.json、history.json，并在 API 说明与 llms.txt 中加入发现入口。严格约束不跨接口拼接；未知值不作正匹配；无效参数返回 400。短答案共享证据引用。历史支持 since 和游标，明确标记大值截断；存储错误返回 503，不伪装成空数据。\n\n不更换数据库，不修改旧接口语义，不执行记录中的命令，不提供 MCP 执行层或物理机器人控制。未部署、未发布 OpenCode 数据、未启用 CI。"
+      },
+      {
+        "id": "next",
+        "type": "markdown",
+        "body": "## 下一步：先证明会被反复使用\n\n建议冻结这轮范围，进入 30 个真实任务、至少 10 个非样板项目、两个独立 Agent 客户端的小规模对照实验。先固定验收答案和材料，再分别使用平台与官方资料完成任务；任务要包含否定约束、权限模式、版本迁移、过时信息和缺失数据。\n\n建议继续投入门槛（尚未达成）：满足约束的答案不劣于官方资料基线，危险误判为零；成功任务至少一项端到端指标（时间或输入 token）中位数改善 25%；至少两个客户端出现重复使用。指标须报告全部任务，包括未完成与需要回退原站的情况。\n\n实施优先级：补充样板外数据及字段复核规则 → 运行真实客户端对照 → 再决定 MCP 包装、缓存与规模化采集。若主要成本来自人工维护且客户仍持续回原站，收缩为专门目录或内部工具。"
+      },
+      {
+        "id": "questions",
+        "type": "markdown",
+        "body": "## Further Questions\n\nAgent 最常缺的是候选发现、调用配置，还是版本迁移证据？哪些字段值得持续人工复核？本地默认只读与可开启写入应该按接口模式还是独立资源表达？客户端愿意重复依赖哪些历史查询？这些问题比知识库总条数更影响下一阶段投入。"
+      },
+      {
+        "id": "caveats",
+        "type": "markdown",
+        "body": "## Caveats\n\n这些结果验证的是本地契约与 HTTP handler，不是线上 Worker/D1 性能、生产稳定性、市场需求或执行安全。历史 26 条全为隔离库模拟变化；任意时点复原、备份恢复、完整上游镜像尚未建立。样板外覆盖检查只有 4 条，不能推广成全库覆盖率。\n\n所有样板接口仍缺字段级有效期和独立版本测试报告。当前源同步状态不会自动升级为字段可信／最新。新 API 默认允许有日期的 documented 声明匹配；调用方要求新鲜或实测时应显式设置参数。",
+        "sourceId": "evaluation"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-08-28T05:15:03.409Z",
+    "status": "ready",
+    "datasets": {
+      "score": [
+        {
+          "criterion": "条件查询",
+          "before": "本地筛选函数 6/6；没有新产品查询接口",
+          "after": "真实 HTTP handler 6/6；未知/重复参数拒绝",
+          "remaining": "不是自然语言搜索；缺少记录不等于全网不存在"
+        },
+        {
+          "criterion": "简短结果",
+          "before": "完整知识 JSON 13.3–33.1 KB，比旧 JSON 更大",
+          "after": "指定接口／资源 1.5–2.4 KB；来源与状态保留",
+          "remaining": "按需取子集，不是无损压缩；不含前置查找成本"
+        },
+        {
+          "criterion": "明确未知",
+          "before": "10/10 合成边界案例返回 unknown",
+          "after": "10/10 保持；查询不把 fresh/tested 未知项判为匹配",
+          "remaining": "尚无字段复核 TTL、独立执行报告、自动冲突治理"
+        },
+        {
+          "criterion": "变化追踪",
+          "before": "26 条模拟变化只暴露最近 20 条",
+          "after": "6 页取回 26/26，无重复",
+          "remaining": "非真实上游历史；不支持任意时点复原"
+        }
+      ],
+      "payloads": [
+        {
+          "project": "microduck",
+          "question": "Locate the browser simulator and its stated resource terms",
+          "legacyBytes": 13887,
+          "fullBytes": 19837,
+          "taskBytes": 1519,
+          "beforeFullBytes": 19837,
+          "reduction": 0.9234259212582547,
+          "representation": "旧 JSON",
+          "ordinal": 1,
+          "bytes": 13887
+        },
+        {
+          "project": "microduck",
+          "question": "Locate the browser simulator and its stated resource terms",
+          "legacyBytes": 13887,
+          "fullBytes": 19837,
+          "taskBytes": 1519,
+          "beforeFullBytes": 19837,
+          "reduction": 0.9234259212582547,
+          "representation": "完整知识",
+          "ordinal": 2,
+          "bytes": 19837
+        },
+        {
+          "project": "microduck",
+          "question": "Locate the browser simulator and its stated resource terms",
+          "legacyBytes": 13887,
+          "fullBytes": 19837,
+          "taskBytes": 1519,
+          "beforeFullBytes": 19837,
+          "reduction": 0.9234259212582547,
+          "representation": "任务答案",
+          "ordinal": 3,
+          "bytes": 1519
+        },
+        {
+          "project": "microduck-policies",
+          "question": "Locate one policy artifact with scoped digest and resource terms",
+          "legacyBytes": 16702,
+          "fullBytes": 32822,
+          "taskBytes": 2384,
+          "beforeFullBytes": 32822,
+          "reduction": 0.9273657912375846,
+          "representation": "旧 JSON",
+          "ordinal": 1,
+          "bytes": 16702
+        },
+        {
+          "project": "microduck-policies",
+          "question": "Locate one policy artifact with scoped digest and resource terms",
+          "legacyBytes": 16702,
+          "fullBytes": 32822,
+          "taskBytes": 2384,
+          "beforeFullBytes": 32822,
+          "reduction": 0.9273657912375846,
+          "representation": "完整知识",
+          "ordinal": 2,
+          "bytes": 32822
+        },
+        {
+          "project": "microduck-policies",
+          "question": "Locate one policy artifact with scoped digest and resource terms",
+          "legacyBytes": 16702,
+          "fullBytes": 32822,
+          "taskBytes": 2384,
+          "beforeFullBytes": 32822,
+          "reduction": 0.9273657912375846,
+          "representation": "任务答案",
+          "ordinal": 3,
+          "bytes": 2384
+        },
+        {
+          "project": "microduck-rl",
+          "question": "Locate simulation assets with scoped version and evidence",
+          "legacyBytes": 11375,
+          "fullBytes": 15878,
+          "taskBytes": 2328,
+          "beforeFullBytes": 15878,
+          "reduction": 0.8533820380400554,
+          "representation": "旧 JSON",
+          "ordinal": 1,
+          "bytes": 11375
+        },
+        {
+          "project": "microduck-rl",
+          "question": "Locate simulation assets with scoped version and evidence",
+          "legacyBytes": 11375,
+          "fullBytes": 15878,
+          "taskBytes": 2328,
+          "beforeFullBytes": 15878,
+          "reduction": 0.8533820380400554,
+          "representation": "完整知识",
+          "ordinal": 2,
+          "bytes": 15878
+        },
+        {
+          "project": "microduck-rl",
+          "question": "Locate simulation assets with scoped version and evidence",
+          "legacyBytes": 11375,
+          "fullBytes": 15878,
+          "taskBytes": 2328,
+          "beforeFullBytes": 15878,
+          "reduction": 0.8533820380400554,
+          "representation": "任务答案",
+          "ordinal": 3,
+          "bytes": 2328
+        },
+        {
+          "project": "microduck-runtime",
+          "question": "Locate runtime documentation and its stated resource terms",
+          "legacyBytes": 8836,
+          "fullBytes": 13319,
+          "taskBytes": 2223,
+          "beforeFullBytes": 13319,
+          "reduction": 0.833095577746077,
+          "representation": "旧 JSON",
+          "ordinal": 1,
+          "bytes": 8836
+        },
+        {
+          "project": "microduck-runtime",
+          "question": "Locate runtime documentation and its stated resource terms",
+          "legacyBytes": 8836,
+          "fullBytes": 13319,
+          "taskBytes": 2223,
+          "beforeFullBytes": 13319,
+          "reduction": 0.833095577746077,
+          "representation": "完整知识",
+          "ordinal": 2,
+          "bytes": 13319
+        },
+        {
+          "project": "microduck-runtime",
+          "question": "Locate runtime documentation and its stated resource terms",
+          "legacyBytes": 8836,
+          "fullBytes": 13319,
+          "taskBytes": 2223,
+          "beforeFullBytes": 13319,
+          "reduction": 0.833095577746077,
+          "representation": "任务答案",
+          "ordinal": 3,
+          "bytes": 2223
+        },
+        {
+          "project": "opencode",
+          "question": "Inspect CLI access, auth, provenance and verification",
+          "legacyBytes": 13456,
+          "fullBytes": 25472,
+          "taskBytes": 2365,
+          "beforeFullBytes": 25472,
+          "reduction": 0.9071529522613065,
+          "representation": "旧 JSON",
+          "ordinal": 1,
+          "bytes": 13456
+        },
+        {
+          "project": "opencode",
+          "question": "Inspect CLI access, auth, provenance and verification",
+          "legacyBytes": 13456,
+          "fullBytes": 25472,
+          "taskBytes": 2365,
+          "beforeFullBytes": 25472,
+          "reduction": 0.9071529522613065,
+          "representation": "完整知识",
+          "ordinal": 2,
+          "bytes": 25472
+        },
+        {
+          "project": "opencode",
+          "question": "Inspect CLI access, auth, provenance and verification",
+          "legacyBytes": 13456,
+          "fullBytes": 25472,
+          "taskBytes": 2365,
+          "beforeFullBytes": 25472,
+          "reduction": 0.9071529522613065,
+          "representation": "任务答案",
+          "ordinal": 3,
+          "bytes": 2365
+        },
+        {
+          "project": "vgpu",
+          "question": "Inspect hosted MCP access, auth, provenance and verification",
+          "legacyBytes": 16489,
+          "fullBytes": 33148,
+          "taskBytes": 2119,
+          "beforeFullBytes": 33148,
+          "reduction": 0.9360745746349705,
+          "representation": "旧 JSON",
+          "ordinal": 1,
+          "bytes": 16489
+        },
+        {
+          "project": "vgpu",
+          "question": "Inspect hosted MCP access, auth, provenance and verification",
+          "legacyBytes": 16489,
+          "fullBytes": 33148,
+          "taskBytes": 2119,
+          "beforeFullBytes": 33148,
+          "reduction": 0.9360745746349705,
+          "representation": "完整知识",
+          "ordinal": 2,
+          "bytes": 33148
+        },
+        {
+          "project": "vgpu",
+          "question": "Inspect hosted MCP access, auth, provenance and verification",
+          "legacyBytes": 16489,
+          "fullBytes": 33148,
+          "taskBytes": 2119,
+          "beforeFullBytes": 33148,
+          "reduction": 0.9360745746349705,
+          "representation": "任务答案",
+          "ordinal": 3,
+          "bytes": 2119
+        }
+      ],
+      "detail": [
+        {
+          "project": "microduck",
+          "question": "Locate the browser simulator and its stated resource terms",
+          "legacyBytes": 13887,
+          "fullBytes": 19837,
+          "taskBytes": 1519,
+          "beforeFullBytes": 19837,
+          "reduction": 0.9234259212582547,
+          "representation": "单任务 Knowledge JSON",
+          "ordinal": 3,
+          "bytes": 1519
+        },
+        {
+          "project": "microduck-policies",
+          "question": "Locate one policy artifact with scoped digest and resource terms",
+          "legacyBytes": 16702,
+          "fullBytes": 32822,
+          "taskBytes": 2384,
+          "beforeFullBytes": 32822,
+          "reduction": 0.9273657912375846,
+          "representation": "单任务 Knowledge JSON",
+          "ordinal": 3,
+          "bytes": 2384
+        },
+        {
+          "project": "microduck-rl",
+          "question": "Locate simulation assets with scoped version and evidence",
+          "legacyBytes": 11375,
+          "fullBytes": 15878,
+          "taskBytes": 2328,
+          "beforeFullBytes": 15878,
+          "reduction": 0.8533820380400554,
+          "representation": "单任务 Knowledge JSON",
+          "ordinal": 3,
+          "bytes": 2328
+        },
+        {
+          "project": "microduck-runtime",
+          "question": "Locate runtime documentation and its stated resource terms",
+          "legacyBytes": 8836,
+          "fullBytes": 13319,
+          "taskBytes": 2223,
+          "beforeFullBytes": 13319,
+          "reduction": 0.833095577746077,
+          "representation": "单任务 Knowledge JSON",
+          "ordinal": 3,
+          "bytes": 2223
+        },
+        {
+          "project": "opencode",
+          "question": "Inspect CLI access, auth, provenance and verification",
+          "legacyBytes": 13456,
+          "fullBytes": 25472,
+          "taskBytes": 2365,
+          "beforeFullBytes": 25472,
+          "reduction": 0.9071529522613065,
+          "representation": "单任务 Knowledge JSON",
+          "ordinal": 3,
+          "bytes": 2365
+        },
+        {
+          "project": "vgpu",
+          "question": "Inspect hosted MCP access, auth, provenance and verification",
+          "legacyBytes": 16489,
+          "fullBytes": 33148,
+          "taskBytes": 2119,
+          "beforeFullBytes": 33148,
+          "reduction": 0.9360745746349705,
+          "representation": "单任务 Knowledge JSON",
+          "ordinal": 3,
+          "bytes": 2119
+        }
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "evaluation",
+      "label": "Isolated SQLite + local HTTP task evaluation",
+      "path": "evaluations/knowledge-agent-tasks.ts"
+    },
+    {
+      "id": "after",
+      "label": "After: measured local HTTP responses",
+      "path": "docs/evaluations/2026-08-28/after.json"
+    },
+    {
+      "id": "before",
+      "label": "Before: preserved component evaluation",
+      "path": "docs/evaluations/2026-08-28/before.json"
+    },
+    {
+      "id": "sources",
+      "label": "Live legacy API probes and three official-source checks",
+      "path": "docs/evaluations/2026-08-28/source-checks.json"
+    },
+    {
+      "id": "notebook",
+      "label": "Reproducible paired-byte and correctness analysis",
+      "path": "docs/evaluations/2026-08-28/analysis.ipynb"
+    },
+    {
+      "id": "analysis",
+      "label": "Paired analysis of measured JSON bytes",
+      "path": "docs/evaluations/2026-08-28/payload-analysis.sql",
+      "query": {
+        "engine": "SQLite (Python stdlib sqlite3)",
+        "language": "sql",
+        "sql": "-- Inputs: ?1 = before.json text; ?2 = after.json text.\n-- Measured bytes originate in evaluations/knowledge-agent-tasks.ts; this query\n-- computes paired reductions and reconciles identical full-document baselines.\nWITH baseline AS (\n  SELECT json_extract(value, '$.slug') AS project,\n         json_extract(value, '$.knowledgeJsonBytes') AS before_full_bytes\n  FROM json_each(?1, '$.payloads')\n), paired AS (\n  SELECT json_extract(a.value, '$.slug') AS project,\n         json_extract(a.value, '$.question') AS question,\n         json_extract(a.value, '$.legacyJsonBytes') AS legacyBytes,\n         json_extract(a.value, '$.knowledgeJsonBytes') AS fullBytes,\n         json_extract(a.value, '$.taskJsonBytes') AS taskBytes,\n         b.before_full_bytes AS beforeFullBytes,\n         1.0 - (1.0 * json_extract(a.value, '$.taskJsonBytes') /\n           NULLIF(json_extract(a.value, '$.knowledgeJsonBytes'), 0)) AS reduction\n  FROM json_each(?2, '$.payloads') a\n  JOIN baseline b ON b.project = json_extract(a.value, '$.slug')\n), representations(representation, ordinal) AS (\n  VALUES ('旧版完整 JSON', 1), ('完整 Knowledge JSON', 2), ('单任务 Knowledge JSON', 3)\n)\nSELECT paired.*, representation, ordinal,\n       CASE ordinal WHEN 1 THEN legacyBytes WHEN 2 THEN fullBytes ELSE taskBytes END AS bytes\nFROM paired CROSS JOIN representations\nORDER BY project, ordinal;\n",
+        "description": "This executed analysis reconciles original full-document bytes and computes paired task reductions. The original measurements are produced by evaluations/knowledge-agent-tasks.ts, preserved in before.json and after.json, and rerun in analysis.ipynb. ?1 is the complete before.json text; ?2 is the complete after.json text. It is not a database network/latency benchmark. Display-only labels shorten representation names to 旧 JSON / 完整知识 / 任务答案; measurements and identifiers are unchanged.",
+        "filters": {
+          "representative": [
+            "vgpu",
+            "opencode",
+            "microduck",
+            "microduck-runtime",
+            "microduck-rl",
+            "microduck-policies"
+          ],
+          "evaluationTime": "2026-08-28T02:00:00.000Z"
+        },
+        "metric_definitions": {
+          "bytes": "Uncompressed UTF-8 JSON bytes, measured with Buffer.byteLength(JSON.stringify(response)); not tokens.",
+          "reduction": "1 - taskBytes/fullBytes, paired within project; task-specific subset, not lossless compression."
+        }
+      }
+    }
+  ]
+}

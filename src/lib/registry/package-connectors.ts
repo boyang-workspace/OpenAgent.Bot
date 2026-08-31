@@ -1,4 +1,4 @@
-import type { EntityConnector, EntitySnapshot } from "./connectors";
+import type { EntityConnector, EntitySnapshot, ReleaseSnapshot } from "./connectors";
 import { validateLocator } from "./intake-contract";
 
 function assert(value: unknown, message: string): asserts value { if (!value) throw new Error(message); }
@@ -10,22 +10,44 @@ export const githubReleasesConnector: EntityConnector = {
     validateLocator("github-releases", locator);
     const fetcher = context.fetcher ?? fetch;
     const headers = { Accept: "application/vnd.github+json", "User-Agent": "OpenAgentBot-Registry/2.0", ...(context.token ? { Authorization: `Bearer ${context.token}` } : {}) };
-    const response = await fetcher(`https://api.github.com/repos/${locator}/releases/latest`, { headers, signal: AbortSignal.timeout(15_000) });
+    const response = await fetcher(`https://api.github.com/repos/${locator}/releases?per_page=100&page=1`, { headers, signal: AbortSignal.timeout(20_000) });
     const observedAt = new Date().toISOString();
-    if (response.status === 404) {
-      // A missing release is not the same as an inaccessible/deleted repository.
-      const repo = await fetcher(`https://api.github.com/repos/${locator}`, { headers, signal: AbortSignal.timeout(15_000) });
-      if (!repo.ok) throw new Error(`GitHub repository unavailable (${repo.status}); retaining previous release`);
-      return { externalId: locator, locator, canonicalUrl: `https://github.com/${locator}/releases`, observedAt, facts: { "github_release.status": "No published stable release found" }, metrics: {} };
-    }
-    if (!response.ok) throw new Error(`GitHub releases ${response.status} for ${locator}`);
-    const release = await response.json() as Record<string, unknown>;
-    assert(typeof release.tag_name === "string" && date(release.published_at) && release.draft === false && release.prerelease === false, "Invalid stable release response");
-    assert(typeof release.html_url === "string" && release.html_url.startsWith(`https://github.com/${locator}/releases/tag/`), "Unexpected release URL");
+    if (!response.ok) throw new Error(`GitHub repository releases unavailable (${response.status}); retaining previous release history`);
+    const payload = await response.json();
+    assert(Array.isArray(payload), "Invalid GitHub release history response");
+    const releases: ReleaseSnapshot[] = payload
+      .filter((item): item is Record<string, unknown> => Boolean(item && typeof item === "object" && !Array.isArray(item)))
+      .filter((item) => item.draft === false && typeof item.tag_name === "string" && date(item.published_at)
+        && typeof item.html_url === "string" && item.html_url.startsWith(`https://github.com/${locator}/releases/tag/`))
+      .map((item) => ({
+        upstreamId: String(item.id),
+        version: String(item.tag_name),
+        title: typeof item.name === "string" && item.name.trim() ? item.name : String(item.tag_name),
+        url: String(item.html_url),
+        publishedAt: String(item.published_at),
+        channel: item.prerelease === true ? "prerelease" : "stable",
+        notes: typeof item.body === "string" && item.body.trim() ? item.body.slice(0, 20_000) : undefined,
+        metadata: {
+          repository: locator,
+          author: item.author && typeof item.author === "object" ? (item.author as Record<string, unknown>).login ?? null : null,
+          assetCount: Array.isArray(item.assets) ? item.assets.length : 0,
+          immutable: item.immutable === true
+        }
+      }));
+    const stable = releases.find((item) => item.channel === "stable");
+    const oldest = releases.at(-1);
     return {
-      externalId: String(release.id), locator, canonicalUrl: release.html_url, observedAt,
-      facts: { "github_release.status": "Published stable release", "github_release.latest": { tag: release.tag_name, name: typeof release.name === "string" ? release.name : release.tag_name, publishedAt: release.published_at, url: release.html_url, repository: locator } },
-      metrics: { last_release_at: release.published_at }
+      externalId: stable?.upstreamId ?? locator,
+      locator,
+      canonicalUrl: `https://github.com/${locator}/releases`,
+      observedAt,
+      facts: {
+        "github_release.status": releases.length ? `${releases.length} published releases observed` : "No published GitHub release found",
+        ...(stable ? { "github_release.latest": { tag: stable.version, name: stable.title, publishedAt: stable.publishedAt, url: stable.url, repository: locator } } : {}),
+        "github_release.history": { count: releases.length, newestPublishedAt: releases[0]?.publishedAt ?? null, oldestPublishedAt: oldest?.publishedAt ?? null, pageLimit: 100 }
+      },
+      metrics: { last_release_at: stable?.publishedAt ?? null },
+      releases
     };
   }
 };

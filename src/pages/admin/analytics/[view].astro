@@ -1,0 +1,16 @@
+---
+import { env } from "cloudflare:workers";
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import AdminAnalyticsDashboard from "@/components/AdminAnalyticsDashboard.astro";
+import { authorizeAnalyticsRequest } from "@/lib/analytics/auth";
+import { analyticsDashboardData, analyticsViews, type AnalyticsView } from "@/lib/analytics/dashboard";
+
+const view = Astro.params.view as AnalyticsView;
+if (!analyticsViews.includes(view)) { Astro.response.status = 404; return Astro.rewrite("/404"); }
+if (!await authorizeAnalyticsRequest(Astro.request, env.ANALYTICS_ADMIN_SECRET)) return Astro.redirect(`/admin/analytics/login?next=${encodeURIComponent(Astro.url.pathname + Astro.url.search)}`, 302);
+const days = Number(Astro.url.searchParams.get("days") ?? 30);
+let result: Awaited<ReturnType<typeof analyticsDashboardData>>;
+try { result = await analyticsDashboardData(env.DB, env, view, days); }
+catch (error) { result = { view, days: [1,7,30,90].includes(days) ? days : 30, data: view === "overview" ? { totals:{browserVisitors:0,pageviews:0,browserViews:0,suspectedAutomationViews:0,machineRequests:0,apiRequests:0,outboundClicks:0},trend:[],mix:[] } : view === "content" ? {pages:[],entities:[]} : view === "acquisition" ? {sources:[],social:[],internalSessions:0,socialTotals:{sessions:0,channels:0}} : view === "agents" ? {actors:[],entities:[]} : view === "search" ? {totals:{searches:0,zeroResults:0,resultClicks:0},queries:[]} : view === "health" ? {state:null,eventsToday:0,unknownBotRate:0} : [], warning: error instanceof Error ? error.message : "Analytics temporarily unavailable." }; }
+---
+<AdminLayout title={`${view[0].toUpperCase()}${view.slice(1)} analytics`}><AdminAnalyticsDashboard {...result} /></AdminLayout>

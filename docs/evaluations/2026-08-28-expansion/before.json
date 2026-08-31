@@ -1,0 +1,1447 @@
+{
+  "stage": "before",
+  "recordedAt": "2026-08-28T05:44:33.813Z",
+  "evaluationTime": "2026-08-28T05:44:00.000Z",
+  "method": "Frozen source-grounded deterministic HTTP tasks in isolated SQLite. Cohort curated by the evaluator; not independent agent success, token savings, production tests or market validation.",
+  "fingerprints": {
+    "taskSpec": "b8df88ff208a70711bc33bb0c5b7cbc748dfb2b63455807add3e566f058e6fdb",
+    "evaluator": "dbeb506aa3ef82475f44ed57f0c1783c67a371b61408621da79ed18a26275494",
+    "query": "729f17e4e173ca224e46d3240b33e1317a307ef0bb6547b4cd810d85ffa2f82b",
+    "manifests": {}
+  },
+  "summary": {
+    "total": 30,
+    "passed": 3,
+    "failed": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D5",
+      "D6",
+      "D7",
+      "S2",
+      "S3",
+      "S4",
+      "S5",
+      "S6",
+      "F1",
+      "F2",
+      "F3",
+      "F4",
+      "F5",
+      "F6",
+      "F7",
+      "F8",
+      "F9",
+      "X1",
+      "X2",
+      "X3",
+      "X4",
+      "R1",
+      "R2"
+    ]
+  },
+  "coverage": [
+    {
+      "slug": "openhands",
+      "projectId": "urn:openagent:project:res_openhands",
+      "interfaces": 0,
+      "resources": 0,
+      "curatedFacts": 0,
+      "fullDocumentBytes": 3462,
+      "runtimeTests": 0,
+      "scopedFreshnessChecks": 0,
+      "projectionIssues": 0
+    },
+    {
+      "slug": "langgraph",
+      "projectId": "urn:openagent:project:res_langgraph",
+      "interfaces": 0,
+      "resources": 0,
+      "curatedFacts": 0,
+      "fullDocumentBytes": 3458,
+      "runtimeTests": 0,
+      "scopedFreshnessChecks": 0,
+      "projectionIssues": 0
+    },
+    {
+      "slug": "lerobot",
+      "projectId": "urn:openagent:project:robotics_lerobot",
+      "interfaces": 0,
+      "resources": 0,
+      "curatedFacts": 0,
+      "fullDocumentBytes": 3466,
+      "runtimeTests": 0,
+      "scopedFreshnessChecks": 0,
+      "projectionIssues": 0
+    },
+    {
+      "slug": "playwright-mcp",
+      "projectId": "urn:openagent:project:res_playwright_mcp",
+      "interfaces": 0,
+      "resources": 0,
+      "curatedFacts": 0,
+      "fullDocumentBytes": 3525,
+      "runtimeTests": 0,
+      "scopedFreshnessChecks": 0,
+      "projectionIssues": 0
+    }
+  ],
+  "tasks": [
+    {
+      "id": "D1",
+      "group": "lookup",
+      "question": "Find OpenHands local launcher with write capability",
+      "endpoint": "search",
+      "params": "project=openhands&interface=cli&access=read-write",
+      "expected": [
+        "openhands/canvas-cli"
+      ],
+      "unknown": 0,
+      "passed": false,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [
+            "openhands/canvas-cli"
+          ],
+          "passed": false
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=openhands&interface=cli&access=read-write",
+          "status": 200,
+          "jsonBytes": 369,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 0,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "D2",
+      "group": "lookup",
+      "question": "Find LangGraph Python SDK",
+      "endpoint": "search",
+      "params": "project=langgraph&interface=sdk",
+      "expected": [
+        "langgraph/python-sdk"
+      ],
+      "unknown": 0,
+      "passed": false,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [
+            "langgraph/python-sdk"
+          ],
+          "passed": false
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=langgraph&interface=sdk",
+          "status": 200,
+          "jsonBytes": 369,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 0,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "D3",
+      "group": "lookup",
+      "question": "Find LeRobot write-capable CLIs",
+      "endpoint": "search",
+      "params": "project=lerobot&interface=cli&access=read-write",
+      "expected": [
+        "lerobot/teleoperate-cli",
+        "lerobot/train-cli"
+      ],
+      "unknown": 0,
+      "passed": false,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [
+            "lerobot/teleoperate-cli",
+            "lerobot/train-cli"
+          ],
+          "passed": false
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=lerobot&interface=cli&access=read-write",
+          "status": 200,
+          "jsonBytes": 369,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 0,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "D4",
+      "group": "lookup",
+      "question": "Find Playwright MCP transports with write capability",
+      "endpoint": "search",
+      "params": "project=playwright-mcp&interface=mcp&access=read-write",
+      "expected": [
+        "playwright-mcp/http",
+        "playwright-mcp/stdio"
+      ],
+      "unknown": 0,
+      "passed": false,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [
+            "playwright-mcp/http",
+            "playwright-mcp/stdio"
+          ],
+          "passed": false
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=playwright-mcp&interface=mcp&access=read-write",
+          "status": 200,
+          "jsonBytes": 369,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 0,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "D5",
+      "group": "lookup",
+      "question": "Restrict write-capable CLI discovery to robotics",
+      "endpoint": "search",
+      "params": "domain=robotics&interface=cli&access=read-write",
+      "expected": [
+        "lerobot/teleoperate-cli",
+        "lerobot/train-cli"
+      ],
+      "unknown": 0,
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 400: invalid_query",
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "domain=robotics&interface=cli&access=read-write",
+          "status": 400,
+          "jsonBytes": 76,
+          "body": {
+            "error": {
+              "code": "invalid_query",
+              "message": "Unsupported parameter: domain"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "D6",
+      "group": "lookup",
+      "question": "Restrict SDK discovery to agents, retaining existing vgpu coverage",
+      "endpoint": "search",
+      "params": "domain=agent&interface=sdk",
+      "expected": [
+        "langgraph/python-sdk",
+        "vgpu/typescript"
+      ],
+      "unknown": 0,
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 400: invalid_query",
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "domain=agent&interface=sdk",
+          "status": 400,
+          "jsonBytes": 76,
+          "body": {
+            "error": {
+              "code": "invalid_query",
+              "message": "Unsupported parameter: domain"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "D7",
+      "group": "lookup",
+      "question": "Find Playwright in shared infrastructure",
+      "endpoint": "search",
+      "params": "domain=shared&project=playwright-mcp&interface=mcp",
+      "expected": [
+        "playwright-mcp/http",
+        "playwright-mcp/stdio"
+      ],
+      "unknown": 0,
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 400: invalid_query",
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "domain=shared&project=playwright-mcp&interface=mcp",
+          "status": 400,
+          "jsonBytes": 76,
+          "body": {
+            "error": {
+              "code": "invalid_query",
+              "message": "Unsupported parameter: domain"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "S1",
+      "group": "lookup",
+      "question": "Do not classify the browser MCP server as read-only",
+      "endpoint": "search",
+      "params": "project=playwright-mcp&interface=mcp&access=read-only",
+      "expected": [],
+      "unknown": 0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=playwright-mcp&interface=mcp&access=read-only",
+          "status": 200,
+          "jsonBytes": 369,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 0,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "S2",
+      "group": "lookup",
+      "question": "Unknown graph side effects must not qualify as read-only",
+      "endpoint": "search",
+      "params": "project=langgraph&interface=sdk&access=read-only",
+      "expected": [],
+      "unknown": 1,
+      "passed": false,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 1,
+          "passed": false
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=langgraph&interface=sdk&access=read-only",
+          "status": 200,
+          "jsonBytes": 369,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 0,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "S3",
+      "group": "lookup",
+      "question": "Unknown credentials must not qualify as no-auth",
+      "endpoint": "search",
+      "params": "project=lerobot&interface=cli&access=read-write&authentication=none",
+      "expected": [],
+      "unknown": 2,
+      "passed": false,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 2,
+          "passed": false
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=lerobot&interface=cli&access=read-write&authentication=none",
+          "status": 200,
+          "jsonBytes": 369,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 0,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "S4",
+      "group": "lookup",
+      "question": "Documentation is not a scoped runtime test",
+      "endpoint": "search",
+      "params": "project=langgraph&interface=sdk&verification=tested",
+      "expected": [],
+      "unknown": 1,
+      "passed": false,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 1,
+          "passed": false
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=langgraph&interface=sdk&verification=tested",
+          "status": 200,
+          "jsonBytes": 369,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 0,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "S5",
+      "group": "lookup",
+      "question": "Observed recently is not a freshness guarantee",
+      "endpoint": "search",
+      "params": "project=playwright-mcp&interface=mcp&require_fresh=true",
+      "expected": [],
+      "unknown": 2,
+      "passed": false,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 2,
+          "passed": false
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=playwright-mcp&interface=mcp&require_fresh=true",
+          "status": 200,
+          "jsonBytes": 369,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 0,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "S6",
+      "group": "lookup",
+      "question": "Reviewed package revision is not interface compatibility",
+      "endpoint": "search",
+      "params": "project=langgraph&interface=sdk&version_id=1.2.11",
+      "expected": [],
+      "unknown": 1,
+      "passed": false,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 1,
+          "passed": false
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=langgraph&interface=sdk&version_id=1.2.11",
+          "status": 200,
+          "jsonBytes": 369,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 0,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "S7",
+      "group": "lookup",
+      "question": "An absent project does not prove upstream absence",
+      "endpoint": "search",
+      "params": "project=not-in-registry&interface=mcp",
+      "expected": [],
+      "unknown": 0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "matching interfaces",
+          "actual": [],
+          "expected": [],
+          "passed": true
+        },
+        {
+          "name": "unknown candidates",
+          "actual": 0,
+          "expected": 0,
+          "passed": true
+        },
+        {
+          "name": "bounded query exhausted",
+          "actual": true,
+          "expected": true,
+          "passed": true
+        },
+        {
+          "name": "upstream coverage is not asserted",
+          "actual": "unknown",
+          "expected": "unknown",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "search",
+          "query": "project=not-in-registry&interface=mcp",
+          "status": 200,
+          "jsonBytes": 369,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "evaluatedAt": "2026-08-28T05:44:00.000Z",
+            "scope": "published-interface-declarations",
+            "accessInterpretation": "declared-capability-not-runtime-permission",
+            "consistency": "live-keyset",
+            "items": [],
+            "evidence": {},
+            "coverage": {
+              "upstream": "unknown",
+              "scannedThisPage": 0,
+              "unknownCandidatesThisPage": 0,
+              "unknownReasons": {},
+              "exhausted": true
+            },
+            "nextCursor": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "F1",
+      "group": "evidence",
+      "question": "openhands: software.component_scope → sdkRepository",
+      "endpoint": "project",
+      "params": "slug=openhands&section=facts&fact_key=software.component_scope",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.sdkRepository",
+          "value": "https://github.com/OpenHands/software-agent-sdk"
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 404: not_found",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=openhands&section=facts&fact_key=software.component_scope",
+          "status": 404,
+          "jsonBytes": 84,
+          "body": {
+            "error": {
+              "code": "not_found",
+              "message": "No public record matches this identifier."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F2",
+      "group": "evidence",
+      "question": "openhands: policy.public_mode_auth → header",
+      "endpoint": "project",
+      "params": "slug=openhands&section=facts&fact_key=policy.public_mode_auth",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.header",
+          "value": "X-Session-API-Key"
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 404: not_found",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=openhands&section=facts&fact_key=policy.public_mode_auth",
+          "status": 404,
+          "jsonBytes": 84,
+          "body": {
+            "error": {
+              "code": "not_found",
+              "message": "No public record matches this identifier."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F3",
+      "group": "evidence",
+      "question": "langgraph: software.runtime_requirements → python",
+      "endpoint": "project",
+      "params": "slug=langgraph&section=facts&fact_key=software.runtime_requirements",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.python",
+          "value": ">=3.10"
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 404: not_found",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=langgraph&section=facts&fact_key=software.runtime_requirements",
+          "status": 404,
+          "jsonBytes": 84,
+          "body": {
+            "error": {
+              "code": "not_found",
+              "message": "No public record matches this identifier."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F4",
+      "group": "evidence",
+      "question": "langgraph: software.persistence → inMemorySurvivesRestart",
+      "endpoint": "project",
+      "params": "slug=langgraph&section=facts&fact_key=software.persistence",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.inMemorySurvivesRestart",
+          "value": false
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 404: not_found",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=langgraph&section=facts&fact_key=software.persistence",
+          "status": 404,
+          "jsonBytes": 84,
+          "body": {
+            "error": {
+              "code": "not_found",
+              "message": "No public record matches this identifier."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F5",
+      "group": "evidence",
+      "question": "lerobot: software.runtime_requirements → python",
+      "endpoint": "project",
+      "params": "slug=lerobot&section=facts&fact_key=software.runtime_requirements",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.python",
+          "value": ">=3.12"
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 404: not_found",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=lerobot&section=facts&fact_key=software.runtime_requirements",
+          "status": 404,
+          "jsonBytes": 84,
+          "body": {
+            "error": {
+              "code": "not_found",
+              "message": "No public record matches this identifier."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F6",
+      "group": "evidence",
+      "question": "lerobot: policy.physical_execution → canActuateHardware",
+      "endpoint": "project",
+      "params": "slug=lerobot&section=facts&fact_key=policy.physical_execution",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.canActuateHardware",
+          "value": true
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 404: not_found",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=lerobot&section=facts&fact_key=policy.physical_execution",
+          "status": 404,
+          "jsonBytes": 84,
+          "body": {
+            "error": {
+              "code": "not_found",
+              "message": "No public record matches this identifier."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F7",
+      "group": "evidence",
+      "question": "playwright-mcp: policy.isolation → readOnlyGuarantee",
+      "endpoint": "project",
+      "params": "slug=playwright-mcp&section=facts&fact_key=policy.isolation",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.readOnlyGuarantee",
+          "value": false
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 404: not_found",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=playwright-mcp&section=facts&fact_key=policy.isolation",
+          "status": 404,
+          "jsonBytes": 84,
+          "body": {
+            "error": {
+              "code": "not_found",
+              "message": "No public record matches this identifier."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F8",
+      "group": "evidence",
+      "question": "playwright-mcp: policy.security_boundary → securityBoundary",
+      "endpoint": "project",
+      "params": "slug=playwright-mcp&section=facts&fact_key=policy.security_boundary",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.securityBoundary",
+          "value": false
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 404: not_found",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=playwright-mcp&section=facts&fact_key=policy.security_boundary",
+          "status": 404,
+          "jsonBytes": 84,
+          "body": {
+            "error": {
+              "code": "not_found",
+              "message": "No public record matches this identifier."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "F9",
+      "group": "evidence",
+      "question": "lerobot: scope.artifact_licenses → datasetLicense",
+      "endpoint": "project",
+      "params": "slug=lerobot&section=facts&fact_key=scope.artifact_licenses",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.datasetLicense",
+          "value": null
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 404: not_found",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=lerobot&section=facts&fact_key=scope.artifact_licenses",
+          "status": 404,
+          "jsonBytes": 84,
+          "body": {
+            "error": {
+              "code": "not_found",
+              "message": "No public record matches this identifier."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "X1",
+      "group": "field-discovery",
+      "question": "openhands: software.runtime_requirements → node",
+      "endpoint": "project",
+      "params": "slug=openhands&section=facts&fact_key=software.runtime_requirements",
+      "discover": "software.runtime_requirements",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.node",
+          "value": ">=22.12"
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 400: invalid_query",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=openhands&section=fields&limit=5",
+          "status": 400,
+          "jsonBytes": 67,
+          "body": {
+            "error": {
+              "code": "invalid_query",
+              "message": "Unsupported section."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "X2",
+      "group": "field-discovery",
+      "question": "langgraph: software.runtime_requirements → python",
+      "endpoint": "project",
+      "params": "slug=langgraph&section=facts&fact_key=software.runtime_requirements",
+      "discover": "software.runtime_requirements",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.python",
+          "value": ">=3.10"
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 400: invalid_query",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=langgraph&section=fields&limit=5",
+          "status": 400,
+          "jsonBytes": 67,
+          "body": {
+            "error": {
+              "code": "invalid_query",
+              "message": "Unsupported section."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "X3",
+      "group": "field-discovery",
+      "question": "lerobot: policy.physical_execution → canActuateHardware",
+      "endpoint": "project",
+      "params": "slug=lerobot&section=facts&fact_key=policy.physical_execution",
+      "discover": "policy.physical_execution",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.canActuateHardware",
+          "value": true
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 400: invalid_query",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=lerobot&section=fields&limit=5",
+          "status": 400,
+          "jsonBytes": 67,
+          "body": {
+            "error": {
+              "code": "invalid_query",
+              "message": "Unsupported section."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "X4",
+      "group": "field-discovery",
+      "question": "playwright-mcp: policy.isolation → readOnlyGuarantee",
+      "endpoint": "project",
+      "params": "slug=playwright-mcp&section=facts&fact_key=policy.isolation",
+      "discover": "policy.isolation",
+      "assertions": [
+        {
+          "path": "items.0.claim.status",
+          "value": "known"
+        },
+        {
+          "path": "items.0.claim.value.readOnlyGuarantee",
+          "value": false
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 400: invalid_query",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=playwright-mcp&section=fields&limit=5",
+          "status": 400,
+          "jsonBytes": 67,
+          "body": {
+            "error": {
+              "code": "invalid_query",
+              "message": "Unsupported section."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "R1",
+      "group": "resource",
+      "question": "Retrieve pinned LangGraph package manifest, not a runtime compatibility promise",
+      "endpoint": "project",
+      "params": "slug=langgraph&section=resources&id=package-manifest",
+      "assertions": [
+        {
+          "path": "versions.0.sourceRevision",
+          "value": "d5f4b2aa960940effc8430165ab3604038e817af"
+        },
+        {
+          "path": "versions.0.digests.0.algorithm",
+          "value": "git-blob-sha1"
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 404: not_found",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=langgraph&section=resources&id=package-manifest",
+          "status": 404,
+          "jsonBytes": 84,
+          "body": {
+            "error": {
+              "code": "not_found",
+              "message": "No public record matches this identifier."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "R2",
+      "group": "resource",
+      "question": "Retrieve pinned Playwright package manifest and retain unknown resource terms",
+      "endpoint": "project",
+      "params": "slug=playwright-mcp&section=resources&id=package-manifest",
+      "assertions": [
+        {
+          "path": "versions.0.sourceRevision",
+          "value": "d0c29a5658b93b6e62435ceaf362a7d7dfc3522d"
+        },
+        {
+          "path": "items.0.license.status",
+          "value": "unknown"
+        }
+      ],
+      "passed": false,
+      "checks": [],
+      "error": "Error: HTTP 404: not_found",
+      "responses": [
+        {
+          "endpoint": "project",
+          "query": "slug=playwright-mcp&section=resources&id=package-manifest",
+          "status": 404,
+          "jsonBytes": 84,
+          "body": {
+            "error": {
+              "code": "not_found",
+              "message": "No public record matches this identifier."
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "H1",
+      "group": "history-boundary",
+      "question": "Do not claim point-in-time reconstruction or backfilled upstream history",
+      "endpoint": "history",
+      "params": "slug=lerobot",
+      "assertions": [
+        {
+          "path": "pointInTime",
+          "value": "unavailable"
+        },
+        {
+          "path": "coverage",
+          "value": "partial"
+        },
+        {
+          "path": "timeBasis",
+          "value": "registry-detected-at"
+        }
+      ],
+      "passed": true,
+      "checks": [
+        {
+          "name": "pointInTime",
+          "actual": "unavailable",
+          "expected": "unavailable",
+          "passed": true
+        },
+        {
+          "name": "coverage",
+          "actual": "partial",
+          "expected": "partial",
+          "passed": true
+        },
+        {
+          "name": "timeBasis",
+          "actual": "registry-detected-at",
+          "expected": "registry-detected-at",
+          "passed": true
+        }
+      ],
+      "responses": [
+        {
+          "endpoint": "history",
+          "query": "slug=lerobot",
+          "status": 200,
+          "jsonBytes": 248,
+          "body": {
+            "schemaVersion": "0.1.0",
+            "projectId": "urn:openagent:project:robotics_lerobot",
+            "coverage": "partial",
+            "consistency": "append-window",
+            "pointInTime": "unavailable",
+            "timeBasis": "registry-detected-at",
+            "since": null,
+            "items": [],
+            "evidence": {},
+            "nextCursor": null
+          }
+        }
+      ]
+    }
+  ]
+}

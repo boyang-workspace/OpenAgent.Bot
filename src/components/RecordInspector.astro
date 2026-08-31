@@ -19,7 +19,7 @@ const lastActivity = entity?.lastCommitAt ?? entity?.lastReleaseAt ?? entity?.la
         <div class="record-tags">
           {primaryDomain && <span class:list={["domain", primaryDomain]}>{domainLabel(primaryDomain)}</span>}
           {entity.robotics && <span class="robotics">{roboticsLayerLabel(entity.robotics.layer)}</span>}
-          <span>{label(entity.kind)}</span>
+          {(!primaryDomain || domainLabel(primaryDomain).toLowerCase() !== label(entity.kind).toLowerCase()) && <span>{label(entity.kind)}</span>}
         </div>
         <p>{entity.summary}</p>
       </header>
@@ -43,26 +43,26 @@ const lastActivity = entity?.lastCommitAt ?? entity?.lastReleaseAt ?? entity?.la
         <a href={`/database?compare=${entity.slug}`}>Compare +</a>
       </footer>
     </>
-  ) : <div class="inspector-empty"><span class="data-label">Record preview</span><p>Select a row to inspect its current state. Nothing is selected by default.</p></div>}
+  ) : <div class="inspector-empty"><span class="data-label">Record preview</span><p>No record is available in the current result set.</p></div>}
 </aside>
 
 <style>
   .record-inspector { background: var(--paper-raised); border-left: 1px solid var(--ink); height: 100%; min-height: 0; min-width: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
-  .inspector-head { border-bottom: 1px solid var(--line); padding: 24px 20px 20px; }
-  .inspector-head h2 { font-family: var(--sans); font-size: 1.7rem; font-weight: 600; letter-spacing: -.035em; margin: 18px 0 12px; }
-  .inspector-head p { color: var(--muted); font-size: .78rem; line-height: 1.55; margin: 18px 0 0; }
+  .inspector-head { border-bottom: 1px solid var(--line); padding: 20px; }
+  .inspector-head h2 { font-family: var(--sans); font-size: 1.5rem; font-weight: 600; letter-spacing: -.03em; margin: 12px 0 10px; }
+  .inspector-head p { color: var(--muted); font-size: .8rem; line-height: 1.5; margin: 13px 0 0; }
   .record-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-  .record-tags span { border: 1px solid var(--ink); font-family: var(--mono); font-size: .58rem; padding: 5px 6px; text-transform: uppercase; }
+  .record-tags span { border: 1px solid var(--ink); font-family: var(--mono); font-size: .75rem; padding: 5px 6px; text-transform: uppercase; }
   .record-tags .agent { color: var(--blue); }
   .record-tags .robotics { color: var(--orange); }
   .inspector-facts { margin: 0; padding: 0 20px; }
   .inspector-facts div { align-items: center; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; min-height: 46px; }
-  .inspector-facts dt { color: var(--muted); font-family: var(--mono); font-size: .59rem; text-transform: uppercase; }
-  .inspector-facts dd { font-family: var(--mono); font-size: .67rem; font-variant-numeric: tabular-nums; margin: 0; text-align: right; }
+  .inspector-facts dt { color: var(--muted); font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
+  .inspector-facts dd { font-family: var(--mono); font-size: .75rem; font-variant-numeric: tabular-nums; margin: 0; text-align: right; }
   .preview-note { border-bottom: 1px solid var(--line); padding: 20px; }
-  .preview-note p { color: var(--muted); font-size: .73rem; line-height: 1.55; margin: 12px 0 0; }
+  .preview-note p { color: var(--muted); font-size: .78rem; line-height: 1.5; margin: 10px 0 0; }
   .inspector-actions { background: rgba(248, 249, 245, .97); bottom: 0; display: grid; gap: 7px; grid-template-columns: 1.35fr 1fr; padding: 20px; position: sticky; }
-  .inspector-actions a { align-items: center; border: 1px solid var(--ink); display: flex; font-family: var(--mono); font-size: .59rem; justify-content: center; min-height: 40px; text-transform: uppercase; }
+  .inspector-actions a { align-items: center; border: 1px solid var(--ink); display: flex; font-family: var(--mono); font-size: .75rem; justify-content: center; min-height: 40px; text-transform: uppercase; }
   .inspector-actions .primary { background: var(--ink); color: var(--acid); }
   .inspector-empty { padding: 30px 20px; }
   .inspector-empty p { color: var(--muted); font-size: .76rem; line-height: 1.55; margin-top: 22px; }

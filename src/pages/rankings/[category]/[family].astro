@@ -1,0 +1,13 @@
+---
+import { catalogPages } from "@/lib/registry/catalog-config";
+import type { CatalogCategory } from "@/lib/registry/catalog";
+
+const category = Astro.params.category as CatalogCategory;
+const family = Astro.params.family;
+const config = catalogPages[category as keyof typeof catalogPages];
+if (!config || !["activity", "adoption", "releases", "evaluation"].includes(family ?? "")) {
+  Astro.response.status = 404;
+  return Astro.rewrite("/404");
+}
+return Astro.redirect(family === "activity" ? config.href : `${config.href}?view=${family}`, 302);
+---

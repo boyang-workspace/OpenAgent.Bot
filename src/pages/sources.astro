@@ -9,7 +9,7 @@ try { stats = await getRegistry().getStats(); } catch {}
 ---
 <BaseLayout title="Sources" description="The official, canonical and discovery sources registered in OpenAgent.bot." path="/sources">
   <div class="page-shell"><div class="page-grid">
-    <section class="page-section"><span class="kicker">Source ledger</span><h1 class="page-title">Official signals,<br />with receipts.</h1><p class="lede">A registered source is not automatically an active connector. We publish that distinction so coverage is measurable rather than implied.</p></section>
+    <section class="page-section"><span class="kicker">Source ledger</span><h1 class="page-title">Sources and collection status</h1><p class="lede">Registered sources, live connectors and current evidence coverage.</p></section>
     <section class="stat-grid">
       <div class="stat"><span class="data-label">Registered sources</span><strong>{officialSources.length}</strong></div>
       <div class="stat"><span class="data-label">Live connectors</span><strong>{stats.liveSources}</strong></div>

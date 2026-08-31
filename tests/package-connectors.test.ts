@@ -15,17 +15,20 @@ describe("package and release collectors", () => {
     expect(npmDownloadWindow(new Date("2026-08-28T18:22:00Z"))).toEqual({start:"2026-07-29",end:"2026-08-27"});
     expect(npmDownloadWindow(new Date("2024-03-01T00:00:00Z"))).toEqual({start:"2024-01-31",end:"2024-02-29"});
   });
-  it("reads the published stable release and never executes project commands", async () => {
-    const result = await githubReleasesConnector.fetchEntity("vercel-labs/vgpu",{fetcher:(async () => Response.json(release)) as typeof fetch});
+  it("reads a bounded published release history and never executes project commands", async () => {
+    const prerelease = {...release,id:2,tag_name:"vgpu@0.4.0-beta",name:"vgpu beta",prerelease:true,html_url:"https://github.com/vercel-labs/vgpu/releases/tag/vgpu%400.4.0-beta"};
+    const result = await githubReleasesConnector.fetchEntity("vercel-labs/vgpu",{fetcher:(async () => Response.json([prerelease,release])) as typeof fetch});
     expect(result.facts["github_release.latest"]).toMatchObject({tag:release.tag_name,publishedAt:release.published_at});
+    expect(result.facts["github_release.history"]).toMatchObject({count:2,pageLimit:100});
+    expect(result.releases).toHaveLength(2);
+    expect(result.releases?.[0]?.channel).toBe("prerelease");
     expect(result.metrics.last_release_at).toBe(release.published_at);
   });
-  it("distinguishes no release from inaccessible repository, and rejects prereleases", async () => {
-    const noRelease = await githubReleasesConnector.fetchEntity("vercel-labs/vgpu",{fetcher:(async (url) => String(url).endsWith("/latest") ? new Response("",{status:404}) : Response.json({id:1})) as typeof fetch});
+  it("distinguishes no published release from an inaccessible repository", async () => {
+    const noRelease = await githubReleasesConnector.fetchEntity("vercel-labs/vgpu",{fetcher:(async () => Response.json([])) as typeof fetch});
     expect(noRelease.facts["github_release.latest"]).toBeUndefined();
     expect(noRelease.facts["github_release.status"]).toContain("No published");
     await expect(githubReleasesConnector.fetchEntity("vercel-labs/vgpu",{fetcher:(async () => new Response("",{status:404})) as typeof fetch})).rejects.toThrow("unavailable");
-    await expect(githubReleasesConnector.fetchEntity("vercel-labs/vgpu",{fetcher:(async () => Response.json({...release,prerelease:true})) as typeof fetch})).rejects.toThrow("Invalid stable");
   });
   it("supports scoped npm packages without forwarding GitHub credentials", async () => {
     const calls: string[] = [];

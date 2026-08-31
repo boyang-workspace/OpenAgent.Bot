@@ -3,29 +3,29 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 <BaseLayout title="Support the Open Index" description="Sponsor OpenAgent.bot without influencing registry inclusion, evidence, comparisons or future rankings." path="/support">
   <div class="page-shell"><div class="page-grid support-page">
-    <header class="support-head"><span class="kicker">Support OpenAgent.bot</span><h1>Support the open index.<br />Never buy the data.</h1><p>Independent sponsorship funds collection, verification and public infrastructure. Paid placement is always labeled and never changes inclusion, evidence, comparisons or rankings.</p></header>
+    <header class="support-head"><span class="kicker">Support</span><h1>Support the open index</h1><p>Sponsorship funds collection and verification. It never changes inclusion, evidence or ranking order.</p></header>
     <section class="principles"><div><span>01</span><strong>Clearly labeled</strong><p>Every paid placement says Sponsored.</p></div><div><span>02</span><strong>Separate from ranking</strong><p>No payment changes editorial or scoring logic.</p></div><div><span>03</span><strong>Useful to readers</strong><p>Partners must be relevant to builders and researchers.</p></div></section>
-    <section class="inventory"><header><span class="eyebrow">Available placements</span><h2>Small, fixed inventory</h2><p>We keep support modules compact so the database remains the product.</p></header><div class="inventory-grid"><article><span>Homepage</span><h3>Index supporter</h3><p>One compact supporter block below the primary data modules.</p></article><article><span>Database</span><h3>Tool supporter</h3><p>A labeled placement outside result order and filters.</p></article><article><span>Project dossiers</span><h3>Research supporter</h3><p>A contextual placement after the decision sheet, never inside evidence.</p></article></div></section>
+    <section class="inventory"><header><span class="eyebrow">Available placements</span><h2>Fixed inventory</h2><p>Support modules stay outside data, filters and evidence.</p></header><div class="inventory-grid"><article><span>Homepage</span><h3>Index supporter</h3><p>A compact module below the primary data.</p></article><article><span>Database</span><h3>Tool supporter</h3><p>A labeled placement outside result order.</p></article><article><span>Project dossiers</span><h3>Research supporter</h3><p>A module after the decision sheet.</p></article></div></section>
     <section class="support-cta"><div><span class="eyebrow">Partnerships</span><h2>Tell us what you support.</h2><p>Include your organization, relevant product and preferred placement. We review fit before discussing inventory.</p></div><a href="mailto:support@openagent.bot?subject=OpenAgent.bot%20support">Contact support@openagent.bot →</a></section>
   </div></div>
 </BaseLayout>
 <style>
-  .support-head { border-bottom: 1px solid var(--ink); padding: 64px 48px; }
-  .support-head h1 { font-family: var(--sans); font-size: clamp(3.3rem, 7vw, 7rem); font-weight: 600; letter-spacing: -.07em; line-height: .87; margin: 22px 0 30px; }
-  .support-head p { font-size: 1.05rem; line-height: 1.65; max-width: 780px; }
+  .support-head { border-bottom: 1px solid var(--ink); padding: 28px 32px; }
+  .support-head h1 { font-family: var(--sans); font-size: var(--data-title); font-weight: 600; letter-spacing: -.045em; line-height: 1; margin: 12px 0 10px; }
+  .support-head p { color: var(--muted); font-size: .9rem; line-height: 1.5; margin: 0; max-width: 780px; }
   .principles { border-bottom: 1px solid var(--ink); display: grid; grid-template-columns: repeat(3, 1fr); }
-  .principles div { border-right: 1px solid var(--line); min-height: 180px; padding: 28px; }
-  .principles span, .inventory-grid > article > span { color: var(--muted); font-family: var(--mono); font-size: .57rem; text-transform: uppercase; }
-  .principles strong { display: block; font-size: 1.15rem; margin-top: 28px; }
+  .principles div { border-right: 1px solid var(--line); min-height: 132px; padding: 20px; }
+  .principles span, .inventory-grid > article > span { color: var(--muted); font-family: var(--mono); font-size: .75rem; text-transform: uppercase; }
+  .principles strong { display: block; font-size: 1rem; margin-top: 18px; }
   .principles p, .inventory p, .support-cta p { color: var(--muted); line-height: 1.55; }
-  .inventory { border-bottom: 1px solid var(--ink); padding: 46px 48px; }
+  .inventory { border-bottom: 1px solid var(--ink); padding: 28px 32px 32px; }
   .inventory header { max-width: 720px; }
-  h2 { font-family: var(--sans); font-size: clamp(2.2rem, 4vw, 4rem); font-weight: 600; letter-spacing: -.05em; margin: 12px 0 18px; }
-  .inventory-grid { border-top: 1px solid var(--ink); display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 34px; }
-  .inventory-grid article { border-right: 1px solid var(--line); min-height: 200px; padding: 24px; }
-  .inventory-grid h3 { font-family: var(--sans); font-size: 1.65rem; margin: 28px 0 14px; }
-  .support-cta { align-items: center; background: var(--ink); color: var(--paper); display: grid; gap: 40px; grid-template-columns: 1fr auto; padding: 50px 48px; }
+  h2 { font-family: var(--sans); font-size: var(--section-title); font-weight: 600; letter-spacing: -.025em; margin: 8px 0 10px; }
+  .inventory-grid { border-top: 1px solid var(--ink); display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 22px; }
+  .inventory-grid article { border-right: 1px solid var(--line); min-height: 150px; padding: 20px; }
+  .inventory-grid h3 { font-family: var(--sans); font-size: 1.2rem; margin: 22px 0 10px; }
+  .support-cta { align-items: center; background: var(--ink); color: var(--paper); display: grid; gap: 40px; grid-template-columns: 1fr auto; padding: 28px 32px; }
   .support-cta .eyebrow, .support-cta p { color: #a9aa9f; }
-  .support-cta a { background: var(--acid); color: var(--ink); font-family: var(--mono); font-size: .62rem; padding: 18px 20px; text-transform: uppercase; }
-  @media (max-width: 700px) { .support-head, .inventory { padding: 40px 18px; } .support-head h1 { font-size: 3.1rem; } .principles, .inventory-grid { grid-template-columns: 1fr; } .principles div, .inventory-grid article { border-bottom: 1px solid var(--line); border-right: 0; } .support-cta { grid-template-columns: 1fr; padding: 40px 18px; } }
+  .support-cta a { background: var(--acid); color: var(--ink); font-family: var(--mono); font-size: .75rem; padding: 16px 18px; text-transform: uppercase; }
+  @media (max-width: 700px) { .support-head, .inventory { padding: 24px 18px; } .principles, .inventory-grid { grid-template-columns: 1fr; } .principles div, .inventory-grid article { border-bottom: 1px solid var(--line); border-right: 0; min-height: 0; } .support-cta { grid-template-columns: 1fr; padding: 24px 18px; } }
 </style>

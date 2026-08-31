@@ -10,10 +10,10 @@ try {
   dossiers = (await Promise.all(slugs.map((slug) => getRegistry().getEntityDossier(slug)))).filter((item): item is RegistryDossier => item !== undefined);
 } catch {}
 const names = dossiers.map((dossier) => dossier.entity.name);
-const title = names.length >= 2 ? `${names.join(" vs ")} — open-source data comparison` : "Compare open-source agents and robots";
+const title = names.length >= 2 ? `${names.join(" vs ")} — system comparison` : "Compare open agent systems";
 const description = names.length >= 2
-  ? `Compare ${names.join(", ")} using live registry data, source coverage, openness fields, repository activity and historical observations.`
-  : "Build an evidence-backed comparison of two or three open-source agent, model, robot or infrastructure projects.";
+  ? `Compare ${names.join(", ")} using attributed system evidence, openness fields, repository activity and historical observations.`
+  : "Build an evidence-backed comparison of two or three open agent, robot or infrastructure systems.";
 ---
 
 <ComparisonView title={title} description={description} path="/compare" dossiers={dossiers} />

@@ -1,0 +1,131 @@
+{
+  "method": "Read-only GitHub Contents API at pinned commits. Git blob SHA-1 is not a raw-file SHA-256. No upstream code executed; observations do not establish TTL or runtime tests.",
+  "sources": [
+    {
+      "repo": "langchain-ai/langgraph",
+      "ref": "d5f4b2aa960940effc8430165ab3604038e817af",
+      "status": 200,
+      "sha": "97c31e9cb4d8fe56be8d768ce3eb5e22400e897e",
+      "size": 6395,
+      "observedAt": "2026-08-28T05:36:12.316Z",
+      "path": "README.md"
+    },
+    {
+      "repo": "huggingface/lerobot",
+      "ref": "bf31dd794ffb4f87380aba3912f64421e8352d3c",
+      "status": 200,
+      "sha": "50814df9295864e814a424c26461100f0fee631f",
+      "size": 13143,
+      "observedAt": "2026-08-28T05:36:13.133Z",
+      "path": "README.md"
+    },
+    {
+      "repo": "microsoft/playwright-mcp",
+      "ref": "d0c29a5658b93b6e62435ceaf362a7d7dfc3522d",
+      "status": 200,
+      "sha": "8fc97dfe0c378af3fbc01eeb2afe5a98f13302ce",
+      "size": 61992,
+      "observedAt": "2026-08-28T05:36:14.140Z",
+      "path": "README.md"
+    },
+    {
+      "repo": "OpenHands/OpenHands",
+      "ref": "b50c60c6728e2ce123ccb6e125bee3eb88ac87d1",
+      "status": 200,
+      "sha": "43f8740f621f4ef6319308ba94a78604a0372fa9",
+      "size": 10126,
+      "observedAt": "2026-08-28T05:36:15.418Z",
+      "path": "README.md"
+    },
+    {
+      "repo": "huggingface/lerobot",
+      "ref": "bf31dd794ffb4f87380aba3912f64421e8352d3c",
+      "path": "pyproject.toml",
+      "status": 200,
+      "sha": "e080b678467555a640261f456e576a1f8ec23dab",
+      "size": 24511,
+      "observedAt": "2026-08-28T05:37:15.200Z"
+    },
+    {
+      "repo": "OpenHands/OpenHands",
+      "ref": "b50c60c6728e2ce123ccb6e125bee3eb88ac87d1",
+      "path": "docs/SELF_HOSTING.md",
+      "status": 200,
+      "sha": "ef7f9a869f97d2567845c62577b3e197f7fa50e8",
+      "size": 10347,
+      "observedAt": "2026-08-28T05:37:16.001Z"
+    },
+    {
+      "repo": "langchain-ai/langgraph",
+      "ref": "d5f4b2aa960940effc8430165ab3604038e817af",
+      "path": "libs/langgraph/pyproject.toml",
+      "status": 200,
+      "sha": "e3d95cfec83fb9ce4a887c264a060f4513be2e9d",
+      "size": 4466,
+      "observedAt": "2026-08-28T05:37:17.573Z"
+    },
+    {
+      "repo": "huggingface/lerobot",
+      "ref": "bf31dd794ffb4f87380aba3912f64421e8352d3c",
+      "path": "src/lerobot/scripts/lerobot_teleoperate.py",
+      "status": 200,
+      "sha": "81bd98e65e7e6c376c19cdbfd4d27ee58efcfaf4",
+      "size": 11235,
+      "observedAt": "2026-08-28T05:41:30.841Z"
+    },
+    {
+      "repo": "microsoft/playwright-mcp",
+      "ref": "d0c29a5658b93b6e62435ceaf362a7d7dfc3522d",
+      "path": "package.json",
+      "status": 200,
+      "sha": "8ffbac3da702b8450afe750ab16b0c9cb8f40350",
+      "size": 1530,
+      "observedAt": "2026-08-28T05:41:31.672Z"
+    },
+    {
+      "repo": "langchain-ai/langgraph",
+      "ref": "d5f4b2aa960940effc8430165ab3604038e817af",
+      "path": "LICENSE",
+      "status": 200,
+      "sha": "fc0602feecdd6748623c852ab534e1ca612673c7",
+      "size": 1072,
+      "observedAt": "2026-08-28T05:41:33.442Z"
+    },
+    {
+      "repo": "huggingface/lerobot",
+      "ref": "bf31dd794ffb4f87380aba3912f64421e8352d3c",
+      "path": "LICENSE",
+      "status": 200,
+      "sha": "a603343cdda0228e53d8d9cdeb355f342f1e8f2c",
+      "size": 27627,
+      "observedAt": "2026-08-28T05:41:34.270Z"
+    },
+    {
+      "repo": "OpenHands/OpenHands",
+      "ref": "b50c60c6728e2ce123ccb6e125bee3eb88ac87d1",
+      "path": "LICENSE",
+      "status": 200,
+      "sha": "f6f60f52368bcc96f82fbe59ec65049c2c3af9db",
+      "size": 1096,
+      "observedAt": "2026-08-28T05:41:34.809Z"
+    },
+    {
+      "repo": "microsoft/playwright-mcp",
+      "ref": "d0c29a5658b93b6e62435ceaf362a7d7dfc3522d",
+      "path": "LICENSE",
+      "status": 200,
+      "sha": "cefe596afef12e19a8e5e923f1a04c7da3188760",
+      "size": 11552,
+      "observedAt": "2026-08-28T05:41:35.402Z"
+    },
+    {
+      "repo": "langchain-ai/docs",
+      "ref": "cafb0c882677b9979c4f8583790f111247a57937",
+      "path": "src/oss/langgraph/persistence.mdx",
+      "status": 200,
+      "sha": "d2839b6d30a14ad10d1acf32007bb5a47b9d0d9b",
+      "size": 4897,
+      "observedAt": "2026-08-28T05:43:02.768Z"
+    }
+  ]
+}

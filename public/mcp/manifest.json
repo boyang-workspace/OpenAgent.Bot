@@ -1,0 +1,13 @@
+{
+  "name": "openagent-registry",
+  "version": "0.1.0",
+  "description": "Read-only MCP server for the OpenAgent.bot registry: attributed, evidence-backed facts about open-source AI agents, models, robots and tools.",
+  "command": "node",
+  "args": ["mcp/server.mjs"],
+  "env": {
+    "OPENAGENT_API_BASE": "https://www.openagent.bot"
+  },
+  "tools": ["search_entities", "get_entity", "get_stats"],
+  "homepage": "https://www.openagent.bot",
+  "api": "https://www.openagent.bot/api/v1/entities.json"
+}

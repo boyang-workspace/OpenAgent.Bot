@@ -1,0 +1,403 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "OpenAgent Knowledge: Expansion Test",
+    "description": "2026年8月28日 · 补数据、任务测试与本地迭代",
+    "generatedAt": "2026-08-28T05:55:01.687Z",
+    "sources": [
+      {
+        "id": "evaluation",
+        "label": "Frozen HTTP task evaluator",
+        "path": "evaluations/knowledge-expansion.ts"
+      },
+      {
+        "id": "spec",
+        "label": "Thirty source-grounded task definitions",
+        "path": "evaluations/knowledge-expansion-tasks.json"
+      },
+      {
+        "id": "before",
+        "label": "Preserved before HTTP responses and checks",
+        "path": "docs/evaluations/2026-08-28-expansion/before.json"
+      },
+      {
+        "id": "data-only",
+        "label": "Preserved data-only HTTP responses and checks",
+        "path": "docs/evaluations/2026-08-28-expansion/data-only.json"
+      },
+      {
+        "id": "after",
+        "label": "Preserved after HTTP responses and checks",
+        "path": "docs/evaluations/2026-08-28-expansion/after.json"
+      },
+      {
+        "id": "primary",
+        "label": "Pinned GitHub source receipts and observation dates",
+        "path": "docs/evaluations/2026-08-28-expansion/sources.json"
+      },
+      {
+        "id": "verification",
+        "label": "Regression, typecheck, build and execution scope",
+        "path": "docs/evaluations/2026-08-28-expansion/verification.json"
+      },
+      {
+        "id": "analysis",
+        "label": "Three-phase task comparison",
+        "path": "docs/evaluations/2026-08-28-expansion/task-outcomes.sql",
+        "query": {
+          "engine": "SQLite (Python stdlib sqlite3)",
+          "language": "sql",
+          "sql": "-- Bind ?1, ?2, ?3 to the full before.json, data-only.json, after.json texts.\n-- Original HTTP checks are executed in evaluations/knowledge-expansion.ts.\n-- This aggregation compares the same frozen task IDs, not real agent success.\nWITH stages(stageOrder, stage, raw) AS (\n  VALUES (1, '补数前', ?1), (2, '仅补数', ?2), (3, '迭代后', ?3)\n), outcomes AS (\n  SELECT stageOrder, stage, json_extract(t.value, '$.id') AS taskId,\n         json_extract(t.value, '$.passed') AS passed,\n         CASE substr(json_extract(t.value, '$.id'), 1, 1)\n           WHEN 'D' THEN '接口查询' WHEN 'S' THEN '边界判断'\n           WHEN 'F' THEN '事实证据' WHEN 'X' THEN '字段发现'\n           WHEN 'R' THEN '版本资源' ELSE '历史边界' END AS taskGroup\n  FROM stages, json_each(stages.raw, '$.tasks') t\n)\nSELECT taskGroup, stage, stageOrder, SUM(passed) AS passed, COUNT(*) AS total,\n       1.0 * SUM(passed) / COUNT(*) AS passRate\nFROM outcomes GROUP BY taskGroup, stage, stageOrder ORDER BY taskGroup, stageOrder;\n",
+          "description": "Executed in analysis.ipynb using the complete before.json, data-only.json and after.json as ?1, ?2 and ?3. Original checks and response bodies originate in evaluations/knowledge-expansion.ts; this query calculates grouped pass rates from those checks. All phases retain the same task/evaluator fingerprints. These are deterministic local contract tasks, not agent success metrics.",
+          "executed_at": "2026-08-28T05:55:01.687Z",
+          "filters": {
+            "cohort": [
+              "openhands",
+              "langgraph",
+              "lerobot",
+              "playwright-mcp"
+            ],
+            "tasks": 30,
+            "evaluationTime": "2026-08-28T05:44:00.000Z"
+          },
+          "metric_definitions": {
+            "passed": "Count of frozen tasks for which all recorded assertions and HTTP requests passed.",
+            "total": "All frozen tasks in the group, including failures and insufficient-evidence cases.",
+            "passRate": "passed / total as a fractional rate; this is deterministic task completion, not general accuracy."
+          }
+        }
+      },
+      {
+        "id": "notebook",
+        "label": "Executed standard-library audit notebook (not Jupyter-kernel certified)",
+        "path": "docs/evaluations/2026-08-28-expansion/analysis.ipynb"
+      }
+    ],
+    "charts": [
+      {
+        "id": "outcomes",
+        "title": "固定任务分组结果",
+        "subtitle": "同一批 30 个任务；各组分母不同，比较组内三阶段通过比例。",
+        "type": "bar",
+        "dataset": "outcomes",
+        "sourceId": "analysis",
+        "valueFormat": "percent",
+        "encodings": {
+          "x": {
+            "field": "taskGroup",
+            "type": "nominal",
+            "label": "任务组"
+          },
+          "y": {
+            "field": "passRate",
+            "type": "quantitative",
+            "label": "组内通过比例"
+          },
+          "color": {
+            "field": "stage",
+            "type": "nominal",
+            "label": "阶段"
+          }
+        },
+        "options": {
+          "orientation": "horizontal",
+          "grouping": "grouped"
+        },
+        "palette": {
+          "kind": "categorical",
+          "colors": [
+            "#C69133",
+            "#4279B0",
+            "#C96C37"
+          ]
+        }
+      }
+    ],
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# OpenAgent Knowledge: Expansion Test\n\n2026年8月28日 · 本地实现，未部署"
+      },
+      {
+        "id": "summary",
+        "type": "markdown",
+        "body": "## Executive Summary\n\n- **本轮已完成补数据、测试、再迭代。** 相同的 30 个固定任务，从补数前 3 个通过，到仅补数据后 23 个，再到接口迭代后 30 个全部通过。\n- **值得继续受控验证，但不宜据此扩大成通用大知识库。** 结果表明，结构化证据与可发现的查询字段能解决实际接口缺口；尚未证明独立 agent 的使用收益、留存或市场需求。\n- **安全与信任边界保持不变。** 官方文档不等于运行测试；最近读取不等于字段仍有效；没有执行第三方软件或机器人动作。",
+        "sourceId": "analysis"
+      },
+      {
+        "id": "definitions",
+        "type": "markdown",
+        "body": "## 补数解决大部分缺口，字段发现补上最后一步\n\n比较对象固定为 OpenHands、LangGraph、LeRobot 和 Playwright MCP。它们在本轮开始时没有结构化接口或资源；补数后不再是未见样本。题目在补数前固定，由同一个实现者根据已核验官方资料制定，不是盲测，也不是自然语言任务完成率。\n\n任务分为接口查询 7 个、边界判断 7 个、事实证据 9 个、字段发现 4 个、版本资源 2 个、历史边界 1 个。图中每组分母不变，比较同组内三个阶段；历史边界通过只表示明确拒绝时点还原，不表示历史能力已建成。\n\n仅补数据解决 20 个失败；余下 7 个是领域筛选和字段发现。两个接口能力补齐后，全部固定任务通过。下一轮必须增加未见项目和独立客户端，才能检验泛化。",
+        "sourceId": "analysis"
+      },
+      {
+        "id": "outcomes-block",
+        "type": "chart",
+        "chartId": "outcomes"
+      },
+      {
+        "id": "coverage",
+        "type": "markdown",
+        "body": "## 四个项目补的是可追溯事实，不是条目数量\n\n本轮新增 8 个 documented 接口、11 个资源和 16 条业务事实。OpenHands 为 2 / 3 / 4，LangGraph 为 1 / 3 / 3，LeRobot 为 3 / 3 / 5，Playwright MCP 为 2 / 2 / 4，顺序分别是接口、资源、业务事实。其余 curated 元数据不计入 16 条业务事实。\n\n源码引用固定到仓库提交，资源保留 Git blob SHA-1 和观测日期。未复核的外部 SDK 仓库、数据集及策略权重许可证仍为未知；不会继承关联项目的许可证。零条独立运行测试、零个字段有效期复核记录，投影错误为零。这支持使用这些记录做发现与查证，不支持直接授予执行权限。",
+        "sourceId": "after"
+      },
+      {
+        "id": "scopes",
+        "type": "markdown",
+        "body": "## 组件与权限边界比笼统标签更重要\n\n**OpenHands：** 当前主仓库描述的是 Agent Canvas。Python SDK 和 Agent Server 属于另一个仓库，因此保留原项目 ID 和指标归属，同时修正主仓库描述。配置了密钥的 public-mode ingress 与一般 SDK API 不混为一谈。[组件边界](https://github.com/OpenHands/OpenHands/blob/b50c60c6728e2ce123ccb6e125bee3eb88ac87d1/README.md)。\n\n**LangGraph：** 当前 Python 包要求 Python ≥3.10；JS 实现和托管服务分别处理。内存检查点重启后丢失，不能把“有记忆功能”理解成自动持久化。[持久化说明](https://github.com/langchain-ai/docs/blob/cafb0c882677b9979c4f8583790f111247a57937/src/oss/langgraph/persistence.mdx)。\n\n**LeRobot：** 所审阅包声明 Python ≥3.12。训练、读取观察和发送物理动作不是同一风险等级；机器人控制接口具有写入与物理执行能力。[物理动作调用](https://github.com/huggingface/lerobot/blob/bf31dd794ffb4f87380aba3912f64421e8352d3c/src/lerobot/scripts/lerobot_teleoperate.py)。\n\n**Playwright MCP：** 隔离浏览器配置不等于只读；单个工具的只读注解也不等于整个服务器只读。保留对登录态和浏览器副作用的提示。[隔离与安全说明](https://github.com/microsoft/playwright-mcp/blob/d0c29a5658b93b6e62435ceaf362a7d7dfc3522d/README.md)。\n\n这些区别直接决定 agent 应该调用哪个组件、还需要问什么、何时必须回到原始资料；不是对相关项目的安全认证。"
+      },
+      {
+        "id": "iteration",
+        "type": "markdown",
+        "body": "## 已迭代：按领域筛选，以及先发现字段再读取\n\n查询增加严格的 domain=agent / robotics / shared 过滤，按任一已分配领域匹配；分类本身不证明兼容性。未知值和非法参数仍不被静默忽略。\n\n项目增加 section=fields，返回字段键、顶层状态、值类型和证据引用，不返回整块内容；agent 再用 section=facts 查询指定字段。字段列表继续支持分页和记录变化校验，顶层“已知”不掩盖对象内部的未知属性。\n\n四个“发现字段 → 读取事实”序列总共各需 4–5 次请求、7.3–9.9 KB 未压缩 JSON。这次已计入字段发现成本，但未计入模型推理、网络延迟、压缩或 token 成本。因此只能说请求内容可控，不能宣称真实任务速度或成本改善。",
+        "sourceId": "after"
+      },
+      {
+        "id": "verification",
+        "type": "markdown",
+        "body": "## 回归结果支持合入本地预览，不代表线上验证\n\n全量 149 个测试通过；类型检查 97 个文件，零错误、零警告；构建通过。新增回归覆盖项目 ID、历史指标、订阅归属、机器人分类、未知凭据、未实测状态、分页变化、非公开项目隐藏和次要领域匹配。\n\n所有测试在隔离内存数据库运行，没有生产写入、部署、机器人动作或第三方软件执行。分析 notebook 的 4 个代码单元通过顺序执行，环境缺少 Jupyter / nbformat / nbclient，因此未验证 Jupyter 内核或界面。",
+        "sourceId": "verification"
+      },
+      {
+        "id": "next",
+        "type": "markdown",
+        "body": "## 下一步优先验证真实使用，再扩大维护面\n\n1. 将下一批未见项目和问题在补数前留出；补足此前计划中的非样板项目覆盖，而不是把已补过的四个项目继续称作 holdout。\n2. 让独立客户端分别用平台和官方资料完成相同任务，记录全部成功、失败、回原站、总请求、耗时与 token；先验证是否愿意重复使用。\n3. 单独设计字段复核与失效流程，以及 first-seen / corrected / withdrawn 的完整事件记录，再评估长期历史能力。当前初次新增事实有 observation 和 intake 审计，但没有逐字段的首次创建 change event。\n4. 明确测试授权、版本与环境后再建立独立运行报告；现阶段不把 documented 自动升级为 tested。\n\n这是本轮证据支持的继续投入范围。MCP 封装、批量扩库和生产发布应等待更明确的使用与维护成本证据。"
+      },
+      {
+        "id": "questions",
+        "type": "markdown",
+        "body": "## Further Questions\n\n客户端是否真正需要跨项目筛选，还是通常直接访问已知项目？字段发现是否减少了澄清和回原站次数？历史数据最常被用来追踪接口变更、许可证更正还是模型兼容性？哪些字段值得持续人工复核，谁承担维护成本？这些问题比总收录条数更影响继续投入。"
+      },
+      {
+        "id": "caveats",
+        "type": "markdown",
+        "body": "## Caveats\n\n这 30 个任务由同一实现者制定并根据失败迭代，不能外推为通用准确率；四项目是定向选择，不是随机样本。固定时钟用来判定证据是否在查询时已存在，不构成任何时间保鲜承诺。\n\n两次数据相同的后阶段隔离了接口改动效果，但没有独立客户端 A/B、生产 Worker/D1 测试或负载测量。旧结果保留，运行当前代码的 before / data-only 模式并不能恢复过去的 API 实现。\n\n长期历史回填、任意时点复原、源文件永久保存、恢复演练、冲突治理、字段有效期和实际软硬件兼容性均未完成。现有记录支持“找到并理解有来源的声明”，还不是可无条件依赖的长期执行数据库。"
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-08-28T05:55:01.687Z",
+    "status": "ready",
+    "datasets": {
+      "outcomes": [
+        {
+          "taskGroup": "事实证据",
+          "stage": "补数前",
+          "stageOrder": 1,
+          "passed": 0,
+          "total": 9,
+          "passRate": 0
+        },
+        {
+          "taskGroup": "事实证据",
+          "stage": "仅补数",
+          "stageOrder": 2,
+          "passed": 9,
+          "total": 9,
+          "passRate": 1
+        },
+        {
+          "taskGroup": "事实证据",
+          "stage": "迭代后",
+          "stageOrder": 3,
+          "passed": 9,
+          "total": 9,
+          "passRate": 1
+        },
+        {
+          "taskGroup": "历史边界",
+          "stage": "补数前",
+          "stageOrder": 1,
+          "passed": 1,
+          "total": 1,
+          "passRate": 1
+        },
+        {
+          "taskGroup": "历史边界",
+          "stage": "仅补数",
+          "stageOrder": 2,
+          "passed": 1,
+          "total": 1,
+          "passRate": 1
+        },
+        {
+          "taskGroup": "历史边界",
+          "stage": "迭代后",
+          "stageOrder": 3,
+          "passed": 1,
+          "total": 1,
+          "passRate": 1
+        },
+        {
+          "taskGroup": "字段发现",
+          "stage": "补数前",
+          "stageOrder": 1,
+          "passed": 0,
+          "total": 4,
+          "passRate": 0
+        },
+        {
+          "taskGroup": "字段发现",
+          "stage": "仅补数",
+          "stageOrder": 2,
+          "passed": 0,
+          "total": 4,
+          "passRate": 0
+        },
+        {
+          "taskGroup": "字段发现",
+          "stage": "迭代后",
+          "stageOrder": 3,
+          "passed": 4,
+          "total": 4,
+          "passRate": 1
+        },
+        {
+          "taskGroup": "接口查询",
+          "stage": "补数前",
+          "stageOrder": 1,
+          "passed": 0,
+          "total": 7,
+          "passRate": 0
+        },
+        {
+          "taskGroup": "接口查询",
+          "stage": "仅补数",
+          "stageOrder": 2,
+          "passed": 4,
+          "total": 7,
+          "passRate": 0.5714285714285714
+        },
+        {
+          "taskGroup": "接口查询",
+          "stage": "迭代后",
+          "stageOrder": 3,
+          "passed": 7,
+          "total": 7,
+          "passRate": 1
+        },
+        {
+          "taskGroup": "版本资源",
+          "stage": "补数前",
+          "stageOrder": 1,
+          "passed": 0,
+          "total": 2,
+          "passRate": 0
+        },
+        {
+          "taskGroup": "版本资源",
+          "stage": "仅补数",
+          "stageOrder": 2,
+          "passed": 2,
+          "total": 2,
+          "passRate": 1
+        },
+        {
+          "taskGroup": "版本资源",
+          "stage": "迭代后",
+          "stageOrder": 3,
+          "passed": 2,
+          "total": 2,
+          "passRate": 1
+        },
+        {
+          "taskGroup": "边界判断",
+          "stage": "补数前",
+          "stageOrder": 1,
+          "passed": 2,
+          "total": 7,
+          "passRate": 0.2857142857142857
+        },
+        {
+          "taskGroup": "边界判断",
+          "stage": "仅补数",
+          "stageOrder": 2,
+          "passed": 7,
+          "total": 7,
+          "passRate": 1
+        },
+        {
+          "taskGroup": "边界判断",
+          "stage": "迭代后",
+          "stageOrder": 3,
+          "passed": 7,
+          "total": 7,
+          "passRate": 1
+        }
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "evaluation",
+      "label": "Frozen HTTP task evaluator",
+      "path": "evaluations/knowledge-expansion.ts"
+    },
+    {
+      "id": "spec",
+      "label": "Thirty source-grounded task definitions",
+      "path": "evaluations/knowledge-expansion-tasks.json"
+    },
+    {
+      "id": "before",
+      "label": "Preserved before HTTP responses and checks",
+      "path": "docs/evaluations/2026-08-28-expansion/before.json"
+    },
+    {
+      "id": "data-only",
+      "label": "Preserved data-only HTTP responses and checks",
+      "path": "docs/evaluations/2026-08-28-expansion/data-only.json"
+    },
+    {
+      "id": "after",
+      "label": "Preserved after HTTP responses and checks",
+      "path": "docs/evaluations/2026-08-28-expansion/after.json"
+    },
+    {
+      "id": "primary",
+      "label": "Pinned GitHub source receipts and observation dates",
+      "path": "docs/evaluations/2026-08-28-expansion/sources.json"
+    },
+    {
+      "id": "verification",
+      "label": "Regression, typecheck, build and execution scope",
+      "path": "docs/evaluations/2026-08-28-expansion/verification.json"
+    },
+    {
+      "id": "analysis",
+      "label": "Three-phase task comparison",
+      "path": "docs/evaluations/2026-08-28-expansion/task-outcomes.sql",
+      "query": {
+        "engine": "SQLite (Python stdlib sqlite3)",
+        "language": "sql",
+        "sql": "-- Bind ?1, ?2, ?3 to the full before.json, data-only.json, after.json texts.\n-- Original HTTP checks are executed in evaluations/knowledge-expansion.ts.\n-- This aggregation compares the same frozen task IDs, not real agent success.\nWITH stages(stageOrder, stage, raw) AS (\n  VALUES (1, '补数前', ?1), (2, '仅补数', ?2), (3, '迭代后', ?3)\n), outcomes AS (\n  SELECT stageOrder, stage, json_extract(t.value, '$.id') AS taskId,\n         json_extract(t.value, '$.passed') AS passed,\n         CASE substr(json_extract(t.value, '$.id'), 1, 1)\n           WHEN 'D' THEN '接口查询' WHEN 'S' THEN '边界判断'\n           WHEN 'F' THEN '事实证据' WHEN 'X' THEN '字段发现'\n           WHEN 'R' THEN '版本资源' ELSE '历史边界' END AS taskGroup\n  FROM stages, json_each(stages.raw, '$.tasks') t\n)\nSELECT taskGroup, stage, stageOrder, SUM(passed) AS passed, COUNT(*) AS total,\n       1.0 * SUM(passed) / COUNT(*) AS passRate\nFROM outcomes GROUP BY taskGroup, stage, stageOrder ORDER BY taskGroup, stageOrder;\n",
+        "description": "Executed in analysis.ipynb using the complete before.json, data-only.json and after.json as ?1, ?2 and ?3. Original checks and response bodies originate in evaluations/knowledge-expansion.ts; this query calculates grouped pass rates from those checks. All phases retain the same task/evaluator fingerprints. These are deterministic local contract tasks, not agent success metrics.",
+        "executed_at": "2026-08-28T05:55:01.687Z",
+        "filters": {
+          "cohort": [
+            "openhands",
+            "langgraph",
+            "lerobot",
+            "playwright-mcp"
+          ],
+          "tasks": 30,
+          "evaluationTime": "2026-08-28T05:44:00.000Z"
+        },
+        "metric_definitions": {
+          "passed": "Count of frozen tasks for which all recorded assertions and HTTP requests passed.",
+          "total": "All frozen tasks in the group, including failures and insufficient-evidence cases.",
+          "passRate": "passed / total as a fractional rate; this is deterministic task completion, not general accuracy."
+        }
+      }
+    },
+    {
+      "id": "notebook",
+      "label": "Executed standard-library audit notebook (not Jupyter-kernel certified)",
+      "path": "docs/evaluations/2026-08-28-expansion/analysis.ipynb"
+    }
+  ]
+}

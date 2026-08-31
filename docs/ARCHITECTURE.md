@@ -12,6 +12,44 @@
 
 `relationships` require one or more rows in `relationship_evidence` before they should be marked verified.
 
+## Agent-first knowledge contract (local preview)
+
+Knowledge v0.1 adds a read-only, versioned projection over existing dossiers. It
+separates project/resource/interface identities, resource-version descriptors,
+source evidence, verification, effective time and field-level freshness. Missing
+metadata stays unknown; the legacy JSON/Markdown and intake contracts are unchanged.
+The first batch includes vgpu, OpenCode and Microduck contract samples. The second
+adds `KnowledgeQueryService` and three read-only routes under `/api/knowledge/v1/`:
+strict interface search, compact project sections and cursor-paginated ledger
+changes. Invalid filters fail closed. Evidence is deduplicated within a response,
+not omitted. Failed D1 reads return 503, not empty success. Search scans at most
+50 candidates per page; changes use a rowid append horizon plus a timestamp/ID
+keyset. Neither is historical reconstruction. There is no new database, migration,
+MCP server, tool execution or production deployment in these batches. See
+[the contract](KNOWLEDGE_V0_1.md) and [query boundaries](KNOWLEDGE_API.md).
+
+The third batch enriches four existing identities from pinned official sources,
+without moving repository metrics to related components. `search.domain` uses
+an `EXISTS` membership check over `entity_domains`; membership never asserts
+compatibility. `project.section=fields` lists fact keys and top-level claim
+metadata without values, then clients retrieve an exact key through `facts`.
+Field-index pagination retains the same snapshot guard and compact evidence map.
+Nested null properties remain unknown even when a composite fact is sourced.
+Recorded observations and intake audits are not full upstream history.
+
+The fourth local batch adds a loopback-only, query-only in-memory HTTP preview and
+a test-only stdio MCP adapter for real client experiments. It does not use production
+secrets or write to a persistent registry. Explicit operator corrections use the
+additive `0016_reviewed_corrections.sql` sidecar, leaving legacy event enums and
+observations intact. Intake now records initial fact selections as `created`.
+Correction reasons and exact prior-observation references are preview-hashed,
+validated again at publication and inserted in the same transaction as the new
+observation/current selection. A DB trigger checks the still-current prior selection;
+correction annotations reject update/delete. No old missing events are backfilled.
+The Knowledge history endpoint exposes `corrected`, old/new evidence and the
+earliest retained observation insertion time; legacy JSON keeps its base event
+kind. Retention/restore guarantees and point-in-time reconstruction remain unbuilt.
+
 ## Source tiers
 
 1. Canonical: repository and registry APIs.

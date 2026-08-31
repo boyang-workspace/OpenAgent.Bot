@@ -83,3 +83,24 @@ The earlier consistency audit incorrectly treated a shared Header component as p
 | 6. Retired routes | Healthy after correction | Rankings and Changes pages were removed from source and sitemap; permanent redirects preserve old inbound links. |
 
 Accessibility boundary: responsive reflow, horizontal overflow, link state and browser-console health were checked. Full keyboard-only and assistive-technology testing remain outside this pass.
+
+---
+
+# Humanity Countdown — Design QA
+
+- Source visual: `/Users/boyangxie/.codex/generated_images/01a04e05-bc2c-79e1-8cf0-769eeb456a22/exec-cfdc639c-190c-41cc-a87d-593fb7de0bd4.png`
+- Implementation screenshot: `/Users/boyangxie/Documents/OpenAgent.Bot/output/humanity-game/redesign/post-vote-desktop.png`
+- Combined comparison: `/Users/boyangxie/Documents/OpenAgent.Bot/output/humanity-game/redesign/source-comparison.png`
+- Comparison viewport: 1487 × 1058 CSS pixels
+- Mobile verification: 390 × 844 CSS pixels (`pre-vote-mobile.png`, `post-vote-mobile.png`, `taken-mobile.png` under `output/humanity-game/redesign/`)
+
+## Comparison history
+
+1. First implementation pass was too sparse, placed the countdown at the far left, and let the hero image overlap the vote controls.
+2. Constrained the editorial object to its measured stage, moved the countdown into the top composition, enlarged the post-vote object and crowd, and restored the source target's outlined/share and dark/next action pair.
+3. Reprocessed all three editorial images as transparent cutouts, removing visible rectangular image backgrounds.
+4. Re-captured the post-vote state at the source visual's viewport and judged both images together. The implementation now preserves the target's hierarchy, warm editorial field, central object, two-sided crowd, 75% line, highlighted player position, dominant score, and compact action row. The deliberate difference is that the implementation uses cleaner representative canvas tokens so the crowd can animate and accurately update from live vote percentages.
+5. Checked the pre-vote state separately to confirm that no percentages, totals, crowd, or side distribution appear before the player votes.
+6. Checked mobile pre-vote, revealed crowd, and TAKEN event states; all remain inside a single gameplay viewport with working controls.
+
+final result: passed

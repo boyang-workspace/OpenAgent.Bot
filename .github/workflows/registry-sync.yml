@@ -21,7 +21,7 @@ jobs:
         run: |
           set -euo pipefail
           for batch in $(seq 1 12); do
-            response=$(curl --fail-with-body --silent --show-error \
+            response=$(curl --fail-with-body --silent --show-error --max-time 90 --retry 4 --retry-all-errors --retry-delay 5 \
               --request POST \
               --header "Authorization: Bearer ${SYNC_TOKEN}" \
               --header "X-GitHub-Token: ${GITHUB_API_TOKEN}" \
@@ -42,7 +42,7 @@ jobs:
         run: |
           set -euo pipefail
           for batch in $(seq 1 6); do
-            response=$(curl --fail-with-body --silent --show-error \
+            response=$(curl --fail-with-body --silent --show-error --max-time 90 --retry 4 --retry-all-errors --retry-delay 5 \
               --request POST \
               --header "Authorization: Bearer ${SYNC_TOKEN}" \
               --header "Origin: https://www.openagent.bot" \
@@ -60,7 +60,7 @@ jobs:
           SYNC_TOKEN: ${{ secrets.REGISTRY_SYNC_TOKEN }}
           SYNC_URL: https://www.openagent.bot/api/internal/sync.json
         run: |
-          curl --fail-with-body --silent --show-error \
+          curl --fail-with-body --silent --show-error --max-time 90 --retry 4 --retry-all-errors --retry-delay 5 \
             --request POST \
             --header "Authorization: Bearer ${SYNC_TOKEN}" \
             --header "Origin: https://www.openagent.bot" \
@@ -83,7 +83,7 @@ jobs:
               max_batches=36
             fi
             for batch in $(seq 1 "${max_batches}"); do
-              if ! response=$(curl --fail-with-body --silent --show-error --max-time 90 \
+              if ! response=$(curl --fail-with-body --silent --show-error --max-time 90 --retry 4 --retry-all-errors --retry-delay 5 \
                 --request POST \
                 --header "Authorization: Bearer ${SYNC_TOKEN}" \
                 --header "X-GitHub-Token: ${GITHUB_API_TOKEN}" \
@@ -107,7 +107,7 @@ jobs:
           SYNC_TOKEN: ${{ secrets.REGISTRY_SYNC_TOKEN }}
           USAGE_SYNC_URL: https://www.openagent.bot/api/internal/usage-sync.json
         run: |
-          response=$(curl --fail-with-body --silent --show-error --max-time 120 \
+          response=$(curl --fail-with-body --silent --show-error --max-time 120 --retry 4 --retry-all-errors --retry-delay 5 \
             --request POST \
             --header "Authorization: Bearer ${SYNC_TOKEN}" \
             --header "Origin: https://www.openagent.bot" \

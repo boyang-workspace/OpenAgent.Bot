@@ -232,6 +232,7 @@ export class RegistrySyncService {
   ): Promise<{ observed: number; changed: number }> {
     const statements: D1Statement[] = [];
     let changed = 0;
+    let insertedObservations = 0;
 
     const catalog = await this.db.prepare("SELECT primary_category FROM catalog_profiles WHERE entity_id = ?1 LIMIT 1")
       .bind(subscription.entity_id).first<{ primary_category: string }>();
@@ -346,6 +347,7 @@ export class RegistrySyncService {
 
       const observationId = id("obs");
       const observedAt = snapshot.observedAt;
+      insertedObservations += 1;
       statements.push(this.db.prepare(`
         INSERT INTO observations (
           id, entity_id, source_id, sync_run_id, fact_key, value_json, value_hash,
@@ -460,8 +462,10 @@ export class RegistrySyncService {
       WHERE id = ?1
     `).bind(subscription.id, snapshot.externalId, snapshot.observedAt));
     statements.push(this.db.prepare(`
-      UPDATE entities SET last_seen_at = ?2 WHERE id = ?1
-    `).bind(subscription.entity_id, snapshot.observedAt));
+      UPDATE entities
+      SET last_seen_at = ?2, evidence_count = evidence_count + ?3
+      WHERE id = ?1
+    `).bind(subscription.entity_id, snapshot.observedAt, insertedObservations));
 
     if (statements.length) await this.db.batch(statements);
     return {

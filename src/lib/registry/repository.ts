@@ -158,7 +158,7 @@ const selectEntity = `
          COALESCE((SELECT json_extract(rf.value_json, '$.publishedAt') FROM current_facts rf
            WHERE rf.entity_id=e.id AND rf.fact_key='github_release.latest'), m.last_release_at) AS last_release_at,
          m.last_commit_at,
-         (SELECT COUNT(*) FROM observations o_count WHERE o_count.entity_id = e.id) AS evidence_records,
+         e.evidence_count AS evidence_records,
          (SELECT COUNT(*) FROM source_subscriptions ss_count WHERE ss_count.entity_id = e.id AND ss_count.enabled = 1) AS source_count,
          (SELECT status FROM openness_facets of_code WHERE of_code.entity_id=e.id AND of_code.facet='code') AS code_openness_status,
          (SELECT status FROM openness_facets of_weights WHERE of_weights.entity_id=e.id AND of_weights.facet='weights') AS weights_openness_status,
@@ -535,7 +535,7 @@ export class RegistryRepository {
         (SELECT COUNT(*) FROM entities WHERE visibility = 'public' AND kind = 'tool') AS tools,
         (SELECT COUNT(*) FROM sources WHERE enabled = 1) AS sources,
         (SELECT COUNT(DISTINCT source_id) FROM sync_runs WHERE status = 'succeeded') AS live_sources,
-        (SELECT COUNT(*) FROM observations) AS observations,
+        (SELECT COALESCE(SUM(evidence_count), 0) FROM entities) AS observations,
         (SELECT COUNT(DISTINCT entity_id) FROM metric_snapshots) AS metric_entities,
         (SELECT COUNT(*) FROM change_events WHERE detected_at >= datetime('now', '-30 days')) AS changes_30d,
         (SELECT MIN(observed_at) FROM metric_snapshots) AS history_started_at,

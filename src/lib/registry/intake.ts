@@ -185,6 +185,7 @@ export class RegistryIntakeService {
     statements.push(this.db.prepare("DELETE FROM entity_interfaces WHERE entity_id = ?1").bind(state.id));
     for (const item of m.interfaces) insert("entity_interfaces", { entity_id: state.id, interface_id: item.id, interface_type: item.type, verification_status: item.verification });
 
+    let insertedObservations = 0;
     for (const fact of factSet(m)) {
       const current = state.facts.find((f) => f.fact_key === fact.key);
       const hash = await factHash(fact.value), json = stableStringify(fact.value);
@@ -192,7 +193,10 @@ export class RegistryIntakeService {
       const recorded = await this.db.prepare("SELECT id,source_url FROM observations WHERE entity_id=?1 AND source_id=?2 AND fact_key=?3 AND value_hash=?4 AND observed_at=?5").bind(state.id, fact.evidence.sourceId, fact.key, hash, fact.evidence.observedAt).first<Row>();
       if (recorded && recorded.source_url !== fact.evidence.sourceUrl) throw new IntakeError("An immutable observation already uses this date with a different URL; supply the new verification date");
       const observationId = recorded?.id ?? `obs_${crypto.randomUUID()}`;
-      if (!recorded) insert("observations", { id: observationId, entity_id: state.id, source_id: fact.evidence.sourceId, fact_key: fact.key, value_json: json, value_hash: hash, source_url: fact.evidence.sourceUrl, confidence: 1, observed_at: fact.evidence.observedAt, created_at: now });
+      if (!recorded) {
+        insertedObservations += 1;
+        insert("observations", { id: observationId, entity_id: state.id, source_id: fact.evidence.sourceId, fact_key: fact.key, value_json: json, value_hash: hash, source_url: fact.evidence.sourceUrl, confidence: 1, observed_at: fact.evidence.observedAt, created_at: now });
+      }
       const correction = preview.corrections.find(item => item.factKey === fact.key);
       if (!current || current.value_hash !== hash || correction) {
         const eventId = `change_${crypto.randomUUID()}`;
@@ -208,6 +212,7 @@ export class RegistryIntakeService {
       insert("change_events", { id: `change_${crypto.randomUUID()}`, entity_id: state.id, source_id: m.evidence.sourceId, fact_key: key, change_type: "removed", previous_value_json: old.value_json, source_url: m.evidence.sourceUrl, detected_at: now, created_at: now });
       statements.push(this.db.prepare("DELETE FROM current_facts WHERE entity_id = ?1 AND fact_key = ?2").bind(state.id, key));
     }
+    if (insertedObservations) statements.push(this.db.prepare("UPDATE entities SET evidence_count = evidence_count + ?2 WHERE id = ?1").bind(state.id, insertedObservations));
     // Disabled subscriptions retain both their metrics and validity window.
     statements.push(this.db.prepare("UPDATE source_subscriptions SET enabled = 0, valid_until = COALESCE(valid_until, ?2), updated_at = ?2 WHERE entity_id = ?1").bind(state.id, now));
     for (const sub of m.subscriptions) {

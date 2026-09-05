@@ -1,4 +1,0 @@
-PUBLIC_SITE_URL=http://127.0.0.1:4321
-SYNC_TOKEN=replace-with-a-long-random-local-token
-# Optional: increases GitHub API rate limits for registry synchronization.
-# GITHUB_TOKEN=

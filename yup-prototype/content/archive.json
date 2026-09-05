@@ -1,0 +1,8 @@
+[
+  { "id": "origin-study", "title": "Origin Study", "year": "2026", "discipline": "ART DIRECTION / CHARACTER", "image": "hero-statues.png", "wide": true },
+  { "id": "stone-head-online", "title": "The Stone Head Online", "year": "2026", "discipline": "DIGITAL IMAGE / WORLD", "image": "web/scene-online.avif" },
+  { "id": "quiet-window", "title": "A Quiet Window", "year": "2026", "discipline": "ILLUSTRATION / ENVIRONMENT", "image": "web/scene-window.avif" },
+  { "id": "mountain-study", "title": "Mountain Study", "year": "2026", "discipline": "ILLUSTRATION / ENVIRONMENT", "image": "web/scene-mountain.avif", "wide": true },
+  { "id": "expression-02", "title": "Expression No. 02", "year": "2026", "discipline": "CHARACTER / EXPRESSION", "image": "web/sticker-smug.avif" },
+  { "id": "character-form", "title": "Character Form", "year": "2026", "discipline": "CHARACTER / PROFILE", "image": "web/character-side.avif" }
+]

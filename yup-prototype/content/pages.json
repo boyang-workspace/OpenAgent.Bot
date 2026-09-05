@@ -1,0 +1,7 @@
+[
+  { "type": "PAGE", "title": "YUP Now", "description": "Ancient face. Curious mind. Now online.", "path": "/", "keywords": "home character AI internet" },
+  { "type": "PAGE", "title": "Origin", "description": "Where this started.", "path": "/origin/", "keywords": "stone Rapa Nui history curious" },
+  { "type": "PAGE", "title": "Stickers", "description": "A YUP for every possible level of enthusiasm.", "path": "/stickers/", "keywords": "download png expression action prop reaction" },
+  { "type": "PAGE", "title": "Memes", "description": "AI, work, games and other human inventions.", "path": "/memes/", "keywords": "internet technology jokes" },
+  { "type": "PAGE", "title": "Archive", "description": "Selected work from the world of YUP.", "path": "/archive/", "keywords": "portfolio art design illustration" }
+]

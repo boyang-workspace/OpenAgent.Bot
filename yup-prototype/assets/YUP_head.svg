@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1254" height="1254" viewBox="0 0 1254 1254" role="img" aria-labelledby="title desc">
+  <title id="title">YUP</title>
+  <desc id="desc">YUP stone head character supplied by the project owner, with independently movable eyes.</desc>
+  <defs>
+    <linearGradient id="faceGrad" x1="0" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#FFD63F"/>
+      <stop offset="0.55" stop-color="#FFC92D"/>
+      <stop offset="1" stop-color="#F7B814"/>
+    </linearGradient>
+    <linearGradient id="bodyGrad" x1="0.2" y1="0" x2="0.8" y2="1">
+      <stop offset="0" stop-color="#FFC43A"/>
+      <stop offset="1" stop-color="#F4A809"/>
+    </linearGradient>
+    <linearGradient id="sideGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#343638"/>
+      <stop offset="1" stop-color="#202122"/>
+    </linearGradient>
+  </defs>
+  <path d="M 425 230 L 297 351 L 254 515 L 260 984 L 291 1022 L 397 1049 L 344 1142 L 324 1253 L 922 1253 L 895 1124 L 837 1030 L 940 1009 L 924 834 L 1038 819 L 1047 805 L 895 302 L 776 208 L 576 178 Z" fill="#050505"/>
+  <path d="M 519 218 L 432 249 L 315 360 L 274 517 L 280 979 L 301 1004 L 428 1035 L 395 489 L 433 318 L 519 234 Z" fill="url(#sideGrad)"/>
+  <path d="M 432 320 L 335 350 L 319 357 L 315 361 L 315 364 L 430 326 Z" fill="#444648" opacity="0.55"/>
+  <path d="M 892 1173 L 872 1116 L 840 1063 L 806 1033 L 569 1054 L 475 1058 L 422 1054 L 386 1097 L 363 1143 L 348 1198 L 343 1253 L 904 1253 Z" fill="url(#bodyGrad)"/>
+  <path d="M 872 1116 L 840 1063 L 806 1033 L 569 1054 L 422 1054 L 386 1097 L 363 1143 L 343 1253 L 904 1253 Z" fill="#F2A30A" opacity="0.78"/>
+  <path d="M 446 981 L 450 1037 L 645 1028 L 921 999 L 919 981 Z" fill="#F2A30A" opacity="0.78"/>
+  <path d="M 583 199 L 451 328 L 415 493 L 450 1037 L 645 1028 L 921 999 L 904 819 L 1025 799 L 877 310 L 768 226 Z" fill="url(#faceGrad)"/>
+
+  <g fill="#050505">
+    <path d="M554 576h164" fill="none" stroke="#050505" stroke-width="18" stroke-linecap="round"/>
+    <g id="pupil-left" style="transform-box:fill-box;transform-origin:center;transition:transform .12s ease-out">
+      <path d="M613 581v23c0 21 13 35 32 35s31-14 31-35v-23Z"/>
+    </g>
+    <path d="M762 576h136" fill="none" stroke="#050505" stroke-width="18" stroke-linecap="round"/>
+    <g id="pupil-right" style="transform-box:fill-box;transform-origin:center;transition:transform .12s ease-out">
+      <path d="M800 581v23c0 21 13 35 32 35s31-14 31-35v-23Z"/>
+    </g>
+  </g>
+  <path d="M616 842h142" fill="none" stroke="#050505" stroke-width="19" stroke-linecap="round"/>
+</svg>

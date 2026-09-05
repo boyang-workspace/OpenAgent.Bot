@@ -1,0 +1,8 @@
+[
+  { "id": "006", "title": "Thought leadership", "image": "web/scene-online.avif", "tag": "WORK", "line": "A thought. With branding." },
+  { "id": "005", "title": "Touch grass", "image": "web/scene-window.avif", "tag": "ONLINE", "line": "The outdoors has no login." },
+  { "id": "004", "title": "No newsletter", "image": "web/scene-mountain.avif", "tag": "WORK", "line": "The mountain declined to subscribe." },
+  { "id": "003", "title": "Rare enthusiasm", "image": "web/sticker-laughing.avif", "tag": "MOOD", "line": "This seems fun." },
+  { "id": "002", "title": "Source: trust me", "image": "web/sticker-smug.avif", "tag": "AI", "line": "Hmm." },
+  { "id": "001", "title": "Initial contact", "image": "web/sticker-surprised.avif", "tag": "ONLINE", "line": "So this is the internet." }
+]

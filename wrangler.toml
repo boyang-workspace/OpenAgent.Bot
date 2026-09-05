@@ -1,7 +1,6 @@
 name = "openagent-bot"
-main = "src/worker.ts"
-compatibility_date = "2026-08-20"
-compatibility_flags = [ "nodejs_compat" ]
+main = "worker.js"
+compatibility_date = "2026-09-05"
 routes = [
   { pattern = "www.openagent.bot/*", zone_name = "openagent.bot" },
   { pattern = "openagent.bot/*", zone_name = "openagent.bot" }
@@ -10,22 +9,9 @@ routes = [
 [assets]
 binding = "ASSETS"
 directory = "./dist"
+not_found_handling = "404-page"
+html_handling = "auto-trailing-slash"
+run_worker_first = true
 
 [observability]
 enabled = true
-
-[vars]
-PUBLIC_SITE_URL = "https://www.openagent.bot"
-CLOUDFLARE_ACCOUNT_ID = "4bfc4bde28906afbaf01677c36a14a20"
-
-[[analytics_engine_datasets]]
-binding = "ANALYTICS"
-dataset = "openagent_events"
-
-[triggers]
-crons = [ "17 * * * *" ]
-
-[[d1_databases]]
-binding = "DB"
-database_name = "openagent_registry_v2"
-database_id = "b7aa61ee-1325-499c-80e5-e61f94f3f70f"

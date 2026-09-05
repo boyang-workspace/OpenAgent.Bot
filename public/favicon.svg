@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="OpenAgent.bot">
-  <rect width="64" height="64" fill="#141510"/>
-  <rect x="8" y="8" width="48" height="48" fill="none" stroke="#d9ff3f" stroke-width="3"/>
-  <path d="M17 43V21h12v22M17 33h12M37 21h10v22H37z" fill="none" stroke="#f2f0e8" stroke-width="3"/>
-</svg>

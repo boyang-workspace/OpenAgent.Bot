@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const source = path.join(root, "yup-prototype");
+const portalSource = path.join(root, "portal");
 const assetSource = path.join(root, "public", "assets");
 const output = path.join(root, "dist");
 const checkOnly = process.argv.includes("--check");
@@ -75,11 +76,13 @@ await validatePages();
 if (!checkOnly) {
   await rm(output, { recursive: true, force: true });
   await mkdir(output, { recursive: true });
-  await cp(source, output, {
+  await cp(portalSource, output, { recursive: true });
+  await cp(source, path.join(output, "yup"), {
     recursive: true,
     filter: file => path.basename(file) !== "README.md"
   });
   await cp(assetSource, path.join(output, "assets"), { recursive: true });
+  await cp(path.join(source, "favicon.svg"), path.join(output, "favicon.svg"));
   console.log(`Built YUP static site in ${path.relative(root, output)}/`);
 } else {
   console.log("YUP content and site structure are valid.");

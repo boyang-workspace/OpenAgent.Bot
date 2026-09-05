@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="210 150 880 940">
+  <title>YUP</title>
+  <defs>
+    <linearGradient id="face" x2=".85" y2="1"><stop stop-color="#FFD63F"/><stop offset="1" stop-color="#F7B814"/></linearGradient>
+    <linearGradient id="side" x2="1" y2="1"><stop stop-color="#343638"/><stop offset="1" stop-color="#202122"/></linearGradient>
+  </defs>
+  <path d="M425 230 297 351 254 515 260 984 291 1022 432 1058 645 1049 940 1009 924 834 1038 819 1047 805 895 302 776 208 576 178Z" fill="#050505"/>
+  <path d="M519 218 432 249 315 360 274 517 280 979 301 1004 428 1035 395 489 433 318 519 234Z" fill="url(#side)"/>
+  <path d="M432 320 319 357 315 364 430 326Z" fill="#444648"/>
+  <path d="M583 199 451 328 415 493 450 1037 645 1028 921 999 904 819 1025 799 877 310 768 226Z" fill="url(#face)"/>
+  <g fill="#050505" stroke="#050505" stroke-linecap="round">
+    <path d="M554 576h164m44 0h136M616 842h142" fill="none" stroke-width="26"/>
+    <path d="M613 581v23c0 21 13 35 32 35s31-14 31-35v-23Zm187 0v23c0 21 13 35 32 35s31-14 31-35v-23Z" stroke="none"/>
+  </g>
+</svg>

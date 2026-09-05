@@ -1,6 +1,6 @@
 (async () => {
   const IS_PROTOTYPE = location.pathname === "/yup-prototype" || location.pathname.startsWith("/yup-prototype/");
-  const ROOT = IS_PROTOTYPE ? "/yup-prototype" : "";
+  const ROOT = IS_PROTOTYPE ? "/yup-prototype" : "/yup";
   const ASSET = IS_PROTOTYPE ? "/public/assets/yup" : "/assets/yup";
   const CONTENT = `${ROOT}/content`;
 

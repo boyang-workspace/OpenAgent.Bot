@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.openagent.bot/sitemap.xml
+Sitemap: https://www.openagent.bot/yup/sitemap.xml

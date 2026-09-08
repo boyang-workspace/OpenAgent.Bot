@@ -1,14 +1,15 @@
 # YUP
 
-OpenAgent.Bot is now the home of YUP — the stone head online.
+OpenAgent.Bot is the project portal, with YUP — the stone head online — as its first published project.
 
-- Production: https://www.openagent.bot/
-- Origin: https://www.openagent.bot/origin/
-- Stickers: https://www.openagent.bot/stickers/
-- Memes: https://www.openagent.bot/memes/
-- Archive: https://www.openagent.bot/archive/
+- Project portal: https://www.openagent.bot/
+- YUP: https://www.openagent.bot/yup/
+- Origin: https://www.openagent.bot/yup/origin/
+- Stickers: https://www.openagent.bot/yup/stickers/
+- Memes: https://www.openagent.bot/yup/memes/
+- Archive: https://www.openagent.bot/yup/archive/
 
-The former OpenAgent database application has been retired from this repository.
+The former OpenAgent Database application and its production data stores have been permanently retired. Its public routes return `410 Gone` so crawlers remove them from their indexes. The portal, `/yup/*`, analytics, and future project paths remain active.
 
 ## Content updates
 
@@ -31,8 +32,8 @@ npm run dev
 npm run deploy
 ```
 
-Cloudflare Workers serves the static output. Legacy `/yup/*`, `/reactions/*`, and
-`/sightings/*` links redirect to their new canonical routes.
+Cloudflare Workers serves the static output. The root stays the multi-project portal,
+YUP stays under `/yup/*`, and older YUP aliases redirect to their canonical YUP routes.
 
 ## Preserved working assets
 
